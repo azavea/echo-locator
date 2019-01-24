@@ -2,9 +2,5 @@
 node_modules
 npm-debug.log
 assets
-configurations/*
-!configurations/default
-!configurations/messages
 tmp
-config.json
 yarn-error.log
