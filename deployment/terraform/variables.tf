@@ -1,5 +1,5 @@
 variable "project" {
-  default = "EchoLocator"
+  default = "ECHOLocator"
 }
 
 variable "environment" {
