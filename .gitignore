@@ -61,3 +61,12 @@ typings/
 
 # next.js build output
 .next
+
+# Compiled Terraform files
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfplan
+
+# Terraform module directory
+.terraform/
