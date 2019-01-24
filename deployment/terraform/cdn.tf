@@ -5,8 +5,9 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   enabled             = true
+  is_ipv6_enabled     = true
   http_version        = "http2"
-  comment             = "EchoLocator (${var.environment})"
+  comment             = "${var.project} (${var.environment})"
   default_root_object = "index.html"
   retain_on_delete    = true
 
@@ -69,7 +70,12 @@ resource "aws_cloudfront_distribution" "cdn" {
 
   viewer_certificate {
     acm_certificate_arn      = "${module.cert.arn}"
-    minimum_protocol_version = "TLSv1"
+    minimum_protocol_version = "TLSv1.2_2018"
     ssl_support_method       = "sni-only"
+  }
+
+  tags {
+    Project     = "${var.project}"
+    Environment = "${var.environment}"
   }
 }

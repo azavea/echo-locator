@@ -18,3 +18,15 @@ resource "aws_route53_record" "site" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_route53_record" "site_ipv6" {
+  zone_id = "${aws_route53_zone.external.id}"
+  name    = "${var.r53_public_hosted_zone_name}"
+  type    = "AAAA"
+
+  alias {
+    name                   = "${aws_cloudfront_distribution.cdn.domain_name}"
+    zone_id                = "${aws_cloudfront_distribution.cdn.hosted_zone_id}"
+    evaluate_target_health = false
+  }
+}
