@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -e
+
+if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
+    set -x
+fi
+
+function usage() {
+    echo -n \
+         "Usage: $(basename "$0")
+
+Publish deployment artifacts in CI.
+"
+}
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]
+then
+    if [ "${1:-}" = "--help" ]
+    then
+        usage
+    else
+        TAUI_CONFIG_BUCKET="s3://echo-locator-${ENV}-config-us-east-1"
+        TAUI_CONFIG_DIR="configurations/${ENV}"
+        TAUI_SITE_BUCKET="s3://echo-locator-${ENV}-site-us-east-1"
+
+        # Pull down variables for this environment
+        aws s3 cp "${TAUI_CONFIG_BUCKET}/taui/env.yml" \
+                  "taui/${TAUI_CONFIG_DIR}/env.yml"
+
+        # Mastarm doesn't copy over index.html
+        aws s3 cp taui/index.html "${TAUI_SITE_BUCKET}/index.html"
+
+        # Deploy CSS and JS with Mastarm
+        docker-compose -f docker-compose.yml \
+                       -f docker-compose.ci.yml \
+                       run --rm taui run deploy --minify --config "${TAUI_CONFIG_DIR}"
+    fi
+fi
