@@ -18,7 +18,7 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ENV=staging scripts/cipublish
+    script: ENV=staging ECHOLOCATOR_DEBUG=true scripts/cipublish
     on:
       repo: azavea/echo-locator
       branch: feature/jfc/mastarm-deployment
