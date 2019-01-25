@@ -5,8 +5,6 @@ branches:
     - master
     - develop
     - feature/jfc/mastarm-deployment
-cache:
-  yarn: true
 notifications:
   email: false
 env:
@@ -18,14 +16,15 @@ before_install:
 script:
   - ./scripts/test
 deploy:
-  provider: script
-  skip_cleanup: true
-  script: ENV=staging scripts/cipublish
-  on:
-    branch: feature/jfc/mastarm-deployment
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: ENV=production scripts/cipublish
-  on:
-    branch: master
+  - provider: script
+    skip_cleanup: true
+    script: ENV=staging scripts/cipublish
+    on:
+      repo: azavea/echo-locator
+      branch: feature/jfc/mastarm-deployment
+  - provider: script
+    skip_cleanup: true
+    script: ENV=production scripts/cipublish
+    on:
+      repo: azavea/echo-locator
+      branch: master
