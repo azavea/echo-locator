@@ -4,6 +4,7 @@ branches:
   only:
     - master
     - deploy
+    - feature/jfc/mastarm-deployment
 cache:
   yarn: true
 notifications:
@@ -21,7 +22,7 @@ deploy:
   skip_cleanup: true
   script: ENV=staging scripts/cipublish
   on:
-    branch: develop
+    branch: feature/jfc/mastarm-deployment
 deploy:
   provider: script
   skip_cleanup: true
