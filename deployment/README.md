@@ -2,6 +2,7 @@
 
 * [AWS Credentials](#aws-credentials)
 * [Terraform](#terraform)
+* [Taui](#taui)
 
 ## AWS Credentials
 
@@ -35,3 +36,18 @@ vagrant@vagrant-ubuntu-trusty-64:~$ docker-compose -f docker-compose.ci.yml run 
 ```
 
 This will attempt to apply the plan assembled in the previous step using Amazon's APIs. In order to change specific attributes of the infrastructure, inspect the contents of the environment's configuration file in Amazon S3.
+
+## Taui
+
+The Taui frontend is deployed separately from core Terraform infrastructure, but
+it relies on S3 and CloudFront resources to have already been deployed by Terraform.
+If you're trying to wire up a new instance of Taui, or if you've created a 
+new S3 bucket or CloudFront distribution that you want to use for the app,
+you'll need to point Taui to your new resources.
+
+After Terraform creates a new S3 bucket or CloudFront distribution, it should
+output the IDs of both resources. Take these IDs and put them in the
+`settings.yml` file that corresponds to the relevant environment. For example,
+if you're deploying a staging instance of Taui, edit
+`taui/configurations/staging/settings.yml` and update the `cloudfront` and
+`s3bucket` properties to point to your new resources.
