@@ -3,7 +3,7 @@ services: docker
 branches:
   only:
     - master
-    - deploy
+    - develop
     - feature/jfc/mastarm-deployment
 cache:
   yarn: true
@@ -15,7 +15,7 @@ env:
     - PATH=$HOME/.local/bin:$PATH
 before_install:
   - pip install --user awscli==1.16.*
-scripts:
+script:
   - ./scripts/test
 deploy:
   provider: script
