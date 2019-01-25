@@ -4,7 +4,6 @@ branches:
   only:
     - master
     - develop
-    - feature/jfc/mastarm-deployment
 notifications:
   email: false
 env:
@@ -18,10 +17,10 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ENV=staging ECHOLOCATOR_DEBUG=true scripts/cipublish
+    script: ENV=staging scripts/cipublish
     on:
       repo: azavea/echo-locator
-      branch: feature/jfc/mastarm-deployment
+      branch: develop
   - provider: script
     skip_cleanup: true
     script: ENV=production scripts/cipublish
