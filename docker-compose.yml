@@ -3,7 +3,7 @@ services:
   taui:
     build: ./taui
     volumes:
-      - ./taui/src:/usr/local/src/src
+      - ./taui:/usr/local/src
     working_dir: /usr/local/src
     ports:
       - "9966:9966"
