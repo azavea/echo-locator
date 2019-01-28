@@ -1,0 +1,11 @@
+version: '3'
+services:
+  taui:
+    build: ./taui
+    volumes:
+      - ./taui/src:/usr/local/src/src
+    working_dir: /usr/local/src
+    ports:
+      - "9966:9966"
+    entrypoint: yarn
+    command: start

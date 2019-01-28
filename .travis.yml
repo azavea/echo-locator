@@ -1,18 +1,29 @@
-language: node_js
-cache:
-  yarn: true
+language: bash
+services: docker
+branches:
+  only:
+    - master
+    - develop
 notifications:
   email: false
-node_js:
-  - '8'
+env:
+  global:
+    # include $HOME/.local/bin for `aws`
+    - PATH=$HOME/.local/bin:$PATH
 before_install:
-  - cd taui
-  - yarn global add codecov
-scripts:
-  - yarn test -- --coverage --coverage-paths src/**/*.js
-  - codecov
-#after_success:
-#  - yarn run semantic-release
-branches:
-  except:
-    - /^v\d+\.\d+\.\d+$/
+  - pip install --user awscli==1.16.*
+script:
+  - ./scripts/test
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: ENV=staging scripts/cipublish
+    on:
+      repo: azavea/echo-locator
+      branch: develop
+  - provider: script
+    skip_cleanup: true
+    script: ENV=production scripts/cipublish
+    on:
+      repo: azavea/echo-locator
+      branch: master
