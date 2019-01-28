@@ -2,6 +2,8 @@
 
 Website to explore Choice Neighborhoods in the Boston area.
 
+[![Build Status](https://travis-ci.com/azavea/echo-locator.svg?branch=develop)](https://travis-ci.com/azavea/echo-locator)
+
 ## Requirements
 
 * Docker Engine 17.06+
