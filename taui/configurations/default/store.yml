@@ -2,10 +2,10 @@ data:
   grids: []
   networks: []
 geocoder:
-  proximity: 139.75673675537107,35.655483013543204 # longitude,latitude
+  proximity: -71.057929,42.360612 # longitude,latitude
   types: country,region,postcode,district,place,locality,neighborhood,address,poi # https://www.mapbox.com/api-documentation/?language=cURL#request-format
 map:
-  centerCoordinates: [35.655483013543204, 139.75673675537107] # Leaflet style
+  centerCoordinates: [42.360612, -71.057929] # Leaflet style (lat,lon)
   zoom: 11
 ui:
   fetches: 0
