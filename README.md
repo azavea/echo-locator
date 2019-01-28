@@ -9,7 +9,15 @@ Website to explore Choice Neighborhoods in the Boston area.
 
 ## Development
 
-Use the `server` script to build container images, compile frontend assets,
+To start developing, create a set of Taui environment variables for development:
+
+```
+$ cp taui/configurations/default/env.yml.tmp taui/configurations/default/env.yml
+```
+
+Make sure to edit `env.yml` to set the appropriate secrets for development.
+
+Finally, use the `server` script to build container images, compile frontend assets,
 and run a development server:
 
 ```

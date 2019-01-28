@@ -3,17 +3,7 @@ services:
   taui:
     build: ./taui
     volumes:
-      # Mount app source files separately to avoid clobbering node_modules
       - ./taui/src:/usr/local/src/src
-      - ./taui/configurations:/usr/local/configurations/configurations
-      - ./taui/assets:/usr/local/assets/assets
-      - ./taui/flow-typed:/usr/local/flow-typed/flow-typed
-      - ./taui/package.json:/usr/local/src/package.json
-      - ./taui/yarn.lock:/usr/local/src/yarn.lock
-      - ./taui/config.json:/usr/local/src/config.json
-      - ./taui/__mocks__:/usr/local/src/__mocks__
-      - ./taui/.flowconfig:/usr/local/src/.flowconfig
-      - ./taui/index.html:/usr/local/src/index.html
     working_dir: /usr/local/src
     ports:
       - "9966:9966"
