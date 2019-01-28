@@ -34,6 +34,6 @@ then
         # Deploy CSS and JS with Mastarm
         docker-compose -f docker-compose.yml \
                        -f docker-compose.ci.yml \
-                       run --rm taui run deploy --minify --config "${TAUI_CONFIG_DIR}"
+                       run --rm taui run deploy --minify --config "${TAUI_CONFIG_DIR}" --env "${ENV}"
     fi
 fi
