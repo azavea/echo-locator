@@ -4,6 +4,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "mastarm build",
+    "fixlint": "mastarm lint --fix src",
     "deploy": "mastarm deploy",
     "predeploy": "yarn",
     "prestart": "yarn",
