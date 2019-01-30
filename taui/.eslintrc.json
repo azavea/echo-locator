@@ -1,0 +1,42 @@
+{
+  "env": {
+    "browser": true,
+    "jest": true,
+    "node": true
+  },
+  "extends": [
+    "standard",
+    "standard-jsx",
+    "plugin:flowtype/recommended",
+    "plugin:jest/recommended"
+  ],
+  "parser": "babel-eslint",
+  "plugins": [
+    "flowtype",
+    "import",
+    "jest"
+  ],
+  "rules": {
+    "complexity": ["warn", 12],
+    "import/order": ["warn", {
+      "newlines-between": "always"
+    }],
+    "object-curly-spacing": 0,
+    "prefer-const": ["warn", {
+      "destructuring": "all",
+      "ignoreReadBeforeAssign": false
+    }],
+    "flowtype/sort-keys": [
+      "error",
+      "asc", {
+        "caseSensitive": true,
+        "natural": false
+      }
+    ]
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
+  }
+}
