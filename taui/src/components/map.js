@@ -193,6 +193,7 @@ export default class Map extends PureComponent<Props, State> {
   _key = 0
   _getKey () { return this._key++ }
 
+  /* eslint complexity: 0 */
   render () {
     const p = this.props
     const s = this.state
@@ -338,4 +339,5 @@ export default class Map extends PureComponent<Props, State> {
       </LeafletMap>
     )
   }
+  /* eslint complexity: 1 */
 }

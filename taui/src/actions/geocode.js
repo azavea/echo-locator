@@ -4,7 +4,6 @@ import fetch from '@conveyal/woonerf/fetch'
 
 import {MAPBOX_GEOCODING_URL} from '../constants'
 import type {LonLat} from '../types'
-
 import cacheURL from '../utils/cache-url'
 
 /**
