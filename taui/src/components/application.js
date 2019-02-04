@@ -324,11 +324,8 @@ export default class Application extends Component<Props, State> {
             </div>}
           {p.ui.showLink &&
             <div className='Attribution'>
-              site made by
-              {' '}
-              <a href='https://www.conveyal.com' target='_blank'>
-                conveyal
-              </a>
+              site made by {' '}
+              <a href='https://www.azavea.com' target='_blank' />
             </div>}
         </Dock>
       </div>
