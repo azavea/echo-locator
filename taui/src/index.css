@@ -243,10 +243,9 @@ table.CardContent td:first-of-type {
 
 .Attribution a {
   color: #fff;
-  background: url(https://d2f1n6ed3ipuic.cloudfront.net/conveyal-128x128.png) no-repeat;
-  padding: 2.2rem 0 2.2rem 2.2rem;
-  display: inline-block;
-  background-size: 2rem;
+  background: url(https://www.azavea.com/wp-content/uploads/2016/06/azavea-logo-invert-2x.png) no-repeat;
+  padding: 4.2rem 0 4.2rem 4.2rem;
+  background-size: 4rem;
   background-position: left;
   background-position-x: left;
   background-position-y: center;
