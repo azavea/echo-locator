@@ -28,6 +28,8 @@
   },
   "homepage": "https://github.com/conveyal/taui",
   "dependencies": {
+    "aws-amplify": "^1.1.19",
+    "aws-amplify-react": "^2.3.0",
     "@conveyal/gridualizer": "^2.1.0",
     "@conveyal/lonlat": "^1.4.0",
     "@conveyal/woonerf": "^4.1.0",
