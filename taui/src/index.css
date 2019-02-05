@@ -286,6 +286,16 @@ table.CardContent td:first-of-type {
   padding: 0.5rem;
 }
 
+.Logo {
+  background: url(/src/BHAlogo.png) no-repeat;
+  width: 5rem;
+  padding: 1rem 1rem 2rem 2rem;
+  background-size: 4rem;
+  background-position: left;
+  background-position-x: left;
+  background-position-y: center;
+}
+
 .Popup button {
   display: block;
   font-size: 1rem;

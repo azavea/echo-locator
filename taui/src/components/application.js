@@ -111,6 +111,7 @@ const Main = () => (
   <div>
     <div className='Fullscreen'>
       <h3>Hello</h3>
+      <div className='Logo' />
       <button onClick={() => console.log('click')}>Click me</button>
       <br />
       <Link to='/map'>Go to map</Link>
