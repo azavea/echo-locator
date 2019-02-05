@@ -3,7 +3,8 @@ import message from '@conveyal/woonerf/message'
 import mount from '@conveyal/woonerf/mount'
 import get from 'lodash/get'
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { BrowserRouter, withRouter } from 'react-router-dom'
 
 import actions from './actions'
 import Application from './components/application'
@@ -33,7 +34,7 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-const ConnectedApplication = connect(mapStateToProps, actions)(Application)
+const ConnectedApplication = withRouter(connect(mapStateToProps, actions)(Application))
 
 // Create an Application wrapper
 class InitializationWrapper extends React.Component {
@@ -59,10 +60,10 @@ class InitializationWrapper extends React.Component {
   }
 
   render () {
-    return <ConnectedApplication
-      history={this.props.history}
-      store={this.props.store}
-    />
+    const props = this.props
+    return <BrowserRouter>
+      <ConnectedApplication {...props} />
+    </BrowserRouter>
   }
 }
 

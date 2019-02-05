@@ -1,6 +1,6 @@
 // @flow
-import lonlat from '@conveyal/lonlat'
 import React, {Component} from 'react'
+import { Link, Switch, Route } from 'react-router-dom'
 
 import type {
   Coordinate,
@@ -10,7 +10,8 @@ import type {
   PointsOfInterest,
   UIStore
 } from '../types'
-import {getAsObject} from '../utils/hash'
+
+import MainPage from './main-page'
 
 type Network = {
   active: boolean,
@@ -95,20 +96,30 @@ export default class Application extends Component<Props, State> {
    *
    */
   render () {
-    const p = this.props
+    const props = this.props
     return (
-      <div className={p.isLoading ? 'isLoading' : ''}>
-        <div className='Fullscreen'>
-          <svg width='0' height='0' style={{position: 'absolute'}}>
-            <defs>
-              <filter id='shadow'>
-                <feDropShadow dx='1' dy='1' stdDeviation='1' />
-              </filter>
-            </defs>
-          </svg>
-          <h3>Hello</h3>
-        </div>
-      </div>
+      <Switch>
+        <Route exact path='/' component={Main} />
+        <Route path='/map' render={() => <MainPage {...props} />} />
+        <Route path='/foo' component={Foo} />
+      </Switch>
     )
   }
 }
+
+const Main = () => (
+  <div>
+    <div className='Fullscreen'>
+      <h3>Hello</h3>
+      <button onClick={() => console.log('click')}>Click me</button>
+      <br />
+      <Link to='/map'>Go to map</Link>
+      <br />
+      <Link to='/foo'>Foo!</Link>
+    </div>
+  </div>
+)
+
+const Foo = () => (
+  <h2>Something else</h2>
+)

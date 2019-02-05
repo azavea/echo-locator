@@ -28,53 +28,6 @@ import RouteAccess from './route-access'
 import RouteCard from './route-card'
 import RouteSegments from './route-segments'
 
-type Network = {
-  active: boolean,
-  name: string
-}
-
-type MapState = {
-  centerCoordinates: Coordinate,
-  zoom: number
-}
-
-type Props = {
-  accessibility: number[][],
-  actionLog: LogItems,
-  activeTransitive: any,
-  allTransitive: any,
-  data: {
-    grids: string[],
-    networks: Network[]
-  },
-  drawIsochrones: Function[],
-  drawOpportunityDatasets: any[],
-  drawRoutes: any[],
-  geocode: (string, Function) => void,
-  geocoder: GeocoderStore,
-  initialize: Function => void,
-  isLoading: boolean,
-  isochrones: any[],
-  map: MapState,
-  pointsOfInterest: any, // FeatureCollection
-  pointsOfInterestOptions: PointsOfInterest,
-  reverseGeocode: (string, Function) => void,
-  setEnd: any => void,
-  setSelectedTimeCutoff: any => void,
-
-  setStart: any => void,
-  showComparison: boolean,
-  timeCutoff: any,
-  travelTimes: number[],
-  ui: UIStore,
-  uniqueRoutes: any[],
-  updateEnd: any => void,
-  updateEndPosition: LonLat => void,
-  updateMap: any => void,
-  updateStart: any => void,
-  updateStartPosition: LonLat => void
-}
-
 /**
  *
  */
