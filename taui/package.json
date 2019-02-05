@@ -1,6 +1,6 @@
 {
-  "name": "@conveyal/taui",
-  "description": "Isochrone & accessibility analysis",
+  "name": "@azavea/echo-locator",
+  "description": "Accessibility analysis for housing",
   "main": "src/index.js",
   "scripts": {
     "build": "mastarm build",
@@ -15,18 +15,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/conveyal/taui.git"
+    "url": "https://github.com/azavea/echo-locator.git"
   },
   "keywords": [
     "taui",
     "transit"
   ],
-  "author": "Conveyal",
+  "author": "Azavea",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/conveyal/taui/issues"
+    "url": "https://github.com/azavea/echo-locator/issues"
   },
-  "homepage": "https://github.com/conveyal/taui",
+  "homepage": "https://github.com/azavea/echo-locator",
   "dependencies": {
     "aws-amplify": "^1.1.19",
     "aws-amplify-react": "^2.3.0",
