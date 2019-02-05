@@ -7,15 +7,9 @@ import memoize from 'lodash/memoize'
 import React from 'react'
 
 import type {
-  Coordinate,
-  GeocoderStore,
-  LogItems,
-  LonLat,
   InputEvent,
   MapboxFeature,
-  MapEvent,
-  PointsOfInterest,
-  UIStore
+  MapEvent
 } from '../types'
 import {NETWORK_COLORS} from '../constants'
 import {getAsObject} from '../utils/hash'

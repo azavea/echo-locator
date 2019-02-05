@@ -109,14 +109,17 @@ export default class Application extends Component<Props, State> {
 
 const Main = () => (
   <div>
-    <div className='Fullscreen'>
-      <h3>Hello</h3>
+    <div className='Splash'>
       <div className='Logo' />
-      <button onClick={() => console.log('click')}>Click me</button>
-      <br />
-      <Link to='/map'>Go to map</Link>
-      <br />
-      <Link to='/foo'>Foo!</Link>
+      <h4>Boston Housing Authority</h4>
+      <h2>ECHO Locator</h2>
+      <div className='Splash-Box'>
+        <button onClick={() => console.log('click')}>Click me</button>
+        <br />
+        <Link to='/map'>Go to map</Link>
+        <br />
+        <Link to='/foo'>Foo!</Link>
+      </div>
     </div>
   </div>
 )
