@@ -1,0 +1,9 @@
+{
+    "bucketName": "echolocator",
+    "authPolicyName": "s3_amplify_4a0e9dff",
+    "unauthPolicyName": "s3_amplify_4a0e9dff",
+    "authRoleName": "src-20190206161419-authRole",
+    "unauthRoleName": "src-20190206161419-unauthRole",
+    "authPermissions": "rw",
+    "unauthPermissions": ""
+}
