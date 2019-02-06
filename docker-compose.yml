@@ -4,6 +4,7 @@ services:
     build: ./taui
     volumes:
       - ./taui:/usr/local/src
+      - $HOME/.aws:/root/.aws:ro
     working_dir: /usr/local/src
     ports:
       - "9966:9966"
