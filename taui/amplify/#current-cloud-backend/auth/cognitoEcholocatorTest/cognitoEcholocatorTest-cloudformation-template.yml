@@ -76,10 +76,10 @@ Parameters:
               
   userpoolClientGenerateSecret:
     Type: String
-              
+          
   userpoolClientRefreshTokenValidity:
-    Type: Number
-              
+    Type: String
+                  
   userpoolClientReadAttributes:
     Type: CommaDelimitedList
       
@@ -110,6 +110,12 @@ Parameters:
   useDefault:
     Type: String
             
+  authSelections:
+    Type: String
+            
+  resourceName:
+    Type: String
+            
   unAuthRoleName:
     Type: String
             
@@ -120,12 +126,6 @@ Parameters:
     Type: String
             
   authRoleArn:
-    Type: String
-            
-  resourceName:
-    Type: String
-            
-  authSelections:
     Type: String
           
 Resources:
@@ -199,7 +199,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: cognito48edb606_app_clientWeb
+      ClientName: cognitoEcholocatorTest_app_clientWeb
       
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
@@ -326,7 +326,7 @@ Resources:
   # Always created
     Type: AWS::Cognito::IdentityPool
     Properties: 
-      IdentityPoolName: cognito48edb606_identitypool_48edb606
+      IdentityPoolName: echolocatorIdentityPoolTest
       
       CognitoIdentityProviders:
         - ClientId:  !Ref UserPoolClient

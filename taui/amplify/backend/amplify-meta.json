@@ -12,24 +12,24 @@
 		}
 	},
 	"auth": {
-		"cognito48edb606": {
+		"cognitoEcholocatorTest": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/src-20190206161419-deployment/amplify-cfn-templates/auth/cognito48edb606-cloudformation-template.yml",
-				"logicalId": "authcognito48edb606"
+				"s3TemplateURL": "https://s3.amazonaws.com/src-20190206161419-deployment/amplify-cfn-templates/auth/cognitoEcholocatorTest-cloudformation-template.yml",
+				"logicalId": "authcognitoEcholocatorTest"
 			},
-			"lastPushTimeStamp": "2019-02-06T17:31:00.228Z",
+			"lastPushTimeStamp": "2019-02-07T01:05:29.459Z",
 			"output": {
-				"AppClientSecret": "171f9333h020tqv90g5nm8la1cf404t3gafejbn55ift2ij5uvvk",
-				"UserPoolId": "us-east-1_XXYSEULPo",
-				"AppClientIDWeb": "3lqegeebm6na1e6fqicferpid4",
-				"AppClientID": "8j93irm36kq4e3kbice8ocosd",
-				"IdentityPoolId": "us-east-1:c169ccb8-0dc3-4102-9e80-230cfdc1bb1b",
-				"IdentityPoolName": "cognito48edb606_identitypool_48edb606",
-				"UserPoolName": "cognito48edb606_userpool_48edb606"
+				"AppClientSecret": "187m9erav4psm0bd76ut85sophhcnf6r7mhu3h3d904rcrdseltv",
+				"UserPoolId": "us-east-1_cMMWUNuiJ",
+				"AppClientIDWeb": "7h7b3jfo39b8g7fi9j6qvbmhqj",
+				"AppClientID": "gevo0977765t8ffulud0sbldb",
+				"IdentityPoolId": "us-east-1:dce8c557-d1ee-412c-aa01-cb0ffee07190",
+				"IdentityPoolName": "echolocatorIdentityPoolTest",
+				"UserPoolName": "cognitoUserPoolTest"
 			},
-			"lastPushDirHash": "QJskadvpLUc1mz6RdLtr2guF+eQ="
+			"lastPushDirHash": "56b3OeU0Pq01ligtCf5LbDMFOX8="
 		}
 	},
 	"storage": {
@@ -40,7 +40,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/src-20190206161419-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"logicalId": "storageecholocatorContent"
 			},
-			"lastPushTimeStamp": "2019-02-06T17:31:00.217Z",
+			"lastPushTimeStamp": "2019-02-07T01:05:29.454Z",
 			"output": {
 				"BucketName": "echolocator",
 				"Region": "us-east-1"
