@@ -6,7 +6,7 @@ RUN set -ex; \
         apt-get install -y git
 
 # Install Amplify CLI globally
-npm install -g @aws-amplify/cli
+RUN npm install -g @aws-amplify/cli
 
 COPY . /usr/local/src
 WORKDIR /usr/local/src
