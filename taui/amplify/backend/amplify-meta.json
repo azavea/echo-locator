@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/src-20190206161419-deployment/amplify-cfn-templates/auth/cognito48edb606-cloudformation-template.yml",
 				"logicalId": "authcognito48edb606"
 			},
-			"lastPushTimeStamp": "2019-02-06T16:23:46.061Z",
+			"lastPushTimeStamp": "2019-02-06T17:31:00.228Z",
 			"output": {
 				"AppClientSecret": "171f9333h020tqv90g5nm8la1cf404t3gafejbn55ift2ij5uvvk",
 				"UserPoolId": "us-east-1_XXYSEULPo",
@@ -29,7 +29,7 @@
 				"IdentityPoolName": "cognito48edb606_identitypool_48edb606",
 				"UserPoolName": "cognito48edb606_userpool_48edb606"
 			},
-			"lastPushDirHash": "RgZtoK4v35a0VqYB2NPVECWC/uk="
+			"lastPushDirHash": "QJskadvpLUc1mz6RdLtr2guF+eQ="
 		}
 	},
 	"storage": {
@@ -40,12 +40,29 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/src-20190206161419-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"logicalId": "storageecholocatorContent"
 			},
-			"lastPushTimeStamp": "2019-02-06T16:23:46.072Z",
+			"lastPushTimeStamp": "2019-02-06T17:31:00.217Z",
 			"output": {
 				"BucketName": "echolocator",
 				"Region": "us-east-1"
 			},
 			"lastPushDirHash": "xLW44nxvinU0wqxQSYTVB2JB/Zs="
+		}
+	},
+	"analytics": {
+		"src": {
+			"service": "Pinpoint",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/src-20190206161419-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
+				"logicalId": "analyticssrc"
+			},
+			"lastPushTimeStamp": "2019-02-06T17:31:00.228Z",
+			"output": {
+				"appName": "src",
+				"Region": "us-east-1",
+				"Id": "87e9110a9e2a466d9c827eaefa816834"
+			},
+			"lastPushDirHash": "24jGDU5jbd2RjOY1CMp9esUISn8="
 		}
 	}
 }
