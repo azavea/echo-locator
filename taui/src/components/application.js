@@ -101,7 +101,7 @@ export default class Application extends Component<Props, State> {
       <Switch>
         <Route exact path='/' component={Main} />
         <Route path='/map' render={() => <MainPage {...props} />} />
-        <Route path='/foo' component={Foo} />
+        <Route path='/test' component={Test} />
       </Switch>
     )
   }
@@ -114,16 +114,14 @@ const Main = () => (
       <h4>Boston Housing Authority</h4>
       <h2>ECHO Locator</h2>
       <div className='Splash-Box'>
-        <button onClick={() => console.log('click')}>Click me</button>
-        <br />
         <Link to='/map'>Go to map</Link>
         <br />
-        <Link to='/foo'>Foo!</Link>
+        <Link to='/test'>Test route</Link>
       </div>
     </div>
   </div>
 )
 
-const Foo = () => (
+const Test = () => (
   <h2>Something else</h2>
 )
