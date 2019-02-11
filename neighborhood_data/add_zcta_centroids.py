@@ -5,12 +5,14 @@ import csv
 import sys
 
 import fiona
+from fiona.crs import from_epsg
 from shapely.geometry import shape
 
 NEIGHBORHOOD_FILE = 'neighborhoods.csv'
 ZCTA_FILE = 'zctas/cb_2017_us_zcta510_500k.shp'
 
 OUT_FILE = 'neighborhood_centroids.csv'
+OUT_ZCTA_GEOJSON = 'neighborhoods.json'
 
 # ensure Unicode will be handled properly
 reload(sys)
@@ -26,13 +28,27 @@ with open(NEIGHBORHOOD_FILE) as inf:
             places[zipcode] = neighborhood
 
 with fiona.open(ZCTA_FILE) as shp:
-    for zcta in shp:
-        zipcode = zcta['properties']['ZCTA5CE10']
-        if zipcode in places:
-            print('Found zipcode {zipcode}'.format(zipcode=zipcode))
-            centroid = shape(zcta['geometry']).centroid
-            places[zipcode]['x'] = centroid.x
-            places[zipcode]['y'] = centroid.y
+    schema = shp.schema.copy()
+    crs = from_epsg(4326)
+    schema['geometry'] = 'MultiPolygon'
+    with fiona.open(OUT_ZCTA_GEOJSON, 'w', driver='GeoJSON', schema=schema,
+                    crs=crs) as outjson:
+        for zcta in shp:
+            zipcode = zcta['properties']['ZCTA5CE10']
+            if zipcode in places:
+                print('Found zipcode {zipcode}'.format(zipcode=zipcode))
+                centroid = shape(zcta['geometry']).centroid
+                places[zipcode]['x'] = centroid.x
+                places[zipcode]['y'] = centroid.y
+
+                if places[zipcode]['ecc']:
+                    print('Writing ECC place')
+                    # normalize all polygons as multi polygons for GeoJSON
+                    if zcta['geometry']['type'] is 'Polygon':
+                        zcta['geometry']['coordinates'] = [zcta[
+                            'geometry']['coordinates']]
+                        zcta['geometry']['type'] = 'MultiPolygon'
+                    outjson.write(zcta)
 
 with open(OUT_FILE, 'w') as outf:
     fieldnames.append('x')
