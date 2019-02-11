@@ -2,14 +2,24 @@
 # encoding=utf8
 
 import csv
+import os
 import sys
+import zipfile
 
 import fiona
 from fiona.crs import from_epsg
+import requests
 from shapely.geometry import shape
 
 NEIGHBORHOOD_FILE = 'neighborhoods.csv'
-ZCTA_FILE = 'zctas/cb_2017_us_zcta510_500k.shp'
+
+ZCTA_BASE = 'cb_2017_us_zcta510_500k'
+ZCTA_DIRECTORY = 'zctas'
+ZCTA_PATH_BASE = '{dir}/{base}'.format(dir=ZCTA_DIRECTORY, base=ZCTA_BASE)
+ZCTA_FILE = '{base}.shp'.format(base=ZCTA_PATH_BASE)
+ZCTA_ZIPFILE = '{base}.zip'.format(base=ZCTA_PATH_BASE)
+ZCTA_URL = 'http://www2.census.gov/geo/tiger/GENZ2017/shp/{base}.zip'.format(
+    base=ZCTA_BASE)
 
 OUT_FILE = 'neighborhood_centroids.csv'
 OUT_ZCTA_GEOJSON = 'neighborhood_bounds.json'
@@ -17,6 +27,19 @@ OUT_ZCTA_GEOJSON = 'neighborhood_bounds.json'
 # ensure Unicode will be handled properly
 reload(sys)
 sys.setdefaultencoding('utf8')
+
+if not os.path.isfile(ZCTA_FILE):
+    print('Census ZCTA Shapefile not found. Downloading...')
+    req = requests.get(ZCTA_URL, stream=True)
+    with open(ZCTA_ZIPFILE, 'w') as zf:
+        for chunk in req.iter_content(chunk_size=128):
+            zf.write(chunk)
+        print('Done donwloading Census ZCTA Shapefile. Extracting...')
+    with zipfile.ZipFile(ZCTA_ZIPFILE, 'r') as zipref:
+        zipref.extractall(ZCTA_DIRECTORY)
+        print('Zipped Census ZCTA Shapefile extracted.')
+else:
+    print('Census ZCTA Shapefile found locally; not downloading.')
 
 places = {}
 with open(NEIGHBORHOOD_FILE) as inf:
