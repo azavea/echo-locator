@@ -12,7 +12,7 @@ NEIGHBORHOOD_FILE = 'neighborhoods.csv'
 ZCTA_FILE = 'zctas/cb_2017_us_zcta510_500k.shp'
 
 OUT_FILE = 'neighborhood_centroids.csv'
-OUT_ZCTA_GEOJSON = 'neighborhoods.json'
+OUT_ZCTA_GEOJSON = 'neighborhood_bounds.json'
 
 # ensure Unicode will be handled properly
 reload(sys)
