@@ -31,6 +31,7 @@ with fiona.open(ZCTA_FILE) as shp:
     schema = shp.schema.copy()
     crs = from_epsg(4326)
     schema['geometry'] = 'MultiPolygon'
+    schema['properties']['TOWN'] = 'str:30'
     with fiona.open(OUT_ZCTA_GEOJSON, 'w', driver='GeoJSON', schema=schema,
                     crs=crs) as outjson:
         for zcta in shp:
@@ -42,12 +43,12 @@ with fiona.open(ZCTA_FILE) as shp:
                 places[zipcode]['y'] = centroid.y
 
                 if places[zipcode]['ecc']:
-                    print('Writing ECC place')
                     # normalize all polygons as multi polygons for GeoJSON
                     if zcta['geometry']['type'] is 'Polygon':
                         zcta['geometry']['coordinates'] = [zcta[
                             'geometry']['coordinates']]
                         zcta['geometry']['type'] = 'MultiPolygon'
+                    zcta['properties']['TOWN'] = places[zipcode]['town']
                     outjson.write(zcta)
 
 with open(OUT_FILE, 'w') as outf:
