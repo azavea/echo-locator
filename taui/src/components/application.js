@@ -42,6 +42,7 @@ type Props = {
   isochrones: any[],
   map: MapState,
   neighborhoods: any,
+  neighborhoodBounds: any,
   pointsOfInterest: any, // FeatureCollection
   pointsOfInterestOptions: PointsOfInterest,
   reverseGeocode: (string, Function) => void,

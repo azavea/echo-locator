@@ -65,6 +65,12 @@ export default handleActions(
         ...state,
         neighborhoods: action.payload
       }
+    },
+    'set neighborhood bounds' (state, action) {
+      return {
+        ...state,
+        neighborhoodBounds: action.payload
+      }
     }
   },
   {

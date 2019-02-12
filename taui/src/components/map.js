@@ -70,6 +70,7 @@ type Props = {
   end: null | Location,
   isLoading: boolean,
   neighborhoods: any,
+  neighborhoodBounds: any,
   pointsOfInterest: void | any, // FeatureCollection
   setEndPosition: LonLat => void,
   setStartPosition: LonLat => void,
@@ -287,6 +288,13 @@ export default class Map extends PureComponent<Props, State> {
             tooltip='label'
             zIndex={getZIndex()}
           />}
+
+        {!p.isLoading && p.neighborhoodBounds &&
+          <VGrid
+            data={p.neighborhoodBounds}
+            idField='id'
+            tooltip='town'
+            zIndex={getZIndex()} />}
 
         {!p.isLoading && p.neighborhoods &&
           <VGrid

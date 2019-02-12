@@ -14,3 +14,15 @@ export function loadNeighborhoods (url: string) {
     })
   })
 }
+
+export function loadNeighborhoodBounds (url: string) {
+  return fetch({
+    url: cacheURL(url),
+    next: response => ({
+      type: 'set neighborhood bounds',
+      payload: typeof response.value === 'string'
+        ? JSON.parse(response.value)
+        : response.value
+    })
+  })
+}
