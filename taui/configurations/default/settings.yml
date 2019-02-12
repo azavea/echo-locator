@@ -3,6 +3,7 @@ entries:
   - src/index.js:assets/index.js
   - src/index.css:assets/index.css
   - src/BHAlogo.png:assets/BHAlogo.png
+  - config.json:assets/config.json
 env: development
 flyle: true
 s3bucket: taui
