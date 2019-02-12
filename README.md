@@ -28,6 +28,19 @@ $ ./scripts/server
 
 Navigate to http://localhost:9966 to view the development environment.
 
+## Data
+
+In the `nieghborhood_data` directory are data sources and management scripts.
+
+The `neighborhoods.csv` file is the source file for data on the neighborhoods, organized by zip code. The `add_zcta_centroids.py` script downloads Census Zip Code Tabulation Area (ZCTA) data, looks up the zip codes from `neighborhoods.csv`, and writes two files. One is `neighborhood_centroids.csv`, which is the input file content with two new columns added for the coordiates of the matching ZCTA's centroid (approximate center). The other is `neighborhood_bounds.json`, a GeoJSON file of the bounds of the ZCTAs marked as ECC in `neighborhoods.csv`.
+
+To run the script to get ZCTA centroids and bounds:
+
+ - `cd neighborhood_data`
+ - `pip install -r requirements.txt`
+ - `./add_zcta_centroids.py`
+
+
 ## Testing
 
 Run linters and tests with the `test` script:
