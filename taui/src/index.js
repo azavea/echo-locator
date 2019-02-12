@@ -1,17 +1,24 @@
 // @flow
+import Amplify from 'aws-amplify'
 import message from '@conveyal/woonerf/message'
 import mount from '@conveyal/woonerf/mount'
 import get from 'lodash/get'
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { BrowserRouter, withRouter } from 'react-router-dom'
+import { withAuthenticator } from 'aws-amplify-react'
 
 import actions from './actions'
+import awsmobile from './aws-exports'
 import Application from './components/application'
 import reducers from './reducers'
 import * as select from './selectors'
 
 // Set the title
 document.title = message('Title')
+
+// configure authentication
+Amplify.configure(awsmobile)
 
 function mapStateToProps (state, ownProps) {
   return {
@@ -33,7 +40,8 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-const ConnectedApplication = connect(mapStateToProps, actions)(Application)
+const ConnectedApplication = withAuthenticator(withRouter(
+  connect(mapStateToProps, actions)(Application)))
 
 // Create an Application wrapper
 class InitializationWrapper extends React.Component {
@@ -59,10 +67,10 @@ class InitializationWrapper extends React.Component {
   }
 
   render () {
-    return <ConnectedApplication
-      history={this.props.history}
-      store={this.props.store}
-    />
+    const props = this.props
+    return <BrowserRouter>
+      <ConnectedApplication {...props} />
+    </BrowserRouter>
   }
 }
 

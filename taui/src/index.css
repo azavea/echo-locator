@@ -35,6 +35,7 @@ html, body {
                "Helvetica Neue",
                sans-serif;
   color: var(--dark-blue);
+  background-color: lightgray;
 }
 
 .Taui-Map {
@@ -243,10 +244,9 @@ table.CardContent td:first-of-type {
 
 .Attribution a {
   color: #fff;
-  background: url(https://d2f1n6ed3ipuic.cloudfront.net/conveyal-128x128.png) no-repeat;
-  padding: 2.2rem 0 2.2rem 2.2rem;
-  display: inline-block;
-  background-size: 2rem;
+  background: url(https://www.azavea.com/wp-content/uploads/2016/06/azavea-logo-invert-2x.png) no-repeat;
+  padding: 4.2rem 0 4.2rem 4.2rem;
+  background-size: 4rem;
   background-position: left;
   background-position-x: left;
   background-position-y: center;
@@ -285,6 +285,29 @@ table.CardContent td:first-of-type {
 .leaflet-popup-close-button + .leaflet-popup-content-wrapper .leaflet-popup-content,
 .leaflet-popup-content {
   padding: 0.5rem;
+}
+
+.Logo {
+  background: url(/src/BHAlogo.png) no-repeat;
+  width: 100%
+  padding-top: 5rem;
+  background-size: 4rem;
+  background-position: center;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.Splash {
+  text-align: center;
+}
+
+.Splash-Box {
+  background-color: white;
+  width: 40%;
+  margin-left: 30%;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  align-content: center;
 }
 
 .Popup button {

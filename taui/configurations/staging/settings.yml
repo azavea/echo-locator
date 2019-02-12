@@ -2,6 +2,7 @@ cloudfront: E2CSIKFLWDFPC9
 entries:
   - src/index.js:assets/index.js
   - src/index.css:assets/index.css
+  - src/BHAlogo.png:assets/BHAlogo.png
 env: staging
 flyle: true
 s3bucket: echo-locator-staging-site-us-east-1
