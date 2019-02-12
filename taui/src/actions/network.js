@@ -13,6 +13,7 @@ import {parseTimesData} from '../utils/parse-times-data'
 import {updateStartPosition} from './location'
 import {addActionLogItem as logItem, logError} from './log'
 import {updateMap} from './map'
+import {loadNeighborhoods} from './neighborhoods'
 import {loadPointsOfInterest} from './points-of-interest'
 import {loadGrid} from './grid'
 
@@ -120,6 +121,9 @@ export const loadDataset = (
 
   // Try to load points of interest
   if (pointsOfInterestUrl) dispatch(loadPointsOfInterest(pointsOfInterestUrl))
+
+  // Load neighborhoods
+  dispatch(loadNeighborhoods('neighborhoods.json'))
 
   // Load all opportunity grids
   grids.forEach(grid => dispatch(loadGrid(grid)))

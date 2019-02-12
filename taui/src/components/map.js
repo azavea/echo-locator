@@ -6,6 +6,7 @@ import Leaflet from 'leaflet'
 import find from 'lodash/find'
 import React, {PureComponent} from 'react'
 import {
+  GeoJSON,
   Map as LeafletMap,
   Marker,
   Popup,
@@ -68,6 +69,7 @@ type Props = {
   drawRoutes: any[],
   end: null | Location,
   isLoading: boolean,
+  neighborhoods: any,
   pointsOfInterest: void | any, // FeatureCollection
   setEndPosition: LonLat => void,
   setStartPosition: LonLat => void,
@@ -279,6 +281,10 @@ export default class Map extends PureComponent<Props, State> {
             tooltip='label'
             zIndex={getZIndex()}
           />}
+
+        {p.isLoading || !p.neighborhoods
+          ? null
+          : <GeoJSON data={p.neighborhoods} zIndex={getZIndex()} />}
 
         {p.start &&
           <Marker

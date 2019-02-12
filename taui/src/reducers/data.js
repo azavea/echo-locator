@@ -59,6 +59,12 @@ export default handleActions(
         ...state,
         pointsOfInterest: action.payload
       }
+    },
+    'set neighborhoods' (state, action) {
+      return {
+        ...state,
+        neighborhoods: action.payload
+      }
     }
   },
   {

@@ -174,6 +174,7 @@ export default class MainPage extends React.PureComponent<Props> {
             drawIsochrones={p.drawIsochrones}
             drawOpportunityDatasets={p.drawOpportunityDatasets}
             drawRoutes={p.drawRoutes}
+            neighborhoods={p.neighborhoods}
             pointsOfInterest={p.pointsOfInterest}
             showRoutes={this._showRoutes()}
             setEndPosition={p.updateEndPosition}

@@ -32,6 +32,7 @@ function mapStateToProps (state, ownProps) {
     // drawIsochrones: select.drawIsochrones(state, ownProps),
     isochrones: select.isochrones(state, ownProps),
     isLoading: select.loading(state, ownProps),
+    neighborhoods: get(state, 'data.neighborhoods'),
     pointsOfInterest: get(state, 'data.pointsOfInterest'),
     pointsOfInterestOptions: select.pointsOfInterestOptions(state, ownProps),
     showComparison: select.showComparison(state, ownProps),
