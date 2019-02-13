@@ -6,7 +6,6 @@ import Leaflet from 'leaflet'
 import find from 'lodash/find'
 import React, {PureComponent} from 'react'
 import {
-  GeoJSON,
   Map as LeafletMap,
   Marker,
   Popup,
@@ -69,8 +68,8 @@ type Props = {
   drawRoutes: any[],
   end: null | Location,
   isLoading: boolean,
-  neighborhoods: any,
   neighborhoodBounds: any,
+  neighborhoods: any,
   pointsOfInterest: void | any, // FeatureCollection
   setEndPosition: LonLat => void,
   setStartPosition: LonLat => void,

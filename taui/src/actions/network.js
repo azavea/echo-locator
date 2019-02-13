@@ -13,8 +13,7 @@ import {parseTimesData} from '../utils/parse-times-data'
 import {updateStartPosition} from './location'
 import {addActionLogItem as logItem, logError} from './log'
 import {updateMap} from './map'
-import {loadNeighborhoods, loadNeighborhoodBounds} from './neighborhoods'
-import {loadPointsOfInterest} from './points-of-interest'
+import {loadDataFromJSON} from './json-data'
 import {loadGrid} from './grid'
 
 export const setNetwork = (payload: any) => ({type: 'set network', payload})
@@ -120,11 +119,11 @@ export const loadDataset = (
   dispatch({type: 'clear data'})
 
   // Try to load points of interest
-  if (pointsOfInterestUrl) dispatch(loadPointsOfInterest(pointsOfInterestUrl))
+  if (pointsOfInterestUrl) dispatch(loadDataFromJSON(pointsOfInterestUrl, 'set points of interest'))
 
   // Load neighborhood GeoJSON files
-  dispatch(loadNeighborhoods('neighborhoods.json'))
-  dispatch(loadNeighborhoodBounds('neighborhood_bounds.json'))
+  dispatch(loadDataFromJSON('neighborhoods.json', 'set neighborhoods'))
+  dispatch(loadDataFromJSON('neighborhood_bounds.json', 'set neighborhood bounds'))
 
   // Load all opportunity grids
   grids.forEach(grid => dispatch(loadGrid(grid)))
