@@ -19,6 +19,13 @@ $ cp taui/configurations/default/env.yml.tmp taui/configurations/default/env.yml
 
 Make sure to edit `env.yml` to set the appropriate secrets for development.
 
+Next, move the AWS Amplify JavaScript configuration for the staging environment
+into the Taui source code:
+
+```
+$ cp deployment/amplify/staging/aws-exports.js taui/src/aws-exports.js
+```
+
 On your host machine you need to set up an `echolocator` profile for the AWS account using the following command:
 ```bash
 $ aws configure --profile echolocator

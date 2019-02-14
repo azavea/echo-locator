@@ -70,3 +70,6 @@ typings/
 
 # Terraform module directory
 .terraform/
+
+# Amplify configs for the frontend app
+taui/src/aws-exports.js

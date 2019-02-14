@@ -17,3 +17,10 @@ services:
       - ECHOLOCATOR_SITE_BUCKET=${ECHOLOCATOR_SITE_BUCKET:-echo-locator-staging-site-us-east-1}
     working_dir: /usr/local/src
     entrypoint: bash
+  amplify:
+    build: ./deployment/amplify
+    volumes:
+      - ./deployment/amplify:/usr/local/src
+      - $HOME/.aws:/root/.aws:ro
+    working_dir: /usr/local/src
+    entrypoint: bash

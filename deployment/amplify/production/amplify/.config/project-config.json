@@ -1,0 +1,20 @@
+{
+    "projectName": "src",
+    "projectPath": "/usr/local/src",
+    "defaultEditor": "sublime",
+    "frontendHandler": {
+        "javascript": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-frontend-javascript"
+    },
+    "javascript": {
+        "framework": "react",
+        "config": {
+            "SourceDir": ".",
+            "DistributionDir": "assets",
+            "BuildCommand": "yarn build",
+            "StartCommand": "yarn start"
+        }
+    },
+    "providers": {
+        "awscloudformation": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-provider-awscloudformation"
+    }
+}

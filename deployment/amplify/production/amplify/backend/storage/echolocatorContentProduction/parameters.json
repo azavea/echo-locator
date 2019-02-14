@@ -1,0 +1,9 @@
+{
+    "bucketName": "echolocator-production-data-us-east-1",
+    "authPolicyName": "s3_amplify_dd23be3a",
+    "unauthPolicyName": "s3_amplify_dd23be3a",
+    "authRoleName": "src-20190214172616-authRole",
+    "unauthRoleName": "src-20190214172616-unauthRole",
+    "authPermissions": "rw",
+    "unauthPermissions": ""
+}

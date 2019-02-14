@@ -1,0 +1,51 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "src-20190214172616-authRole",
+			"UnauthRoleArn": "arn:aws:iam::322268938932:role/src-20190214172616-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::322268938932:role/src-20190214172616-authRole",
+			"Region": "us-east-1",
+			"DeploymentBucketName": "src-20190214172616-deployment",
+			"UnauthRoleName": "src-20190214172616-unauthRole",
+			"StackName": "src-20190214172616",
+			"StackId": "arn:aws:cloudformation:us-east-1:322268938932:stack/src-20190214172616/a2bcd3c0-307d-11e9-be3d-0e984b426fca"
+		}
+	},
+	"auth": {
+		"cognitoEcholocatorProduction": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/src-20190214172616-deployment/amplify-cfn-templates/auth/cognitoEcholocatorProduction-cloudformation-template.yml",
+				"logicalId": "authcognitoEcholocatorProduction"
+			},
+			"lastPushTimeStamp": "2019-02-14T17:43:32.442Z",
+			"output": {
+				"AppClientSecret": "begdu9bclerkc860lbs10gfs3b3gufdta028vqoqo6eashh1qs8",
+				"UserPoolId": "us-east-1_YqZ74z65p",
+				"AppClientIDWeb": "4q8ekh1dbh3raah5m1adtlnj0p",
+				"AppClientID": "60uecqipa2ltn00qckjd7um5h8",
+				"IdentityPoolId": "us-east-1:1b10028f-d2e5-4dfd-97d2-5cfec2e518c2",
+				"IdentityPoolName": "echolocatorIdentityPoolProduction",
+				"UserPoolName": "cognitoUserPoolProduction"
+			},
+			"lastPushDirHash": "o1+vKb7V2nF1Dfl9p7nMDQ5ET1U="
+		}
+	},
+	"storage": {
+		"echolocatorContentProduction": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/src-20190214172616-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"logicalId": "storageecholocatorContentProduction"
+			},
+			"lastPushTimeStamp": "2019-02-14T17:43:32.442Z",
+			"output": {
+				"BucketName": "echolocator-production-data-us-east-1",
+				"Region": "us-east-1"
+			},
+			"lastPushDirHash": "Yn4H4md29gHNO/93lrLnZuvVHXE="
+		}
+	}
+}
