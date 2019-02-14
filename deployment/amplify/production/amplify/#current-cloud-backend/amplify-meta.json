@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/src-20190214172616-deployment/amplify-cfn-templates/auth/cognitoEcholocatorProduction-cloudformation-template.yml",
 				"logicalId": "authcognitoEcholocatorProduction"
 			},
-			"lastPushTimeStamp": "2019-02-14T17:43:32.442Z",
+			"lastPushTimeStamp": "2019-02-14T18:57:13.661Z",
 			"output": {
 				"AppClientSecret": "begdu9bclerkc860lbs10gfs3b3gufdta028vqoqo6eashh1qs8",
 				"UserPoolId": "us-east-1_YqZ74z65p",
@@ -29,7 +29,7 @@
 				"IdentityPoolName": "echolocatorIdentityPoolProduction",
 				"UserPoolName": "cognitoUserPoolProduction"
 			},
-			"lastPushDirHash": "o1+vKb7V2nF1Dfl9p7nMDQ5ET1U="
+			"lastPushDirHash": "2GB7kOC2bh/+YLjdqoTgdSIb7n8="
 		}
 	},
 	"storage": {
@@ -40,7 +40,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/src-20190214172616-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"logicalId": "storageecholocatorContentProduction"
 			},
-			"lastPushTimeStamp": "2019-02-14T17:43:32.442Z",
+			"lastPushTimeStamp": "2019-02-14T18:57:13.655Z",
 			"output": {
 				"BucketName": "echolocator-production-data-us-east-1",
 				"Region": "us-east-1"
