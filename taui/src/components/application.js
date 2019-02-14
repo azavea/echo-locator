@@ -41,6 +41,8 @@ type Props = {
   isLoading: boolean,
   isochrones: any[],
   map: MapState,
+  neighborhoodBounds: any,
+  neighborhoods: any,
   pointsOfInterest: any, // FeatureCollection
   pointsOfInterestOptions: PointsOfInterest,
   reverseGeocode: (string, Function) => void,

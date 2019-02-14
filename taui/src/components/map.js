@@ -68,6 +68,8 @@ type Props = {
   drawRoutes: any[],
   end: null | Location,
   isLoading: boolean,
+  neighborhoodBounds: any,
+  neighborhoods: any,
   pointsOfInterest: void | any, // FeatureCollection
   setEndPosition: LonLat => void,
   setStartPosition: LonLat => void,
@@ -182,6 +184,12 @@ export default class Map extends PureComponent<Props, State> {
     this.props.updateMap({zoom})
   }
 
+  _clickNeighborhood = (feature) => {
+    // TODO: #27 implement interactivity
+    console.log('clicked neighborhood:')
+    console.log(feature)
+  }
+
   _clickPoi = (feature) => {
     this.setState({
       lastClickedLabel: feature.properties.label,
@@ -279,6 +287,22 @@ export default class Map extends PureComponent<Props, State> {
             tooltip='label'
             zIndex={getZIndex()}
           />}
+
+        {!p.isLoading && p.neighborhoodBounds &&
+          <VGrid
+            data={p.neighborhoodBounds}
+            idField='id'
+            tooltip='town'
+            zIndex={getZIndex()} />}
+
+        {!p.isLoading && p.neighborhoods &&
+          <VGrid
+            data={p.neighborhoods}
+            style={STOP_STYLE}
+            idField='id'
+            tooltip='town'
+            onClick={this._clickNeighborhood}
+            zIndex={getZIndex()} />}
 
         {p.start &&
           <Marker
