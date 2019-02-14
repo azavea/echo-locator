@@ -7,16 +7,38 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter, withRouter } from 'react-router-dom'
 import {
+  ConfirmSignIn,
+  ConfirmSignUp,
+  ForgotPassword,
+  Loading,
+  RequireNewPassword,
   SignIn,
-  withAuthenticator
+  TOTPSetup,
+  VerifyContact
 } from 'aws-amplify-react'
 
 import actions from './actions'
 import awsmobile from './aws-exports'
 import Application from './components/application'
 import CustomSignIn from './components/custom-sign-in'
+import withAuthenticator from './components/with-authenticator'
 import reducers from './reducers'
 import * as select from './selectors'
+
+// custom Amplify component styling
+const CustomAuthenticatorTheme = {
+  formContainer: {'margin': '0'},
+  sectionFooter: {'display': 'block'},
+  button: {'backgroundColor': 'var(--blue)', 'width': '100%'},
+  nav: {
+    'display': 'flex',
+    'justifyContent': 'space-between',
+    'backgroundColor': 'lightgrey',
+    'padding': 0},
+  navBar: {'border': 0},
+  navItem: {'lineHeight': '300%'},
+  navButton: {'backgroundColor': 'var(--blue)'}
+}
 
 // Set the title
 document.title = message('Title')
@@ -46,14 +68,18 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-const CustomAuthenticatorTheme = {
-  formContainer: {'margin': '0'},
-  sectionFooter: {'display': 'block'},
-  button: {'backgroundColor': 'var(--blue)', 'width': '100%'}
-}
-
 const ConnectedApplication = withAuthenticator(withRouter(
-  connect(mapStateToProps, actions)(Application)), true, [<CustomSignIn override={SignIn} />], null, CustomAuthenticatorTheme)
+  connect(mapStateToProps, actions)(Application)), true,
+[
+  <CustomSignIn override={SignIn} />,
+  <ConfirmSignIn />,
+  <ConfirmSignUp />,
+  <ForgotPassword />,
+  <Loading />,
+  <RequireNewPassword />,
+  <TOTPSetup />,
+  <VerifyContact />
+], null, CustomAuthenticatorTheme)
 
 // Create an Application wrapper
 class InitializationWrapper extends React.Component {

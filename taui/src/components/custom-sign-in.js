@@ -9,7 +9,6 @@ import {
 import {
   FormSection,
   FormField,
-  SectionHeader,
   SectionBody,
   SectionFooter,
   Button,
@@ -37,12 +36,9 @@ class SignInHeader extends React.Component {
 export default class CustomSignIn extends SignIn {
   // Have to copy showComponent here, because `hide` non-mutable property
   // results in null being returned from call to super.
-  // Issue: https://github.com/aws-amplify/amplify-js/issues/1603
   // Based on source:
   // https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Auth/SignIn.jsx#L120
   showComponent (theme) {
-    console.log('custom signin showComponent')
-
     const { authState, hide = [], federated, onStateChange, onAuthEvent, override = [] } = this.props
     const hideSignUp = !override.includes('SignUp') && hide.some(component => component === SignUp)
     const hideForgotPassword = !override.includes('ForgotPassword') &&

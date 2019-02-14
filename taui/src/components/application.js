@@ -112,10 +112,8 @@ export default class Application extends Component<Props, State> {
 const Main = () => (
   <div>
     <div className='Splash'>
-      <div className='Logo' />
-      <h4>Boston Housing Authority</h4>
-      <h2>ECHO Locator</h2>
-      <div className='Splash-Box'>
+      <h2 className='SplashBoxHeader'>New Search</h2>
+      <div className='SplashBox'>
         <Link to='/map'>Go to map</Link>
         <br />
         <Link to='/test'>Test route</Link>
