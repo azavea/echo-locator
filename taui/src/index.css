@@ -299,6 +299,13 @@ table.CardContent td:first-of-type {
 
 .Splash {
   text-align: center;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.Splash h1, h2, h3, h4 {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .Splash-Box {
