@@ -115,9 +115,6 @@ Parameters:
             
   resourceName:
     Type: String
-                  
-  userpoolClientWriteAttributes:
-    Type: CommaDelimitedList
       
   unAuthRoleName:
     Type: String
@@ -204,9 +201,7 @@ Resources:
     Properties:
       ClientName: cognitoEcholocatorProduction_app_clientWeb
       
-      ReadAttributes: !Ref userpoolClientReadAttributes
-      WriteAttributes: !Ref userpoolClientWriteAttributes
-      
+      ReadAttributes: !Ref userpoolClientReadAttributes      
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
     DependsOn: UserPool
@@ -217,9 +212,7 @@ Resources:
     Properties:
       ClientName: !Ref userpoolClientName
       
-      ReadAttributes: !Ref userpoolClientReadAttributes
-      WriteAttributes: !Ref userpoolClientWriteAttributes
-      
+      ReadAttributes: !Ref userpoolClientReadAttributes      
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool

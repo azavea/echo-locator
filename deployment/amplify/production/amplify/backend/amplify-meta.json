@@ -19,17 +19,17 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/src-20190214172616-deployment/amplify-cfn-templates/auth/cognitoEcholocatorProduction-cloudformation-template.yml",
 				"logicalId": "authcognitoEcholocatorProduction"
 			},
-			"lastPushTimeStamp": "2019-02-14T18:57:13.661Z",
+			"lastPushTimeStamp": "2019-02-15T19:05:31.709Z",
 			"output": {
-				"AppClientSecret": "begdu9bclerkc860lbs10gfs3b3gufdta028vqoqo6eashh1qs8",
-				"UserPoolId": "us-east-1_YqZ74z65p",
-				"AppClientIDWeb": "4q8ekh1dbh3raah5m1adtlnj0p",
-				"AppClientID": "60uecqipa2ltn00qckjd7um5h8",
-				"IdentityPoolId": "us-east-1:1b10028f-d2e5-4dfd-97d2-5cfec2e518c2",
+				"AppClientSecret": "11v9o84p23lpq2j06mfog2p1k214ff514b67psgv64ronnuo49md",
+				"UserPoolId": "us-east-1_XIlFFXFsi",
+				"AppClientIDWeb": "44pov1vmb0kn7j092u5ved5r7m",
+				"AppClientID": "427v9lm6d066f8okkr6os09307",
+				"IdentityPoolId": "us-east-1:88553c9f-cc94-46c4-a218-95c5b2f5e371",
 				"IdentityPoolName": "echolocatorIdentityPoolProduction",
 				"UserPoolName": "cognitoUserPoolProduction"
 			},
-			"lastPushDirHash": "2GB7kOC2bh/+YLjdqoTgdSIb7n8="
+			"lastPushDirHash": "mcRdXCe5uGF3Qrm80j/7WwysSqo="
 		}
 	},
 	"storage": {
@@ -40,7 +40,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/src-20190214172616-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"logicalId": "storageecholocatorContentProduction"
 			},
-			"lastPushTimeStamp": "2019-02-14T18:57:13.655Z",
+			"lastPushTimeStamp": "2019-02-15T19:05:31.704Z",
 			"output": {
 				"BucketName": "echolocator-production-data-us-east-1",
 				"Region": "us-east-1"
