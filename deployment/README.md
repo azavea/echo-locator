@@ -64,7 +64,7 @@ following instructions.
 Run a container with the Amplify CLI installed:
 
 ```
-$ docker-compose -f docker-compose.yml -f docker-compose.ci.yml run --rm amplify
+$ ./scripts/amplify-cli
 ```
 
 You should see two environments, one for production and one for staging:
