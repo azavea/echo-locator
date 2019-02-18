@@ -19,26 +19,12 @@ import {
 
 import actions from './actions'
 import awsmobile from './aws-exports'
+import { CustomAuthenticatorTheme } from './amplify-theme'
 import Application from './components/application'
 import CustomSignIn from './components/custom-sign-in'
 import withAuthenticator from './components/with-authenticator'
 import reducers from './reducers'
 import * as select from './selectors'
-
-// custom Amplify component styling
-const CustomAuthenticatorTheme = {
-  formContainer: {'margin': '0'},
-  sectionFooter: {'display': 'block'},
-  button: {'backgroundColor': 'var(--blue)', 'width': '100%'},
-  nav: {
-    'display': 'flex',
-    'justifyContent': 'space-between',
-    'backgroundColor': 'lightgrey',
-    'padding': 0},
-  navBar: {'border': 0},
-  navItem: {'lineHeight': '300%'},
-  navButton: {'backgroundColor': 'var(--blue)'}
-}
 
 // Set the title
 document.title = message('Title')
