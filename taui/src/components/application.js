@@ -1,6 +1,7 @@
 // @flow
 import React, {Component} from 'react'
 import { Link, Switch, Route } from 'react-router-dom'
+import {Storage} from 'aws-amplify'
 
 import type {
   Coordinate,
@@ -12,6 +13,7 @@ import type {
 } from '../types'
 
 import MainPage from './main-page'
+import SelectAccount from './select-account'
 
 type Network = {
   active: boolean,
@@ -48,7 +50,6 @@ type Props = {
   reverseGeocode: (string, Function) => void,
   setEnd: any => void,
   setSelectedTimeCutoff: any => void,
-
   setStart: any => void,
   showComparison: boolean,
   timeCutoff: any,
@@ -104,6 +105,10 @@ export default class Application extends Component<Props, State> {
         <Route exact path='/' component={Main} />
         <Route path='/map' render={() => <MainPage {...props} />} />
         <Route path='/test' component={Test} />
+        <Route path='/select' render={() => <SelectAccount
+          {...props}
+          headOfHousehold={props.headOfHousehold}
+          voucherNumber={props.voucherNumber} />} />
       </Switch>
     )
   }
@@ -117,11 +122,37 @@ const Main = () => (
         <Link to='/map'>Go to map</Link>
         <br />
         <Link to='/test'>Test route</Link>
+        <br />
+        <Link to='/select'>Select account</Link>
       </div>
     </div>
   </div>
 )
 
-const Test = () => (
-  <h2>Something else</h2>
-)
+const testS3 = () => {
+  console.log('testS3')
+  /*
+  Storage.put('test.txt', 'Hello, world!')
+    .then(result => console.log(result))
+    .catch(err => console.log(err))
+  */
+  // Storage.get('test.txt').then(result => console.log(result)).catch(err => console.error(err))
+
+  Storage.list('')
+    .then(result => {
+      console.log(result)
+      const keys = result.map((r) => r.key)
+      console.log(keys)
+    })
+    .catch(err => console.log(err))
+}
+
+const Test = () => {
+  return (
+    <div>
+      <h2>Something else</h2>
+      <br />
+      <button onClick={() => testS3()}>Click me</button>
+    </div>
+  )
+}
