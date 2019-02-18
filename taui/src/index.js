@@ -6,11 +6,23 @@ import get from 'lodash/get'
 import React from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter, withRouter } from 'react-router-dom'
-import { withAuthenticator } from 'aws-amplify-react'
+import {
+  ConfirmSignIn,
+  ConfirmSignUp,
+  ForgotPassword,
+  Loading,
+  RequireNewPassword,
+  SignIn,
+  TOTPSetup,
+  VerifyContact
+} from 'aws-amplify-react'
 
 import actions from './actions'
 import awsmobile from './aws-exports'
+import { CustomAuthenticatorTheme } from './amplify-theme'
 import Application from './components/application'
+import CustomSignIn from './components/custom-sign-in'
+import withAuthenticator from './components/with-authenticator'
 import reducers from './reducers'
 import * as select from './selectors'
 
@@ -43,7 +55,17 @@ function mapStateToProps (state, ownProps) {
 }
 
 const ConnectedApplication = withAuthenticator(withRouter(
-  connect(mapStateToProps, actions)(Application)))
+  connect(mapStateToProps, actions)(Application)), true,
+[
+  <CustomSignIn override={SignIn} />,
+  <ConfirmSignIn />,
+  <ConfirmSignUp />,
+  <ForgotPassword />,
+  <Loading />,
+  <RequireNewPassword />,
+  <TOTPSetup />,
+  <VerifyContact />
+], null, CustomAuthenticatorTheme)
 
 // Create an Application wrapper
 class InitializationWrapper extends React.Component {

@@ -51,7 +51,6 @@ html, body {
 
 .Taui-Dock {
   background-color: var(--dark-blue);
-  position: absolute;
   width: 414px;
   top: 0;
   left: 0;
@@ -289,7 +288,7 @@ table.CardContent td:first-of-type {
 
 .Logo {
   background: url(/src/BHAlogo.png) no-repeat;
-  width: 100%
+  width: 100%;
   padding-top: 5rem;
   background-size: 4rem;
   background-position: center;
@@ -297,17 +296,29 @@ table.CardContent td:first-of-type {
   background-position-y: center;
 }
 
-.Splash {
-  text-align: center;
+.LogoNavbar {
+  background: url(/src/BHAlogo.png) no-repeat;
+  background-size: 4rem;
+  width: 10rem;
+  height: 3rem;
+  text-align: right;
 }
 
-.Splash-Box {
+.Splash {
+  text-align: center;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.SplashBoxHeader {
+  text-align: left;
+}
+
+.SplashBox {
   background-color: white;
-  width: 40%;
-  margin-left: 30%;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
   align-content: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .Popup button {

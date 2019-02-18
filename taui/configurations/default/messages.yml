@@ -33,7 +33,10 @@ Strings:
   HighlightAreaAccessibleWithin: Show the area accessible within
   Welcome: Search for your address above or click on the map to get started.
 Slower: slower
-Title: BHA ECHOLocator
+Title: ECHO Locator
 Units:
   Minutes: minutes
   Mins: min
+Agency: Boston Housing Authority
+SignIn:
+  Greeting: At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
