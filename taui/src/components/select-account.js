@@ -56,6 +56,9 @@ export default class SelectAccount extends React.PureComponent<Props> {
   }
 
   search () {
+    const searchName = this.state.headOfHousehold.toUpperCase()
+    const searchVoucher = this.state.voucherNumber.toUpperCase()
+
     const accounts = []
     Storage.list('')
       .then(result => {
@@ -64,6 +67,12 @@ export default class SelectAccount extends React.PureComponent<Props> {
         let voucher
         keys.forEach((key) => {
           [name, voucher] = key.split('_')
+          if (searchName && name.indexOf(searchName) === -1) {
+            return
+          }
+          if (searchVoucher && voucher.indexOf(searchVoucher) === -1) {
+            return
+          }
           accounts.push({
             'headOfHousehold': name,
             'key': key,
@@ -79,7 +88,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
     const key = event.target.dataset.id
     const search = this.search
 
-    console.log('Delete account preferences for ' + key)
+    console.log('Delete account ' + key)
 
     Storage.remove(key)
       .then(result => {
