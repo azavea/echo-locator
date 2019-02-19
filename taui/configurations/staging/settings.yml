@@ -1,4 +1,4 @@
-cloudfront: E2CSIKFLWDFPC9
+cloudfront: E3A0YNQDZRFX9J
 entries:
   - src/index.js:assets/index.js
   - src/index.css:assets/index.css
