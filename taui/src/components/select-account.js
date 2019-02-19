@@ -21,6 +21,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
     this.changeVoucherNumber = this.changeVoucherNumber.bind(this)
     this.createAccount = this.createAccount.bind(this)
     this.deleteAccount = this.deleteAccount.bind(this)
+    this.selectAccount = this.selectAccount.bind(this)
     this.search = this.search.bind(this)
   }
 
@@ -33,10 +34,9 @@ export default class SelectAccount extends React.PureComponent<Props> {
   }
 
   createAccount () {
-    console.log('createAccount')
+    const search = this.search
     const name = this.state.headOfHousehold
     const voucher = this.state.voucherNumber
-    console.log(name + ' ' + voucher)
 
     if (!name || !voucher) {
       // TODO: error handing
@@ -44,8 +44,8 @@ export default class SelectAccount extends React.PureComponent<Props> {
       return
     }
 
-    const key = name + '_' + voucher
-    const search = this.search
+    const key = name.toUpperCase() + '_' + voucher.toUpperCase()
+    console.log('Creating account ' + key)
 
     Storage.put(key, 'Hello, world!')
       .then(result => {
@@ -76,12 +76,10 @@ export default class SelectAccount extends React.PureComponent<Props> {
   }
 
   deleteAccount (event) {
-    event.persist()
-    console.log(event)
-
     const key = event.target.dataset.id
     const search = this.search
-    console.log('delete ' + key)
+
+    console.log('Delete account preferences for ' + key)
 
     Storage.remove(key)
       .then(result => {
@@ -91,15 +89,25 @@ export default class SelectAccount extends React.PureComponent<Props> {
       .catch(err => console.error(err))
   }
 
+  selectAccount (event) {
+    const key = event.target.dataset.id
+    console.log('TODO: select account ' + key)
+  }
+
   accountList (props) {
     const accountList = props.accounts
     const deleteAccount = props.deleteAccount
+    const selectAccount = props.selectAccount
     const listItems = accountList.map((account) =>
       <li key={account.key}>
         {account.headOfHousehold} {account.voucherNumber}
         <button
           data-id={account.key}
-          onClick={deleteAccount}>{message('Delete')}
+          onClick={selectAccount}>{message('Accounts.Select')}
+        </button>
+        <button
+          data-id={account.key}
+          onClick={deleteAccount}>{message('Accounts.Delete')}
         </button>
       </li>
     )
@@ -113,6 +121,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
     const changeVoucherNumber = this.changeVoucherNumber
     const createAccount = this.createAccount
     const deleteAccount = this.deleteAccount
+    const selectAccount = this.selectAccount
     const search = this.search
     const state = this.state
 
@@ -121,11 +130,11 @@ export default class SelectAccount extends React.PureComponent<Props> {
     return (
       <div>
         <div className='Splash'>
-          <h2 className='SplashBoxHeader'>{message('Search.Title')}</h2>
+          <h2 className='SplashBoxHeader'>{message('Accounts.Title')}</h2>
           <div className='SplashBox'>
             <div>
               <div>
-                <label htmlFor='headOfHousehold'>{message('Search.Name')}</label>
+                <label htmlFor='headOfHousehold'>{message('Accounts.Name')}</label>
                 <input
                   id='headOfHousehold'
                   type='text'
@@ -134,7 +143,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
                 />
               </div>
               <div>
-                <label htmlFor='voucher'>{message('Search.Voucher')}</label>
+                <label htmlFor='voucher'>{message('Accounts.Voucher')}</label>
                 <input
                   id='voucher'
                   type='text'
@@ -142,13 +151,16 @@ export default class SelectAccount extends React.PureComponent<Props> {
                   value={state.voucherNumber}
                 />
               </div>
-              <button onClick={search}>{message('Search.Action')}</button>
+              <button onClick={search}>{message('Accounts.Search')}</button>
             </div>
             <br />
-            <button onClick={createAccount}>{message('CreateAccount')}</button>
+            <button onClick={createAccount}>{message('Accounts.Create')}</button>
           </div>
         </div>
-        <AccountList accounts={state.accounts} deleteAccount={deleteAccount} />
+        <AccountList
+          accounts={state.accounts}
+          deleteAccount={deleteAccount}
+          selectAccount={selectAccount} />
       </div>
     )
   }
