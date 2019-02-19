@@ -25,15 +25,17 @@ You will be prompted to enter your AWS credentials, along with a default region.
 To deploy this project's core infrastructure, use the `infra` wrapper script to lookup the remote state of the infrastructure and assemble a plan for work to be done:
 
 ```bash
-vagrant@vagrant-ubuntu-trusty-64:~$ export ECHOLOCATOR_SETTINGS_BUCKET="echo-locator-staging-config-us-east-1"
-vagrant@vagrant-ubuntu-trusty-64:~$ export AWS_PROFILE="echo-locator"
-vagrant@vagrant-ubuntu-trusty-64:~$ docker-compose -f docker-compose.ci.yml run --rm terraform ./scripts/infra plan
+$ export ECHOLOCATOR_SETTINGS_BUCKET="echo-locator-staging-config-us-east-1"
+$ export AWS_PROFILE="echo-locator"
+$ docker-compose -f docker-compose.yml -f docker-compose.ci.yml \
+    run --rm terraform ./scripts/infra plan
 ```
 
 Once the plan has been assembled, and you agree with the changes, apply it:
 
 ```bash
-vagrant@vagrant-ubuntu-trusty-64:~$ docker-compose -f docker-compose.ci.yml run --rm terraform ./scripts/infra apply
+$ docker-compose -f docker-compose.yml -f docker-compose.ci.yml \
+    run --rm terraform ./scripts/infra apply
 ```
 
 This will attempt to apply the plan assembled in the previous step using Amazon's APIs. In order to change specific attributes of the infrastructure, inspect the contents of the environment's configuration file in Amazon S3.
@@ -52,6 +54,12 @@ output the IDs of both resources. Take these IDs and put them in the
 if you're deploying a staging instance of Taui, edit
 `taui/configurations/staging/settings.yml` and update the `cloudfront` and
 `s3bucket` properties to point to your new resources.
+
+Taui requires one secret configuration file, `env.yml`, to be stored in remote
+state. CI will pull down this configuration file when it builds a bundle
+for a given environment. When standing up a new stack, remember to create
+an `env.yml` file based on the template in `taui/configurations/default/env.yml.tmp`
+and push it up to the remote state bucket under the path `/taui/env.yml`.
 
 ## Amplify
 

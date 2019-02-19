@@ -1,8 +1,8 @@
-cloudfront: E3A0YNQDZRFX9J
+cloudfront: E22HN48FLR2YMR
 entries:
   - src/index.js:assets/index.js
   - src/index.css:assets/index.css
   - src/BHAlogo.png:assets/BHAlogo.png
-env: staging
+env: production
 flyle: true
-s3bucket: echo-locator-staging-site-us-east-1
+s3bucket: echo-locator-production-site-us-east-1
