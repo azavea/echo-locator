@@ -38,6 +38,16 @@ html, body {
   background-color: lightgray;
 }
 
+.AccountList {
+  list-style-type: none;
+  line-height: 3rem;
+  font-size: 1.5rem;
+  font-weight: var(--bold);
+  margin-left: 20%;
+  margin-right: 20%;
+  text-align: left;
+}
+
 .Taui-Map {
   position: relative;
   width: 100%;

@@ -1,4 +1,5 @@
 // @flow
+import {Storage} from 'aws-amplify'
 import message from '@conveyal/woonerf/message'
 import React from 'react'
 
@@ -7,6 +8,7 @@ import React from 'react'
  */
 export default class SelectAccount extends React.PureComponent<Props> {
   state = {
+    accounts: [],
     componentError: null,
     headOfHousehold: '',
     voucherNumber: ''
@@ -17,6 +19,8 @@ export default class SelectAccount extends React.PureComponent<Props> {
 
     this.changeHeadOfHousehold = this.changeHeadOfHousehold.bind(this)
     this.changeVoucherNumber = this.changeVoucherNumber.bind(this)
+    this.createAccount = this.createAccount.bind(this)
+    this.deleteAccount = this.deleteAccount.bind(this)
     this.search = this.search.bind(this)
   }
 
@@ -28,16 +32,91 @@ export default class SelectAccount extends React.PureComponent<Props> {
     this.setState({'voucherNumber': event.target.value})
   }
 
+  createAccount () {
+    console.log('createAccount')
+    const name = this.state.headOfHousehold
+    const voucher = this.state.voucherNumber
+    console.log(name + ' ' + voucher)
+
+    if (!name || !voucher) {
+      // TODO: error handing
+      console.error('Missing name or voucher')
+      return
+    }
+
+    const key = name + '_' + voucher
+    const search = this.search
+
+    Storage.put(key, 'Hello, world!')
+      .then(result => {
+        console.log(result)
+        search() // refresh results
+      })
+      .catch(err => console.log(err))
+  }
+
   search () {
-    console.log('search')
-    console.log(this.state)
+    const accounts = []
+    Storage.list('')
+      .then(result => {
+        const keys = result.map((r) => r.key)
+        let name
+        let voucher
+        keys.forEach((key) => {
+          [name, voucher] = key.split('_')
+          accounts.push({
+            'headOfHousehold': name,
+            'key': key,
+            'voucherNumber': voucher
+          })
+        })
+        this.setState({'accounts': accounts})
+      })
+      .catch(err => console.log(err))
+  }
+
+  deleteAccount (event) {
+    event.persist()
+    console.log(event)
+
+    const key = event.target.dataset.id
+    const search = this.search
+    console.log('delete ' + key)
+
+    Storage.remove(key)
+      .then(result => {
+        console.log(result)
+        search() // refresh search results
+      })
+      .catch(err => console.error(err))
+  }
+
+  accountList (props) {
+    const accountList = props.accounts
+    const deleteAccount = props.deleteAccount
+    const listItems = accountList.map((account) =>
+      <li key={account.key}>
+        {account.headOfHousehold} {account.voucherNumber}
+        <button
+          data-id={account.key}
+          onClick={deleteAccount}>{message('Delete')}
+        </button>
+      </li>
+    )
+    return (
+      <ul className='AccountList'>{listItems}</ul>
+    )
   }
 
   render () {
     const changeHeadOfHousehold = this.changeHeadOfHousehold
     const changeVoucherNumber = this.changeVoucherNumber
+    const createAccount = this.createAccount
+    const deleteAccount = this.deleteAccount
     const search = this.search
     const state = this.state
+
+    const AccountList = this.accountList
 
     return (
       <div>
@@ -65,8 +144,11 @@ export default class SelectAccount extends React.PureComponent<Props> {
               </div>
               <button onClick={search}>{message('Search.Action')}</button>
             </div>
+            <br />
+            <button onClick={createAccount}>{message('CreateAccount')}</button>
           </div>
         </div>
+        <AccountList accounts={state.accounts} deleteAccount={deleteAccount} />
       </div>
     )
   }

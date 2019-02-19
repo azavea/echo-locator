@@ -44,4 +44,6 @@ Search:
   Title: Search
   Name: Name of Head of Household
   Voucher: Voucher Number
-  Action: Go
+  Action: Search
+CreateAccount: Create New Account
+Delete: Delete
