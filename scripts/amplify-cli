@@ -10,7 +10,7 @@ function usage() {
     echo -n \
          "Usage: $(basename "$0")
 
-Run amplify CLI inside container.
+Open up a shell with Amplify CLI installed.
 "
 }
 
@@ -20,6 +20,6 @@ then
     then
         usage
     else
-        docker-compose run --rm --entrypoint amplify taui
+        docker-compose -f docker-compose.yml -f docker-compose.ci.yml run --rm amplify
     fi
 fi

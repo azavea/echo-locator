@@ -3,6 +3,7 @@
 * [AWS Credentials](#aws-credentials)
 * [Terraform](#terraform)
 * [Taui](#taui)
+* [Amplify](#amplify)
 
 ## AWS Credentials
 
@@ -51,3 +52,43 @@ output the IDs of both resources. Take these IDs and put them in the
 if you're deploying a staging instance of Taui, edit
 `taui/configurations/staging/settings.yml` and update the `cloudfront` and
 `s3bucket` properties to point to your new resources.
+
+## Amplify
+
+User authentication resources are provisioned using the [AWS Amplify
+CLI](https://aws-amplify.github.io/docs/cli/concept). We don't anticipate
+that these resources will change frequently (if at all), but if you'd like
+to update existing categories or add new categories to the stack, use the
+following instructions.
+
+Run a container with the Amplify CLI installed:
+
+```
+$ ./scripts/amplify-cli
+```
+
+You should see two environments, one for production and one for staging:
+
+```
+root@02d45a6c06c1:/usr/local/src# ls -a .
+.  ..  Dockerfile  production  staging
+```
+
+Change into the directory corresponding to the environment you'd like to update
+and run the relevant Amplify CLI command (such as `amplify add` to add a
+new category, or `amplify push` to push any new changes you've made to the
+CloudFormation stacks). For more information on the CLI workflow, see the
+[Amplify CLI
+documentation](https://aws-amplify.github.io/docs/cli/concept#typical-cli-workflow).
+
+If you've updated the staging stack and you'd like to see your changes reflected
+in local development, remember to move the Amplify configuration file into
+the Taui source directory on your host machine. This is required in case you
+add new resources or change the IDs of existing resources:
+
+```
+$ cp deployment/amplify/staging/aws-exports.js taui/src/aws-exports.js
+```
+
+(Note that CI will properly bundle the appropriate Amplify configuration file
+during deployment depending on the environment.)

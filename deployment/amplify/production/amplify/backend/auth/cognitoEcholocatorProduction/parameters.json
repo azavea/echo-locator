@@ -1,0 +1,52 @@
+{
+    "identityPoolName": "echolocatorIdentityPoolProduction",
+    "allowUnauthenticatedIdentities": false,
+    "thirdPartyAuth": false,
+    "lambdaLogPolicy": "cognitoEcholocatorProduction_lambda_log_policy",
+    "openIdLambdaRoleName": "cognitoEcholocatorProduction_openid_lambda_role",
+    "openIdRolePolicy": "cognitoEcholocatorProduction_openid_pass_role_policy",
+    "openIdLambdaIAMPolicy": "cognitoEcholocatorProduction_openid_lambda_iam_policy",
+    "openIdLogPolicy": "cognitoEcholocatorProduction_openid_lambda_log_policy",
+    "userPoolName": "cognitoUserPoolProduction",
+    "autoVerifiedAttributes": [
+        "email"
+    ],
+    "mfaConfiguration": "OFF",
+    "mfaTypes": [
+        "SMS Text Message"
+    ],
+    "roleName": "cognitoEcholocatorProduction_sns-role",
+    "roleExternalId": "cognitoEcholocatorProduction_role_external_id",
+    "policyName": "cognitoEcholocatorProduction-sns-policy",
+    "smsAuthenticationMessage": "Your authentication code is {####}",
+    "smsVerificationMessage": "Your verification code is {####}",
+    "emailVerificationSubject": "Your verification code",
+    "emailVerificationMessage": "Your verification code is {####}",
+    "defaultPasswordPolicy": true,
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": [],
+    "requiredAttributes": [
+        "email"
+    ],
+    "userpoolClientName": "cognitoEcholocatorProduction_app_client",
+    "userpoolClientGenerateSecret": true,
+    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientReadAttributes": [
+        "email"
+    ],
+    "mfaLambdaRole": "cognitoEcholocatorProduction_totp_lambda_role",
+    "mfaLambdaLogPolicy": "cognitoEcholocatorProduction_totp_lambda_log_policy",
+    "mfaPassRolePolicy": "cognitoEcholocatorProduction_totp_pass_role_policy",
+    "mfaLambdaIAMPolicy": "cognitoEcholocatorProduction_totp_lambda_iam_policy",
+    "userpoolClientLambdaRole": "cognitoEcholocatorProduction_userpoolclient_lambda_role",
+    "userpoolClientLogPolicy": "cognitoEcholocatorProduction_userpoolclient_lambda_log_policy",
+    "userpoolClientLambdaPolicy": "cognitoEcholocatorProduction_userpoolclient_lambda_iam_policy",
+    "userpoolClientSetAttributes": false,
+    "useDefault": "manual",
+    "authSelections": "identityPoolAndUserPool",
+    "resourceName": "cognitoEcholocatorProduction",
+    "unAuthRoleName": "src-20190214172616-unauthRole",
+    "authRoleName": "src-20190214172616-authRole",
+    "unAuthRoleArn": "arn:aws:iam::322268938932:role/src-20190214172616-unauthRole",
+    "authRoleArn": "arn:aws:iam::322268938932:role/src-20190214172616-authRole"
+}

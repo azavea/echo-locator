@@ -12,6 +12,8 @@ env:
     - PATH=$HOME/.local/bin:$PATH
 before_install:
   - pip install --user awscli==1.16.*
+  # Make sure that Taui can access the staging Amplify config for testing
+  - cp deployment/amplify/staging/aws-exports.js taui/src/aws-exports.js
 script:
   - ./scripts/test
 deploy:
