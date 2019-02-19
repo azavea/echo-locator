@@ -32,7 +32,7 @@ then
         aws s3 cp taui/index.html "${TAUI_SITE_BUCKET}/index.html"
 
         # Move the Amplify config for the proper env into the source dir
-        cp "deployment/amplify/${env}/aws-exports.js" taui/src/aws-exports.js
+        cp "deployment/amplify/${ENV}/aws-exports.js" taui/src/aws-exports.js
 
         # Deploy CSS and JS with Mastarm
         docker-compose -f docker-compose.yml \
