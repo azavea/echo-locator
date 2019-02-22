@@ -1,8 +1,7 @@
-@import url(node_modules/react-select/dist/react-select.css);
-@import url(node_modules/react-virtualized/styles.css);
-@import url(node_modules/react-virtualized-select/styles.css);
-@import url(src/test-sass.scss);
-@import url(src/components/log/style.css);
+@import url(../node_modules/react-select/dist/react-select.css);
+@import url(../node_modules/react-virtualized/styles.css);
+@import url(../node_modules/react-virtualized-select/styles.css);
+@import url(./components/log/style.css);
 
 /** Colors from https://palx.jxnblk.com/2389c9 **/
 

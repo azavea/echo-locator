@@ -1,7 +1,6 @@
 cloudfront: E3A0YNQDZRFX9J
 entries:
   - src/index.js:assets/index.js
-  - src/index.css:assets/index.css
   - src/BHAlogo.png:assets/BHAlogo.png
 env: staging
 flyle: true
