@@ -6,7 +6,7 @@
     "build": "mastarm build",
     "fixlint": "mastarm lint --ignore-path src/.eslintignore --fix src",
     "deploy": "mastarm deploy",
-    "lint": "mastarm lint src --ignore-path src/.eslintignore",
+    "lint": "mastarm lint src --ignore-path src/.eslintignore && mastarm lint-messages",
     "predeploy": "yarn",
     "prestart": "yarn",
     "pretest": "yarn",
