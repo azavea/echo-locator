@@ -6,6 +6,7 @@
     "build": "mastarm build",
     "fixlint": "mastarm lint --ignore-path src/.eslintignore --fix src",
     "deploy": "mastarm deploy",
+    "lint": "mastarm lint src --ignore-path src/.eslintignore",
     "predeploy": "yarn",
     "prestart": "yarn",
     "pretest": "yarn",
@@ -56,7 +57,9 @@
     "redux": "~4.0.1",
     "redux-actions": "~2.6.4",
     "redux-mock-store": "1.5.3",
-    "reselect": "~4.0.0",
+    "reselect": "~4.0.0"
+  },
+  "devDependencies": {
     "semantic-release": "~15.13.3"
   },
   "standard": {
