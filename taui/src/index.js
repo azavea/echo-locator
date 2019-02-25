@@ -26,6 +26,9 @@ import withAuthenticator from './components/with-authenticator'
 import reducers from './reducers'
 import * as select from './selectors'
 
+import './index.css'
+import './test-sass.scss'
+
 // Set the title
 document.title = message('Title')
 

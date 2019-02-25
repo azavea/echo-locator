@@ -85,7 +85,7 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
     }
 
     dispatch(fetch({
-      url: cacheURL('config.json'),
+      url: cacheURL('assets/config.json'),
       next: response => {
         const c = response.value
         storeConfig(c)
@@ -122,8 +122,8 @@ export const loadDataset = (
   if (pointsOfInterestUrl) dispatch(loadDataFromJSON(pointsOfInterestUrl, 'set points of interest'))
 
   // Load neighborhood GeoJSON files
-  dispatch(loadDataFromJSON('neighborhoods.json', 'set neighborhoods'))
-  dispatch(loadDataFromJSON('neighborhood_bounds.json', 'set neighborhood bounds'))
+  dispatch(loadDataFromJSON('assets/neighborhoods.json', 'set neighborhoods'))
+  dispatch(loadDataFromJSON('assets/neighborhood_bounds.json', 'set neighborhood bounds'))
 
   // Load all opportunity grids
   grids.forEach(grid => dispatch(loadGrid(grid)))
