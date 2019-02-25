@@ -43,7 +43,7 @@
     "jsolines": "~2.1.0",
     "leaflet": "~1.3.4",
     "lodash": "~4.17.11",
-    "mastarm": "https://github.com/flibbertigibbet/mastarm.git#feature/compile-sass",
+    "mastarm": "https://github.com/azavea/mastarm.git#dev",
     "react": "~16.8.1",
     "react-dom": "~16.8.1",
     "react-leaflet": "~1.9.1",
