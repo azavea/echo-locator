@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react'
 import { Link, Switch, Route } from 'react-router-dom'
-import {Storage} from 'aws-amplify'
+import Storage from '@aws-amplify/storage'
 
 import type {
   Coordinate,

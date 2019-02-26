@@ -1,5 +1,6 @@
 // @flow
 import Auth from '@aws-amplify/auth'
+import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import mount from '@conveyal/woonerf/mount'
 import get from 'lodash/get'
@@ -32,8 +33,9 @@ import './test-sass.scss'
 // Set the title
 document.title = message('Title')
 
-// configure authentication
+// configure Amplify resources (Cognito authentication and S3 storage)
 Auth.configure(awsmobile)
+Storage.configure(awsmobile)
 
 function mapStateToProps (state, ownProps) {
   return {

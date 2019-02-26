@@ -1,5 +1,5 @@
 // @flow
-import {Storage} from 'aws-amplify'
+import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import React from 'react'
 

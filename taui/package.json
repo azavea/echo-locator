@@ -34,7 +34,6 @@
     "@aws-amplify/core": "~1.0.22",
     "@aws-amplify/storage": "~1.0.25",
     "@aws-amplify/ui": "~1.0.15",
-    "@aws-amplify/xr": "~0.1.12",
     "@conveyal/gridualizer": "~2.1.0",
     "@conveyal/lonlat": "~1.4.0",
     "@conveyal/woonerf": "~4.1.0",
