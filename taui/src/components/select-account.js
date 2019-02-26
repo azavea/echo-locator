@@ -10,6 +10,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
   state = {
     accounts: [],
     componentError: null,
+    errorMessage: '',
     headOfHousehold: '',
     voucherNumber: ''
   }
@@ -27,10 +28,12 @@ export default class SelectAccount extends React.PureComponent<Props> {
 
   changeHeadOfHousehold (event) {
     this.setState({headOfHousehold: event.target.value})
+    this.setState({errorMessage: ''})
   }
 
   changeVoucherNumber (event) {
     this.setState({'voucherNumber': event.target.value})
+    this.setState({errorMessage: ''})
   }
 
   createAccount () {
@@ -41,7 +44,11 @@ export default class SelectAccount extends React.PureComponent<Props> {
     if (!name || !voucher) {
       // TODO: error handing
       console.error('Missing name or voucher')
+      this.setState({errorMessage:
+        'Enter both name and voucher to create account.'})
       return
+    } else {
+      this.setState({errorMessage: ''})
     }
 
     const key = name.toUpperCase() + '_' + voucher.toUpperCase()
@@ -56,6 +63,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
   }
 
   search () {
+    this.setState({errorMessage: ''})
     const searchName = this.state.headOfHousehold.toUpperCase()
     const searchVoucher = this.state.voucherNumber.toUpperCase()
 
@@ -81,7 +89,10 @@ export default class SelectAccount extends React.PureComponent<Props> {
         })
         this.setState({'accounts': accounts})
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        this.setState({errorMessage: err})
+      })
   }
 
   deleteAccount (event) {
@@ -160,6 +171,9 @@ export default class SelectAccount extends React.PureComponent<Props> {
                   value={state.voucherNumber}
                 />
               </div>
+              {state.errorMessage &&
+                <p className='Error'>Error: {state.errorMessage}</p>
+              }
               <button onClick={search}>{message('Accounts.Search')}</button>
             </div>
             <br />

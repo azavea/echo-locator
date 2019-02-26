@@ -28,7 +28,7 @@ import reducers from './reducers'
 import * as select from './selectors'
 
 import './index.css'
-import './test-sass.scss'
+import './profile.scss'
 
 // Set the title
 document.title = message('Title')
