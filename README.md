@@ -6,8 +6,16 @@ Website to explore Choice Neighborhoods in the Boston area.
 
 ## Requirements
 
+### To run within a Docker container:
+
 * Docker Engine 17.06+
 * Docker Compose 1.6+
+
+### To run directly:
+
+* node
+* yarn
+
 
 ## Development
 
@@ -26,10 +34,14 @@ into the Taui source code:
 $ cp deployment/amplify/staging/aws-exports.js taui/src/aws-exports.js
 ```
 
-On your host machine you need to set up an `echo-locator` profile for the AWS account using the following command:
+### Optional step for local deployment
+
+To deploy or manage deployment resources, on your host machine you will need to set up an `echo-locator` profile for the AWS account using the following command:
 ```bash
 $ aws configure --profile echo-locator
 ```
+
+### Running with Docker
 
 Finally, use the `server` script to build container images, compile frontend assets,
 and run a development server:
@@ -37,6 +49,13 @@ and run a development server:
 ```
 $ ./scripts/server
 ```
+
+### Running directly
+
+* `cd taui`
+* Install packages: `yarn add`
+* Build and run development server: `yarn build --serve`
+
 
 Navigate to http://localhost:9966 to view the development environment.
 

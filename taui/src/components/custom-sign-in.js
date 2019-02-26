@@ -5,7 +5,7 @@ import {
   ForgotPassword,
   SignIn,
   SignUp
-} from 'aws-amplify-react'
+} from 'aws-amplify-react/dist/Auth'
 import {
   FormSection,
   FormField,

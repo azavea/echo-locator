@@ -1,5 +1,5 @@
 // @flow
-import Amplify from 'aws-amplify'
+import Auth from '@aws-amplify/auth'
 import message from '@conveyal/woonerf/message'
 import mount from '@conveyal/woonerf/mount'
 import get from 'lodash/get'
@@ -15,7 +15,7 @@ import {
   SignIn,
   TOTPSetup,
   VerifyContact
-} from 'aws-amplify-react'
+} from 'aws-amplify-react/dist/Auth'
 
 import actions from './actions'
 import awsmobile from './aws-exports'
@@ -33,7 +33,7 @@ import './test-sass.scss'
 document.title = message('Title')
 
 // configure authentication
-Amplify.configure(awsmobile)
+Auth.configure(awsmobile)
 
 function mapStateToProps (state, ownProps) {
   return {
