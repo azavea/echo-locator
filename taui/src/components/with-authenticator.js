@@ -1,6 +1,6 @@
 // @flow
 import { Component, Fragment } from 'react'
-import { Authenticator } from 'aws-amplify-react'
+import { Authenticator } from 'aws-amplify-react/dist/Auth'
 
 import CustomHeaderBar from './custom-header-bar'
 

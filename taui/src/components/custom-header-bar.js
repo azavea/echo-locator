@@ -1,5 +1,5 @@
 // @flow
-import { Greetings } from 'aws-amplify-react'
+import { Greetings } from 'aws-amplify-react/dist/Auth'
 import {
   NavBar,
   Nav,
