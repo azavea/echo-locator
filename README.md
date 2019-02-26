@@ -54,7 +54,7 @@ $ ./scripts/server
 
 * `cd taui`
 * Install packages: `yarn add`
-* Build and run development server: `yarn build --serve`
+* Build and run development server: `yarn start`
 
 
 Navigate to http://localhost:9966 to view the development environment.
