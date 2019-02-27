@@ -76,10 +76,10 @@ Parameters:
               
   userpoolClientGenerateSecret:
     Type: String
-              
+          
   userpoolClientRefreshTokenValidity:
-    Type: Number
-              
+    Type: String
+                  
   userpoolClientReadAttributes:
     Type: CommaDelimitedList
       
@@ -115,6 +115,9 @@ Parameters:
             
   resourceName:
     Type: String
+                  
+  userpoolClientWriteAttributes:
+    Type: CommaDelimitedList
       
   unAuthRoleName:
     Type: String
@@ -184,10 +187,10 @@ Resources:
       Policies:
         PasswordPolicy:
           MinimumLength: !Ref passwordPolicyMinLength
-          RequireLowercase: false
-          RequireNumbers: false
-          RequireSymbols: false
-          RequireUppercase: false
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: true
+          RequireUppercase: true
       MfaConfiguration: !Ref mfaConfiguration
       SmsVerificationMessage: !Ref smsVerificationMessage
       SmsConfiguration: 
@@ -199,9 +202,11 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: cognitoEcholocatorProduction_app_clientWeb
+      ClientName: echolocatorCognitoProduction_app_clientWeb
       
-      ReadAttributes: !Ref userpoolClientReadAttributes      
+      ReadAttributes: !Ref userpoolClientReadAttributes
+      WriteAttributes: !Ref userpoolClientWriteAttributes
+      
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
     DependsOn: UserPool
@@ -212,7 +217,9 @@ Resources:
     Properties:
       ClientName: !Ref userpoolClientName
       
-      ReadAttributes: !Ref userpoolClientReadAttributes      
+      ReadAttributes: !Ref userpoolClientReadAttributes
+      WriteAttributes: !Ref userpoolClientWriteAttributes
+      
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool

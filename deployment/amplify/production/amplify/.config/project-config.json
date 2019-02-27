@@ -1,6 +1,6 @@
 {
-    "projectName": "src",
-    "projectPath": "/usr/local/src/production/",
+    "projectName": "prod",
+    "projectPath": "/usr/local/src/prod",
     "defaultEditor": "sublime",
     "frontendHandler": {
         "javascript": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-frontend-javascript"
