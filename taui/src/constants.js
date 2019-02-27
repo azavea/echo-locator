@@ -41,3 +41,7 @@ export const STOP_STYLE = {
   radius: 3,
   weight: 2
 }
+
+// browser local storage keys
+export const TAUI_CONFIG_KEY = 'taui-config'
+export const PROFILE_CONFIG_KEY = 'echolocator-profile'

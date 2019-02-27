@@ -55,7 +55,8 @@ function mapStateToProps (state, ownProps) {
     pointsOfInterestOptions: select.pointsOfInterestOptions(state, ownProps),
     showComparison: select.showComparison(state, ownProps),
     travelTimes: select.travelTimes(state, ownProps),
-    uniqueRoutes: select.uniqueRoutes(state, ownProps)
+    uniqueRoutes: select.uniqueRoutes(state, ownProps),
+    userProfile: select.userProfile(state, ownProps)
   }
 }
 

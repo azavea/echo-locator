@@ -71,6 +71,12 @@ export default handleActions(
         ...state,
         neighborhoodBounds: action.payload
       }
+    },
+    'set profile' (state, action) {
+      return {
+        ...state,
+        userProfile: action.payload
+      }
     }
   },
   {

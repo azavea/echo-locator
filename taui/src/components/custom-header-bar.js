@@ -10,6 +10,10 @@ import message from '@conveyal/woonerf/message'
 import React from 'react'
 
 export default class CustomHeaderBar extends Greetings {
+  componentDidMount () {
+    super.componentDidMount()
+  }
+
   getUserName () {
     const user = this.props.authData
     // get name from attributes first
@@ -28,8 +32,8 @@ export default class CustomHeaderBar extends Greetings {
     const signedIn = (authState === 'signedIn')
     if (!signedIn) { return null }
     const theme = this.props.theme || AmplifyTheme
-    // TODO: #21 display selected account holder name (not logged-in user)
-    const name = this.getUserName()
+    const userProfile = this.props.userProfile || this.state.userProfile
+
     return (
       <NavBar theme={theme}>
         <Nav theme={theme}>
@@ -38,7 +42,7 @@ export default class CustomHeaderBar extends Greetings {
               <span className='TitleNavbar'>{message('Title')}</span>
             </div>
           </NavItem>
-          <NavItem theme={theme}>{name}</NavItem>
+          <NavItem theme={theme}>{userProfile}</NavItem>
           <NavItem theme={theme}>{this.renderSignOutButton(theme)}</NavItem>
         </Nav>
       </NavBar>

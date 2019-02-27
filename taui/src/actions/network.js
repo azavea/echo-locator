@@ -3,7 +3,7 @@ import lonlat from '@conveyal/lonlat'
 import fetch, {fetchMultiple} from '@conveyal/woonerf/fetch'
 
 import {retrieveConfig, storeConfig} from '../config'
-import {ACCESSIBILITY_IS_LOADING, ACCESSIBILITY_IS_EMPTY} from '../constants'
+import {ACCESSIBILITY_IS_LOADING, ACCESSIBILITY_IS_EMPTY, TAUI_CONFIG_KEY} from '../constants'
 import type {LonLat} from '../types'
 import cacheURL from '../utils/cache-url'
 import coordinateToPoint, {pointToCoordinate} from '../utils/coordinate-to-point'
@@ -67,10 +67,10 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
     ))
   } else {
     try {
-      const json = retrieveConfig()
+      const json = retrieveConfig(TAUI_CONFIG_KEY)
       if (json) {
         if (!json.networks) {
-          window.alert('JSON config found in localStorage without a networks array.')
+          console.error('JSON config found in localStorage without a networks array.')
         } else {
           return dispatch(loadDataset(
             json.networks,
@@ -81,14 +81,14 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
         }
       }
     } catch (e) {
-      console.log('Error parsing taui-config', e)
+      console.log('Error parsing localStorage configuration ' + TAUI_CONFIG_KEY, e)
     }
 
     dispatch(fetch({
       url: cacheURL('assets/config.json'),
       next: response => {
         const c = response.value
-        storeConfig(c)
+        storeConfig(TAUI_CONFIG_KEY, c)
         return loadDataset(
           c.networks,
           c.grids,
@@ -101,7 +101,7 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
 }
 
 export function loadDatasetFromJSON (jsonConfig: any) {
-  storeConfig(jsonConfig)
+  storeConfig(TAUI_CONFIG_KEY, jsonConfig)
   return loadDataset(
     jsonConfig.networks,
     jsonConfig.grids,

@@ -42,6 +42,7 @@ type Props = {
   initialize: Function => void,
   isLoading: boolean,
   isochrones: any[],
+  loadProfile: Function => any,
   map: MapState,
   neighborhoodBounds: any,
   neighborhoods: any,
@@ -49,6 +50,7 @@ type Props = {
   pointsOfInterestOptions: PointsOfInterest,
   reverseGeocode: (string, Function) => void,
   setEnd: any => void,
+  setProfile: Function => void,
   setSelectedTimeCutoff: any => void,
   setStart: any => void,
   showComparison: boolean,
@@ -60,7 +62,9 @@ type Props = {
   updateEndPosition: LonLat => void,
   updateMap: any => void,
   updateStart: any => void,
-  updateStartPosition: LonLat => void
+  updateStartPosition: LonLat => void,
+  updateUserProfile: any => void,
+  userProfile: any
 }
 
 type State = {
@@ -93,6 +97,9 @@ export default class Application extends Component<Props, State> {
     if (window) {
       window.Application = this
     }
+
+    // Load the selected user profile from localStorage, if any
+    this.props.loadProfile()
   }
 
   /**
@@ -102,9 +109,9 @@ export default class Application extends Component<Props, State> {
     const props = this.props
     return (
       <Switch>
-        <Route exact path='/' component={Main} />
+        <Route exact path='/' render={() => <Main {...props} />} />
         <Route path='/map' render={() => <MainPage {...props} />} />
-        <Route path='/test' component={Test} />
+        <Route path='/test' render={() => <Test {...props} />} />
         <Route path='/select' render={() => <SelectAccount
           {...props}
           headOfHousehold={props.headOfHousehold}

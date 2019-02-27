@@ -42,7 +42,6 @@ export default class SelectAccount extends React.PureComponent<Props> {
     const voucher = this.state.voucherNumber
 
     if (!name || !voucher) {
-      // TODO: error handing
       console.error('Missing name or voucher')
       this.setState({errorMessage:
         'Enter both name and voucher to create account.'})
@@ -111,7 +110,12 @@ export default class SelectAccount extends React.PureComponent<Props> {
 
   selectAccount (event) {
     const key = event.target.dataset.id
-    console.log('TODO: select account ' + key)
+    console.log('Select account ' + key)
+    if (this.props.changeUserProfile) {
+      this.props.changeUserProfile(key)
+    } else {
+      console.error('changeUserProfile function unset')
+    }
   }
 
   accountList (props) {
