@@ -53,7 +53,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
     }
 
     const key = name.toUpperCase() + '_' + voucher.toUpperCase()
-    console.log('Creating account ' + key)
+    console.log('Creating account profile for ' + key)
 
     const profile: AccountProfile = {
       destinations: [],
@@ -69,7 +69,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
         console.log(result)
         search() // refresh results
       })
-      .catch(err => console.log(err))
+      .catch(err => console.error(err))
   }
 
   search () {
@@ -100,7 +100,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
         this.setState({'accounts': accounts})
       })
       .catch(err => {
-        console.log(err)
+        console.error(err)
         this.setState({errorMessage: err})
       })
   }
@@ -109,11 +109,10 @@ export default class SelectAccount extends React.PureComponent<Props> {
     const key = event.target.dataset.id
     const search = this.search
 
-    console.log('Delete account ' + key)
+    console.log('Deleting account profile for ' + key)
 
     Storage.remove(key)
       .then(result => {
-        console.log(result)
         search() // refresh search results
       })
       .catch(err => console.error(err))
@@ -123,9 +122,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
     const key = event.target.dataset.id
     console.log('Select account ' + key)
     Storage.get(key, {download: true, expires: 60}).then(result => {
-      console.log('fetched presigned URL for profile ' + key + ':')
       const text = result.Body.toString('utf-8')
-      console.log('parsed downloaded text from s3 profile file: ' + text)
       const profile: AccountProfile = JSON.parse(text)
       this.props.changeUserProfile(profile)
       this.props.history.push('/map')

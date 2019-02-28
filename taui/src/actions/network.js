@@ -81,7 +81,7 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
         }
       }
     } catch (e) {
-      console.log('Error parsing localStorage configuration ' + TAUI_CONFIG_KEY, e)
+      console.error('Error parsing localStorage configuration ' + TAUI_CONFIG_KEY, e)
     }
 
     dispatch(fetch({

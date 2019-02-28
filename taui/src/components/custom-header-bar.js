@@ -44,7 +44,8 @@ export default class CustomHeaderBar extends Greetings {
               <span className='TitleNavbar'>{message('Title')}</span>
             </div>
           </NavItem>
-          {userProfile && <NavItem theme={theme}>{userProfile.headOfHousehold}</NavItem>}
+          {userProfile && <NavItem
+            theme={theme}>{userProfile.headOfHousehold} #{userProfile.voucherNumber}</NavItem>}
           <NavItem theme={theme}>{this.renderSignOutButton(theme)}</NavItem>
         </Nav>
       </NavBar>

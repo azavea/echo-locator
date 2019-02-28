@@ -118,7 +118,7 @@ export default class Application extends Component<Props, State> {
       <Switch>
         <Route exact path='/' render={() => (
           profileLoading || userProfile
-            ? (<Main {...props} />) : (<Redirect to='/select' />))} />
+            ? (<Redirect to='/map' />) : (<Redirect to='/select' />))} />
         <Route path='/map' render={() => (
           profileLoading || userProfile
             ? (<MainPage {...props} />) : (<Redirect to='/select' />))} />
@@ -130,16 +130,3 @@ export default class Application extends Component<Props, State> {
     )
   }
 }
-
-const Main = () => (
-  <div>
-    <div className='Splash'>
-      <h2 className='SplashBoxHeader'>New Search</h2>
-      <div className='SplashBox'>
-        <Link to='/map'>Go to map</Link>
-        <br />
-        <Link to='/select'>Select account</Link>
-      </div>
-    </div>
-  </div>
-)
