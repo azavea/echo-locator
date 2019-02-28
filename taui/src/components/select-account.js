@@ -128,6 +128,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
       console.log('parsed downloaded text from s3 profile file: ' + text)
       const profile: AccountProfile = JSON.parse(text)
       this.props.changeUserProfile(profile)
+      this.props.history.push('/map')
     }).catch(err => {
       console.error('Failed to fetch account profile from S3 for key ' + key)
       console.error(err)
