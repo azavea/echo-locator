@@ -1,3 +1,5 @@
+*.backup
+
 # Logs
 logs
 *.log
@@ -59,3 +61,15 @@ typings/
 
 # next.js build output
 .next
+
+# Compiled Terraform files
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfplan
+
+# Terraform module directory
+.terraform/
+
+# Amplify configs for the frontend app
+taui/src/aws-exports.js

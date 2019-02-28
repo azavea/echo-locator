@@ -1,0 +1,24 @@
+data:
+  grids:
+    - name: home locations
+      icon: home
+      url: https://d2z7d5345ccuw9.cloudfront.net/5b4667b532b98e1992ca79a9/Workers_with_earnings_1250_per_month_or_less.grid
+      showOnMap: true
+  networks:
+    - name: Late Night
+      url: https://d2z7d5345ccuw9.cloudfront.net/5b46678232b98e1992ca79a5
+      showOnMap: true
+    - name: Late Afternoon
+      url: https://d2z7d5345ccuw9.cloudfront.net/5b4667b532b98e1992ca79a9
+      showOnMap: true
+geocoder:
+  proximity: -71.057929,42.360612 # longitude,latitude
+  types: country,region,postcode,district,place,locality,neighborhood,address,poi # https://www.mapbox.com/api-documentation/?language=cURL#request-format
+map:
+  centerCoordinates: [42.360612, -71.057929] # Leaflet style (lat,lon)
+  zoom: 11
+ui:
+  fetches: 0
+  showLink: true
+  showLog: true
+  allowChangeConfig: true

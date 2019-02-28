@@ -1,0 +1,5 @@
+files:
+  ignore:
+    - 'node_modules/**/*.scss'
+rules:
+  class-name-format: 0

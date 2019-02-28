@@ -1,0 +1,51 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "prod-20190227190911-authRole",
+			"UnauthRoleArn": "arn:aws:iam::322268938932:role/prod-20190227190911-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::322268938932:role/prod-20190227190911-authRole",
+			"Region": "us-east-1",
+			"DeploymentBucketName": "prod-20190227190911-deployment",
+			"UnauthRoleName": "prod-20190227190911-unauthRole",
+			"StackName": "prod-20190227190911",
+			"StackId": "arn:aws:cloudformation:us-east-1:322268938932:stack/prod-20190227190911/2a672fb0-3ac3-11e9-afc8-0a515b01a4a4"
+		}
+	},
+	"auth": {
+		"echolocatorCognitoProduction": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/prod-20190227190911-deployment/amplify-cfn-templates/auth/echolocatorCognitoProduction-cloudformation-template.yml",
+				"logicalId": "authecholocatorCognitoProduction"
+			},
+			"lastPushTimeStamp": "2019-02-27T19:21:59.659Z",
+			"output": {
+				"AppClientSecret": "g4d46tivq87fvun95rp9c8ca0u1cittnncu6crkqp1lpg2niab7",
+				"UserPoolId": "us-east-1_oJL4jlPQj",
+				"AppClientIDWeb": "7ns396il5fd8gctr8mrv2ptuu",
+				"AppClientID": "584ublor95v0ohsecdvdabljf4",
+				"IdentityPoolId": "us-east-1:31d44c3e-2023-4035-a98a-e96362df482d",
+				"IdentityPoolName": "echolocatorIdentityPoolProduction",
+				"UserPoolName": "echolocatorUserPoolProduction"
+			},
+			"lastPushDirHash": "3TfEE9eoBs84lAnyktGmY08MkZs="
+		}
+	},
+	"storage": {
+		"echolocatorUserDataProduction": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/prod-20190227190911-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"logicalId": "storageecholocatorUserDataProduction"
+			},
+			"lastPushTimeStamp": "2019-02-27T19:21:59.659Z",
+			"output": {
+				"BucketName": "echo-locator-production-user-data-us-east-1",
+				"Region": "us-east-1"
+			},
+			"lastPushDirHash": "/Zu2CZ611WLkVb32jdlZYGFcrmw="
+		}
+	}
+}

@@ -1,0 +1,31 @@
+language: bash
+services: docker
+branches:
+  only:
+    - master
+    - develop
+notifications:
+  email: false
+env:
+  global:
+    # include $HOME/.local/bin for `aws`
+    - PATH=$HOME/.local/bin:$PATH
+before_install:
+  - pip install --user awscli==1.16.*
+  # Make sure that Taui can access the staging Amplify config for testing
+  - cp deployment/amplify/staging/aws-exports.js taui/src/aws-exports.js
+script:
+  - ./scripts/test
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: ENV=staging scripts/cipublish
+    on:
+      repo: azavea/echo-locator
+      branch: develop
+  - provider: script
+    skip_cleanup: true
+    script: ENV=production scripts/cipublish
+    on:
+      repo: azavea/echo-locator
+      branch: master
