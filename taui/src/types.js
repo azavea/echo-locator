@@ -1,4 +1,27 @@
 // @flow
+
+/**
+ * Voucher holder account profile
+ */
+
+export type AccountAddress = {
+  address: string,
+  primary: boolean,
+  purpose: string
+}
+
+export type AccountProfile = {
+  destinations: Array<AccountAddress>,
+  hasVehicle: boolean,
+  headOfHousehod: string,
+  key: string,
+  rooms: number,
+  voucherNumber: string
+}
+
+/**
+ * Map data
+ */
 export type Coordinate = [number, number]
 export type Coordinates = Coordinate[]
 

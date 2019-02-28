@@ -3,6 +3,8 @@ import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import React from 'react'
 
+import type {AccountProfile} from '../types'
+
 /**
  * Search and select from accounts on S3.
  */
@@ -53,7 +55,16 @@ export default class SelectAccount extends React.PureComponent<Props> {
     const key = name.toUpperCase() + '_' + voucher.toUpperCase()
     console.log('Creating account ' + key)
 
-    Storage.put(key, 'Hello, world!')
+    const profile: AccountProfile = {
+      destinations: [],
+      hasVehicle: false,
+      headOfHousehold: name,
+      key: key,
+      rooms: 0,
+      voucherNumber: voucher
+    }
+
+    Storage.put(key, JSON.stringify(profile))
       .then(result => {
         console.log(result)
         search() // refresh results
@@ -111,11 +122,16 @@ export default class SelectAccount extends React.PureComponent<Props> {
   selectAccount (event) {
     const key = event.target.dataset.id
     console.log('Select account ' + key)
-    if (this.props.changeUserProfile) {
-      this.props.changeUserProfile(key)
-    } else {
-      console.error('changeUserProfile function unset')
-    }
+    Storage.get(key, {download: true, expires: 60}).then(result => {
+      console.log('fetched presigned URL for profile ' + key + ':')
+      const text = result.Body.toString('utf-8')
+      console.log('parsed downloaded text from s3 profile file: ' + text)
+      const profile: AccountProfile = JSON.parse(text)
+      this.props.changeUserProfile(profile)
+    }).catch(err => {
+      console.error('Failed to fetch account profile from S3 for key ' + key)
+      console.error(err)
+    })
   }
 
   accountList (props) {

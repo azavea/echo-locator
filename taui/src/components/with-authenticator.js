@@ -2,8 +2,10 @@
 import { Component, Fragment } from 'react'
 import { Authenticator } from 'aws-amplify-react/dist/Auth'
 
+import {loadDataFromJSON} from '../actions/json-data'
 import {storeConfig} from '../config'
 import {PROFILE_CONFIG_KEY} from '../constants'
+import type {AccountProfile} from '../types'
 
 import CustomHeaderBar from './custom-header-bar'
 
@@ -48,7 +50,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       })
     }
 
-    changeUserProfile (profile) {
+    changeUserProfile (profile: AccountProfile) {
       this.setState({ userProfile: profile })
       storeConfig(PROFILE_CONFIG_KEY, profile)
       this.props.store.dispatch({type: 'set profile', payload: profile})

@@ -4,6 +4,7 @@ import { Link, Switch, Route } from 'react-router-dom'
 import Storage from '@aws-amplify/storage'
 
 import type {
+  AccountProfile,
   Coordinate,
   GeocoderStore,
   LogItems,
@@ -63,8 +64,8 @@ type Props = {
   updateMap: any => void,
   updateStart: any => void,
   updateStartPosition: LonLat => void,
-  updateUserProfile: any => void,
-  userProfile: any
+  updateUserProfile: AccountProfile => void,
+  userProfile: AccountProfile
 }
 
 type State = {

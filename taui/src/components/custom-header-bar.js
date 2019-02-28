@@ -9,6 +9,8 @@ import AmplifyTheme from 'aws-amplify-react/dist/Amplify-UI/Amplify-UI-Theme'
 import message from '@conveyal/woonerf/message'
 import React from 'react'
 
+import type {AccountProfile} from '../types'
+
 export default class CustomHeaderBar extends Greetings {
   componentDidMount () {
     super.componentDidMount()
@@ -32,7 +34,7 @@ export default class CustomHeaderBar extends Greetings {
     const signedIn = (authState === 'signedIn')
     if (!signedIn) { return null }
     const theme = this.props.theme || AmplifyTheme
-    const userProfile = this.props.userProfile || this.state.userProfile
+    const userProfile: AccountProfile = this.props.userProfile || this.state.userProfile
 
     return (
       <NavBar theme={theme}>
@@ -42,7 +44,7 @@ export default class CustomHeaderBar extends Greetings {
               <span className='TitleNavbar'>{message('Title')}</span>
             </div>
           </NavItem>
-          <NavItem theme={theme}>{userProfile}</NavItem>
+          {userProfile && <NavItem theme={theme}>{userProfile.headOfHousehold}</NavItem>}
           <NavItem theme={theme}>{this.renderSignOutButton(theme)}</NavItem>
         </Nav>
       </NavBar>
