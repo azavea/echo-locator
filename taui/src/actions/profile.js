@@ -6,8 +6,8 @@ import {addActionLogItem} from './log'
 
 export const loadProfile = () => (dispatch, getState) => {
   try {
+    dispatch({type: 'set profile loading', payload: true})
     const json = retrieveConfig(PROFILE_CONFIG_KEY)
-    if (!json) return
     dispatch({type: 'set profile', payload: json})
     return json
   } catch (e) {

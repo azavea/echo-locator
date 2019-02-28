@@ -2,7 +2,6 @@
 import { Component, Fragment } from 'react'
 import { Authenticator } from 'aws-amplify-react/dist/Auth'
 
-import {loadDataFromJSON} from '../actions/json-data'
 import {storeConfig} from '../config'
 import {PROFILE_CONFIG_KEY} from '../constants'
 import type {AccountProfile} from '../types'
@@ -23,8 +22,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
 
       this.state = {
         authState: props.authState || null,
-        authData: props.authData || null,
-        userProfile: props.userProfile || null
+        authData: props.authData || null
       }
 
       this.authConfig = {}
@@ -40,18 +38,9 @@ export default function withAuthenticator (Comp, includeGreetings = false,
           signUpConfig
         }
       }
-
-      // listen for profile changes to update the header
-      this.props.store.subscribe(() => {
-        const newState = this.props.store.getState()
-        if (newState && newState.data && newState.data.userProfile) {
-          this.setState({ userProfile: newState.data.userProfile })
-        }
-      })
     }
 
     changeUserProfile (profile: AccountProfile) {
-      this.setState({ userProfile: profile })
       storeConfig(PROFILE_CONFIG_KEY, profile)
       this.props.store.dispatch({type: 'set profile', payload: profile})
     }
@@ -61,7 +50,8 @@ export default function withAuthenticator (Comp, includeGreetings = false,
     }
 
     render () {
-      const { authState, authData, userProfile } = this.state
+      const { authState, authData } = this.state
+      const { userProfile } = this.props.data
       const signedIn = (authState === 'signedIn')
       if (signedIn) {
         return (

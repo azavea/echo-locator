@@ -1,7 +1,6 @@
 // @flow
 import React, {Component} from 'react'
-import { Link, Switch, Route } from 'react-router-dom'
-import Storage from '@aws-amplify/storage'
+import { Link, Switch, Redirect, Route } from 'react-router-dom'
 
 import type {
   AccountProfile,
@@ -33,7 +32,11 @@ type Props = {
   allTransitive: any,
   data: {
     grids: string[],
-    networks: Network[]
+    neighborhoodBounds: any,
+    neighborhoods: any,
+    networks: Network[],
+    profileLoading: boolean,
+    userProfile: AccountProfile
   },
   drawIsochrones: Function[],
   drawOpportunityDatasets: any[],
@@ -64,8 +67,7 @@ type Props = {
   updateMap: any => void,
   updateStart: any => void,
   updateStartPosition: LonLat => void,
-  updateUserProfile: AccountProfile => void,
-  userProfile: AccountProfile
+  updateUserProfile: AccountProfile => void
 }
 
 type State = {
@@ -108,11 +110,18 @@ export default class Application extends Component<Props, State> {
    */
   render () {
     const props = this.props
+    const profileLoading = this.props.data.profileLoading === undefined ? true
+      : this.props.data.profileLoading
+    const userProfile = this.props.data.userProfile
+
     return (
       <Switch>
-        <Route exact path='/' render={() => <Main {...props} />} />
-        <Route path='/map' render={() => <MainPage {...props} />} />
-        <Route path='/test' render={() => <Test {...props} />} />
+        <Route exact path='/' render={() => (
+          profileLoading || userProfile
+            ? (<Main {...props} />) : (<Redirect to='/select' />))} />
+        <Route path='/map' render={() => (
+          profileLoading || userProfile
+            ? (<MainPage {...props} />) : (<Redirect to='/select' />))} />
         <Route path='/select' render={() => <SelectAccount
           {...props}
           headOfHousehold={props.headOfHousehold}
@@ -129,38 +138,8 @@ const Main = () => (
       <div className='SplashBox'>
         <Link to='/map'>Go to map</Link>
         <br />
-        <Link to='/test'>Test route</Link>
-        <br />
         <Link to='/select'>Select account</Link>
       </div>
     </div>
   </div>
 )
-
-const testS3 = () => {
-  console.log('testS3')
-  /*
-  Storage.put('test.txt', 'Hello, world!')
-    .then(result => console.log(result))
-    .catch(err => console.log(err))
-  */
-  // Storage.get('test.txt').then(result => console.log(result)).catch(err => console.error(err))
-
-  Storage.list('')
-    .then(result => {
-      console.log(result)
-      const keys = result.map((r) => r.key)
-      console.log(keys)
-    })
-    .catch(err => console.log(err))
-}
-
-const Test = () => {
-  return (
-    <div>
-      <h2>Something else</h2>
-      <br />
-      <button onClick={() => testS3()}>Click me</button>
-    </div>
-  )
-}

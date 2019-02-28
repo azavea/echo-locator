@@ -5,6 +5,7 @@ export default handleActions(
   {
     'clear data' (state) {
       return {
+        ...state,
         grids: [],
         networks: []
       }
@@ -72,15 +73,27 @@ export default handleActions(
         neighborhoodBounds: action.payload
       }
     },
+    'set profile loading' (state, action) {
+      return {
+        ...state,
+        profileLoading: action.payload,
+        userProfile: null
+      }
+    },
     'set profile' (state, action) {
       return {
         ...state,
+        profileLoading: false,
         userProfile: action.payload
       }
     }
   },
   {
     grids: [],
-    networks: []
+    networks: [],
+    neighborhoods: {},
+    neighborhoodBounds: {},
+    profileLoading: true,
+    userProfile: null
   }
 )

@@ -60,18 +60,17 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-const ConnectedApplication = withAuthenticator(withRouter(
-  connect(mapStateToProps, actions)(Application)), true,
-[
-  <CustomSignIn override={SignIn} />,
-  <ConfirmSignIn />,
-  <ConfirmSignUp />,
-  <ForgotPassword />,
-  <Loading />,
-  <RequireNewPassword />,
-  <TOTPSetup />,
-  <VerifyContact />
-], null, CustomAuthenticatorTheme)
+const ConnectedApplication = withRouter(connect(mapStateToProps, actions)(
+  withAuthenticator(Application, true, [
+    <CustomSignIn override={SignIn} />,
+    <ConfirmSignIn />,
+    <ConfirmSignUp />,
+    <ForgotPassword />,
+    <Loading />,
+    <RequireNewPassword />,
+    <TOTPSetup />,
+    <VerifyContact />
+  ], null, CustomAuthenticatorTheme)))
 
 // Create an Application wrapper
 class InitializationWrapper extends React.Component {
