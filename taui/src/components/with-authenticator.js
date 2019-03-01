@@ -2,6 +2,10 @@
 import { Component, Fragment } from 'react'
 import { Authenticator } from 'aws-amplify-react/dist/Auth'
 
+import {storeConfig} from '../config'
+import {PROFILE_CONFIG_KEY} from '../constants'
+import type {AccountProfile} from '../types'
+
 import CustomHeaderBar from './custom-header-bar'
 
 // Override authentication wrapper to use custom header bar
@@ -13,6 +17,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
     constructor (props) {
       super(props)
 
+      this.changeUserProfile = this.changeUserProfile.bind(this)
       this.handleAuthStateChange = this.handleAuthStateChange.bind(this)
 
       this.state = {
@@ -35,12 +40,18 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       }
     }
 
+    changeUserProfile (profile: AccountProfile) {
+      storeConfig(PROFILE_CONFIG_KEY, profile)
+      this.props.store.dispatch({type: 'set profile', payload: profile})
+    }
+
     handleAuthStateChange (state, data) {
       this.setState({ authState: state, authData: data })
     }
 
     render () {
       const { authState, authData } = this.state
+      const { userProfile } = this.props.data
       const signedIn = (authState === 'signedIn')
       if (signedIn) {
         return (
@@ -49,15 +60,19 @@ export default function withAuthenticator (Comp, includeGreetings = false,
               this.authConfig.includeGreetings ? <CustomHeaderBar
                 authState={authState}
                 authData={authData}
+                changeUserProfile={this.changeUserProfile}
                 federated={this.authConfig.federated || this.props.federated || {}}
                 onStateChange={this.handleAuthStateChange}
                 theme={theme}
+                userProfile={userProfile}
               /> : null
             }
             <Comp
               {...this.props}
               authState={authState}
               authData={authData}
+              changeUserProfile={this.changeUserProfile}
+              userProfile={userProfile}
               onStateChange={this.handleAuthStateChange}
             />
           </Fragment>
@@ -72,6 +87,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
             this.authConfig.authenticatorComponents.length > 0}
         signUpConfig={this.authConfig.signUpConfig}
         onStateChange={this.handleAuthStateChange}
+        changeUserProfile={this.changeUserProfile}
         children={this.authConfig.authenticatorComponents || []}
       />
     }

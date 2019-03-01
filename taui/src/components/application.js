@@ -1,8 +1,9 @@
 // @flow
 import React, {Component} from 'react'
-import { Link, Switch, Route } from 'react-router-dom'
+import { Switch, Redirect, Route } from 'react-router-dom'
 
 import type {
+  AccountProfile,
   Coordinate,
   GeocoderStore,
   LogItems,
@@ -12,6 +13,7 @@ import type {
 } from '../types'
 
 import MainPage from './main-page'
+import SelectAccount from './select-account'
 
 type Network = {
   active: boolean,
@@ -30,7 +32,11 @@ type Props = {
   allTransitive: any,
   data: {
     grids: string[],
-    networks: Network[]
+    neighborhoodBounds: any,
+    neighborhoods: any,
+    networks: Network[],
+    profileLoading: boolean,
+    userProfile: AccountProfile
   },
   drawIsochrones: Function[],
   drawOpportunityDatasets: any[],
@@ -40,6 +46,7 @@ type Props = {
   initialize: Function => void,
   isLoading: boolean,
   isochrones: any[],
+  loadProfile: Function => any,
   map: MapState,
   neighborhoodBounds: any,
   neighborhoods: any,
@@ -47,8 +54,8 @@ type Props = {
   pointsOfInterestOptions: PointsOfInterest,
   reverseGeocode: (string, Function) => void,
   setEnd: any => void,
+  setProfile: Function => void,
   setSelectedTimeCutoff: any => void,
-
   setStart: any => void,
   showComparison: boolean,
   timeCutoff: any,
@@ -59,7 +66,8 @@ type Props = {
   updateEndPosition: LonLat => void,
   updateMap: any => void,
   updateStart: any => void,
-  updateStartPosition: LonLat => void
+  updateStartPosition: LonLat => void,
+  updateUserProfile: AccountProfile => void
 }
 
 type State = {
@@ -92,6 +100,9 @@ export default class Application extends Component<Props, State> {
     if (window) {
       window.Application = this
     }
+
+    // Load the selected user profile from localStorage, if any
+    this.props.loadProfile()
   }
 
   /**
@@ -99,29 +110,23 @@ export default class Application extends Component<Props, State> {
    */
   render () {
     const props = this.props
+    const profileLoading = this.props.data.profileLoading === undefined ? true
+      : this.props.data.profileLoading
+    const userProfile = this.props.data.userProfile
+
     return (
       <Switch>
-        <Route exact path='/' component={Main} />
-        <Route path='/map' render={() => <MainPage {...props} />} />
-        <Route path='/test' component={Test} />
+        <Route exact path='/' render={() => (
+          profileLoading || userProfile
+            ? (<Redirect to='/map' />) : (<Redirect to='/search' />))} />
+        <Route path='/map' render={() => (
+          profileLoading || userProfile
+            ? (<MainPage {...props} />) : (<Redirect to='/search' />))} />
+        <Route path='/search' render={() => <SelectAccount
+          {...props}
+          headOfHousehold={props.headOfHousehold}
+          voucherNumber={props.voucherNumber} />} />
       </Switch>
     )
   }
 }
-
-const Main = () => (
-  <div>
-    <div className='Splash'>
-      <h2 className='SplashBoxHeader'>New Search</h2>
-      <div className='SplashBox'>
-        <Link to='/map'>Go to map</Link>
-        <br />
-        <Link to='/test'>Test route</Link>
-      </div>
-    </div>
-  </div>
-)
-
-const Test = () => (
-  <h2>Something else</h2>
-)

@@ -1,5 +1,6 @@
 // @flow
 import Auth from '@aws-amplify/auth'
+import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import mount from '@conveyal/woonerf/mount'
 import get from 'lodash/get'
@@ -27,13 +28,14 @@ import reducers from './reducers'
 import * as select from './selectors'
 
 import './index.css'
-import './test-sass.scss'
+import './profile.scss'
 
 // Set the title
 document.title = message('Title')
 
-// configure authentication
+// configure Amplify resources (Cognito authentication and S3 storage)
 Auth.configure(awsmobile)
+Storage.configure(awsmobile)
 
 function mapStateToProps (state, ownProps) {
   return {
@@ -53,22 +55,22 @@ function mapStateToProps (state, ownProps) {
     pointsOfInterestOptions: select.pointsOfInterestOptions(state, ownProps),
     showComparison: select.showComparison(state, ownProps),
     travelTimes: select.travelTimes(state, ownProps),
-    uniqueRoutes: select.uniqueRoutes(state, ownProps)
+    uniqueRoutes: select.uniqueRoutes(state, ownProps),
+    userProfile: select.userProfile(state, ownProps)
   }
 }
 
-const ConnectedApplication = withAuthenticator(withRouter(
-  connect(mapStateToProps, actions)(Application)), true,
-[
-  <CustomSignIn override={SignIn} />,
-  <ConfirmSignIn />,
-  <ConfirmSignUp />,
-  <ForgotPassword />,
-  <Loading />,
-  <RequireNewPassword />,
-  <TOTPSetup />,
-  <VerifyContact />
-], null, CustomAuthenticatorTheme)
+const ConnectedApplication = withRouter(connect(mapStateToProps, actions)(
+  withAuthenticator(Application, true, [
+    <CustomSignIn override={SignIn} />,
+    <ConfirmSignIn />,
+    <ConfirmSignUp />,
+    <ForgotPassword />,
+    <Loading />,
+    <RequireNewPassword />,
+    <TOTPSetup />,
+    <VerifyContact />
+  ], null, CustomAuthenticatorTheme)))
 
 // Create an Application wrapper
 class InitializationWrapper extends React.Component {
