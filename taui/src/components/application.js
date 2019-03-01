@@ -1,6 +1,6 @@
 // @flow
 import React, {Component} from 'react'
-import { Link, Switch, Redirect, Route } from 'react-router-dom'
+import { Switch, Redirect, Route } from 'react-router-dom'
 
 import type {
   AccountProfile,
@@ -118,11 +118,11 @@ export default class Application extends Component<Props, State> {
       <Switch>
         <Route exact path='/' render={() => (
           profileLoading || userProfile
-            ? (<Redirect to='/map' />) : (<Redirect to='/select' />))} />
+            ? (<Redirect to='/map' />) : (<Redirect to='/search' />))} />
         <Route path='/map' render={() => (
           profileLoading || userProfile
-            ? (<MainPage {...props} />) : (<Redirect to='/select' />))} />
-        <Route path='/select' render={() => <SelectAccount
+            ? (<MainPage {...props} />) : (<Redirect to='/search' />))} />
+        <Route path='/search' render={() => <SelectAccount
           {...props}
           headOfHousehold={props.headOfHousehold}
           voucherNumber={props.voucherNumber} />} />
