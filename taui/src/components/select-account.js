@@ -1,14 +1,14 @@
 // @flow
 import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
-import React from 'react'
+import {PureComponent} from 'react'
 
 import type {AccountProfile} from '../types'
 
 /**
  * Search and select from accounts on S3.
  */
-export default class SelectAccount extends React.PureComponent<Props> {
+export default class SelectAccount extends PureComponent<Props> {
   state = {
     accounts: [],
     componentError: null,
@@ -29,12 +29,12 @@ export default class SelectAccount extends React.PureComponent<Props> {
   }
 
   changeHeadOfHousehold (event) {
-    this.setState({headOfHousehold: event.target.value})
+    this.setState({headOfHousehold: event.currentTarget.value})
     this.setState({errorMessage: ''})
   }
 
   changeVoucherNumber (event) {
-    this.setState({'voucherNumber': event.target.value})
+    this.setState({'voucherNumber': event.currentTarget.value})
     this.setState({errorMessage: ''})
   }
 
@@ -125,7 +125,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
       const text = result.Body.toString('utf-8')
       const profile: AccountProfile = JSON.parse(text)
       this.props.changeUserProfile(profile)
-      this.props.history.push('/map')
+      this.props.history.push('/profile')
     }).catch(err => {
       console.error('Failed to fetch account profile from S3 for key ' + key)
       console.error(err)
@@ -141,8 +141,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
         <button
           className='account-list__button account-list__button--select'
           data-id={account.key}
-          onClick={selectAccount}
-        >
+          onClick={selectAccount}>
           <span className='account-list__name'>{account.headOfHousehold}</span>
           <span className='account-list__voucher-number'>{account.voucherNumber}</span>
         </button>
@@ -150,8 +149,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
           className='account-list__button account-list__button--delete'
           data-id={account.key}
           onClick={deleteAccount}
-          title='Delete this account'
-        >
+          title='Delete this account'>
           <img src='assets/trash-alt.svg' width='16' alt='Delete' />
         </button>
       </li>

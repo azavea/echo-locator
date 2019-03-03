@@ -40,9 +40,28 @@ Units:
 Agency: Boston Housing Authority
 SignIn:
   Greeting: At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+Header:
+  New: New
+  Edit: Edit
 Accounts:
   Title: Accounts
   Name: Name of Head of Household
   Voucher: Voucher Number
   Search: Search
   Create: Create new account
+Profile:
+  AddAddress: Add another destination
+  DeleteAddress: Delete this address
+  Address: Address
+  Cancel: Cancel
+  Delete: Delete
+  Destinations: Frequent destinations
+  Purpose: Purpose
+  Rooms: Number of rooms in voucher
+  HasCar: Will have a car
+  Go: Go
+  Title: Profile
+TripPurpose:
+  Daycare: Day care
+  Other: Other
+  Work: Work
