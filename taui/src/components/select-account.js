@@ -106,7 +106,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
   }
 
   deleteAccount (event) {
-    const key = event.target.dataset.id
+    const key = event.currentTarget.dataset.id
     const search = this.search
 
     console.log('Deleting account profile for ' + key)
@@ -119,7 +119,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
   }
 
   selectAccount (event) {
-    const key = event.target.dataset.id
+    const key = event.currentTarget.dataset.id
     console.log('Select account ' + key)
     Storage.get(key, {download: true, expires: 60}).then(result => {
       const text = result.Body.toString('utf-8')
