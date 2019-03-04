@@ -29,7 +29,7 @@ import * as select from './selectors'
 import 'focus-visible'
 
 import './sass/main.scss'
-import './index.css'
+import './taui.css'
 
 // Set the title
 document.title = message('Title')
