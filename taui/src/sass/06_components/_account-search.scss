@@ -1,0 +1,58 @@
+.account-search {
+
+  &__main {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+
+  &__field {
+    display: flex;
+    flex: auto;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    min-width: 24rem;
+    max-width: 32rem;
+    margin-right: 2.4rem;
+  }
+
+  &__label {
+    @include text(300);
+    @include font-weight(bold);
+    margin-bottom: 0.8rem;
+  }
+
+  &__input {
+    height: 4rem;
+    padding: 0 0.8rem;
+  }
+
+  &__error {
+    @include text(400);
+    margin-top: 1.6rem;
+    padding: 1.6rem;
+    background-color: $gray-100;
+    color: $error;
+  }
+
+  &__button {
+    min-width: 12rem;
+    max-width: 20rem;
+    height: 4rem;
+
+    &--search {
+      @include button($color: $white, $background: $brand-blue);
+      @include light-on-dark();
+      @include font-weight(bold);
+      flex: auto;
+    }
+
+    &--create {
+      @include button($color: $black, $background: $gray-300);
+      display: block;
+      margin: 4rem auto 1.6rem;
+    }
+  }
+}
