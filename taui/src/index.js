@@ -26,6 +26,7 @@ import CustomSignIn from './components/custom-sign-in'
 import withAuthenticator from './components/with-authenticator'
 import reducers from './reducers'
 import * as select from './selectors'
+import 'focus-visible'
 
 import './sass/main.scss'
 import './index.css'
