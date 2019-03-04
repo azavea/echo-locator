@@ -24,12 +24,14 @@ import React from 'react'
 
 class SignInHeader extends React.Component {
   render () {
-    return <div className='Splash'>
-      <div className='Logo' />
-      <h3>{message('Agency')}</h3>
-      <h2>{message('Title')}</h2>
-      <p>{message('SignIn.Greeting')}</p>
-    </div>
+    return (
+      <header className='auth-screen__header auth-header'>
+        <img className='auth-header__logo' src='/src/img/BHAlogo.png' alt='' />
+        <h2 className='auth-header__agency'>{message('Agency')}</h2>
+        <h1 className='auth-header__app-name' >{message('Title')}</h1>
+        <p className='auth-header__greeting'>{message('SignIn.Greeting')}</p>
+      </header>
+    )
   }
 }
 
@@ -45,7 +47,7 @@ export default class CustomSignIn extends SignIn {
       hide.some(component => component === ForgotPassword)
 
     return (
-      <div>
+      <div className='auth-screen'>
         <SignInHeader />
         <FormSection theme={theme}>
           <SectionBody theme={theme}>
@@ -57,10 +59,9 @@ export default class CustomSignIn extends SignIn {
               onAuthEvent={onAuthEvent}
             />
             <FormField theme={theme}>
-              <InputLabel>{I18n.get('Username')} *</InputLabel>
+              <InputLabel>{I18n.get('Username')}</InputLabel>
               <Input
                 autoFocus
-                placeholder={I18n.get('Enter your username')}
                 theme={theme}
                 key='username'
                 name='username'
@@ -68,9 +69,8 @@ export default class CustomSignIn extends SignIn {
               />
             </FormField>
             <FormField theme={theme}>
-              <InputLabel>{I18n.get('Password')} *</InputLabel>
+              <InputLabel>{I18n.get('Password')}</InputLabel>
               <Input
-                placeholder={I18n.get('Enter your password')}
                 theme={theme}
                 key='password'
                 type='password'

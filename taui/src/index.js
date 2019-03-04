@@ -30,7 +30,6 @@ import 'focus-visible'
 
 import './sass/main.scss'
 import './index.css'
-import './profile.scss'
 
 // Set the title
 document.title = message('Title')

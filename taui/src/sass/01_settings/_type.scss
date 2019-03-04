@@ -19,6 +19,7 @@ $font-sizes: (
     500: 2rem,
     600: 2.4rem,
     700: 3.6rem,
+    800: 4.8rem,
 );
 
 $text-settings: (
@@ -96,6 +97,12 @@ $heading-settings: (
         color: map-get($font-colors, dark),
         font-weight: map-get($font-weights, light),
         font-size: map-get($font-sizes, 700),
+        line-height: 1.2,
+    ),
+    800: (
+        color: map-get($font-colors, dark),
+        font-weight: map-get($font-weights, light),
+        font-size: map-get($font-sizes, 800),
         line-height: 1.2,
     ),
 );

@@ -3,8 +3,11 @@
 // custom Amplify component styling
 export const CustomAuthenticatorTheme = {
   formContainer: {'margin': '0'},
+  formSection: {'borderRadius': '0', 'boxShadow': 'none'},
   sectionFooter: {'display': 'block'},
-  button: {'backgroundColor': 'var(--blue)', 'width': '100%'},
+  inputLabel: {'fontSize': '1.4rem'},
+  hint: {'marginTop': '1.6rem'},
+  button: {'backgroundColor': '#15369d', 'width': '100%'},
   navButton: {
     'backgroundColor': 'transparent',
     'color': '#757575',
