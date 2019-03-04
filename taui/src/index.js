@@ -27,6 +27,7 @@ import withAuthenticator from './components/with-authenticator'
 import reducers from './reducers'
 import * as select from './selectors'
 
+import './sass/main.scss'
 import './index.css'
 import './profile.scss'
 

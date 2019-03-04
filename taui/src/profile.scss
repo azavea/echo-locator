@@ -6,21 +6,13 @@ $splash-background-color: #fff;
 }
 
 .Logo {
-  background: url(/src/BHAlogo.png) no-repeat;
+  background: url(/src/img/BHAlogo.png) no-repeat;
   width: 100%;
   padding-top: 5rem;
   background-size: 4rem;
   background-position: center;
   background-position-x: center;
   background-position-y: center;
-}
-
-.LogoNavbar {
-  background: url(/src/BHAlogo.png) no-repeat;
-  background-size: 4rem;
-  width: 10rem;
-  height: 3rem;
-  text-align: right;
 }
 
 .Splash {

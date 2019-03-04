@@ -1,11 +1,5 @@
 // @flow
 import { Greetings } from 'aws-amplify-react/dist/Auth'
-import {
-  NavBar,
-  Nav,
-  NavItem
-} from 'aws-amplify-react/dist/Amplify-UI/Amplify-UI-Components-React'
-import AmplifyTheme from 'aws-amplify-react/dist/Amplify-UI/Amplify-UI-Theme'
 import message from '@conveyal/woonerf/message'
 import React from 'react'
 
@@ -33,22 +27,25 @@ export default class CustomHeaderBar extends Greetings {
     const authState = this.props.authState || this.state.authState
     const signedIn = (authState === 'signedIn')
     if (!signedIn) { return null }
-    const theme = this.props.theme || AmplifyTheme
     const userProfile: AccountProfile = this.props.userProfile || this.state.userProfile
+    const theme = this.props.theme
+
+    const userInfo = userProfile ? (
+      <div className='app-header__user-info'>
+        <span className='app-header__user-name'>{userProfile.headOfHousehold}</span>
+        <span className='app-header__voucher-number'># {userProfile.voucherNumber}</span>
+      </div>
+    ) : null
 
     return (
-      <NavBar theme={theme}>
-        <Nav theme={theme}>
-          <NavItem theme={theme}>
-            <div className='LogoNavbar'>
-              <span className='TitleNavbar'>{message('Title')}</span>
-            </div>
-          </NavItem>
-          {userProfile && <NavItem
-            theme={theme}>{userProfile.headOfHousehold} #{userProfile.voucherNumber}</NavItem>}
-          <NavItem theme={theme}>{this.renderSignOutButton(theme)}</NavItem>
-        </Nav>
-      </NavBar>
+      <header className='app-header'>
+        <div className='app-header__brand'>
+          <img className='app-header__logo' src='/src/img/BHAlogo.png' alt='' />
+          <span className='app-header__app-name'>{message('Title')}</span>
+        </div>
+        {userInfo}
+        <div className='app-header__actions'>{this.renderSignOutButton(theme)}</div>
+      </header>
     )
   }
 }

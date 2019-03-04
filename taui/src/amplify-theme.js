@@ -5,12 +5,12 @@ export const CustomAuthenticatorTheme = {
   formContainer: {'margin': '0'},
   sectionFooter: {'display': 'block'},
   button: {'backgroundColor': 'var(--blue)', 'width': '100%'},
-  nav: {
-    'display': 'flex',
-    'justifyContent': 'space-between',
-    'backgroundColor': 'lightgrey',
-    'padding': 0},
-  navBar: {'border': 0},
-  navItem: {'lineHeight': '300%'},
-  navButton: {'backgroundColor': 'var(--blue)'}
+  navButton: {
+    'backgroundColor': 'transparent',
+    'color': '#757575',
+    'padding': '0.8rem',
+    'minWidth': '0',
+    'fontSize': '1.4rem',
+    'textTransform': 'none'
+  }
 }

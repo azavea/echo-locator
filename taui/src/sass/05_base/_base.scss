@@ -1,0 +1,35 @@
+@import url($font-url);
+
+/* stylelint-disable selector-max-type */
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    width: 100%;
+    color: $black;
+    font-size: 62.5%;
+}
+
+body {
+    @include text();
+
+    position: relative;
+    width: 100%;
+    background-color: $bg-gray;
+}
+
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+strong {
+    // @include font-weight(bold);
+    font-weight: font-weight(bold);
+}
+/* stylelint-enable selector-max-type */
