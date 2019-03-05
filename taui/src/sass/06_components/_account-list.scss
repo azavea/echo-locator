@@ -1,0 +1,43 @@
+.account-list {
+  @include text(400);
+  margin-top: 4rem;
+  list-style-type: none;
+
+  &__item {
+    position: relative;
+
+    &:hover {
+      background-color: $gray-100;
+    }
+  }
+
+  &__button--select {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: 1.6rem;
+  }
+
+  &__name {
+    @include font-weight(bold);
+    flex: none;
+    width: 50%;
+  }
+
+  &__voucher-number {
+    flex: none;
+  }
+
+  &__button--delete {
+    position: absolute;
+    top: 1.6rem;
+    right: 1.6rem;
+    opacity: 0.2;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

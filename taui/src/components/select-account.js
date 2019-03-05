@@ -106,7 +106,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
   }
 
   deleteAccount (event) {
-    const key = event.target.dataset.id
+    const key = event.currentTarget.dataset.id
     const search = this.search
 
     console.log('Deleting account profile for ' + key)
@@ -119,7 +119,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
   }
 
   selectAccount (event) {
-    const key = event.target.dataset.id
+    const key = event.currentTarget.dataset.id
     console.log('Select account ' + key)
     Storage.get(key, {download: true, expires: 60}).then(result => {
       const text = result.Body.toString('utf-8')
@@ -137,20 +137,27 @@ export default class SelectAccount extends React.PureComponent<Props> {
     const deleteAccount = props.deleteAccount
     const selectAccount = props.selectAccount
     const listItems = accountList.map((account) =>
-      <li key={account.key}>
-        {account.headOfHousehold} {account.voucherNumber}
+      <li key={account.key} className='account-list__item'>
         <button
+          className='account-list__button account-list__button--select'
           data-id={account.key}
-          onClick={selectAccount}>{message('Accounts.Select')}
+          onClick={selectAccount}
+        >
+          <span className='account-list__name'>{account.headOfHousehold}</span>
+          <span className='account-list__voucher-number'>{account.voucherNumber}</span>
         </button>
         <button
+          className='account-list__button account-list__button--delete'
           data-id={account.key}
-          onClick={deleteAccount}>{message('Accounts.Delete')}
+          onClick={deleteAccount}
+          title='Delete this account'
+        >
+          <img src='assets/trash-alt.svg' width='16' alt='Delete' />
         </button>
       </li>
     )
     return (
-      <ul className='AccountList'>{listItems}</ul>
+      <ul className='account-list'>{listItems}</ul>
     )
   }
 
@@ -166,42 +173,63 @@ export default class SelectAccount extends React.PureComponent<Props> {
     const AccountList = this.accountList
 
     return (
-      <div>
-        <div className='Splash'>
-          <h2 className='SplashBoxHeader'>{message('Accounts.Title')}</h2>
-          <div className='SplashBox'>
-            <div>
-              <div>
-                <label htmlFor='headOfHousehold'>{message('Accounts.Name')}</label>
+      <div className='form-screen'>
+        <h2 className='form-screen__heading'>{message('Accounts.Title')}</h2>
+        <div className='form-screen__main'>
+          <div className='account-search'>
+            <div className='account-search__main'>
+              <div className='account-search__field'>
+                <label
+                  className='account-search__label'
+                  htmlFor='headOfHousehold'
+                >
+                  {message('Accounts.Name')}
+                </label>
                 <input
+                  className='account-search__input'
                   id='headOfHousehold'
                   type='text'
                   onChange={changeHeadOfHousehold}
                   value={state.headOfHousehold}
                 />
               </div>
-              <div>
-                <label htmlFor='voucher'>{message('Accounts.Voucher')}</label>
+              <div className='account-search__field'>
+                <label
+                  className='account-search__label'
+                  htmlFor='voucher'
+                >
+                  {message('Accounts.Voucher')}
+                </label>
                 <input
+                  className='account-search__input'
                   id='voucher'
                   type='text'
                   onChange={changeVoucherNumber}
                   value={state.voucherNumber}
                 />
               </div>
-              {state.errorMessage &&
-                <p className='Error'>Error: {state.errorMessage}</p>
-              }
-              <button onClick={search}>{message('Accounts.Search')}</button>
+              <button
+                className='account-search__button account-search__button--search'
+                onClick={search}
+              >
+                {message('Accounts.Search')}
+              </button>
             </div>
-            <br />
-            <button onClick={createAccount}>{message('Accounts.Create')}</button>
+            {state.errorMessage &&
+              <p className='account-search__error'>Error: {state.errorMessage}</p>
+            }
+            <button
+              className='account-search__button account-search__button--create'
+              onClick={createAccount}
+            >
+              {message('Accounts.Create')}
+            </button>
           </div>
+          <AccountList
+            accounts={state.accounts}
+            deleteAccount={deleteAccount}
+            selectAccount={selectAccount} />
         </div>
-        <AccountList
-          accounts={state.accounts}
-          deleteAccount={deleteAccount}
-          selectAccount={selectAccount} />
       </div>
     )
   }

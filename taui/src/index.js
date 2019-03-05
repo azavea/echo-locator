@@ -26,9 +26,10 @@ import CustomSignIn from './components/custom-sign-in'
 import withAuthenticator from './components/with-authenticator'
 import reducers from './reducers'
 import * as select from './selectors'
+import 'focus-visible'
 
-import './index.css'
-import './profile.scss'
+import './sass/main.scss'
+import './taui.css'
 
 // Set the title
 document.title = message('Title')

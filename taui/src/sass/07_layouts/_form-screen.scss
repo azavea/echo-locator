@@ -1,0 +1,19 @@
+.form-screen {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  max-width: 80rem;
+  margin: 4rem auto;
+
+  &__heading {
+    @include heading(700);
+    margin-bottom: 2.4rem;
+    text-align: left;
+  }
+
+  &__main {
+    padding: 3.2rem 2.4rem;
+    background: $white;
+  }
+}

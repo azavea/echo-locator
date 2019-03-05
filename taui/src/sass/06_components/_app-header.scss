@@ -1,0 +1,43 @@
+.app-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1.6rem;
+  padding: 0.8rem 2.4rem;
+
+  &__brand {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: 8rem;
+  }
+
+  &__logo {
+    flex: none;
+    height: 3.2rem;
+    margin-right: 0.8rem;
+  }
+
+  &__app-name {
+    flex: none;
+    @include heading(500);
+  }
+
+  &__user-info {
+    @include heading(400);
+  }
+
+  &__user-name {
+    margin-right: 1.6rem;
+  }
+
+  &__voucher-number {
+    @include font-weight(normal);
+  }
+
+  &__actions {
+    margin-left: auto;
+  }
+}
