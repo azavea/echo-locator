@@ -7732,7 +7732,7 @@ marked@^0.6.0:
 
 "mastarm@https://github.com/azavea/mastarm.git#dev":
   version "0.1.0"
-  resolved "https://github.com/flibbertigibbet/mastarm.git#fcbdf2d3e33b54e58dbbd7539c864235ff4d3da1"
+  resolved "https://github.com/azavea/mastarm.git#b1f8d826d28ebfe10d1777eaf5ce8a46a4b5eb96"
   dependencies:
     "@babel/core" "~7.3.3"
     "@babel/plugin-proposal-class-properties" "~7.3.3"
