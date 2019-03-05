@@ -40,7 +40,7 @@ export default class CustomHeaderBar extends Greetings {
     return (
       <header className='app-header'>
         <div className='app-header__brand'>
-          <img className='app-header__logo' src='/src/img/BHAlogo.png' alt='' />
+          <img className='app-header__logo' src='assets/BHAlogo.png' alt='' />
           <span className='app-header__app-name'>{message('Title')}</span>
         </div>
         {userInfo}

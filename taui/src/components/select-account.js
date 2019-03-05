@@ -152,7 +152,7 @@ export default class SelectAccount extends React.PureComponent<Props> {
           onClick={deleteAccount}
           title='Delete this account'
         >
-          <img src='/src/img/trash-alt.svg' width='16' alt='Delete' />
+          <img src='assets/trash-alt.svg' width='16' alt='Delete' />
         </button>
       </li>
     )

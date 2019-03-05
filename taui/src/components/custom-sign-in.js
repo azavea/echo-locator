@@ -26,7 +26,7 @@ class SignInHeader extends React.Component {
   render () {
     return (
       <header className='auth-screen__header auth-header'>
-        <img className='auth-header__logo' src='/src/img/BHAlogo.png' alt='' />
+        <img className='auth-header__logo' src='assets/BHAlogo.png' alt='' />
         <h2 className='auth-header__agency'>{message('Agency')}</h2>
         <h1 className='auth-header__app-name' >{message('Title')}</h1>
         <p className='auth-header__greeting'>{message('SignIn.Greeting')}</p>
