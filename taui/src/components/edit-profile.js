@@ -15,6 +15,7 @@ export default class EditProfile extends PureComponent<Props> {
 
     this.addAddress = this.addAddress.bind(this)
     this.deleteAddress = this.deleteAddress.bind(this)
+    this.deleteProfile = this.deleteProfile.bind(this)
     this.editAddress = this.editAddress.bind(this)
     this.cancel = this.cancel.bind(this)
     this.changeField = this.changeField.bind(this)
@@ -86,8 +87,7 @@ export default class EditProfile extends PureComponent<Props> {
       .catch(err => console.error(err))
   }
 
-  deleteAccount (event) {
-    const key = this.state.key
+  deleteProfile (key, event) {
     console.log('delete profile for key ' + key)
     if (!key) {
       console.error('Cannot delete account without key')
@@ -100,7 +100,7 @@ export default class EditProfile extends PureComponent<Props> {
       .catch(err => console.error(err))
   }
 
-  addAddress (event) {
+  addAddress () {
     const destinations = this.state.destinations.slice()
     const newAddress: AccountAddress = {
       address: '',
@@ -167,6 +167,10 @@ export default class EditProfile extends PureComponent<Props> {
       destinations,
       setPrimaryAddress,
       TripPurposeOptions } = props
+
+    if (!destinations.length) {
+      addAddress()
+    }
     const listItems = destinations.map((destination: AccountAddress, index) => {
       return <li
         key={index}
@@ -313,14 +317,18 @@ export default class EditProfile extends PureComponent<Props> {
               }
               <div className='account-profile__destination_row'>
                 <button
-                  className='account-profile__button account-profile__button--primary account-profile__destination_narrow_field'
+                  className='account-profile__button account-profile__button--primary
+                    account-profile__destination_narrow_field'
                   onClick={save}>{message('Profile.Go')}</button>
                 <button
-                  className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+                  className='account-profile__button account-profile__button--secondary
+                    account-profile__destination_narrow_field'
                   onClick={cancel}>{message('Profile.Cancel')}</button>
                 <button
-                  className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
-                  onClick={deleteProfile}>{message('Profile.Delete')}</button>
+                  className='account-profile__button account-profile__button--secondary
+                    account-profile__destination_narrow_field'
+                  onClick={(e) => deleteProfile(key, e)}
+                >{message('Profile.Delete')}</button>
               </div>
             </div>}
           </div>
