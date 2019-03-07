@@ -19,17 +19,7 @@ export default class EditProfile extends PureComponent<Props> {
     this.changeField = this.changeField.bind(this)
     this.getProfileFromState = this.getProfileFromState.bind(this)
     this.save = this.save.bind(this)
-
-    /*
-    profile: AccountProfile = {
-      destinations: [],
-      hasVehicle: false,
-      headOfHousehold: name,
-      key: key,
-      rooms: 0,
-      voucherNumber: voucher
-    }
-    */
+    this.setPrimaryAddress = this.setPrimaryAddress.bind(this)
 
     const profile = props.userProfile
 
@@ -86,25 +76,6 @@ export default class EditProfile extends PureComponent<Props> {
       this.setState({errorMessage: ''})
     }
 
-    ///////////////////////////
-    /*
-    console.log('FIXME: setting test destinations')
-    const newState = {'profile': this.state.profile}
-    const addr1: AccountAddress = {
-      address: '123 Main Street',
-      primary: true,
-      purpose: 'foo'
-    }
-
-    const addr2: AccountAddress = {
-      address: '443 Other Blvd',
-      primary: false,
-      purpose: 'bar'
-    }
-    newState['profile']['destinations'] = [addr1, addr2]
-    this.setState(newState)
-    */
-
     Storage.put(profile.key, JSON.stringify(profile))
       .then(result => {
         console.log(result)
@@ -152,31 +123,59 @@ export default class EditProfile extends PureComponent<Props> {
     this.setState(newState)
   }
 
+  // Set which destination is the primary and unset any previous primary address
+  setPrimaryAddress (index: number, event) {
+    const destinations = this.state.destinations.slice()
+    const newDestinations = destinations.map((destination: AccountAddress, i) => {
+      destination.primary = i === index
+      return destination
+    })
+    this.setState({destinations: newDestinations})
+  }
+
   destinationsList (props) {
-    const { addAddress, deleteAddress, editAddress, destinations } = props
+    const { addAddress, deleteAddress, editAddress, destinations, setPrimaryAddress } = props
     const listItems = destinations.map((destination: AccountAddress, index) => {
       return <li
         key={index}
-        className=''>
-        <label
-          className='account-profile__label'
-          htmlFor='address'>
-          {message('Profile.Address')}
-        </label>
-        <input
-          className='account-profile__input'
-          id='address'
-          type='text'
-          onChange={(e) => editAddress(index, e)}
-          defaultValue={destination ? destination.address : ''}
-        />
-        <button
-          className='account-profile__button account-profile__button--secondary'
-          data-id={index}
-          onClick={(e) => deleteAddress(index, e)}
-          title={message('Profile.DeleteAddress')}>
-          <img src='assets/trash-alt.svg' width='16' alt={message('Profile.Delete')} />
-        </button>
+        className='account-profile__destination_row'>
+        <div className='account-profile__destination_field'>
+          <label
+            className='account-profile__label'
+            htmlFor='address'>
+            {message('Profile.Address')}
+          </label>
+          <input
+            className='account-profile__input'
+            id='address'
+            type='text'
+            onChange={(e) => editAddress(index, e)}
+            defaultValue={destination ? destination.address : ''}
+          />
+        </div>
+        <div className='account-profile__destination_field'>
+          <label
+            className='account-profile__label'
+            htmlFor='primary'>
+            {message('Profile.Primary')}
+          </label>
+          <input
+            className='account-profile__input'
+            id='primary'
+            type='radio'
+            onChange={(e) => setPrimaryAddress(index, e)}
+            checked={!!destination.primary}
+          />
+        </div>
+        <div className='account-profile__destination_field'>
+          <button
+            className='account-profile__button account-profile__button--secondary'
+            data-id={index}
+            onClick={(e) => deleteAddress(index, e)}
+            title={message('Profile.DeleteAddress')}>
+            <img src='assets/trash-alt.svg' width='16' alt={message('Profile.Delete')} />
+          </button>
+        </div>
       </li>
     })
 
@@ -215,6 +214,7 @@ export default class EditProfile extends PureComponent<Props> {
     const addAddress = this.addAddress
     const deleteAddress = this.deleteAddress
     const editAddress = this.editAddress
+    const setPrimaryAddress = this.setPrimaryAddress
     const cancel = this.cancel
     const changeField = this.changeField
     const deleteProfile = this.deleteProfile
@@ -258,7 +258,9 @@ export default class EditProfile extends PureComponent<Props> {
                   addAddress={addAddress}
                   deleteAddress={deleteAddress}
                   destinations={destinations}
-                  editAddress={editAddress} />
+                  editAddress={editAddress}
+                  setPrimaryAddress={setPrimaryAddress}
+                />
               </div>
               {errorMessage &&
                 <p className='Error'>Error: {errorMessage}</p>

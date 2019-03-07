@@ -1,5 +1,23 @@
 .account-profile {
 
+  &__destination_row {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+
+  &__destination_field {
+    display: flex;
+    flex: auto;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    min-width: 24rem;
+    max-width: 32rem;
+    margin-right: 2.4rem;
+  }
+
   &__main {
     width: 100%
   }
