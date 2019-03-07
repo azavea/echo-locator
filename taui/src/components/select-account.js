@@ -214,7 +214,7 @@ export default class SelectAccount extends PureComponent<Props> {
               </button>
             </div>
             {state.errorMessage &&
-              <p className='account-search__error'>Error: {state.errorMessage}</p>
+              <p className='account-search__error'>{state.errorMessage}</p>
             }
             <button
               className='account-search__button account-search__button--create'

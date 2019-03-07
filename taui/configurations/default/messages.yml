@@ -52,6 +52,7 @@ Accounts:
 Profile:
   AddAddress: Add another destination
   DeleteAddress: Delete this address
+  DeletePrimaryAddressError: Cannot delete primary address. Set another address as the primary first.
   Address: Address
   Cancel: Cancel
   Delete: Delete

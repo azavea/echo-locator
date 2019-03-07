@@ -112,7 +112,12 @@ export default class EditProfile extends PureComponent<Props> {
 
   deleteAddress (index: number, event) {
     const destinations = this.state.destinations.slice()
-    destinations.splice(index, 1)
+    const removedDestination = destinations.splice(index, 1)[0]
+    if (removedDestination.primary) {
+      console.error('Attempted to delete primary destination')
+      this.setState({errorMessage: message('Profile.DeletePrimaryAddressError')})
+      return
+    }
     const newState = {destinations: destinations, errorMessage: ''}
     this.setState(newState)
   }
@@ -304,7 +309,7 @@ export default class EditProfile extends PureComponent<Props> {
                 />
               </div>
               {errorMessage &&
-                <p className='Error'>Error: {errorMessage}</p>
+                <p className='account-profile__error'>{errorMessage}</p>
               }
               <button
                 className='account-profile__button account-profile__button--primary'
