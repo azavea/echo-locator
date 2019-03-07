@@ -47,6 +47,10 @@ export default function withAuthenticator (Comp, includeGreetings = false,
 
     handleAuthStateChange (state, data) {
       this.setState({ authState: state, authData: data })
+      // Unset user profile on logout
+      if (state === 'signedOut') {
+        this.changeUserProfile(null)
+      }
     }
 
     render () {
