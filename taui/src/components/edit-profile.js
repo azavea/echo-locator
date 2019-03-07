@@ -142,8 +142,8 @@ export default class EditProfile extends PureComponent<Props> {
   deleteAddress (index: number, event) {
     const destinations = this.state.destinations.slice()
     const removedDestination = destinations.splice(index, 1)[0]
+    // Do not allow deleting the current primary address
     if (removedDestination.primary) {
-      console.error('Attempted to delete primary destination')
       this.setState({errorMessage: message('Profile.DeletePrimaryAddressError')})
       return
     }
@@ -197,6 +197,9 @@ export default class EditProfile extends PureComponent<Props> {
       reverseGeocode,
       setPrimaryAddress,
       TripPurposeOptions } = props
+
+    // Maximum number of destinations user may add
+    const maxAddressesAllowed = 3
 
     const listItems = destinations.map((destination: AccountAddress, index) => {
       return <li
@@ -263,9 +266,10 @@ export default class EditProfile extends PureComponent<Props> {
         <ul className=''>
           {listItems}
         </ul>
-        <button
+        {destinations.length < maxAddressesAllowed && <button
           className='account-profile__button account-profile__button--secondary'
-          onClick={addAddress}>{message('Profile.AddAddress')}</button>
+          onClick={addAddress}>{message('Profile.AddAddress')}
+        </button>}
       </div>
     )
   }
