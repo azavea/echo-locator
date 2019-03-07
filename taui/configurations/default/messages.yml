@@ -63,7 +63,7 @@ Profile:
   Primary: Primary
   Purpose: Purpose
   Rooms: Number of rooms in voucher
-  HasCar: Will have a car
+  HasVehicle: Will have a car
   Go: Go
   SaveError: Failed to save profile. Please try again.
   Title: Profile

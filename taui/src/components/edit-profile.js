@@ -74,9 +74,9 @@ export default class EditProfile extends PureComponent<Props> {
     this.props.history.goBack()
   }
 
-  changeField (field, event) {
+  changeField (field, value) {
     const newState = {errorMessage: ''}
-    newState[field] = event.currentTarget.value
+    newState[field] = value
     this.setState(newState)
   }
 
@@ -122,7 +122,6 @@ export default class EditProfile extends PureComponent<Props> {
 
     Storage.remove(key)
       .then(result => {
-        // FIXME: also unset profile in storage/props
         this.props.changeUserProfile(null)
         this.props.history.push('/search')
       })
@@ -290,7 +289,7 @@ export default class EditProfile extends PureComponent<Props> {
       <select
         className='account-profile__input'
         defaultValue={rooms}
-        onChange={(e) => changeField('rooms', e)}>
+        onChange={(e) => changeField('rooms', e.currentTarget.value)}>
         {roomOptions}
       </select>
     )
@@ -307,7 +306,7 @@ export default class EditProfile extends PureComponent<Props> {
     const save = this.save
 
     const { geocode, reverseGeocode } = this.props
-    const { destinations, headOfHousehold, errorMessage, key, rooms } = this.state
+    const { destinations, hasVehicle, headOfHousehold, errorMessage, key, rooms } = this.state
 
     const DestinationsList = this.destinationsList
     const RoomOptions = this.roomOptions
@@ -329,7 +328,7 @@ export default class EditProfile extends PureComponent<Props> {
                   className='account-profile__input'
                   id='headOfHousehold'
                   type='text'
-                  onChange={(e) => changeField('headOfHousehold', e)}
+                  onChange={(e) => changeField('headOfHousehold', e.currentTarget.value)}
                   defaultValue={headOfHousehold || ''}
                 />
               </div>
@@ -352,6 +351,20 @@ export default class EditProfile extends PureComponent<Props> {
                   reverseGeocode={reverseGeocode}
                   setPrimaryAddress={setPrimaryAddress}
                   TripPurposeOptions={TripPurposeOptions}
+                />
+              </div>
+              <div className='account-profile__field'>
+                <label
+                  className='account-profile__label'
+                  htmlFor='hasVehicle'>
+                  {message('Profile.HasVehicle')}
+                </label>
+                <input
+                  className='account-profile__input'
+                  id='hasVehicle'
+                  type='checkbox'
+                  onChange={(e) => changeField('hasVehicle', e.currentTarget.checked)}
+                  defaultChecked={hasVehicle}
                 />
               </div>
               {errorMessage &&
