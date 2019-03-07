@@ -47,7 +47,8 @@ export default class EditProfile extends PureComponent<Props> {
     const profile = props.userProfile
 
     this.state = {
-      destinations: profile ? profile.destinations : [firstAddress],
+      destinations: profile && profile.destinations.length
+        ? profile.destinations : [Object.assign({}, firstAddress)],
       hasVehicle: profile ? profile.hasVehicle : false,
       headOfHousehold: profile ? profile.headOfHousehold : '',
       key: profile ? profile.key : '',
@@ -63,7 +64,7 @@ export default class EditProfile extends PureComponent<Props> {
     // on initial load. Only load once by checking state.
     if (!nextProps.isLoading && nextProps.userProfile && !this.state.key) {
       if (!nextProps.userProfile.destinations.length) {
-        nextProps.userProfile.destinations = [firstAddress]
+        nextProps.userProfile.destinations = [Object.assign({}, firstAddress)]
       }
       this.setState(nextProps.userProfile)
     }
@@ -94,9 +95,12 @@ export default class EditProfile extends PureComponent<Props> {
 
   save () {
     const profile: AccountProfile = this.getProfileFromState()
-    if (!profile || !profile.key) {
-      console.error('Cannot save profile: missing profile or its key.')
+    if (!profile || !profile.key || !profile.voucherNumber) {
+      console.error('Cannot save profile: missing profile or its voucher number.')
       this.setState({errorMessage: message('Profile.SaveError')})
+      return
+    } else if (!profile.headOfHousehold) {
+      this.setState({errorMessage: message('Profile.NameRequired')})
       return
     } else {
       this.setState({errorMessage: ''})
@@ -125,7 +129,10 @@ export default class EditProfile extends PureComponent<Props> {
         this.props.changeUserProfile(null)
         this.props.history.push('/search')
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.error(err)
+        this.setState({errorMessage: message('Profile.SaveError')})
+      })
   }
 
   addAddress () {
