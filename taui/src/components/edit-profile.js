@@ -17,7 +17,10 @@ type Props = {
 }
 
 const firstAddress: AccountAddress = {
-  address: '',
+  location: {
+    label: '',
+    position: null
+  },
   primary: true,
   purpose: DEFAULT_PROFILE_DESTINATION_TYPE
 }
@@ -126,7 +129,10 @@ export default class EditProfile extends PureComponent<Props> {
   addAddress () {
     const destinations = this.state.destinations.slice()
     const newAddress: AccountAddress = {
-      address: '',
+      location: {
+        label: '',
+        position: null
+      },
       primary: !destinations.length,
       purpose: DEFAULT_PROFILE_DESTINATION_TYPE
     }
@@ -205,12 +211,13 @@ export default class EditProfile extends PureComponent<Props> {
           <Geocoder
             className='account-profile__input'
             geocode={geocode}
-            onChange={(result) => editAddress(index,
-              'address',
-              result['place_name'])}
+            onChange={(result) => editAddress(index, 'location', {
+              label: result ? result['place_name'] : '',
+              position: result ? {lat: result['center'][0], lon: result['center'][1]} : {}
+            })}
             placeholder={message('Geocoding.PromptText')}
             reverseGeocode={reverseGeocode}
-            value={{label: destination.address}}
+            value={destination.location}
           />
         </div>
         <div className='account-profile__destination_narrow_field'>
