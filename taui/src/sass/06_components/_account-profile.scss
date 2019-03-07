@@ -61,19 +61,21 @@
 
   &__button {
     min-width: 12rem;
-    max-width: 20rem;
+    max-width: 22rem;
     height: 4rem;
+    line-height: 2.5rem;
 
     &--primary {
       @include button($color: $white, $background: $brand-blue);
       @include light-on-dark();
       @include font-weight(bold);
       flex: auto;
+      margin: 4rem auto 1.6rem;
     }
 
     &--secondary {
       @include button($color: $black, $background: $gray-300);
-      display: block;
+      flex: auto;
       margin: 4rem auto 1.6rem;
     }
   }

@@ -311,17 +311,18 @@ export default class EditProfile extends PureComponent<Props> {
               {errorMessage &&
                 <p className='account-profile__error'>{errorMessage}</p>
               }
-              <button
-                className='account-profile__button account-profile__button--primary'
-                onClick={save}>{message('Profile.Go')}</button>
-              <button
-                className='account-profile__button account-profile__button--secondary'
-                onClick={cancel}>{message('Profile.Cancel')}</button>
+              <div className='account-profile__destination_row'>
+                <button
+                  className='account-profile__button account-profile__button--primary account-profile__destination_narrow_field'
+                  onClick={save}>{message('Profile.Go')}</button>
+                <button
+                  className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+                  onClick={cancel}>{message('Profile.Cancel')}</button>
+                <button
+                  className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+                  onClick={deleteProfile}>{message('Profile.Delete')}</button>
+              </div>
             </div>}
-            <br />
-            <button
-              className='account-profile__button account-profile__button--secondary'
-              onClick={deleteProfile}>{message('Profile.Delete')}</button>
           </div>
         </div>
       </div>
