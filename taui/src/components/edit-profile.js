@@ -3,6 +3,7 @@ import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
+import {DEFAULT_PROFILE_DESTINATION_TYPE, PROFILE_DESTINATION_TYPES} from '../constants'
 import type {AccountAddress, AccountProfile} from '../types'
 
 /**
@@ -104,7 +105,7 @@ export default class EditProfile extends PureComponent<Props> {
     const newAddress: AccountAddress = {
       address: '',
       primary: !destinations.length,
-      purpose: 'Work'
+      purpose: DEFAULT_PROFILE_DESTINATION_TYPE
     }
     this.setState({destinations: [...destinations, newAddress]})
   }
@@ -116,9 +117,10 @@ export default class EditProfile extends PureComponent<Props> {
     this.setState(newState)
   }
 
-  editAddress (index: number, event) {
+  // Set a `property` on a destination at `index`
+  editAddress (index: number, property: string, event) {
     const destinations = this.state.destinations.slice()
-    destinations[index]['address'] = event.currentTarget.value
+    destinations[index][property] = event.currentTarget.value
     const newState = {destinations: destinations}
     this.setState(newState)
   }
@@ -133,8 +135,33 @@ export default class EditProfile extends PureComponent<Props> {
     this.setState({destinations: newDestinations})
   }
 
+  tripPurposeOptions (props) {
+    const { destination, index, editAddress } = props
+    const options = PROFILE_DESTINATION_TYPES.map((key) => {
+      // expects each type in constants to have a label in messages
+      const messageKey = 'TripPurpose.' + key
+      return <option key={key}>{message(messageKey)}</option>
+    })
+
+    return (
+      <select
+        className='account-profile__input'
+        defaultValue={destination.purpose || DEFAULT_PROFILE_DESTINATION_TYPE}
+        onChange={(e) => editAddress(index, 'purpose', e)}
+        id='purpose'>
+        {options}
+      </select>
+    )
+  }
+
   destinationsList (props) {
-    const { addAddress, deleteAddress, editAddress, destinations, setPrimaryAddress } = props
+    const {
+      addAddress,
+      deleteAddress,
+      editAddress,
+      destinations,
+      setPrimaryAddress,
+      TripPurposeOptions } = props
     const listItems = destinations.map((destination: AccountAddress, index) => {
       return <li
         key={index}
@@ -149,11 +176,23 @@ export default class EditProfile extends PureComponent<Props> {
             className='account-profile__input'
             id='address'
             type='text'
-            onChange={(e) => editAddress(index, e)}
+            onChange={(e) => editAddress(index, 'address', e)}
             defaultValue={destination ? destination.address : ''}
           />
         </div>
-        <div className='account-profile__destination_field'>
+        <div className='account-profile__destination_narrow_field'>
+          <label
+            className='account-profile__label'
+            htmlFor='purpose'>
+            {message('Profile.Purpose')}
+          </label>
+          <TripPurposeOptions
+            destination={destination}
+            editAddress={editAddress}
+            index={index}
+          />
+        </div>
+        <div className='account-profile__destination_narrow_field'>
           <label
             className='account-profile__label'
             htmlFor='primary'>
@@ -167,7 +206,7 @@ export default class EditProfile extends PureComponent<Props> {
             checked={!!destination.primary}
           />
         </div>
-        <div className='account-profile__destination_field'>
+        <div className='account-profile__destination_narrow_field'>
           <button
             className='account-profile__button account-profile__button--secondary'
             data-id={index}
@@ -223,6 +262,7 @@ export default class EditProfile extends PureComponent<Props> {
 
     const DestinationsList = this.destinationsList
     const RoomOptions = this.roomOptions
+    const TripPurposeOptions = this.tripPurposeOptions
 
     return (
       <div className='form-screen'>
@@ -260,6 +300,7 @@ export default class EditProfile extends PureComponent<Props> {
                   destinations={destinations}
                   editAddress={editAddress}
                   setPrimaryAddress={setPrimaryAddress}
+                  TripPurposeOptions={TripPurposeOptions}
                 />
               </div>
               {errorMessage &&

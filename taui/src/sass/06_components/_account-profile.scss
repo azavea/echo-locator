@@ -18,6 +18,17 @@
     margin-right: 2.4rem;
   }
 
+  &__destination_narrow_field {
+    display: flex;
+    flex: auto;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    min-width: 8rem;
+    max-width: 16rem;
+    margin-right: 2.4rem;
+  }
+
   &__main {
     width: 100%
   }
