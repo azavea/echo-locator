@@ -94,12 +94,9 @@ export default class EditProfile extends PureComponent<Props> {
 
   save () {
     const profile: AccountProfile = this.getProfileFromState()
-    console.log('save profile')
-    console.log(profile)
     if (!profile || !profile.key) {
-      console.error('Missing profile or key')
-      this.setState({errorMessage:
-        'FIXME: should not happen.'})
+      console.error('Cannot save profile: missing profile or its key.')
+      this.setState({errorMessage: message('Profile.SaveError')})
       return
     } else {
       this.setState({errorMessage: ''})
@@ -107,22 +104,27 @@ export default class EditProfile extends PureComponent<Props> {
 
     Storage.put(profile.key, JSON.stringify(profile))
       .then(result => {
-        console.log(result)
         this.props.changeUserProfile(profile)
-        //this.props.history.push('/map')
+        this.props.history.push('/map')
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.error(err)
+        this.setState({errorMessage: message('Profile.SaveError')})
+      })
   }
 
   deleteProfile (key, event) {
-    console.log('delete profile for key ' + key)
     if (!key) {
       console.error('Cannot delete account without key')
+      this.setState({errorMessage: message('Profile.SaveError')})
+      return
     }
 
     Storage.remove(key)
       .then(result => {
-        console.log('deleted')
+        // FIXME: also unset profile in storage/props
+        this.props.changeUserProfile(null)
+        this.props.history.push('/search')
       })
       .catch(err => console.error(err))
   }
@@ -357,16 +359,13 @@ export default class EditProfile extends PureComponent<Props> {
               }
               <div className='account-profile__destination_row'>
                 <button
-                  className='account-profile__button account-profile__button--primary
-                    account-profile__destination_narrow_field'
+                  className='account-profile__button account-profile__button--primary account-profile__destination_narrow_field'
                   onClick={save}>{message('Profile.Go')}</button>
                 <button
-                  className='account-profile__button account-profile__button--secondary
-                    account-profile__destination_narrow_field'
+                  className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
                   onClick={cancel}>{message('Profile.Cancel')}</button>
                 <button
-                  className='account-profile__button account-profile__button--secondary
-                    account-profile__destination_narrow_field'
+                  className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
                   onClick={(e) => deleteProfile(key, e)}
                 >{message('Profile.Delete')}</button>
               </div>
