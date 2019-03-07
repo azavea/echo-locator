@@ -208,11 +208,6 @@ export default class EditProfile extends PureComponent<Props> {
         key={index}
         className='account-profile__destination_row'>
         <div className='account-profile__destination_field'>
-          <label
-            className='account-profile__label'
-            htmlFor='address'>
-            {message('Profile.Address')}
-          </label>
           <Geocoder
             className='account-profile__input'
             geocode={geocode}
@@ -226,11 +221,6 @@ export default class EditProfile extends PureComponent<Props> {
           />
         </div>
         <div className='account-profile__destination_narrow_field'>
-          <label
-            className='account-profile__label'
-            htmlFor='purpose'>
-            {message('Profile.Purpose')}
-          </label>
           <TripPurposeOptions
             destination={destination}
             editAddress={editAddress}
@@ -238,11 +228,6 @@ export default class EditProfile extends PureComponent<Props> {
           />
         </div>
         <div className='account-profile__destination_narrow_field'>
-          <label
-            className='account-profile__label'
-            htmlFor='primary'>
-            {message('Profile.Primary')}
-          </label>
           <input
             className='account-profile__input'
             id='primary'
@@ -253,6 +238,7 @@ export default class EditProfile extends PureComponent<Props> {
         </div>
         <div className='account-profile__destination_narrow_field'>
           <button
+            id='deleteAddress'
             className='account-profile__button account-profile__button--secondary'
             data-id={index}
             onClick={(e) => deleteAddress(index, e)}
@@ -266,6 +252,37 @@ export default class EditProfile extends PureComponent<Props> {
     return (
       <div className=''>
         <ul className=''>
+          <li
+            key='header'
+            className='account-profile__destination_row'>
+            <div className='account-profile__destination_field'>
+              <label
+                className='account-profile__label'
+                htmlFor='address'>
+                {message('Profile.Address')}
+              </label>
+            </div>
+            <div className='account-profile__destination_narrow_field'>
+              <label
+                className='account-profile__label'
+                htmlFor='purpose'>
+                {message('Profile.Purpose')}
+              </label>
+            </div>
+            <div className='account-profile__destination_narrow_field'>
+              <label
+                className='account-profile__label'
+                htmlFor='primary'>
+                {message('Profile.Primary')}
+              </label>
+            </div>
+            <div className='account-profile__destination_narrow_field'>
+              <label
+                className='account-profile__label'
+                htmlFor='deleteAddress'>
+              </label>
+            </div>
+          </li>
           {listItems}
         </ul>
         {destinations.length < maxAddressesAllowed && <button
