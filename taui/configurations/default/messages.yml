@@ -18,7 +18,9 @@ NewTrip: New Trip
 Geocoding:
   StartPlaceholder: Search the map
   EndPlaceholder: Choose destination, or click on the map
+  FindingLocation: Locating you...
   PromptText: Type to find a location
+  UseCurrentLocation: Use current location
 Log:
   Title: Log
 Map:
