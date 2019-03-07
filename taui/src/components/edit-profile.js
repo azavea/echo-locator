@@ -3,13 +3,31 @@ import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
-import {DEFAULT_PROFILE_DESTINATION_TYPE, PROFILE_DESTINATION_TYPES} from '../constants'
+import {
+  DEFAULT_PROFILE_DESTINATION_TYPE,
+  PROFILE_DESTINATION_TYPES
+} from '../constants'
 import type {AccountAddress, AccountProfile} from '../types'
+
+import Geocoder from './geocoder'
+
+type Props = {
+  geocode: (string, Function) => void,
+  reverseGeocode: (string, Function) => void
+}
+
+const firstAddress: AccountAddress = {
+  address: '',
+  primary: true,
+  purpose: DEFAULT_PROFILE_DESTINATION_TYPE
+}
 
 /**
  * Edit voucher holder profile.
  */
 export default class EditProfile extends PureComponent<Props> {
+  props: Props
+
   constructor (props) {
     super(props)
 
@@ -26,7 +44,7 @@ export default class EditProfile extends PureComponent<Props> {
     const profile = props.userProfile
 
     this.state = {
-      destinations: profile ? profile.destinations : [],
+      destinations: profile ? profile.destinations : [firstAddress],
       hasVehicle: profile ? profile.hasVehicle : false,
       headOfHousehold: profile ? profile.headOfHousehold : '',
       key: profile ? profile.key : '',
@@ -38,7 +56,12 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!nextProps.isLoading && nextProps.userProfile) {
+    // Listen for when profile to appear on props, because it is not present
+    // on initial load. Only load once by checking state.
+    if (!nextProps.isLoading && nextProps.userProfile && !this.state.key) {
+      if (!nextProps.userProfile.destinations.length) {
+        nextProps.userProfile.destinations = [firstAddress]
+      }
       this.setState(nextProps.userProfile)
     }
   }
@@ -122,12 +145,11 @@ export default class EditProfile extends PureComponent<Props> {
     this.setState(newState)
   }
 
-  // Set a `property` on a destination at `index`
-  editAddress (index: number, property: string, event) {
+  // Set a `property` on a destination at list `index` to `value`
+  editAddress (index: number, property: string, value) {
     const destinations = this.state.destinations.slice()
-    destinations[index][property] = event.currentTarget.value
-    const newState = {destinations: destinations}
-    this.setState(newState)
+    destinations[index][property] = value
+    this.setState({destinations})
   }
 
   // Set which destination is the primary and unset any previous primary address
@@ -152,7 +174,7 @@ export default class EditProfile extends PureComponent<Props> {
       <select
         className='account-profile__input'
         defaultValue={destination.purpose || DEFAULT_PROFILE_DESTINATION_TYPE}
-        onChange={(e) => editAddress(index, 'purpose', e)}
+        onChange={(e) => editAddress(index, 'purpose', e.currentTarget.value)}
         id='purpose'>
         {options}
       </select>
@@ -163,14 +185,13 @@ export default class EditProfile extends PureComponent<Props> {
     const {
       addAddress,
       deleteAddress,
+      geocode,
       editAddress,
       destinations,
+      reverseGeocode,
       setPrimaryAddress,
       TripPurposeOptions } = props
 
-    if (!destinations.length) {
-      addAddress()
-    }
     const listItems = destinations.map((destination: AccountAddress, index) => {
       return <li
         key={index}
@@ -181,12 +202,15 @@ export default class EditProfile extends PureComponent<Props> {
             htmlFor='address'>
             {message('Profile.Address')}
           </label>
-          <input
+          <Geocoder
             className='account-profile__input'
-            id='address'
-            type='text'
-            onChange={(e) => editAddress(index, 'address', e)}
-            defaultValue={destination ? destination.address : ''}
+            geocode={geocode}
+            onChange={(result) => editAddress(index,
+              'address',
+              result['place_name'])}
+            placeholder={message('Geocoding.PromptText')}
+            reverseGeocode={reverseGeocode}
+            value={{label: destination.address}}
           />
         </div>
         <div className='account-profile__destination_narrow_field'>
@@ -267,6 +291,8 @@ export default class EditProfile extends PureComponent<Props> {
     const changeField = this.changeField
     const deleteProfile = this.deleteProfile
     const save = this.save
+
+    const { geocode, reverseGeocode } = this.props
     const { destinations, headOfHousehold, errorMessage, key, rooms } = this.state
 
     const DestinationsList = this.destinationsList
@@ -308,6 +334,8 @@ export default class EditProfile extends PureComponent<Props> {
                   deleteAddress={deleteAddress}
                   destinations={destinations}
                   editAddress={editAddress}
+                  geocode={geocode}
+                  reverseGeocode={reverseGeocode}
                   setPrimaryAddress={setPrimaryAddress}
                   TripPurposeOptions={TripPurposeOptions}
                 />
