@@ -70,7 +70,8 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   cancel (event) {
-    console.log('TODO: implement cancel')
+    // Navigate back to the last page visited, discarding any changes.
+    this.props.history.goBack()
   }
 
   changeField (field, event) {
