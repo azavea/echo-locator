@@ -2,6 +2,7 @@
 import Storage from '@aws-amplify/storage'
 import lonlat from '@conveyal/lonlat'
 import message from '@conveyal/woonerf/message'
+import range from 'lodash/range'
 import {PureComponent} from 'react'
 
 import {
@@ -312,7 +313,7 @@ export default class EditProfile extends PureComponent<Props> {
   roomOptions (props) {
     const { changeField, rooms } = props
     const maxRooms = 4
-    const roomCountOptions = Array.from(new Array(maxRooms + 1), (val, i) => i)
+    const roomCountOptions = range(maxRooms + 1)
     const roomOptions = roomCountOptions.map((num) => {
       const strVal = num.toString()
       return <option key={strVal} value={strVal}>{strVal}</option>
