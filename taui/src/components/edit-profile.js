@@ -66,6 +66,7 @@ export default class EditProfile extends PureComponent<Props> {
   componentWillReceiveProps (nextProps) {
     // Listen for when profile to appear on props, because it is not present
     // on initial load. Only load once by checking state.
+    console.log(nextProps)
     if (!nextProps.isLoading && nextProps.userProfile && !this.state.key) {
       if (!nextProps.userProfile.destinations.length) {
         nextProps.userProfile.destinations = [Object.assign({}, firstAddress)]
@@ -76,7 +77,13 @@ export default class EditProfile extends PureComponent<Props> {
 
   cancel (event) {
     // Navigate back to the last page visited, discarding any changes.
-    this.props.history.goBack()
+    console.log(this.props.location.state)
+    if (this.props.location.state && this.props.location.state.fromApp) {
+      this.props.history.goBack()
+    } else {
+      // User navigated to this page directly
+      window.location.reload()
+    }
   }
 
   changeField (field, value) {

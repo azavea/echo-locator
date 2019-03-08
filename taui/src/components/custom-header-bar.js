@@ -36,7 +36,7 @@ export default class CustomHeaderBar extends Greetings {
         <span className='app-header__user-name'>{userProfile.headOfHousehold}</span>
         <span className='app-header__voucher-number'># {userProfile.voucherNumber}</span>
         <span className='app-header__button'>
-          <Link to='/profile'>{message('Header.Edit')}</Link>
+          <Link to={{pathname: '/profile', state: {fromApp: true}}}>{message('Header.Edit')}</Link>
         </span>
         <span className='app-header__button'>
           <Link to='/search'>{message('Header.New')}</Link>

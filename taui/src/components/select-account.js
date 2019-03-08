@@ -101,7 +101,7 @@ export default class SelectAccount extends PureComponent<Props> {
       const text = result.Body.toString('utf-8')
       const profile: AccountProfile = JSON.parse(text)
       this.props.changeUserProfile(profile)
-      this.props.history.push('/profile')
+      this.props.history.push({pathname: '/profile', state: {fromApp: true}})
     }).catch(err => {
       console.error('Failed to fetch account profile from S3 for key ' + key)
       console.error(err)

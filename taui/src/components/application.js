@@ -129,7 +129,7 @@ export default class Application extends Component<Props, State> {
           voucherNumber={props.voucherNumber} />} />
         <Route path='/profile' render={() => (
           profileLoading || userProfile
-            ? (<EditProfile {...props} profile={userProfile} />) : (<Redirect to='/search' />))} />
+            ? (<EditProfile {...props} />) : (<Redirect to='/search' />))} />
       </Switch>
     )
   }
