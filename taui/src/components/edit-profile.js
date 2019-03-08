@@ -46,6 +46,7 @@ export default class EditProfile extends PureComponent<Props> {
     this.save = this.save.bind(this)
     this.setGeocodeLocation = this.setGeocodeLocation.bind(this)
     this.setPrimaryAddress = this.setPrimaryAddress.bind(this)
+    this.validDestinations = this.validDestinations.bind(this)
 
     const profile = props.userProfile
 
@@ -104,6 +105,9 @@ export default class EditProfile extends PureComponent<Props> {
       return
     } else if (!profile.headOfHousehold) {
       this.setState({errorMessage: message('Profile.NameRequired')})
+      return
+    } else if (!this.validDestinations(profile.destinations)) {
+      this.setState({errorMessage: message('Profile.AddressMissing')})
       return
     } else {
       this.setState({errorMessage: ''})
@@ -188,6 +192,22 @@ export default class EditProfile extends PureComponent<Props> {
       return destination
     })
     this.setState({destinations: newDestinations})
+  }
+
+  // Return true if all destinations have their location set and there is at least one.
+  validDestinations (destinations: Array<AccountAddress>): boolean {
+    if (!destinations || !destinations.length) {
+      return false
+    }
+
+    var valid = true
+    destinations.forEach(destination => {
+      if (!destination || !destination.location || !destination.location.position ||
+        !destination.location.label) {
+        valid = false
+      }
+    })
+    return valid
   }
 
   tripPurposeOptions (props) {

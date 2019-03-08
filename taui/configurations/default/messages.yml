@@ -57,9 +57,10 @@ Accounts:
   Voucher: Voucher Number
 Profile:
   AddAddress: Add another destination
+  Address: Address
+  AddressMissing: All destinations should have an address. Please set or remove any empty destinations.
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
-  Address: Address
   Cancel: Cancel
   Delete: Delete
   DeleteProfileError: Failed to delete profile. Please try again.
