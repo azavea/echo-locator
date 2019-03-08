@@ -61,10 +61,7 @@ export default class Geocoder extends Component<Props> {
     const p = this.props
     const geolocateOptions = p.geolocate && 'geolocation' in navigator
       ? [{
-        label: message(
-          'Geocoding.UseCurrentLocation',
-          'Use Current Location'
-        ),
+        label: message('Geocoding.UseCurrentLocation'),
         value: GEOLOCATE_VALUE
       }]
       : []
@@ -110,7 +107,7 @@ export default class Geocoder extends Component<Props> {
     if (value && value.value === GEOLOCATE_VALUE) {
       this.setState({
         value: {
-          label: message('Geocoding.FindingLocation', 'Locating you...')
+          label: message('Geocoding.FindingLocation')
         }
       })
       window.navigator.geolocation.getCurrentPosition(position => {

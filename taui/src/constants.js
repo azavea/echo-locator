@@ -2,6 +2,16 @@
 export const ACCESSIBILITY_IS_EMPTY = 'accessibility-is-empty'
 export const ACCESSIBILITY_IS_LOADING = 'accessibility-is-loading'
 
+// Account profile destination types.
+// Each of these should have a translatable string label in `messages.yml`,
+// defined under `TripPurpose`.
+export const DEFAULT_PROFILE_DESTINATION_TYPE = 'Work'
+export const PROFILE_DESTINATION_TYPES = [
+  'Work',
+  'Daycare',
+  'Other'
+]
+
 // URLS
 export const MAPBOX_GEOCODING_URL =
   'https://api.mapbox.com/geocoding/v5/mapbox.places'

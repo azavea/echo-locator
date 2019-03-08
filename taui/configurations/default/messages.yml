@@ -18,7 +18,9 @@ NewTrip: New Trip
 Geocoding:
   StartPlaceholder: Search the map
   EndPlaceholder: Choose destination, or click on the map
+  FindingLocation: Locating you...
   PromptText: Type to find a location
+  UseCurrentLocation: Use current location
 Log:
   Title: Log
 Map:
@@ -40,9 +42,38 @@ Units:
 Agency: Boston Housing Authority
 SignIn:
   Greeting: At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+Header:
+  New: New
+  Edit: Edit
 Accounts:
-  Title: Accounts
+  Create: Create new profile
+  CreateError: Failed to create profile. Please try again.
   Name: Name of Head of Household
-  Voucher: Voucher Number
   Search: Search
-  Create: Create new account
+  SearchError: Failed to search profiles. Please try again.
+  SelectError: Failed to set profile. Please try again.
+  NoResults: No profile found for that voucher number. Create new profile now?
+  Title: Profiles
+  Voucher: Voucher Number
+Profile:
+  AddAddress: Add another destination
+  Address: Address
+  AddressMissing: All destinations should have an address. Please set or remove any empty destinations.
+  DeleteAddress: Delete this address
+  DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
+  Cancel: Cancel
+  Delete: Delete
+  DeleteProfileError: Failed to delete profile. Please try again.
+  Destinations: Frequent destinations
+  Primary: Primary
+  Purpose: Purpose
+  Rooms: Number of rooms in voucher
+  HasVehicle: Will have a car
+  Go: Go
+  NameRequired: Please enter a name for the head of household.
+  SaveError: Failed to save profile. Please try again.
+  Title: Profile
+TripPurpose:
+  Daycare: Day care
+  Other: Other
+  Work: Work

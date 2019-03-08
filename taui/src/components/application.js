@@ -12,6 +12,7 @@ import type {
   UIStore
 } from '../types'
 
+import EditProfile from './edit-profile'
 import MainPage from './main-page'
 import SelectAccount from './select-account'
 
@@ -126,6 +127,9 @@ export default class Application extends Component<Props, State> {
           {...props}
           headOfHousehold={props.headOfHousehold}
           voucherNumber={props.voucherNumber} />} />
+        <Route path='/profile' render={() => (
+          profileLoading || userProfile
+            ? (<EditProfile {...props} />) : (<Redirect to='/search' />))} />
       </Switch>
     )
   }

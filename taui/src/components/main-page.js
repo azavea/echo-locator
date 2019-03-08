@@ -23,7 +23,7 @@ import RouteCard from './route-card'
 import RouteSegments from './route-segments'
 
 /**
- *
+ * Displays map and sidebar.
  */
 export default class MainPage extends React.PureComponent<Props> {
   state = {

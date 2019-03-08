@@ -2,6 +2,7 @@
 import { Greetings } from 'aws-amplify-react/dist/Auth'
 import message from '@conveyal/woonerf/message'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import type {AccountProfile} from '../types'
 
@@ -34,6 +35,12 @@ export default class CustomHeaderBar extends Greetings {
       <div className='app-header__user-info'>
         <span className='app-header__user-name'>{userProfile.headOfHousehold}</span>
         <span className='app-header__voucher-number'># {userProfile.voucherNumber}</span>
+        <span className='app-header__button'>
+          <Link to={{pathname: '/profile', state: {fromApp: true}}}>{message('Header.Edit')}</Link>
+        </span>
+        <span className='app-header__button'>
+          <Link to='/search'>{message('Header.New')}</Link>
+        </span>
       </div>
     ) : null
 
