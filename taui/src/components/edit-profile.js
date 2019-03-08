@@ -1,5 +1,6 @@
 // @flow
 import Storage from '@aws-amplify/storage'
+import lonlat from '@conveyal/lonlat'
 import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
@@ -42,6 +43,7 @@ export default class EditProfile extends PureComponent<Props> {
     this.changeField = this.changeField.bind(this)
     this.getProfileFromState = this.getProfileFromState.bind(this)
     this.save = this.save.bind(this)
+    this.setGeocodeLocation = this.setGeocodeLocation.bind(this)
     this.setPrimaryAddress = this.setPrimaryAddress.bind(this)
 
     const profile = props.userProfile
@@ -167,6 +169,16 @@ export default class EditProfile extends PureComponent<Props> {
     this.setState({destinations})
   }
 
+  // Extract co-ordinates and address string from geocode result, similar to
+  // `_setStartWithFeature` in `main-page.js`
+  // If `feature` is null, the field was cleared (search terms without results cannot be selected)
+  setGeocodeLocation (index: number, editAddress, feature?: MapboxFeature) {
+    editAddress(index, 'location', {
+      label: feature ? feature.place_name : '',
+      position: feature ? lonlat(feature.geometry.coordinates) : null
+    })
+  }
+
   // Set which destination is the primary and unset any previous primary address
   setPrimaryAddress (index: number, event) {
     const destinations = this.state.destinations.slice()
@@ -204,6 +216,7 @@ export default class EditProfile extends PureComponent<Props> {
       editAddress,
       destinations,
       reverseGeocode,
+      setGeocodeLocation,
       setPrimaryAddress,
       TripPurposeOptions } = props
 
@@ -218,10 +231,7 @@ export default class EditProfile extends PureComponent<Props> {
           <Geocoder
             className='account-profile__input'
             geocode={geocode}
-            onChange={(result) => editAddress(index, 'location', {
-              label: result ? result['place_name'] : '',
-              position: result ? {lat: result['center'][0], lon: result['center'][1]} : {}
-            })}
+            onChange={(e) => setGeocodeLocation(index, editAddress, e)}
             placeholder={message('Geocoding.PromptText')}
             reverseGeocode={reverseGeocode}
             value={destination.location}
@@ -286,8 +296,7 @@ export default class EditProfile extends PureComponent<Props> {
             <div className='account-profile__destination_narrow_field'>
               <label
                 className='account-profile__label'
-                htmlFor='deleteAddress'>
-              </label>
+                htmlFor='deleteAddress' />
             </div>
           </li>
           {listItems}
@@ -323,6 +332,7 @@ export default class EditProfile extends PureComponent<Props> {
     const addAddress = this.addAddress
     const deleteAddress = this.deleteAddress
     const editAddress = this.editAddress
+    const setGeocodeLocation = this.setGeocodeLocation
     const setPrimaryAddress = this.setPrimaryAddress
     const cancel = this.cancel
     const changeField = this.changeField
@@ -373,6 +383,7 @@ export default class EditProfile extends PureComponent<Props> {
                   editAddress={editAddress}
                   geocode={geocode}
                   reverseGeocode={reverseGeocode}
+                  setGeocodeLocation={setGeocodeLocation}
                   setPrimaryAddress={setPrimaryAddress}
                   TripPurposeOptions={TripPurposeOptions}
                 />
