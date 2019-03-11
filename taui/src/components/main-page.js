@@ -200,6 +200,7 @@ export default class MainPage extends React.PureComponent<Props> {
             start={p.geocoder.start}
             updateEnd={p.updateEnd}
             updateStart={p.updateStart}
+            userProfile={p.userProfile}
           />
           {p.data.networks.map((network, index) => (
             <RouteCard

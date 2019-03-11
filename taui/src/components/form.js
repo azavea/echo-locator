@@ -13,8 +13,6 @@ import type {
   PointsOfInterest
 } from '../types'
 
-import Geocoder from './geocoder'
-
 type Props = {
   end: null | Location,
   geocode: (string, Function) => void,
@@ -27,7 +25,11 @@ type Props = {
   start: null | Location
 }
 
-const cfo = memoize(o => createFilterOptions({options: o}))
+const cfo = memoize(o => createFilterOptions({
+  options: o,
+  labelKey: 'label',
+  valueKey: 'position'
+}))
 
 export default class Form extends React.PureComponent {
   props: Props
@@ -47,79 +49,27 @@ export default class Form extends React.PureComponent {
     else this.setState({animating: false})
   }
 
-  _selectPoiStart = (option?: ReactSelectOption) =>
+  _selectDestinationStart = (option?: ReactSelectOption) => {
     this.props.updateStart(option ? {
       label: option.label,
-      position: lonlat(option.feature.geometry.coordinates)
+      position: lonlat(option.position)
     } : null)
-
-  _selectPoiEnd = (option?: ReactSelectOption) =>
-    this.props.updateEnd(option ? {
-      label: option.label,
-      position: lonlat(option.feature.geometry.coordinates)
-    } : null)
+  }
 
   render () {
     const p = this.props
-    const poi = p.pointsOfInterest || []
-    const filterPoi = cfo(poi) // memoized filtering function
-    const showPoiSelect = poi.length > 0
+    const destinations = p.userProfile ? p.userProfile.destinations : []
+    const locations = destinations.map(d => d.location)
+    const destinationFilterOptions = cfo(locations)
     return (
       <div>
-        {showPoiSelect
-          ? <Select
-            filterOptions={filterPoi}
-            options={poi}
-            onChange={this._selectPoiStart}
-            placeholder={message('Geocoding.StartPlaceholder')}
-            value={p.start}
-          />
-          : <Geocoder
-            geocode={p.geocode}
-            onChange={p.onChangeStart}
-            placeholder={message('Geocoding.StartPlaceholder')}
-            reverseGeocode={p.reverseGeocode}
-            value={p.start}
-          />}
-        {p.start &&
-          <div>
-            {showPoiSelect
-              ? <Select
-                filterOptions={cfo(poi)}
-                options={poi}
-                onChange={this._selectPoiEnd}
-                placeholder={message('Geocoding.EndPlaceholder')}
-                value={p.end}
-              />
-              : <Geocoder
-                geocode={p.geocode}
-                onChange={p.onChangeEnd}
-                placeholder={message('Geocoding.StartPlaceholder')}
-                reverseGeocode={p.reverseGeocode}
-                value={p.end}
-              />}
-            <div className='heading'>
-              {message('Strings.HighlightAreaAccessibleWithin')}
-              {/* DISABLED: VectorGrid is incompatible with animation. !this.state.animating &&
-                <a className='pull-right' onClick={this._animateTimeCutoff}>
-                  <Icon type='play' />
-                </a> */}
-            </div>
-            <div className='TimeCutoff'>
-              <div className='Time'>
-                {p.selectedTimeCutoff} {message('Units.Minutes')}
-              </div>
-              <input
-                disabled={this.state.animating}
-                onChange={p.onTimeCutoffChange}
-                type='range'
-                min={10}
-                max={120}
-                step={1}
-                value={p.selectedTimeCutoff}
-              />
-            </div>
-          </div>}
+        <Select
+          filterOptions={destinationFilterOptions}
+          options={locations}
+          onChange={this._selectDestinationStart}
+          placeholder={message('Geocoding.StartPlaceholder')}
+          value={p.start}
+        />
       </div>
     )
   }
