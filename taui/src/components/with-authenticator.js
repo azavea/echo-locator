@@ -2,8 +2,8 @@
 import { Component, Fragment } from 'react'
 import { Authenticator } from 'aws-amplify-react/dist/Auth'
 
-import {storeConfig} from '../config'
-import {PROFILE_CONFIG_KEY} from '../constants'
+import {clearLocalStorage, storeConfig} from '../config'
+import {ANONYMOUS_USERNAME, PROFILE_CONFIG_KEY} from '../constants'
 import type {AccountProfile} from '../types'
 
 import CustomHeaderBar from './custom-header-bar'
@@ -38,6 +38,9 @@ export default function withAuthenticator (Comp, includeGreetings = false,
           signUpConfig
         }
       }
+
+      // Load the selected user profile from localStorage, if any
+      this.props.loadProfile()
     }
 
     changeUserProfile (profile: AccountProfile) {
@@ -46,10 +49,31 @@ export default function withAuthenticator (Comp, includeGreetings = false,
     }
 
     handleAuthStateChange (state, data) {
-      this.setState({ authState: state, authData: data })
-      // Unset user profile on logout
-      if (state === 'signedOut') {
-        this.changeUserProfile(null)
+      const { userProfile } = this.props.data
+      // Create new empty profile to use when browsing anonymously
+      if (state === 'useAnonymous') {
+        const profile: AccountProfile = {
+          destinations: [],
+          hasVehicle: false,
+          headOfHousehold: ANONYMOUS_USERNAME,
+          key: ANONYMOUS_USERNAME,
+          rooms: 0,
+          voucherNumber: ANONYMOUS_USERNAME
+        }
+        this.changeUserProfile(profile)
+        // Tell auth library that the anonymous user is signed in
+        this.setState({authState: 'signedIn', authData: {username: ANONYMOUS_USERNAME}})
+      } else if (state === 'signIn' && userProfile && userProfile.key === ANONYMOUS_USERNAME) {
+        // Handle full page reload when browsing site anonymously
+        this.setState({authState: 'signedIn', authData: {username: ANONYMOUS_USERNAME}})
+      } else if (state === 'signedOut') {
+        this.setState({authState: state, authData: data})
+        // Clear profile in components
+        this.props.store.dispatch({type: 'set profile', payload: null})
+        // Clear all local storage after logout
+        clearLocalStorage()
+      } else {
+        this.setState({authState: state, authData: data})
       }
     }
 
@@ -57,6 +81,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       const { authState, authData } = this.state
       const { userProfile } = this.props.data
       const signedIn = (authState === 'signedIn')
+
       if (signedIn) {
         return (
           <Fragment>

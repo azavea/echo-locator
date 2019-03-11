@@ -1,12 +1,19 @@
 // @flow
 import { Greetings } from 'aws-amplify-react/dist/Auth'
+import { NavButton } from 'aws-amplify-react/dist/Amplify-UI/Amplify-UI-Components-React'
 import message from '@conveyal/woonerf/message'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import {ANONYMOUS_USERNAME} from '../constants'
 import type {AccountProfile} from '../types'
 
 export default class CustomHeaderBar extends Greetings {
+  constructor (props) {
+    super(props)
+    this.signIn = this.signIn.bind(this)
+  }
+
   componentDidMount () {
     super.componentDidMount()
   }
@@ -22,6 +29,11 @@ export default class CustomHeaderBar extends Greetings {
     return nameFromAttr || user.name || user.username
   }
 
+  signIn () {
+    // Redirect to login page
+    this.changeState('signedOut')
+  }
+
   // based on:
   // https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Auth/Greetings.jsx#L131
   render () {
@@ -29,18 +41,20 @@ export default class CustomHeaderBar extends Greetings {
     const signedIn = (authState === 'signedIn')
     if (!signedIn) { return null }
     const userProfile: AccountProfile = this.props.userProfile || this.state.userProfile
+    const isAnonymous = !userProfile || userProfile.key === ANONYMOUS_USERNAME
+    const signIn = this.signIn
     const theme = this.props.theme
 
     const userInfo = userProfile ? (
       <div className='app-header__user-info'>
-        <span className='app-header__user-name'>{userProfile.headOfHousehold}</span>
-        <span className='app-header__voucher-number'># {userProfile.voucherNumber}</span>
+        {!isAnonymous && <span className='app-header__user-name'>{userProfile.headOfHousehold}</span>}
+        {!isAnonymous && <span className='app-header__voucher-number'># {userProfile.voucherNumber}</span>}
         <span className='app-header__button'>
           <Link to={{pathname: '/profile', state: {fromApp: true}}}>{message('Header.Edit')}</Link>
         </span>
-        <span className='app-header__button'>
+        {!isAnonymous && <span className='app-header__button'>
           <Link to='/search'>{message('Header.New')}</Link>
-        </span>
+        </span>}
       </div>
     ) : null
 
@@ -51,7 +65,13 @@ export default class CustomHeaderBar extends Greetings {
           <span className='app-header__app-name'>{message('Title')}</span>
         </div>
         {userInfo}
-        <div className='app-header__actions'>{this.renderSignOutButton(theme)}</div>
+        {!isAnonymous && <div className='app-header__actions'>{this.renderSignOutButton(theme)}</div>}
+        {isAnonymous &&
+          <div className='app-header__actions'>
+            <NavButton theme={theme} onClick={(e) => signIn(e)}>
+              {message('Header.SignIn')}
+            </NavButton>
+          </div>}
       </header>
     )
   }
