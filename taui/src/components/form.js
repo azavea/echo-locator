@@ -1,6 +1,7 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
 import message from '@conveyal/woonerf/message'
+import find from 'lodash/find'
 import memoize from 'lodash/memoize'
 import React from 'react'
 import Select from 'react-virtualized-select'
@@ -36,6 +37,7 @@ export default class Form extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = {
+      destination: null,
       network: null
     }
   }
@@ -45,22 +47,44 @@ export default class Form extends React.PureComponent {
       const first = nextProps.networks[0]
       this.setState({network: {label: first.name, value: first.url}})
     }
+
+    if (!this.state.destination && nextProps.userProfile && nextProps.userProfile.destinations) {
+      const destinations = nextProps.userProfile.destinations
+      if (!destinations.length) {
+        console.error('No profile destinations available')
+      } else {
+        // Set default destination to the primary profile destination
+        const destination = find(destinations, d => !!d.primary)
+        if (!destination) {
+          console.error('No primary destination set on profile')
+          return
+        }
+        const destinationObj = {
+          label: destination.location.label,
+          position: destination.location.position
+        }
+        this.setState({destination: destinationObj})
+        this.props.updateStart({destinationObj})
+      }
+    }
   }
 
-  _selectDestinationStart = (option?: ReactSelectOption) => {
-    this.props.updateStart(option ? {
+  selectDestination = (option?: ReactSelectOption) => {
+    const destinationObj = option ? {
       label: option.label,
       position: lonlat(option.position)
-    } : null)
+    } : null
+    this.setState({destination: destinationObj})
+    this.props.updateStart(destinationObj)
   }
 
-  _setNetwork = (option?: ReactSelectOption) => {
+  setNetwork = (option?: ReactSelectOption) => {
     this.setState({network: option})
   }
 
   render () {
     const p = this.props
-    const {network} = this.state
+    const {destination, network} = this.state
     const destinations: Array<AccountAddress> = p.userProfile ? p.userProfile.destinations : []
     const locations = destinations.map(d => d.location)
     const destinationFilterOptions = createDestinationsFilter(locations)
@@ -72,14 +96,14 @@ export default class Form extends React.PureComponent {
         <Select
           filterOptions={destinationFilterOptions}
           options={locations}
-          onChange={this._selectDestinationStart}
+          onChange={this.selectDestination}
           placeholder={message('Geocoding.StartPlaceholder')}
-          value={p.start}
+          value={destination}
         />
         <Select
           filterOptions={networkFilterOptions}
           options={networks}
-          onChange={this._setNetwork}
+          onChange={this.setNetwork}
           placeholder={message('Map.SelectNetwork')}
           value={network}
         />
