@@ -2,6 +2,7 @@
 import React, {Component} from 'react'
 import { Switch, Redirect, Route } from 'react-router-dom'
 
+import {ANONYMOUS_USERNAME} from '../constants'
 import type {
   AccountProfile,
   Coordinate,
@@ -101,9 +102,6 @@ export default class Application extends Component<Props, State> {
     if (window) {
       window.Application = this
     }
-
-    // Load the selected user profile from localStorage, if any
-    this.props.loadProfile()
   }
 
   /**
@@ -114,19 +112,22 @@ export default class Application extends Component<Props, State> {
     const profileLoading = this.props.data.profileLoading === undefined ? true
       : this.props.data.profileLoading
     const userProfile = this.props.data.userProfile
-
+    // Can navigate to map once at least one destination set on the profile.
+    const canViewMap = userProfile && userProfile.destinations && userProfile.destinations.length
+    const isAnonymous = userProfile && userProfile.key === ANONYMOUS_USERNAME
     return (
       <Switch>
         <Route exact path='/' render={() => (
-          profileLoading || userProfile
+          profileLoading || canViewMap
             ? (<Redirect to='/map' />) : (<Redirect to='/search' />))} />
         <Route path='/map' render={() => (
-          profileLoading || userProfile
+          profileLoading || canViewMap
             ? (<MainPage {...props} />) : (<Redirect to='/search' />))} />
-        <Route path='/search' render={() => <SelectAccount
-          {...props}
-          headOfHousehold={props.headOfHousehold}
-          voucherNumber={props.voucherNumber} />} />
+        <Route path='/search' render={() => (
+          isAnonymous ? (<Redirect to='/profile' />) : <SelectAccount
+            {...props}
+            headOfHousehold={props.headOfHousehold}
+            voucherNumber={props.voucherNumber} />)} />
         <Route path='/profile' render={() => (
           profileLoading || userProfile
             ? (<EditProfile {...props} />) : (<Redirect to='/search' />))} />

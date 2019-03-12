@@ -3,8 +3,7 @@ import { I18n } from '@aws-amplify/core'
 import {
   FederatedButtons,
   ForgotPassword,
-  SignIn,
-  SignUp
+  SignIn
 } from 'aws-amplify-react/dist/Auth'
 import {
   FormSection,
@@ -42,7 +41,6 @@ export default class CustomSignIn extends SignIn {
   // https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Auth/SignIn.jsx#L120
   showComponent (theme) {
     const { authState, hide = [], federated, onStateChange, onAuthEvent, override = [] } = this.props
-    const hideSignUp = !override.includes('SignUp') && hide.some(component => component === SignUp)
     const hideForgotPassword = !override.includes('ForgotPassword') &&
       hide.some(component => component === ForgotPassword)
 
@@ -93,14 +91,12 @@ export default class CustomSignIn extends SignIn {
                 {I18n.get('Sign In')}
               </Button>
             </SectionFooterPrimaryContent>
-            {
-              !hideSignUp && <SectionFooterSecondaryContent theme={theme}>
-                {I18n.get('No account? ')}
-                <Link theme={theme} onClick={() => this.changeState('signUp')}>
-                  {I18n.get('Create account')}
-                </Link>
-              </SectionFooterSecondaryContent>
-            }
+            <SectionFooterSecondaryContent theme={theme}>
+              {message('SignIn.AnonymousExplanation') + ' '}
+              <Link theme={theme} onClick={() => this.changeState('useAnonymous')}>
+                {message('SignIn.Anonymous')}
+              </Link>
+            </SectionFooterSecondaryContent>
           </SectionFooter>
         </FormSection>
       </div>

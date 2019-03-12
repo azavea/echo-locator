@@ -6,6 +6,7 @@ import range from 'lodash/range'
 import {PureComponent} from 'react'
 
 import {
+  ANONYMOUS_USERNAME,
   DEFAULT_PROFILE_DESTINATION_TYPE,
   PROFILE_DESTINATION_TYPES
 } from '../constants'
@@ -59,16 +60,16 @@ export default class EditProfile extends PureComponent<Props> {
       rooms: profile ? profile.rooms : 0,
       voucherNumber: profile ? profile.voucherNumber : '',
       componentError: null,
-      errorMessage: ''
+      errorMessage: '',
+      isAnonymous: !profile || profile.key === ANONYMOUS_USERNAME
     }
   }
 
   componentWillReceiveProps (nextProps) {
     // Listen for when profile to appear on props, because it is not present
     // on initial load. Only load once by checking state.
-    console.log(nextProps)
     if (!nextProps.isLoading && nextProps.userProfile && !this.state.key) {
-      if (!nextProps.userProfile.destinations.length) {
+      if (!nextProps.userProfile.destinations || !nextProps.userProfile.destinations.length) {
         nextProps.userProfile.destinations = [Object.assign({}, firstAddress)]
       }
       this.setState(nextProps.userProfile)
@@ -77,7 +78,6 @@ export default class EditProfile extends PureComponent<Props> {
 
   cancel (event) {
     // Navigate back to the last page visited, discarding any changes.
-    console.log(this.props.location.state)
     if (this.props.location.state && this.props.location.state.fromApp) {
       this.props.history.goBack()
     } else {
@@ -105,6 +105,7 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   save () {
+    const isAnonymous = this.state.isAnonymous
     const profile: AccountProfile = this.getProfileFromState()
     if (!profile || !profile.key || !profile.voucherNumber) {
       console.error('Cannot save profile: missing profile or its voucher number.')
@@ -120,15 +121,21 @@ export default class EditProfile extends PureComponent<Props> {
       this.setState({errorMessage: ''})
     }
 
-    Storage.put(profile.key, JSON.stringify(profile))
-      .then(result => {
-        this.props.changeUserProfile(profile)
-        this.props.history.push('/map')
-      })
-      .catch(err => {
-        console.error(err)
-        this.setState({errorMessage: message('Profile.SaveError')})
-      })
+    if (!isAnonymous) {
+      Storage.put(profile.key, JSON.stringify(profile))
+        .then(result => {
+          this.props.changeUserProfile(profile)
+          this.props.history.push('/map')
+        })
+        .catch(err => {
+          console.error(err)
+          this.setState({errorMessage: message('Profile.SaveError')})
+        })
+    } else {
+      // Do not attempt to write anonymous profile to S3
+      this.props.changeUserProfile(profile)
+      this.props.history.push('/map')
+    }
   }
 
   deleteProfile (key, event) {
@@ -368,7 +375,15 @@ export default class EditProfile extends PureComponent<Props> {
     const save = this.save
 
     const { geocode, reverseGeocode } = this.props
-    const { destinations, hasVehicle, headOfHousehold, errorMessage, key, rooms } = this.state
+    const {
+      destinations,
+      hasVehicle,
+      headOfHousehold,
+      errorMessage,
+      isAnonymous,
+      key,
+      rooms
+    } = this.state
 
     const DestinationsList = this.destinationsList
     const RoomOptions = this.roomOptions
@@ -380,7 +395,7 @@ export default class EditProfile extends PureComponent<Props> {
         <div className='form-screen__main'>
           <div className='account-profile'>
             {key && <div className='account-profile__main'>
-              <div className='account-profile__field'>
+              {!isAnonymous && <div className='account-profile__field'>
                 <label
                   className='account-profile__label'
                   htmlFor='headOfHousehold'>
@@ -393,7 +408,7 @@ export default class EditProfile extends PureComponent<Props> {
                   onChange={(e) => changeField('headOfHousehold', e.currentTarget.value)}
                   defaultValue={headOfHousehold || ''}
                 />
-              </div>
+              </div>}
               <div className='account-profile__field'>
                 <label
                   className='account-profile__label'
@@ -440,10 +455,10 @@ export default class EditProfile extends PureComponent<Props> {
                 <button
                   className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
                   onClick={cancel}>{message('Profile.Cancel')}</button>
-                <button
+                {!isAnonymous && <button
                   className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
                   onClick={(e) => deleteProfile(key, e)}
-                >{message('Profile.Delete')}</button>
+                >{message('Profile.Delete')}</button>}
               </div>
             </div>}
           </div>

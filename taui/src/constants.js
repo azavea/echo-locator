@@ -2,6 +2,8 @@
 export const ACCESSIBILITY_IS_EMPTY = 'accessibility-is-empty'
 export const ACCESSIBILITY_IS_LOADING = 'accessibility-is-loading'
 
+export const ANONYMOUS_USERNAME = 'ANONYMOUS'
+
 // Account profile destination types.
 // Each of these should have a translatable string label in `messages.yml`,
 // defined under `TripPurpose`.
