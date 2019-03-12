@@ -7,46 +7,44 @@ import Select from 'react-virtualized-select'
 import createFilterOptions from 'react-select-fast-filter-options'
 
 import type {
-  InputEvent,
-  Location,
-  MapboxFeature,
-  PointsOfInterest
+  AccountAddress,
+  AccountProfile,
+  Location
 } from '../types'
 
 type Props = {
   end: null | Location,
   geocode: (string, Function) => void,
-  onChangeEnd: MapboxFeature => void,
-  onChangeStart: MapboxFeature => void,
-  onTimeCutoffChange: InputEvent => void,
-  pointsOfInterest: PointsOfInterest,
   reverseGeocode: (string, Function) => void,
-  selectedTimeCutoff: number,
-  start: null | Location
+  start: null | Location,
+  userProfile: AccountProfile
 }
 
-const cfo = memoize(o => createFilterOptions({
+const createDestinationsFilter = memoize(o => createFilterOptions({
   options: o,
   labelKey: 'label',
   valueKey: 'position'
 }))
 
+const createNetworksFilter = memoize(o => createFilterOptions({
+  options: o
+}))
+
 export default class Form extends React.PureComponent {
   props: Props
 
-  state = {
-    animating: false
+  constructor (props) {
+    super(props)
+    this.state = {
+      network: null
+    }
   }
 
-  _animateTimeCutoff = () => {
-    this.setState({animating: true})
-    this._animateTo(0)
-  }
-
-  _animateTo (cutoff: number) {
-    this.props.onTimeCutoffChange({currentTarget: {value: cutoff}})
-    if (cutoff < 120) setTimeout(() => this._animateTo(cutoff + 1), 50)
-    else this.setState({animating: false})
+  componentWillReceiveProps (nextProps) {
+    if (!this.state.network && nextProps.networks && nextProps.networks.length) {
+      const first = nextProps.networks[0]
+      this.setState({network: {label: first.name, value: first.url}})
+    }
   }
 
   _selectDestinationStart = (option?: ReactSelectOption) => {
@@ -56,11 +54,19 @@ export default class Form extends React.PureComponent {
     } : null)
   }
 
+  _setNetwork = (option?: ReactSelectOption) => {
+    this.setState({network: option})
+  }
+
   render () {
     const p = this.props
-    const destinations = p.userProfile ? p.userProfile.destinations : []
+    const {network} = this.state
+    const destinations: Array<AccountAddress> = p.userProfile ? p.userProfile.destinations : []
     const locations = destinations.map(d => d.location)
-    const destinationFilterOptions = cfo(locations)
+    const destinationFilterOptions = createDestinationsFilter(locations)
+    const networks = p.networks.map(n => ({label: n.name, value: n.url}))
+    const networkFilterOptions = createNetworksFilter(networks)
+
     return (
       <div>
         <Select
@@ -69,6 +75,13 @@ export default class Form extends React.PureComponent {
           onChange={this._selectDestinationStart}
           placeholder={message('Geocoding.StartPlaceholder')}
           value={p.start}
+        />
+        <Select
+          filterOptions={networkFilterOptions}
+          options={networks}
+          onChange={this._setNetwork}
+          placeholder={message('Map.SelectNetwork')}
+          value={network}
         />
       </div>
     )

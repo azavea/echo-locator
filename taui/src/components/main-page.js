@@ -191,12 +191,8 @@ export default class MainPage extends React.PureComponent<Props> {
             boundary={p.geocoder.boundary}
             end={p.geocoder.end}
             geocode={p.geocode}
-            onTimeCutoffChange={this._onTimeCutoffChange}
-            onChangeEnd={this._setEndWithFeature}
-            onChangeStart={this._setStartWithFeature}
-            pointsOfInterest={p.pointsOfInterestOptions}
+            networks={p.data.networks}
             reverseGeocode={p.reverseGeocode}
-            selectedTimeCutoff={p.timeCutoff.selected}
             start={p.geocoder.start}
             updateEnd={p.updateEnd}
             updateStart={p.updateStart}

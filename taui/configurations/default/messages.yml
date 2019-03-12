@@ -24,6 +24,7 @@ Geocoding:
 Log:
   Title: Log
 Map:
+  SelectNetwork: Set time of day
   SetLocationPopup:
     SetStart: Set start
     SetEnd: Set end
