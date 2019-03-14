@@ -164,7 +164,8 @@ export default class MainPage extends React.PureComponent<Props> {
           neighborhoods={p.neighborhoods}
           neighborhoodRoutes={p.neighborhoodRoutes}
           updateOrigin={p.updateOrigin}
-          showSpinner={p.ui.fetches > 0}>
+          showSpinner={p.ui.fetches > 0}
+          travelTimes={p.neighborhoodTravelTimes}>
           <Form
             boundary={p.geocoder.boundary}
             end={p.geocoder.end}
@@ -183,11 +184,6 @@ export default class MainPage extends React.PureComponent<Props> {
                 <span className='fa fa-terminal' /> {message('Log.Title')}
               </div>
               <Log items={p.actionLog} />
-            </div>}
-          {p.ui.showLink &&
-            <div className='Attribution'>
-              site made by {' '}
-              <a href='https://www.azavea.com' target='_blank' />
             </div>}
         </Dock>
       </div>

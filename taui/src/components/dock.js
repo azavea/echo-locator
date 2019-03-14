@@ -3,7 +3,11 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
+import {NETWORK_COLORS} from '../constants'
 import type {PointFeature} from '../types'
+
+import RouteCard from './route-card'
+import RouteSegments from './route-segments'
 
 type Props = {
   geocode: (string, Function) => void,
@@ -43,7 +47,14 @@ export default class Dock extends PureComponent<Props> {
   }
 
   render () {
-    const {children, showSpinner} = this.props
+    const {
+      activeNetworkIndex,
+      children,
+      neighborhoods,
+      neighborhoodRoutes,
+      showSpinner,
+      travelTimes
+    } = this.props
     const {componentError} = this.state
 
     return <div className='Taui-Dock'>
@@ -61,6 +72,24 @@ export default class Dock extends PureComponent<Props> {
             <p>componentError.info}</p>
           </div>}
         {children}
+        {neighborhoodRoutes && neighborhoodRoutes.length &&
+          neighborhoods.features.map((neighborhood, index) =>
+            neighborhoodRoutes[index].routeSegments &&
+            neighborhoodRoutes[index].routeSegments.length
+              ? (<RouteCard
+                cardColor={NETWORK_COLORS[activeNetworkIndex]}
+                index={index}
+                key={`${index}-route-card`}
+                title={neighborhood.properties.town}>
+                <RouteSegments
+                  routeSegments={neighborhoodRoutes[index].routeSegments}
+                  travelTime={travelTimes[index]}
+                />
+              </RouteCard>) : null)}
+        <div className='Attribution'>
+          site made by {' '}
+          <a href='https://www.azavea.com' target='_blank' />
+        </div>
       </div>
     </div>
   }

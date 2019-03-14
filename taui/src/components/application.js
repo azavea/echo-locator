@@ -52,6 +52,7 @@ type Props = {
   map: MapState,
   neighborhoodBounds: any,
   neighborhoodRoutes: any,
+  neighborhoodTravelTimes: any,
   neighborhoods: any,
   pointsOfInterest: any, // FeatureCollection
   pointsOfInterestOptions: PointsOfInterest,
