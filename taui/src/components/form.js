@@ -45,7 +45,12 @@ export default class Form extends React.PureComponent {
   componentWillReceiveProps (nextProps) {
     if (!this.state.network && nextProps.networks && nextProps.networks.length) {
       const first = nextProps.networks[0]
-      this.setState({network: {label: first.name, value: first.url}})
+      const network = {label: first.name, value: first.url}
+      this.setState({network: network})
+      this.props.setActiveNetwork(network.label)
+      if (this.state.destination) {
+        this.props.updateOrigin(this.state.destination, network.label)
+      }
     }
 
     if (!this.state.destination && nextProps.userProfile && nextProps.userProfile.destinations) {
@@ -64,7 +69,9 @@ export default class Form extends React.PureComponent {
           position: destination.location.position
         }
         this.setState({destination: destinationObj})
-        this.props.updateStart({destinationObj})
+        if (this.state.network) {
+          this.props.updateOrigin(destinationObj, this.state.network.label)
+        }
       }
     }
   }
@@ -75,11 +82,12 @@ export default class Form extends React.PureComponent {
       position: lonlat(option.position)
     } : null
     this.setState({destination: destinationObj})
-    this.props.updateStart(destinationObj)
+    this.props.updateOrigin(destinationObj, this.state.network.label)
   }
 
   setNetwork = (option?: ReactSelectOption) => {
     this.setState({network: option})
+    this.props.setActiveNetwork(option.label)
   }
 
   render () {

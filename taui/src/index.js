@@ -52,6 +52,7 @@ function mapStateToProps (state, ownProps) {
     isLoading: select.loading(state, ownProps),
     neighborhoods: get(state, 'data.neighborhoods'),
     neighborhoodBounds: get(state, 'data.neighborhoodBounds'),
+    neighborhoodRoutes: select.neighborhoodRoutes(state, ownProps),
     pointsOfInterest: get(state, 'data.pointsOfInterest'),
     pointsOfInterestOptions: select.pointsOfInterestOptions(state, ownProps),
     showComparison: select.showComparison(state, ownProps),

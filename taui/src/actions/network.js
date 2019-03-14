@@ -14,7 +14,6 @@ import {updateStartPosition} from './location'
 import {addActionLogItem as logItem, logError} from './log'
 import {updateMap} from './map'
 import {loadDataFromJSON} from './json-data'
-import {loadGrid} from './grid'
 
 export const setNetwork = (payload: any) => ({type: 'set network', payload})
 export const setActiveNetwork = (payload: string) => ({
@@ -53,11 +52,19 @@ export const setNetworksToEmpty = () =>
 export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => {
   if (process.env.DISABLE_CONFIG) {
     const state = getState()
+    console.log('initialize network with state')
+    console.log(state)
     if (!startCoordinate && state.geocoder.proximity) {
+      console.log('set center coordinates')
       const centerCoordinates = lonlat(state.geocoder.proximity)
       dispatch(updateMap({centerCoordinates: lonlat.toLeaflet(centerCoordinates)}))
-      dispatch(updateStartPosition(centerCoordinates))
+    } else if (startCoordinate) {
+      console.log('use start coordinate to center')
+      dispatch(updateMap({centerCoordinates: lonlat.toLeaflet(startCoordinate)}))
     }
+
+    // FIXME: is this method ever invoked?
+    console.log('initialize network')
 
     dispatch(loadDataset(
       state.data.networks,
@@ -124,9 +131,6 @@ export const loadDataset = (
   // Load neighborhood GeoJSON files
   dispatch(loadDataFromJSON('assets/neighborhoods.json', 'set neighborhoods'))
   dispatch(loadDataFromJSON('assets/neighborhood_bounds.json', 'set neighborhood bounds'))
-
-  // Load all opportunity grids
-  grids.forEach(grid => dispatch(loadGrid(grid)))
 
   // Log loading networks
   dispatch(logItem(

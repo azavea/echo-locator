@@ -10,7 +10,6 @@ import type {
   MapboxFeature,
   MapEvent
 } from '../types'
-import {getAsObject} from '../utils/hash'
 import downloadJson from '../utils/download-json'
 
 import Dock from './dock'
@@ -26,38 +25,14 @@ export default class MainPage extends React.PureComponent<Props> {
     componentError: null
   }
 
-  /**
-   * Load configuration and set parameters in URL
-   */
   componentDidMount () {
-    const qs = getAsObject()
-    const startCoordinate = qs.startCoordinate
-      ? lonlat.fromString(qs.startCoordinate)
-      : undefined
-
-    if (startCoordinate) {
-      this.props.setStart({
-        label: qs.start,
-        position: startCoordinate
-      })
-    } else if (qs.centerCoordinates) {
-      this.props.updateMap({
-        centerCoordinates: lonlat.toLeaflet(qs.centerCoordinates)
-      })
+    if (this.props.userProfile && this.props.userProfile.destinations &&
+      this.props.userProfile.destinations.length) {
+      const center: LonLat = this.props.userProfile.destinations[0].location.position
+      this.props.initialize(center)
+    } else {
+      this.props.initialize()
     }
-
-    if (qs.endCoordinate) {
-      this.props.setEnd({
-        label: qs.end,
-        position: lonlat.fromString(qs.endCoordinate)
-      })
-    }
-
-    if (qs.zoom) {
-      this.props.updateMap({zoom: parseInt(qs.zoom, 10)})
-    }
-
-    this.props.initialize(startCoordinate)
   }
 
   _saveRefToConfig = (ref) => {
@@ -150,6 +125,7 @@ export default class MainPage extends React.PureComponent<Props> {
    */
   render () {
     const p = this.props
+
     return (
       <div className={p.isLoading ? 'isLoading' : ''}>
         <div className='Fullscreen'>
@@ -179,12 +155,15 @@ export default class MainPage extends React.PureComponent<Props> {
             start={p.geocoder.start}
             updateEnd={p.updateEnd}
             updateMap={p.updateMap}
+            updateOrigin={p.updateOrigin}
             updateStart={p.updateStart}
           />
         </div>
         <Dock
           componentError={this.state.componentError}
           neighborhoods={p.neighborhoods}
+          neighborhoodRoutes={p.neighborhoodRoutes}
+          updateOrigin={p.updateOrigin}
           showSpinner={p.ui.fetches > 0}>
           <Form
             boundary={p.geocoder.boundary}
@@ -192,9 +171,10 @@ export default class MainPage extends React.PureComponent<Props> {
             geocode={p.geocode}
             networks={p.data.networks}
             reverseGeocode={p.reverseGeocode}
+            setActiveNetwork={p.setActiveNetwork}
             start={p.geocoder.start}
             updateEnd={p.updateEnd}
-            updateStart={p.updateStart}
+            updateOrigin={p.updateOrigin}
             userProfile={p.userProfile}
           />
           {p.ui.showLog &&

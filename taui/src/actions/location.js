@@ -1,8 +1,5 @@
 // @flow
-import lonlat from '@conveyal/lonlat'
-
 import type {Location, LonLat} from '../types'
-import {setValues} from '../utils/hash'
 
 import {addActionLogItem} from './log'
 import {
@@ -11,24 +8,7 @@ import {
 } from './network'
 import {reverseGeocode} from './geocode'
 
-const setLocation = (which: 'end' | 'start', location?: Location) => {
-  if (location) {
-    setValues({
-      [`${which}`]: location.label,
-      [`${which}Coordinate`]: location.position
-        ? lonlat.toString(location.position)
-        : null
-    })
-  } else {
-    setValues({
-      [`${which}`]: null,
-      [`${which}Coordinate`]: null
-    })
-  }
-}
-
 export const setEnd = (end: any) => {
-  setLocation('end', end)
   return {
     type: 'set end',
     payload: end
@@ -36,12 +16,24 @@ export const setEnd = (end: any) => {
 }
 
 export const setStart = (start: any) => {
-  setLocation('start', start)
   return {
     type: 'set start',
     payload: start
   }
 }
+
+export const updateOrigin = (value?: Location, network?: string) =>
+  value && value.label && value.position && network
+    ? [
+      setNetworksToLoading(),
+      addActionLogItem(`Updating origin to ${value.label} for network ${network}`),
+      setStart(value),
+      fetchAllTimesAndPathsForCoordinate(value.position)
+    ]
+    : [
+      addActionLogItem('Clearing origin'),
+      setStart()
+    ]
 
 /**
  * Update the start

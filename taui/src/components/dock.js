@@ -3,8 +3,11 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
+import type {PointFeature} from '../types'
+
 type Props = {
   geocode: (string, Function) => void,
+  neighborhoods: Array<PointFeature>,
   reverseGeocode: (string, Function) => void,
   showSpinner: boolean
 }
@@ -19,7 +22,23 @@ export default class Dock extends PureComponent<Props> {
     super(props)
 
     this.state = {
-      componentError: props.componentError
+      componentError: props.componentError,
+      neighborhoods: props.neighborhoods,
+      neighborhoodRoutes: props.neighborhoodRoutes
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.neighborhoods &&
+      (!this.state.neighborhoods || !this.state.neighborhoods.length)) {
+      const neighborhoods = [Object.assign({}, nextProps.neighborhoods)]
+      this.setState({neighborhoods: neighborhoods})
+    }
+
+    if (nextProps.neighborhoodRoutes && nextProps.neighborhoodRoutes.length) {
+      console.log('got neighborhood routes')
+      console.log(nextProps.neighborhoodRoutes)
+      this.setState({neighborhoodRoutes: [Object.assign({}, nextProps.neighborhoodRoutes)]})
     }
   }
 
