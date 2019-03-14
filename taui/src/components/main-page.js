@@ -1,6 +1,5 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
-import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import get from 'lodash/get'
 import memoize from 'lodash/memoize'
@@ -11,16 +10,13 @@ import type {
   MapboxFeature,
   MapEvent
 } from '../types'
-import {NETWORK_COLORS} from '../constants'
 import {getAsObject} from '../utils/hash'
 import downloadJson from '../utils/download-json'
 
+import Dock from './dock'
 import Form from './form'
 import Log from './log'
 import Map from './map'
-import RouteAccess from './route-access'
-import RouteCard from './route-card'
-import RouteSegments from './route-segments'
 
 /**
  * Displays map and sidebar.
@@ -186,7 +182,10 @@ export default class MainPage extends React.PureComponent<Props> {
             updateStart={p.updateStart}
           />
         </div>
-        <Dock showSpinner={p.ui.fetches > 0} componentError={this.state.componentError}>
+        <Dock
+          componentError={this.state.componentError}
+          neighborhoods={p.neighborhoods}
+          showSpinner={p.ui.fetches > 0}>
           <Form
             boundary={p.geocoder.boundary}
             end={p.geocoder.end}
@@ -198,56 +197,12 @@ export default class MainPage extends React.PureComponent<Props> {
             updateStart={p.updateStart}
             userProfile={p.userProfile}
           />
-          {p.data.networks.map((network, index) => (
-            <RouteCard
-              active={p.activeNetworkIndex === index}
-              cardColor={NETWORK_COLORS[index]}
-              downloadIsochrone={p.isochrones[index] && this._downloadIsochrone(index)}
-              index={index}
-              key={`${index}-route-card`}
-              onMouseOver={() => p.setActiveNetwork(network.name)}
-              setShowOnMap={this._setShowOnMap(index)}
-              showOnMap={network.showOnMap}
-              title={network.name}
-            >
-              {!p.isLoading &&
-                <RouteAccess
-                  accessibility={p.accessibility[index]}
-                  grids={p.data.grids}
-                  hasStart={!!p.geocoder.start}
-                  oldAccessibility={p.accessibility[p.accessibility.length - 1]}
-                  showComparison={p.showComparison}
-                />}
-              {!p.isLoading && !!p.geocoder.end && !!p.geocoder.start &&
-                <RouteSegments
-                  oldTravelTime={p.travelTimes[p.accessibility.length - 1]}
-                  routeSegments={p.uniqueRoutes[index]}
-                  travelTime={p.travelTimes[index]}
-                />}
-            </RouteCard>
-          ))}
           {p.ui.showLog &&
             <div className='Card'>
               <div className='CardTitle'>
                 <span className='fa fa-terminal' /> {message('Log.Title')}
               </div>
               <Log items={p.actionLog} />
-            </div>}
-          {p.ui.allowChangeConfig &&
-            <div className='Card'>
-              <div
-                className='CardTitle'
-              >
-                <span className='fa fa-cog' /> Configure
-                <a
-                  className='pull-right'
-                  onClick={this._updateConfig}
-                >save changes</a>
-              </div>
-              <div className='CardContent'>
-                <br /><a href='https://github.com/conveyal/taui/blob/aa9e6285002d59b4b6ae38890229569311cc4b6d/config.json.tmp' target='_blank'>See example config</a>
-              </div>
-              <textarea ref={this._saveRefToConfig} defaultValue={window.localStorage.getItem('taui-config')} />
             </div>}
           {p.ui.showLink &&
             <div className='Attribution'>
@@ -258,24 +213,4 @@ export default class MainPage extends React.PureComponent<Props> {
       </div>
     )
   }
-}
-
-function Dock (props) {
-  return <div className='Taui-Dock'>
-    <div className='Taui-Dock-content'>
-      <div className='title'>
-        {props.showSpinner
-          ? <Icon type='spinner' className='fa-spin' />
-          : <Icon type='map' />}
-        {' '}
-        {message('Title')}
-      </div>
-      {props.componentError &&
-        <div>
-          <h1>Error</h1>
-          <p>{props.componentError.info}</p>
-        </div>}
-      {props.children}
-    </div>
-  </div>
 }
