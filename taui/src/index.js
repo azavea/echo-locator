@@ -48,7 +48,7 @@ function mapStateToProps (state, ownProps) {
     drawOpportunityDatasets: select.drawOpportunityDatasets(state, ownProps),
     drawRoutes: select.drawRoutes(state, ownProps),
     // drawIsochrones: select.drawIsochrones(state, ownProps),
-    isochrones: select.isochrones(state, ownProps),
+    // isochrones: select.isochrones(state, ownProps),
     isLoading: select.loading(state, ownProps),
     neighborhoods: get(state, 'data.neighborhoods'),
     neighborhoodBounds: get(state, 'data.neighborhoodBounds'),

@@ -50,27 +50,22 @@ export const setNetworksToEmpty = () =>
  * loading. Second, load the grids. Third, gecode the starting parameters
  */
 export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => {
+  const state = getState()
+  const start = startCoordinate || ((state && state.data && state.data.origin)
+    ? state.data.origin.position : null)
   if (process.env.DISABLE_CONFIG) {
-    const state = getState()
-    console.log('initialize network with state')
-    console.log(state)
-    if (!startCoordinate && state.geocoder.proximity) {
-      console.log('set center coordinates')
+    if (!start && state.geocoder.proximity) {
       const centerCoordinates = lonlat(state.geocoder.proximity)
       dispatch(updateMap({centerCoordinates: lonlat.toLeaflet(centerCoordinates)}))
     } else if (startCoordinate) {
-      console.log('use start coordinate to center')
       dispatch(updateMap({centerCoordinates: lonlat.toLeaflet(startCoordinate)}))
     }
-
-    // FIXME: is this method ever invoked?
-    console.log('initialize network')
 
     dispatch(loadDataset(
       state.data.networks,
       state.data.grids,
       state.data.pointsOfInterestUrl,
-      startCoordinate || lonlat.fromString(state.geocoder.proximity)
+      start
     ))
   } else {
     try {
@@ -83,7 +78,7 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
             json.networks,
             json.grids,
             json.pointsOfInterestUrl,
-            startCoordinate || json.startCoordinate
+            start
           ))
         }
       }
@@ -218,9 +213,11 @@ const fetchTimesAndPathsForNetworkAtCoordinate = (network, coordinate, currentZo
     network.north
   )
   const index = originPoint.x + originPoint.y * network.width
-  return [
+  return !isNaN(index) ? [
     logItem(`Fetching data for index ${index} (x: ${originPoint.x}, y: ${originPoint.y})...`),
     fetchTimesAndPathsForNetworkAtIndex(network, originPoint, index)
+  ] : [
+    logItem(`Skipping data fetch for invalid origin (x: ${originPoint.x}, y: ${originPoint.y})`)
   ]
 }
 

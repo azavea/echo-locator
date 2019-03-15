@@ -1,19 +1,22 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
+import sortBy from 'lodash/sortBy'
 import {PureComponent} from 'react'
 
-import {NETWORK_COLORS} from '../constants'
+import {NEIGHBORHOOD_RESULTS_COUNT, NETWORK_COLORS} from '../constants'
 import type {PointFeature} from '../types'
 
 import RouteCard from './route-card'
 import RouteSegments from './route-segments'
 
 type Props = {
-  geocode: (string, Function) => void,
+  activeNetworkIndex: number,
+  isLoading: boolean,
+  neighborhoodRoutes: any,
   neighborhoods: Array<PointFeature>,
-  reverseGeocode: (string, Function) => void,
-  showSpinner: boolean
+  showSpinner: boolean,
+  travelTimes: number[]
 }
 
 /**
@@ -28,35 +31,55 @@ export default class Dock extends PureComponent<Props> {
     this.state = {
       componentError: props.componentError,
       neighborhoods: props.neighborhoods,
-      neighborhoodRoutes: props.neighborhoodRoutes
+      neighborhoodRoutes: props.neighborhoodRoutes,
+      neighborhoodsWithRoutes: null
+    }
+
+    const {neighborhoods, neighborhoodRoutes, travelTimes} = props
+    if (neighborhoodRoutes && travelTimes) {
+      const sorted = this.sortNeighborhoodsWithRoutes(
+        neighborhoods,
+        neighborhoodRoutes,
+        travelTimes)
+
+      this.state.neighborhoodsWithRoutes = sorted
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.neighborhoods &&
-      (!this.state.neighborhoods || !this.state.neighborhoods.length)) {
-      const neighborhoods = [Object.assign({}, nextProps.neighborhoods)]
-      this.setState({neighborhoods: neighborhoods})
+    const {
+      neighborhoods,
+      neighborhoodRoutes,
+      travelTimes
+    } = nextProps
+    const sorted = this.sortNeighborhoodsWithRoutes(neighborhoods, neighborhoodRoutes, travelTimes)
+    this.setState({neighborhoodsWithRoutes: sorted})
+  }
+
+  sortNeighborhoodsWithRoutes (neighborhoods, neighborhoodRoutes, travelTimes) {
+    if (!neighborhoodRoutes || !neighborhoodRoutes.length || !travelTimes || !neighborhoods) {
+      return
     }
 
-    if (nextProps.neighborhoodRoutes && nextProps.neighborhoodRoutes.length) {
-      console.log('got neighborhood routes')
-      console.log(nextProps.neighborhoodRoutes)
-      this.setState({neighborhoodRoutes: [Object.assign({}, nextProps.neighborhoodRoutes)]})
-    }
+    // Put the three best trips found (if any) and the best travel time on its neighborhood object
+    // and sort the augmented neighborhoods.
+    const neighborhoodsWithRoutes = neighborhoods.features.map((n, index) => {
+      const segments = neighborhoodRoutes[index].routeSegments
+      const time = travelTimes[index]
+      return Object.assign({segments, time}, n)
+    })
+    const sorted = sortBy(neighborhoodsWithRoutes, 'time')
+    return sorted.slice(0, NEIGHBORHOOD_RESULTS_COUNT)
   }
 
   render () {
     const {
       activeNetworkIndex,
       children,
-      neighborhoods,
-      neighborhoodRoutes,
-      showSpinner,
-      travelTimes
+      isLoading,
+      showSpinner
     } = this.props
-    const {componentError} = this.state
-
+    const {componentError, neighborhoodsWithRoutes} = this.state
     return <div className='Taui-Dock'>
       <div className='Taui-Dock-content'>
         <div className='title'>
@@ -72,18 +95,17 @@ export default class Dock extends PureComponent<Props> {
             <p>componentError.info}</p>
           </div>}
         {children}
-        {neighborhoodRoutes && neighborhoodRoutes.length &&
-          neighborhoods.features.map((neighborhood, index) =>
-            neighborhoodRoutes[index].routeSegments &&
-            neighborhoodRoutes[index].routeSegments.length
+        {!isLoading && neighborhoodsWithRoutes && neighborhoodsWithRoutes.length &&
+          neighborhoodsWithRoutes.map((neighborhood, index) =>
+            neighborhood.segments && neighborhood.segments.length
               ? (<RouteCard
                 cardColor={NETWORK_COLORS[activeNetworkIndex]}
                 index={index}
                 key={`${index}-route-card`}
                 title={neighborhood.properties.town}>
                 <RouteSegments
-                  routeSegments={neighborhoodRoutes[index].routeSegments}
-                  travelTime={travelTimes[index]}
+                  routeSegments={neighborhood.segments}
+                  travelTime={neighborhood.time}
                 />
               </RouteCard>) : null)}
         <div className='Attribution'>

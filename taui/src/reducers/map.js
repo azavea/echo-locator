@@ -12,6 +12,13 @@ export default handleActions(
         ...state,
         centerCoordinates: newCenter
       }
+    },
+    'set origin' (state, action) {
+      const newCenter = action.payload && action.payload.position
+      return {
+        ...state,
+        centerCoordinates: newCenter
+      }
     }
   },
   {

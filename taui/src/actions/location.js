@@ -8,6 +8,13 @@ import {
 } from './network'
 import {reverseGeocode} from './geocode'
 
+export const setOrigin = (origin: any) => {
+  return {
+    type: 'set origin',
+    payload: origin
+  }
+}
+
 export const setEnd = (end: any) => {
   return {
     type: 'set end',
@@ -22,17 +29,17 @@ export const setStart = (start: any) => {
   }
 }
 
-export const updateOrigin = (value?: Location, network?: string) =>
-  value && value.label && value.position && network
+export const updateOrigin = (value?: Location) =>
+  value && value.label && value.position
     ? [
       setNetworksToLoading(),
-      addActionLogItem(`Updating origin to ${value.label} for network ${network}`),
-      setStart(value),
+      addActionLogItem(`Updating origin to ${value.label}`),
+      setOrigin(value),
       fetchAllTimesAndPathsForCoordinate(value.position)
     ]
     : [
       addActionLogItem('Clearing origin'),
-      setStart()
+      setOrigin()
     ]
 
 /**

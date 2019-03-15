@@ -26,13 +26,7 @@ export default class MainPage extends React.PureComponent<Props> {
   }
 
   componentDidMount () {
-    if (this.props.userProfile && this.props.userProfile.destinations &&
-      this.props.userProfile.destinations.length) {
-      const center: LonLat = this.props.userProfile.destinations[0].location.position
-      this.props.initialize(center)
-    } else {
-      this.props.initialize()
-    }
+    this.props.initialize()
   }
 
   _saveRefToConfig = (ref) => {
@@ -160,21 +154,19 @@ export default class MainPage extends React.PureComponent<Props> {
           />
         </div>
         <Dock
+          activeNetworkIndex={p.activeNetworkIndex}
           componentError={this.state.componentError}
+          isLoading={p.isLoading}
           neighborhoods={p.neighborhoods}
           neighborhoodRoutes={p.neighborhoodRoutes}
-          updateOrigin={p.updateOrigin}
           showSpinner={p.ui.fetches > 0}
           travelTimes={p.neighborhoodTravelTimes}>
           <Form
-            boundary={p.geocoder.boundary}
-            end={p.geocoder.end}
             geocode={p.geocode}
             networks={p.data.networks}
             reverseGeocode={p.reverseGeocode}
             setActiveNetwork={p.setActiveNetwork}
-            start={p.geocoder.start}
-            updateEnd={p.updateEnd}
+            origin={p.data.origin}
             updateOrigin={p.updateOrigin}
             userProfile={p.userProfile}
           />

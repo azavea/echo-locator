@@ -1,11 +1,12 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
-import findIndex from 'lodash/findIndex'
 import get from 'lodash/get'
 import memoize from 'lodash/memoize'
 import {createSelector} from 'reselect'
 
 import createTransitiveRoutes from '../utils/create-transitive-routes'
+
+import selectActiveNetworkIndex from './active-network-index'
 
 /**
  * This assumes loaded query, paths, and targets.
@@ -17,16 +18,12 @@ const memoizedTransitiveRoutes = memoize(
 )
 
 export default createSelector(
+  selectActiveNetworkIndex,
   state => get(state, 'data.networks'),
-  state => get(state, 'geocoder.start'),
+  state => get(state, 'data.origin'),
   state => get(state, 'data.neighborhoods'),
-  (networks, start, neighborhoods) => {
-    const networkIndex = findIndex(networks, n => !!n.active)
-    if (networkIndex < 0) {
-      return []
-    }
-    const network = networks[networkIndex]
-    const td = network.transitive
+  (activeNetworkIndex, networks, start, neighborhoods) => {
+    const network = networks[activeNetworkIndex]
     if (!neighborhoods || !neighborhoods.features || !neighborhoods.features.length) {
       return []
     }
@@ -38,9 +35,11 @@ export default createSelector(
         start.position &&
         neighborhood.geometry &&
         neighborhood.geometry.coordinates &&
+        network &&
+        network.ready &&
+        network.originPoint &&
         network.paths &&
-        network.targets &&
-        td.patterns
+        network.targets
       ) {
         const end = {
           label: neighborhood.properties.town,
