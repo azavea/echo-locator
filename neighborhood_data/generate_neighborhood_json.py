@@ -19,7 +19,8 @@ NEIGHBORHOOD_CSV = 'neighborhood_centroids.csv'
 OUTPUT_FILE = 'neighborhoods.json'
 
 # Columns to treat as text in the input CSV; all others assumed to be floats.
-TEXT_COLUMNS = ['town', 'proposedsafmrfmr']
+TEXT_COLUMNS = ['town', 'proposedsafmrfmr','fmr_area_name','rent_value',
+    'finalRentValue','Region','Region_notes','Transit','Transit_notes']
 
 if not os.path.isfile(NEIGHBORHOOD_CSV):
     print('\nFirst run add_zcta_centroids.py to generate {f}.\n\n'.format(
@@ -37,9 +38,9 @@ with open(NEIGHBORHOOD_CSV) as inf:
         fieldnames.remove('x')
         fieldnames.remove('y')
         # All neighborhoods in output are ECC, so omit the field
-        fieldnames.remove('ecc')
+        fieldnames.remove('ecc_expand')
         # The zip code is the ID, so doesn't also need to be a property
-        fieldnames.remove('zipcode')
+        fieldnames.remove('zip_code')
 
         schema = {
             'geometry': 'Point',
@@ -53,8 +54,8 @@ with open(NEIGHBORHOOD_CSV) as inf:
 
             exported = 0
             for n in rdr:
-                zipcode = n['zipcode']
-                if n['ecc'] != '1':
+                zipcode = n['zip_code']
+                if n['ecc_expand'] != '1':
                     print('Skipping non-ECC zip: {z}'.format(z=zipcode))
                     continue
 
