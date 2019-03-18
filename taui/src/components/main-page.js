@@ -109,6 +109,11 @@ export default class MainPage extends React.PureComponent<Props> {
     }
   })
 
+  _showNeighborhoodRoutes () {
+    const p = this.props
+    return !p.isLoading && get(p, 'neighborhoodRoutes[0].journeys[0]')
+  }
+
   _showRoutes () {
     const p = this.props
     return !p.isLoading && get(p, 'allTransitiveData[0].journeys[0]')
@@ -139,12 +144,12 @@ export default class MainPage extends React.PureComponent<Props> {
             isochrones={p.isochrones}
             drawIsochrones={p.drawIsochrones}
             drawOpportunityDatasets={p.drawOpportunityDatasets}
-            drawRoutes={p.drawRoutes}
+            drawRoutes={p.drawNeighborhoodRoutes}
             neighborhoods={p.neighborhoods}
             neighborhoodBounds={p.neighborhoodBounds}
             origin={p.data.origin}
             pointsOfInterest={p.pointsOfInterest}
-            showRoutes={this._showRoutes()}
+            showRoutes={this._showNeighborhoodRoutes()}
             setEndPosition={p.updateEndPosition}
             setStartPosition={p.updateStartPosition}
             start={p.geocoder.start}

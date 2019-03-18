@@ -45,6 +45,7 @@ function mapStateToProps (state, ownProps) {
     activeNetworkIndex: select.activeNetworkIndex(state, ownProps),
     // activeTransitive: select.activeTransitive(state, ownProps),
     allTransitiveData: select.allTransitiveData(state, ownProps),
+    drawNeighborhoodRoutes: select.drawNeighborhoodRoutes(state, ownProps),
     drawOpportunityDatasets: select.drawOpportunityDatasets(state, ownProps),
     drawRoutes: select.drawRoutes(state, ownProps),
     // drawIsochrones: select.drawIsochrones(state, ownProps),

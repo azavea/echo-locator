@@ -51,8 +51,11 @@ export default createSelector(
         routes.push({
           label: neighborhood.properties.town, // not unique
           journeys: result.journeys,
+          patterns: result.patterns,
           places: result.places,
-          routeSegments: result.routeSegments
+          routes: result.routes,
+          routeSegments: result.routeSegments,
+          stops: result.stops
         })
       } else {
         return []

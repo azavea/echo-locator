@@ -42,6 +42,7 @@ type Props = {
     userProfile: AccountProfile
   },
   drawIsochrones: Function[],
+  drawNeighborhoodRotues: any[],
   drawOpportunityDatasets: any[],
   drawRoutes: any[],
   geocode: (string, Function) => void,
