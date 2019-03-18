@@ -75,25 +75,7 @@ export default class SelectAccount extends PureComponent<Props> {
     } else {
       this.setState({errorMessage: ''})
     }
-
-    var found = false
-    Storage.list('')
-      .then(result => {
-        const keys = result.map((r) => r.key)
-        keys.forEach((key) => {
-          if (searchVoucher && key === searchVoucher) {
-            this.selectAccount(key)
-            found = true
-          }
-        })
-        if (!found) {
-          this.setState({noResults: true})
-        }
-      })
-      .catch(err => {
-        console.error(err)
-        this.setState({errorMessage: message('Accounts.SearchError')})
-      })
+    this.selectAccount(searchVoucher)
   }
 
   selectAccount (key) {
@@ -103,9 +85,19 @@ export default class SelectAccount extends PureComponent<Props> {
       this.props.changeUserProfile(profile)
       this.props.history.push({pathname: '/profile', state: {fromApp: true}})
     }).catch(err => {
-      console.error('Failed to fetch account profile from S3 for key ' + key)
-      console.error(err)
-      this.setState({errorMessage: message('Accounts.SelectError')})
+      // If file not found, error message returned has `code` / `name`: NoSuchKey
+      // and `message`: The specified key does not exist `statusCode`: 404
+      // This is an expected case.
+      if (err.code === 'NoSuchKey') {
+        this.setState({noResults: true})
+      } else {
+        // This is an actual error.
+        // `code`: CredentialsError will occur if attempting to access when not signed in
+        // (should not happen)
+        this.setState({errorMessage: message('Accounts.SelectError')})
+        console.error('Failed to fetch account profile from S3 for key ' + key)
+        console.error(err)
+      }
     })
   }
 
