@@ -54,7 +54,6 @@ Accounts:
   CreateError: Failed to create profile. Please try again.
   Name: Name of Head of Household
   Search: Search
-  SearchError: Failed to search profiles. Please try again.
   SelectError: Failed to set profile. Please try again.
   NoResults: No profile found for that voucher number. Create new profile now?
   Title: Profiles
