@@ -142,6 +142,7 @@ export default class MainPage extends React.PureComponent<Props> {
             drawRoutes={p.drawRoutes}
             neighborhoods={p.neighborhoods}
             neighborhoodBounds={p.neighborhoodBounds}
+            origin={p.data.origin}
             pointsOfInterest={p.pointsOfInterest}
             showRoutes={this._showRoutes()}
             setEndPosition={p.updateEndPosition}
