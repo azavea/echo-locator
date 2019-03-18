@@ -1,4 +1,5 @@
 // @flow
+import message from '@conveyal/woonerf/message'
 import React, {Component} from 'react'
 import { Switch, Redirect, Route } from 'react-router-dom'
 
@@ -104,6 +105,16 @@ export default class Application extends Component<Props, State> {
     }
   }
 
+  noMatch ({location}) {
+    return (
+      <div>
+        <h1>
+          {message('PageNotFound')} <code>{location.pathname}</code>
+        </h1>
+      </div>
+    )
+  }
+
   /**
    *
    */
@@ -115,6 +126,7 @@ export default class Application extends Component<Props, State> {
     // Can navigate to map once at least one destination set on the profile.
     const canViewMap = userProfile && userProfile.destinations && userProfile.destinations.length
     const isAnonymous = userProfile && userProfile.key === ANONYMOUS_USERNAME
+    const NoMatch = this.noMatch
     return (
       <Switch>
         <Route exact path='/' render={() => (
@@ -131,6 +143,7 @@ export default class Application extends Component<Props, State> {
         <Route path='/profile' render={() => (
           profileLoading || userProfile
             ? (<EditProfile {...props} />) : (<Redirect to='/search' />))} />
+        <Route component={NoMatch} />
       </Switch>
     )
   }

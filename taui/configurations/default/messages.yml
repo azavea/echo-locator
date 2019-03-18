@@ -29,6 +29,7 @@ Map:
     SetStart: Set start
     SetEnd: Set end
     ClearMarkers: Clear markers
+PageNotFound: Oops! There is no page at
 Strings:
   ApplicationReady: Application is ready!
   SearchForStartAddress: Start location
