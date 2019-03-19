@@ -111,7 +111,7 @@ export default class MainPage extends React.PureComponent<Props> {
 
   _showNeighborhoodRoutes () {
     const p = this.props
-    return !p.isLoading && get(p, 'neighborhoodRoutes[0].journeys[0]')
+    return !p.isLoading && !!get(p, 'neighborhoodRoutes[0]')
   }
 
   _showRoutes () {

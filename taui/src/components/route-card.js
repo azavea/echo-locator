@@ -35,7 +35,7 @@ export default class RouteCard extends React.PureComponent<Props> {
       >
         <div
           className='CardTitle'
-          onClick={(e) => onClick(neighborhood.properties.id, e)}
+          onClick={(e) => onClick(neighborhood)}
           onMouseOver={(e) => setActiveNeighborhood(neighborhood.properties.id)}
           style={{
             backgroundColor: cardColor,

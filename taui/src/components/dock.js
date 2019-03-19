@@ -7,6 +7,7 @@ import {PureComponent} from 'react'
 import {NEIGHBORHOOD_RESULTS_COUNT, NETWORK_COLORS} from '../constants'
 import type {PointFeature} from '../types'
 
+import NeighborhoodListInfo from './neighborhood-list-info'
 import RouteCard from './route-card'
 import RouteSegments from './route-segments'
 
@@ -111,6 +112,9 @@ export default class Dock extends PureComponent<Props> {
                 <RouteSegments
                   routeSegments={neighborhood.segments}
                   travelTime={neighborhood.time}
+                />
+                <NeighborhoodListInfo
+                  neighborhood={neighborhood}
                 />
               </RouteCard>) : null)}
         <div className='Attribution'>
