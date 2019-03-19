@@ -29,7 +29,12 @@ Map:
     SetStart: Set start
     SetEnd: Set end
     ClearMarkers: Clear markers
+NeighborhoodInfo:
+  Affordability: Affordability
+  Education: Education
 PageNotFound: Oops! There is no page at
+RouteCard:
+  MarkerLink: Show neighborhood on map
 Strings:
   ApplicationReady: Application is ready!
   SearchForStartAddress: Start location

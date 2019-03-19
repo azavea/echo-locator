@@ -1,5 +1,6 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
+import message from '@conveyal/woonerf/message'
 import React from 'react'
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
 
 export default class RouteCard extends React.PureComponent<Props> {
   onClick = (neighborhood) => {
-    console.log('TODO: go to neighborhood details')
+    console.log('TODO: #28 go to neighborhood details')
     console.log(neighborhood)
   }
   render () {
@@ -44,7 +45,7 @@ export default class RouteCard extends React.PureComponent<Props> {
           <div className='CardLinks'>
             <a
               onClick={(e) => console.log(e)}
-              title='Show neighborhood on map'
+              title={message('RouteCard.MarkerLink')}
             >
               {neighborhood.active
                 ? <Icon type='dot-circle-o' />

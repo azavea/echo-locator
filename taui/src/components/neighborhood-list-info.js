@@ -1,4 +1,5 @@
 // @flow
+import message from '@conveyal/woonerf/message'
 
 export default function NeighborhoodListInfo ({neighborhood}) {
   return (
@@ -6,10 +7,12 @@ export default function NeighborhoodListInfo ({neighborhood}) {
       <tr>
         <td />
         <td>
-          <span>Education: {neighborhood.properties.education_percentile.toLocaleString()}</span>
+          <span>{message('NeighborhoodInfo.Education')}:
+            {neighborhood.properties.education_percentile.toLocaleString()}</span>
         </td>
         <td>
-          <span>Rent: {neighborhood.properties.finalRentValue}</span>
+          <span>{message('NeighborhoodInfo.Affordability')}:
+            {neighborhood.properties.finalRentValue}</span>
         </td>
       </tr>
     </tbody>
