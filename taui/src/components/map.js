@@ -1,7 +1,5 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
-import Icon from '@conveyal/woonerf/components/icon'
-import message from '@conveyal/woonerf/message'
 import Leaflet from 'leaflet'
 import find from 'lodash/find'
 import React, {PureComponent} from 'react'
@@ -186,10 +184,8 @@ export default class Map extends PureComponent<Props, State> {
     this.props.updateMap({zoom})
   }
 
+  // Click on map marker for a neighborhood
   _clickNeighborhood = (feature) => {
-    // TODO: #27 implement interactivity
-    console.log('clicked neighborhood:')
-    console.log(feature)
     this.props.setActiveNeighborhood(feature.properties.id)
   }
 
