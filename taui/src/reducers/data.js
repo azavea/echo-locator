@@ -42,6 +42,12 @@ export default handleActions(
         networks
       }
     },
+    'set active neighborhood' (state, action) {
+      return {
+        ...state,
+        activeNeighborhood: action.payload
+      }
+    },
     'set active network' (state, action) {
       const networks = [...state.networks]
 

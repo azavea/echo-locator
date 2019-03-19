@@ -190,6 +190,7 @@ export default class Map extends PureComponent<Props, State> {
     // TODO: #27 implement interactivity
     console.log('clicked neighborhood:')
     console.log(feature)
+    this.props.setActiveNeighborhood(feature.properties.id)
   }
 
   _clickPoi = (feature) => {
@@ -206,7 +207,6 @@ export default class Map extends PureComponent<Props, State> {
   /* eslint complexity: 0 */
   render () {
     const p = this.props
-    const s = this.state
 
     // Index elements with keys to reset them when elements are added / removed
 
@@ -249,7 +249,7 @@ export default class Map extends PureComponent<Props, State> {
         {p.showRoutes && p.drawRoutes.map(drawRoute =>
           <DrawRoute
             {...drawRoute}
-            key={`draw-routes-${drawRoute.index}-${this._getKey()}`}
+            key={`draw-routes-${drawRoute.id}-${this._getKey()}`}
             zIndex={getZIndex()}
           />)}
 

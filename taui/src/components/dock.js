@@ -64,9 +64,11 @@ export default class Dock extends PureComponent<Props> {
     // Put the three best trips found (if any) and the best travel time on its neighborhood object
     // and sort the augmented neighborhoods.
     const neighborhoodsWithRoutes = neighborhoods.features.map((n, index) => {
-      const segments = neighborhoodRoutes[index].routeSegments
+      const route = neighborhoodRoutes[index]
+      const active = route.active
+      const segments = route.routeSegments
       const time = travelTimes[index]
-      return Object.assign({segments, time}, n)
+      return Object.assign({active, segments, time}, n)
     })
     const sorted = sortBy(neighborhoodsWithRoutes, 'time')
     return sorted.slice(0, NEIGHBORHOOD_RESULTS_COUNT)

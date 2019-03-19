@@ -5,20 +5,24 @@ import {createSelector} from 'reselect'
 
 import {STOP_STYLE, TRANSIT_STYLE, WALK_STYLE} from '../constants'
 
-import selectActiveNetworkIndex from './active-network-index'
 import selectNeighborhoodRoutes from './network-neighborhood-routes'
 
-const INACTIVE_OPACITY = 0.5
+const INACTIVE_OPACITY = 0.2
 
 /**
  * NB: All positions are [latitude, longitude] as they go directly to Leaflet
  */
 export default createSelector(
-  selectActiveNetworkIndex,
+  state => get(state, 'data.activeNeighborhood'),
   selectNeighborhoodRoutes,
-  (activeNetworkIndex, neighborhoodRoutes = []) => {
+  (activeNeighborhood, neighborhoodRoutes = []) => {
+    var activeNeighborhoodIndex = 0 // default to first
     const drawRoutes = neighborhoodRoutes.map((transitive, index) => {
-      const applyStyle = index === activeNetworkIndex
+      const isActive = transitive.id === activeNeighborhood
+      if (isActive) {
+        activeNeighborhoodIndex = index
+      }
+      const applyStyle = isActive
         ? {opacity: 1}
         : {opacity: INACTIVE_OPACITY}
       const walkStyle = {...WALK_STYLE, ...applyStyle}
@@ -27,6 +31,7 @@ export default createSelector(
       const segments = get(transitive, 'journeys[0].segments', [])
       return {
         index,
+        id: transitive.id,
         label: transitive.label,
         segments: segments.map(s => getSegmentPositions(s, transitive)),
         stops: segments
@@ -43,7 +48,7 @@ export default createSelector(
     })
 
     // Put the active network first
-    return [pullAt(drawRoutes, activeNetworkIndex)[0], ...drawRoutes]
+    return [pullAt(drawRoutes, activeNeighborhoodIndex)[0], ...drawRoutes]
   }
 )
 
@@ -57,11 +62,6 @@ function getWalkPositions (segment, transitive) {
     if (l.place_id) {
       const p = transitive.places.find(p => p.place_id === l.place_id)
       return [p.place_lat, p.place_lon]
-    }
-    if (!transitive.stops) {
-      console.warn('have no transitive stops')
-      console.log(transitive)
-      return []
     }
     const s = transitive.stops.find(s => s.stop_id === l.stop_id)
     return [s.stop_lat, s.stop_lon]

@@ -59,6 +59,7 @@ type Props = {
   pointsOfInterest: any, // FeatureCollection
   pointsOfInterestOptions: PointsOfInterest,
   reverseGeocode: (string, Function) => void,
+  setActiveNeighborhood: Function => void,
   setEnd: any => void,
   setProfile: Function => void,
   setSelectedTimeCutoff: any => void,
