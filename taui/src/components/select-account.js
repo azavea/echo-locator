@@ -4,6 +4,7 @@ import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
 import type {AccountProfile} from '../types'
+import validateVoucherNumber from '../utils/validate-voucher-number'
 
 /**
  * Search and select from accounts on S3.
@@ -34,12 +35,11 @@ export default class SelectAccount extends PureComponent<Props> {
     const search = this.search
     const voucher = this.state.voucherNumber
 
-    // TODO: #61 validate voucher number
-
     if (!voucher) {
-      console.error('Missing voucher')
-      this.setState({errorMessage:
-        'Enter a voucher number to create a profile.'})
+      this.setState({errorMessage: message('Accounts.MissingVoucherNumber')})
+      return
+    } else if (!validateVoucherNumber(voucher)) {
+      this.setState({errorMessage: message('Accounts.InvalidVoucherNumber')})
       return
     } else {
       this.setState({errorMessage: ''})
@@ -62,7 +62,7 @@ export default class SelectAccount extends PureComponent<Props> {
       .catch(err => {
         console.error('Failed to post new profile to S3')
         console.error(err)
-        this.setState({errorMessage: 'Accounts.CreateError'})
+        this.setState({errorMessage: message('Accounts.CreateError')})
       })
   }
 
@@ -71,6 +71,9 @@ export default class SelectAccount extends PureComponent<Props> {
     const searchVoucher = this.state.voucherNumber.toUpperCase().replace(/\s+/g, '')
     if (!searchVoucher) {
       this.setState({errorMessage: message('Accounts.SearchError')})
+      return
+    } else if (!validateVoucherNumber(searchVoucher)) {
+      this.setState({errorMessage: message('Accounts.InvalidVoucherNumber')})
       return
     } else {
       this.setState({errorMessage: ''})
