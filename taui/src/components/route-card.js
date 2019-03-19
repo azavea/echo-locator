@@ -13,23 +13,25 @@ type Props = {
 
 export default class RouteCard extends React.PureComponent<Props> {
   render () {
-    const p = this.props
     const {
       cardColor,
       children,
-      downloadIsochrone,
+      neighborhood,
+      onMouseOver,
+      setActiveNeighborhood,
       setShowOnMap,
       showOnMap,
       title
     } = this.props
+
     return (
       <div
         className={'Card'}
       >
         <div
           className='CardTitle'
-          onClick={p.setShowOnMap}
-          onMouseOver={p.onMouseOver}
+          onClick={(e) => setActiveNeighborhood(neighborhood.properties.id)}
+          onMouseOver={onMouseOver}
           style={{
             backgroundColor: cardColor,
             cursor: 'pointer'
@@ -43,13 +45,12 @@ export default class RouteCard extends React.PureComponent<Props> {
             >
               {showOnMap ? <Icon type='eye-slash' /> : <Icon type='eye' />}
             </a>
-            {downloadIsochrone &&
-              <a
-                onClick={downloadIsochrone}
-                title='Download GeoJSON isochrone for network'
-              >
-                <Icon type='download' />
-              </a>}
+            <a
+              onClick={(e) => console.log(e)}
+              title='Download GeoJSON isochrone for network'
+            >
+              <Icon type='download' />
+            </a>
           </div>
         </div>
         <table className='CardContent'>{children}</table>

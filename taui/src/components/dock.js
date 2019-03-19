@@ -79,6 +79,7 @@ export default class Dock extends PureComponent<Props> {
       activeNetworkIndex,
       children,
       isLoading,
+      setActiveNeighborhood,
       showSpinner
     } = this.props
     const {componentError, neighborhoodsWithRoutes} = this.state
@@ -101,10 +102,12 @@ export default class Dock extends PureComponent<Props> {
           neighborhoodsWithRoutes.map((neighborhood, index) =>
             neighborhood.segments && neighborhood.segments.length
               ? (<RouteCard
-                cardColor={NETWORK_COLORS[activeNetworkIndex]}
+                cardColor={neighborhood.active ? 'green' : NETWORK_COLORS[activeNetworkIndex]}
                 index={index}
                 key={`${index}-route-card`}
-                title={neighborhood.properties.town}>
+                neighborhood={neighborhood}
+                setActiveNeighborhood={setActiveNeighborhood}
+                title={neighborhood.properties.town + ': ' + neighborhood.properties.id}>
                 <RouteSegments
                   routeSegments={neighborhood.segments}
                   travelTime={neighborhood.time}
