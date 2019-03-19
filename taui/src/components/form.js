@@ -36,16 +36,29 @@ export default class Form extends React.PureComponent {
 
   constructor (props) {
     super(props)
+
+    this.setNetwork = this.setNetwork.bind(this)
+
+    const {networks, userProfile} = props
+
+    const destination = userProfile && userProfile.destinations
+      ? this.getPrimaryDestination(userProfile.destinations) : null
+
     this.state = {
-      destination: null,
-      network: null
+      destination,
+      network: networks && networks.length ? {
+        label: networks[0].name, value: networks[0].url
+      } : null
+    }
+
+    if (this.state.destination) {
+      props.updateOrigin(this.state.destination)
     }
   }
 
   componentWillReceiveProps (nextProps) {
     if (!this.state.network && nextProps.networks && nextProps.networks.length) {
-      const first = nextProps.networks[0]
-      this.setState({network: {label: first.name, value: first.url}})
+      this.setStateNetwork(nextProps.networks)
     }
 
     if (!this.state.destination && nextProps.userProfile && nextProps.userProfile.destinations) {
@@ -54,19 +67,33 @@ export default class Form extends React.PureComponent {
         console.error('No profile destinations available')
       } else {
         // Set default destination to the primary profile destination
-        const destination = find(destinations, d => !!d.primary)
-        if (!destination) {
-          console.error('No primary destination set on profile')
-          return
+        const destination = this.getPrimaryDestination(destinations)
+        if (destination) {
+          this.setState({destination})
+          this.props.updateOrigin(destination)
         }
-        const destinationObj = {
-          label: destination.location.label,
-          position: destination.location.position
-        }
-        this.setState({destination: destinationObj})
-        this.props.updateStart({destinationObj})
       }
     }
+  }
+
+  getPrimaryDestination = (destinations) => {
+    const destination = find(destinations, d => !!d.primary)
+    if (!destination) {
+      console.error('No primary destination set on profile')
+      return
+    }
+    const position = destination.location.position
+    return (position.lat !== 0 && position.lon !== 0) ? {
+      label: destination.location.label,
+      position: position
+    } : null
+  }
+
+  setStateNetwork = (networks) => {
+    const first = networks[0]
+    const network = {label: first.name, value: first.url}
+    this.setState({network})
+    this.props.setActiveNetwork(network.label)
   }
 
   selectDestination = (option?: ReactSelectOption) => {
@@ -75,11 +102,14 @@ export default class Form extends React.PureComponent {
       position: lonlat(option.position)
     } : null
     this.setState({destination: destinationObj})
-    this.props.updateStart(destinationObj)
+    this.props.updateOrigin(destinationObj)
   }
 
   setNetwork = (option?: ReactSelectOption) => {
     this.setState({network: option})
+    if (option) {
+      this.props.setActiveNetwork(option.label)
+    }
   }
 
   render () {
@@ -90,6 +120,8 @@ export default class Form extends React.PureComponent {
     const destinationFilterOptions = createDestinationsFilter(locations)
     const networks = p.networks.map(n => ({label: n.name, value: n.url}))
     const networkFilterOptions = createNetworksFilter(networks)
+
+    const setNetwork = this.setNetwork
 
     return (
       <div>
@@ -103,7 +135,7 @@ export default class Form extends React.PureComponent {
         <Select
           filterOptions={networkFilterOptions}
           options={networks}
-          onChange={this.setNetwork}
+          onChange={(e) => setNetwork(e)}
           placeholder={message('Map.SelectNetwork')}
           value={network}
         />

@@ -46,8 +46,8 @@ with open(NEIGHBORHOOD_FILE) as inf:
         rdr = csv.DictReader(inf)
         fieldnames = rdr.fieldnames
         for neighborhood in rdr:
-            zipcode = neighborhood['zipcode'].zfill(5)
-            neighborhood['zipcode'] = zipcode
+            zipcode = neighborhood['zip_code'].zfill(5)
+            neighborhood['zip_code'] = zipcode
             places[zipcode] = neighborhood
 
 with fiona.open(ZCTA_FILE) as shp:
@@ -65,7 +65,7 @@ with fiona.open(ZCTA_FILE) as shp:
                 places[zipcode]['x'] = centroid.x
                 places[zipcode]['y'] = centroid.y
 
-                if places[zipcode]['ecc']:
+                if places[zipcode]['ecc_expand']:
                     # normalize all polygons as multi polygons for GeoJSON
                     if zcta['geometry']['type'] is 'Polygon':
                         zcta['geometry']['coordinates'] = [zcta[

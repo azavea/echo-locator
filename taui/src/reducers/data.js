@@ -48,10 +48,7 @@ export default handleActions(
       return {
         ...state,
         networks: networks.map(
-          n =>
-            (n.name === action.payload
-              ? {...n, active: true}
-              : {...n, active: false})
+          n => Object.assign({}, n, {active: n.name === action.payload})
         )
       }
     },
@@ -71,6 +68,12 @@ export default handleActions(
       return {
         ...state,
         neighborhoodBounds: action.payload
+      }
+    },
+    'set origin' (state, action) {
+      return {
+        ...state,
+        origin: action.payload
       }
     },
     'set profile loading' (state, action) {

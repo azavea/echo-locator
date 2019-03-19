@@ -14,7 +14,6 @@ import {updateStartPosition} from './location'
 import {addActionLogItem as logItem, logError} from './log'
 import {updateMap} from './map'
 import {loadDataFromJSON} from './json-data'
-import {loadGrid} from './grid'
 
 export const setNetwork = (payload: any) => ({type: 'set network', payload})
 export const setActiveNetwork = (payload: string) => ({
@@ -51,19 +50,22 @@ export const setNetworksToEmpty = () =>
  * loading. Second, load the grids. Third, gecode the starting parameters
  */
 export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => {
+  const state = getState()
+  const start = startCoordinate || ((state && state.data && state.data.origin)
+    ? state.data.origin.position : null)
   if (process.env.DISABLE_CONFIG) {
-    const state = getState()
-    if (!startCoordinate && state.geocoder.proximity) {
+    if (!start && state.geocoder.proximity) {
       const centerCoordinates = lonlat(state.geocoder.proximity)
       dispatch(updateMap({centerCoordinates: lonlat.toLeaflet(centerCoordinates)}))
-      dispatch(updateStartPosition(centerCoordinates))
+    } else if (startCoordinate) {
+      dispatch(updateMap({centerCoordinates: lonlat.toLeaflet(startCoordinate)}))
     }
 
     dispatch(loadDataset(
       state.data.networks,
       state.data.grids,
       state.data.pointsOfInterestUrl,
-      startCoordinate || lonlat.fromString(state.geocoder.proximity)
+      start
     ))
   } else {
     try {
@@ -76,7 +78,7 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
             json.networks,
             json.grids,
             json.pointsOfInterestUrl,
-            startCoordinate || json.startCoordinate
+            start
           ))
         }
       }
@@ -124,9 +126,6 @@ export const loadDataset = (
   // Load neighborhood GeoJSON files
   dispatch(loadDataFromJSON('assets/neighborhoods.json', 'set neighborhoods'))
   dispatch(loadDataFromJSON('assets/neighborhood_bounds.json', 'set neighborhood bounds'))
-
-  // Load all opportunity grids
-  grids.forEach(grid => dispatch(loadGrid(grid)))
 
   // Log loading networks
   dispatch(logItem(
@@ -214,9 +213,11 @@ const fetchTimesAndPathsForNetworkAtCoordinate = (network, coordinate, currentZo
     network.north
   )
   const index = originPoint.x + originPoint.y * network.width
-  return [
+  return !isNaN(index) ? [
     logItem(`Fetching data for index ${index} (x: ${originPoint.x}, y: ${originPoint.y})...`),
     fetchTimesAndPathsForNetworkAtIndex(network, originPoint, index)
+  ] : [
+    logItem(`Skipping data fetch for invalid origin (x: ${originPoint.x}, y: ${originPoint.y})`)
   ]
 }
 

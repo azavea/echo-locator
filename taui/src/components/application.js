@@ -52,6 +52,8 @@ type Props = {
   loadProfile: Function => any,
   map: MapState,
   neighborhoodBounds: any,
+  neighborhoodRoutes: any,
+  neighborhoodTravelTimes: any,
   neighborhoods: any,
   pointsOfInterest: any, // FeatureCollection
   pointsOfInterestOptions: PointsOfInterest,
@@ -68,6 +70,7 @@ type Props = {
   updateEnd: any => void,
   updateEndPosition: LonLat => void,
   updateMap: any => void,
+  updateOrigin: any => void,
   updateStart: any => void,
   updateStartPosition: LonLat => void,
   updateUserProfile: AccountProfile => void

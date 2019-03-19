@@ -76,6 +76,7 @@ type Props = {
   start: null | Location,
   updateEnd: () => void,
   updateMap: any => void,
+  updateOrigin: () => void,
   updateStart: () => void,
   zoom: number
 }
@@ -227,31 +228,6 @@ export default class Map extends PureComponent<Props, State> {
           url={TILE_URL}
           zIndex={getZIndex()}
         />
-
-        {/* p.drawIsochrones.map((drawTile, i) => drawTile &&
-          <Gridualizer
-            drawTile={drawTile}
-            key={`draw-iso-${i}-${keyCount++}`}
-            zoom={p.zoom}
-          />) */}
-
-        {/* !p.isLoading && p.isochrones.map((iso, i) => !iso
-          ? null
-          : <GeoJSON
-            data={iso}
-            key={`${iso.key}-${i}-${keyCount++}`}
-            style={iso.style}
-            zIndex={getZIndex()}
-          />) */}
-
-        {!p.isLoading && p.isochrones.map((iso, i) => !iso
-          ? null
-          : <VGrid
-            data={iso}
-            key={`${iso.key}-${i}-${this._getKey()}`}
-            style={iso.style}
-            zIndex={getZIndex()}
-          />)}
 
         {p.drawOpportunityDatasets.map((drawTile, i) => drawTile &&
           <Gridualizer
