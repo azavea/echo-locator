@@ -23,8 +23,8 @@ export default createSelector(
         activeNeighborhoodIndex = index
       }
       const applyStyle = isActive
-        ? {opacity: 1}
-        : {opacity: INACTIVE_OPACITY}
+        ? {opacity: 1, fillOpacity: 1}
+        : {opacity: INACTIVE_OPACITY, fillOpacity: INACTIVE_OPACITY}
       const walkStyle = {...WALK_STYLE, ...applyStyle}
       const transitStyle = {...TRANSIT_STYLE, ...applyStyle}
       const stopStyle = {...STOP_STYLE, ...applyStyle}

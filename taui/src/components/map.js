@@ -12,7 +12,7 @@ import {
 } from 'react-leaflet'
 import VectorGrid from 'react-leaflet-vectorgrid/dist/react-leaflet-vectorgrid'
 
-import {STOP_STYLE} from '../constants'
+import {NEIGHBORHOOD_STYLE, STOP_STYLE} from '../constants'
 import type {
   Coordinate,
   Location,
@@ -271,7 +271,7 @@ export default class Map extends PureComponent<Props, State> {
         {!p.isLoading && p.neighborhoods &&
           <VGrid
             data={p.neighborhoods}
-            style={STOP_STYLE}
+            style={NEIGHBORHOOD_STYLE}
             idField='id'
             tooltip='town'
             onClick={this._clickNeighborhood}
