@@ -22,8 +22,6 @@ export default class RouteCard extends React.PureComponent<Props> {
       children,
       neighborhood,
       setActiveNeighborhood,
-      setShowOnMap,
-      showOnMap,
       title
     } = this.props
 
@@ -45,16 +43,12 @@ export default class RouteCard extends React.PureComponent<Props> {
           {title}
           <div className='CardLinks'>
             <a
-              onClick={setShowOnMap}
-              title='Show/hide isochrone for network'
-            >
-              {showOnMap ? <Icon type='eye-slash' /> : <Icon type='eye' />}
-            </a>
-            <a
               onClick={(e) => console.log(e)}
-              title='Download GeoJSON isochrone for network'
+              title='Show neighborhood on map'
             >
-              <Icon type='download' />
+              {neighborhood.active
+                ? <Icon type='dot-circle-o' />
+                : <Icon type='circle-o' />}
             </a>
           </div>
         </div>
