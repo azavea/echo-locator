@@ -7,7 +7,7 @@ import {STOP_STYLE, TRANSIT_STYLE, WALK_STYLE} from '../constants'
 
 import selectNeighborhoodRoutes from './network-neighborhood-routes'
 
-const INACTIVE_OPACITY = 0
+const INACTIVE_OPACITY = 0.2
 
 /**
  * NB: All positions are [latitude, longitude] as they go directly to Leaflet

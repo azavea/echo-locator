@@ -19,6 +19,7 @@ import type {
   LonLat,
   MapEvent
 } from '../types'
+import getActiveNeighborhood from '../utils/get-active-neighborhood'
 
 import DrawRoute from './draw-route'
 import Gridualizer from './gridualizer'
@@ -210,6 +211,10 @@ export default class Map extends PureComponent<Props, State> {
     let zIndex = 0
     const getZIndex = () => zIndex++
 
+    const activeNeighborhood = p.activeNeighborhood
+      ? getActiveNeighborhood(p.neighborhoods, p.activeNeighborhood)
+      : null
+
     return (
       <LeafletMap
         center={p.centerCoordinates}
@@ -286,6 +291,19 @@ export default class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}>
             <Popup>
               <span>{p.origin.label}</span>
+            </Popup>
+          </Marker>}
+
+        {activeNeighborhood &&
+          <Marker
+            draggable
+            icon={endIcon}
+            key={`end-${this._getKey()}`}
+            position={lonlat.toLeaflet(activeNeighborhood.geometry.coordinates)}
+            zIndex={getZIndex()}
+          >
+            <Popup>
+              <span>{activeNeighborhood.properties.town} {activeNeighborhood.properties.id}</span>
             </Popup>
           </Marker>}
 

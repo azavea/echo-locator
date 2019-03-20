@@ -137,6 +137,7 @@ export default class MainPage extends React.PureComponent<Props> {
           </svg>
           <Map
             {...p.map}
+            activeNeighborhood={p.data.activeNeighborhood}
             activeNetworkIndex={p.activeNetworkIndex}
             clearStartAndEnd={this._clearStartAndEnd}
             end={p.geocoder.end}

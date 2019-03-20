@@ -91,7 +91,6 @@ with open(NEIGHBORHOOD_CSV) as inf:
                     'properties': properties
                 }
 
-                print(neighborhood)
                 print('Writing ECC zip: {f}...'.format(f=zipcode))
                 outjson.write(neighborhood)
                 exported += 1
