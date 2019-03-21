@@ -1,10 +1,11 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
+import filter from 'lodash/filter'
 import sortBy from 'lodash/sortBy'
 import {PureComponent} from 'react'
 
-import {NEIGHBORHOOD_RESULTS_COUNT, NETWORK_COLORS} from '../constants'
+import {SIDEBAR_PAGE_SIZE, NETWORK_COLORS} from '../constants'
 import type {PointFeature} from '../types'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
@@ -29,11 +30,15 @@ export default class Dock extends PureComponent<Props> {
   constructor (props) {
     super(props)
 
+    this.goPreviousPage = this.goPreviousPage.bind(this)
+    this.goNextPage = this.goNextPage.bind(this)
+
     this.state = {
       componentError: props.componentError,
       neighborhoods: props.neighborhoods,
       neighborhoodRoutes: props.neighborhoodRoutes,
-      neighborhoodsWithRoutes: null
+      neighborhoodsWithRoutes: null,
+      page: 0
     }
 
     const {neighborhoods, neighborhoodRoutes, travelTimes} = props
@@ -57,6 +62,21 @@ export default class Dock extends PureComponent<Props> {
     this.setState({neighborhoodsWithRoutes: sorted})
   }
 
+  goPreviousPage () {
+    const page = this.state.page
+    if (page >= 1) {
+      this.setState({page: page - 1})
+    } else {
+      console.warn('Cannot move back from page ' + page)
+      this.setState({page: 0})
+    }
+  }
+
+  goNextPage () {
+    const page = this.state.page
+    this.setState({page: page + 1})
+  }
+
   sortNeighborhoodsWithRoutes (neighborhoods, neighborhoodRoutes, travelTimes) {
     if (!neighborhoodRoutes || !neighborhoodRoutes.length || !travelTimes || !neighborhoods) {
       return
@@ -71,8 +91,9 @@ export default class Dock extends PureComponent<Props> {
       const time = travelTimes[index]
       return Object.assign({active, segments, time}, n)
     })
-    const sorted = sortBy(neighborhoodsWithRoutes, 'time')
-    return sorted.slice(0, NEIGHBORHOOD_RESULTS_COUNT)
+    // Remove any inacessible neighborhoods before sorting by travel time
+    return sortBy(filter(neighborhoodsWithRoutes, n =>
+      n.segments && n.segments.length), 'time')
   }
 
   render () {
@@ -83,9 +104,19 @@ export default class Dock extends PureComponent<Props> {
       setActiveNeighborhood,
       showSpinner
     } = this.props
-    const {componentError, neighborhoodsWithRoutes} = this.state
+    const {componentError, neighborhoodsWithRoutes, page} = this.state
+    const goPreviousPage = this.goPreviousPage
+    const goNextPage = this.goNextPage
+
+    const startingOffset = page * SIDEBAR_PAGE_SIZE
+    const neighborhoodPage = neighborhoodsWithRoutes ? neighborhoodsWithRoutes.slice(
+      startingOffset, SIDEBAR_PAGE_SIZE + startingOffset) : []
+
+    const haveAnotherPage = neighborhoodsWithRoutes &&
+      neighborhoodsWithRoutes.length > (startingOffset + SIDEBAR_PAGE_SIZE)
+
     return <div className='Taui-Dock'>
-      <div className='Taui-Dock-content'>
+      <div className='Taui-Dock-content sidebar-dock'>
         <div className='title'>
           {showSpinner
             ? <Icon type='spinner' className='fa-spin' />
@@ -99,8 +130,8 @@ export default class Dock extends PureComponent<Props> {
             <p>componentError.info}</p>
           </div>}
         {children}
-        {!isLoading && neighborhoodsWithRoutes && neighborhoodsWithRoutes.length &&
-          neighborhoodsWithRoutes.map((neighborhood, index) =>
+        {!isLoading && neighborhoodPage && neighborhoodPage.length &&
+          neighborhoodPage.map((neighborhood, index) =>
             neighborhood.segments && neighborhood.segments.length
               ? (<RouteCard
                 cardColor={neighborhood.active ? 'green' : NETWORK_COLORS[activeNetworkIndex]}
@@ -117,6 +148,16 @@ export default class Dock extends PureComponent<Props> {
                   neighborhood={neighborhood}
                 />
               </RouteCard>) : null)}
+        <div className='account-profile__destination_row'>
+          {page > 0 && <button
+            className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+            onClick={goPreviousPage}>{message('Dock.GoPreviousPage')}
+          </button>}
+          {haveAnotherPage && <button
+            className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+            onClick={goNextPage}>{message('Dock.GoNextPage')}
+          </button>}
+        </div>
         <div className='Attribution'>
           site made by {' '}
           <a href='https://www.azavea.com' target='_blank' />
