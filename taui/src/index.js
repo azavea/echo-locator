@@ -4,6 +4,7 @@ import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import mount from '@conveyal/woonerf/mount'
 import get from 'lodash/get'
+import LogRocket from 'logrocket'
 import React from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter, withRouter } from 'react-router-dom'
@@ -37,6 +38,24 @@ document.title = message('Title')
 // configure Amplify resources (Cognito authentication and S3 storage)
 Auth.configure(awsmobile)
 Storage.configure(awsmobile)
+
+// configure LogRocket for error, activity tracking
+if (process.env.LOGROCKET_APP_ID) {
+  LogRocket.init(process.env.LOGROCKET_APP_ID, {
+    network: {
+      isEnabled: false
+    },
+    console: {
+      isEnabled: {
+        log: false,
+        debug: false,
+        info: false,
+        warn: true,
+        error: true
+      }
+    }
+  })
+}
 
 function mapStateToProps (state, ownProps) {
   return {
