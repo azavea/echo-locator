@@ -162,6 +162,7 @@ export default class MainPage extends React.PureComponent<Props> {
           />
         </div>
         <Dock
+          activeNeighborhood={p.data.activeNeighborhood}
           activeNetworkIndex={p.activeNetworkIndex}
           componentError={this.state.componentError}
           isLoading={p.isLoading}

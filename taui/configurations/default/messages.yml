@@ -30,6 +30,7 @@ Map:
     SetEnd: Set end
     ClearMarkers: Clear markers
 Dock:
+  GoBackFromDetails: Back to list
   GoPreviousPage: Go back
   GoNextPage: Show more
 NeighborhoodInfo:

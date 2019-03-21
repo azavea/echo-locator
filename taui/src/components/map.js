@@ -188,6 +188,7 @@ export default class Map extends PureComponent<Props, State> {
   // Click on map marker for a neighborhood
   _clickNeighborhood = (feature) => {
     this.props.setActiveNeighborhood(feature.properties.id)
+    console.warn('TODO: #28 - go to details')
   }
 
   _clickPoi = (feature) => {
@@ -211,8 +212,8 @@ export default class Map extends PureComponent<Props, State> {
     let zIndex = 0
     const getZIndex = () => zIndex++
 
-    const activeNeighborhood = p.activeNeighborhood
-      ? getActiveNeighborhood(p.neighborhoods, p.activeNeighborhood)
+    const activeNeighborhood = p.neighborhoods
+      ? getActiveNeighborhood(p.neighborhoods.features, p.activeNeighborhood)
       : null
 
     return (
