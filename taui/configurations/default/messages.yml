@@ -33,8 +33,9 @@ Dock:
   GoPreviousPage: Go back
   GoNextPage: Show more
 NeighborhoodInfo:
-  Affordability: Affordability
   Education: Education
+  RentDiff: Rent difference
+  Score: Score
 PageNotFound: Oops! There is no page at
 RouteCard:
   MarkerLink: Show neighborhood on map

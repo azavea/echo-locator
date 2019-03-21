@@ -231,6 +231,7 @@ table.CardContent td:first-of-type {
 
 .Attribution {
   color: #fff;
+  margin-top: 3rem;
   text-align: center;
   text-shadow: 0 0 1px var(--shadow);
 }

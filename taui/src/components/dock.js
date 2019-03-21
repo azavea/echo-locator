@@ -1,8 +1,6 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
-import filter from 'lodash/filter'
-import sortBy from 'lodash/sortBy'
 import {PureComponent} from 'react'
 
 import {SIDEBAR_PAGE_SIZE, NETWORK_COLORS} from '../constants'
@@ -35,31 +33,8 @@ export default class Dock extends PureComponent<Props> {
 
     this.state = {
       componentError: props.componentError,
-      neighborhoods: props.neighborhoods,
-      neighborhoodRoutes: props.neighborhoodRoutes,
-      neighborhoodsWithRoutes: null,
       page: 0
     }
-
-    const {neighborhoods, neighborhoodRoutes, travelTimes} = props
-    if (neighborhoodRoutes && travelTimes) {
-      const sorted = this.sortNeighborhoodsWithRoutes(
-        neighborhoods,
-        neighborhoodRoutes,
-        travelTimes)
-
-      this.state.neighborhoodsWithRoutes = sorted
-    }
-  }
-
-  componentWillReceiveProps (nextProps) {
-    const {
-      neighborhoods,
-      neighborhoodRoutes,
-      travelTimes
-    } = nextProps
-    const sorted = this.sortNeighborhoodsWithRoutes(neighborhoods, neighborhoodRoutes, travelTimes)
-    this.setState({neighborhoodsWithRoutes: sorted})
   }
 
   goPreviousPage () {
@@ -77,43 +52,25 @@ export default class Dock extends PureComponent<Props> {
     this.setState({page: page + 1})
   }
 
-  sortNeighborhoodsWithRoutes (neighborhoods, neighborhoodRoutes, travelTimes) {
-    if (!neighborhoodRoutes || !neighborhoodRoutes.length || !travelTimes || !neighborhoods) {
-      return
-    }
-
-    // Put the three best trips found (if any) and the best travel time on its neighborhood object
-    // and sort the augmented neighborhoods.
-    const neighborhoodsWithRoutes = neighborhoods.features.map((n, index) => {
-      const route = neighborhoodRoutes[index]
-      const active = route.active
-      const segments = route.routeSegments
-      const time = travelTimes[index]
-      return Object.assign({active, segments, time}, n)
-    })
-    // Remove any inacessible neighborhoods before sorting by travel time
-    return sortBy(filter(neighborhoodsWithRoutes, n =>
-      n.segments && n.segments.length), 'time')
-  }
-
   render () {
     const {
       activeNetworkIndex,
       children,
       isLoading,
+      neighborhoodsSortedWithRoutes,
       setActiveNeighborhood,
       showSpinner
     } = this.props
-    const {componentError, neighborhoodsWithRoutes, page} = this.state
+    const {componentError, page} = this.state
     const goPreviousPage = this.goPreviousPage
     const goNextPage = this.goNextPage
 
     const startingOffset = page * SIDEBAR_PAGE_SIZE
-    const neighborhoodPage = neighborhoodsWithRoutes ? neighborhoodsWithRoutes.slice(
+    const neighborhoodPage = neighborhoodsSortedWithRoutes ? neighborhoodsSortedWithRoutes.slice(
       startingOffset, SIDEBAR_PAGE_SIZE + startingOffset) : []
 
-    const haveAnotherPage = neighborhoodsWithRoutes &&
-      neighborhoodsWithRoutes.length > (startingOffset + SIDEBAR_PAGE_SIZE)
+    const haveAnotherPage = neighborhoodsSortedWithRoutes &&
+      neighborhoodsSortedWithRoutes.length > (startingOffset + SIDEBAR_PAGE_SIZE)
 
     return <div className='Taui-Dock'>
       <div className='Taui-Dock-content sidebar-dock'>
