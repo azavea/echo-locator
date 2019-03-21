@@ -56,6 +56,7 @@ type Props = {
   neighborhoodRoutes: any,
   neighborhoodTravelTimes: any,
   neighborhoods: any,
+  neighborhoodsSortedWithRoutes: any,
   pointsOfInterest: any, // FeatureCollection
   pointsOfInterestOptions: PointsOfInterest,
   reverseGeocode: (string, Function) => void,

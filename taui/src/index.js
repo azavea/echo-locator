@@ -54,6 +54,7 @@ function mapStateToProps (state, ownProps) {
     neighborhoods: get(state, 'data.neighborhoods'),
     neighborhoodBounds: get(state, 'data.neighborhoodBounds'),
     neighborhoodRoutes: select.neighborhoodRoutes(state, ownProps),
+    neighborhoodsSortedWithRoutes: select.neighborhoodsSortedWithRoutes(state, ownProps),
     neighborhoodTravelTimes: select.neighborhoodTravelTimes(state, ownProps),
     pointsOfInterest: get(state, 'data.pointsOfInterest'),
     pointsOfInterestOptions: select.pointsOfInterestOptions(state, ownProps),
