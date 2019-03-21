@@ -4,8 +4,8 @@ export const ACCESSIBILITY_IS_LOADING = 'accessibility-is-loading'
 
 export const ANONYMOUS_USERNAME = 'ANONYMOUS'
 
-// Maximum number of neighborhood suggestions to show
-export const NEIGHBORHOOD_RESULTS_COUNT = 6
+// Number of neighborhood suggestions to show at a time
+export const SIDEBAR_PAGE_SIZE = 3
 
 // Account profile destination types.
 // Each of these should have a translatable string label in `messages.yml`,
