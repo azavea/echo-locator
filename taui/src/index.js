@@ -53,7 +53,8 @@ if (process.env.LOGROCKET_APP_ID) {
         warn: true,
         error: true
       }
-    }
+    },
+    release: process.env.LOGROCKET_RELEASE
   })
 }
 

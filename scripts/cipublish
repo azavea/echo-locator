@@ -28,6 +28,8 @@ then
         aws s3 cp "${TAUI_CONFIG_BUCKET}/taui/env.yml" \
                   "taui/${TAUI_CONFIG_DIR}/env.yml"
 
+        echo "LOGROCKET_RELEASE: '${TRAVIS_COMMIT}'" >> "taui/${TAUI_CONFIG_DIR}/env.yml"
+
         # Mastarm doesn't copy over index.html
         aws s3 cp taui/index.html "${TAUI_SITE_BUCKET}/index.html"
 
