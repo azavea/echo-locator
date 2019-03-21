@@ -165,12 +165,9 @@ export default class MainPage extends React.PureComponent<Props> {
           activeNetworkIndex={p.activeNetworkIndex}
           componentError={this.state.componentError}
           isLoading={p.isLoading}
-          neighborhoods={p.neighborhoods}
-          neighborhoodRoutes={p.neighborhoodRoutes}
           neighborhoodsSortedWithRoutes={p.neighborhoodsSortedWithRoutes}
           setActiveNeighborhood={p.setActiveNeighborhood}
-          showSpinner={p.ui.fetches > 0}
-          travelTimes={p.neighborhoodTravelTimes}>
+          showSpinner={p.ui.fetches > 0}>
           <Form
             geocode={p.geocode}
             networks={p.data.networks}

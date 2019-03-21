@@ -1,8 +1,6 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
-import filter from 'lodash/filter'
-import sortBy from 'lodash/sortBy'
 import {PureComponent} from 'react'
 
 import {SIDEBAR_PAGE_SIZE, NETWORK_COLORS} from '../constants'
