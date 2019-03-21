@@ -109,6 +109,11 @@ export default class MainPage extends React.PureComponent<Props> {
     }
   })
 
+  _showNeighborhoodRoutes () {
+    const p = this.props
+    return !p.isLoading && !!get(p, 'neighborhoodRoutes[0]')
+  }
+
   _showRoutes () {
     const p = this.props
     return !p.isLoading && get(p, 'allTransitiveData[0].journeys[0]')
@@ -132,6 +137,7 @@ export default class MainPage extends React.PureComponent<Props> {
           </svg>
           <Map
             {...p.map}
+            activeNeighborhood={p.data.activeNeighborhood}
             activeNetworkIndex={p.activeNetworkIndex}
             clearStartAndEnd={this._clearStartAndEnd}
             end={p.geocoder.end}
@@ -139,11 +145,13 @@ export default class MainPage extends React.PureComponent<Props> {
             isochrones={p.isochrones}
             drawIsochrones={p.drawIsochrones}
             drawOpportunityDatasets={p.drawOpportunityDatasets}
-            drawRoutes={p.drawRoutes}
+            drawRoutes={p.drawNeighborhoodRoutes}
             neighborhoods={p.neighborhoods}
             neighborhoodBounds={p.neighborhoodBounds}
+            origin={p.data.origin}
             pointsOfInterest={p.pointsOfInterest}
-            showRoutes={this._showRoutes()}
+            showRoutes={this._showNeighborhoodRoutes()}
+            setActiveNeighborhood={p.setActiveNeighborhood}
             setEndPosition={p.updateEndPosition}
             setStartPosition={p.updateStartPosition}
             start={p.geocoder.start}
@@ -159,6 +167,7 @@ export default class MainPage extends React.PureComponent<Props> {
           isLoading={p.isLoading}
           neighborhoods={p.neighborhoods}
           neighborhoodRoutes={p.neighborhoodRoutes}
+          setActiveNeighborhood={p.setActiveNeighborhood}
           showSpinner={p.ui.fetches > 0}
           travelTimes={p.neighborhoodTravelTimes}>
           <Form

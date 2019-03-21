@@ -1,5 +1,6 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
+import message from '@conveyal/woonerf/message'
 import React from 'react'
 
 type Props = {
@@ -12,24 +13,29 @@ type Props = {
 }
 
 export default class RouteCard extends React.PureComponent<Props> {
+  onClick = (neighborhood) => {
+    console.log('TODO: #28 go to neighborhood details')
+    console.log(neighborhood)
+  }
   render () {
-    const p = this.props
     const {
       cardColor,
       children,
-      downloadIsochrone,
-      setShowOnMap,
-      showOnMap,
+      neighborhood,
+      setActiveNeighborhood,
       title
     } = this.props
+
+    const onClick = this.onClick
+
     return (
       <div
         className={'Card'}
       >
         <div
           className='CardTitle'
-          onClick={p.setShowOnMap}
-          onMouseOver={p.onMouseOver}
+          onClick={(e) => onClick(neighborhood)}
+          onMouseOver={(e) => setActiveNeighborhood(neighborhood.properties.id)}
           style={{
             backgroundColor: cardColor,
             cursor: 'pointer'
@@ -38,18 +44,13 @@ export default class RouteCard extends React.PureComponent<Props> {
           {title}
           <div className='CardLinks'>
             <a
-              onClick={setShowOnMap}
-              title='Show/hide isochrone for network'
+              onClick={(e) => console.log(e)}
+              title={message('RouteCard.MarkerLink')}
             >
-              {showOnMap ? <Icon type='eye-slash' /> : <Icon type='eye' />}
+              {neighborhood.active
+                ? <Icon type='dot-circle-o' />
+                : <Icon type='circle-o' />}
             </a>
-            {downloadIsochrone &&
-              <a
-                onClick={downloadIsochrone}
-                title='Download GeoJSON isochrone for network'
-              >
-                <Icon type='download' />
-              </a>}
           </div>
         </div>
         <table className='CardContent'>{children}</table>

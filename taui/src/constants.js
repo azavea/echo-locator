@@ -5,7 +5,7 @@ export const ACCESSIBILITY_IS_LOADING = 'accessibility-is-loading'
 export const ANONYMOUS_USERNAME = 'ANONYMOUS'
 
 // Maximum number of neighborhood suggestions to show
-export const NEIGHBORHOOD_RESULTS_COUNT = 3
+export const NEIGHBORHOOD_RESULTS_COUNT = 6
 
 // Account profile destination types.
 // Each of these should have a translatable string label in `messages.yml`,
@@ -48,11 +48,18 @@ export const TRANSIT_STYLE = {
   weight: 5
 }
 
+export const NEIGHBORHOOD_STYLE = {
+  color: '#333',
+  fill: true,
+  fillColor: '#fff',
+  radius: 5,
+  weight: 3
+}
+
 export const STOP_STYLE = {
   color: '#333',
   fill: true,
   fillColor: '#fff',
-  fillOpacity: 1,
   radius: 3,
   weight: 2
 }

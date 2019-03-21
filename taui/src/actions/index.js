@@ -4,6 +4,7 @@ import * as grid from './grid'
 import * as location from './location'
 import * as log from './log'
 import * as map from './map'
+import * as neighborhood from './neighborhood'
 import * as network from './network'
 import * as profile from './profile'
 
@@ -18,6 +19,7 @@ export default {
   ...location,
   ...log,
   ...map,
+  ...neighborhood,
   ...network,
   ...profile,
   setSelectedTimeCutoff

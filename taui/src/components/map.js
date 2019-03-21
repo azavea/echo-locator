@@ -1,7 +1,5 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
-import Icon from '@conveyal/woonerf/components/icon'
-import message from '@conveyal/woonerf/message'
 import Leaflet from 'leaflet'
 import find from 'lodash/find'
 import React, {PureComponent} from 'react'
@@ -14,13 +12,14 @@ import {
 } from 'react-leaflet'
 import VectorGrid from 'react-leaflet-vectorgrid/dist/react-leaflet-vectorgrid'
 
-import {STOP_STYLE} from '../constants'
+import {NEIGHBORHOOD_STYLE, STOP_STYLE} from '../constants'
 import type {
   Coordinate,
   Location,
   LonLat,
   MapEvent
 } from '../types'
+import getActiveNeighborhood from '../utils/get-active-neighborhood'
 
 import DrawRoute from './draw-route'
 import Gridualizer from './gridualizer'
@@ -148,7 +147,8 @@ export default class Map extends PureComponent<Props, State> {
   }
 
   _setStartWithEvent = (event: MapEvent) => {
-    this.props.setStartPosition(lonlat(event.latlng || event.target._latlng))
+    console.warn('should not trigger _setStartWithEvent')
+    // this.props.setStartPosition(lonlat(event.latlng || event.target._latlng))
   }
 
   _onMapClick = (e: Leaflet.MouseEvent): void => {
@@ -185,10 +185,9 @@ export default class Map extends PureComponent<Props, State> {
     this.props.updateMap({zoom})
   }
 
+  // Click on map marker for a neighborhood
   _clickNeighborhood = (feature) => {
-    // TODO: #27 implement interactivity
-    console.log('clicked neighborhood:')
-    console.log(feature)
+    this.props.setActiveNeighborhood(feature.properties.id)
   }
 
   _clickPoi = (feature) => {
@@ -205,13 +204,16 @@ export default class Map extends PureComponent<Props, State> {
   /* eslint complexity: 0 */
   render () {
     const p = this.props
-    const s = this.state
 
     // Index elements with keys to reset them when elements are added / removed
 
     this._key = 0
     let zIndex = 0
     const getZIndex = () => zIndex++
+
+    const activeNeighborhood = p.activeNeighborhood
+      ? getActiveNeighborhood(p.neighborhoods, p.activeNeighborhood)
+      : null
 
     return (
       <LeafletMap
@@ -248,7 +250,7 @@ export default class Map extends PureComponent<Props, State> {
         {p.showRoutes && p.drawRoutes.map(drawRoute =>
           <DrawRoute
             {...drawRoute}
-            key={`draw-routes-${drawRoute.index}-${this._getKey()}`}
+            key={`draw-routes-${drawRoute.id}-${this._getKey()}`}
             zIndex={getZIndex()}
           />)}
 
@@ -274,23 +276,34 @@ export default class Map extends PureComponent<Props, State> {
         {!p.isLoading && p.neighborhoods &&
           <VGrid
             data={p.neighborhoods}
-            style={STOP_STYLE}
+            style={NEIGHBORHOOD_STYLE}
             idField='id'
             tooltip='town'
             onClick={this._clickNeighborhood}
             zIndex={getZIndex()} />}
 
-        {p.start &&
+        {p.origin &&
           <Marker
-            draggable
             icon={startIcon}
             key={`start-${this._getKey()}`}
             onDragEnd={this._setStartWithEvent}
-            position={p.start.position}
+            position={p.origin.position}
+            zIndex={getZIndex()}>
+            <Popup>
+              <span>{p.origin.label}</span>
+            </Popup>
+          </Marker>}
+
+        {activeNeighborhood &&
+          <Marker
+            draggable
+            icon={endIcon}
+            key={`end-${this._getKey()}`}
+            position={lonlat.toLeaflet(activeNeighborhood.geometry.coordinates)}
             zIndex={getZIndex()}
           >
             <Popup>
-              <span>{p.start.label}</span>
+              <span>{activeNeighborhood.properties.town} {activeNeighborhood.properties.id}</span>
             </Popup>
           </Marker>}
 
@@ -308,34 +321,6 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {s.showSelectStartOrEnd &&
-          <Popup
-            closeButton={false}
-            key={`select-${this._getKey()}`}
-            position={s.lastClickedPosition}
-            zIndex={getZIndex()}
-          >
-            <div className='Popup'>
-              {s.lastClickedLabel &&
-                <h3>
-                  {s.lastClickedLabel}
-                </h3>}
-              <button onClick={this._setStart}>
-                <Icon type='map-marker' />{' '}
-                {message('Map.SetLocationPopup.SetStart')}
-              </button>
-              {p.start &&
-                <button onClick={this._setEnd}>
-                  <Icon type='map-marker' />{' '}
-                  {message('Map.SetLocationPopup.SetEnd')}
-                </button>}
-              {(p.start || p.end) &&
-                <button onClick={this._clearStartAndEnd}>
-                  <Icon type='times' />{' '}
-                  {message('Map.SetLocationPopup.ClearMarkers')}
-                </button>}
-            </div>
-          </Popup>}
       </LeafletMap>
     )
   }

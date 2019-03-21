@@ -42,6 +42,7 @@ type Props = {
     userProfile: AccountProfile
   },
   drawIsochrones: Function[],
+  drawNeighborhoodRotues: any[],
   drawOpportunityDatasets: any[],
   drawRoutes: any[],
   geocode: (string, Function) => void,
@@ -58,6 +59,7 @@ type Props = {
   pointsOfInterest: any, // FeatureCollection
   pointsOfInterestOptions: PointsOfInterest,
   reverseGeocode: (string, Function) => void,
+  setActiveNeighborhood: Function => void,
   setEnd: any => void,
   setProfile: Function => void,
   setSelectedTimeCutoff: any => void,

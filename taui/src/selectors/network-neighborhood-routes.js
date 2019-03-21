@@ -19,13 +19,19 @@ const memoizedTransitiveRoutes = memoize(
 
 export default createSelector(
   selectActiveNetworkIndex,
+  state => get(state, 'data.activeNeighborhood'),
   state => get(state, 'data.networks'),
   state => get(state, 'data.origin'),
   state => get(state, 'data.neighborhoods'),
-  (activeNetworkIndex, networks, start, neighborhoods) => {
+  (activeNetworkIndex, activeNeighborhood, networks, start, neighborhoods) => {
     const network = networks[activeNetworkIndex]
     if (!neighborhoods || !neighborhoods.features || !neighborhoods.features.length) {
       return []
+    }
+
+    // Default to first neighborhood active, as does draw-neighborhood-routes
+    if (!activeNeighborhood) {
+      activeNeighborhood = neighborhoods.features[0].id
     }
 
     const routes = []
@@ -49,10 +55,15 @@ export default createSelector(
         // also repeated for all results: patterns, routes, stops
         const result = memoizedTransitiveRoutes(network, neighborhoodIndex, start, end)
         routes.push({
+          active: neighborhood.properties.id === activeNeighborhood,
+          id: neighborhood.properties.id,
           label: neighborhood.properties.town, // not unique
           journeys: result.journeys,
+          patterns: result.patterns,
           places: result.places,
-          routeSegments: result.routeSegments
+          routes: result.routes,
+          routeSegments: result.routeSegments,
+          stops: result.stops
         })
       } else {
         return []
