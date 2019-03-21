@@ -36,8 +36,12 @@ export default createSelector(
 
       // Normalize rent differential to fair market value to a range;
       // any value outside the range will be given the min/max value for the range.
-      const useRentDiff = n.properties.rent_diff > RENT_DIFF_RANGE ? RENT_DIFF_RANGE
-        : (n.properties.rent_diff < -RENT_DIFF_RANGE ? -RENT_DIFF_RANGE : n.properties.rent_diff)
+      var useRentDiff = n.properties.rent_diff
+      if (useRentDiff > RENT_DIFF_RANGE) {
+        useRentDiff = RENT_DIFF_RANGE
+      } else if (useRentDiff < -RENT_DIFF_RANGE) {
+        useRentDiff = -RENT_DIFF_RANGE
+      }
 
       // Smaller fair-market rent differential is better;
       // larger rentWeight is better (reverse range).
