@@ -153,6 +153,7 @@ export default class MainPage extends React.PureComponent<Props> {
             showRoutes={this._showNeighborhoodRoutes()}
             setActiveNeighborhood={p.setActiveNeighborhood}
             setEndPosition={p.updateEndPosition}
+            setShowDetails={p.setShowDetails}
             setStartPosition={p.updateStartPosition}
             start={p.geocoder.start}
             updateEnd={p.updateEnd}
@@ -168,6 +169,8 @@ export default class MainPage extends React.PureComponent<Props> {
           isLoading={p.isLoading}
           neighborhoodsSortedWithRoutes={p.neighborhoodsSortedWithRoutes}
           setActiveNeighborhood={p.setActiveNeighborhood}
+          setShowDetails={p.setShowDetails}
+          showDetails = {p.data.showDetails}
           showSpinner={p.ui.fetches > 0}>
           <Form
             geocode={p.geocode}

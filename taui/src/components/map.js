@@ -188,7 +188,7 @@ export default class Map extends PureComponent<Props, State> {
   // Click on map marker for a neighborhood
   _clickNeighborhood = (feature) => {
     this.props.setActiveNeighborhood(feature.properties.id)
-    console.warn('TODO: #28 - go to details')
+    this.props.setShowDetails(true)
   }
 
   _clickPoi = (feature) => {

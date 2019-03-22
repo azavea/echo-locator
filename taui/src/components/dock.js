@@ -39,13 +39,12 @@ export default class Dock extends PureComponent<Props> {
 
     this.state = {
       componentError: props.componentError,
-      page: 0,
-      showDetails: false
+      page: 0
     }
   }
 
   backFromDetails () {
-    this.setState({showDetails: false})
+    this.props.setShowDetails(false)
   }
 
   goPreviousPage () {
@@ -65,7 +64,7 @@ export default class Dock extends PureComponent<Props> {
 
   goToDetails (neighborhood) {
     this.props.setActiveNeighborhood(neighborhood.properties.id)
-    this.setState({showDetails: true})
+    this.props.setShowDetails(true)
   }
 
   // Render list pagination buttons, or button to return to list from details
@@ -143,9 +142,10 @@ export default class Dock extends PureComponent<Props> {
       children,
       isLoading,
       neighborhoodsSortedWithRoutes,
+      showDetails,
       showSpinner
     } = this.props
-    const {componentError, page, showDetails} = this.state
+    const {componentError, page} = this.state
     const ButtonRow = this.buttonRow
     const NeighborhoodsList = this.neighborhoodsList
 
@@ -180,7 +180,7 @@ export default class Dock extends PureComponent<Props> {
             neighborhood={detailNeighborhood} />
         }
         <ButtonRow {...this.props}
-          haveAnotherPage={haveAnotherPage} page={page} showDetails={showDetails} />
+          haveAnotherPage={haveAnotherPage} page={page} />
         <div className='Attribution'>
           site made by {' '}
           <a href='https://www.azavea.com' target='_blank' />
