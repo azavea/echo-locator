@@ -8,6 +8,7 @@ import {PureComponent} from 'react'
 import {
   ANONYMOUS_USERNAME,
   DEFAULT_PROFILE_DESTINATION_TYPE,
+  MAX_ADDRESSES,
   PROFILE_DESTINATION_TYPES
 } from '../constants'
 import type {AccountAddress, AccountProfile} from '../types'
@@ -255,9 +256,6 @@ export default class EditProfile extends PureComponent<Props> {
       setPrimaryAddress,
       TripPurposeOptions } = props
 
-    // Maximum number of destinations user may add
-    const maxAddressesAllowed = 3
-
     const listItems = destinations.map((destination: AccountAddress, index) => {
       return <li
         key={index}
@@ -336,7 +334,7 @@ export default class EditProfile extends PureComponent<Props> {
           </li>
           {listItems}
         </ul>
-        {destinations.length < maxAddressesAllowed && <button
+        {destinations.length < MAX_ADDRESSES && <button
           className='account-profile__button account-profile__button--secondary'
           onClick={addAddress}>{message('Profile.AddAddress')}
         </button>}
