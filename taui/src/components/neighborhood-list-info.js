@@ -2,6 +2,9 @@
 import message from '@conveyal/woonerf/message'
 
 export default function NeighborhoodListInfo ({neighborhood}) {
+  if (!neighborhood || !neighborhood.properties) {
+    return null
+  }
   return (
     <tbody>
       <tr>
