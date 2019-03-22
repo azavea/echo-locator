@@ -17,7 +17,7 @@
     "jest"
   ],
   "rules": {
-    "complexity": ["warn", 15],
+    "complexity": ["warn", 12],
     "import/order": ["warn", {
       "newlines-between": "always"
     }],

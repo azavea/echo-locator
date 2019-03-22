@@ -34,6 +34,7 @@ export default class Dock extends PureComponent<Props> {
     this.goPreviousPage = this.goPreviousPage.bind(this)
     this.goNextPage = this.goNextPage.bind(this)
     this.goToDetails = this.goToDetails.bind(this)
+    this.buttonRow = this.buttonRow.bind(this)
     this.neighborhoodsList = this.neighborhoodsList.bind(this)
 
     this.state = {
@@ -67,6 +68,36 @@ export default class Dock extends PureComponent<Props> {
     this.setState({showDetails: true})
   }
 
+  // Render list pagination buttons, or button to return to list from details
+  buttonRow (props) {
+    const {
+      haveAnotherPage,
+      page,
+      showDetails
+    } = props
+
+    const backFromDetails = this.backFromDetails
+    const goPreviousPage = this.goPreviousPage
+    const goNextPage = this.goNextPage
+
+    return (
+      <div className='account-profile__destination_row'>
+        {showDetails && <button
+          className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+          onClick={backFromDetails}>{message('Dock.GoBackFromDetails')}
+        </button>}
+        {!showDetails && page > 0 && <button
+          className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+          onClick={goPreviousPage}>{message('Dock.GoPreviousPage')}
+        </button>}
+        {!showDetails && haveAnotherPage && <button
+          className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+          onClick={goNextPage}>{message('Dock.GoNextPage')}
+        </button>}
+      </div>)
+  }
+
+  // Render list of neighborhoods
   neighborhoodsList (props) {
     const {
       activeNetworkIndex,
@@ -115,9 +146,7 @@ export default class Dock extends PureComponent<Props> {
       showSpinner
     } = this.props
     const {componentError, page, showDetails} = this.state
-    const backFromDetails = this.backFromDetails
-    const goPreviousPage = this.goPreviousPage
-    const goNextPage = this.goNextPage
+    const ButtonRow = this.buttonRow
     const NeighborhoodsList = this.neighborhoodsList
 
     const startingOffset = page * SIDEBAR_PAGE_SIZE
@@ -150,20 +179,8 @@ export default class Dock extends PureComponent<Props> {
           <NeighborhoodDetails
             neighborhood={detailNeighborhood} />
         }
-        <div className='account-profile__destination_row'>
-          {showDetails && <button
-            className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
-            onClick={backFromDetails}>{message('Dock.GoBackFromDetails')}
-          </button>}
-          {!showDetails && page > 0 && <button
-            className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
-            onClick={goPreviousPage}>{message('Dock.GoPreviousPage')}
-          </button>}
-          {!showDetails && haveAnotherPage && <button
-            className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
-            onClick={goNextPage}>{message('Dock.GoNextPage')}
-          </button>}
-        </div>
+        <ButtonRow {...this.props}
+          haveAnotherPage={haveAnotherPage} page={page} showDetails={showDetails} />
         <div className='Attribution'>
           site made by {' '}
           <a href='https://www.azavea.com' target='_blank' />
