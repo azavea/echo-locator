@@ -34,6 +34,7 @@ export default class Dock extends PureComponent<Props> {
     this.goPreviousPage = this.goPreviousPage.bind(this)
     this.goNextPage = this.goNextPage.bind(this)
     this.goToDetails = this.goToDetails.bind(this)
+    this.neighborhoodsList = this.neighborhoodsList.bind(this)
 
     this.state = {
       componentError: props.componentError,
@@ -66,28 +67,63 @@ export default class Dock extends PureComponent<Props> {
     this.setState({showDetails: true})
   }
 
+  neighborhoodsList (props) {
+    const {
+      activeNetworkIndex,
+      neighborhoodsSortedWithRoutes,
+      setActiveNeighborhood,
+      startingOffset
+    } = props
+    const goToDetails = this.goToDetails
+
+    const haveNeighborhoods = neighborhoodsSortedWithRoutes && neighborhoodsSortedWithRoutes.length
+    const neighborhoodPage = haveNeighborhoods ? neighborhoodsSortedWithRoutes.slice(
+      startingOffset, SIDEBAR_PAGE_SIZE + startingOffset) : []
+
+    if (!neighborhoodPage || !neighborhoodPage.length) {
+      return null
+    }
+
+    return (
+      neighborhoodPage.map((neighborhood, index) =>
+        neighborhood.segments && neighborhood.segments.length
+          ? (<RouteCard
+            cardColor={neighborhood.active ? 'green' : NETWORK_COLORS[activeNetworkIndex]}
+            goToDetails={goToDetails}
+            index={index}
+            key={`${index}-route-card`}
+            neighborhood={neighborhood}
+            setActiveNeighborhood={setActiveNeighborhood}
+            title={neighborhood.properties.town + ': ' + neighborhood.properties.id}>
+            <RouteSegments
+              routeSegments={neighborhood.segments}
+              travelTime={neighborhood.time}
+            />
+            <NeighborhoodListInfo
+              neighborhood={neighborhood}
+            />
+          </RouteCard>) : null)
+    )
+  }
+
   render () {
     const {
       activeNeighborhood,
-      activeNetworkIndex,
       children,
       isLoading,
       neighborhoodsSortedWithRoutes,
-      setActiveNeighborhood,
       showSpinner
     } = this.props
     const {componentError, page, showDetails} = this.state
     const backFromDetails = this.backFromDetails
     const goPreviousPage = this.goPreviousPage
     const goNextPage = this.goNextPage
-    const goToDetails = this.goToDetails
-    const haveNeighborhoods = neighborhoodsSortedWithRoutes && neighborhoodsSortedWithRoutes.length
+    const NeighborhoodsList = this.neighborhoodsList
 
     const startingOffset = page * SIDEBAR_PAGE_SIZE
-    const neighborhoodPage = haveNeighborhoods ? neighborhoodsSortedWithRoutes.slice(
-      startingOffset, SIDEBAR_PAGE_SIZE + startingOffset) : []
 
-    const haveAnotherPage = haveNeighborhoods > (startingOffset + SIDEBAR_PAGE_SIZE)
+    const haveAnotherPage = neighborhoodsSortedWithRoutes &&
+      (neighborhoodsSortedWithRoutes.length > (startingOffset + SIDEBAR_PAGE_SIZE))
 
     const detailNeighborhood = getActiveNeighborhood(neighborhoodsSortedWithRoutes,
       activeNeighborhood)
@@ -107,25 +143,9 @@ export default class Dock extends PureComponent<Props> {
             <p>componentError.info}</p>
           </div>}
         {children}
-        {!isLoading && !showDetails && neighborhoodPage && neighborhoodPage.length &&
-          neighborhoodPage.map((neighborhood, index) =>
-            neighborhood.segments && neighborhood.segments.length
-              ? (<RouteCard
-                cardColor={neighborhood.active ? 'green' : NETWORK_COLORS[activeNetworkIndex]}
-                goToDetails={goToDetails}
-                index={index}
-                key={`${index}-route-card`}
-                neighborhood={neighborhood}
-                setActiveNeighborhood={setActiveNeighborhood}
-                title={neighborhood.properties.town + ': ' + neighborhood.properties.id}>
-                <RouteSegments
-                  routeSegments={neighborhood.segments}
-                  travelTime={neighborhood.time}
-                />
-                <NeighborhoodListInfo
-                  neighborhood={neighborhood}
-                />
-              </RouteCard>) : null)}
+        {!isLoading && !showDetails &&
+          <NeighborhoodsList {...this.props} startingOffset={startingOffset}
+          />}
         {!isLoading && showDetails &&
           <NeighborhoodDetails
             neighborhood={detailNeighborhood} />
