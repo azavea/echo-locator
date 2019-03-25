@@ -55,6 +55,7 @@ export default class EditProfile extends PureComponent<Props> {
     this.state = {
       destinations: profile && profile.destinations.length
         ? profile.destinations : [Object.assign({}, firstAddress)],
+      favorites: profile ? profile.favorites : [],
       hasVehicle: profile ? profile.hasVehicle : false,
       headOfHousehold: profile ? profile.headOfHousehold : '',
       key: profile ? profile.key : '',
@@ -94,11 +95,21 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   getProfileFromState (): AccountProfile {
-    const {destinations, hasVehicle, headOfHousehold, key, rooms, voucherNumber} = this.state
+    const {
+      destinations,
+      favorites,
+      hasVehicle,
+      headOfHousehold,
+      key,
+      rooms,
+      voucherNumber
+    } = this.state
+
     return {
       destinations,
       hasVehicle,
       headOfHousehold,
+      favorites,
       key,
       rooms,
       voucherNumber

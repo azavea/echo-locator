@@ -165,13 +165,15 @@ export default class MainPage extends React.PureComponent<Props> {
         <Dock
           activeNeighborhood={p.data.activeNeighborhood}
           activeNetworkIndex={p.activeNetworkIndex}
+          changeUserProfile={p.changeUserProfile}
           componentError={this.state.componentError}
           isLoading={p.isLoading}
           neighborhoodsSortedWithRoutes={p.neighborhoodsSortedWithRoutes}
           setActiveNeighborhood={p.setActiveNeighborhood}
           setShowDetails={p.setShowDetails}
-          showDetails = {p.data.showDetails}
-          showSpinner={p.ui.fetches > 0}>
+          showDetails={p.data.showDetails}
+          showSpinner={p.ui.fetches > 0}
+          userProfile={p.userProfile}>
           <Form
             geocode={p.geocode}
             networks={p.data.networks}

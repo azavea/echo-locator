@@ -139,11 +139,13 @@ export default class Dock extends PureComponent<Props> {
   render () {
     const {
       activeNeighborhood,
+      changeUserProfile,
       children,
       isLoading,
       neighborhoodsSortedWithRoutes,
       showDetails,
-      showSpinner
+      showSpinner,
+      userProfile
     } = this.props
     const {componentError, page} = this.state
     const ButtonRow = this.buttonRow
@@ -177,7 +179,9 @@ export default class Dock extends PureComponent<Props> {
           />}
         {!isLoading && showDetails &&
           <NeighborhoodDetails
-            neighborhood={detailNeighborhood} />
+            changeUserProfile={changeUserProfile}
+            neighborhood={detailNeighborhood}
+            userProfile={userProfile} />
         }
         <ButtonRow {...this.props}
           haveAnotherPage={haveAnotherPage} page={page} />
