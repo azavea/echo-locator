@@ -33,6 +33,8 @@ Dock:
   GoBackFromDetails: Back to list
   GoPreviousPage: Go back
   GoNextPage: Show more
+NeighborhoodDetails:
+  GoogleMapsLink: See on Google Maps
 NeighborhoodInfo:
   Education: Education
   RentDiff: Rent difference

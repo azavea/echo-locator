@@ -3,6 +3,8 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
+import getGoogleDirectionsLink from '../utils/google-directions-link'
+
 export default class NeighborhoodDetails extends PureComponent<Props> {
   props: Props
 
@@ -63,7 +65,9 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         </table>
         <br />
         <div>
-          <a href='' target='_blank'>Look a link</a>
+          <a href={getGoogleDirectionsLink(id)} target='_blank'>
+            {message('NeighborhoodDetails.GoogleMapsLink')}
+          </a>
         </div>
       </div>
     )
