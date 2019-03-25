@@ -1,6 +1,7 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
+import filter from 'lodash/filter'
 import {PureComponent} from 'react'
 
 import {SIDEBAR_PAGE_SIZE, NETWORK_COLORS} from '../constants'
@@ -36,10 +37,13 @@ export default class Dock extends PureComponent<Props> {
     this.goToDetails = this.goToDetails.bind(this)
     this.buttonRow = this.buttonRow.bind(this)
     this.neighborhoodsList = this.neighborhoodsList.bind(this)
+    this.neighborhoodSection = this.neighborhoodSection.bind(this)
+    this.showAll = this.showAll.bind(this)
 
     this.state = {
       componentError: props.componentError,
-      page: 0
+      page: 0,
+      showAll: true
     }
   }
 
@@ -65,6 +69,13 @@ export default class Dock extends PureComponent<Props> {
   goToDetails (neighborhood) {
     this.props.setActiveNeighborhood(neighborhood.properties.id)
     this.props.setShowDetails(true)
+  }
+
+  // Toggle between showing all and showing favorites, if not already in the new state
+  showAll (show: boolean) {
+    if (show !== this.state.showAll) {
+      this.setState({page: 0, showAll: show})
+    }
   }
 
   // Render list pagination buttons, or button to return to list from details
@@ -100,14 +111,12 @@ export default class Dock extends PureComponent<Props> {
   neighborhoodsList (props) {
     const {
       activeNetworkIndex,
-      neighborhoodsSortedWithRoutes,
+      neighborhoods,
       setActiveNeighborhood,
       startingOffset
     } = props
     const goToDetails = this.goToDetails
-
-    const haveNeighborhoods = neighborhoodsSortedWithRoutes && neighborhoodsSortedWithRoutes.length
-    const neighborhoodPage = haveNeighborhoods ? neighborhoodsSortedWithRoutes.slice(
+    const neighborhoodPage = neighborhoods && neighborhoods.length ? neighborhoods.slice(
       startingOffset, SIDEBAR_PAGE_SIZE + startingOffset) : []
 
     if (!neighborhoodPage || !neighborhoodPage.length) {
@@ -136,6 +145,38 @@ export default class Dock extends PureComponent<Props> {
     )
   }
 
+  neighborhoodSection (props) {
+    const {
+      endingOffset,
+      neighborhoods,
+      startingOffset,
+      showAll
+    } = props
+    const setShowAll = this.showAll
+    const NeighborhoodsList = this.neighborhoodsList
+
+    return (
+      <div>
+        <div className='Card'>
+          {showAll ? message('Dock.Recommendations') : message('Dock.Favorites')}
+          {startingOffset + 1} - {endingOffset}
+          <button
+            onClick={(e) => setShowAll(true)}
+            style={showAll ? {fontWeight: 'bold'} : {}}>
+            {message('Dock.ShowAllButton')}
+          </button> |
+          <button
+            style={!showAll ? {fontWeight: 'bold'} : {}}
+            onClick={(e) => setShowAll(false)}>
+            {message('Dock.ShowSavedButton')}
+          </button>
+        </div>
+        <NeighborhoodsList {...props}
+          neighborhoods={neighborhoods}
+          startingOffset={startingOffset} />
+      </div>)
+  }
+
   render () {
     const {
       activeNeighborhood,
@@ -147,15 +188,23 @@ export default class Dock extends PureComponent<Props> {
       showSpinner,
       userProfile
     } = this.props
-    const {componentError, page} = this.state
+    const {componentError, page, showAll} = this.state
     const ButtonRow = this.buttonRow
-    const NeighborhoodsList = this.neighborhoodsList
+    const NeighborhoodSection = this.neighborhoodSection
 
     const startingOffset = page * SIDEBAR_PAGE_SIZE
-    const endingOffset = startingOffset + SIDEBAR_PAGE_SIZE
 
-    const haveAnotherPage = neighborhoodsSortedWithRoutes &&
-      (neighborhoodsSortedWithRoutes.length > endingOffset)
+    const neighborhoods = showAll
+      ? neighborhoodsSortedWithRoutes
+      : filter(neighborhoodsSortedWithRoutes,
+        n => userProfile.favorites.indexOf(n.properties.id) !== -1)
+
+    const haveAnotherPage = neighborhoods &&
+      (neighborhoods.length > startingOffset + SIDEBAR_PAGE_SIZE)
+
+    const endingOffset = haveAnotherPage
+      ? startingOffset + SIDEBAR_PAGE_SIZE
+      : neighborhoods.length
 
     const detailNeighborhood = getActiveNeighborhood(neighborhoodsSortedWithRoutes,
       activeNeighborhood)
@@ -176,12 +225,13 @@ export default class Dock extends PureComponent<Props> {
           </div>}
         {children}
         {!isLoading && !showDetails &&
-          (<div>
-            <div className='Card'>
-              {message('Dock.RecommendationsListHeader')} {startingOffset + 1} - {endingOffset}
-            </div>
-            <NeighborhoodsList {...this.props} startingOffset={startingOffset} />
-          </div>)}
+          <NeighborhoodSection
+            {...this.props}
+            neighborhoods={neighborhoods}
+            endingOffset={endingOffset}
+            showAll={showAll}
+            startingOffset={startingOffset}
+          />}
         {!isLoading && showDetails &&
           <NeighborhoodDetails
             changeUserProfile={changeUserProfile}

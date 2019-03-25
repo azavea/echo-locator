@@ -132,7 +132,7 @@ export default class Application extends Component<Props, State> {
     const userProfile = this.props.data.userProfile
     // Can navigate to map once at least one destination set on the profile.
     const canViewMap = userProfile && userProfile.destinations && userProfile.destinations.length
-    const isAnonymous = !userProfile || userProfile.key === ANONYMOUS_USERNAME
+    const isAnonymous = userProfile && userProfile.key === ANONYMOUS_USERNAME
     const NoMatch = this.noMatch
     return (
       <Switch>

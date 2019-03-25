@@ -30,10 +30,11 @@ Map:
     SetEnd: Set end
     ClearMarkers: Clear markers
 Dock:
+  Favorites: Saved recommendations
   GoBackFromDetails: Back to list
   GoPreviousPage: Go back
   GoNextPage: Show more
-  RecommendationsListHeader: Recommendations
+  Recommendations: Recommendations
   ShowAllButton: All
   ShowSavedButton: Saved
 NeighborhoodDetails:
