@@ -34,6 +34,7 @@ Dock:
   GoBackFromDetails: Back to list
   GoPreviousPage: Go back
   GoNextPage: Show more
+  NoResults: No results
   Recommendations: Recommendations
   ShowAllButton: All
   ShowSavedButton: Saved

@@ -120,7 +120,7 @@ export default class Dock extends PureComponent<Props> {
       startingOffset, SIDEBAR_PAGE_SIZE + startingOffset) : []
 
     if (!neighborhoodPage || !neighborhoodPage.length) {
-      return null
+      return <div className='Card'>{message('Dock.NoResults')}</div>
     }
 
     return (
