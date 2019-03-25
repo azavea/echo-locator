@@ -152,9 +152,10 @@ export default class Dock extends PureComponent<Props> {
     const NeighborhoodsList = this.neighborhoodsList
 
     const startingOffset = page * SIDEBAR_PAGE_SIZE
+    const endingOffset = startingOffset + SIDEBAR_PAGE_SIZE
 
     const haveAnotherPage = neighborhoodsSortedWithRoutes &&
-      (neighborhoodsSortedWithRoutes.length > (startingOffset + SIDEBAR_PAGE_SIZE))
+      (neighborhoodsSortedWithRoutes.length > endingOffset)
 
     const detailNeighborhood = getActiveNeighborhood(neighborhoodsSortedWithRoutes,
       activeNeighborhood)
@@ -175,8 +176,12 @@ export default class Dock extends PureComponent<Props> {
           </div>}
         {children}
         {!isLoading && !showDetails &&
-          <NeighborhoodsList {...this.props} startingOffset={startingOffset}
-          />}
+          (<div>
+            <div className='Card'>
+              {message('Dock.RecommendationsListHeader')} {startingOffset + 1} - {endingOffset}
+            </div>
+            <NeighborhoodsList {...this.props} startingOffset={startingOffset} />
+          </div>)}
         {!isLoading && showDetails &&
           <NeighborhoodDetails
             changeUserProfile={changeUserProfile}

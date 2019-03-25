@@ -33,6 +33,9 @@ Dock:
   GoBackFromDetails: Back to list
   GoPreviousPage: Go back
   GoNextPage: Show more
+  RecommendationsListHeader: Recommendations
+  ShowAllButton: All
+  ShowSavedButton: Saved
 NeighborhoodDetails:
   GoogleMapsLink: See on Google Maps
 NeighborhoodInfo:
