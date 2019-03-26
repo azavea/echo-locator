@@ -97,13 +97,13 @@ export default class EditProfile extends PureComponent<Props> {
   getProfileFromState (): AccountProfile {
     const {
       destinations,
-      favorites,
       hasVehicle,
       headOfHousehold,
       key,
       rooms,
       voucherNumber
     } = this.state
+    const favorites = this.state.favorites || []
 
     return {
       destinations,
@@ -119,6 +119,7 @@ export default class EditProfile extends PureComponent<Props> {
   save () {
     const isAnonymous = this.state.isAnonymous
     const profile: AccountProfile = this.getProfileFromState()
+
     if (!profile || !profile.key || !profile.voucherNumber) {
       console.error('Cannot save profile: missing profile or its voucher number.')
       this.setState({errorMessage: message('Profile.SaveError')})
