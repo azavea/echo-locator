@@ -111,7 +111,8 @@ export default class MainPage extends React.PureComponent<Props> {
 
   _showNeighborhoodRoutes () {
     const p = this.props
-    return !p.isLoading && !!get(p, 'neighborhoodRoutes[0]')
+    const useTransit = !p.userProfile || !p.userProfile.hasVehicle
+    return !p.isLoading && useTransit && !!get(p, 'neighborhoodRoutes[0]')
   }
 
   _showRoutes () {
