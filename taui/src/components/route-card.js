@@ -17,10 +17,13 @@ export default class RouteCard extends React.PureComponent<Props> {
     const {
       cardColor,
       children,
+      isFavorite,
       goToDetails,
       neighborhood,
       setActiveNeighborhood,
-      title
+      setFavorite,
+      title,
+      userProfile
     } = this.props
 
     return (
@@ -36,12 +39,15 @@ export default class RouteCard extends React.PureComponent<Props> {
             cursor: 'pointer'
           }}
         >
+          <Icon type={isFavorite ? 'star' : 'star-o'}
+            onClick={(e) => {
+              e.stopPropagation()
+              setFavorite(neighborhood.properties.id, userProfile)
+            }}
+            style={{cursor: 'pointer'}} />
           {title}
           <div className='CardLinks'>
-            <a
-              onClick={(e) => console.log(e)}
-              title={message('RouteCard.MarkerLink')}
-            >
+            <a title={message('RouteCard.MarkerLink')}>
               {neighborhood.active
                 ? <Icon type='dot-circle-o' />
                 : <Icon type='circle-o' />}

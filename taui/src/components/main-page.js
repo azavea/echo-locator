@@ -169,6 +169,7 @@ export default class MainPage extends React.PureComponent<Props> {
           componentError={this.state.componentError}
           isLoading={p.isLoading}
           neighborhoodsSortedWithRoutes={p.neighborhoodsSortedWithRoutes}
+          origin={p.data.origin}
           setActiveNeighborhood={p.setActiveNeighborhood}
           setShowDetails={p.setShowDetails}
           showDetails={p.data.showDetails}
