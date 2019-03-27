@@ -85,6 +85,18 @@ export type NeighborhoodProperties = {
 }
 
 /**
+ * Derived, formatted, user-presentable values for `NeighborhoodProperties`
+ * calcualted in `utils/neighborhood-properties.js`.
+ */
+export type NeighborhoodLabels = {
+  affordability: string,
+  education: string,
+  educationPercentile: string,
+  population: string,
+  violentCrime: string
+}
+
+/**
  * Path data
  */
 

@@ -1,31 +1,17 @@
 // @flow
 import message from '@conveyal/woonerf/message'
 
-import {NeighborhoodProperties} from '../types'
-
-// convenience for finding UI label strings for a given property's quintile bucket
-function lookupLabel (quintileType: string, value: number) {
-  return (value > 0 && value < 6)
-    ? message('QuintileLabels.' + quintileType + '.' + value)
-    : message('UnknownValue')
-}
+import {NeighborhoodLabels} from '../types'
+import getNeighborhoodPropertyLabels from '../utils/neighborhood-properties'
 
 export default function NeighborhoodListInfo ({neighborhood}) {
   if (!neighborhood || !neighborhood.properties) {
     return null
   }
 
-  const properties: NeighborhoodProperties = neighborhood.properties
-  const affordabilityLabel = lookupLabel('Affordability', properties.overall_affordability_quintile)
-  const educationLabel = lookupLabel('Education', properties.education_percentile_quintile)
-  const violentCrimeLabel = lookupLabel('ViolentCrime', properties.violentcrime_quintile)
+  const labels: NeighborhoodLabels = getNeighborhoodPropertyLabels(neighborhood.properties)
 
-  const educationPercentileLabel = properties.education_percentile
-    ? (properties.education_percentile / 100).toLocaleString('en-US', {style: 'percent'})
-    : message('UnknownValue')
-  const populationLabel = properties.zipcode_population
-    ? properties.zipcode_population.toLocaleString('en-US', {style: 'decimal', useGrouping: true})
-    : message('UnknownValue')
+  // Overall score is a derived value and not a neighborhood property (so not in `labels`).
   const overallScore = neighborhood.score
     ? neighborhood.score.toLocaleString('en-US', {style: 'percent'})
     : message('UnknownValue')
@@ -35,7 +21,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
       <tr>
         <td />
         <td>
-          <span>{affordabilityLabel}</span>
+          <span>{labels.affordability}</span>
         </td>
         <td>
           <span>{message('NeighborhoodInfo.Score')}: {overallScore}</span>
@@ -44,19 +30,19 @@ export default function NeighborhoodListInfo ({neighborhood}) {
       <tr>
         <td />
         <td>
-          <span>{message('NeighborhoodInfo.ViolentCrime')}: {violentCrimeLabel}</span>
+          <span>{message('NeighborhoodInfo.ViolentCrime')}: {labels.violentCrime}</span>
         </td>
         <td>
-          <span>{message('NeighborhoodInfo.Population')}: {populationLabel}</span>
+          <span>{message('NeighborhoodInfo.Population')}: {labels.population}</span>
         </td>
       </tr>
       <tr>
         <td />
         <td>
-          <span>{message('NeighborhoodInfo.EducationPercentile')}: {educationPercentileLabel}</span>
+          <span>{message('NeighborhoodInfo.EducationPercentile')}: {labels.educationPercentile}</span>
         </td>
         <td>
-          <span>{message('NeighborhoodInfo.EducationCategory')}: {educationLabel}</span>
+          <span>{message('NeighborhoodInfo.EducationCategory')}: {labels.education}</span>
         </td>
       </tr>
     </tbody>

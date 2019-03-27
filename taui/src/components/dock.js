@@ -266,8 +266,6 @@ export default class Dock extends PureComponent<Props> {
     const detailNeighborhood = getActiveNeighborhood(neighborhoodsSortedWithRoutes,
       activeNeighborhood)
 
-    console.log(detailNeighborhood)
-
     return <div className='Taui-Dock'>
       <div className='Taui-Dock-content sidebar-dock'>
         <div className='title'>
