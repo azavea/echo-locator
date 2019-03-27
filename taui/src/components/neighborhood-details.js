@@ -62,7 +62,9 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         <table className='CardContent'>
           <tbody>
             <tr className='BestTrip'>
-              <td><span><strong>{time}</strong> {message('Units.Mins')}</span></td>
+              <td>{!userProfile.hasVehicle &&
+                <span><strong>{time}</strong> {message('Units.Mins')}</span>}
+              </td>
               <td>
                 <span>{message('NeighborhoodDetails.ModeSummary')} </span>
                 <ModesList segments={bestJourney} />
@@ -88,6 +90,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 }
 
 // Builds list of unqiue transit modes used in a trip
-const ModesList = ({segments}) => (
+const ModesList = ({segments}) => segments && segments.length ? (
   <span>{uniq(segments.map(s => s.type)).join('/')}</span>
-)
+) : <span>{message('NeighborhoodDetails.DriveMode')}</span>

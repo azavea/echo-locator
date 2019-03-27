@@ -50,11 +50,13 @@ export default class Dock extends PureComponent<Props> {
     }
   }
 
-  backFromDetails () {
+  backFromDetails (e) {
+    e.stopPropagation()
     this.props.setShowDetails(false)
   }
 
-  goPreviousPage () {
+  goPreviousPage (e) {
+    e.stopPropagation()
     const page = this.state.page
     if (page >= 1) {
       this.setState({page: page - 1})
@@ -64,12 +66,14 @@ export default class Dock extends PureComponent<Props> {
     }
   }
 
-  goNextPage () {
+  goNextPage (e) {
+    e.stopPropagation()
     const page = this.state.page
     this.setState({page: page + 1})
   }
 
-  goToDetails (neighborhood) {
+  goToDetails (e, neighborhood) {
+    e.stopPropagation()
     this.props.setActiveNeighborhood(neighborhood.properties.id)
     this.props.setShowDetails(true)
   }
@@ -154,6 +158,7 @@ export default class Dock extends PureComponent<Props> {
     const {
       activeNetworkIndex,
       changeUserProfile,
+      hasVehicle,
       neighborhoods,
       setActiveNeighborhood,
       setFavorite,
@@ -170,27 +175,28 @@ export default class Dock extends PureComponent<Props> {
 
     return (
       neighborhoodPage.map((neighborhood, index) =>
-        neighborhood.segments && neighborhood.segments.length
-          ? (<RouteCard
-            cardColor={neighborhood.active ? 'green' : NETWORK_COLORS[activeNetworkIndex]}
-            goToDetails={goToDetails}
-            index={index}
-            isFavorite={userProfile.favorites.indexOf(neighborhood.properties.id) !== -1}
-            key={`${index}-route-card`}
+        <RouteCard
+          cardColor={neighborhood.active ? 'green' : NETWORK_COLORS[activeNetworkIndex]}
+          goToDetails={(e) => goToDetails(e, neighborhood)}
+          index={index}
+          isFavorite={userProfile.favorites.indexOf(neighborhood.properties.id) !== -1}
+          key={`${index}-route-card`}
+          neighborhood={neighborhood}
+          setActiveNeighborhood={setActiveNeighborhood}
+          setFavorite={(e) => setFavorite(neighborhood.properties.id,
+            userProfile, changeUserProfile)}
+          title={neighborhood.properties.town + ': ' + neighborhood.properties.id}
+          userProfile={userProfile}>
+          <RouteSegments
+            hasVehicle={hasVehicle}
+            routeSegments={neighborhood.segments}
+            travelTime={neighborhood.time}
+          />
+          <NeighborhoodListInfo
             neighborhood={neighborhood}
-            setActiveNeighborhood={setActiveNeighborhood}
-            setFavorite={(e) => setFavorite(neighborhood.properties.id,
-              userProfile, changeUserProfile)}
-            title={neighborhood.properties.town + ': ' + neighborhood.properties.id}
-            userProfile={userProfile}>
-            <RouteSegments
-              routeSegments={neighborhood.segments}
-              travelTime={neighborhood.time}
-            />
-            <NeighborhoodListInfo
-              neighborhood={neighborhood}
-            />
-          </RouteCard>) : null)
+          />
+        </RouteCard>
+      )
     )
   }
 
@@ -279,6 +285,7 @@ export default class Dock extends PureComponent<Props> {
           <NeighborhoodSection
             {...this.props}
             changeUserProfile={changeUserProfile}
+            hasVehicle={userProfile ? userProfile.hasVehicle : false}
             neighborhoods={neighborhoods}
             endingOffset={endingOffset}
             setFavorite={setFavorite}

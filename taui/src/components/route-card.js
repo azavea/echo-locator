@@ -32,7 +32,7 @@ export default class RouteCard extends React.PureComponent<Props> {
       >
         <div
           className='CardTitle'
-          onClick={(e) => goToDetails(neighborhood)}
+          onClick={(e) => goToDetails(e, neighborhood)}
           onMouseOver={(e) => setActiveNeighborhood(neighborhood.properties.id)}
           style={{
             backgroundColor: cardColor,

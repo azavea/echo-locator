@@ -39,6 +39,7 @@ Dock:
   ShowAllButton: All
   ShowSavedButton: Saved
 NeighborhoodDetails:
+  DriveMode: driving
   FromOrigin: from
   GoogleMapsLink: See on Google Maps
   ModeSummary: via
