@@ -247,7 +247,7 @@ export default class EditProfile extends PureComponent<Props> {
 
     return (
       <select
-        className='account-profile__input'
+        className='account-profile__input account-profile__input--select'
         defaultValue={destination.purpose || DEFAULT_PROFILE_DESTINATION_TYPE}
         onChange={(e) => editAddress(index, 'purpose', e.currentTarget.value)}
         id='purpose'>
@@ -268,13 +268,15 @@ export default class EditProfile extends PureComponent<Props> {
       setPrimaryAddress,
       TripPurposeOptions } = props
 
+    const showAllColumns = destinations.length > 1
+
     const listItems = destinations.map((destination: AccountAddress, index) => {
       return <li
         key={index}
-        className='account-profile__destination_row'>
-        <div className='account-profile__destination_field'>
+        className='account-profile__destination'>
+        <div className='account-profile__destination_field account-profile__destination_field--wide'>
           <Geocoder
-            className='account-profile__input'
+            className='account-profile__input account-profile__input--geocoder'
             geocode={geocode}
             onChange={(e) => setGeocodeLocation(index, editAddress, e)}
             placeholder={message('Geocoding.PromptText')}
@@ -282,73 +284,70 @@ export default class EditProfile extends PureComponent<Props> {
             value={destination.location}
           />
         </div>
-        <div className='account-profile__destination_narrow_field'>
+        <div className='account-profile__destination_field account-profile__destination_field'>
           <TripPurposeOptions
             destination={destination}
             editAddress={editAddress}
             index={index}
           />
         </div>
-        <div className='account-profile__destination_narrow_field'>
-          <input
-            className='account-profile__input'
-            id='primary'
-            type='radio'
-            onChange={(e) => setPrimaryAddress(index, e)}
-            checked={!!destination.primary}
-          />
-        </div>
-        <div className='account-profile__destination_narrow_field'>
-          <button
-            id='deleteAddress'
-            className='account-profile__button account-profile__button--secondary'
-            data-id={index}
-            onClick={(e) => deleteAddress(index, e)}
-            title={message('Profile.DeleteAddress')}>
-            <img src='assets/trash-alt.svg' width='16' alt={message('Profile.Delete')} />
-          </button>
-        </div>
+        {showAllColumns && <>
+          <div className='account-profile__destination_field account-profile__destination_field--narrow account-profile__destination_field--center'>
+            <input
+              className='account-profile__input account-profile__input--radio'
+              id='primary'
+              type='radio'
+              onChange={(e) => setPrimaryAddress(index, e)}
+              checked={!!destination.primary}
+            />
+          </div>
+          <div className='account-profile__destination_field account-profile__destination_field--xnarrow account-profile__destination_field--center'>
+            <button
+              id='deleteAddress'
+              className='account-profile__destination-delete-button'
+              data-id={index}
+              onClick={(e) => deleteAddress(index, e)}
+              title={message('Profile.DeleteAddress')}>
+              <img src='assets/times-regular.svg' width='12' alt={message('Profile.DeleteDestination')} />
+            </button>
+          </div>
+        </>}
       </li>
     })
 
     return (
-      <div className=''>
-        <ul className=''>
-          <li
-            key='header'
-            className='account-profile__destination_row'>
-            <div className='account-profile__destination_field'>
-              <label
-                className='account-profile__label'
-                htmlFor='address'>
-                {message('Profile.Address')}
-              </label>
-            </div>
-            <div className='account-profile__destination_narrow_field'>
-              <label
-                className='account-profile__label'
-                htmlFor='purpose'>
-                {message('Profile.Purpose')}
-              </label>
-            </div>
-            <div className='account-profile__destination_narrow_field'>
-              <label
-                className='account-profile__label'
-                htmlFor='primary'>
+      <div className='account-profile__destinations'>
+        <h2 className='account-profile__label'>{message('Profile.Destinations')}</h2>
+        <div className='account-profile__destination-list-header'>
+          <div className='account-profile__destination_field account-profile__destination_field--wide'>
+            <span className='account-profile__destination-list-heading'>
+              {message('Profile.Address')}
+            </span>
+          </div>
+          <div className='account-profile__destination_field'>
+            <span className='account-profile__destination-list-heading'>
+              {message('Profile.Purpose')}
+            </span>
+          </div>
+          {showAllColumns && <>
+            <div className='account-profile__destination_field account-profile__destination_field--narrow account-profile__destination_field--center'>
+              <span className='account-profile__destination-list-heading'>
                 {message('Profile.Primary')}
-              </label>
+              </span>
             </div>
-            <div className='account-profile__destination_narrow_field'>
-              <label
-                className='account-profile__label'
-                htmlFor='deleteAddress' />
+            <div className='account-profile__destination_field account-profile__destination_field--xnarrow'>
+              <span className='account-profile__destination-list-heading' />
             </div>
-          </li>
+          </>}
+        </div>
+        <ul className='account-profile__destination-list'>
           {listItems}
         </ul>
         {destinations.length < MAX_ADDRESSES && <button
-          className='account-profile__button account-profile__button--secondary'
-          onClick={addAddress}>{message('Profile.AddAddress')}
+          className='account-profile__button account-profile__button--tertiary account-profile__button--iconLeft'
+          onClick={addAddress}>
+          <img src='assets/plus-light.svg' width='12' alt='' />
+          {message('Profile.AddAddress')}
         </button>}
       </div>
     )
@@ -365,7 +364,7 @@ export default class EditProfile extends PureComponent<Props> {
 
     return (
       <select
-        className='account-profile__input'
+        className='account-profile__input account-profile__input--select'
         defaultValue={rooms}
         onChange={(e) => changeField('rooms', e.currentTarget.value)}>
         {roomOptions}
@@ -403,75 +402,73 @@ export default class EditProfile extends PureComponent<Props> {
       <div className='form-screen'>
         <h2 className='form-screen__heading'>{message('Profile.Title')}</h2>
         <div className='form-screen__main'>
-          <div className='account-profile'>
-            {key && <div className='account-profile__main'>
-              {!isAnonymous && <div className='account-profile__field'>
-                <label
-                  className='account-profile__label'
-                  htmlFor='headOfHousehold'>
-                  {message('Accounts.Name')}
-                </label>
-                <input
-                  className='account-profile__input'
-                  id='headOfHousehold'
-                  type='text'
-                  onChange={(e) => changeField('headOfHousehold', e.currentTarget.value)}
-                  defaultValue={headOfHousehold || ''}
-                />
-              </div>}
-              <div className='account-profile__field'>
-                <label
-                  className='account-profile__label'
-                  htmlFor='rooms'>{message('Profile.Rooms')}</label>
-                <RoomOptions
-                  rooms={rooms}
-                  changeField={changeField} />
-              </div>
-              <div className=''>
-                <h2>{message('Profile.Destinations')}</h2>
-                <DestinationsList
-                  addAddress={addAddress}
-                  deleteAddress={deleteAddress}
-                  destinations={destinations}
-                  editAddress={editAddress}
-                  geocode={geocode}
-                  reverseGeocode={reverseGeocode}
-                  setGeocodeLocation={setGeocodeLocation}
-                  setPrimaryAddress={setPrimaryAddress}
-                  TripPurposeOptions={TripPurposeOptions}
-                />
-              </div>
-              <div className='account-profile__field'>
-                <label
-                  className='account-profile__label'
-                  htmlFor='hasVehicle'>
-                  {message('Profile.HasVehicle')}
-                </label>
-                <input
-                  className='account-profile__input'
-                  id='hasVehicle'
-                  type='checkbox'
-                  onChange={(e) => changeField('hasVehicle', e.currentTarget.checked)}
-                  defaultChecked={hasVehicle}
-                />
-              </div>
-              {errorMessage &&
-                <p className='account-profile__error'>{errorMessage}</p>
-              }
-              <div className='account-profile__destination_row'>
-                <button
-                  className='account-profile__button account-profile__button--primary account-profile__destination_narrow_field'
-                  onClick={save}>{message('Profile.Go')}</button>
-                <button
-                  className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
-                  onClick={cancel}>{message('Profile.Cancel')}</button>
-                {!isAnonymous && <button
-                  className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
-                  onClick={(e) => deleteProfile(key, e)}
-                >{message('Profile.Delete')}</button>}
-              </div>
+          {key && <div className='account-profile'>
+            {!isAnonymous && <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='headOfHousehold'>
+                {message('Accounts.Name')}
+              </label>
+              <input
+                className='account-profile__input account-profile__input--text'
+                id='headOfHousehold'
+                type='text'
+                onChange={(e) => changeField('headOfHousehold', e.currentTarget.value)}
+                defaultValue={headOfHousehold || ''}
+              />
             </div>}
-          </div>
+            <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='rooms'>{message('Profile.Rooms')}</label>
+              <RoomOptions
+                rooms={rooms}
+                changeField={changeField} />
+            </div>
+            <DestinationsList
+              addAddress={addAddress}
+              deleteAddress={deleteAddress}
+              destinations={destinations}
+              editAddress={editAddress}
+              geocode={geocode}
+              reverseGeocode={reverseGeocode}
+              setGeocodeLocation={setGeocodeLocation}
+              setPrimaryAddress={setPrimaryAddress}
+              TripPurposeOptions={TripPurposeOptions}
+            />
+            <div className='account-profile__field account-profile__field--inline'>
+              <input
+                className='account-profile__input account-profile__input--checkbox'
+                id='hasVehicle'
+                type='checkbox'
+                onChange={(e) => changeField('hasVehicle', e.currentTarget.checked)}
+                defaultChecked={hasVehicle}
+              />
+              <label
+                className='account-profile__label'
+                htmlFor='hasVehicle'>
+                {message('Profile.HasVehicle')}
+              </label>
+            </div>
+            {errorMessage &&
+              <p className='account-profile__error'>{errorMessage}</p>
+            }
+            <div className='account-profile__actions'>
+              <button
+                className='account-profile__button account-profile__button--primary'
+                onClick={save}>{message('Profile.Go')}</button>
+              <button
+                className='account-profile__button account-profile__button--secondary'
+                onClick={cancel}>{message('Profile.Cancel')}</button>
+              {!isAnonymous && <button
+                className='account-profile__button account-profile__button--tertiary account-profile__button--iconLeft'
+                onClick={(e) => deleteProfile(key, e)}
+              >
+                <img src='assets/trash-alt.svg' width='12' alt='' />
+                {message('Profile.DeleteProfile')}
+              </button>}
+            </div>
+          </div>}
         </div>
       </div>
     )

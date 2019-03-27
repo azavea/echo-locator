@@ -26,6 +26,9 @@ input,
 textarea,
 select {
     font-family: inherit;
+    background-color: $white;
+    border: 1px solid $gray-400;
+    border-radius: 0;
 }
 
 strong {

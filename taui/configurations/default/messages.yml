@@ -75,20 +75,20 @@ SignIn:
   AnonymousExplanation: Don't have an account?
   Greeting: At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
 Header:
-  New: New
-  Edit: Edit
-  SignIn: Sign In
+  New: New search
+  Edit: Edit profile
+  SignIn: Sign in
 Accounts:
   Create: Create new profile
   CreateError: Failed to create profile. Please try again.
   InvalidVoucherNumber: Voucher number should be eight digits, or two letters followed by six digits.
   MissingVoucherNumber: Enter a voucher number to create a profile.
-  Name: Name of Head of Household
+  Name: Name of head of household
   Search: Search
   SelectError: Failed to set profile. Please try again.
   NoResults: No profile found for that voucher number. Create new profile now?
   Title: Profiles
-  Voucher: Voucher Number
+  Voucher: Voucher number
 Profile:
   AddAddress: Add another destination
   Address: Address
@@ -96,7 +96,8 @@ Profile:
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
   Cancel: Cancel
-  Delete: Delete
+  DeleteDestination: Delete this destination
+  DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Frequent destinations
   Primary: Primary
