@@ -55,7 +55,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       <div className='Card'>
         <div className='CardTitle'>
           <Icon type={isFavorite ? 'star' : 'star-o'}
-            onClick={(e) => setFavorite(neighborhood.properties.id, userProfile, changeUserProfile)}
+            onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
             style={{cursor: 'pointer'}} />
           <span>{town} - {id}</span>
         </div>
