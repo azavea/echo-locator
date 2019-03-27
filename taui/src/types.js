@@ -86,12 +86,17 @@ export type NeighborhoodProperties = {
 
 /**
  * Derived, formatted, user-presentable values for `NeighborhoodProperties`
- * calcualted in `utils/neighborhood-properties.js`.
+ * calcualted in `utils/neighborhood-properties.js` (all properties but id, zipcode, and town).
  */
 export type NeighborhoodLabels = {
   affordability: string,
   education: string,
   educationPercentile: string,
+  hasTransitStop: string,
+  nearPark: string,
+  nearRailStation: string,
+  nearTransitStop: string,
+  percentCollegeGraduates: string,
   population: string,
   violentCrime: string
 }

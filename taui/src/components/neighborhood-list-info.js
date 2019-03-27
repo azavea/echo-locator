@@ -33,15 +33,6 @@ export default function NeighborhoodListInfo ({neighborhood}) {
           <span>{message('NeighborhoodInfo.ViolentCrime')}: {labels.violentCrime}</span>
         </td>
         <td>
-          <span>{message('NeighborhoodInfo.Population')}: {labels.population}</span>
-        </td>
-      </tr>
-      <tr>
-        <td />
-        <td>
-          <span>{message('NeighborhoodInfo.EducationPercentile')}: {labels.educationPercentile}</span>
-        </td>
-        <td>
           <span>{message('NeighborhoodInfo.EducationCategory')}: {labels.education}</span>
         </td>
       </tr>
