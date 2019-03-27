@@ -64,6 +64,27 @@ export type AccountProfile = {
 }
 
 /**
+ * Neighborhood GeoJSON properties.
+ * Should correspond to the column definitions in generate_neighborhood_json.py.
+ */
+
+export type NeighborhoodProperties = {
+  education_percentile: number,
+  education_percentile_quintile: number,
+  has_t_stop: boolean,
+  id: string, // same as zipcode; unique
+  near_park: number,
+  near_railstation: number,
+  near_t_stop: number,
+  overall_affordability_quintile: number, // rental affordability
+  percentage_college_graduates: number,
+  town: string, // the label
+  violentcrime_quintile: number,
+  zipcode: string,
+  zipcode_population: number
+}
+
+/**
  * Path data
  */
 
