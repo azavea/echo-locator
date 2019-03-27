@@ -153,6 +153,7 @@ export default class MainPage extends React.PureComponent<Props> {
             showRoutes={this._showNeighborhoodRoutes()}
             setActiveNeighborhood={p.setActiveNeighborhood}
             setEndPosition={p.updateEndPosition}
+            setShowDetails={p.setShowDetails}
             setStartPosition={p.updateStartPosition}
             start={p.geocoder.start}
             updateEnd={p.updateEnd}
@@ -162,12 +163,18 @@ export default class MainPage extends React.PureComponent<Props> {
           />
         </div>
         <Dock
+          activeNeighborhood={p.data.activeNeighborhood}
           activeNetworkIndex={p.activeNetworkIndex}
+          changeUserProfile={p.changeUserProfile}
           componentError={this.state.componentError}
           isLoading={p.isLoading}
           neighborhoodsSortedWithRoutes={p.neighborhoodsSortedWithRoutes}
+          origin={p.data.origin}
           setActiveNeighborhood={p.setActiveNeighborhood}
-          showSpinner={p.ui.fetches > 0}>
+          setShowDetails={p.setShowDetails}
+          showDetails={p.data.showDetails}
+          showSpinner={p.ui.fetches > 0}
+          userProfile={p.userProfile}>
           <Form
             geocode={p.geocode}
             networks={p.data.networks}

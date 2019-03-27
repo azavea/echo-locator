@@ -13,20 +13,18 @@ type Props = {
 }
 
 export default class RouteCard extends React.PureComponent<Props> {
-  onClick = (neighborhood) => {
-    console.log('TODO: #28 go to neighborhood details')
-    console.log(neighborhood)
-  }
   render () {
     const {
       cardColor,
       children,
+      isFavorite,
+      goToDetails,
       neighborhood,
       setActiveNeighborhood,
-      title
+      setFavorite,
+      title,
+      userProfile
     } = this.props
-
-    const onClick = this.onClick
 
     return (
       <div
@@ -34,19 +32,22 @@ export default class RouteCard extends React.PureComponent<Props> {
       >
         <div
           className='CardTitle'
-          onClick={(e) => onClick(neighborhood)}
+          onClick={(e) => goToDetails(neighborhood)}
           onMouseOver={(e) => setActiveNeighborhood(neighborhood.properties.id)}
           style={{
             backgroundColor: cardColor,
             cursor: 'pointer'
           }}
         >
+          <Icon type={isFavorite ? 'star' : 'star-o'}
+            onClick={(e) => {
+              e.stopPropagation()
+              setFavorite(neighborhood.properties.id, userProfile)
+            }}
+            style={{cursor: 'pointer'}} />
           {title}
           <div className='CardLinks'>
-            <a
-              onClick={(e) => console.log(e)}
-              title={message('RouteCard.MarkerLink')}
-            >
+            <a title={message('RouteCard.MarkerLink')}>
               {neighborhood.active
                 ? <Icon type='dot-circle-o' />
                 : <Icon type='circle-o' />}

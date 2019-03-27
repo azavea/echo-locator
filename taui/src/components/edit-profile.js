@@ -8,6 +8,7 @@ import {PureComponent} from 'react'
 import {
   ANONYMOUS_USERNAME,
   DEFAULT_PROFILE_DESTINATION_TYPE,
+  MAX_ADDRESSES,
   PROFILE_DESTINATION_TYPES
 } from '../constants'
 import type {AccountAddress, AccountProfile} from '../types'
@@ -54,6 +55,7 @@ export default class EditProfile extends PureComponent<Props> {
     this.state = {
       destinations: profile && profile.destinations.length
         ? profile.destinations : [Object.assign({}, firstAddress)],
+      favorites: profile ? profile.favorites : [],
       hasVehicle: profile ? profile.hasVehicle : false,
       headOfHousehold: profile ? profile.headOfHousehold : '',
       key: profile ? profile.key : '',
@@ -93,11 +95,21 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   getProfileFromState (): AccountProfile {
-    const {destinations, hasVehicle, headOfHousehold, key, rooms, voucherNumber} = this.state
+    const {
+      destinations,
+      hasVehicle,
+      headOfHousehold,
+      key,
+      rooms,
+      voucherNumber
+    } = this.state
+    const favorites = this.state.favorites || []
+
     return {
       destinations,
       hasVehicle,
       headOfHousehold,
+      favorites,
       key,
       rooms,
       voucherNumber
@@ -107,6 +119,7 @@ export default class EditProfile extends PureComponent<Props> {
   save () {
     const isAnonymous = this.state.isAnonymous
     const profile: AccountProfile = this.getProfileFromState()
+
     if (!profile || !profile.key || !profile.voucherNumber) {
       console.error('Cannot save profile: missing profile or its voucher number.')
       this.setState({errorMessage: message('Profile.SaveError')})
@@ -255,9 +268,6 @@ export default class EditProfile extends PureComponent<Props> {
       setPrimaryAddress,
       TripPurposeOptions } = props
 
-    // Maximum number of destinations user may add
-    const maxAddressesAllowed = 3
-
     const listItems = destinations.map((destination: AccountAddress, index) => {
       return <li
         key={index}
@@ -336,7 +346,7 @@ export default class EditProfile extends PureComponent<Props> {
           </li>
           {listItems}
         </ul>
-        {destinations.length < maxAddressesAllowed && <button
+        {destinations.length < MAX_ADDRESSES && <button
           className='account-profile__button account-profile__button--secondary'
           onClick={addAddress}>{message('Profile.AddAddress')}
         </button>}

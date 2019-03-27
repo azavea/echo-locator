@@ -64,6 +64,7 @@ type Props = {
   setEnd: any => void,
   setProfile: Function => void,
   setSelectedTimeCutoff: any => void,
+  setShowDetails: Function => void,
   setStart: any => void,
   showComparison: boolean,
   timeCutoff: any,

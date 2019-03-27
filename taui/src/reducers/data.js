@@ -95,6 +95,12 @@ export default handleActions(
         profileLoading: false,
         userProfile: action.payload
       }
+    },
+    'set show details' (state, action) {
+      return {
+        ...state,
+        showDetails: !!action.payload
+      }
     }
   },
   {
@@ -103,6 +109,7 @@ export default handleActions(
     neighborhoods: {},
     neighborhoodBounds: {},
     profileLoading: true,
+    showDetails: false,
     userProfile: null
   }
 )

@@ -30,8 +30,18 @@ Map:
     SetEnd: Set end
     ClearMarkers: Clear markers
 Dock:
+  Favorites: Saved recommendations
+  GoBackFromDetails: Back to list
   GoPreviousPage: Go back
   GoNextPage: Show more
+  NoResults: No results
+  Recommendations: Recommendations
+  ShowAllButton: All
+  ShowSavedButton: Saved
+NeighborhoodDetails:
+  FromOrigin: from
+  GoogleMapsLink: See on Google Maps
+  ModeSummary: via
 NeighborhoodInfo:
   Education: Education
   RentDiff: Rent difference

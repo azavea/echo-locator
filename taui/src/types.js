@@ -55,6 +55,7 @@ export type AccountAddress = {
 
 export type AccountProfile = {
   destinations: Array<AccountAddress>,
+  favorites: Array<string>,
   hasVehicle: boolean,
   headOfHousehod: string,
   key: string,
