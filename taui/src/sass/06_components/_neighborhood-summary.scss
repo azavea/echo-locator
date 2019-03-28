@@ -1,0 +1,37 @@
+.neighborhood-summary {
+  @include elevation(1);
+  margin-bottom: 1.6rem;
+  padding: 0 0.8rem 0.8rem;
+  background-color: $white;
+  border-top: 4px solid transparent;
+  cursor: pointer;
+
+  &__header {
+    @include heading(400);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.8rem 0;
+  }
+
+  &__star {
+    margin-right: 0.4rem;
+    font-size: 1.8rem !important;
+  }
+
+  &__marker {
+    width: auto !important;
+    margin-left: auto;
+    color: $brand-blue;
+    font-size: 3.2rem !important;
+
+    &--on {
+      color: $green;
+    }
+  }
+
+  &__contents {
+    @include text(300);
+  }
+}

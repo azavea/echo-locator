@@ -15,9 +15,33 @@
   }
 
   &__travel-form {
-    margin-bottom: 1.6rem;
     padding-bottom: 0.8rem;
     border-bottom: 1px solid $gray-400;
+  }
+
+  &__neighborhoods-header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.6rem 0;
+  }
+
+  &__neighborhoods-heading {
+    @include heading(300);
+  }
+
+  &__neighborhoods-actions {
+    @include text(300);
+    color: $gray-600;
+  }
+
+  &__neighborhoods-action {
+    &--on {
+      @include font-weight(bold);
+      color: $black;
+      cursor: default;
+    }
   }
 
   &__attribution {

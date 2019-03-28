@@ -1,6 +1,5 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
-import message from '@conveyal/woonerf/message'
 import React from 'react'
 
 type Props = {
@@ -26,35 +25,31 @@ export default class RouteCard extends React.PureComponent<Props> {
       userProfile
     } = this.props
 
+    const markerClass = `neighborhood-summary__marker ${neighborhood.active ? 'neighborhood-summary__marker--on' : ''}`
+
     return (
       <div
-        className={'Card'}
+        className='neighborhood-summary'
+        role='button'
+        onClick={(e) => goToDetails(e, neighborhood)}
+        style={{borderTopColor: cardColor}}
       >
-        <div
-          className='CardTitle'
-          onClick={(e) => goToDetails(e, neighborhood)}
+        <header
+          className='neighborhood-summary__header'
           onMouseOver={(e) => setActiveNeighborhood(neighborhood.properties.id)}
-          style={{
-            backgroundColor: cardColor,
-            cursor: 'pointer'
-          }}
         >
-          <Icon type={isFavorite ? 'star' : 'star-o'}
+          <Icon
+            className='neighborhood-summary__star'
+            type={isFavorite ? 'star' : 'star-o'}
             onClick={(e) => {
               e.stopPropagation()
               setFavorite(neighborhood.properties.id, userProfile)
             }}
-            style={{cursor: 'pointer'}} />
+          />
           {title}
-          <div className='CardLinks'>
-            <a title={message('RouteCard.MarkerLink')}>
-              {neighborhood.active
-                ? <Icon type='dot-circle-o' />
-                : <Icon type='circle-o' />}
-            </a>
-          </div>
-        </div>
-        <table className='CardContent'>{children}</table>
+          <Icon className={markerClass} type='map-marker' />
+        </header>
+        <table className='neighborhood-summary__contents'>{children}</table>
       </div>
     )
   }

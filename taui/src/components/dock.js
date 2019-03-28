@@ -209,27 +209,37 @@ export default class Dock extends PureComponent<Props> {
     } = props
     const setShowAll = this.showAll
     const NeighborhoodsList = this.neighborhoodsList
+    const showAllClass = `map-sidebar__neighborhoods-action ${showAll ? 'map-sidebar__neighborhoods-action--on' : ''}`
+    const showSavedClass = `map-sidebar__neighborhoods-action ${!showAll ? 'map-sidebar__neighborhoods-action--on' : ''}`
 
     return (
-      <div>
-        <div className='Card'>
-          {showAll ? message('Dock.Recommendations') : message('Dock.Favorites')}
-          {startingOffset + 1} - {endingOffset}
-          <button
-            onClick={(e) => setShowAll(true)}
-            style={showAll ? {fontWeight: 'bold'} : {}}>
-            {message('Dock.ShowAllButton')}
-          </button> |
-          <button
-            style={!showAll ? {fontWeight: 'bold'} : {}}
-            onClick={(e) => setShowAll(false)}>
-            {message('Dock.ShowSavedButton')}
-          </button>
-        </div>
+      <>
+        <header className='map-sidebar__neighborhoods-header'>
+          <h2 className='map-sidebar__neighborhoods-heading'>
+            {showAll ? message('Dock.Recommendations') : message('Dock.Favorites')}
+            &nbsp;
+            {startingOffset + 1}&ndash;{endingOffset}
+          </h2>
+          <div className='map-sidebar__neighborhoods-actions'>
+            <button
+              onClick={(e) => setShowAll(true)}
+              disabled={showAll}
+              className={showAllClass}>
+              {message('Dock.ShowAllButton')}
+            </button>
+            &nbsp;|&nbsp;
+            <button
+              className={showSavedClass}
+              disabled={!showAll}
+              onClick={(e) => setShowAll(false)}>
+              {message('Dock.ShowSavedButton')}
+            </button>
+          </div>
+        </header>
         <NeighborhoodsList {...props}
           neighborhoods={neighborhoods}
           startingOffset={startingOffset} />
-      </div>)
+      </>)
   }
 
   render () {
@@ -241,7 +251,6 @@ export default class Dock extends PureComponent<Props> {
       neighborhoodsSortedWithRoutes,
       origin,
       showDetails,
-      showSpinner,
       userProfile
     } = this.props
     const {componentError, page, showAll} = this.state
