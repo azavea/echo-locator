@@ -277,10 +277,22 @@ export default class Map extends PureComponent<Props, State> {
         {!p.isLoading && p.neighborhoods &&
           <VGrid
             data={p.neighborhoods}
-            style={NEIGHBORHOOD_STYLE}
             idField='id'
             tooltip='town'
             onClick={this._clickNeighborhood}
+            style={NEIGHBORHOOD_STYLE}
+            vectorTileLayerStyles={
+              {'sliced': (properties) => {
+                return ({
+                  color: properties.near_t_station ? '#fff' : '#85929E',
+                  fill: true,
+                  fillColor: properties.near_t_station ? '#fff' : '#85929E',
+                  radius: 5,
+                  stroke: true,
+                  weight: 3
+                })
+              }}
+            }
             zIndex={getZIndex()} />}
 
         {p.origin &&

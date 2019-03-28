@@ -54,8 +54,9 @@ export const TRANSIT_STYLE = {
 export const NEIGHBORHOOD_STYLE = {
   color: '#333',
   fill: true,
-  fillColor: '#fff',
+  fillColor: '#333',
   radius: 5,
+  stroke: true,
   weight: 3
 }
 
