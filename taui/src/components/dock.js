@@ -267,46 +267,36 @@ export default class Dock extends PureComponent<Props> {
       activeNeighborhood)
 
     return <div className='map-sidebar'>
-      <div className='Taui-Dock-content sidebar-dock'>
-        <div className='title'>
-          {showSpinner
-            ? <Icon type='spinner' className='fa-spin' />
-            : <Icon type='map' />}
-          {' '}
-          {message('Title')}
-        </div>
-        {componentError &&
-          <div>
-            <h1>Error</h1>
-            <p>componentError.info}</p>
-          </div>}
-        {children}
-        {!isLoading && !showDetails &&
-          <NeighborhoodSection
-            {...this.props}
-            changeUserProfile={changeUserProfile}
-            hasVehicle={userProfile ? userProfile.hasVehicle : false}
-            neighborhoods={neighborhoods}
-            endingOffset={endingOffset}
-            setFavorite={setFavorite}
-            showAll={showAll}
-            startingOffset={startingOffset}
-            userProfile={userProfile}
-          />}
-        {!isLoading && showDetails &&
-          <NeighborhoodDetails
-            changeUserProfile={changeUserProfile}
-            neighborhood={detailNeighborhood}
-            origin={origin}
-            setFavorite={setFavorite}
-            userProfile={userProfile} />
-        }
-        <ButtonRow {...this.props}
-          haveAnotherPage={haveAnotherPage} page={page} />
-        <div className='Attribution'>
-          site made by {' '}
-          <a href='https://www.azavea.com' target='_blank' />
-        </div>
+      {componentError &&
+        <p className='map-sidebar__error'>
+          <Icon type='exclamation-triangle' />
+          {componentError.info}
+        </p>}
+      {children}
+      {!isLoading && !showDetails &&
+        <NeighborhoodSection
+          {...this.props}
+          changeUserProfile={changeUserProfile}
+          hasVehicle={userProfile ? userProfile.hasVehicle : false}
+          neighborhoods={neighborhoods}
+          endingOffset={endingOffset}
+          setFavorite={setFavorite}
+          showAll={showAll}
+          startingOffset={startingOffset}
+          userProfile={userProfile}
+        />}
+      {!isLoading && showDetails &&
+        <NeighborhoodDetails
+          changeUserProfile={changeUserProfile}
+          neighborhood={detailNeighborhood}
+          origin={origin}
+          setFavorite={setFavorite}
+          userProfile={userProfile} />
+      }
+      <ButtonRow {...this.props}
+        haveAnotherPage={haveAnotherPage} page={page} />
+      <div className='map-sidebar__attribution'>
+        site by <a href='https://www.azavea.com' target='_blank'>Azavea</a>
       </div>
     </div>
   }
