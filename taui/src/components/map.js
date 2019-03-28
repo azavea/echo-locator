@@ -1,7 +1,6 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
 import Leaflet from 'leaflet'
-import find from 'lodash/find'
 import React, {PureComponent} from 'react'
 import {
   Map as LeafletMap,
@@ -10,9 +9,8 @@ import {
   TileLayer,
   ZoomControl
 } from 'react-leaflet'
-import VectorGrid from 'react-leaflet-vectorgrid/dist/react-leaflet-vectorgrid'
 
-import {NEIGHBORHOOD_STYLE, STOP_STYLE} from '../constants'
+import {STOP_STYLE} from '../constants'
 import type {
   Coordinate,
   Location,
@@ -21,8 +19,10 @@ import type {
 } from '../types'
 import getActiveNeighborhood from '../utils/get-active-neighborhood'
 
+import DrawNeighborhoods from './draw-neighborhoods'
 import DrawRoute from './draw-route'
 import Gridualizer from './gridualizer'
+import VGrid from './vector-grid'
 
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
   ? process.env.LEAFLET_RETINA_URL
@@ -87,35 +87,14 @@ type State = {
 }
 
 /**
- * Temporary class that fixes VectorGrid's `getFeature`
- */
-class VGrid extends VectorGrid {
-  _propagateEvent (eventHandler, e) {
-    if (!eventHandler) return
-    const featureId = this._getFeatureId(e.layer)
-    const feature = this.getFeature(featureId)
-    if (feature) {
-      Leaflet.DomEvent.stopPropagation(e)
-      eventHandler(feature)
-    }
-  }
-
-  createLeafletElement (props) {
-    const le = super.createLeafletElement(props)
-    le.options.rendererFactory = Leaflet.canvas.tile
-    return le
-  }
-
-  getFeature (featureId) {
-    const p = this.props
-    return find(p.data.features, f => f.properties[p.idField] === featureId)
-  }
-}
-
-/**
  *
  */
 export default class Map extends PureComponent<Props, State> {
+  constructor (props) {
+    super(props)
+    this.clickNeighborhood = this.clickNeighborhood.bind(this)
+  }
+
   state = {
     lastClickedLabel: null,
     lastClickedPosition: null,
@@ -124,6 +103,17 @@ export default class Map extends PureComponent<Props, State> {
 
   componentDidCatch (error) {
     console.error(error)
+  }
+
+  // Click on map marker for a neighborhood
+  clickNeighborhood = (feature) => {
+    // only go to routable neighborhood details
+    if (feature.properties.routable) {
+      this.props.setActiveNeighborhood(feature.properties.id)
+      this.props.setShowDetails(true)
+    } else {
+      console.warn('clicked unroutable neighborhood ' + feature.properties.id)
+    }
   }
 
   /**
@@ -185,12 +175,6 @@ export default class Map extends PureComponent<Props, State> {
     this.props.updateMap({zoom})
   }
 
-  // Click on map marker for a neighborhood
-  _clickNeighborhood = (feature) => {
-    this.props.setActiveNeighborhood(feature.properties.id)
-    this.props.setShowDetails(true)
-  }
-
   _clickPoi = (feature) => {
     this.setState({
       lastClickedLabel: feature.properties.label,
@@ -205,9 +189,9 @@ export default class Map extends PureComponent<Props, State> {
   /* eslint complexity: 0 */
   render () {
     const p = this.props
+    const clickNeighborhood = this.clickNeighborhood
 
     // Index elements with keys to reset them when elements are added / removed
-
     this._key = 0
     let zIndex = 0
     const getZIndex = () => zIndex++
@@ -275,21 +259,12 @@ export default class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()} />}
 
         {!p.isLoading && p.neighborhoods &&
-          <VGrid
-            data={p.neighborhoods}
-            idField='id'
-            tooltip='town'
-            onClick={this._clickNeighborhood}
-            style={NEIGHBORHOOD_STYLE}
-            vectorTileLayerStyles={
-              {'sliced': (properties) => {
-                return Object.assign({}, NEIGHBORHOOD_STYLE, {
-                  color: properties.routable ? '#fff' : '#85929E',
-                  fillColor: properties.routable ? '#fff' : '#85929E'
-                })
-              }}
-            }
-            zIndex={getZIndex()} />}
+          <DrawNeighborhoods
+            clickNeighborhood={clickNeighborhood}
+            neighborhoods={p.neighborhoods}
+            key={`neighborhoods-${this._getKey()}`}
+            zIndex={getZIndex()}
+          />}
 
         {p.origin &&
           <Marker

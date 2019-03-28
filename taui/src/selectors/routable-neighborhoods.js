@@ -4,25 +4,22 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import {createSelector} from 'reselect'
 
-import networkNeighborhoodRoutes from './network-neighborhood-routes'
+import neighborhoodsSortedWithRoutes from './neighborhoods-sorted-with-routes'
 
 export default createSelector(
-  networkNeighborhoodRoutes,
+  neighborhoodsSortedWithRoutes,
   state => get(state, 'data.neighborhoods'),
-  (neighborhoodRoutes, neighborhoods) => {
-    if (!neighborhoodRoutes || !neighborhoodRoutes.length) {
+  (neighborhoodsSortedWithRoutes, neighborhoods) => {
+    if (!neighborhoodsSortedWithRoutes || !neighborhoodsSortedWithRoutes.length) {
       return neighborhoods
     }
     const routableNeighborhoods = map(neighborhoods.features, n => {
-      const route = find(neighborhoodRoutes, r => r.id === n.properties.id)
-      const routable = route && route.journeys && route.journeys.length
+      const routable = !!find(neighborhoodsSortedWithRoutes,
+        s => s.properties.id === n.properties.id)
       const neighborhood = Object.assign({}, n)
       neighborhood.properties.routable = routable
       return neighborhood
     })
-
-    const result = Object.assign({}, neighborhoods, {features: routableNeighborhoods})
-    console.log('recalculated routable neighborhoods')
-    return result
+    return Object.assign({}, neighborhoods, {features: routableNeighborhoods})
   }
 )
