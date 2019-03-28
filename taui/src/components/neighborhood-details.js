@@ -4,8 +4,9 @@ import message from '@conveyal/woonerf/message'
 import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
-import type {AccountProfile} from '../types'
+import type {AccountProfile, NeighborhoodLabels} from '../types'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
+import getNeighborhoodPropertyLabels from '../utils/neighborhood-properties'
 
 type Props = {
   changeUserProfile: any,
@@ -45,6 +46,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
 
+    const labels: NeighborhoodLabels = getNeighborhoodPropertyLabels(neighborhood.properties)
     const { id, town } = neighborhood.properties
     const { time } = neighborhood
 
@@ -55,7 +57,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       <div className='Card'>
         <div className='CardTitle'>
           <Icon type={isFavorite ? 'star' : 'star-o'}
-            onClick={(e) => setFavorite(neighborhood.properties.id, userProfile, changeUserProfile)}
+            onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
             style={{cursor: 'pointer'}} />
           <span>{town} - {id}</span>
         </div>
@@ -74,6 +76,53 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
                   <span>{message('NeighborhoodDetails.FromOrigin')}</span>
                   <span> {currentDestination.purpose.toLowerCase()}</span>
                 </div>}
+              </td>
+            </tr>
+            <tr>
+              <td />
+              <td>
+                <span>{labels.affordability}</span>
+              </td>
+              <td>
+                <span>{message('NeighborhoodInfo.PercentCollegeGraduates')}: {
+                  labels.percentCollegeGraduates}</span>
+              </td>
+            </tr>
+            <tr>
+              <td />
+              <td>
+                <span>{message('NeighborhoodInfo.EducationPercentile')}: {
+                  labels.educationPercentile}</span>
+              </td>
+              <td>
+                <span>{message('NeighborhoodInfo.EducationCategory')}: {labels.education}</span>
+              </td>
+            </tr>
+            <tr>
+              <td />
+              <td>
+                <span>{message('NeighborhoodInfo.ViolentCrime')}: {labels.violentCrime}</span>
+              </td>
+              <td>
+                <span>{message('NeighborhoodInfo.Population')}: {labels.population}</span>
+              </td>
+            </tr>
+            <tr>
+              <td />
+              <td>
+                <span>{labels.hasTransitStop}</span>
+              </td>
+              <td>
+                <span>{message('NeighborhoodInfo.NearTransit')}: {labels.nearTransitStop}</span>
+              </td>
+            </tr>
+            <tr>
+              <td />
+              <td>
+                <span>{message('NeighborhoodInfo.NearRailStation')}: {labels.nearRailStation}</span>
+              </td>
+              <td>
+                <span>{message('NeighborhoodInfo.NearPark')}: {labels.nearPark}</span>
               </td>
             </tr>
           </tbody>

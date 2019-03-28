@@ -1,109 +1,109 @@
-education_percentile,town,zip_code,two_bed_safmr,three_bed_safmr,fmr_area_name,two_bed_fmr,three_bed_fmr,rent_quint,rentcount,medrent,rent_diff,rent_value,ecc_expand,lowCount_flag,finalRentValue,Region,Region_notes,Transit,Transit_notes
-79.1999969482422,BRANT ROCK,02020,,,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,,,,,,1,1,,South,,No,
-72.5999984741211,LITTLETON,01460,1850,2320,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,3,2200,-183,affordable,1,1,affordable,West,north/west?,No,
-90.4000015258789,ACTON,01718,1910,2390,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,,,,,1,1,affordable,West,,No,
-95,BOXBOROUGH,01719,1570,1970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,4,3686,1303,expensive,1,1,affordable,West,,No,
-90.4000015258789,ACTON,01720,1730,2170,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,4,2202,-181,affordable,1,1,affordable,West,,No,
-75.8000030517578,ASHLAND,01721,1730,2170,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,4,2125,-258,affordable,1,1,affordable,West,,No,
-81.4000015258789,BOLTON,01740,1500,1920,"Eastern Worcester County, MA HUD Metro FMR Area",1244,1589,2,,,,,1,1,affordable,West,,No,
-99,CARLISLE,01741,2350,2950,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,,,,,1,1,affordable,West,,No,
-76.6999969482422,HOLLISTON,01746,1570,1970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,2,1350,-1033,affordable,1,1,affordable,West,,No,
-90,HOPKINTON,01748,2000,2510,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,10,2625,242,expensive,1,1,affordable,West,,No,
-77.5999984741211,MENDON,01756,1570,1970,"Eastern Worcester County, MA HUD Metro FMR Area",1244,1589,3,,,,,1,1,affordable,West,,No,
-94.3000030517578,SHERBORN,01770,1760,2210,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,1,4000,1617,expensive,1,1,affordable,West,,No,
-83,SOUTHBOROUGH,01772,1610,2060,"Eastern Worcester County, MA HUD Metro FMR Area",1244,1589,4,5,2500,911,expensive,1,1,affordable,West,,No,
-78.1999969482422,LINCOLN,01773,2260,2830,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,2,2435,52,affordable,1,1,affordable,West,,Yes,
-81.4000015258789,STOW,01775,2110,2640,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,3,1054,-1329,affordable,1,1,affordable,West,,No,
-91.5999984741211,SUDBURY,01776,1580,1980,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,2,3425,1042,expensive,1,1,affordable,West,,No,
-78.8000030517578,CHELMSFORD,01824,1640,2050,"Lowell, MA HUD Metro FMR Area",1514,1897,4,5,1749,-148,affordable,1,1,affordable,West,North/west,No,
-62.5,GEORGETOWN,01833,1630,2040,"Lawrence, MA-NH HUD Metro FMR Area",1357,1700,4,4,1938,238,expensive,1,1,affordable,North,,No,
-77.9000015258789,NORTH READING,01864,1950,2440,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,5,1290,-1093,affordable,1,1,affordable,North,,No,
-67.3000030517578,READING,01867,1670,2090,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,12,3250,867,expensive,1,1,affordable,North,,Yes,
-62.2000007629395,WAKEFIELD,01880,1710,2140,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,24,2450,67,affordable,1,,affordable,North,,Yes,
-64.9000015258789,WILMINGTON,01887,2270,2840,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,6,2500,117,expensive,1,1,affordable,North,,Yes,
-71.6999969482422,NAHANT,01908,1700,2130,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,,,,,1,1,affordable,Inner Core,unsure,Yes,
-92,BOXFORD,01921,1570,1970,"Lawrence, MA-NH HUD Metro FMR Area",1357,1700,4,1,2960,1260,expensive,1,1,affordable,North,,No,
-76.5,ESSEX,01929,1600,2000,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,1,957,-1426,affordable,1,1,affordable,North,,No,
-68.0999984741211,IPSWICH,01938,1570,1970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,3,1700,-683,affordable,1,1,affordable,North,,No,
-90.5999984741211,LYNNFIELD,01940,1860,2330,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,3,1850,-533,affordable,1,1,affordable,North,,No,
-84.8000030517578,MANCHESTER BY THE SEA,01944,1850,2320,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,2,3895,1512,expensive,1,1,affordable,North,,No,
-69.3000030517578,MARBLEHEAD,01945,1800,2260,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,12,2725,342,expensive,1,1,affordable,North,,Yes,check zip
-71,NEWBURYPORT,01950,1570,1970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,7,2200,-183,affordable,1,1,affordable,North,,No,
-80.6999969482422,TOPSFIELD,01983,1570,1970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,,,,,1,1,affordable,North,,No,
-76.4000015258789,WENHAM,01984,1570,1970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,1,1275,-1108,affordable,1,1,affordable,North,,No,
-89.9000015258789,COHASSET,02025,1970,2470,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,2,1461,-922,affordable,1,1,affordable,South,,Yes,check zip
-75.4000015258789,EAST WALPOLE,02032,1840,2310,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,3,2190,-193,affordable,1,1,affordable,South,,Yes,
-69.3000030517578,FOXBOROUGH,02035,1780,2230,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,15,2350,-33,affordable,1,,affordable,South,,No,
-71.5,FRANKLIN,02038,1590,1990,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,49,1995,-388,affordable,1,,affordable,West,south/west?,No,
-89.1999969482422,HINGHAM,02043,2260,2830,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,9,2950,567,expensive,1,1,affordable,South,,Yes,check zip
-79.1999969482422,MARSHFIELD,02050,1810,2270,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,5,3000,617,expensive,1,1,affordable,South,,No,
-79.1999969482422,MARSHFIELD,02051,1620,2030,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,,,,,1,1,affordable,South,,No,
-85.0999984741211,MEDFIELD,02052,1570,1970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,8,2500,117,expensive,1,1,affordable,West,,No,
-81.3000030517578,MEDWAY,02053,1570,1970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,1,2450,67,affordable,1,1,affordable,West,,No,
-68.8000030517578,MILLIS,02054,1930,2420,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,4,1540,-843,affordable,1,1,affordable,West,south/west?,No,
-91.0999984741211,NORFOLK,02056,1780,2230,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,2,2212,-171,affordable,1,1,affordable,West,,No,
-81.3000030517578,NORWELL,02061,1800,2250,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,1,2800,417,expensive,1,1,affordable,South,,No,
-70.8000030517578,SCITUATE,02066,1570,1970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,8,1276,-1107,affordable,1,1,affordable,South,,No,
-75.4000015258789,WALPOLE,02081,1910,2390,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,13,2295,-88,affordable,1,1,affordable,South,,No,
-90.6999969482422,WESTWOOD,02090,2020,2530,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,6,2650,267,expensive,1,1,affordable,West,,Yes,check zip
-86.5999984741211,WRENTHAM,02093,1570,1970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,3,1995,-388,affordable,1,1,affordable,West,South/west?,No,
-29.9444446563721,ROSLINDALE,02131,1880,2360,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,277,2350,-33,affordable,1,,affordable,Inner Core,,Yes,
-38.5,HYDE PARK,02136,1570,1970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,61,2300,-83,affordable,1,,affordable,Inner Core,,Yes,
-74.6999969482422,MELROSE,02176,1620,2030,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,18,2475,92,affordable,1,,affordable,Inner Core,,Yes,
-80.3000030517578,MILTON,02186,1890,2370,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,26,2298,-85,affordable,1,,affordable,Inner Core,,Yes,
-84.6999969482422,DUXBURY,02332,2290,2870,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,5,2400,17,affordable,1,1,affordable,South,,No,
-71.1999969482422,HANOVER,02339,1720,2150,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,2,1818,-565,affordable,1,1,affordable,South,,No,
-64.4000015258789,KINGSTON,02364,1810,2270,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,2,1800,-583,affordable,1,1,affordable,South,,No,
-69.4000015258789,PLYMPTON,02367,1570,1970,"Brockton, MA HUD Metro FMR Area",1475,1853,3,,,,,1,1,affordable,South,,No,
-84.6999969482422,NEWTON,02462,1580,1980,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,9,3175,792,expensive,1,1,affordable,Inner Core,,Yes,check zip
-81.1999969482422,NEEDHAM,02492,1950,2440,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,11,4100,1717,expensive,1,1,affordable,West,,Yes,check zip
-87,WESTON,02493,2010,2520,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,12,4650,2267,expensive,1,1,affordable,West,,Yes,check zip
-72,MARION,02738,1570,1970,"Brockton, MA HUD Metro FMR Area",1475,1853,3,,,,,1,1,affordable,South,far,No,
-94.3000030517578,MATTAPOISETT,02739,1360,1710,"Brockton, MA HUD Metro FMR Area",1475,1853,1,,,,,1,1,affordable,South,Far South,No,
-68.5,NORTH ATTLEBORO,02760,1140,1430,"Providence-Fall River, RI-MA HUD Metro FMR Area",1060,1328,3,11,1600,272,expensive,1,1,affordable,South,,No,
-73.8000030517578,PLAINVILLE,02762,1600,2000,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,1,3,1650,-733,affordable,1,1,affordable,South,,No,
-97,HARVARD,01451,1710,2180,"Eastern Worcester County, MA HUD Metro FMR Area",1244,1589,5,1,3000,1411,expensive,1,1,expensive,West,,No,
-72.9000015258789,BEDFORD,01730,2370,2970,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,6,2275,-108,affordable,1,1,expensive,West,,No,
-91.0999984741211,CONCORD,01742,2360,2960,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,8,2500,117,expensive,1,1,expensive,West,,Yes,check zip
-83,FAYVILLE,01745,,,"Eastern Worcester County, MA HUD Metro FMR Area",1244,1589,,1,1750,161,expensive,1,1,expensive,West,,No,
-82.1999969482422,NATICK,01760,1800,2260,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,2,39,2500,117,expensive,1,,expensive,West,,Yes,check zip
-89.5,WAYLAND,01778,1870,2340,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,15,2925,542,expensive,1,,expensive,West,,No,
-78.5,ANDOVER,01810,1670,2090,"Lawrence, MA-NH HUD Metro FMR Area",1357,1700,5,106,2930,1230,expensive,1,,expensive,North,,Yes,check zip
-70.4000015258789,NORTH ANDOVER,01845,1710,2140,"Lawrence, MA-NH HUD Metro FMR Area",1357,1700,5,35,2400,700,expensive,1,,expensive,North,,No,
-89.4000015258789,WESTFORD,01886,2110,2640,"Lowell, MA HUD Metro FMR Area",1514,1897,5,17,3300,1403,expensive,1,,expensive,West,,No,
-95,WINCHESTER,01890,2190,2740,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,21,2600,217,expensive,1,,expensive,North,,Yes,
-73.8000030517578,SWAMPSCOTT,01907,1830,2290,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,43,3100,717,expensive,1,,expensive,North,,Yes,
-84,MIDDLETON,01949,2620,3280,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,8,2200,-183,affordable,1,1,expensive,North,,No,
-96.5999984741211,DOVER,02030,2850,3570,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,1,1525,-858,affordable,1,1,expensive,West,,No,
-67.6999969482422,MANSFIELD,02048,1570,1970,"Taunton-Mansfield-Norton, MA HUD Metro FMR Area",1219,1529,5,15,2000,471,expensive,1,,expensive,South,New Category?,Yes,check zip
-90.3000030517578,SHARON,02067,2430,3040,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,9,2500,117,expensive,1,1,expensive,South,,Yes,check zip
-54,BOSTON,02108,2600,3260,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,23,3000,617,expensive,1,,expensive,Inner Core,,Yes,
-34.2222213745117,BOSTON,02109,2850,3570,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,47,3950,1567,expensive,1,,expensive,Inner Core,,Yes,
-42.3333320617676,BOSTON,02110,2850,3570,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,11,4075,1692,expensive,1,1,expensive,Inner Core,,Yes,
-42.3333320617676,BOSTON,02113,2440,3060,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,172,3600,1217,expensive,1,,expensive,Inner Core,,Yes,
-24.1666660308838,BOSTON,02116,2390,2990,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,182,5600,3217,expensive,1,,expensive,Inner Core,,Yes,
-42,WEST ROXBURY,02132,2010,2520,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,88,2700,317,expensive,1,,expensive,Inner Core,,Yes,
-73.1999969482422,BRAINTREE,02184,2070,2590,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,23,2735,352,expensive,1,,expensive,Inner Core,?,Yes,
-24.7777767181396,BOSTON,02199,2850,3570,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,20,12500,10117,expensive,1,,expensive,Inner Core,,Yes,
-30.1111087799072,BOSTON,02210,2850,3570,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,47,6460,4077,expensive,1,,expensive,Inner Core,,Yes,
-73.4000015258789,HALIFAX,02338,2160,2710,"Brockton, MA HUD Metro FMR Area",1475,1853,5,,,,,1,1,expensive,South,,No,
-97,LEXINGTON,02420,2690,3370,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,4,3925,1542,expensive,1,1,expensive,West,,Yes,
-97,LEXINGTON,02421,2640,3310,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,52,2800,417,expensive,1,,expensive,West,,Yes,
-88.5999984741211,BROOKLINE,02445,2750,3450,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,826,3200,817,expensive,1,,expensive,Inner Core,,Yes,
-88.5999984741211,BROOKLINE,02446,2850,3570,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,692,3800,1417,expensive,1,,expensive,Inner Core,,Yes,
-84.6999969482422,NEWTON,02458,2290,2870,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,365,2700,317,expensive,1,,expensive,Inner Core,,Yes,check zip
-84.6999969482422,NEWTON,02459,2580,3230,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,129,3200,817,expensive,1,,expensive,Inner Core,,Yes,check zip
-84.6999969482422,NEWTON,02460,2240,2810,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,142,2900,517,expensive,1,,expensive,Inner Core,,Yes,check zip
-84.6999969482422,NEWTON,02461,2490,3120,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,65,2700,317,expensive,1,,expensive,Inner Core,,Yes,check zip
-84.6999969482422,NEWTON,02464,2360,2960,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,187,2850,467,expensive,1,,expensive,Inner Core,,Yes,check zip
-84.6999969482422,NEWTON,02465,2310,2890,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,159,2900,517,expensive,1,,expensive,Inner Core,,Yes,check zip
-84.6999969482422,NEWTON,02466,,,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,,41,2600,217,expensive,1,,expensive,Inner Core,,Yes,check zip
-20,CHESTNUT HILL,02467,2710,3400,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,111,3170,787,expensive,1,,expensive,Inner Core,,Yes,
-84.6999969482422,NEWTON,02468,2850,3570,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,32,3350,967,expensive,1,,expensive,Inner Core,,Yes,check zip
-86.4000015258789,ARLINGTON,02474,2100,2630,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,145,2550,167,expensive,1,,expensive,Inner Core,,Yes,
-86.4000015258789,ARLINGTON,02476,1910,2390,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,3,39,2900,517,expensive,1,,expensive,Inner Core,,Yes,
-92.3000030517578,BELMONT,02478,2320,2910,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,4,197,2800,417,expensive,1,,expensive,Inner Core,,Yes,
-85.4000015258789,WELLESLEY,02481,2850,3570,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,10,2975,592,expensive,1,1,expensive,West,,Yes,check zip
-85.4000015258789,WELLESLEY,02482,2670,3350,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,13,3900,1517,expensive,1,1,expensive,West,,Yes,check zip
-81.1999969482422,NEEDHAM,02494,2540,3180,"Boston-Cambridge-Quincy, MA-NH HUD Metro FMR Area",1902,2383,5,22,2850,467,expensive,1,,expensive,West,,Yes,check zip
-80,ROCHESTER,02770,1830,2300,"Brockton, MA HUD Metro FMR Area",1475,1853,5,,,,,1,1,expensive,South,Far South,No,
+town,zipcode,overall_affordability_quintile,violentcrime_quintile,education_percentile_quintile,education_percentile,zipcode_population,percentage_college_graduates,has_t_stop,near_t_station,near_park,near_railstation
+HARVARD,1451,2,1,1,97,4611,78.3,0,0,0,0
+ACTON,1718,3,,1,90,526,86.8,0,,,
+BOXBOROUGH,1719,5,3,1,95,5287,71.8,0,,,
+ACTON,1720,3,2,1,90,22482,76.10001,0,0,0,0.714286
+BOLTON,1740,1,2,1,81,5113,67.4,0,0,0,0
+CARLISLE,1741,4,1,1,99,5125,84.7,0,,,
+CONCORD,1742,3,1,1,91,17466,71.4,1,0,0,1
+FAYVILLE,1745,,1,1,83,,,,,,
+HOPKINTON,1748,3,1,1,90,16163,68.2,0,0,0,0.5
+NATICK,1760,3,3,1,82,34816,67.60001,0,0,0,0.857143
+SHERBORN,1770,2,2,1,94,4255,82.9,0,0,0,0
+SOUTHBOROUGH,1772,3,1,1,83,9374,68.5,0,0,0,1
+STOW,1775,4,2,1,81,7027,68.7,0,0,0,0
+SUDBURY,1776,4,1,1,92,18386,78.5,0,0,0,0
+WAYLAND,1778,4,1,1,90,13643,82.5,0,0,0,0.2
+ANDOVER,1810,4,2,1,79,33682,73.7,0,0,0,0.555556
+CHELMSFORD,1824,1,2,1,79,25709,54.1,0,0,0,0.166667
+WESTFORD,1886,5,1,1,89,23789,69.1,0,0,0,0
+WINCHESTER,1890,4,1,1,95,22256,75.5,1,0,0,1
+BOXFORD,1921,1,1,1,92,8198,60.5,0,0,0,0
+LYNNFIELD,1940,3,1,1,91,13110,52.8,1,0,0,0
+MANCHESTER BY THE SEA,1944,5,,1,85,5319,61.3,0,0,0,1
+MIDDLETON,1949,2,2,1,84,8066,40.1,0,0,0,0
+TOPSFIELD,1983,1,1,1,81,6313,58.6,0,0,0,0.5
+BRANT ROCK,2020,,3,1,79,,,,,,
+COHASSET,2025,3,2,1,90,8258,73.3,1,,,
+DOVER,2030,5,1,1,97,5864,82.7,0,0,0,0.333333
+HINGHAM,2043,3,2,1,89,22610,69.7,1,0,0,1
+MARSHFIELD,2050,2,3,1,79,25948,44,0,0,0,0
+MARSHFIELD,2051,2,,1,79,,,0,,,
+MEDFIELD,2052,3,,1,85,12470,72.5,0,0,0,1
+MEDWAY,2053,1,1,1,81,13022,59,0,0,0,0
+NORFOLK,2056,2,1,1,91,9346,52.1,0,0,0,0
+NORWELL,2061,2,1,1,81,10645,63.1,0,0,0,0
+SHARON,2067,3,1,1,90,17986,74.1,1,0,0,0.5
+WESTWOOD,2090,4,2,1,91,15339,70.39999,1,0,0,0.5
+WRENTHAM,2093,2,1,1,87,11240,49,0,0,0,0.5
+MILTON,2186,3,1,1,80,25720,61.8,1,0.4,0.6,0.4
+DUXBURY,2332,4,2,1,85,15366,68.6,0,0,0,0
+LEXINGTON,2420,5,1,1,97,14074,80.7,1,0,0,0
+LEXINGTON,2421,4,1,1,97,18481,82.3,1,0,0,0
+BROOKLINE,2445,5,2,1,89,20795,80.4,1,1,1,0
+BROOKLINE,2446,5,2,1,89,28993,84.4,1,1,0.875,0.125
+NEWTON,2458,4,1,1,85,12801,70.10001,1,0,0.5,0
+NEWTON,2459,4,1,1,85,17153,85.5,1,0.5,1,0
+NEWTON,2460,4,1,1,85,10125,73.3,1,0.25,0,1
+NEWTON,2461,4,1,1,85,7267,84.6,1,1,0.5,0
+NEWTON,2462,5,1,1,85,1305,78.4,1,,,
+NEWTON,2464,4,1,1,85,3048,59.6,1,1,0,0
+NEWTON,2465,4,1,1,85,11700,72.1,1,0.666667,0,1
+NEWTON,2466,4,1,1,85,,,,,,
+CHESTNUT HILL,2467,5,1,1,89,14734,79.2,1,1,1,0
+NEWTON,2468,5,,1,85,5405,89.7,1,1,0,0.5
+ARLINGTON,2474,4,2,1,86,27838,70.5,1,0.333333,0,0.333333
+ARLINGTON,2476,3,2,1,86.4,16299,69.10001,1,0,0,0
+BELMONT,2478,4,1,1,92,25268,72.7,1,0,0,0.625
+WELLESLEY,2481,4,,1,85,14307,85.3,0,0.5,0,1
+WELLESLEY,2482,4,1,1,85,10222,79.5,0,0,0,0.666667
+NEEDHAM,2492,5,1,1,81,19572,77,1,0,0,1
+WESTON,2493,5,1,1,87,11205,82.4,1,0.5,0,1
+NEEDHAM,2494,4,,1,81,9722,69.7,1,0,1,1
+MATTAPOISETT,2739,1,3,1,94,6216,46.8,0,0,0,0
+ROCHESTER,2770,3,3,1,80,5219,44.4,0,,,
+LITTLETON,1460,3,2,2,73,9407,55.9,0,0,0,0.5
+ASHLAND,1721,1,2,2,76,17372,61.7,0,0,0,0.5
+BEDFORD,1730,3,1,2,73,13709,70.2,1,0,0,0
+HOLLISTON,1746,1,1,2,77,14263,62.2,0,0,0,0
+MENDON,1756,1,2,2,78,5944,47,0,0,0,0
+LINCOLN,1773,4,1,2,78,4773,81.8,1,,,
+GEORGETOWN,1833,2,1,2,63,8504,47.8,0,0,0,0.25
+NORTH ANDOVER,1845,3,1,2,70,28580,61.9,0,0,0,0.333333
+NORTH READING,1864,2,2,2,78,15370,52.3,0,0,0,0.5
+READING,1867,5,1,2,67,24757,61.2,1,0,0,1
+WAKEFIELD,1880,3,3,2,62,25717,50.9,1,0,0,0.833333
+WILMINGTON,1887,3,3,2,65,23024,40.8,1,0,0,0.5
+SWAMPSCOTT,1907,4,2,2,74,14141,54.3,1,0,0,1
+NAHANT,1908,2,4,2,72,3418,53,1,0,0,0
+ESSEX,1929,2,,2,77,3632,58.3,0,,,
+IPSWICH,1938,1,2,2,68,13581,51.2,0,0,0,0.75
+MARBLEHEAD,1945,4,2,2,69,20242,70.3,1,0,0,0
+NEWBURYPORT,1950,3,2,2,71,17533,61,0,0,0,0.5
+WENHAM,1984,1,1,2,76,3595,64.2,0,0,0,1
+EAST WALPOLE,2032,3,,2,75,4070,57.3,1,0,0,1
+FOXBOROUGH,2035,2,,2,69,17306,48.8,0,0,0,0.2
+FRANKLIN,2038,2,1,2,72,31810,56,0,0,0,0.666667
+MANSFIELD,2048,2,3,2,68,23527,55.5,0,0,0,0.666667
+MILLIS,2054,1,,2,69,8055,53.3,0,0,0,0
+SCITUATE,2066,1,,2,71,17802,55,0,0,0,0.666667
+WALPOLE,2081,3,3,2,75,19375,52.7,1,0,0,0.333333
+MELROSE,2176,4,2,2,75,27533,54.9,1,0.4,0,0.8
+BRAINTREE,2184,4,2,2,73,36455,41.5,1,0.666667,0,1
+HALIFAX,2338,4,2,2,73,7716,27.2,0,0,0,0.5
+HANOVER,2339,1,1,2,71,14184,46,0,0,0,0
+KINGSTON,2364,3,3,2,64,12881,43.7,0,0,0,1
+PLYMPTON,2367,1,1,2,69,2913,32.2,0,0,0,1
+MARION,2738,1,2,2,72,4876,51.9,0,,,
+NORTH ATTLEBORO,2760,1,2,2,69,26986,39,0,0,0,0.333333
+PLAINVILLE,2762,2,2,2,74,8892,41.6,0,0,0,0
+BOSTON,2108,5,5,3,54,3677,83.60001,1,1,1,1
+BOSTON,2109,5,5,4,34,3919,74.6,1,1,1,1
+BOSTON,2110,5,5,4,42,2124,84.8,1,,,
+BOSTON,2113,5,1,4,42,7484,77.2,1,1,1,1
+WEST ROXBURY,2132,4,1,4,42,27744,53.4,1,0,1,0.833333
+HYDE PARK,2136,2,2,4,39,31423,28.4,1,0.166667,1,1
+BOSTON,2116,5,4,5,24,20386,76.39999,1,1,1,1
+ROSLINDALE,2131,3,2,5,30,31726,43.3,1,0.125,1,0.75
+BOSTON,2199,5,4,5,25,1260,89.3,0,1,1,1
+BOSTON,2210,5,3,5,30,2266,85.6,1,1,1,0

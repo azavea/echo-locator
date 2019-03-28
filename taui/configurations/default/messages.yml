@@ -44,9 +44,17 @@ NeighborhoodDetails:
   GoogleMapsLink: See on Google Maps
   ModeSummary: via
 NeighborhoodInfo:
-  Education: Education
-  RentDiff: Rent difference
-  Score: Score
+  EducationCategory: Schools
+  EducationPercentile: Education percentile
+  HasNoTransitStop: Has no transit stop
+  HasTransitStop: Has transit stop
+  NearPark: Near a park
+  NearRailStation: Near a rail station
+  NearTransit: Near transit stops
+  PercentCollegeGraduates: College graduates
+  Population: Population
+  Score: Overall score
+  ViolentCrime: Violent crime
 PageNotFound: Oops! There is no page at
 RouteCard:
   MarkerLink: Show neighborhood on map
@@ -99,7 +107,27 @@ Profile:
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
+QuintileLabels:
+  Affordability:
+    1: Very affordable
+    2: Very affordable
+    3: Affordable
+    4: More expensive
+    5: Very expensive
+  Education:
+    1: Excellent
+    2: Very good
+    3: Average
+    4: Below average
+    5: Below average
+  ViolentCrime:
+    1: Very low
+    2: Very low
+    3: Low
+    4: Moderate
+    5: High
 TripPurpose:
   Daycare: Day care
   Other: Other
   Work: Work
+UnknownValue: Unknown
