@@ -283,13 +283,9 @@ export default class Map extends PureComponent<Props, State> {
             style={NEIGHBORHOOD_STYLE}
             vectorTileLayerStyles={
               {'sliced': (properties) => {
-                return ({
-                  color: properties.near_t_station ? '#fff' : '#85929E',
-                  fill: true,
-                  fillColor: properties.near_t_station ? '#fff' : '#85929E',
-                  radius: 5,
-                  stroke: true,
-                  weight: 3
+                return Object.assign({}, NEIGHBORHOOD_STYLE, {
+                  color: properties.routable ? '#fff' : '#85929E',
+                  fillColor: properties.routable ? '#fff' : '#85929E'
                 })
               }}
             }

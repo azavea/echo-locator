@@ -78,6 +78,7 @@ function mapStateToProps (state, ownProps) {
     neighborhoodTravelTimes: select.neighborhoodTravelTimes(state, ownProps),
     pointsOfInterest: get(state, 'data.pointsOfInterest'),
     pointsOfInterestOptions: select.pointsOfInterestOptions(state, ownProps),
+    routableNeighborhoods: select.routableNeighborhoods(state, ownProps),
     showComparison: select.showComparison(state, ownProps),
     travelTimes: select.travelTimes(state, ownProps),
     uniqueRoutes: select.uniqueRoutes(state, ownProps),
