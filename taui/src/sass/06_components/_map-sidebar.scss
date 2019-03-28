@@ -15,6 +15,12 @@
     }
   }
 
+  &__travel-form {
+    margin-bottom: 1.6rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid $gray-400;
+  }
+
   &__attribution {
     @include text(200);
     margin-top: 2.4rem;

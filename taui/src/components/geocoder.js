@@ -147,9 +147,11 @@ export default class Geocoder extends Component<Props> {
   render () {
     return (
       <Select.Async
+        arrowRenderer={null}
         autoBlur
         autoload={false}
         cache={false}
+        clearable={false}
         filterOptions={false}
         ignoreAccents={false}
         ignoreCase={false}

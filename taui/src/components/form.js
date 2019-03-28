@@ -112,6 +112,17 @@ export default class Form extends React.PureComponent {
     }
   }
 
+  wrapperStyle = {
+    'height': '4rem',
+    'marginBottom': '0.8rem',
+    'boxShadow': 'none',
+    'border': '1px solid #bdbdbd'
+  }
+
+  style = {
+    'height': '3.8rem'
+  }
+
   render () {
     const p = this.props
     const {destination, network} = this.state
@@ -124,19 +135,27 @@ export default class Form extends React.PureComponent {
     const setNetwork = this.setNetwork
 
     return (
-      <div>
+      <div className='map-sidebar__travel-form'>
         <Select
+          arrowRenderer={null}
+          clearable={false}
           filterOptions={destinationFilterOptions}
           options={locations}
+          optionHeight={38}
           onChange={this.selectDestination}
           placeholder={message('Geocoding.StartPlaceholder')}
+          style={this.style}
+          wrapperStyle={this.wrapperStyle}
           value={destination}
         />
         <Select
+          clearable={false}
           filterOptions={networkFilterOptions}
           options={networks}
           onChange={(e) => setNetwork(e)}
           placeholder={message('Map.SelectNetwork')}
+          style={this.style}
+          wrapperStyle={this.wrapperStyle}
           value={network}
         />
       </div>

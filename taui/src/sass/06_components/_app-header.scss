@@ -17,7 +17,6 @@
   &__button {
     @include text(300);
     margin-right: 1.6rem;
-    margin-left: 1.6rem;
     color: $gray-600;
 
     &--new {
