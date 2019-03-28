@@ -1,0 +1,17 @@
+.map-screen {
+  display: flex;
+  flex: auto;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  > .map-sidebar {
+    flex: none;
+    width: 44rem;
+  }
+
+  > .main-map {
+    flex: auto;
+    overflow: hidden;
+  }
+}

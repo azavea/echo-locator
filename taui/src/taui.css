@@ -43,15 +43,6 @@
   opacity: 0.4;
 }
 
-.Taui-Dock {
-  background-color: var(--dark-blue);
-  width: 414px;
-  top: 0;
-  left: 0;
-  height: 1000px;
-  box-shadow: 0 0 25px 0 var(--shadow);
-}
-
 .Taui-Dock-content {
   position: relative;
   height: 100%;
@@ -305,14 +296,6 @@ table.CardContent td:first-of-type {
 
 .leaflet-popup-tip {
   border-top-color: var(--dark-blue);
-}
-
-.Fullscreen {
-  position: absolute;
-  height: 100%;
-  right: 0;
-  left: 414px;
-  overflow: hidden;
 }
 
 /* Leaflet Markers */

@@ -125,10 +125,41 @@ export default class MainPage extends React.PureComponent<Props> {
    */
   render () {
     const p = this.props
+    const mapScreenClass = p.isLoading ? 'map-screen isLoading' : 'map-screen'
 
     return (
-      <div className={p.isLoading ? 'isLoading' : ''}>
-        <div className='Fullscreen'>
+      <div className={mapScreenClass}>
+        <Dock
+          activeNeighborhood={p.data.activeNeighborhood}
+          activeNetworkIndex={p.activeNetworkIndex}
+          changeUserProfile={p.changeUserProfile}
+          componentError={this.state.componentError}
+          isLoading={p.isLoading}
+          neighborhoodsSortedWithRoutes={p.neighborhoodsSortedWithRoutes}
+          origin={p.data.origin}
+          setActiveNeighborhood={p.setActiveNeighborhood}
+          setShowDetails={p.setShowDetails}
+          showDetails={p.data.showDetails}
+          showSpinner={p.ui.fetches > 0}
+          userProfile={p.userProfile}>
+          <Form
+            geocode={p.geocode}
+            networks={p.data.networks}
+            reverseGeocode={p.reverseGeocode}
+            setActiveNetwork={p.setActiveNetwork}
+            origin={p.data.origin}
+            updateOrigin={p.updateOrigin}
+            userProfile={p.userProfile}
+          />
+          {p.ui.showLog &&
+            <div className='Card'>
+              <div className='CardTitle'>
+                <span className='fa fa-terminal' /> {message('Log.Title')}
+              </div>
+              <Log items={p.actionLog} />
+            </div>}
+        </Dock>
+        <div className='main-map'>
           <svg width='0' height='0' style={{position: 'absolute'}}>
             <defs>
               <filter id='shadow'>
@@ -163,36 +194,6 @@ export default class MainPage extends React.PureComponent<Props> {
             updateStart={p.updateStart}
           />
         </div>
-        <Dock
-          activeNeighborhood={p.data.activeNeighborhood}
-          activeNetworkIndex={p.activeNetworkIndex}
-          changeUserProfile={p.changeUserProfile}
-          componentError={this.state.componentError}
-          isLoading={p.isLoading}
-          neighborhoodsSortedWithRoutes={p.neighborhoodsSortedWithRoutes}
-          origin={p.data.origin}
-          setActiveNeighborhood={p.setActiveNeighborhood}
-          setShowDetails={p.setShowDetails}
-          showDetails={p.data.showDetails}
-          showSpinner={p.ui.fetches > 0}
-          userProfile={p.userProfile}>
-          <Form
-            geocode={p.geocode}
-            networks={p.data.networks}
-            reverseGeocode={p.reverseGeocode}
-            setActiveNetwork={p.setActiveNetwork}
-            origin={p.data.origin}
-            updateOrigin={p.updateOrigin}
-            userProfile={p.userProfile}
-          />
-          {p.ui.showLog &&
-            <div className='Card'>
-              <div className='CardTitle'>
-                <span className='fa fa-terminal' /> {message('Log.Title')}
-              </div>
-              <Log items={p.actionLog} />
-            </div>}
-        </Dock>
       </div>
     )
   }

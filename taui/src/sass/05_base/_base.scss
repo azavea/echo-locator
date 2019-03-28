@@ -16,9 +16,13 @@ html {
 
 body {
     @include text();
-
     position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
     width: 100%;
+    min-height: 100vh;
     background-color: $bg-gray;
 }
 
