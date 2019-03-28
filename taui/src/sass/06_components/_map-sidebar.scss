@@ -1,7 +1,6 @@
 .map-sidebar {
   position: relative;
   padding: 0 2.4rem 2.4rem;
-  overflow-y: scroll;
 
   &__error {
     @include text(300);

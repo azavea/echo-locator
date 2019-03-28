@@ -22,7 +22,8 @@ body {
     justify-content: flex-start;
     align-items: stretch;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
     background-color: $bg-gray;
 }
 
@@ -36,7 +37,6 @@ select {
 }
 
 strong {
-    // @include font-weight(bold);
-    font-weight: font-weight(bold);
+    @include font-weight(bold);
 }
 /* stylelint-enable selector-max-type */
