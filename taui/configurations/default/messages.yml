@@ -86,7 +86,7 @@ Accounts:
   Name: Name of head of household
   Search: Search
   SelectError: Failed to set profile. Please try again.
-  NoResults: No profile found for that voucher number. Create new profile now?
+  NoResults: Profile not found. Create one now?
   Title: Profiles
   Voucher: Voucher number
 Profile:

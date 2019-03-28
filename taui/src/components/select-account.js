@@ -107,42 +107,48 @@ export default class SelectAccount extends PureComponent<Props> {
   render () {
     const changeVoucherNumber = this.changeVoucherNumber
     const createAccount = this.createAccount
-    const search = this.search
     const state = this.state
+
+    const search = (e) => {
+      e.preventDefault()
+      this.search()
+    }
 
     return (
       <div className='form-screen'>
         <h2 className='form-screen__heading'>{message('Accounts.Title')}</h2>
         <div className='form-screen__main'>
           <div className='account-search'>
-            <div className='account-search__main'>
-              <div className='account-search__field'>
-                <label
-                  className='account-search__label'
-                  htmlFor='voucher'>
-                  {message('Accounts.Voucher')}
-                </label>
-                <input
-                  className='account-search__input'
-                  id='voucher'
-                  type='text'
-                  onChange={changeVoucherNumber}
-                  value={state.voucherNumber}
-                />
+            <form onSubmit={search}>
+              <div className='account-search__main'>
+                <div className='account-search__field'>
+                  <label
+                    className='account-search__label'
+                    htmlFor='voucher'>
+                    {message('Accounts.Voucher')}
+                  </label>
+                  <input
+                    className='account-search__input'
+                    id='voucher'
+                    type='text'
+                    onChange={changeVoucherNumber}
+                    value={state.voucherNumber}
+                  />
+                </div>
+                <button
+                  className='account-search__button account-search__button--search'>
+                  {message('Accounts.Search')}
+                </button>
               </div>
-              <button
-                className='account-search__button account-search__button--search'
-                onClick={search}>
-                {message('Accounts.Search')}
-              </button>
-            </div>
+            </form>
             {state.errorMessage &&
               <p className='account-search__error'>{state.errorMessage}</p>
             }
-            {state.noResults && <div className='account-search__no_results'>
-              <h2>{message('Accounts.NoResults')}</h2>
+            {state.noResults && <div className='account-search__no-results'>
+              <h2 className='account-search__no-results-heading'>{message('Accounts.NoResults')}</h2>
               <button
                 className='account-search__button account-search__button--create'
+                type='button'
                 onClick={createAccount}>
                 {message('Accounts.Create')}
               </button>
