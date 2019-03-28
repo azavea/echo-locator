@@ -11,9 +11,11 @@ export const CustomAuthenticatorTheme = {
   navButton: {
     'backgroundColor': 'transparent',
     'color': '#757575',
-    'padding': '0.8rem',
+    'padding': '0',
     'minWidth': '0',
     'fontSize': '1.4rem',
+    'lineHeight': '1.5',
+    'letterSpacing': '0',
     'textTransform': 'none'
   }
 }
