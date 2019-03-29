@@ -128,29 +128,23 @@ export default class Dock extends PureComponent<Props> {
   buttonRow (props) {
     const {
       haveAnotherPage,
-      page,
-      showDetails
+      page
     } = props
 
-    const backFromDetails = this.backFromDetails
     const goPreviousPage = this.goPreviousPage
     const goNextPage = this.goNextPage
 
     return (
-      <div className='account-profile__destination_row'>
-        {showDetails && <button
-          className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
-          onClick={backFromDetails}>{message('Dock.GoBackFromDetails')}
-        </button>}
-        {!showDetails && page > 0 && <button
-          className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+      <nav className='map-sidebar__pagination'>
+        {page > 0 && <button
+          className='map-sidebar__pagination-button'
           onClick={goPreviousPage}>{message('Dock.GoPreviousPage')}
         </button>}
-        {!showDetails && haveAnotherPage && <button
-          className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+        {haveAnotherPage && <button
+          className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
           onClick={goNextPage}>{message('Dock.GoNextPage')}
         </button>}
-      </div>)
+      </nav>)
   }
 
   // Render list of neighborhoods
@@ -257,6 +251,7 @@ export default class Dock extends PureComponent<Props> {
     const ButtonRow = this.buttonRow
     const NeighborhoodSection = this.neighborhoodSection
     const setFavorite = this.setFavorite
+    const backFromDetails = this.backFromDetails
 
     const startingOffset = page * SIDEBAR_PAGE_SIZE
 
@@ -294,16 +289,27 @@ export default class Dock extends PureComponent<Props> {
           startingOffset={startingOffset}
           userProfile={userProfile}
         />}
-      {!isLoading && showDetails &&
+      {!isLoading && showDetails && <>
+        <nav className='map-sidebar__details-navigation'>
+          <button
+            className='map-sidebar__navigation-button'
+            onClick={backFromDetails}
+          >
+            <Icon type='chevron-circle-left' />
+            {message('Dock.GoBackFromDetails')}
+          </button>
+        </nav>
         <NeighborhoodDetails
           changeUserProfile={changeUserProfile}
           neighborhood={detailNeighborhood}
           origin={origin}
           setFavorite={setFavorite}
           userProfile={userProfile} />
-      }
-      <ButtonRow {...this.props}
-        haveAnotherPage={haveAnotherPage} page={page} />
+      </>}
+      {!isLoading && !showDetails &&
+        <ButtonRow {...this.props}
+          haveAnotherPage={haveAnotherPage} page={page}
+        />}
       <div className='map-sidebar__attribution'>
         site by <a href='https://www.azavea.com' target='_blank'>Azavea</a>
       </div>

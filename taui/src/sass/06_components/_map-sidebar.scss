@@ -19,6 +19,19 @@
     border-bottom: 1px solid $gray-400;
   }
 
+  &__details-navigation {
+    margin: 1.6rem 0;
+  }
+
+  &__navigation-button {
+    @include heading(300);
+    color: $brand-blue;
+
+    > *:first-child {
+      margin-right: 0.6rem;
+    }
+  }
+
   &__neighborhoods-header {
     display: flex;
     flex-flow: row nowrap;
@@ -41,6 +54,28 @@
       @include font-weight(bold);
       color: $black;
       cursor: default;
+    }
+  }
+
+  &__pagination {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 3.2rem 0;
+  }
+
+  &__pagination-button {
+    @include button($color: $black, $background: $gray-400);
+    min-width: 16rem;
+    height: 4rem;
+
+    &:not(:last-child) {
+      margin-right: 4rem;
+    }
+
+    &--strong {
+      @include font-weight(bold);
     }
   }
 
