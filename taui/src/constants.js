@@ -51,11 +51,15 @@ export const TRANSIT_STYLE = {
   weight: 5
 }
 
+export const NEIGHBORHOOD_NONROUTABLE_COLOR = '#85929E'
+export const NEIGHBORHOOD_ROUTABLE_COLOR = '#fff'
+
 export const NEIGHBORHOOD_STYLE = {
   color: '#333',
   fill: true,
-  fillColor: '#fff',
+  fillColor: '#333',
   radius: 5,
+  stroke: true,
   weight: 3
 }
 
