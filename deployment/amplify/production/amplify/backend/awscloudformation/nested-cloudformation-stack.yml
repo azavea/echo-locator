@@ -78,69 +78,89 @@
 				}
 			}
 		},
-		"authecholocatorCognitoProduction": {
+		"authecholocatorProductionAuth": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/prod-20190227190911-deployment/amplify-cfn-templates/auth/echolocatorCognitoProduction-cloudformation-template.yml",
+				"TemplateURL": "https://s3.amazonaws.com/production-20190329182339-deployment/amplify-cfn-templates/auth/echolocatorProductionAuth-cloudformation-template.yml",
 				"Parameters": {
-					"identityPoolName": "echolocatorIdentityPoolProduction",
+					"identityPoolName": "echolocatorProductionIdentityPool",
 					"allowUnauthenticatedIdentities": false,
 					"thirdPartyAuth": false,
-					"lambdaLogPolicy": "echolocatorCognitoProduction_lambda_log_policy",
-					"openIdLambdaRoleName": "echolocatorCognitoProduction_openid_lambda_role",
-					"openIdRolePolicy": "echolocatorCognitoProduction_openid_pass_role_policy",
-					"openIdLambdaIAMPolicy": "echolocatorCognitoProduction_openid_lambda_iam_policy",
-					"openIdLogPolicy": "echolocatorCognitoProduction_openid_lambda_log_policy",
-					"userPoolName": "echolocatorUserPoolProduction",
+					"lambdaLogPolicy": "echolocatorProductionAuth_lambda_log_policy",
+					"openIdLambdaRoleName": "echolocatorProductionAuth_openid_lambda_role",
+					"openIdRolePolicy": "echolocatorProductionAuth_openid_pass_role_policy",
+					"openIdLambdaIAMPolicy": "echolocatorProductionAuth_openid_lambda_iam_policy",
+					"openIdLogPolicy": "echolocatorProductionAuth_openid_lambda_log_policy",
+					"userPoolName": "echolocatorProductionUserPool",
 					"autoVerifiedAttributes": "email",
 					"mfaConfiguration": "OFF",
 					"mfaTypes": "SMS Text Message",
-					"roleName": "echolocatorCognitoProduction_sns-role",
-					"roleExternalId": "echolocatorCognitoProduction_role_external_id",
-					"policyName": "echolocatorCognitoProduction-sns-policy",
+					"roleName": "echolocatorProductionAuth_sns-role",
+					"roleExternalId": "echolocatorProductionAuth_role_external_id",
+					"policyName": "echolocatorProductionAuth-sns-policy",
 					"smsAuthenticationMessage": "Your authentication code is {####}",
 					"smsVerificationMessage": "Your verification code is {####}",
-					"emailVerificationSubject": "Your verification code",
-					"emailVerificationMessage": "Your verification code is {####}",
-					"defaultPasswordPolicy": false,
+					"emailVerificationSubject": "Welcome to ECHOLocator!",
+					"emailVerificationMessage": "Welcome to https://echolocator.org. Your verification code is {####}.",
+					"defaultPasswordPolicy": true,
 					"passwordPolicyMinLength": 8,
-					"passwordPolicyCharacters": "Requires Lowercase,Requires Uppercase,Requires Numbers,Requires Symbols",
+					"passwordPolicyCharacters": "",
 					"requiredAttributes": "email",
-					"userpoolClientName": "echolocatorCognitoProduction_app_client",
+					"userpoolClientName": "echolocatorProductionAuth_app_client",
 					"userpoolClientGenerateSecret": true,
-					"userpoolClientRefreshTokenValidity": "90",
+					"userpoolClientRefreshTokenValidity": 30,
 					"userpoolClientReadAttributes": "email,phone_number,updated_at,email_verified,phone_number_verified",
-					"mfaLambdaRole": "echolocatorCognitoProduction_totp_lambda_role",
-					"mfaLambdaLogPolicy": "echolocatorCognitoProduction_totp_lambda_log_policy",
-					"mfaPassRolePolicy": "echolocatorCognitoProduction_totp_pass_role_policy",
-					"mfaLambdaIAMPolicy": "echolocatorCognitoProduction_totp_lambda_iam_policy",
-					"userpoolClientLambdaRole": "echolocatorCognitoProduction_userpoolclient_lambda_role",
-					"userpoolClientLogPolicy": "echolocatorCognitoProduction_userpoolclient_lambda_log_policy",
-					"userpoolClientLambdaPolicy": "echolocatorCognitoProduction_userpoolclient_lambda_iam_policy",
+					"mfaLambdaRole": "echolocatorProductionAuth_totp_lambda_role",
+					"mfaLambdaLogPolicy": "echolocatorProductionAuth_totp_lambda_log_policy",
+					"mfaPassRolePolicy": "echolocatorProductionAuth_totp_pass_role_policy",
+					"mfaLambdaIAMPolicy": "echolocatorProductionAuth_totp_lambda_iam_policy",
+					"userpoolClientLambdaRole": "echolocatorProductionAuth_userpoolclient_lambda_role",
+					"userpoolClientLogPolicy": "echolocatorProductionAuth_userpoolclient_lambda_log_policy",
+					"userpoolClientLambdaPolicy": "echolocatorProductionAuth_userpoolclient_lambda_iam_policy",
 					"userpoolClientSetAttributes": true,
 					"useDefault": "manual",
 					"authSelections": "identityPoolAndUserPool",
-					"resourceName": "echolocatorCognitoProduction",
+					"resourceName": "echolocatorProductionAuth",
 					"userpoolClientWriteAttributes": "phone_number,updated_at,email",
-					"unAuthRoleName": "prod-20190227190911-unauthRole",
-					"authRoleName": "prod-20190227190911-authRole",
-					"unAuthRoleArn": "arn:aws:iam::322268938932:role/prod-20190227190911-unauthRole",
-					"authRoleArn": "arn:aws:iam::322268938932:role/prod-20190227190911-authRole"
+					"authRoleName": {
+						"Ref": "AuthRoleName"
+					},
+					"unauthRoleName": {
+						"Ref": "UnauthRoleName"
+					},
+					"authRoleArn": {
+						"Fn::GetAtt": [
+							"AuthRole",
+							"Arn"
+						]
+					},
+					"unauthRoleArn": {
+						"Fn::GetAtt": [
+							"UnauthRole",
+							"Arn"
+						]
+					},
+					"env": "production"
 				}
 			}
 		},
-		"storageecholocatorUserDataProduction": {
+		"storageecholocatorProductionStorage": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/prod-20190227190911-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/production-20190329182339-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"Parameters": {
-					"bucketName": "echo-locator-production-user-data-us-east-1",
-					"authPolicyName": "s3_amplify_8a7a0256",
-					"unauthPolicyName": "s3_amplify_8a7a0256",
-					"authRoleName": "prod-20190227190911-authRole",
-					"unauthRoleName": "prod-20190227190911-unauthRole",
+					"bucketName": "echolocator",
+					"authPolicyName": "s3_amplify_f8d1ff7c",
+					"unauthPolicyName": "s3_amplify_f8d1ff7c",
+					"authRoleName": {
+						"Ref": "AuthRoleName"
+					},
+					"unauthRoleName": {
+						"Ref": "UnauthRoleName"
+					},
 					"authPermissions": "rw",
-					"unauthPermissions": ""
+					"unauthPermissions": "",
+					"env": "production"
 				}
 			}
 		}

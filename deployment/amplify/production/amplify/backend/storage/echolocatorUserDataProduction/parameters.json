@@ -1,9 +1,0 @@
-{
-    "bucketName": "echo-locator-production-user-data-us-east-1",
-    "authPolicyName": "s3_amplify_8a7a0256",
-    "unauthPolicyName": "s3_amplify_8a7a0256",
-    "authRoleName": "prod-20190227190911-authRole",
-    "unauthRoleName": "prod-20190227190911-unauthRole",
-    "authPermissions": "rw",
-    "unauthPermissions": ""
-}
