@@ -4,19 +4,24 @@
   justify-content: flex-start;
   align-items: stretch;
 
-  &__logo {
-    margin: 4rem auto;
-  }
-
   &__agency {
     @include heading(500);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
     margin: 1.6rem 0;
     text-align: center;
   }
 
+  &__logo {
+    max-width: 5.6rem;
+    margin-right: 1.6rem;
+  }
+
   &__app-name {
     @include heading(800);
-    margin: 1.6rem 0 4rem;
+    margin: 1.6rem 0 2.4rem;
     text-align: center;
   }
 
