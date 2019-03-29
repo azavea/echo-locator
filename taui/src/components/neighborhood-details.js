@@ -5,6 +5,7 @@ import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
 import type {AccountProfile, NeighborhoodLabels} from '../types'
+import getGoogleSearchLink from '../utils/google-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getNeighborhoodPropertyLabels from '../utils/neighborhood-properties'
 
@@ -56,91 +57,136 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const bestJourney = neighborhood.segments && neighborhood.segments.length
       ? neighborhood.segments[0] : null
 
+    // Overall score is a derived value and not a neighborhood property (so not in `labels`).
+    const overallScore = neighborhood.score
+      ? neighborhood.score.toLocaleString('en-US', {style: 'percent'})
+      : message('UnknownValue')
+
     return (
-      <div className='Card'>
-        <div className='CardTitle'>
-          <Icon type={isFavorite ? 'star' : 'star-o'}
+      <div className='neighborhood-details'>
+        <header className='neighborhood-details__header'>
+          <Icon
+            className='neighborhood-details__star'
+            type={isFavorite ? 'star' : 'star-o'}
             onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
-            style={{cursor: 'pointer'}} />
-          <span>{town} - {id}</span>
+          />
+          {town} &ndash; {id}
+          <Icon className='neighborhood-details__marker' type='map-marker' />
+        </header>
+        <div className='neighborhood-details__trip'>
+          {Math.round(time)}&nbsp;
+          {message('Units.Mins')}&nbsp;
+          {message('NeighborhoodDetails.ModeSummary')}&nbsp;
+          <ModesList segments={bestJourney} />&nbsp;
+          {message('NeighborhoodDetails.FromOrigin')}&nbsp;
+          {currentDestination && currentDestination.purpose.toLowerCase()}
         </div>
         <RouteSegments
           hasVehicle={hasVehicle}
           routeSegments={neighborhood.segments}
           travelTime={neighborhood.time}
         />
-        <table className='CardContent'>
-          <tbody>
-            <tr className='BestTrip'>
-              <td>{!userProfile.hasVehicle &&
-                <span><strong>{time}</strong> {message('Units.Mins')}</span>}
-              </td>
-              <td>
-                <span>{message('NeighborhoodDetails.ModeSummary')} </span>
-                <ModesList segments={bestJourney} />
-              </td>
-              <td>{currentDestination &&
-                <div>
-                  <span>{message('NeighborhoodDetails.FromOrigin')}</span>
-                  <span> {currentDestination.purpose.toLowerCase()}</span>
-                </div>}
-              </td>
-            </tr>
-            <tr>
-              <td />
-              <td>
-                <span>{labels.affordability}</span>
-              </td>
-              <td>
-                <span>{message('NeighborhoodInfo.PercentCollegeGraduates')}: {
-                  labels.percentCollegeGraduates}</span>
-              </td>
-            </tr>
-            <tr>
-              <td />
-              <td>
-                <span>{message('NeighborhoodInfo.EducationPercentile')}: {
-                  labels.educationPercentile}</span>
-              </td>
-              <td>
-                <span>{message('NeighborhoodInfo.EducationCategory')}: {labels.education}</span>
-              </td>
-            </tr>
-            <tr>
-              <td />
-              <td>
-                <span>{message('NeighborhoodInfo.ViolentCrime')}: {labels.violentCrime}</span>
-              </td>
-              <td>
-                <span>{message('NeighborhoodInfo.Population')}: {labels.population}</span>
-              </td>
-            </tr>
-            <tr>
-              <td />
-              <td>
-                <span>{labels.hasTransitStop}</span>
-              </td>
-              <td>
-                <span>{message('NeighborhoodInfo.NearTransit')}: {labels.nearTransitStop}</span>
-              </td>
-            </tr>
-            <tr>
-              <td />
-              <td>
-                <span>{message('NeighborhoodInfo.NearRailStation')}: {labels.nearRailStation}</span>
-              </td>
-              <td>
-                <span>{message('NeighborhoodInfo.NearPark')}: {labels.nearPark}</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <br />
-        <div>
-          <a href={getGoogleDirectionsLink(id)} target='_blank'>
+        <div className='neighborhood-details__images'>
+          <img
+            className='neighborhood-details__image'
+            src='https://via.placeholder.com/110x83'
+            width='110'
+            alt=''
+          />
+          <img
+            className='neighborhood-details__image'
+            src='https://via.placeholder.com/110x83'
+            width='110'
+            alt=''
+          />
+          <img
+            className='neighborhood-details__image'
+            src='https://via.placeholder.com/110x83'
+            width='110'
+            alt=''
+          />
+        </div>
+        <div className='neighborhood-details__desc'>
+          Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+        </div>
+        <div className='neighborhood-details__links'>
+          <a
+            className='neighborhood-details__link'
+            href=''
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.WebsiteLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href=''
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.WikipediaLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href={getGoogleSearchLink(id)}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.GoogleSearchLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href={getGoogleDirectionsLink(id)}
+            target='_blank'
+          >
             {message('NeighborhoodDetails.GoogleMapsLink')}
           </a>
         </div>
+        <table className='neighborhood-details__facts'>
+          <tbody>
+            <tr className='neighborhood-details__row'>
+              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Score')}:</td>
+              <td className='neighborhood-details__cell'>{overallScore}</td>
+            </tr>
+            <tr className='neighborhood-details__row'>
+              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Affordability')}:</td>
+              <td className='neighborhood-details__cell'>{labels.affordability}</td>
+            </tr>
+            <tr className='neighborhood-details__row'>
+              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.ViolentCrime')}:</td>
+              <td className='neighborhood-details__cell'>{labels.violentCrime}</td>
+            </tr>
+            <tr className='neighborhood-details__row'>
+              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.EducationCategory')}:</td>
+              <td className='neighborhood-details__cell'>{labels.education}</td>
+            </tr>
+            <tr className='neighborhood-details__row'>
+              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.EducationPercentile')}:</td>
+              <td className='neighborhood-details__cell'>{labels.educationPercentile}</td>
+            </tr>
+            <tr className='neighborhood-details__row'>
+              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Population')}:</td>
+              <td className='neighborhood-details__cell'>{labels.population}</td>
+            </tr>
+            <tr className='neighborhood-details__row'>
+              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.PercentCollegeGraduates')}:</td>
+              <td className='neighborhood-details__cell'>{labels.percentCollegeGraduates}</td>
+            </tr>
+            <tr className='neighborhood-details__row'>
+              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.HasTransitStop')}:</td>
+              <td className='neighborhood-details__cell'>{labels.hasTransitStop}</td>
+            </tr>
+            <tr className='neighborhood-details__row'>
+              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearTransit')}:</td>
+              <td className='neighborhood-details__cell'>{labels.nearTransitStop}</td>
+            </tr>
+            <tr className='neighborhood-details__row'>
+              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearRailStation')}:</td>
+              <td className='neighborhood-details__cell'>{labels.nearRailStation}</td>
+            </tr>
+            <tr className='neighborhood-details__row'>
+              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearPark')}:</td>
+              <td className='neighborhood-details__cell'>{labels.nearPark}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     )
   }

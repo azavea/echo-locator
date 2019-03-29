@@ -15,37 +15,31 @@ export default function RouteSegments ({hasVehicle, routeSegments, travelTime}) 
   const [bestJourney, ...alternateJourneys] = routeSegments
 
   return (
-    <tbody>
-      <tr className='BestTrip'>
-        <td><span className='fa fa-street-view' /></td>
-        <td>
-          <span>Take </span>
-          {bestJourney.map((segment, index) => (
-            <Segment key={index} segment={segment} />
-          ))}
-          {travelTime > 120
-            ? <span className='decrease'>inaccessible within 120 minutes</span>
-            : <span>in
-              <strong> {travelTime}</strong> {message('Units.Mins')}
-            </span>}
-        </td>
-      </tr>
+    <div className='route-segments'>
+      <div className='route-segments__best-trip'>
+        Take&nbsp;
+        {bestJourney.map((segment, index) => (
+          <Segment key={index} segment={segment} />
+        ))}
+        {travelTime > 120
+          ? <span className='decrease'>inaccessible within 120 minutes</span>
+          : <span>in <strong>{travelTime}</strong> {message('Units.Mins')}</span>
+        }
+      </div>
       {routeSegments.length > 1 &&
-        <tr className='AlternateTrips'>
-          <td><span className='fa fa-map-signs' /></td>
-          <td>
-            <span>{message('Systems.AlternateTripsTitle')} </span>
-            {alternateJourneys.map((segments, jindex) => (
-              <span key={jindex}>
-                {segments.map((segment, index) => (
-                  <Segment key={index} segment={segment} />
-                ))}
-                {jindex < alternateJourneys.length - 1 && <span>or </span>}
-              </span>
-            ))}
-          </td>
-        </tr>}
-    </tbody>
+        <div className='route-segments__alt-trips'>
+          {message('Systems.AlternateTripsTitle')}&nbsp;
+          {alternateJourneys.map((segments, jindex) => (
+            <span key={jindex}>
+              {segments.map((segment, index) => (
+                <Segment key={index} segment={segment} />
+              ))}
+              {jindex < alternateJourneys.length - 1 && 'or '}
+            </span>
+          ))}
+        </div>
+      }
+    </div>
   )
 }
 

@@ -42,7 +42,10 @@ NeighborhoodDetails:
   DriveMode: driving
   TransitMode: transit
   FromOrigin: from
-  GoogleMapsLink: See on Google Maps
+  WebsiteLink: Official site
+  WikipediaLink: Wikipedia
+  GoogleSearchLink: Google
+  GoogleMapsLink: Google Maps
   ModeSummary: via
 NeighborhoodInfo:
   Affordability: Affordability
