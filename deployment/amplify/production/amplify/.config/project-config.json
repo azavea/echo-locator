@@ -1,20 +1,17 @@
 {
-    "projectName": "prod",
-    "projectPath": "/usr/local/src/prod",
-    "defaultEditor": "sublime",
-    "frontendHandler": {
-        "javascript": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-frontend-javascript"
-    },
+    "projectName": "production",
+    "version": "2.0",
+    "frontend": "javascript",
     "javascript": {
         "framework": "react",
         "config": {
-            "SourceDir": ".",
-            "DistributionDir": "assets",
-            "BuildCommand": "yarn build",
-            "StartCommand": "yarn start"
+            "SourceDir": "src",
+            "DistributionDir": "build",
+            "BuildCommand": "npm run-script build",
+            "StartCommand": "npm run-script start"
         }
     },
-    "providers": {
-        "awscloudformation": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-provider-awscloudformation"
-    }
+    "providers": [
+        "awscloudformation"
+    ]
 }

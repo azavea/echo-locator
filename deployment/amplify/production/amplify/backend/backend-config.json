@@ -1,0 +1,14 @@
+{
+	"auth": {
+		"echolocatorProductionAuth": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"storage": {
+		"echolocatorProductionStorage": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}
