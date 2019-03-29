@@ -88,8 +88,8 @@
     text-decoration: none;
     background: $background;
     border-radius: 1px;
-    transition: background 250ms ease-in-out, transform 150ms ease;
     outline: none;
+    transition: background 250ms ease-in-out, transform 150ms ease;
 
     &::-moz-focus-inner {
         border: none;
@@ -100,12 +100,12 @@
         outline-offset: -3px;
     }
 
-    &:hover:not(:active):not([disabled]) {
-        transform: scale(1.04);
-    }
-
     &:active {
         transform: scale(0.96);
+    }
+
+    &:hover:not(:active):not([disabled]) {
+        transform: scale(1.04);
     }
 
     &[disabled] {
