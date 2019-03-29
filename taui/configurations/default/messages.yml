@@ -40,10 +40,12 @@ Dock:
   ShowSavedButton: Saved
 NeighborhoodDetails:
   DriveMode: driving
+  TransitMode: transit
   FromOrigin: from
   GoogleMapsLink: See on Google Maps
   ModeSummary: via
 NeighborhoodInfo:
+  Affordability: Affordability
   EducationCategory: Schools
   EducationPercentile: Education percentile
   HasNoTransitStop: Has no transit stop

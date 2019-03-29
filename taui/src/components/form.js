@@ -137,7 +137,6 @@ export default class Form extends React.PureComponent {
     return (
       <div className='map-sidebar__travel-form'>
         <Select
-          arrowRenderer={null}
           clearable={false}
           filterOptions={destinationFilterOptions}
           options={locations}
