@@ -2,7 +2,7 @@
 
 Website to explore Choice Neighborhoods in the Boston area.
 
-[![Build Status](https://travis-ci.com/azavea/echo-locator.svg?branch=develop)](https://travis-ci.com/azavea/echo-locator)
+[![Build Status](https://travis-ci.org/azavea/echo-locator.svg?branch=develop)](https://travis-ci.com/azavea/echo-locator)
 
 ## Requirements
 
