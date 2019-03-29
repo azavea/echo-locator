@@ -4,6 +4,7 @@ import lonlat from '@conveyal/lonlat'
 import message from '@conveyal/woonerf/message'
 import range from 'lodash/range'
 import {PureComponent} from 'react'
+import Icon from '@conveyal/woonerf/components/icon'
 
 import {
   ANONYMOUS_USERNAME,
@@ -308,7 +309,7 @@ export default class EditProfile extends PureComponent<Props> {
               data-id={index}
               onClick={(e) => deleteAddress(index, e)}
               title={message('Profile.DeleteAddress')}>
-              <img src='assets/times-regular.svg' width='12' alt={message('Profile.DeleteDestination')} />
+              <Icon type='times' />
             </button>
           </div>
         </>}
@@ -346,7 +347,7 @@ export default class EditProfile extends PureComponent<Props> {
         {destinations.length < MAX_ADDRESSES && <button
           className='account-profile__button account-profile__button--tertiary account-profile__button--iconLeft'
           onClick={addAddress}>
-          <img src='assets/plus-light.svg' width='12' alt='' />
+          <Icon type='plus' />
           {message('Profile.AddAddress')}
         </button>}
       </div>
@@ -464,7 +465,7 @@ export default class EditProfile extends PureComponent<Props> {
                 className='account-profile__button account-profile__button--tertiary account-profile__button--iconLeft'
                 onClick={(e) => deleteProfile(key, e)}
               >
-                <img src='assets/trash-alt.svg' width='12' alt='' />
+                <Icon type='trash' />
                 {message('Profile.DeleteProfile')}
               </button>}
             </div>
