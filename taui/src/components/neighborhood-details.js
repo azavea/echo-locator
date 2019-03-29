@@ -8,6 +8,8 @@ import type {AccountProfile, NeighborhoodLabels} from '../types'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getNeighborhoodPropertyLabels from '../utils/neighborhood-properties'
 
+import RouteSegments from './route-segments'
+
 type Props = {
   changeUserProfile: any,
   neighborhood: any,
@@ -37,6 +39,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   render () {
     const { changeUserProfile, neighborhood, origin, setFavorite, userProfile } = this.props
     const isFavorite = this.state.isFavorite
+    const hasVehicle = userProfile ? userProfile.hasVehicle : false
 
     if (!neighborhood || !userProfile) {
       return null
@@ -61,6 +64,11 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             style={{cursor: 'pointer'}} />
           <span>{town} - {id}</span>
         </div>
+        <RouteSegments
+          hasVehicle={hasVehicle}
+          routeSegments={neighborhood.segments}
+          travelTime={neighborhood.time}
+        />
         <table className='CardContent'>
           <tbody>
             <tr className='BestTrip'>

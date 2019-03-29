@@ -11,9 +11,7 @@ import type {AccountProfile, PointFeature} from '../types'
 import getActiveNeighborhood from '../utils/get-active-neighborhood'
 
 import NeighborhoodDetails from './neighborhood-details'
-import NeighborhoodListInfo from './neighborhood-list-info'
 import RouteCard from './route-card'
-import RouteSegments from './route-segments'
 
 type Props = {
   activeNetworkIndex: number,
@@ -152,7 +150,6 @@ export default class Dock extends PureComponent<Props> {
     const {
       activeNetworkIndex,
       changeUserProfile,
-      hasVehicle,
       neighborhoods,
       setActiveNeighborhood,
       setFavorite,
@@ -180,16 +177,7 @@ export default class Dock extends PureComponent<Props> {
           setFavorite={(e) => setFavorite(neighborhood.properties.id,
             userProfile, changeUserProfile)}
           title={neighborhood.properties.town + ': ' + neighborhood.properties.id}
-          userProfile={userProfile}>
-          <RouteSegments
-            hasVehicle={hasVehicle}
-            routeSegments={neighborhood.segments}
-            travelTime={neighborhood.time}
-          />
-          <NeighborhoodListInfo
-            neighborhood={neighborhood}
-          />
-        </RouteCard>
+          userProfile={userProfile} />
       )
     )
   }
@@ -281,7 +269,6 @@ export default class Dock extends PureComponent<Props> {
         <NeighborhoodSection
           {...this.props}
           changeUserProfile={changeUserProfile}
-          hasVehicle={userProfile ? userProfile.hasVehicle : false}
           neighborhoods={neighborhoods}
           endingOffset={endingOffset}
           setFavorite={setFavorite}

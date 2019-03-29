@@ -2,6 +2,8 @@
 import Icon from '@conveyal/woonerf/components/icon'
 import React from 'react'
 
+import NeighborhoodListInfo from './neighborhood-list-info'
+
 type Props = {
   cardColor: string,
   children?: any,
@@ -15,7 +17,6 @@ export default class RouteCard extends React.PureComponent<Props> {
   render () {
     const {
       cardColor,
-      children,
       isFavorite,
       goToDetails,
       neighborhood,
@@ -49,7 +50,11 @@ export default class RouteCard extends React.PureComponent<Props> {
           {title}
           <Icon className={markerClass} type='map-marker' />
         </header>
-        <table className='neighborhood-summary__contents'>{children}</table>
+        <div className='neighborhood-summary__contents'>
+          <NeighborhoodListInfo
+            neighborhood={neighborhood}
+          />
+        </div>
       </div>
     )
   }
