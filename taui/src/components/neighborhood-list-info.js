@@ -17,25 +17,25 @@ export default function NeighborhoodListInfo ({neighborhood}) {
     : message('UnknownValue')
 
   return (
-    <tbody>
-      <tr>
-        <td />
-        <td>
-          <span>{labels.affordability}</span>
-        </td>
-        <td>
-          <span>{message('NeighborhoodInfo.Score')}: {overallScore}</span>
-        </td>
-      </tr>
-      <tr>
-        <td />
-        <td>
-          <span>{message('NeighborhoodInfo.ViolentCrime')}: {labels.violentCrime}</span>
-        </td>
-        <td>
-          <span>{message('NeighborhoodInfo.EducationCategory')}: {labels.education}</span>
-        </td>
-      </tr>
-    </tbody>
+    <table className='neighborhood-summary__facts'>
+      <tbody>
+        <tr>
+          <td className='neighborhood-summary__cell'>{message('NeighborhoodInfo.Score')}:</td>
+          <td className='neighborhood-summary__cell'>{overallScore}</td>
+        </tr>
+        <tr>
+          <td className='neighborhood-summary__cell'>{message('NeighborhoodInfo.Affordability')}:</td>
+          <td className='neighborhood-summary__cell'>{labels.affordability}</td>
+        </tr>
+        <tr>
+          <td className='neighborhood-summary__cell'>{message('NeighborhoodInfo.ViolentCrime')}:</td>
+          <td className='neighborhood-summary__cell'>{labels.violentCrime}</td>
+        </tr>
+        <tr>
+          <td className='neighborhood-summary__cell'>{message('NeighborhoodInfo.EducationCategory')}:</td>
+          <td className='neighborhood-summary__cell'>{labels.education}</td>
+        </tr>
+      </tbody>
+    </table>
   )
 }

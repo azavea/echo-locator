@@ -1,82 +1,175 @@
 .account-profile {
-
-  &__destination_row {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: flex-end;
-  }
-
-  &__destination_field {
-    display: flex;
-    flex: auto;
-    flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-items: stretch;
-    min-width: 24rem;
-    max-width: 32rem;
-    margin-right: 2.4rem;
-  }
-
-  &__destination_narrow_field {
-    display: flex;
-    flex: auto;
-    flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-items: stretch;
-    min-width: 8rem;
-    max-width: 16rem;
-    margin-right: 2.4rem;
-  }
-
-  &__main {
-    width: 100%
-  }
-
   &__field {
-    width: 100%;
-    margin-right: 2.4rem;
-    margin-bottom: 1rem;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 4rem;
+
+    > *:not(:last-child) {
+      margin-bottom: 1.6rem;
+    }
+
+    &--inline {
+      flex-direction: row;
+      align-items: center;
+
+      > *:not(:last-child) {
+        margin-right: 0.8rem;
+        margin-bottom: 0;
+      }
+    }
   }
 
   &__label {
-    @include text(300);
+    @include text(400);
     @include font-weight(bold);
-    width: 100%;
-    margin-bottom: 0.8rem;
   }
 
   &__input {
     height: 4rem;
     padding: 0 0.8rem;
+
+    &--geocoder {
+      min-width: 32rem;
+      max-width: 40rem;
+    }
+
+    &--text {
+      min-width: 32rem;
+      max-width: 40rem;
+    }
+
+    &--select {
+      width: 12rem;
+    }
+
+    &--checkbox,
+    &--radio {
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+  }
+
+  &__destinations {
+    margin-bottom: 4rem;
+  }
+
+  &__destination-list-header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 1.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  &__destination-list-heading {
+    @include text(300);
+    @include font-weight(bold);
+  }
+
+  &__destination-list {
+    margin-bottom: 1.6rem;
+  }
+
+  &__destination {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    &:not(:last-of-type) {
+      margin-bottom: 1.6rem;
+    }
+  }
+
+  &__destination_field {
+    flex: none;
+    width: 12rem;
+
+    &:not(:last-child) {
+      margin-right: 1.6rem;
+    }
+
+    &--wide {
+      width: 44rem;
+    }
+
+    &--narrow {
+      width: 7.2rem;
+    }
+
+    &--xnarrow {
+      width: 3.2rem;
+    }
+
+    &--center {
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  &__destination-delete-button {
+    opacity: 0.2;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
   }
 
   &__error {
     @include text(400);
     margin-top: 1.6rem;
     padding: 1.6rem;
-    background-color: $gray-100;
     color: $error;
+    background-color: $gray-100;
+  }
+
+  &__actions {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    > *:not(:last-child) {
+      margin-right: 3.2rem;
+    }
   }
 
   &__button {
-    min-width: 12rem;
-    max-width: 22rem;
     height: 4rem;
-    line-height: 2.5rem;
 
     &--primary {
       @include button($color: $white, $background: $brand-blue);
       @include light-on-dark();
       @include font-weight(bold);
-      flex: auto;
-      margin: 4rem auto 1.6rem;
+      min-width: 16rem;
     }
 
     &--secondary {
       @include button($color: $black, $background: $gray-300);
-      flex: auto;
-      margin: 4rem auto 1.6rem;
+      min-width: 12rem;
+    }
+
+    &--tertiary {
+      margin-left: auto;
+      color: $brand-blue;
+    }
+
+    &--iconLeft {
+      display: inline-flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      align-items: center;
+
+      > *:first-child {
+        margin-right: 0.8rem;
+      }
     }
   }
 }

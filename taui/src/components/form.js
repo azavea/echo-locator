@@ -7,6 +7,7 @@ import React from 'react'
 import Select from 'react-virtualized-select'
 import createFilterOptions from 'react-select-fast-filter-options'
 
+import {SELECT_STYLE, SELECT_WRAPPER_STYLE} from '../constants'
 import type {
   AccountAddress,
   AccountProfile,
@@ -124,19 +125,26 @@ export default class Form extends React.PureComponent {
     const setNetwork = this.setNetwork
 
     return (
-      <div>
+      <div className='map-sidebar__travel-form'>
         <Select
+          clearable={false}
           filterOptions={destinationFilterOptions}
           options={locations}
+          optionHeight={38}
           onChange={this.selectDestination}
           placeholder={message('Geocoding.StartPlaceholder')}
+          style={SELECT_STYLE}
+          wrapperStyle={SELECT_WRAPPER_STYLE}
           value={destination}
         />
         <Select
+          clearable={false}
           filterOptions={networkFilterOptions}
           options={networks}
           onChange={(e) => setNetwork(e)}
           placeholder={message('Map.SelectNetwork')}
+          style={SELECT_STYLE}
+          wrapperStyle={SELECT_WRAPPER_STYLE}
           value={network}
         />
       </div>

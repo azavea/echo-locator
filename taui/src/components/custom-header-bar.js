@@ -52,7 +52,7 @@ export default class CustomHeaderBar extends Greetings {
         <span className='app-header__button'>
           <Link to={{pathname: '/profile', state: {fromApp: true}}}>{message('Header.Edit')}</Link>
         </span>
-        {!isAnonymous && <span className='app-header__button'>
+        {!isAnonymous && <span className='app-header__button app-header__button--new'>
           <Link to='/search'>{message('Header.New')}</Link>
         </span>}
       </div>

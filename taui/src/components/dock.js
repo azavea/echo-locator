@@ -11,9 +11,7 @@ import type {AccountProfile, PointFeature} from '../types'
 import getActiveNeighborhood from '../utils/get-active-neighborhood'
 
 import NeighborhoodDetails from './neighborhood-details'
-import NeighborhoodListInfo from './neighborhood-list-info'
 import RouteCard from './route-card'
-import RouteSegments from './route-segments'
 
 type Props = {
   activeNetworkIndex: number,
@@ -128,29 +126,23 @@ export default class Dock extends PureComponent<Props> {
   buttonRow (props) {
     const {
       haveAnotherPage,
-      page,
-      showDetails
+      page
     } = props
 
-    const backFromDetails = this.backFromDetails
     const goPreviousPage = this.goPreviousPage
     const goNextPage = this.goNextPage
 
     return (
-      <div className='account-profile__destination_row'>
-        {showDetails && <button
-          className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
-          onClick={backFromDetails}>{message('Dock.GoBackFromDetails')}
-        </button>}
-        {!showDetails && page > 0 && <button
-          className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+      <nav className='map-sidebar__pagination'>
+        {page > 0 && <button
+          className='map-sidebar__pagination-button'
           onClick={goPreviousPage}>{message('Dock.GoPreviousPage')}
         </button>}
-        {!showDetails && haveAnotherPage && <button
-          className='account-profile__button account-profile__button--secondary account-profile__destination_narrow_field'
+        {haveAnotherPage && <button
+          className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
           onClick={goNextPage}>{message('Dock.GoNextPage')}
         </button>}
-      </div>)
+      </nav>)
   }
 
   // Render list of neighborhoods
@@ -158,9 +150,9 @@ export default class Dock extends PureComponent<Props> {
     const {
       activeNetworkIndex,
       changeUserProfile,
-      hasVehicle,
       neighborhoods,
       setActiveNeighborhood,
+      origin,
       setFavorite,
       startingOffset,
       userProfile
@@ -170,7 +162,7 @@ export default class Dock extends PureComponent<Props> {
       startingOffset, SIDEBAR_PAGE_SIZE + startingOffset) : []
 
     if (!neighborhoodPage || !neighborhoodPage.length) {
-      return <div className='Card'>{message('Dock.NoResults')}</div>
+      return <div className='map-sidebar__no-results'>{message('Dock.NoResults')}</div>
     }
 
     return (
@@ -182,20 +174,12 @@ export default class Dock extends PureComponent<Props> {
           isFavorite={userProfile.favorites.indexOf(neighborhood.properties.id) !== -1}
           key={`${index}-route-card`}
           neighborhood={neighborhood}
+          origin={origin}
           setActiveNeighborhood={setActiveNeighborhood}
           setFavorite={(e) => setFavorite(neighborhood.properties.id,
             userProfile, changeUserProfile)}
           title={neighborhood.properties.town + ': ' + neighborhood.properties.id}
-          userProfile={userProfile}>
-          <RouteSegments
-            hasVehicle={hasVehicle}
-            routeSegments={neighborhood.segments}
-            travelTime={neighborhood.time}
-          />
-          <NeighborhoodListInfo
-            neighborhood={neighborhood}
-          />
-        </RouteCard>
+          userProfile={userProfile} />
       )
     )
   }
@@ -204,32 +188,44 @@ export default class Dock extends PureComponent<Props> {
     const {
       endingOffset,
       neighborhoods,
+      origin,
       startingOffset,
       showAll
     } = props
     const setShowAll = this.showAll
     const NeighborhoodsList = this.neighborhoodsList
+    const showAllClass = `map-sidebar__neighborhoods-action ${showAll ? 'map-sidebar__neighborhoods-action--on' : ''}`
+    const showSavedClass = `map-sidebar__neighborhoods-action ${!showAll ? 'map-sidebar__neighborhoods-action--on' : ''}`
 
     return (
-      <div>
-        <div className='Card'>
-          {showAll ? message('Dock.Recommendations') : message('Dock.Favorites')}
-          {startingOffset + 1} - {endingOffset}
-          <button
-            onClick={(e) => setShowAll(true)}
-            style={showAll ? {fontWeight: 'bold'} : {}}>
-            {message('Dock.ShowAllButton')}
-          </button> |
-          <button
-            style={!showAll ? {fontWeight: 'bold'} : {}}
-            onClick={(e) => setShowAll(false)}>
-            {message('Dock.ShowSavedButton')}
-          </button>
-        </div>
+      <>
+        <header className='map-sidebar__neighborhoods-header'>
+          <h2 className='map-sidebar__neighborhoods-heading'>
+            {showAll ? message('Dock.Recommendations') : message('Dock.Favorites')}
+            &nbsp;
+            {endingOffset > 0 && `${startingOffset + 1}–${endingOffset}`}
+          </h2>
+          <div className='map-sidebar__neighborhoods-actions'>
+            <button
+              onClick={(e) => setShowAll(true)}
+              disabled={showAll}
+              className={showAllClass}>
+              {message('Dock.ShowAllButton')}
+            </button>
+            &nbsp;|&nbsp;
+            <button
+              className={showSavedClass}
+              disabled={!showAll}
+              onClick={(e) => setShowAll(false)}>
+              {message('Dock.ShowSavedButton')}
+            </button>
+          </div>
+        </header>
         <NeighborhoodsList {...props}
           neighborhoods={neighborhoods}
-          startingOffset={startingOffset} />
-      </div>)
+          startingOffset={startingOffset}
+          origin={origin} />
+      </>)
   }
 
   render () {
@@ -241,13 +237,13 @@ export default class Dock extends PureComponent<Props> {
       neighborhoodsSortedWithRoutes,
       origin,
       showDetails,
-      showSpinner,
       userProfile
     } = this.props
     const {componentError, page, showAll} = this.state
     const ButtonRow = this.buttonRow
     const NeighborhoodSection = this.neighborhoodSection
     const setFavorite = this.setFavorite
+    const backFromDetails = this.backFromDetails
 
     const startingOffset = page * SIDEBAR_PAGE_SIZE
 
@@ -266,47 +262,48 @@ export default class Dock extends PureComponent<Props> {
     const detailNeighborhood = getActiveNeighborhood(neighborhoodsSortedWithRoutes,
       activeNeighborhood)
 
-    return <div className='Taui-Dock'>
-      <div className='Taui-Dock-content sidebar-dock'>
-        <div className='title'>
-          {showSpinner
-            ? <Icon type='spinner' className='fa-spin' />
-            : <Icon type='map' />}
-          {' '}
-          {message('Title')}
-        </div>
-        {componentError &&
-          <div>
-            <h1>Error</h1>
-            <p>componentError.info}</p>
-          </div>}
-        {children}
-        {!isLoading && !showDetails &&
-          <NeighborhoodSection
-            {...this.props}
-            changeUserProfile={changeUserProfile}
-            hasVehicle={userProfile ? userProfile.hasVehicle : false}
-            neighborhoods={neighborhoods}
-            endingOffset={endingOffset}
-            setFavorite={setFavorite}
-            showAll={showAll}
-            startingOffset={startingOffset}
-            userProfile={userProfile}
-          />}
-        {!isLoading && showDetails &&
-          <NeighborhoodDetails
-            changeUserProfile={changeUserProfile}
-            neighborhood={detailNeighborhood}
-            origin={origin}
-            setFavorite={setFavorite}
-            userProfile={userProfile} />
-        }
+    return <div className='map-sidebar'>
+      {componentError &&
+        <p className='map-sidebar__error'>
+          <Icon type='exclamation-triangle' />
+          {componentError.info}
+        </p>}
+      {children}
+      {!isLoading && !showDetails &&
+        <NeighborhoodSection
+          {...this.props}
+          changeUserProfile={changeUserProfile}
+          neighborhoods={neighborhoods}
+          endingOffset={endingOffset}
+          origin={origin}
+          setFavorite={setFavorite}
+          showAll={showAll}
+          startingOffset={startingOffset}
+          userProfile={userProfile}
+        />}
+      {!isLoading && showDetails && <>
+        <nav className='map-sidebar__details-navigation'>
+          <button
+            className='map-sidebar__navigation-button'
+            onClick={backFromDetails}
+          >
+            <Icon type='chevron-circle-left' />
+            {message('Dock.GoBackFromDetails')}
+          </button>
+        </nav>
+        <NeighborhoodDetails
+          changeUserProfile={changeUserProfile}
+          neighborhood={detailNeighborhood}
+          origin={origin}
+          setFavorite={setFavorite}
+          userProfile={userProfile} />
+      </>}
+      {!isLoading && !showDetails &&
         <ButtonRow {...this.props}
-          haveAnotherPage={haveAnotherPage} page={page} />
-        <div className='Attribution'>
-          site made by {' '}
-          <a href='https://www.azavea.com' target='_blank' />
-        </div>
+          haveAnotherPage={haveAnotherPage} page={page}
+        />}
+      <div className='map-sidebar__attribution'>
+        site by <a href='https://www.azavea.com' target='_blank'>Azavea</a>
       </div>
     </div>
   }

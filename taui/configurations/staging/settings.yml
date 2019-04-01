@@ -2,7 +2,6 @@ cloudfront: E3A0YNQDZRFX9J
 entries:
   - src/index.js:assets/index.js
   - src/img/BHAlogo.png:assets/BHAlogo.png
-  - src/img/trash-alt.svg:assets/trash-alt.svg
   - config.json:assets/config.json
   - neighborhoods.json:assets/neighborhoods.json
   - neighborhood_bounds.json:assets/neighborhood_bounds.json

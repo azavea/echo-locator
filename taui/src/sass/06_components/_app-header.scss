@@ -3,8 +3,8 @@
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 1.6rem;
-  padding: 0.8rem 2.4rem;
+  height: 6.4rem;
+  padding: 0 2.4rem 0.8rem;
 
   &__brand {
     display: flex;
@@ -15,8 +15,14 @@
   }
 
   &__button {
-    margin-left: 1.6rem;
+    @include text(300);
     margin-right: 1.6rem;
+    color: $gray-600;
+    white-space: nowrap;
+
+    &--new {
+      margin-left: 6.4rem;
+    }
   }
 
   &__logo {
@@ -26,12 +32,12 @@
   }
 
   &__app-name {
-    flex: none;
     @include heading(500);
+    flex: none;
   }
 
   &__user-info {
-    @include heading(400);
+    @include text(400);
   }
 
   &__user-name {
@@ -39,7 +45,7 @@
   }
 
   &__voucher-number {
-    @include font-weight(normal);
+    margin-right: 1.6rem;
   }
 
   &__actions {

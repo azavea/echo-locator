@@ -1,5 +1,4 @@
 .account-search {
-
   &__main {
     display: flex;
     flex-flow: row nowrap;
@@ -19,7 +18,7 @@
   }
 
   &__label {
-    @include text(300);
+    @include text(400);
     @include font-weight(bold);
     margin-bottom: 0.8rem;
   }
@@ -33,8 +32,21 @@
     @include text(400);
     margin-top: 1.6rem;
     padding: 1.6rem;
-    background-color: $gray-100;
     color: $error;
+    background-color: $gray-100;
+  }
+
+  &__no-results {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 4rem;
+  }
+
+  &__no-results-heading {
+    @include text(400);
+    margin-bottom: 2.4rem;
   }
 
   &__button {
@@ -46,13 +58,10 @@
       @include button($color: $white, $background: $brand-blue);
       @include light-on-dark();
       @include font-weight(bold);
-      flex: auto;
     }
 
     &--create {
       @include button($color: $black, $background: $gray-300);
-      display: block;
-      margin: 4rem auto 1.6rem;
     }
   }
 }

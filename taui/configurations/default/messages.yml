@@ -13,6 +13,8 @@ Systems:
   AlternateTripsTitle: Alternatively use
   Waiting: waiting included
   NoAccess: No data from this point...
+  Take: Take
+  InaccessibleWithin: inaccessible within
 Faster: faster
 NewTrip: New Trip
 Geocoding:
@@ -31,7 +33,7 @@ Map:
     ClearMarkers: Clear markers
 Dock:
   Favorites: Saved recommendations
-  GoBackFromDetails: Back to list
+  GoBackFromDetails: Back to recommendations
   GoPreviousPage: Go back
   GoNextPage: Show more
   NoResults: No results
@@ -39,11 +41,16 @@ Dock:
   ShowAllButton: All
   ShowSavedButton: Saved
 NeighborhoodDetails:
-  DriveMode: driving
+  DriveMode: drive
+  TransitMode: transit
   FromOrigin: from
-  GoogleMapsLink: See on Google Maps
+  WebsiteLink: Official site
+  WikipediaLink: Wikipedia
+  GoogleSearchLink: Google
+  GoogleMapsLink: Google Maps
   ModeSummary: via
 NeighborhoodInfo:
+  Affordability: Affordability
   EducationCategory: Schools
   EducationPercentile: Education percentile
   HasNoTransitStop: Has no transit stop
@@ -75,20 +82,20 @@ SignIn:
   AnonymousExplanation: Don't have an account?
   Greeting: At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
 Header:
-  New: New
-  Edit: Edit
-  SignIn: Sign In
+  New: New search
+  Edit: Edit profile
+  SignIn: Sign in
 Accounts:
   Create: Create new profile
   CreateError: Failed to create profile. Please try again.
   InvalidVoucherNumber: Voucher number should be eight digits, or two letters followed by six digits.
   MissingVoucherNumber: Enter a voucher number to create a profile.
-  Name: Name of Head of Household
+  Name: Name of head of household
   Search: Search
   SelectError: Failed to set profile. Please try again.
-  NoResults: No profile found for that voucher number. Create new profile now?
+  NoResults: Profile not found. Create one now?
   Title: Profiles
-  Voucher: Voucher Number
+  Voucher: Voucher number
 Profile:
   AddAddress: Add another destination
   Address: Address
@@ -96,7 +103,8 @@ Profile:
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
   Cancel: Cancel
-  Delete: Delete
+  DeleteDestination: Delete this destination
+  DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Frequent destinations
   Primary: Primary
@@ -112,7 +120,7 @@ QuintileLabels:
     1: Very affordable
     2: Very affordable
     3: Affordable
-    4: More expensive
+    4: Expensive
     5: Very expensive
   Education:
     1: Excellent

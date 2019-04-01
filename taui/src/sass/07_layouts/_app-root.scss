@@ -1,0 +1,11 @@
+.app-root {
+  display: flex;
+  flex: auto;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  > .app-header {
+    flex: none;
+  }
+}
