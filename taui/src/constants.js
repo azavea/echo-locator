@@ -55,7 +55,10 @@ export const NEIGHBORHOOD_NONROUTABLE_COLOR = '#85929E'
 export const NEIGHBORHOOD_ROUTABLE_COLOR = '#15369d'
 
 export const NEIGHBORHOOD_BOUNDS_STYLE = {
-  stroke: false,
+  stroke: true,
+  weight: 1,
+  color: '#85929E',
+  opacity: 0.35,
   fill: true,
   fillColor: '#15369d',
   fillOpacity: 0.1
