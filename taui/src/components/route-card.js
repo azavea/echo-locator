@@ -6,7 +6,6 @@ import React from 'react'
 import NeighborhoodListInfo from './neighborhood-list-info'
 
 type Props = {
-  cardColor: string,
   children?: any,
   downloadIsochrone?: Function,
   setShowOnMap: Function,
@@ -17,7 +16,6 @@ type Props = {
 export default class RouteCard extends React.PureComponent<Props> {
   render () {
     const {
-      cardColor,
       isFavorite,
       goToDetails,
       neighborhood,
@@ -42,7 +40,6 @@ export default class RouteCard extends React.PureComponent<Props> {
         className='neighborhood-summary'
         role='button'
         onClick={(e) => goToDetails(e, neighborhood)}
-        style={{borderTopColor: cardColor}}
         onMouseOver={(e) => setActiveNeighborhood(neighborhood.properties.id)}
       >
         <header className='neighborhood-summary__header'>

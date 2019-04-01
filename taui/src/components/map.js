@@ -45,14 +45,14 @@ const iconAnchor = [iconWidth / 2, iconHeight + 13] // height plus the pointer s
 const iconHTML = '' // <div className="innerMarker"></div>'
 
 const startIcon = Leaflet.divIcon({
-  className: 'LeafletIcon Start',
+  className: 'LeafletIcon Start map__marker map__marker--start',
   html: iconHTML,
   iconAnchor,
   iconSize
 })
 
 const endIcon = Leaflet.divIcon({
-  className: 'LeafletIcon End',
+  className: 'LeafletIcon End map__marker map__marker--end',
   html: iconHTML,
   iconAnchor,
   iconSize
@@ -132,10 +132,6 @@ export default class Map extends PureComponent<Props, State> {
     this._clearState()
   }
 
-  _setEndWithEvent = (event: MapEvent) => {
-    this.props.setEndPosition(lonlat(event.latlng || event.target._latlng))
-  }
-
   _setStartWithEvent = (event: MapEvent) => {
     console.warn('should not trigger _setStartWithEvent')
     // this.props.setStartPosition(lonlat(event.latlng || event.target._latlng))
@@ -203,7 +199,7 @@ export default class Map extends PureComponent<Props, State> {
     return (
       <LeafletMap
         center={p.centerCoordinates}
-        className='Taui-Map'
+        className='Taui-Map map'
         onZoomend={this._setZoom}
         zoom={p.zoom}
         onClick={this._onMapClick}
@@ -291,20 +287,6 @@ export default class Map extends PureComponent<Props, State> {
           >
             <Popup>
               <span>{activeNeighborhood.properties.town} {activeNeighborhood.properties.id}</span>
-            </Popup>
-          </Marker>}
-
-        {p.end &&
-          <Marker
-            draggable
-            icon={endIcon}
-            key={`end-${this._getKey()}`}
-            onDragEnd={this._setEndWithEvent}
-            position={p.end.position}
-            zIndex={getZIndex()}
-          >
-            <Popup>
-              <span>{p.end.label}</span>
             </Popup>
           </Marker>}
 

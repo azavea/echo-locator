@@ -6,7 +6,7 @@ import filter from 'lodash/filter'
 import remove from 'lodash/remove'
 import {PureComponent} from 'react'
 
-import {ANONYMOUS_USERNAME, SIDEBAR_PAGE_SIZE, NETWORK_COLORS} from '../constants'
+import {ANONYMOUS_USERNAME, SIDEBAR_PAGE_SIZE} from '../constants'
 import type {AccountProfile, PointFeature} from '../types'
 import getActiveNeighborhood from '../utils/get-active-neighborhood'
 
@@ -148,7 +148,6 @@ export default class Dock extends PureComponent<Props> {
   // Render list of neighborhoods
   neighborhoodsList (props) {
     const {
-      activeNetworkIndex,
       changeUserProfile,
       neighborhoods,
       setActiveNeighborhood,
@@ -168,7 +167,6 @@ export default class Dock extends PureComponent<Props> {
     return (
       neighborhoodPage.map((neighborhood, index) =>
         <RouteCard
-          cardColor={neighborhood.active ? 'green' : NETWORK_COLORS[activeNetworkIndex]}
           goToDetails={(e) => goToDetails(e, neighborhood)}
           index={index}
           isFavorite={userProfile.favorites &&

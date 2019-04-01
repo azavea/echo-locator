@@ -3,7 +3,6 @@
   margin-bottom: 1.6rem;
   padding: 0 0.8rem 0.8rem;
   background-color: $white;
-  border-top: 6px solid transparent;
   cursor: pointer;
 
   &__header {
@@ -12,7 +11,7 @@
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
-    padding: 0.6rem 0 0.8rem;
+    padding: 0.8rem 0;
   }
 
   &__star {
