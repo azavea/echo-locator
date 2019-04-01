@@ -4,11 +4,13 @@
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: stretch;
+  max-height: calc(100vh - 6.4rem);
 
   > .map-sidebar {
     flex: none;
     width: 44rem;
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 
   > .main-map {
