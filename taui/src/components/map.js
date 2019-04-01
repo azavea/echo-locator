@@ -279,7 +279,6 @@ export default class Map extends PureComponent<Props, State> {
 
         {activeNeighborhood &&
           <Marker
-            draggable
             icon={endIcon}
             key={`end-${this._getKey()}`}
             position={lonlat.toLeaflet(activeNeighborhood.geometry.coordinates)}
@@ -289,7 +288,6 @@ export default class Map extends PureComponent<Props, State> {
               <span>{activeNeighborhood.properties.town} {activeNeighborhood.properties.id}</span>
             </Popup>
           </Marker>}
-
       </LeafletMap>
     )
   }
