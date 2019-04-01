@@ -133,7 +133,8 @@ export default class Map extends PureComponent<Props, State> {
   }
 
   _setEndWithEvent = (event: MapEvent) => {
-    this.props.setEndPosition(lonlat(event.latlng || event.target._latlng))
+    console.warn('should not trigger _setEndWithEvent')
+    // this.props.setEndPosition(lonlat(event.latlng || event.target._latlng))
   }
 
   _setStartWithEvent = (event: MapEvent) => {
@@ -291,20 +292,6 @@ export default class Map extends PureComponent<Props, State> {
           >
             <Popup>
               <span>{activeNeighborhood.properties.town} {activeNeighborhood.properties.id}</span>
-            </Popup>
-          </Marker>}
-
-        {p.end &&
-          <Marker
-            draggable
-            icon={endIcon}
-            key={`end-${this._getKey()}`}
-            onDragEnd={this._setEndWithEvent}
-            position={p.end.position}
-            zIndex={getZIndex()}
-          >
-            <Popup>
-              <span>{p.end.label}</span>
             </Popup>
           </Marker>}
 
