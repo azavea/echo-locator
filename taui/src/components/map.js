@@ -132,11 +132,6 @@ export default class Map extends PureComponent<Props, State> {
     this._clearState()
   }
 
-  _setEndWithEvent = (event: MapEvent) => {
-    console.warn('should not trigger _setEndWithEvent')
-    // this.props.setEndPosition(lonlat(event.latlng || event.target._latlng))
-  }
-
   _setStartWithEvent = (event: MapEvent) => {
     console.warn('should not trigger _setStartWithEvent')
     // this.props.setStartPosition(lonlat(event.latlng || event.target._latlng))

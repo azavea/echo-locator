@@ -274,14 +274,6 @@ table.CardContent td:first-of-type {
   margin-left: -10px;
 }
 
-.LeafletIcon.Start {
-  /* background-color: var(--dark-blue); */
-}
-
-.LeafletIcon.Start:before {
-  /* border-top: 20px solid var(--dark-blue); */
-}
-
 .LeafletIcon.Start:after {
   content: '';
   position: absolute;
@@ -293,12 +285,7 @@ table.CardContent td:first-of-type {
 }
 
 .LeafletIcon.End {
-  /* background-color: var(--orange); */
   margin-top: -20px !important;
-}
-
-.LeafletIcon.End:before {
-  /* border-top: 20px solid var(--orange); */
 }
 
 .LeafletIcon.End:after {
