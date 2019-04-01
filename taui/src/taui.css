@@ -275,11 +275,11 @@ table.CardContent td:first-of-type {
 }
 
 .LeafletIcon.Start {
-  background-color: var(--dark-blue);
+  /* background-color: var(--dark-blue); */
 }
 
 .LeafletIcon.Start:before {
-  border-top: 20px solid var(--dark-blue);
+  /* border-top: 20px solid var(--dark-blue); */
 }
 
 .LeafletIcon.Start:after {
@@ -293,12 +293,12 @@ table.CardContent td:first-of-type {
 }
 
 .LeafletIcon.End {
-  background-color: var(--orange);
+  /* background-color: var(--orange); */
   margin-top: -20px !important;
 }
 
 .LeafletIcon.End:before {
-  border-top: 20px solid var(--orange);
+  /* border-top: 20px solid var(--orange); */
 }
 
 .LeafletIcon.End:after {

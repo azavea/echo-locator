@@ -45,14 +45,14 @@ const iconAnchor = [iconWidth / 2, iconHeight + 13] // height plus the pointer s
 const iconHTML = '' // <div className="innerMarker"></div>'
 
 const startIcon = Leaflet.divIcon({
-  className: 'LeafletIcon Start',
+  className: 'LeafletIcon Start map__marker map__marker--start',
   html: iconHTML,
   iconAnchor,
   iconSize
 })
 
 const endIcon = Leaflet.divIcon({
-  className: 'LeafletIcon End',
+  className: 'LeafletIcon End map__marker map__marker--end',
   html: iconHTML,
   iconAnchor,
   iconSize
@@ -204,7 +204,7 @@ export default class Map extends PureComponent<Props, State> {
     return (
       <LeafletMap
         center={p.centerCoordinates}
-        className='Taui-Map'
+        className='Taui-Map map'
         onZoomend={this._setZoom}
         zoom={p.zoom}
         onClick={this._onMapClick}
