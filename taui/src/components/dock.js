@@ -171,7 +171,8 @@ export default class Dock extends PureComponent<Props> {
           cardColor={neighborhood.active ? 'green' : NETWORK_COLORS[activeNetworkIndex]}
           goToDetails={(e) => goToDetails(e, neighborhood)}
           index={index}
-          isFavorite={userProfile.favorites.indexOf(neighborhood.properties.id) !== -1}
+          isFavorite={userProfile.favorites &&
+            userProfile.favorites.indexOf(neighborhood.properties.id) !== -1}
           key={`${index}-route-card`}
           neighborhood={neighborhood}
           origin={origin}
