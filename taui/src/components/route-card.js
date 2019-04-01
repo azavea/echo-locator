@@ -1,7 +1,7 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
-import React from 'react'
 import message from '@conveyal/woonerf/message'
+import React from 'react'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
 
@@ -33,9 +33,9 @@ export default class RouteCard extends React.PureComponent<Props> {
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
 
-    const modeKey = neighborhood.segments && neighborhood.segments.length
-      ? 'NeighborhoodDetails.TransitMode'
-      : 'NeighborhoodDetails.DriveMode'
+    const modeKey = userProfile.hasVehicle
+      ? 'NeighborhoodDetails.DriveMode'
+      : 'NeighborhoodDetails.TransitMode'
 
     return (
       <div

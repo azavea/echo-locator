@@ -1,6 +1,5 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
-import message from '@conveyal/woonerf/message'
 import get from 'lodash/get'
 import memoize from 'lodash/memoize'
 import React from 'react'
@@ -14,7 +13,6 @@ import downloadJson from '../utils/download-json'
 
 import Dock from './dock'
 import Form from './form'
-import Log from './log'
 import Map from './map'
 
 /**
@@ -151,13 +149,6 @@ export default class MainPage extends React.PureComponent<Props> {
             updateOrigin={p.updateOrigin}
             userProfile={p.userProfile}
           />
-          {p.ui.showLog &&
-            <div className='Card'>
-              <div className='CardTitle'>
-                <span className='fa fa-terminal' /> {message('Log.Title')}
-              </div>
-              <Log items={p.actionLog} />
-            </div>}
         </Dock>
         <div className='main-map'>
           <svg width='0' height='0' style={{position: 'absolute'}}>

@@ -162,7 +162,7 @@ export default class Dock extends PureComponent<Props> {
       startingOffset, SIDEBAR_PAGE_SIZE + startingOffset) : []
 
     if (!neighborhoodPage || !neighborhoodPage.length) {
-      return <div className='Card'>{message('Dock.NoResults')}</div>
+      return <div className='map-sidebar__no-results'>{message('Dock.NoResults')}</div>
     }
 
     return (
@@ -203,7 +203,7 @@ export default class Dock extends PureComponent<Props> {
           <h2 className='map-sidebar__neighborhoods-heading'>
             {showAll ? message('Dock.Recommendations') : message('Dock.Favorites')}
             &nbsp;
-            {startingOffset + 1}&ndash;{endingOffset}
+            {endingOffset > 0 && `${startingOffset + 1}–${endingOffset}`}
           </h2>
           <div className='map-sidebar__neighborhoods-actions'>
             <button

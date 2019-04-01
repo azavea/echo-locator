@@ -6,6 +6,7 @@ import React, {Component} from 'react'
 import Select from 'react-select'
 
 import type {Location, MapboxFeature} from '../types'
+import {SELECT_STYLE, SELECT_WRAPPER_STYLE} from '../constants'
 
 const USE_GEOLOCATE = true
 const GEOLOCATE_VALUE = 'geolocate'
@@ -133,17 +134,6 @@ export default class Geocoder extends Component<Props> {
     }
   }
 
-  wrapperStyle = {
-    'height': '4rem',
-    'marginBottom': 0,
-    'boxShadow': 'none',
-    'border': '1px solid #bdbdbd'
-  }
-
-  style = {
-    'height': '3.8rem'
-  }
-
   render () {
     return (
       <Select.Async
@@ -162,8 +152,8 @@ export default class Geocoder extends Component<Props> {
         options={this.state.options}
         placeholder={this.props.placeholder}
         searchPromptText={message('Geocoding.PromptText')}
-        style={this.style}
-        wrapperStyle={this.wrapperStyle}
+        style={SELECT_STYLE}
+        wrapperStyle={SELECT_WRAPPER_STYLE}
         value={this.state.value}
       />
     )

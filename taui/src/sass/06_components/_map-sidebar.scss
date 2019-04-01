@@ -57,6 +57,14 @@
     }
   }
 
+  &__no-results {
+    @include text(500);
+    @include font-weight(bold);
+    margin: 4rem auto;
+    color: $gray-700;
+    text-align: center;
+  }
+
   &__pagination {
     display: flex;
     flex-flow: row nowrap;

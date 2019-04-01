@@ -7,6 +7,7 @@ import React from 'react'
 import Select from 'react-virtualized-select'
 import createFilterOptions from 'react-select-fast-filter-options'
 
+import {SELECT_STYLE, SELECT_WRAPPER_STYLE} from '../constants'
 import type {
   AccountAddress,
   AccountProfile,
@@ -112,17 +113,6 @@ export default class Form extends React.PureComponent {
     }
   }
 
-  wrapperStyle = {
-    'height': '4rem',
-    'marginBottom': '0.8rem',
-    'boxShadow': 'none',
-    'border': '1px solid #bdbdbd'
-  }
-
-  style = {
-    'height': '3.8rem'
-  }
-
   render () {
     const p = this.props
     const {destination, network} = this.state
@@ -143,8 +133,8 @@ export default class Form extends React.PureComponent {
           optionHeight={38}
           onChange={this.selectDestination}
           placeholder={message('Geocoding.StartPlaceholder')}
-          style={this.style}
-          wrapperStyle={this.wrapperStyle}
+          style={SELECT_STYLE}
+          wrapperStyle={SELECT_WRAPPER_STYLE}
           value={destination}
         />
         <Select
@@ -153,8 +143,8 @@ export default class Form extends React.PureComponent {
           options={networks}
           onChange={(e) => setNetwork(e)}
           placeholder={message('Map.SelectNetwork')}
-          style={this.style}
-          wrapperStyle={this.wrapperStyle}
+          style={SELECT_STYLE}
+          wrapperStyle={SELECT_WRAPPER_STYLE}
           value={network}
         />
       </div>

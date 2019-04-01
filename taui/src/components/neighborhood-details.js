@@ -76,7 +76,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         <div className='neighborhood-details__trip'>
           {Math.round(time)}&nbsp;
           {message('Units.Mins')}&nbsp;
-          {message('NeighborhoodDetails.ModeSummary')}&nbsp;
           <ModesList segments={bestJourney} />&nbsp;
           {message('NeighborhoodDetails.FromOrigin')}&nbsp;
           {currentDestination && currentDestination.purpose.toLowerCase()}
@@ -194,5 +193,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
 // Builds list of unqiue transit modes used in a trip
 const ModesList = ({segments}) => segments && segments.length ? (
-  <span>{uniq(segments.map(s => s.type)).join('/')}</span>
-) : <span>{message('NeighborhoodDetails.DriveMode')}</span>
+  <>
+    {message('NeighborhoodDetails.ModeSummary')}&nbsp;
+    {uniq(segments.map(s => s.type)).join('/')}
+  </>
+) : message('NeighborhoodDetails.DriveMode')

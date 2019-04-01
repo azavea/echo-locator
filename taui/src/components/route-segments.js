@@ -21,10 +21,13 @@ export default function RouteSegments ({hasVehicle, routeSegments, travelTime}) 
         {bestJourney.map((segment, index) => (
           <Segment key={index} segment={segment} />
         ))}
-        {travelTime > 120
-          ? <span className='decrease'>inaccessible within 120 minutes</span>
-          : <span>in <strong>{travelTime}</strong> {message('Units.Mins')}</span>
-        }
+        {travelTime > 120 ? (
+          <span className='decrease'>
+            {message('System.InaccessibleWithin')} 120 {message('Units.Mins')}
+          </span>
+        ) : (
+          <span>in <strong>{travelTime}</strong> {message('Units.Mins')}</span>
+        )}
       </div>
       {routeSegments.length > 1 &&
         <div className='route-segments__alt-trips'>
