@@ -10,7 +10,7 @@ import {
   ZoomControl
 } from 'react-leaflet'
 
-import {STOP_STYLE} from '../constants'
+import {NEIGHBORHOOD_BOUNDS_STYLE, STOP_STYLE} from '../constants'
 import type {
   Coordinate,
   Location,
@@ -256,6 +256,9 @@ export default class Map extends PureComponent<Props, State> {
             data={p.neighborhoodBounds}
             idField='id'
             tooltip='town'
+            vectorTileLayerStyles={
+              {'sliced': NEIGHBORHOOD_BOUNDS_STYLE}
+            }
             zIndex={getZIndex()} />}
 
         {!p.isLoading && p.neighborhoods &&

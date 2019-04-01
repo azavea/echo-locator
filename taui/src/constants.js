@@ -54,6 +54,13 @@ export const TRANSIT_STYLE = {
 export const NEIGHBORHOOD_NONROUTABLE_COLOR = '#85929E'
 export const NEIGHBORHOOD_ROUTABLE_COLOR = '#fff'
 
+export const NEIGHBORHOOD_BOUNDS_STYLE = {
+  color: 'goldenrod',
+  fill: true,
+  fillColor: 'blue',
+  opacity: 0.8
+}
+
 export const NEIGHBORHOOD_STYLE = {
   color: '#333',
   fill: true,
