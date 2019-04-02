@@ -1,5 +1,6 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
+import bbox from 'geojson-bbox'
 import Leaflet from 'leaflet'
 import filter from 'lodash/filter'
 import React, {PureComponent} from 'react'
@@ -202,8 +203,16 @@ export default class Map extends PureComponent<Props, State> {
       ? getNeighborhoodById(p.neighborhoods.features, p.activeNeighborhood)
       : null
 
+    // Get bounds to zoom to fit the neighborhood polygon map layer
+    const bounds = p.neighborhoodBounds ? bbox(p.neighborhoodBounds) : null
+    // Build a Leaflet `Bounds` array from the geojson-bbox extent
+    const neighborhoodExtent = bounds
+      ? [[bounds[1], bounds[0]], [bounds[3], bounds[2]]]
+      : null
+
     return (
-      <LeafletMap
+      p.neighborhoodBounds ? <LeafletMap
+        bounds={neighborhoodExtent}
         center={p.centerCoordinates}
         className='Taui-Map map'
         onZoomend={this._setZoom}
@@ -283,7 +292,7 @@ export default class Map extends PureComponent<Props, State> {
               position={lonlat.toLeaflet(other.geometry.coordinates)}
               zIndex={getZIndex()}
             />)}
-      </LeafletMap>
+      </LeafletMap> : null
     )
   }
   /* eslint complexity: 1 */
