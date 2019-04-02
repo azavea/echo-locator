@@ -279,13 +279,10 @@ export default class Map extends PureComponent<Props, State> {
             <Marker
               icon={otherIcon}
               key={`other-${other.properties.id}-${this._getKey()}`}
+              onClick={(e) => clickNeighborhood(other)}
               position={lonlat.toLeaflet(other.geometry.coordinates)}
               zIndex={getZIndex()}
-            >
-              <Popup>
-                <span>{other.properties.town} {other.properties.id}</span>
-              </Popup>
-            </Marker>)}
+            />)}
       </LeafletMap>
     )
   }
