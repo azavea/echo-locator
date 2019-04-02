@@ -59,7 +59,7 @@ const endIcon = Leaflet.divIcon({
 })
 
 const otherIcon = Leaflet.divIcon({
-  className: 'LeafletIcon End map__marker map__marker--other',
+  className: 'LeafletIcon Other map__marker map__marker--other',
   html: iconHTML,
   iconAnchor,
   iconSize
