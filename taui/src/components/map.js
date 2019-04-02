@@ -117,6 +117,8 @@ export default class Map extends PureComponent<Props, State> {
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
+      // Toggle `showDetails` off first to zoom to route on switching detail views
+      this.props.setShowDetails(false)
       this.props.setActiveNeighborhood(feature.properties.id)
       this.props.setShowDetails(true)
     } else {
@@ -238,7 +240,9 @@ export default class Map extends PureComponent<Props, State> {
         {p.showRoutes && p.drawRoutes.map(drawRoute =>
           <DrawRoute
             {...drawRoute}
+            activeNeighborhood={p.activeNeighborhood}
             key={`draw-routes-${drawRoute.id}-${this._getKey()}`}
+            showDetails={p.showDetails}
             zIndex={getZIndex()}
           />)}
 

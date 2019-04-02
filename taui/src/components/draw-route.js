@@ -1,11 +1,28 @@
 // @flow
+import get from 'lodash/get'
 import React from 'react'
-import {CircleMarker, LayerGroup, Polyline} from 'react-leaflet'
+import {CircleMarker, FeatureGroup, Polyline} from 'react-leaflet'
 
 export default class DrawRoute extends React.PureComponent {
+  componentWillReceiveProps (nextProps) {
+    // Zoom to active route on going to detail view
+    if (nextProps.activeNeighborhood !== nextProps.id) {
+      return
+    }
+    const needToZoom = nextProps.showDetails && !this.props.showDetails
+    if (needToZoom) {
+      if (this.refs) {
+        const layer = get(this.refs, 'features.leafletElement')
+        if (layer) {
+          layer._map.fitBounds(layer.getBounds())
+        }
+      }
+    }
+  }
+
   render () {
     const p = this.props
-    return <LayerGroup>
+    return <FeatureGroup ref='features'>
       {p.segments.map((segment, i) => {
         if (segment.type === 'WALK') {
           return <Polyline
@@ -31,6 +48,6 @@ export default class DrawRoute extends React.PureComponent {
           center={s}
           {...p.stopStyle}
         />)}
-    </LayerGroup>
+    </FeatureGroup>
   }
 }
