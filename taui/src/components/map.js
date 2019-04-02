@@ -1,6 +1,7 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
 import Leaflet from 'leaflet'
+import filter from 'lodash/filter'
 import React, {PureComponent} from 'react'
 import {
   Map as LeafletMap,
@@ -10,18 +11,17 @@ import {
   ZoomControl
 } from 'react-leaflet'
 
-import {NEIGHBORHOOD_BOUNDS_STYLE, STOP_STYLE} from '../constants'
+import {NEIGHBORHOOD_BOUNDS_STYLE} from '../constants'
 import type {
   Coordinate,
   Location,
   LonLat,
   MapEvent
 } from '../types'
-import getActiveNeighborhood from '../utils/get-active-neighborhood'
+import getNeighborhoodById from '../utils/get-neighborhood'
 
 import DrawNeighborhoods from './draw-neighborhoods'
 import DrawRoute from './draw-route'
-import Gridualizer from './gridualizer'
 import VGrid from './vector-grid'
 
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
@@ -53,6 +53,13 @@ const startIcon = Leaflet.divIcon({
 
 const endIcon = Leaflet.divIcon({
   className: 'LeafletIcon End map__marker map__marker--end',
+  html: iconHTML,
+  iconAnchor,
+  iconSize
+})
+
+const otherIcon = Leaflet.divIcon({
+  className: 'LeafletIcon Other map__marker map__marker--other',
   html: iconHTML,
   iconAnchor,
   iconSize
@@ -132,11 +139,6 @@ export default class Map extends PureComponent<Props, State> {
     this._clearState()
   }
 
-  _setStartWithEvent = (event: MapEvent) => {
-    console.warn('should not trigger _setStartWithEvent')
-    // this.props.setStartPosition(lonlat(event.latlng || event.target._latlng))
-  }
-
   _onMapClick = (e: Leaflet.MouseEvent): void => {
     this.setState((previousState) => ({
       lastClickedPosition: e.latlng || e.target._latlng,
@@ -187,13 +189,17 @@ export default class Map extends PureComponent<Props, State> {
     const p = this.props
     const clickNeighborhood = this.clickNeighborhood
 
+    const otherNeighborhoods = (p.displayNeighborhoods && !p.showDetails)
+      ? filter(p.displayNeighborhoods, n => !n.active)
+      : []
+
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
     let zIndex = 0
     const getZIndex = () => zIndex++
 
     const activeNeighborhood = p.neighborhoods
-      ? getActiveNeighborhood(p.neighborhoods.features, p.activeNeighborhood)
+      ? getNeighborhoodById(p.neighborhoods.features, p.activeNeighborhood)
       : null
 
     return (
@@ -212,14 +218,6 @@ export default class Map extends PureComponent<Props, State> {
           zIndex={getZIndex()}
         />
 
-        {p.drawOpportunityDatasets.map((drawTile, i) => drawTile &&
-          <Gridualizer
-            drawTile={drawTile}
-            key={`draw-od-${i}-${this._getKey()}`}
-            zIndex={getZIndex()}
-            zoom={p.zoom}
-          />)}
-
         {LABEL_URL &&
           <TileLayer
             {...TILE_OPTIONS}
@@ -234,18 +232,6 @@ export default class Map extends PureComponent<Props, State> {
             key={`draw-routes-${drawRoute.id}-${this._getKey()}`}
             zIndex={getZIndex()}
           />)}
-
-        {(!p.start || !p.end) && p.pointsOfInterest &&
-          <VGrid
-            data={p.pointsOfInterest}
-            idField='label'
-            key={`poi-${this._getKey()}`}
-            minZoom={10}
-            onClick={this._clickPoi}
-            style={STOP_STYLE}
-            tooltip='label'
-            zIndex={getZIndex()}
-          />}
 
         {!p.isLoading && p.neighborhoodBounds &&
           <VGrid
@@ -269,7 +255,6 @@ export default class Map extends PureComponent<Props, State> {
           <Marker
             icon={startIcon}
             key={`start-${this._getKey()}`}
-            onDragEnd={this._setStartWithEvent}
             position={p.origin.position}
             zIndex={getZIndex()}>
             <Popup>
@@ -279,7 +264,6 @@ export default class Map extends PureComponent<Props, State> {
 
         {activeNeighborhood &&
           <Marker
-            draggable
             icon={endIcon}
             key={`end-${this._getKey()}`}
             position={lonlat.toLeaflet(activeNeighborhood.geometry.coordinates)}
@@ -290,6 +274,15 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
+        {otherNeighborhoods && otherNeighborhoods.length &&
+          otherNeighborhoods.map((other) =>
+            <Marker
+              icon={otherIcon}
+              key={`other-${other.properties.id}-${this._getKey()}`}
+              onClick={(e) => clickNeighborhood(other)}
+              position={lonlat.toLeaflet(other.geometry.coordinates)}
+              zIndex={getZIndex()}
+            />)}
       </LeafletMap>
     )
   }

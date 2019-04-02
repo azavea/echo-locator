@@ -296,6 +296,18 @@ table.CardContent td:first-of-type {
   border: solid 5px #fff;
 }
 
+.LeafletIcon.Other {
+  margin-top: -20px !important;
+}
+
+.LeafletIcon.Other:after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  border: solid 5px transparent;
+}
+
 .TransitSegment, .WalkSegment, .Stop {
   /* filter: url(#shadow); */
 }

@@ -15,7 +15,7 @@
     "pretest": "yarn",
     "semantic-release": "semantic-release",
     "start": "mastarm build --serve --watch",
-    "test": "mastarm lint-js src --ignore-path src/.eslintignore && mastarm build"
+    "test": "mastarm lint-js src --ignore-path src/.eslintignore && mastarm lint-styles --config .stylelintrc && mastarm lint-messages && mastarm build"
   },
   "repository": {
     "type": "git",

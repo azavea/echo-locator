@@ -128,17 +128,21 @@ export default class MainPage extends React.PureComponent<Props> {
     return (
       <div className={mapScreenClass}>
         <Dock
-          activeNeighborhood={p.data.activeNeighborhood}
-          activeNetworkIndex={p.activeNetworkIndex}
           changeUserProfile={p.changeUserProfile}
           componentError={this.state.componentError}
+          detailNeighborhood={p.detailNeighborhood}
+          endingOffset={p.pageEndingOffset}
+          haveAnotherPage={p.haveAnotherPage}
           isLoading={p.isLoading}
-          neighborhoodsSortedWithRoutes={p.neighborhoodsSortedWithRoutes}
+          neighborhoodPage={p.displayPageNeighborhoods}
           origin={p.data.origin}
+          page={p.data.page}
           setActiveNeighborhood={p.setActiveNeighborhood}
+          setPage={p.setPage}
           setShowDetails={p.setShowDetails}
+          setShowFavorites={p.setShowFavorites}
           showDetails={p.data.showDetails}
-          showSpinner={p.ui.fetches > 0}
+          showFavorites={p.data.showFavorites}
           userProfile={p.userProfile}>
           <Form
             geocode={p.geocode}
@@ -163,6 +167,7 @@ export default class MainPage extends React.PureComponent<Props> {
             activeNeighborhood={p.data.activeNeighborhood}
             activeNetworkIndex={p.activeNetworkIndex}
             clearStartAndEnd={this._clearStartAndEnd}
+            displayNeighborhoods={p.displayPageNeighborhoods}
             end={p.geocoder.end}
             isLoading={p.isLoading}
             isochrones={p.isochrones}
@@ -175,9 +180,11 @@ export default class MainPage extends React.PureComponent<Props> {
             pointsOfInterest={p.pointsOfInterest}
             showRoutes={this._showNeighborhoodRoutes()}
             setActiveNeighborhood={p.setActiveNeighborhood}
+            setPage={p.setPage}
             setEndPosition={p.updateEndPosition}
             setShowDetails={p.setShowDetails}
             setStartPosition={p.updateStartPosition}
+            showDetails={p.data.showDetails}
             start={p.geocoder.start}
             updateEnd={p.updateEnd}
             updateMap={p.updateMap}
