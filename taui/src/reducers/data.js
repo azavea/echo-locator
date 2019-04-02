@@ -7,7 +7,10 @@ export default handleActions(
       return {
         ...state,
         grids: [],
-        networks: []
+        networks: [],
+        page: 0,
+        showDetails: false,
+        showFavorites: false
       }
     },
     'set grid' (state, action) {
@@ -82,6 +85,12 @@ export default handleActions(
         origin: action.payload
       }
     },
+    'set page' (state, action) {
+      return {
+        ...state,
+        page: action.payload
+      }
+    },
     'set profile loading' (state, action) {
       return {
         ...state,
@@ -101,6 +110,12 @@ export default handleActions(
         ...state,
         showDetails: !!action.payload
       }
+    },
+    'set show favorites' (state, action) {
+      return {
+        ...state,
+        showFavorites: !!action.payload
+      }
     }
   },
   {
@@ -108,8 +123,10 @@ export default handleActions(
     networks: [],
     neighborhoods: {},
     neighborhoodBounds: {},
+    page: 0,
     profileLoading: true,
     showDetails: false,
+    showFavorites: false,
     userProfile: null
   }
 )

@@ -14,6 +14,7 @@ import {updateStartPosition} from './location'
 import {addActionLogItem as logItem, logError} from './log'
 import {updateMap} from './map'
 import {loadDataFromJSON} from './json-data'
+import {setPage} from './neighborhood'
 
 export const setNetwork = (payload: any) => ({type: 'set network', payload})
 export const setActiveNetwork = (payload: string) => ({
@@ -126,6 +127,9 @@ export const loadDataset = (
   // Load neighborhood GeoJSON files
   dispatch(loadDataFromJSON('assets/neighborhoods.json', 'set neighborhoods'))
   dispatch(loadDataFromJSON('assets/neighborhood_bounds.json', 'set neighborhood bounds'))
+
+  // Start on first page of neighborhoods
+  dispatch(setPage(0))
 
   // Log loading networks
   dispatch(logItem(
