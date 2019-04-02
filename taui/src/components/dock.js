@@ -269,7 +269,9 @@ export default class Dock extends PureComponent<Props> {
             onClick={backFromDetails}
           >
             <Icon type='chevron-circle-left' />
-            {message('Dock.GoBackFromDetails')}
+            {showFavorites
+              ? message('Dock.GoBackToFavorites')
+              : message('Dock.GoBackToRecommendations')}
           </button>
         </nav>
         <NeighborhoodDetails

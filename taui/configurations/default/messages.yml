@@ -33,7 +33,8 @@ Map:
     ClearMarkers: Clear markers
 Dock:
   Favorites: Saved recommendations
-  GoBackFromDetails: Back to recommendations
+  GoBackToRecommendations: Back to recommendations
+  GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
   GoNextPage: Show more
   NoResults: No results
