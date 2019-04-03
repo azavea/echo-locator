@@ -4914,7 +4914,7 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
-focus-visible@^4.1.5:
+focus-visible@~4.1.5:
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/focus-visible/-/focus-visible-4.1.5.tgz#50b44e2e84c24b831ceca3cce84d57c2b311c855"
   integrity sha512-yo/njtk/BB4Z2euzaZe3CZrg4u5s5uEi7ZwbHBJS2quHx51N0mmcx9nTIiImUGlgy+vf26d0CcQluahBBBL/Fw==
@@ -5115,6 +5115,11 @@ gentle-fs@^2.0.0, gentle-fs@^2.0.1:
     path-is-inside "^1.0.2"
     read-cmd-shim "^1.0.1"
     slide "^1.1.6"
+
+geojson-bbox@~0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/geojson-bbox/-/geojson-bbox-0.0.0.tgz#ea07fb62610ccc299879601a55ba884139bc1be8"
+  integrity sha1-6gf7YmEMzCmYeWAaVbqIQTm8G+g=
 
 get-assigned-identifiers@^1.2.0:
   version "1.2.0"

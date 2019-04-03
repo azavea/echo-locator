@@ -24,6 +24,7 @@ type Network = {
 }
 
 type MapState = {
+  bounds: any[],
   centerCoordinates: Coordinate,
   zoom: number
 }
@@ -60,6 +61,7 @@ type Props = {
   loadProfile: Function => any,
   map: MapState,
   neighborhoodBounds: any,
+  neighborhoodBoundsExtent: any[],
   neighborhoodRoutes: any,
   neighborhoodTravelTimes: any,
   neighborhoods: any,

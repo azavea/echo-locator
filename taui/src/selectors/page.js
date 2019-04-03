@@ -1,9 +1,10 @@
 // @flow
+import get from 'lodash/get'
 import {createSelector} from 'reselect'
 
 export default createSelector(
-  state => state.data.page,
+  state => get(state, 'data.page', 0),
   page => {
-    return page || 0
+    return page
   }
 )

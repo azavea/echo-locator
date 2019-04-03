@@ -116,6 +116,8 @@ export default class Map extends PureComponent<Props, State> {
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
+      // Toggle `showDetails` off first to zoom to route on switching detail views
+      this.props.setShowDetails(false)
       this.props.setActiveNeighborhood(feature.properties.id)
       this.props.setShowDetails(true)
     } else {
@@ -203,12 +205,14 @@ export default class Map extends PureComponent<Props, State> {
       : null
 
     return (
-      <LeafletMap
+      p.neighborhoodBounds ? <LeafletMap
+        bounds={p.neighborhoodBoundsExtent}
         center={p.centerCoordinates}
         className='Taui-Map map'
         onZoomend={this._setZoom}
         zoom={p.zoom}
         onClick={this._onMapClick}
+        ref='map'
         zoomControl={false}
       >
         <ZoomControl position='topright' />
@@ -229,7 +233,10 @@ export default class Map extends PureComponent<Props, State> {
         {p.showRoutes && p.drawRoutes.map(drawRoute =>
           <DrawRoute
             {...drawRoute}
+            activeNeighborhood={p.activeNeighborhood}
             key={`draw-routes-${drawRoute.id}-${this._getKey()}`}
+            neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
+            showDetails={p.showDetails}
             zIndex={getZIndex()}
           />)}
 
@@ -283,7 +290,7 @@ export default class Map extends PureComponent<Props, State> {
               position={lonlat.toLeaflet(other.geometry.coordinates)}
               zIndex={getZIndex()}
             />)}
-      </LeafletMap>
+      </LeafletMap> : null
     )
   }
   /* eslint complexity: 1 */
