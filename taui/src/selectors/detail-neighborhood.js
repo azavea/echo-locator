@@ -4,12 +4,12 @@ import {createSelector} from 'reselect'
 
 import getNeighborhoodById from '../utils/get-neighborhood'
 
-import listNeighborhoods from './list-neighborhoods'
+import neighborhoodsSortedWithRoutes from './neighborhoods-sorted-with-routes'
 
 // Returns current active neighborhood
 export default createSelector(
   state => get(state, 'data.activeNeighborhood'),
-  listNeighborhoods,
+  neighborhoodsSortedWithRoutes,
   (activeNeighborhood, neighborhoods) => {
     return neighborhoods && getNeighborhoodById(neighborhoods, activeNeighborhood)
   }
