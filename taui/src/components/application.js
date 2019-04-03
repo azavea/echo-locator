@@ -24,6 +24,7 @@ type Network = {
 }
 
 type MapState = {
+  bounds: any[],
   centerCoordinates: Coordinate,
   zoom: number
 }

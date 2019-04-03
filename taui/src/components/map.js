@@ -212,6 +212,7 @@ export default class Map extends PureComponent<Props, State> {
         onZoomend={this._setZoom}
         zoom={p.zoom}
         onClick={this._onMapClick}
+        ref='map'
         zoomControl={false}
       >
         <ZoomControl position='topright' />
@@ -234,6 +235,7 @@ export default class Map extends PureComponent<Props, State> {
             {...drawRoute}
             activeNeighborhood={p.activeNeighborhood}
             key={`draw-routes-${drawRoute.id}-${this._getKey()}`}
+            neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
             showDetails={p.showDetails}
             zIndex={getZIndex()}
           />)}
