@@ -60,6 +60,7 @@ type Props = {
   loadProfile: Function => any,
   map: MapState,
   neighborhoodBounds: any,
+  neighborhoodBoundsExtent: any[],
   neighborhoodRoutes: any,
   neighborhoodTravelTimes: any,
   neighborhoods: any,
