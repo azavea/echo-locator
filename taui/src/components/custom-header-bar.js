@@ -41,7 +41,7 @@ export default class CustomHeaderBar extends Greetings {
     const signedIn = (authState === 'signedIn')
     if (!signedIn) { return null }
     const userProfile: AccountProfile = this.props.userProfile || this.state.userProfile
-    const isAnonymous = !userProfile || userProfile.key === ANONYMOUS_USERNAME
+    const isAnonymous = userProfile && userProfile.key === ANONYMOUS_USERNAME
     const signIn = this.signIn
     const theme = this.props.theme
 
