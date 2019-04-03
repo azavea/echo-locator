@@ -1,7 +1,11 @@
 // @flow
-// Returns a link to Google Maps with the given search term
-// See: https://developers.google.com/maps/documentation/urls/guide#directions-action
-const GOOGLE_BASE_URL = 'https://www.google.com/maps/search/?api=1&query='
-export default function getGoogleDirectionsLink (query) {
-  return GOOGLE_BASE_URL + encodeURIComponent(query)
+// Returns a link to Google Directions.
+// https://developers.google.com/maps/documentation/urls/guide#directions-action
+const GOOGLE_DIRECTIONS_BASE_URL = 'https://www.google.com/maps/dir/?api=1'
+export default function getGoogleDirectionsLink (origin, destination, isDriving) {
+  const travelmode = isDriving ? 'driving' : 'transit'
+  return GOOGLE_DIRECTIONS_BASE_URL +
+    ('&travelmode=' + encodeURIComponent(travelmode)) +
+    (origin ? '&origin=' + origin : '') +
+    (destination ? '&destination=' + destination : '')
 }

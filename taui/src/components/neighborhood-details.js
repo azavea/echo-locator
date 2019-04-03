@@ -5,8 +5,8 @@ import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
 import type {AccountProfile, NeighborhoodLabels} from '../types'
-import getGoogleSearchLink from '../utils/google-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
+import getGoogleSearchLink from '../utils/google-search-link'
 import getNeighborhoodPropertyLabels from '../utils/neighborhood-properties'
 
 import RouteSegments from './route-segments'
@@ -49,7 +49,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     // Look up the currently selected user profile destination from the origin
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
-
     const labels: NeighborhoodLabels = getNeighborhoodPropertyLabels(neighborhood.properties)
     const { id, town } = neighborhood.properties
     const { time } = neighborhood
@@ -61,6 +60,11 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const overallScore = neighborhood.score
       ? neighborhood.score.toLocaleString('en-US', {style: 'percent'})
       : message('UnknownValue')
+
+    // lat,lon strings for Google Directions link from neighborhood to current destination
+    const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
+    const originCoordinateString = neighborhood.geometry.coordinates[1] +
+      ',' + neighborhood.geometry.coordinates[0]
 
     return (
       <div className='neighborhood-details'>
@@ -132,7 +136,10 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           </a>
           <a
             className='neighborhood-details__link'
-            href={getGoogleDirectionsLink(id)}
+            href={getGoogleDirectionsLink(
+              originCoordinateString,
+              destinationCoordinateString,
+              hasVehicle)}
             target='_blank'
           >
             {message('NeighborhoodDetails.GoogleMapsLink')}
