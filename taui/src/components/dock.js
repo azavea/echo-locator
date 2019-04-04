@@ -13,11 +13,18 @@ import RouteCard from './route-card'
 
 type Props = {
   activeNetworkIndex: number,
+  detailNeighborhood: any,
+  endingOffset: number,
+  haveAnotherPage: boolean,
   isLoading: boolean,
+  neighborhoodPage: any[],
   neighborhoodRoutes: any,
   neighborhoods: Array<PointFeature>,
-  showSpinner: boolean,
-  travelTimes: number[]
+  origin: any,
+  page: number,
+  showDetails: boolean,
+  showFavorites: boolean,
+  userProfile: AccountProfile
 }
 
 /**

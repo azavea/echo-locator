@@ -37,10 +37,72 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     }
   }
 
+  neighborhoodDetailsTable (props) {
+    const { neighborhood } = props
+    const labels: NeighborhoodLabels = getNeighborhoodPropertyLabels(neighborhood.properties)
+
+    // Overall score is a derived value and not a neighborhood property (so not in `labels`).
+    const overallScore = neighborhood.score
+      ? neighborhood.score.toLocaleString('en-US', {style: 'percent'})
+      : message('UnknownValue')
+
+    return (
+      <table className='neighborhood-details__facts'>
+        <tbody>
+          <tr className='neighborhood-details__row'>
+            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Score')}:</td>
+            <td className='neighborhood-details__cell'>{overallScore}</td>
+          </tr>
+          <tr className='neighborhood-details__row'>
+            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Affordability')}:</td>
+            <td className='neighborhood-details__cell'>{labels.affordability}</td>
+          </tr>
+          <tr className='neighborhood-details__row'>
+            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.ViolentCrime')}:</td>
+            <td className='neighborhood-details__cell'>{labels.violentCrime}</td>
+          </tr>
+          <tr className='neighborhood-details__row'>
+            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.EducationCategory')}:</td>
+            <td className='neighborhood-details__cell'>{labels.education}</td>
+          </tr>
+          <tr className='neighborhood-details__row'>
+            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.EducationPercentile')}:</td>
+            <td className='neighborhood-details__cell'>{labels.educationPercentile}</td>
+          </tr>
+          <tr className='neighborhood-details__row'>
+            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Population')}:</td>
+            <td className='neighborhood-details__cell'>{labels.population}</td>
+          </tr>
+          <tr className='neighborhood-details__row'>
+            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.PercentCollegeGraduates')}:</td>
+            <td className='neighborhood-details__cell'>{labels.percentCollegeGraduates}</td>
+          </tr>
+          <tr className='neighborhood-details__row'>
+            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.HasTransitStop')}:</td>
+            <td className='neighborhood-details__cell'>{labels.hasTransitStop}</td>
+          </tr>
+          <tr className='neighborhood-details__row'>
+            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearTransit')}:</td>
+            <td className='neighborhood-details__cell'>{labels.nearTransitStop}</td>
+          </tr>
+          <tr className='neighborhood-details__row'>
+            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearRailStation')}:</td>
+            <td className='neighborhood-details__cell'>{labels.nearRailStation}</td>
+          </tr>
+          <tr className='neighborhood-details__row'>
+            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearPark')}:</td>
+            <td className='neighborhood-details__cell'>{labels.nearPark}</td>
+          </tr>
+        </tbody>
+      </table>
+    )
+  }
+
   render () {
     const { changeUserProfile, neighborhood, origin, setFavorite, userProfile } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
+    const NeighborhoodDetailsTable = this.neighborhoodDetailsTable
 
     if (!neighborhood || !userProfile) {
       return null
@@ -49,17 +111,10 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     // Look up the currently selected user profile destination from the origin
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
-    const labels: NeighborhoodLabels = getNeighborhoodPropertyLabels(neighborhood.properties)
     const { id, town } = neighborhood.properties
-    const { time } = neighborhood
 
     const bestJourney = neighborhood.segments && neighborhood.segments.length
       ? neighborhood.segments[0] : null
-
-    // Overall score is a derived value and not a neighborhood property (so not in `labels`).
-    const overallScore = neighborhood.score
-      ? neighborhood.score.toLocaleString('en-US', {style: 'percent'})
-      : message('UnknownValue')
 
     // lat,lon strings for Google Directions link from neighborhood to current destination
     const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
@@ -77,18 +132,18 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           {town} &ndash; {id}
           <Icon className='neighborhood-details__marker' type='map-marker' />
         </header>
-        <div className='neighborhood-details__trip'>
-          {Math.round(time)}&nbsp;
+        {!hasVehicle && <div className='neighborhood-details__trip'>
+          {Math.round(neighborhood.time)}&nbsp;
           {message('Units.Mins')}&nbsp;
           <ModesList segments={bestJourney} />&nbsp;
           {message('NeighborhoodDetails.FromOrigin')}&nbsp;
           {currentDestination && currentDestination.purpose.toLowerCase()}
-        </div>
-        <RouteSegments
+        </div>}
+        {hasVehicle && <RouteSegments
           hasVehicle={hasVehicle}
           routeSegments={neighborhood.segments}
           travelTime={neighborhood.time}
-        />
+        />}
         <div className='neighborhood-details__images'>
           <img
             className='neighborhood-details__image'
@@ -145,54 +200,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             {message('NeighborhoodDetails.GoogleMapsLink')}
           </a>
         </div>
-        <table className='neighborhood-details__facts'>
-          <tbody>
-            <tr className='neighborhood-details__row'>
-              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Score')}:</td>
-              <td className='neighborhood-details__cell'>{overallScore}</td>
-            </tr>
-            <tr className='neighborhood-details__row'>
-              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Affordability')}:</td>
-              <td className='neighborhood-details__cell'>{labels.affordability}</td>
-            </tr>
-            <tr className='neighborhood-details__row'>
-              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.ViolentCrime')}:</td>
-              <td className='neighborhood-details__cell'>{labels.violentCrime}</td>
-            </tr>
-            <tr className='neighborhood-details__row'>
-              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.EducationCategory')}:</td>
-              <td className='neighborhood-details__cell'>{labels.education}</td>
-            </tr>
-            <tr className='neighborhood-details__row'>
-              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.EducationPercentile')}:</td>
-              <td className='neighborhood-details__cell'>{labels.educationPercentile}</td>
-            </tr>
-            <tr className='neighborhood-details__row'>
-              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Population')}:</td>
-              <td className='neighborhood-details__cell'>{labels.population}</td>
-            </tr>
-            <tr className='neighborhood-details__row'>
-              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.PercentCollegeGraduates')}:</td>
-              <td className='neighborhood-details__cell'>{labels.percentCollegeGraduates}</td>
-            </tr>
-            <tr className='neighborhood-details__row'>
-              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.HasTransitStop')}:</td>
-              <td className='neighborhood-details__cell'>{labels.hasTransitStop}</td>
-            </tr>
-            <tr className='neighborhood-details__row'>
-              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearTransit')}:</td>
-              <td className='neighborhood-details__cell'>{labels.nearTransitStop}</td>
-            </tr>
-            <tr className='neighborhood-details__row'>
-              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearRailStation')}:</td>
-              <td className='neighborhood-details__cell'>{labels.nearRailStation}</td>
-            </tr>
-            <tr className='neighborhood-details__row'>
-              <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearPark')}:</td>
-              <td className='neighborhood-details__cell'>{labels.nearPark}</td>
-            </tr>
-          </tbody>
-        </table>
+        <NeighborhoodDetailsTable neighborhood={neighborhood} />
       </div>
     )
   }

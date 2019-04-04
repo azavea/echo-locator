@@ -63,9 +63,9 @@ export default class RouteCard extends React.PureComponent<Props> {
               alt=''
             />
             <div className='neighborhood-summary__trip'>
-              <div className='neighborhood-summary__duration'>
+              {!userProfile.hasVehicle && <div className='neighborhood-summary__duration'>
                 {Math.round(time)} {message('Units.Mins')}
-              </div>
+              </div>}
               <div className='neighborhood-summary__trajectory'>
                 <span className='neighborhood-summary__mode'>
                   {message(modeKey)}
