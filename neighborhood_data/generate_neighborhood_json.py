@@ -16,6 +16,7 @@ import fiona
 from fiona.crs import from_epsg
 
 NEIGHBORHOOD_CSV = 'neighborhood_centroids.csv'
+DESCRIPTIONS_CSV = 'neighborhood_descriptions.csv'
 OUTPUT_FILE = 'neighborhoods.json'
 
 # Columns to treat as text in the input CSV; all others assumed to be floats.
@@ -50,6 +51,30 @@ if not os.path.isfile(NEIGHBORHOOD_CSV):
                   os.strerror(errno.ENOENT),
                   NEIGHBORHOOD_CSV)
 
+if not os.path.isfile(DESCRIPTIONS_CSV):
+    print('\nMissing neighborhood images and descriptions in {f}.\n\n'.format(
+        f=DESCRIPTIONS_CSV))
+    raise IOError(errno.ENOENT,
+                  os.strerror(errno.ENOENT),
+                  DESCRIPTIONS_CSV)
+
+# Read CSV of descriptions and images, keyed by zip code.
+# Fields in DESCRIPTIONS_CSV:
+# zip_code,town,town_website_description,town_link,wikipedia,wikipedia_link,street,school,
+# town_square,open_space_or_landmark,extra
+descriptions_zips = {}
+with open(DESCRIPTIONS_CSV) as df:
+    rdr = csv.DictReader(df)
+    fieldnames = list(rdr.fieldnames)
+    fieldnames.remove('zip_code')
+    for row in rdr:
+        zipcode = row['zip_code'].zfill(5)
+        row.pop('zip_code')
+        descriptions_zips[zipcode] = row
+
+description_columns = OrderedDict((field, 'str') for field in fieldnames)
+description_columns.update(COLUMNS)
+
 with open(NEIGHBORHOOD_CSV) as inf:
         rdr = csv.DictReader(inf)
 
@@ -62,7 +87,7 @@ with open(NEIGHBORHOOD_CSV) as inf:
         schema = {
             'id': 'str',
             'geometry': 'Point',
-            'properties': COLUMNS
+            'properties': description_columns
         }
 
         with fiona.open(OUTPUT_FILE, 'w', driver='GeoJSON', schema=schema,
@@ -95,6 +120,15 @@ with open(NEIGHBORHOOD_CSV) as inf:
                         properties[field] = int(val)
                     else:
                         properties[field] = str(val)
+
+                description = descriptions_zips.get(zipcode)
+                if not description:
+                    raise ValueError(
+                        'Missing description for {z}.'.format(z=zipcode))
+                else:
+                    # append description and image fields to the propertiess
+                    for fld in description:
+                        properties[fld] = str(description[fld])
 
                 neighborhood = {
                     'id': zipcode,
