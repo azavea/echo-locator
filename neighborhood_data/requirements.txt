@@ -1,5 +1,4 @@
 fiona
 shapely
 requests
-urllib
 
