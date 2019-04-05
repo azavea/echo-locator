@@ -16,7 +16,7 @@ import fiona
 from fiona.crs import from_epsg
 
 NEIGHBORHOOD_CSV = 'neighborhood_centroids.csv'
-DESCRIPTIONS_CSV = 'neighborhood_descriptions.csv'
+DESCRIPTIONS_CSV = 'neighborhood_extended_descriptions.csv'
 OUTPUT_FILE = 'neighborhoods.json'
 
 # Columns to treat as text in the input CSV; all others assumed to be floats.
@@ -52,7 +52,7 @@ if not os.path.isfile(NEIGHBORHOOD_CSV):
                   NEIGHBORHOOD_CSV)
 
 if not os.path.isfile(DESCRIPTIONS_CSV):
-    print('\nMissing neighborhood images and descriptions in {f}.\n\n'.format(
+    print('\nFirst run fetch_images.py to generate {f}.\n\n'.format(
         f=DESCRIPTIONS_CSV))
     raise IOError(errno.ENOENT,
                   os.strerror(errno.ENOENT),
