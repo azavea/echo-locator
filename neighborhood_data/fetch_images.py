@@ -9,9 +9,13 @@ import csv
 import errno
 import os
 import requests
+import urllib
 
 DESCRIPTIONS_CSV = 'neighborhood_descriptions.csv'
 OUTPUT_FILE = 'neighborhood_extended_descriptions.csv'
+STATUS_FILE = 'image_status.csv'
+
+STATUS_FIELDS = ['zipcode', 'source_field', 'url', 'issue']
 
 if not os.path.isfile(DESCRIPTIONS_CSV):
     print('\nMissing neighborhood images and descriptions in {f}.\n\n'.format(
@@ -35,7 +39,7 @@ METADATA_URL = 'https://en.wikipedia.org/w/api.php'
 
 
 def get_image_metadata(url, type):
-    print('Get metadata for image {u} of type {t}...\n'.format(u=url, t=type))
+    print('Get metadata for image {u} of type {t}...'.format(u=url, t=type))
     offset = url.find('File:')
 
     wiki_offset = url.find('wikimedia.org')
@@ -47,7 +51,7 @@ def get_image_metadata(url, type):
     elif offset == -1 and wiki_offset > -1:
         # Read out end of URL path to get the file name
         offset = url.rfind('/')
-        if url.lower().endswith('.jpg'):
+        if url.lower().endswith('.jpg') or url.lower().endswith('.png'):
             # Have a Wikipedia image link, but without File: prepended.
             # Strip any translated File: prefix, then prepend File: to look up
             # from English metadata API
@@ -58,32 +62,36 @@ def get_image_metadata(url, type):
             filename = 'File:' + endpath
         else:
             print('Wikipedia article link: {u}'.format(u=url))
-            return
+            return {'error': 'Not a link to an image file'}
     else:
         print('URL {u} of type {t} has no Wikipedia File reference.\n'.format(
             u=url, t=type))
-        return
+        return {'error': 'Not a link to a Wikipedia file reference'}
 
+    query_url = '{meta}?titles={title}'.format(meta=METADATA_URL, title=urllib.unquote(filename))
     params = {
         'action': 'query',
         'prop': 'imageinfo',
         'iiprop': 'user|userid|extmetadata|url',
         'iiurlwidth': '120',
         'iiurlheight': '90',
-        'format': 'json',
-        'titles': filename
+        'format': 'json'
     }
-    r = requests.get(METADATA_URL, params=params)
+    r = requests.get(query_url, params=params)
     if not r.ok:
         print('request failed!')
-        return
+        return {'error': 'Request for Wikipedia metadata failed'}
     resp = r.json()
     page = resp['query']['pages'].keys()[0]
-
     imageinfo = (resp['query']['pages'][page]['imageinfo'][0]
                  if 'imageinfo' in resp['query']['pages'][page] else '')
     if not imageinfo:
-        print('Got no imageinfo for {u}'.format(u=url))
+        print('\nGot no imageinfo for {u}. Full response:'.format(u=url))
+        print(resp)
+        print('\n\n')
+        invalidreason = resp['query']['pages'][page].get('invalidreason', '')
+        return {'error': 'Could not get Wikipedia metadata. API reason: {invalid}'.format(
+            invalid=invalidreason)}
     metadata = imageinfo['extmetadata'] if imageinfo else ''
     username = imageinfo['user'] if imageinfo else ''
     thumbnail = imageinfo['thumburl'] if imageinfo else ''
@@ -104,7 +112,7 @@ def get_image_metadata(url, type):
 
 def get_image_metadata_fields(fld, data):
     extended = {}
-    if not data:
+    if not data or 'error' in data:
         for f in IMAGE_METADATA_FIELDS:
             extended['{field}_{key}'.format(field=fld, key=f)] = ''
     else:
@@ -156,35 +164,47 @@ for img in IMAGE_FIELDS:
 good_urls = bad_urls = missing_urls = 0
 downloaded_images = failed_downloads = skipped_downloads = 0
 
+# ['zipcode', 'source_field', 'url', 'issue']
+
 with open(OUTPUT_FILE, 'w') as outf:
     wtr = csv.DictWriter(outf, fieldnames=extended_fieldnames)
     wtr.writeheader()
-    for row in descriptions:
-        zipcode = row['zip_code'].zfill(5)
-        print('\n\nProcessing {zip}...'.format(zip=zipcode))
-        extended_row = row
-        for fld in IMAGE_FIELDS:
-            url = row[fld]
-            metadata = None
-            if url:
-                metadata = get_image_metadata(url, fld)
-                if not metadata or not metadata['thumbnail']:
-                    bad_urls += 1
-                else:
-                    good_urls += 1
-                    thumb = metadata['thumbnail']
-                    filename = get_image_filename(zipcode, fld, thumb)
-                    exists = os.path.isfile(filename)
-                    if exists:
-                        skipped_downloads += 1
-                    elif download_image(thumb, filename):
-                        downloaded_images += 1
+    with open(STATUS_FILE, 'w') as statusf:
+        status_wtr = csv.DictWriter(statusf, fieldnames=STATUS_FIELDS)
+        status_wtr.writeheader()
+        for row in descriptions:
+            zipcode = row['zip_code'].zfill(5)
+            print('Processing {zip}...'.format(zip=zipcode))
+            extended_row = row
+            for fld in IMAGE_FIELDS:
+                url = row[fld]
+                metadata = None
+                if url:
+                    metadata = get_image_metadata(url, fld)
+                    if not metadata or 'error' in metadata:
+                        bad_urls += 1
+                        status_wtr.writerow({
+                            'zipcode': zipcode,
+                            'source_field': fld,
+                            'url': url,
+                            'issue': metadata.get('error',
+                                                  'Failed to fetch metadata for attribution')
+                        })
                     else:
-                        failed_downloads += 1
-            else:
-                missing_urls += 1
-            extended_row.update(get_image_metadata_fields(fld, metadata))
-        wtr.writerow(extended_row)
+                        good_urls += 1
+                        thumb = metadata['thumbnail']
+                        filename = get_image_filename(zipcode, fld, thumb)
+                        exists = os.path.isfile(filename)
+                        if exists:
+                            skipped_downloads += 1
+                        elif download_image(thumb, filename):
+                            downloaded_images += 1
+                        else:
+                            failed_downloads += 1
+                else:
+                    missing_urls += 1
+                extended_row.update(get_image_metadata_fields(fld, metadata))
+            wtr.writerow(extended_row)
 
 print('Good: {g} Bad: {b} Missing: {m}'.format(g=good_urls,
                                                b=bad_urls,

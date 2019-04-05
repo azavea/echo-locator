@@ -1,5 +1,6 @@
 images/*
 zctas/*
+image_status.csv
 neighborhood_bounds.json
 neighborhoods.json
 
