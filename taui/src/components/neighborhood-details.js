@@ -31,6 +31,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     this.neighborhoodDetailsTable = this.neighborhoodDetailsTable.bind(this)
     this.neighborhoodImage = this.neighborhoodImage.bind(this)
     this.neighborhoodImages = this.neighborhoodImages.bind(this)
+    this.neighborhoodLinks = this.neighborhoodLinks.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -168,12 +169,57 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     )
   }
 
+  neighborhoodLinks (props) {
+    const { hasVehicle, neighborhood, origin } = this.props
+    // lat,lon strings for Google Directions link from neighborhood to current destination
+    const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
+    const originCoordinateString = neighborhood.geometry.coordinates[1] +
+      ',' + neighborhood.geometry.coordinates[0]
+
+    return (
+      <div className='neighborhood-details__links'>
+        {neighborhood.properties.town_link && <a
+          className='neighborhood-details__link'
+          href={neighborhood.properties.town_link}
+          target='_blank'
+        >
+          {message('NeighborhoodDetails.WebsiteLink')}
+        </a>}
+        {neighborhood.properties.wikipedia_link && <a
+          className='neighborhood-details__link'
+          href={neighborhood.properties.wikipedia_link}
+          target='_blank'
+        >
+          {message('NeighborhoodDetails.WikipediaLink')}
+        </a>}
+        <a
+          className='neighborhood-details__link'
+          href={getGoogleSearchLink(neighborhood.properties.id)}
+          target='_blank'
+        >
+          {message('NeighborhoodDetails.GoogleSearchLink')}
+        </a>
+        <a
+          className='neighborhood-details__link'
+          href={getGoogleDirectionsLink(
+            originCoordinateString,
+            destinationCoordinateString,
+            hasVehicle)}
+          target='_blank'
+        >
+          {message('NeighborhoodDetails.GoogleMapsLink')}
+        </a>
+      </div>
+    )
+  }
+
   render () {
     const { changeUserProfile, neighborhood, origin, setFavorite, userProfile } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodDetailsTable = this.neighborhoodDetailsTable
     const NeighborhoodImages = this.neighborhoodImages
+    const NeighborhoodLinks = this.neighborhoodLinks
 
     if (!neighborhood || !userProfile) {
       return null
@@ -182,15 +228,10 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     // Look up the currently selected user profile destination from the origin
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
-    const { id, town } = neighborhood.properties
+    const { id, town, wikipedia } = neighborhood.properties
 
     const bestJourney = neighborhood.segments && neighborhood.segments.length
       ? neighborhood.segments[0] : null
-
-    // lat,lon strings for Google Directions link from neighborhood to current destination
-    const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
-    const originCoordinateString = neighborhood.geometry.coordinates[1] +
-      ',' + neighborhood.geometry.coordinates[0]
 
     return (
       <div className='neighborhood-details'>
@@ -217,41 +258,12 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         />}
         <NeighborhoodImages neighborhood={neighborhood} />
         <div className='neighborhood-details__desc'>
-          Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+          {wikipedia}
         </div>
-        <div className='neighborhood-details__links'>
-          <a
-            className='neighborhood-details__link'
-            href=''
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.WebsiteLink')}
-          </a>
-          <a
-            className='neighborhood-details__link'
-            href=''
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.WikipediaLink')}
-          </a>
-          <a
-            className='neighborhood-details__link'
-            href={getGoogleSearchLink(id)}
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.GoogleSearchLink')}
-          </a>
-          <a
-            className='neighborhood-details__link'
-            href={getGoogleDirectionsLink(
-              originCoordinateString,
-              destinationCoordinateString,
-              hasVehicle)}
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.GoogleMapsLink')}
-          </a>
-        </div>
+        <NeighborhoodLinks
+          hasVehicle={hasVehicle}
+          neighborhood={neighborhood}
+          origin={origin} />
         <NeighborhoodDetailsTable neighborhood={neighborhood} />
       </div>
     )

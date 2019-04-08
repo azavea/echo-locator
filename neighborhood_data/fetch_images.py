@@ -92,9 +92,9 @@ def get_image_metadata(url, type):
         invalidreason = resp['query']['pages'][page].get('invalidreason', '')
         return {'error': 'Could not get Wikipedia metadata. API reason: {invalid}'.format(
             invalid=invalidreason)}
-    metadata = imageinfo['extmetadata'] if imageinfo else ''
-    username = imageinfo['user'] if imageinfo else ''
-    thumbnail = imageinfo['thumburl'] if imageinfo else ''
+    metadata = imageinfo['extmetadata']
+    username = imageinfo['user']
+    thumbnail = imageinfo['thumburl']
     artist = metadata['Artist']['value'] if 'Artist' in metadata else ''
     license_name = metadata['LicenseShortName']['value'] if 'LicenseShortName' in metadata else ''
     license_url = (metadata['LicenseUrl']['value']
