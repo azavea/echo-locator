@@ -14,6 +14,61 @@ type Props = {
 }
 
 export default class RouteCard extends React.PureComponent<Props> {
+  constructor (props) {
+    super(props)
+    this.summaryImage = this.summaryImage.bind(this)
+  }
+
+  summaryImage (props) {
+    const nprops = props.nprops
+
+    // Look for an available image to use as the summary
+    let imageField = nprops['town_square_thumbnail'] ? 'town_square' : null
+    if (!imageField) {
+      imageField = nprops['open_space_or_landmark_thumbnail'] ? 'open_space_or_landmark' : null
+    }
+    if (!imageField) {
+      imageField = nprops['school_thumbnail'] ? 'school' : null
+    }
+    if (!imageField) {
+      imageField = 'street'
+    }
+
+    if (!imageField) {
+      return null // Have no summary image available
+    }
+
+    const description = nprops[imageField + '_description']
+    const license = nprops[imageField + '_license']
+    const licenseUrl = nprops[imageField + '_license_url']
+    const imageLink = nprops[imageField]
+    const thumbnail = nprops[imageField + '_thumbnail']
+    const userName = nprops[imageField + '_username']
+
+    if (!thumbnail) {
+      return null
+    }
+
+    // Build the attribution text to display on hover
+    let attrText = userName + ' [' + license
+    if (licenseUrl) {
+      attrText += ' (' + licenseUrl + ')'
+    }
+    attrText += '], ' + message('NeighborhoodDetails.WikipediaAttribution')
+
+    return (
+      <a
+        className='neighborhood-summary__image'
+        target='_blank'
+        title={attrText}
+        href={imageLink}>
+        <img
+          alt={description}
+          src={thumbnail} />
+      </a>
+    )
+  }
+
   render () {
     const {
       isFavorite,
@@ -34,6 +89,8 @@ export default class RouteCard extends React.PureComponent<Props> {
     const modeKey = userProfile.hasVehicle
       ? 'NeighborhoodDetails.DriveMode'
       : 'NeighborhoodDetails.TransitMode'
+
+    const SummaryImage = this.summaryImage
 
     return (
       <div
@@ -56,12 +113,7 @@ export default class RouteCard extends React.PureComponent<Props> {
         </header>
         <div className='neighborhood-summary__contents'>
           <div className='neighborhood-summary__descriptive'>
-            <img
-              className='neighborhood-summary__image'
-              src='https://via.placeholder.com/120x90'
-              width='120'
-              alt=''
-            />
+            <SummaryImage nprops={neighborhood.properties} />
             <div className='neighborhood-summary__trip'>
               {!userProfile.hasVehicle && <div className='neighborhood-summary__duration'>
                 {Math.round(time)} {message('Units.Mins')}

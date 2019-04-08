@@ -46,6 +46,7 @@ NeighborhoodDetails:
   TransitMode: transit
   FromOrigin: from
   WebsiteLink: Official site
+  WikipediaAttribution: via Wikimedia Commons
   WikipediaLink: Wikipedia
   GoogleSearchLink: Google
   GoogleMapsLink: Google Maps

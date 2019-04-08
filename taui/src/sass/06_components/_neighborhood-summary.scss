@@ -45,6 +45,11 @@
 
   &__image {
     width: 12rem;
+
+    img {
+      width: 120px;
+      height: 90px;
+    }
   }
 
   &__trip {

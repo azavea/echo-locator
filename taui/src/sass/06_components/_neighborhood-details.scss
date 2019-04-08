@@ -61,6 +61,13 @@
     margin-bottom: 1.6rem;
   }
 
+  &__image {
+    img {
+      width: 110px;
+      height: 83px;
+    }
+  }
+
   &__image:not(:last-of-type) {
     margin-right: 1.6rem;
   }
