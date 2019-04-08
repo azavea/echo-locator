@@ -27,6 +27,10 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       ? props.userProfile.favorites.indexOf(props.neighborhood.properties.id) !== -1
       : false
     }
+
+    this.neighborhoodDetailsTable = this.neighborhoodDetailsTable.bind(this)
+    this.neighborhoodImage = this.neighborhoodImage.bind(this)
+    this.neighborhoodImages = this.neighborhoodImages.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -98,11 +102,78 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     )
   }
 
+  neighborhoodImage (props) {
+    const nprops = props.nprops
+    const imageField = props.imageField
+
+    if (!imageField || !nprops) {
+      console.error('missing data for neighborhood image')
+      return null
+    }
+
+    const description = nprops[imageField + '_description']
+    const license = nprops[imageField + '_license']
+    const licenseUrl = nprops[imageField + '_license_url']
+    const imageLink = nprops[imageField]
+    const thumbnail = nprops[imageField + '_thumbnail']
+    const userName = nprops[imageField + '_username']
+
+    if (!thumbnail) {
+      return null
+    }
+
+    // Build the attribution text to display on hover
+    let attrText = userName + ' [' + license
+    if (licenseUrl) {
+      attrText += ' (' + licenseUrl + ')'
+    }
+    attrText += '], ' + message('NeighborhoodDetails.WikipediaAttribution')
+
+    return (
+      <a
+        className='neighborhood-details__image'
+        target='_blank'
+        title={attrText}
+        href={imageLink}>
+        <img
+          alt={description}
+          src={thumbnail} />
+      </a>
+    )
+  }
+
+  neighborhoodImages (props) {
+    const nprops = props.neighborhood.properties
+    const NeighborhoodImage = this.neighborhoodImage
+
+    // Use street picture if any of the other three images are missing
+    const showStreet = !nprops.open_space_or_landmark_thumbnail ||
+      !nprops.school_thumbnail || !nprops.town_square_thumbnail
+
+    return (
+      <div className='neighborhood-details__images'>
+        {nprops.open_space_or_landmark_thumbnail && <NeighborhoodImage
+          imageField='open_space_or_landmark'
+          nprops={nprops} />}
+        {nprops.school_thumbnail && <NeighborhoodImage
+          imageField='school'
+          nprops={nprops} />}
+        {nprops.town_square_thumbnail && <NeighborhoodImage
+          imageField='town_square'
+          nprops={nprops} />}
+        {showStreet && nprops.street_thumbnail && <NeighborhoodImage
+          imageField='street'
+          nprops={nprops} />}
+      </div>
+    )
+  }
+
   render () {
     const { changeUserProfile, neighborhood, origin, setFavorite, userProfile } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodDetailsTable = this.neighborhoodDetailsTable
+    const NeighborhoodImages = this.neighborhoodImages
 
     if (!neighborhood || !userProfile) {
       return null
@@ -144,26 +215,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           routeSegments={neighborhood.segments}
           travelTime={neighborhood.time}
         />}
-        <div className='neighborhood-details__images'>
-          <img
-            className='neighborhood-details__image'
-            src='https://via.placeholder.com/110x83'
-            width='110'
-            alt=''
-          />
-          <img
-            className='neighborhood-details__image'
-            src='https://via.placeholder.com/110x83'
-            width='110'
-            alt=''
-          />
-          <img
-            className='neighborhood-details__image'
-            src='https://via.placeholder.com/110x83'
-            width='110'
-            alt=''
-          />
-        </div>
+        <NeighborhoodImages neighborhood={neighborhood} />
         <div className='neighborhood-details__desc'>
           Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
         </div>
