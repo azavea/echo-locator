@@ -1,7 +1,6 @@
 cloudfront: E22HN48FLR2YMR
 entries:
   - src/index.js:assets/index.js
-  - src/img/BHAlogo.png:assets/BHAlogo.png
   - config.json:assets/config.json
   - neighborhoods.json:assets/neighborhoods.json
   - neighborhood_bounds.json:assets/neighborhood_bounds.json
