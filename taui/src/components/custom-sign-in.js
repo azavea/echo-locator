@@ -61,6 +61,7 @@ export default class CustomSignIn extends SignIn {
             <FormField theme={theme}>
               <InputLabel>{I18n.get('Username')}</InputLabel>
               <Input
+                data-private
                 autoFocus
                 theme={theme}
                 key='username'
@@ -71,6 +72,7 @@ export default class CustomSignIn extends SignIn {
             <FormField theme={theme}>
               <InputLabel>{I18n.get('Password')}</InputLabel>
               <Input
+                data-private
                 theme={theme}
                 key='password'
                 type='password'
