@@ -12,4 +12,4 @@ cp neighborhoods.json neighborhood_bounds.json ../taui/
 mkdir -p ../taui/assets/neighborhoods/
 cp images/* ../taui/assets/neighborhoods/
 
-echo 'All done updating app data!'
+echo 'All done updating app data! Use scripts/imagepublish to publish the downloaded images.'

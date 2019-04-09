@@ -74,6 +74,15 @@ To run the data processing scripts and copy the output into the app directory:
  - `cd neighborhood_data`
  - `./update_data.sh`
 
+The downloaded thumbnail images need to be deployed separately from the other app data.
+To publish the neighborhood thumbnail images:
+
+```
+`./scripts/imagepublish ENVIRONMENT`
+```
+
+where `ENVIRONMENT` is either `staging` or `production`.
+
 
 ### About the data processing scripts
 
@@ -99,3 +108,5 @@ and will deploy to production on commits to the `master` branch.
 
 For instructions on how to update core infrastructure, see the [README in the
 deployment directory](./deployment/README.md).
+
+Note that the neighborhood thumbnail images are not deployed by CI, but need to be pushed manually after running the data processing script `fetch_images.py` that downloads them. See [the data section](#data) for more information.
