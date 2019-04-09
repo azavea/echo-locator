@@ -52,53 +52,29 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       ? neighborhood.score.toLocaleString('en-US', {style: 'percent'})
       : message('UnknownValue')
 
+    const tableData = [
+      {label: 'NeighborhoodInfo.Score', value: overallScore},
+      {label: 'NeighborhoodInfo.Affordability', value: labels.affordability},
+      {label: 'NeighborhoodInfo.ViolentCrime', value: labels.violentCrime},
+      {label: 'NeighborhoodInfo.EducationCategory', value: labels.education},
+      {label: 'NeighborhoodInfo.EducationPercentile', value: labels.educationPercentile},
+      {label: 'NeighborhoodInfo.Population', value: labels.population},
+      {label: 'NeighborhoodInfo.PercentCollegeGraduates', value: labels.percentCollegeGraduates},
+      {label: 'NeighborhoodInfo.HasTransitStop', value: labels.hasTransitStop},
+      {label: 'NeighborhoodInfo.NearTransit', value: labels.nearTransitStop},
+      {label: 'NeighborhoodInfo.NearRailStation', value: labels.nearRailStation},
+      {label: 'NeighborhoodInfo.NearPark', value: labels.nearPark}
+    ]
+
     return (
       <table className='neighborhood-details__facts'>
         <tbody>
-          <tr className='neighborhood-details__row'>
-            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Score')}:</td>
-            <td className='neighborhood-details__cell'>{overallScore}</td>
-          </tr>
-          <tr className='neighborhood-details__row'>
-            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Affordability')}:</td>
-            <td className='neighborhood-details__cell'>{labels.affordability}</td>
-          </tr>
-          <tr className='neighborhood-details__row'>
-            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.ViolentCrime')}:</td>
-            <td className='neighborhood-details__cell'>{labels.violentCrime}</td>
-          </tr>
-          <tr className='neighborhood-details__row'>
-            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.EducationCategory')}:</td>
-            <td className='neighborhood-details__cell'>{labels.education}</td>
-          </tr>
-          <tr className='neighborhood-details__row'>
-            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.EducationPercentile')}:</td>
-            <td className='neighborhood-details__cell'>{labels.educationPercentile}</td>
-          </tr>
-          <tr className='neighborhood-details__row'>
-            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.Population')}:</td>
-            <td className='neighborhood-details__cell'>{labels.population}</td>
-          </tr>
-          <tr className='neighborhood-details__row'>
-            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.PercentCollegeGraduates')}:</td>
-            <td className='neighborhood-details__cell'>{labels.percentCollegeGraduates}</td>
-          </tr>
-          <tr className='neighborhood-details__row'>
-            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.HasTransitStop')}:</td>
-            <td className='neighborhood-details__cell'>{labels.hasTransitStop}</td>
-          </tr>
-          <tr className='neighborhood-details__row'>
-            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearTransit')}:</td>
-            <td className='neighborhood-details__cell'>{labels.nearTransitStop}</td>
-          </tr>
-          <tr className='neighborhood-details__row'>
-            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearRailStation')}:</td>
-            <td className='neighborhood-details__cell'>{labels.nearRailStation}</td>
-          </tr>
-          <tr className='neighborhood-details__row'>
-            <td className='neighborhood-details__cell'>{message('NeighborhoodInfo.NearPark')}:</td>
-            <td className='neighborhood-details__cell'>{labels.nearPark}</td>
-          </tr>
+          {tableData.map(data => (
+            <tr className='neighborhood-details__row' key={data.label}>
+              <td className='neighborhood-details__cell'>{message(data.label)}:</td>
+              <td className='neighborhood-details__cell'>{data.value}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     )
