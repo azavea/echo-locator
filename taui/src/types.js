@@ -65,7 +65,7 @@ export type AccountProfile = {
 
 /**
  * Neighborhood GeoJSON properties.
- * Should correspond to the column definitions in generate_neighborhood_json.py.
+ * See the column definitions in generate_neighborhood_json.py.
  */
 
 export type NeighborhoodProperties = {
@@ -78,15 +78,20 @@ export type NeighborhoodProperties = {
   near_t_stop: number,
   overall_affordability_quintile: number, // rental affordability
   percentage_college_graduates: number,
+  routable: boolean, // derived property changed with the origin
   town: string, // the label
+  town_link: string,
+  town_website_description: string,
   violentcrime_quintile: number,
+  wikipedia: string,
+  wikipedia_link: string,
   zipcode: string,
   zipcode_population: number
 }
 
 /**
  * Derived, formatted, user-presentable values for `NeighborhoodProperties`
- * calcualted in `utils/neighborhood-properties.js` (all properties but id, zipcode, and town).
+ * calcualted in `utils/neighborhood-properties.js`.
  */
 export type NeighborhoodLabels = {
   affordability: string,
@@ -99,6 +104,19 @@ export type NeighborhoodLabels = {
   percentCollegeGraduates: string,
   population: string,
   violentCrime: string
+}
+
+/**
+ * Neighborhood image metadata derived from `NeighborhoodProperties`
+ */
+export type NeighborhoodImageMetadata = {
+  attribution: string,
+  description: string,
+  imageLink: string,
+  license: string,
+  licenseUrl: string,
+  thumbnail: string,
+  userName: string
 }
 
 /**

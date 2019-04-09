@@ -9,4 +9,7 @@ python generate_neighborhood_json.py
 
 cp neighborhoods.json neighborhood_bounds.json ../taui/
 
-echo 'All done updating app data!'
+mkdir -p ../taui/assets/neighborhoods/
+cp images/* ../taui/assets/neighborhoods/
+
+echo 'All done updating app data! Use scripts/imagepublish to publish the downloaded images.'

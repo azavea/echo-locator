@@ -277,6 +277,7 @@ export default class EditProfile extends PureComponent<Props> {
         className='account-profile__destination'>
         <div className='account-profile__destination_field account-profile__destination_field--wide'>
           <Geocoder
+            data-private
             className='account-profile__input account-profile__input--geocoder'
             geocode={geocode}
             onChange={(e) => setGeocodeLocation(index, editAddress, e)}
@@ -411,6 +412,7 @@ export default class EditProfile extends PureComponent<Props> {
                 {message('Accounts.Name')}
               </label>
               <input
+                data-private
                 className='account-profile__input account-profile__input--text'
                 id='headOfHousehold'
                 type='text'
