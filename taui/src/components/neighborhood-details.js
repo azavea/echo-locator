@@ -4,9 +4,10 @@ import message from '@conveyal/woonerf/message'
 import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
-import type {AccountProfile, NeighborhoodLabels} from '../types'
+import type {AccountProfile, NeighborhoodImageMetadata, NeighborhoodLabels} from '../types'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getGoogleSearchLink from '../utils/google-search-link'
+import getNeighborhoodImage from '../utils/neighborhood-images'
 import getNeighborhoodPropertyLabels from '../utils/neighborhood-properties'
 
 import RouteSegments from './route-segments'
@@ -104,41 +105,20 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodImage (props) {
-    const nprops = props.nprops
-    const imageField = props.imageField
-
-    if (!imageField || !nprops) {
-      console.error('missing data for neighborhood image')
+    const image: NeighborhoodImageMetadata = getNeighborhoodImage(props.nprops, props.imageField)
+    if (!image) {
       return null
     }
-
-    const description = nprops[imageField + '_description']
-    const license = nprops[imageField + '_license']
-    const licenseUrl = nprops[imageField + '_license_url']
-    const imageLink = nprops[imageField]
-    const thumbnail = nprops[imageField + '_thumbnail']
-    const userName = nprops[imageField + '_username']
-
-    if (!thumbnail) {
-      return null
-    }
-
-    // Build the attribution text to display on hover
-    let attrText = userName + ' [' + license
-    if (licenseUrl) {
-      attrText += ' (' + licenseUrl + ')'
-    }
-    attrText += '], ' + message('NeighborhoodDetails.WikipediaAttribution')
 
     return (
       <a
         className='neighborhood-details__image'
         target='_blank'
-        title={attrText}
-        href={imageLink}>
+        title={image.attribution}
+        href={image.imageLink}>
         <img
-          alt={description}
-          src={thumbnail} />
+          alt={image.description}
+          src={image.thumbnail} />
       </a>
     )
   }

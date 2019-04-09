@@ -4,6 +4,14 @@ export const ACCESSIBILITY_IS_LOADING = 'accessibility-is-loading'
 
 export const ANONYMOUS_USERNAME = 'ANONYMOUS'
 
+// Neighborhood image fields
+export const IMAGE_FIELDS = [
+  'town_square',
+  'open_space_or_landmark',
+  'school',
+  'street'
+]
+
 // Maximum number of destinations that may be added to a user profile
 export const MAX_ADDRESSES = 3
 

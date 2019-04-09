@@ -3,6 +3,9 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import React from 'react'
 
+import type {NeighborhoodImageMetadata} from '../types'
+import {getFirstNeighborhoodImage} from '../utils/neighborhood-images'
+
 import NeighborhoodListInfo from './neighborhood-list-info'
 
 type Props = {
@@ -21,50 +24,20 @@ export default class RouteCard extends React.PureComponent<Props> {
 
   summaryImage (props) {
     const nprops = props.nprops
-
-    // Look for an available image to use as the summary
-    let imageField = nprops['town_square_thumbnail'] ? 'town_square' : null
-    if (!imageField) {
-      imageField = nprops['open_space_or_landmark_thumbnail'] ? 'open_space_or_landmark' : null
-    }
-    if (!imageField) {
-      imageField = nprops['school_thumbnail'] ? 'school' : null
-    }
-    if (!imageField) {
-      imageField = 'street'
-    }
-
-    if (!imageField) {
-      return null // Have no summary image available
-    }
-
-    const description = nprops[imageField + '_description']
-    const license = nprops[imageField + '_license']
-    const licenseUrl = nprops[imageField + '_license_url']
-    const imageLink = nprops[imageField]
-    const thumbnail = nprops[imageField + '_thumbnail']
-    const userName = nprops[imageField + '_username']
-
-    if (!thumbnail) {
+    const image: NeighborhoodImageMetadata = getFirstNeighborhoodImage(nprops)
+    if (!image) {
       return null
     }
-
-    // Build the attribution text to display on hover
-    let attrText = userName + ' [' + license
-    if (licenseUrl) {
-      attrText += ' (' + licenseUrl + ')'
-    }
-    attrText += '], ' + message('NeighborhoodDetails.WikipediaAttribution')
 
     return (
       <a
         className='neighborhood-summary__image'
         target='_blank'
-        title={attrText}
-        href={imageLink}>
+        title={image.attribution}
+        href={image.imageLink}>
         <img
-          alt={description}
-          src={thumbnail} />
+          alt={image.description}
+          src={image.thumbnail} />
       </a>
     )
   }
