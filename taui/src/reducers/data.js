@@ -5,8 +5,12 @@ export default handleActions(
   {
     'clear data' (state) {
       return {
+        ...state,
         grids: [],
-        networks: []
+        networks: [],
+        page: 0,
+        showDetails: false,
+        showFavorites: false
       }
     },
     'set grid' (state, action) {
@@ -41,16 +45,19 @@ export default handleActions(
         networks
       }
     },
+    'set active neighborhood' (state, action) {
+      return {
+        ...state,
+        activeNeighborhood: action.payload
+      }
+    },
     'set active network' (state, action) {
       const networks = [...state.networks]
 
       return {
         ...state,
         networks: networks.map(
-          n =>
-            (n.name === action.payload
-              ? {...n, active: true}
-              : {...n, active: false})
+          n => Object.assign({}, n, {active: n.name === action.payload})
         )
       }
     },
@@ -71,10 +78,55 @@ export default handleActions(
         ...state,
         neighborhoodBounds: action.payload
       }
+    },
+    'set origin' (state, action) {
+      return {
+        ...state,
+        origin: action.payload
+      }
+    },
+    'set page' (state, action) {
+      return {
+        ...state,
+        page: action.payload
+      }
+    },
+    'set profile loading' (state, action) {
+      return {
+        ...state,
+        profileLoading: action.payload,
+        userProfile: null
+      }
+    },
+    'set profile' (state, action) {
+      return {
+        ...state,
+        profileLoading: false,
+        userProfile: action.payload
+      }
+    },
+    'set show details' (state, action) {
+      return {
+        ...state,
+        showDetails: !!action.payload
+      }
+    },
+    'set show favorites' (state, action) {
+      return {
+        ...state,
+        showFavorites: !!action.payload
+      }
     }
   },
   {
     grids: [],
-    networks: []
+    networks: [],
+    neighborhoods: {},
+    neighborhoodBounds: {},
+    page: 0,
+    profileLoading: true,
+    showDetails: false,
+    showFavorites: false,
+    userProfile: null
   }
 )

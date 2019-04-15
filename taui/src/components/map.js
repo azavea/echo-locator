@@ -1,9 +1,7 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
-import Icon from '@conveyal/woonerf/components/icon'
-import message from '@conveyal/woonerf/message'
 import Leaflet from 'leaflet'
-import find from 'lodash/find'
+import filter from 'lodash/filter'
 import React, {PureComponent} from 'react'
 import {
   Map as LeafletMap,
@@ -12,18 +10,19 @@ import {
   TileLayer,
   ZoomControl
 } from 'react-leaflet'
-import VectorGrid from 'react-leaflet-vectorgrid/dist/react-leaflet-vectorgrid'
 
-import {STOP_STYLE} from '../constants'
+import {NEIGHBORHOOD_BOUNDS_STYLE} from '../constants'
 import type {
   Coordinate,
   Location,
   LonLat,
   MapEvent
 } from '../types'
+import getNeighborhoodById from '../utils/get-neighborhood'
 
+import DrawNeighborhoods from './draw-neighborhoods'
 import DrawRoute from './draw-route'
-import Gridualizer from './gridualizer'
+import VGrid from './vector-grid'
 
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
   ? process.env.LEAFLET_RETINA_URL
@@ -46,14 +45,21 @@ const iconAnchor = [iconWidth / 2, iconHeight + 13] // height plus the pointer s
 const iconHTML = '' // <div className="innerMarker"></div>'
 
 const startIcon = Leaflet.divIcon({
-  className: 'LeafletIcon Start',
+  className: 'LeafletIcon Start map__marker map__marker--start',
   html: iconHTML,
   iconAnchor,
   iconSize
 })
 
 const endIcon = Leaflet.divIcon({
-  className: 'LeafletIcon End',
+  className: 'LeafletIcon End map__marker map__marker--end',
+  html: iconHTML,
+  iconAnchor,
+  iconSize
+})
+
+const otherIcon = Leaflet.divIcon({
+  className: 'LeafletIcon Other map__marker map__marker--other',
   html: iconHTML,
   iconAnchor,
   iconSize
@@ -76,6 +82,7 @@ type Props = {
   start: null | Location,
   updateEnd: () => void,
   updateMap: any => void,
+  updateOrigin: () => void,
   updateStart: () => void,
   zoom: number
 }
@@ -87,35 +94,14 @@ type State = {
 }
 
 /**
- * Temporary class that fixes VectorGrid's `getFeature`
- */
-class VGrid extends VectorGrid {
-  _propagateEvent (eventHandler, e) {
-    if (!eventHandler) return
-    const featureId = this._getFeatureId(e.layer)
-    const feature = this.getFeature(featureId)
-    if (feature) {
-      Leaflet.DomEvent.stopPropagation(e)
-      eventHandler(feature)
-    }
-  }
-
-  createLeafletElement (props) {
-    const le = super.createLeafletElement(props)
-    le.options.rendererFactory = Leaflet.canvas.tile
-    return le
-  }
-
-  getFeature (featureId) {
-    const p = this.props
-    return find(p.data.features, f => f.properties[p.idField] === featureId)
-  }
-}
-
-/**
  *
  */
 export default class Map extends PureComponent<Props, State> {
+  constructor (props) {
+    super(props)
+    this.clickNeighborhood = this.clickNeighborhood.bind(this)
+  }
+
   state = {
     lastClickedLabel: null,
     lastClickedPosition: null,
@@ -124,6 +110,19 @@ export default class Map extends PureComponent<Props, State> {
 
   componentDidCatch (error) {
     console.error(error)
+  }
+
+  // Click on map marker for a neighborhood
+  clickNeighborhood = (feature) => {
+    // only go to routable neighborhood details
+    if (feature.properties.routable) {
+      // Toggle `showDetails` off first to zoom to route on switching detail views
+      this.props.setShowDetails(false)
+      this.props.setActiveNeighborhood(feature.properties.id)
+      this.props.setShowDetails(true)
+    } else {
+      console.warn('clicked unroutable neighborhood ' + feature.properties.id)
+    }
   }
 
   /**
@@ -140,14 +139,6 @@ export default class Map extends PureComponent<Props, State> {
   _clearStartAndEnd = (): void => {
     this.props.clearStartAndEnd()
     this._clearState()
-  }
-
-  _setEndWithEvent = (event: MapEvent) => {
-    this.props.setEndPosition(lonlat(event.latlng || event.target._latlng))
-  }
-
-  _setStartWithEvent = (event: MapEvent) => {
-    this.props.setStartPosition(lonlat(event.latlng || event.target._latlng))
   }
 
   _onMapClick = (e: Leaflet.MouseEvent): void => {
@@ -184,12 +175,6 @@ export default class Map extends PureComponent<Props, State> {
     this.props.updateMap({zoom})
   }
 
-  _clickNeighborhood = (feature) => {
-    // TODO: #27 implement interactivity
-    console.log('clicked neighborhood:')
-    console.log(feature)
-  }
-
   _clickPoi = (feature) => {
     this.setState({
       lastClickedLabel: feature.properties.label,
@@ -204,21 +189,30 @@ export default class Map extends PureComponent<Props, State> {
   /* eslint complexity: 0 */
   render () {
     const p = this.props
-    const s = this.state
+    const clickNeighborhood = this.clickNeighborhood
+
+    const otherNeighborhoods = (p.displayNeighborhoods && !p.showDetails)
+      ? filter(p.displayNeighborhoods, n => !n.active)
+      : []
 
     // Index elements with keys to reset them when elements are added / removed
-
     this._key = 0
     let zIndex = 0
     const getZIndex = () => zIndex++
 
+    const activeNeighborhood = p.neighborhoods
+      ? getNeighborhoodById(p.neighborhoods.features, p.activeNeighborhood)
+      : null
+
     return (
-      <LeafletMap
+      p.neighborhoodBounds ? <LeafletMap
+        bounds={p.neighborhoodBoundsExtent}
         center={p.centerCoordinates}
-        className='Taui-Map'
+        className='Taui-Map map'
         onZoomend={this._setZoom}
         zoom={p.zoom}
         onClick={this._onMapClick}
+        ref='map'
         zoomControl={false}
       >
         <ZoomControl position='topright' />
@@ -227,39 +221,6 @@ export default class Map extends PureComponent<Props, State> {
           url={TILE_URL}
           zIndex={getZIndex()}
         />
-
-        {/* p.drawIsochrones.map((drawTile, i) => drawTile &&
-          <Gridualizer
-            drawTile={drawTile}
-            key={`draw-iso-${i}-${keyCount++}`}
-            zoom={p.zoom}
-          />) */}
-
-        {/* !p.isLoading && p.isochrones.map((iso, i) => !iso
-          ? null
-          : <GeoJSON
-            data={iso}
-            key={`${iso.key}-${i}-${keyCount++}`}
-            style={iso.style}
-            zIndex={getZIndex()}
-          />) */}
-
-        {!p.isLoading && p.isochrones.map((iso, i) => !iso
-          ? null
-          : <VGrid
-            data={iso}
-            key={`${iso.key}-${i}-${this._getKey()}`}
-            style={iso.style}
-            zIndex={getZIndex()}
-          />)}
-
-        {p.drawOpportunityDatasets.map((drawTile, i) => drawTile &&
-          <Gridualizer
-            drawTile={drawTile}
-            key={`draw-od-${i}-${this._getKey()}`}
-            zIndex={getZIndex()}
-            zoom={p.zoom}
-          />)}
 
         {LABEL_URL &&
           <TileLayer
@@ -272,95 +233,64 @@ export default class Map extends PureComponent<Props, State> {
         {p.showRoutes && p.drawRoutes.map(drawRoute =>
           <DrawRoute
             {...drawRoute}
-            key={`draw-routes-${drawRoute.index}-${this._getKey()}`}
+            activeNeighborhood={p.activeNeighborhood}
+            key={`draw-routes-${drawRoute.id}-${this._getKey()}`}
+            neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
+            showDetails={p.showDetails}
             zIndex={getZIndex()}
           />)}
-
-        {(!p.start || !p.end) && p.pointsOfInterest &&
-          <VGrid
-            data={p.pointsOfInterest}
-            idField='label'
-            key={`poi-${this._getKey()}`}
-            minZoom={10}
-            onClick={this._clickPoi}
-            style={STOP_STYLE}
-            tooltip='label'
-            zIndex={getZIndex()}
-          />}
 
         {!p.isLoading && p.neighborhoodBounds &&
           <VGrid
             data={p.neighborhoodBounds}
             idField='id'
             tooltip='town'
+            vectorTileLayerStyles={
+              {'sliced': NEIGHBORHOOD_BOUNDS_STYLE}
+            }
             zIndex={getZIndex()} />}
 
         {!p.isLoading && p.neighborhoods &&
-          <VGrid
-            data={p.neighborhoods}
-            style={STOP_STYLE}
-            idField='id'
-            tooltip='town'
-            onClick={this._clickNeighborhood}
-            zIndex={getZIndex()} />}
+          <DrawNeighborhoods
+            clickNeighborhood={clickNeighborhood}
+            neighborhoods={p.neighborhoods}
+            key={`neighborhoods-${this._getKey()}`}
+            zIndex={getZIndex()}
+          />}
 
-        {p.start &&
+        {p.origin &&
           <Marker
-            draggable
             icon={startIcon}
             key={`start-${this._getKey()}`}
-            onDragEnd={this._setStartWithEvent}
-            position={p.start.position}
-            zIndex={getZIndex()}
-          >
+            position={p.origin.position}
+            zIndex={getZIndex()}>
             <Popup>
-              <span>{p.start.label}</span>
+              <span>{p.origin.label}</span>
             </Popup>
           </Marker>}
 
-        {p.end &&
+        {activeNeighborhood &&
           <Marker
-            draggable
             icon={endIcon}
             key={`end-${this._getKey()}`}
-            onDragEnd={this._setEndWithEvent}
-            position={p.end.position}
+            position={lonlat.toLeaflet(activeNeighborhood.geometry.coordinates)}
             zIndex={getZIndex()}
           >
             <Popup>
-              <span>{p.end.label}</span>
+              <span>{activeNeighborhood.properties.town} {activeNeighborhood.properties.id}</span>
             </Popup>
           </Marker>}
 
-        {s.showSelectStartOrEnd &&
-          <Popup
-            closeButton={false}
-            key={`select-${this._getKey()}`}
-            position={s.lastClickedPosition}
-            zIndex={getZIndex()}
-          >
-            <div className='Popup'>
-              {s.lastClickedLabel &&
-                <h3>
-                  {s.lastClickedLabel}
-                </h3>}
-              <button onClick={this._setStart}>
-                <Icon type='map-marker' />{' '}
-                {message('Map.SetLocationPopup.SetStart')}
-              </button>
-              {p.start &&
-                <button onClick={this._setEnd}>
-                  <Icon type='map-marker' />{' '}
-                  {message('Map.SetLocationPopup.SetEnd')}
-                </button>}
-              {(p.start || p.end) &&
-                <button onClick={this._clearStartAndEnd}>
-                  <Icon type='times' />{' '}
-                  {message('Map.SetLocationPopup.ClearMarkers')}
-                </button>}
-            </div>
-          </Popup>}
-      </LeafletMap>
+        {otherNeighborhoods && otherNeighborhoods.length &&
+          otherNeighborhoods.map((other) =>
+            <Marker
+              icon={otherIcon}
+              key={`other-${other.properties.id}-${this._getKey()}`}
+              onClick={(e) => clickNeighborhood(other)}
+              position={lonlat.toLeaflet(other.geometry.coordinates)}
+              zIndex={getZIndex()}
+            />)}
+      </LeafletMap> : null
     )
   }
   /* eslint complexity: 1 */

@@ -19,7 +19,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/src-20190206161419-deployment/amplify-cfn-templates/auth/cognitoEcholocatorTest-cloudformation-template.yml",
 				"logicalId": "authcognitoEcholocatorTest"
 			},
-			"lastPushTimeStamp": "2019-02-07T01:05:29.459Z",
+			"lastPushTimeStamp": "2019-03-29T16:29:15.836Z",
 			"output": {
 				"AppClientSecret": "187m9erav4psm0bd76ut85sophhcnf6r7mhu3h3d904rcrdseltv",
 				"UserPoolId": "us-east-1_cMMWUNuiJ",
@@ -40,12 +40,12 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/src-20190206161419-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"logicalId": "storageecholocatorContent"
 			},
-			"lastPushTimeStamp": "2019-02-07T01:05:29.454Z",
+			"lastPushTimeStamp": "2019-03-29T16:29:15.848Z",
 			"output": {
 				"BucketName": "echolocator",
 				"Region": "us-east-1"
 			},
-			"lastPushDirHash": "xLW44nxvinU0wqxQSYTVB2JB/Zs="
+			"lastPushDirHash": "UK7GMOonsrDPT6QvcFZ9FBcNiJk="
 		}
 	},
 	"analytics": {}

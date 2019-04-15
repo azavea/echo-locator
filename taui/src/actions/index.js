@@ -4,7 +4,9 @@ import * as grid from './grid'
 import * as location from './location'
 import * as log from './log'
 import * as map from './map'
+import * as neighborhood from './neighborhood'
 import * as network from './network'
+import * as profile from './profile'
 
 const setSelectedTimeCutoff = (payload: number) => ({
   type: 'set selected time cutoff',
@@ -17,6 +19,8 @@ export default {
   ...location,
   ...log,
   ...map,
+  ...neighborhood,
   ...network,
+  ...profile,
   setSelectedTimeCutoff
 }

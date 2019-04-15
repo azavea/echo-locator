@@ -1,0 +1,27 @@
+.map {
+  &__marker {
+    &--start {
+      background-color: $black;
+
+      &::before {
+        border-top: 20px solid $black;
+      }
+    }
+
+    &--end {
+      background-color: $green;
+
+      &::before {
+        border-top: 20px solid $green;
+      }
+    }
+
+    &--other {
+      background-color: $brand-blue;
+
+      &::before {
+        border-top: 20px solid $brand-blue;
+      }
+    }
+  }
+}

@@ -3,8 +3,7 @@ import { I18n } from '@aws-amplify/core'
 import {
   FederatedButtons,
   ForgotPassword,
-  SignIn,
-  SignUp
+  SignIn
 } from 'aws-amplify-react/dist/Auth'
 import {
   FormSection,
@@ -24,12 +23,16 @@ import React from 'react'
 
 class SignInHeader extends React.Component {
   render () {
-    return <div className='Splash'>
-      <div className='Logo' />
-      <h3>{message('Agency')}</h3>
-      <h2>{message('Title')}</h2>
-      <p>{message('SignIn.Greeting')}</p>
-    </div>
+    return (
+      <header className='auth-screen__header auth-header'>
+        <h2 className='auth-header__agency'>
+          <img className='auth-header__logo' src='assets/BHAlogo.png' alt='' />
+          {message('Agency')}
+        </h2>
+        <h1 className='auth-header__app-name' >{message('Title')}</h1>
+        <p className='auth-header__greeting'>{message('SignIn.Greeting')}</p>
+      </header>
+    )
   }
 }
 
@@ -40,12 +43,11 @@ export default class CustomSignIn extends SignIn {
   // https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Auth/SignIn.jsx#L120
   showComponent (theme) {
     const { authState, hide = [], federated, onStateChange, onAuthEvent, override = [] } = this.props
-    const hideSignUp = !override.includes('SignUp') && hide.some(component => component === SignUp)
     const hideForgotPassword = !override.includes('ForgotPassword') &&
       hide.some(component => component === ForgotPassword)
 
     return (
-      <div>
+      <div className='auth-screen'>
         <SignInHeader />
         <FormSection theme={theme}>
           <SectionBody theme={theme}>
@@ -57,10 +59,10 @@ export default class CustomSignIn extends SignIn {
               onAuthEvent={onAuthEvent}
             />
             <FormField theme={theme}>
-              <InputLabel>{I18n.get('Username')} *</InputLabel>
+              <InputLabel>{I18n.get('Username')}</InputLabel>
               <Input
+                data-private
                 autoFocus
-                placeholder={I18n.get('Enter your username')}
                 theme={theme}
                 key='username'
                 name='username'
@@ -68,9 +70,9 @@ export default class CustomSignIn extends SignIn {
               />
             </FormField>
             <FormField theme={theme}>
-              <InputLabel>{I18n.get('Password')} *</InputLabel>
+              <InputLabel>{I18n.get('Password')}</InputLabel>
               <Input
-                placeholder={I18n.get('Enter your password')}
+                data-private
                 theme={theme}
                 key='password'
                 type='password'
@@ -93,14 +95,12 @@ export default class CustomSignIn extends SignIn {
                 {I18n.get('Sign In')}
               </Button>
             </SectionFooterPrimaryContent>
-            {
-              !hideSignUp && <SectionFooterSecondaryContent theme={theme}>
-                {I18n.get('No account? ')}
-                <Link theme={theme} onClick={() => this.changeState('signUp')}>
-                  {I18n.get('Create account')}
-                </Link>
-              </SectionFooterSecondaryContent>
-            }
+            <SectionFooterSecondaryContent theme={theme}>
+              {message('SignIn.AnonymousExplanation') + ' '}
+              <Link theme={theme} onClick={() => this.changeState('useAnonymous')}>
+                {message('SignIn.Anonymous')}
+              </Link>
+            </SectionFooterSecondaryContent>
           </SectionFooter>
         </FormSection>
       </div>

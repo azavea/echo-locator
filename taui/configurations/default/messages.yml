@@ -13,19 +13,60 @@ Systems:
   AlternateTripsTitle: Alternatively use
   Waiting: waiting included
   NoAccess: No data from this point...
+  Take: Take
+  InaccessibleWithin: inaccessible within
 Faster: faster
 NewTrip: New Trip
 Geocoding:
   StartPlaceholder: Search the map
   EndPlaceholder: Choose destination, or click on the map
+  FindingLocation: Locating you...
   PromptText: Type to find a location
+  UseCurrentLocation: Use current location
 Log:
   Title: Log
 Map:
+  SelectNetwork: Set time of day
   SetLocationPopup:
     SetStart: Set start
     SetEnd: Set end
     ClearMarkers: Clear markers
+Dock:
+  Favorites: Saved recommendations
+  GoBackToRecommendations: Back to recommendations
+  GoBackToFavorites: Back to saved recommendations
+  GoPreviousPage: Go back
+  GoNextPage: Show more
+  NoResults: No results
+  Recommendations: Recommendations
+  ShowAllButton: All
+  ShowSavedButton: Saved
+NeighborhoodDetails:
+  DriveMode: drive
+  TransitMode: transit
+  FromOrigin: from
+  WebsiteLink: Official site
+  WikipediaAttribution: via Wikimedia Commons
+  WikipediaLink: Wikipedia
+  GoogleSearchLink: Google
+  GoogleMapsLink: Google Maps
+  ModeSummary: via
+NeighborhoodInfo:
+  Affordability: Affordability
+  EducationCategory: Schools
+  EducationPercentile: Education percentile
+  HasNoTransitStop: Has no transit stop
+  HasTransitStop: Has transit stop
+  NearPark: Near a park
+  NearRailStation: Near a rail station
+  NearTransit: Near transit stops
+  PercentCollegeGraduates: College graduates
+  Population: Population
+  Score: Overall score
+  ViolentCrime: Violent crime
+PageNotFound: Oops! There is no page at
+RouteCard:
+  MarkerLink: Show neighborhood on map
 Strings:
   ApplicationReady: Application is ready!
   SearchForStartAddress: Start location
@@ -33,10 +74,70 @@ Strings:
   HighlightAreaAccessibleWithin: Show the area accessible within
   Welcome: Search for your address above or click on the map to get started.
 Slower: slower
-Title: ECHO Locator
+Title: ECHOLocator
 Units:
   Minutes: minutes
   Mins: min
 Agency: Boston Housing Authority
 SignIn:
+  Anonymous: Continue without an account
+  AnonymousExplanation: Don't have an account?
   Greeting: At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+Header:
+  New: New search
+  Edit: Edit profile
+  SignIn: Sign in
+Accounts:
+  Create: Create new profile
+  CreateError: Failed to create profile. Please try again.
+  InvalidVoucherNumber: Voucher number should be eight digits, or two letters followed by six digits.
+  MissingVoucherNumber: Enter a voucher number to create a profile.
+  Name: Name of head of household
+  Search: Search
+  SelectError: Failed to set profile. Please try again.
+  NoResults: Profile not found. Create one now?
+  Title: Profiles
+  Voucher: Voucher number
+Profile:
+  AddAddress: Add another destination
+  Address: Address
+  AddressMissing: All destinations should have an address. Please set or remove any empty destinations.
+  DeleteAddress: Delete this address
+  DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
+  Cancel: Cancel
+  DeleteDestination: Delete this destination
+  DeleteProfile: Delete profile
+  DeleteProfileError: Failed to delete profile. Please try again.
+  Destinations: Frequent destinations
+  Primary: Primary
+  Purpose: Purpose
+  Rooms: Number of rooms in voucher
+  HasVehicle: Will have a car
+  Go: Go
+  NameRequired: Please enter a name for the head of household.
+  SaveError: Failed to save profile. Please try again.
+  Title: Profile
+QuintileLabels:
+  Affordability:
+    1: Very affordable
+    2: Very affordable
+    3: Affordable
+    4: Expensive
+    5: Very expensive
+  Education:
+    1: Excellent
+    2: Very good
+    3: Average
+    4: Below average
+    5: Below average
+  ViolentCrime:
+    1: Very low
+    2: Very low
+    3: Low
+    4: Moderate
+    5: High
+TripPurpose:
+  Daycare: Day care
+  Other: Other
+  Work: Work
+UnknownValue: Unknown

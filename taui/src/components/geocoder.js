@@ -6,6 +6,7 @@ import React, {Component} from 'react'
 import Select from 'react-select'
 
 import type {Location, MapboxFeature} from '../types'
+import {SELECT_STYLE, SELECT_WRAPPER_STYLE} from '../constants'
 
 const USE_GEOLOCATE = true
 const GEOLOCATE_VALUE = 'geolocate'
@@ -61,10 +62,7 @@ export default class Geocoder extends Component<Props> {
     const p = this.props
     const geolocateOptions = p.geolocate && 'geolocation' in navigator
       ? [{
-        label: message(
-          'Geocoding.UseCurrentLocation',
-          'Use Current Location'
-        ),
+        label: message('Geocoding.UseCurrentLocation'),
         value: GEOLOCATE_VALUE
       }]
       : []
@@ -110,7 +108,7 @@ export default class Geocoder extends Component<Props> {
     if (value && value.value === GEOLOCATE_VALUE) {
       this.setState({
         value: {
-          label: message('Geocoding.FindingLocation', 'Locating you...')
+          label: message('Geocoding.FindingLocation')
         }
       })
       window.navigator.geolocation.getCurrentPosition(position => {
@@ -139,9 +137,11 @@ export default class Geocoder extends Component<Props> {
   render () {
     return (
       <Select.Async
+        arrowRenderer={null}
         autoBlur
         autoload={false}
         cache={false}
+        clearable={false}
         filterOptions={false}
         ignoreAccents={false}
         ignoreCase={false}
@@ -152,6 +152,8 @@ export default class Geocoder extends Component<Props> {
         options={this.state.options}
         placeholder={this.props.placeholder}
         searchPromptText={message('Geocoding.PromptText')}
+        style={SELECT_STYLE}
+        wrapperStyle={SELECT_WRAPPER_STYLE}
         value={this.state.value}
       />
     )

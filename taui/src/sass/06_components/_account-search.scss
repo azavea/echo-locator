@@ -1,0 +1,67 @@
+.account-search {
+  &__main {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+
+  &__field {
+    display: flex;
+    flex: auto;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    min-width: 24rem;
+    max-width: 32rem;
+    margin-right: 2.4rem;
+  }
+
+  &__label {
+    @include text(400);
+    @include font-weight(bold);
+    margin-bottom: 0.8rem;
+  }
+
+  &__input {
+    height: 4rem;
+    padding: 0 0.8rem;
+  }
+
+  &__error {
+    @include text(400);
+    margin-top: 1.6rem;
+    padding: 1.6rem;
+    color: $error;
+    background-color: $gray-100;
+  }
+
+  &__no-results {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 4rem;
+  }
+
+  &__no-results-heading {
+    @include text(400);
+    margin-bottom: 2.4rem;
+  }
+
+  &__button {
+    min-width: 12rem;
+    max-width: 20rem;
+    height: 4rem;
+
+    &--search {
+      @include button($color: $white, $background: $brand-blue);
+      @include light-on-dark();
+      @include font-weight(bold);
+    }
+
+    &--create {
+      @include button($color: $black, $background: $gray-300);
+    }
+  }
+}

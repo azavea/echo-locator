@@ -28,8 +28,7 @@ then
         aws s3 cp "${TAUI_CONFIG_BUCKET}/taui/env.yml" \
                   "taui/${TAUI_CONFIG_DIR}/env.yml"
 
-        # Mastarm doesn't copy over index.html
-        aws s3 cp taui/index.html "${TAUI_SITE_BUCKET}/index.html"
+        echo "LOGROCKET_RELEASE: '${TRAVIS_COMMIT}'" >> "taui/${TAUI_CONFIG_DIR}/env.yml"
 
         # Move the Amplify config for the proper env into the source dir
         cp "deployment/amplify/${ENV}/aws-exports.js" taui/src/aws-exports.js
@@ -38,5 +37,11 @@ then
         docker-compose -f docker-compose.yml \
                        -f docker-compose.ci.yml \
                        run --rm taui run deploy --minify --config "${TAUI_CONFIG_DIR}"
+
+        # Mastarm doesn't copy over index.html
+        aws s3 cp taui/index.html "${TAUI_SITE_BUCKET}/index.html"
+
+        # Copy images separately
+        aws s3 cp --recursive taui/src/img/ "${TAUI_SITE_BUCKET}/assets/"
     fi
 fi

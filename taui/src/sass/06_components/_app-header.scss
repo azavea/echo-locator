@@ -1,0 +1,54 @@
+.app-header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 6.4rem;
+  padding: 0 2.4rem 0.8rem;
+
+  &__brand {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: 8rem;
+  }
+
+  &__button {
+    @include text(300);
+    margin-right: 1.6rem;
+    color: $gray-600;
+    white-space: nowrap;
+
+    &--new {
+      margin-left: 6.4rem;
+    }
+  }
+
+  &__logo {
+    flex: none;
+    height: 3.2rem;
+    margin-right: 0.8rem;
+  }
+
+  &__app-name {
+    @include heading(500);
+    flex: none;
+  }
+
+  &__user-info {
+    @include text(400);
+  }
+
+  &__user-name {
+    margin-right: 1.6rem;
+  }
+
+  &__voucher-number {
+    margin-right: 1.6rem;
+  }
+
+  &__actions {
+    margin-left: auto;
+  }
+}

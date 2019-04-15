@@ -1,8 +1,11 @@
 // @flow
+import message from '@conveyal/woonerf/message'
 import React, {Component} from 'react'
-import { Link, Switch, Route } from 'react-router-dom'
+import { Switch, Redirect, Route } from 'react-router-dom'
 
+import {ANONYMOUS_USERNAME} from '../constants'
 import type {
+  AccountProfile,
   Coordinate,
   GeocoderStore,
   LogItems,
@@ -11,7 +14,9 @@ import type {
   UIStore
 } from '../types'
 
+import EditProfile from './edit-profile'
 import MainPage from './main-page'
+import SelectAccount from './select-account'
 
 type Network = {
   active: boolean,
@@ -19,6 +24,7 @@ type Network = {
 }
 
 type MapState = {
+  bounds: any[],
   centerCoordinates: Coordinate,
   zoom: number
 }
@@ -30,9 +36,20 @@ type Props = {
   allTransitive: any,
   data: {
     grids: string[],
-    networks: Network[]
+    neighborhoodBounds: any,
+    neighborhoods: any,
+    networks: Network[],
+    page: number,
+    profileLoading: boolean,
+    showDetails: boolean,
+    showFavorites: boolean,
+    userProfile: AccountProfile
   },
+  detailNeighborhood: any,
+  displayNeighborhoods: any[],
+  displayPageNeighborhoods: any[],
   drawIsochrones: Function[],
+  drawNeighborhoodRotues: any[],
   drawOpportunityDatasets: any[],
   drawRoutes: any[],
   geocode: (string, Function) => void,
@@ -40,17 +57,32 @@ type Props = {
   initialize: Function => void,
   isLoading: boolean,
   isochrones: any[],
+  listNeighborhoods: any[],
+  loadProfile: Function => any,
   map: MapState,
   neighborhoodBounds: any,
+  neighborhoodBoundsExtent: any[],
+  neighborhoodRoutes: any,
+  neighborhoodTravelTimes: any,
   neighborhoods: any,
+  neighborhoodsSortedWithRoutes: any,
+  page: number,
+  pageEndingOffset: number,
   pointsOfInterest: any, // FeatureCollection
   pointsOfInterestOptions: PointsOfInterest,
   reverseGeocode: (string, Function) => void,
+  routableNeighborhoods: any,
+  setActiveNeighborhood: Function => void,
+  setDisplayNeighborhoods: Function => void,
   setEnd: any => void,
+  setPage: Function => void,
+  setProfile: Function => void,
   setSelectedTimeCutoff: any => void,
-
+  setShowDetails: Function => void,
+  setShowFavorites: Function => void,
   setStart: any => void,
   showComparison: boolean,
+  showFavorites: boolean,
   timeCutoff: any,
   travelTimes: number[],
   ui: UIStore,
@@ -58,8 +90,10 @@ type Props = {
   updateEnd: any => void,
   updateEndPosition: LonLat => void,
   updateMap: any => void,
+  updateOrigin: any => void,
   updateStart: any => void,
-  updateStartPosition: LonLat => void
+  updateStartPosition: LonLat => void,
+  updateUserProfile: AccountProfile => void
 }
 
 type State = {
@@ -94,34 +128,46 @@ export default class Application extends Component<Props, State> {
     }
   }
 
+  noMatch ({location}) {
+    return (
+      <div>
+        <h1>
+          {message('PageNotFound')} <code>{location.pathname}</code>
+        </h1>
+      </div>
+    )
+  }
+
   /**
    *
    */
   render () {
     const props = this.props
+    const profileLoading = this.props.data.profileLoading === undefined ? true
+      : this.props.data.profileLoading
+    const userProfile = this.props.data.userProfile
+    // Can navigate to map once at least one destination set on the profile.
+    const canViewMap = userProfile && userProfile.destinations && userProfile.destinations.length
+    const isAnonymous = userProfile && userProfile.key === ANONYMOUS_USERNAME
+    const NoMatch = this.noMatch
     return (
       <Switch>
-        <Route exact path='/' component={Main} />
-        <Route path='/map' render={() => <MainPage {...props} />} />
-        <Route path='/test' component={Test} />
+        <Route exact path='/' render={() => (
+          profileLoading || canViewMap
+            ? (<Redirect to='/map' />) : (<Redirect to='/search' />))} />
+        <Route path='/map' render={() => (
+          profileLoading || canViewMap
+            ? (<MainPage {...props} />) : (<Redirect to='/search' />))} />
+        <Route path='/search' render={() => (
+          isAnonymous ? (<Redirect to='/profile' />) : <SelectAccount
+            {...props}
+            headOfHousehold={props.headOfHousehold}
+            voucherNumber={props.voucherNumber} />)} />
+        <Route path='/profile' render={() => (
+          profileLoading || userProfile
+            ? (<EditProfile {...props} />) : (<Redirect to='/search' />))} />
+        <Route component={NoMatch} />
       </Switch>
     )
   }
 }
-
-const Main = () => (
-  <div>
-    <div className='Splash'>
-      <h2 className='SplashBoxHeader'>New Search</h2>
-      <div className='SplashBox'>
-        <Link to='/map'>Go to map</Link>
-        <br />
-        <Link to='/test'>Test route</Link>
-      </div>
-    </div>
-  </div>
-)
-
-const Test = () => (
-  <h2>Something else</h2>
-)

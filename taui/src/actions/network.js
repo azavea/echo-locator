@@ -3,7 +3,7 @@ import lonlat from '@conveyal/lonlat'
 import fetch, {fetchMultiple} from '@conveyal/woonerf/fetch'
 
 import {retrieveConfig, storeConfig} from '../config'
-import {ACCESSIBILITY_IS_LOADING, ACCESSIBILITY_IS_EMPTY} from '../constants'
+import {ACCESSIBILITY_IS_LOADING, ACCESSIBILITY_IS_EMPTY, TAUI_CONFIG_KEY} from '../constants'
 import type {LonLat} from '../types'
 import cacheURL from '../utils/cache-url'
 import coordinateToPoint, {pointToCoordinate} from '../utils/coordinate-to-point'
@@ -14,7 +14,7 @@ import {updateStartPosition} from './location'
 import {addActionLogItem as logItem, logError} from './log'
 import {updateMap} from './map'
 import {loadDataFromJSON} from './json-data'
-import {loadGrid} from './grid'
+import {setPage} from './neighborhood'
 
 export const setNetwork = (payload: any) => ({type: 'set network', payload})
 export const setActiveNetwork = (payload: string) => ({
@@ -51,44 +51,47 @@ export const setNetworksToEmpty = () =>
  * loading. Second, load the grids. Third, gecode the starting parameters
  */
 export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => {
+  const state = getState()
+  const start = startCoordinate || ((state && state.data && state.data.origin)
+    ? state.data.origin.position : null)
   if (process.env.DISABLE_CONFIG) {
-    const state = getState()
-    if (!startCoordinate && state.geocoder.proximity) {
+    if (!start && state.geocoder.proximity) {
       const centerCoordinates = lonlat(state.geocoder.proximity)
       dispatch(updateMap({centerCoordinates: lonlat.toLeaflet(centerCoordinates)}))
-      dispatch(updateStartPosition(centerCoordinates))
+    } else if (startCoordinate) {
+      dispatch(updateMap({centerCoordinates: lonlat.toLeaflet(startCoordinate)}))
     }
 
     dispatch(loadDataset(
       state.data.networks,
       state.data.grids,
       state.data.pointsOfInterestUrl,
-      startCoordinate || lonlat.fromString(state.geocoder.proximity)
+      start
     ))
   } else {
     try {
-      const json = retrieveConfig()
+      const json = retrieveConfig(TAUI_CONFIG_KEY)
       if (json) {
         if (!json.networks) {
-          window.alert('JSON config found in localStorage without a networks array.')
+          console.error('JSON config found in localStorage without a networks array.')
         } else {
           return dispatch(loadDataset(
             json.networks,
             json.grids,
             json.pointsOfInterestUrl,
-            startCoordinate || json.startCoordinate
+            start
           ))
         }
       }
     } catch (e) {
-      console.log('Error parsing taui-config', e)
+      console.error('Error parsing localStorage configuration ' + TAUI_CONFIG_KEY, e)
     }
 
     dispatch(fetch({
       url: cacheURL('assets/config.json'),
       next: response => {
         const c = response.value
-        storeConfig(c)
+        storeConfig(TAUI_CONFIG_KEY, c)
         return loadDataset(
           c.networks,
           c.grids,
@@ -101,7 +104,7 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
 }
 
 export function loadDatasetFromJSON (jsonConfig: any) {
-  storeConfig(jsonConfig)
+  storeConfig(TAUI_CONFIG_KEY, jsonConfig)
   return loadDataset(
     jsonConfig.networks,
     jsonConfig.grids,
@@ -125,8 +128,8 @@ export const loadDataset = (
   dispatch(loadDataFromJSON('assets/neighborhoods.json', 'set neighborhoods'))
   dispatch(loadDataFromJSON('assets/neighborhood_bounds.json', 'set neighborhood bounds'))
 
-  // Load all opportunity grids
-  grids.forEach(grid => dispatch(loadGrid(grid)))
+  // Start on first page of neighborhoods
+  dispatch(setPage(0))
 
   // Log loading networks
   dispatch(logItem(
@@ -214,9 +217,11 @@ const fetchTimesAndPathsForNetworkAtCoordinate = (network, coordinate, currentZo
     network.north
   )
   const index = originPoint.x + originPoint.y * network.width
-  return [
+  return !isNaN(index) ? [
     logItem(`Fetching data for index ${index} (x: ${originPoint.x}, y: ${originPoint.y})...`),
     fetchTimesAndPathsForNetworkAtIndex(network, originPoint, index)
+  ] : [
+    logItem(`Skipping data fetch for invalid origin (x: ${originPoint.x}, y: ${originPoint.y})`)
   ]
 }
 

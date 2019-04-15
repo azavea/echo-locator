@@ -1,0 +1,85 @@
+.neighborhood-summary {
+  @include elevation(1);
+  margin-bottom: 1.6rem;
+  padding: 0 0.8rem 0.8rem;
+  background-color: $white;
+  cursor: pointer;
+
+  &__header {
+    @include heading(400);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.8rem 0;
+  }
+
+  &__star {
+    margin-right: 0.4rem;
+    font-size: 1.8rem !important;
+  }
+
+  &__marker {
+    width: auto !important;
+    margin-left: auto;
+    color: $brand-blue;
+    font-size: 3.2rem !important;
+
+    &--on {
+      color: $green;
+    }
+  }
+
+  &__contents {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  &__descriptive {
+    flex: none;
+    margin-right: 2.4rem;
+    margin-left: 0.8rem;
+  }
+
+  &__image {
+    width: 12rem;
+
+    img {
+      width: 120px;
+      height: 90px;
+    }
+  }
+
+  &__trip {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__duration {
+    @include text(400);
+  }
+
+  &__trajectory {
+    @include text(200);
+    color: $gray-500;
+  }
+
+  &__location {
+    @include font-weight(bold);
+  }
+
+  &__facts {
+    @include text(300);
+    flex: auto;
+    table-layout: fixed;
+  }
+
+  &__cell {
+    width: 50%;
+    padding-bottom: 0.6rem;
+  }
+}

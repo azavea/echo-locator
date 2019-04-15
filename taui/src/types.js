@@ -1,4 +1,8 @@
 // @flow
+
+/**
+ * Map data
+ */
 export type Coordinate = [number, number]
 export type Coordinates = Coordinate[]
 
@@ -37,6 +41,82 @@ export type Query = {
   west: number,
   width: number,
   zoom: number
+}
+
+/**
+ * Voucher holder account profile
+ */
+
+export type AccountAddress = {
+  location: Location,
+  primary: boolean,
+  purpose: string
+}
+
+export type AccountProfile = {
+  destinations: Array<AccountAddress>,
+  favorites: Array<string>,
+  hasVehicle: boolean,
+  headOfHousehod: string,
+  key: string,
+  rooms: number,
+  voucherNumber: string
+}
+
+/**
+ * Neighborhood GeoJSON properties.
+ * See the column definitions in generate_neighborhood_json.py.
+ */
+
+export type NeighborhoodProperties = {
+  education_percentile: number,
+  education_percentile_quintile: number,
+  has_t_stop: boolean,
+  id: string, // same as zipcode; unique
+  near_park: number,
+  near_railstation: number,
+  near_t_stop: number,
+  overall_affordability_quintile: number, // rental affordability
+  percentage_college_graduates: number,
+  routable: boolean, // derived property changed with the origin
+  town: string, // the label
+  town_link: string,
+  town_website_description: string,
+  violentcrime_quintile: number,
+  wikipedia: string,
+  wikipedia_link: string,
+  zipcode: string,
+  zipcode_population: number
+}
+
+/**
+ * Derived, formatted, user-presentable values for `NeighborhoodProperties`
+ * calcualted in `utils/neighborhood-properties.js`.
+ */
+export type NeighborhoodLabels = {
+  affordability: string,
+  education: string,
+  educationPercentile: string,
+  hasTransitStop: string,
+  nearPark: string,
+  nearRailStation: string,
+  nearTransitStop: string,
+  percentCollegeGraduates: string,
+  population: string,
+  violentCrime: string
+}
+
+/**
+ * Neighborhood image metadata derived from `NeighborhoodProperties`
+ */
+export type NeighborhoodImageMetadata = {
+  attribution: string,
+  description: string,
+  imageLink: string,
+  license: string,
+  licenseUrl: string,
+  thumbnail: string,
+  userName: string
 }
 
 /**
