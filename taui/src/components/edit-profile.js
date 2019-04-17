@@ -13,6 +13,8 @@ import {
   DEFAULT_PROFILE_DESTINATION_TYPE,
   DEFAULT_SCHOOLS_IMPORTANCE,
   MAX_ADDRESSES,
+  MAX_IMPORTANCE,
+  MAX_ROOMS,
   PROFILE_DESTINATION_TYPES
 } from '../constants'
 import type {AccountAddress, AccountProfile} from '../types'
@@ -393,10 +395,27 @@ export default class EditProfile extends PureComponent<Props> {
     )
   }
 
+  importanceOptions (props) {
+    const { changeField, fieldName, importance } = props
+    const importanceRange = range(1, MAX_IMPORTANCE + 1)
+    const importanceOptions = importanceRange.map((num) => {
+      const strVal = num.toString()
+      const label = message('ImportanceLabels.' + strVal)
+      return <option key={strVal} value={strVal}>{label}</option>
+    })
+    return (
+      <select
+        className='account-profile__input account-profile__input--wide-select'
+        defaultValue={importance}
+        onChange={(e) => changeField(fieldName, e.currentTarget.value)}>
+        {importanceOptions}
+      </select>
+    )
+  }
+
   roomOptions (props) {
     const { changeField, rooms } = props
-    const maxRooms = 4
-    const roomCountOptions = range(maxRooms + 1)
+    const roomCountOptions = range(MAX_ROOMS + 1)
     const roomOptions = roomCountOptions.map((num) => {
       const strVal = num.toString()
       return <option key={strVal} value={strVal}>{strVal}</option>
@@ -428,6 +447,9 @@ export default class EditProfile extends PureComponent<Props> {
       destinations,
       hasVehicle,
       headOfHousehold,
+      importanceAccessibility,
+      importanceSchools,
+      importanceViolentCrime,
       errorMessage,
       isAnonymous,
       key,
@@ -435,6 +457,7 @@ export default class EditProfile extends PureComponent<Props> {
     } = this.state
 
     const DestinationsList = this.destinationsList
+    const ImportanceOptions = this.importanceOptions
     const RoomOptions = this.roomOptions
     const TripPurposeOptions = this.tripPurposeOptions
 
@@ -477,6 +500,33 @@ export default class EditProfile extends PureComponent<Props> {
               setPrimaryAddress={setPrimaryAddress}
               TripPurposeOptions={TripPurposeOptions}
             />
+            <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='importanceAccessibility'>{message('Profile.ImportanceAccessibility')}</label>
+              <ImportanceOptions
+                fieldName='importanceAccessibility'
+                importance={importanceAccessibility}
+                changeField={changeField} />
+            </div>
+            <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='importanceSchools'>{message('Profile.ImportanceSchools')}</label>
+              <ImportanceOptions
+                fieldName='importanceSchools'
+                importance={importanceSchools}
+                changeField={changeField} />
+            </div>
+            <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='importanceViolentCrime'>{message('Profile.ImportanceViolentCrime')}</label>
+              <ImportanceOptions
+                fieldName='importanceViolentCrime'
+                importance={importanceViolentCrime}
+                changeField={changeField} />
+            </div>
             <div className='account-profile__field account-profile__field--inline'>
               <input
                 className='account-profile__input account-profile__input--checkbox'

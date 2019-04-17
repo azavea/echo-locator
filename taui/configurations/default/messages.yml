@@ -109,6 +109,9 @@ Profile:
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Frequent destinations
+  ImportanceAccessibility: Accessibility
+  ImportanceSchools: Schools
+  ImportanceViolentCrime: Violent crime
   Primary: Primary
   Purpose: Purpose
   Rooms: Number of rooms in voucher
