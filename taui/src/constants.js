@@ -28,6 +28,10 @@ export const PROFILE_DESTINATION_TYPES = [
   'Other'
 ]
 
+export const DEFAULT_ACCESSIBILITY_IMPORTANCE = 2
+export const DEFAULT_SCHOOLS_IMPORTANCE = 1
+export const DEFAULT_CRIME_IMPORTANCE = 1
+
 // URLS
 export const MAPBOX_GEOCODING_URL =
   'https://api.mapbox.com/geocoding/v5/mapbox.places'

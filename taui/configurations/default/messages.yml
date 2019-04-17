@@ -117,6 +117,11 @@ Profile:
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
+ImportanceLabels:
+  1: Not important
+  2: Somewhat important
+  3: Important
+  4: Very Important
 QuintileLabels:
   Affordability:
     1: Very affordable
