@@ -116,6 +116,7 @@ Profile:
   SaveError: Failed to save profile. Please try again.
   Title: Profile
   ExpandedChoiceCommunitiesOnly: Expanded Choice Communities only
+  UseCommuterRail: Can take commuter rail
 ImportanceLabels:
   1: Not important
   2: Somewhat important

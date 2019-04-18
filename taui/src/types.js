@@ -63,6 +63,7 @@ export type AccountProfile = {
   importanceViolentCrime: number,
   key: string,
   rooms: number,
+  useCommuterRail: boolean,
   voucherNumber: string
 }
 
@@ -72,6 +73,7 @@ export type AccountProfile = {
  */
 
 export type NeighborhoodProperties = {
+  ecc: boolean,
   education_percentile_quintile: number,
   has_t_stop: boolean,
   id: string, // same as zipcode; unique
