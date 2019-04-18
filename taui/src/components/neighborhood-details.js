@@ -207,7 +207,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           {message('NeighborhoodDetails.FromOrigin')}&nbsp;
           {currentDestination && currentDestination.purpose.toLowerCase()}
         </div>}
-        {hasVehicle && <RouteSegments
+        {!hasVehicle && <RouteSegments
           hasVehicle={hasVehicle}
           routeSegments={neighborhood.segments}
           travelTime={neighborhood.time}
