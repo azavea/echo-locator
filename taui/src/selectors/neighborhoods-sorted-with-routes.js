@@ -5,6 +5,11 @@ import get from 'lodash/get'
 import orderBy from 'lodash/orderBy'
 import {createSelector} from 'reselect'
 
+import {
+  DEFAULT_ACCESSIBILITY_IMPORTANCE,
+  DEFAULT_CRIME_IMPORTANCE,
+  DEFAULT_SCHOOLS_IMPORTANCE
+} from '../constants'
 import {NeighborhoodProperties} from '../types'
 
 import selectNeighborhoodRoutes from './network-neighborhood-routes'
@@ -16,13 +21,9 @@ const MAX_TRAVEL_TIME = 120
 const MIN_QUINTILE = 1
 const MAX_QUINTILE = 5
 
-// Sorting weights. Must sum to one.
-const TIME_SORT_WEIGHT = 0.5
-const RENT_SORT_WEIGHT = 0.3
-const EDUCATION_SORT_WEIGHT = 0.2
-
-const DEFAULT_AFFORDABILITY_QUINTILE = 5 // default to most expensive, if unknown
-const DEFAULT_EDUCATION_QUINTILE = 5 // default to worst, if unknown
+// default to worst, if unknown
+const DEFAULT_EDUCATION_QUINTILE = 5
+const DEFAULT_CRIME_QUINTILE = 5
 
 export default createSelector(
   selectNeighborhoodRoutes,
@@ -36,6 +37,27 @@ export default createSelector(
       return []
     }
     const useTransit = !profile || !profile.hasVehicle
+
+    let accessibilityImportance = profile.importanceAccessibility
+      ? parseInt(profile.importanceAccessibility) - 1 : DEFAULT_ACCESSIBILITY_IMPORTANCE
+    let crimeImportance = profile.importanceViolentCrime
+      ? parseInt(profile.importanceViolentCrime) - 1 : DEFAULT_CRIME_IMPORTANCE
+    let schoolsImportance = profile.importanceSchools
+      ? parseInt(profile.importanceSchools) - 1 : DEFAULT_SCHOOLS_IMPORTANCE
+
+    // If everything is unimportant, rank all factors equally.
+    // If at least one factor has greater than the minimum importance, other factors will be
+    // instead effectively turned off by setting them to minimum importance.
+    if ((accessibilityImportance + crimeImportance + schoolsImportance) === 0) {
+      accessibilityImportance = crimeImportance = schoolsImportance = 1
+    }
+
+    const totalImportance = accessibilityImportance + crimeImportance + schoolsImportance
+
+    const accessibilityPercent = accessibilityImportance / totalImportance
+    const crimePercent = crimeImportance / totalImportance
+    const schoolPercent = schoolsImportance / totalImportance
+
     const neighborhoodsWithRoutes = filter(neighborhoods.features.map((n, index) => {
       const properties: NeighborhoodProperties = n.properties
       const route = neighborhoodRoutes[index]
@@ -49,13 +71,6 @@ export default createSelector(
       // Smaller travel time is better; larger timeWeight is better (reverse range).
       const timeWeight = time < MAX_TRAVEL_TIME ? scale(time, 0, MAX_TRAVEL_TIME, 1, 0) : 1
 
-      const rentQuintile = properties.overall_affordability_quintile
-        ? properties.overall_affordability_quintile
-        : DEFAULT_AFFORDABILITY_QUINTILE
-
-      // Smaller rent quintile is better; larger rentWeight is better (reverse range).
-      const rentWeight = scale(rentQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
-
       const eduationQuintile = properties.education_percentile_quintile
         ? properties.education_percentile_quintile
         : DEFAULT_EDUCATION_QUINTILE
@@ -63,12 +78,24 @@ export default createSelector(
       // Lowest education quintile is best (reverse range).
       const educationWeight = scale(eduationQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
 
-      // Calculate weighted overall score from the percentages. Larger score is better.
-      const score = (timeWeight * TIME_SORT_WEIGHT) +
-        (rentWeight * RENT_SORT_WEIGHT) +
-        (educationWeight * EDUCATION_SORT_WEIGHT)
+      // Lowest crime quintile is best (reverse range).
+      const crimeQuintile = properties.violentcrime_quintile
+        ? properties.violentcrime_quintile : DEFAULT_CRIME_QUINTILE
+      const crimeWeight = scale(crimeQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
 
-      return Object.assign({active, rentWeight, score, segments, time, timeWeight}, n)
+      // Calculate weighted overall score from the percentages. Larger score is better.
+      const score = (timeWeight * accessibilityPercent) +
+        (crimeWeight * crimePercent) +
+        (educationWeight * schoolPercent)
+
+      return Object.assign({active,
+        score,
+        segments,
+        time,
+        timeWeight,
+        crimeWeight,
+        educationWeight
+      }, n)
     }), n => !useTransit || (n.segments && n.segments.length && n.time < MAX_TRAVEL_TIME))
 
     return orderBy(neighborhoodsWithRoutes, ['score'], ['desc'])
