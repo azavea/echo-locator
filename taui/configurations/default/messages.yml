@@ -52,16 +52,8 @@ NeighborhoodDetails:
   GoogleMapsLink: Google Maps
   ModeSummary: via
 NeighborhoodInfo:
-  Affordability: Affordability
   EducationCategory: Schools
-  EducationPercentile: Education percentile
-  HasNoTransitStop: Has no transit stop
-  HasTransitStop: Has transit stop
   IsExpandedChoice: Expanded Choice Community
-  NearPark: Near a park
-  NearRailStation: Near a rail station
-  NearTransit: Near transit stops
-  PercentCollegeGraduates: College graduates
   Population: Population
   Score: Overall score
   ViolentCrime: Violent crime
@@ -77,13 +69,13 @@ Strings:
 Slower: slower
 Title: ECHOLocator
 Units:
+  About: About
   Minutes: minutes
   Mins: min
 Agency: Boston Housing Authority
 SignIn:
   Anonymous: Continue without an account
   AnonymousExplanation: Don't have an account?
-  Greeting: At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
 Header:
   New: New search
   Edit: Edit profile

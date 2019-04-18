@@ -89,7 +89,7 @@ export default class RouteCard extends React.PureComponent<Props> {
             <SummaryImage nprops={neighborhood.properties} />
             <div className='neighborhood-summary__trip'>
               {!userProfile.hasVehicle && <div className='neighborhood-summary__duration'>
-                {Math.round(time)} {message('Units.Mins')}
+                {message('Units.About')} {Math.round(time)} {message('Units.Mins')}
               </div>}
               <div className='neighborhood-summary__trajectory'>
                 <span className='neighborhood-summary__mode'>

@@ -30,7 +30,6 @@ class SignInHeader extends React.Component {
           {message('Agency')}
         </h2>
         <h1 className='auth-header__app-name' >{message('Title')}</h1>
-        <p className='auth-header__greeting'>{message('SignIn.Greeting')}</p>
       </header>
     )
   }

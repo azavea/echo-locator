@@ -54,16 +54,9 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     const tableData = [
       {label: 'NeighborhoodInfo.Score', value: overallScore},
-      {label: 'NeighborhoodInfo.Affordability', value: labels.affordability},
       {label: 'NeighborhoodInfo.ViolentCrime', value: labels.violentCrime},
       {label: 'NeighborhoodInfo.EducationCategory', value: labels.education},
-      {label: 'NeighborhoodInfo.EducationPercentile', value: labels.educationPercentile},
-      {label: 'NeighborhoodInfo.Population', value: labels.population},
-      {label: 'NeighborhoodInfo.PercentCollegeGraduates', value: labels.percentCollegeGraduates},
-      {label: 'NeighborhoodInfo.HasTransitStop', value: labels.hasTransitStop},
-      {label: 'NeighborhoodInfo.NearTransit', value: labels.nearTransitStop},
-      {label: 'NeighborhoodInfo.NearRailStation', value: labels.nearRailStation},
-      {label: 'NeighborhoodInfo.NearPark', value: labels.nearPark}
+      {label: 'NeighborhoodInfo.Population', value: labels.population}
     ]
 
     return (
@@ -201,6 +194,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           <Icon className='neighborhood-details__marker' type='map-marker' />
         </header>
         {!hasVehicle && <div className='neighborhood-details__trip'>
+          {message('Units.About')}&nbsp;
           {Math.round(neighborhood.time)}&nbsp;
           {message('Units.Mins')}&nbsp;
           <ModesList segments={bestJourney} />&nbsp;
