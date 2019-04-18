@@ -20,6 +20,9 @@ export function getFirstNeighborhoodImage (properties: NeighborhoodProperties): 
 // Returns metadata for a given image field, or null if unavailable
 export default function getNeighborhoodImage (properties: NeighborhoodProperties,
   imageField: string): NeighborhoodImageMetadata {
+  if (!imageField) {
+    return null
+  }
   if (!IMAGE_FIELDS.includes(imageField)) {
     console.error(imageField + ' is not a neighborhood image field')
     return null

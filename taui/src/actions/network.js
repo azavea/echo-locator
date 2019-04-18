@@ -58,8 +58,8 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
     if (!start && state.geocoder.proximity) {
       const centerCoordinates = lonlat(state.geocoder.proximity)
       dispatch(updateMap({centerCoordinates: lonlat.toLeaflet(centerCoordinates)}))
-    } else if (startCoordinate) {
-      dispatch(updateMap({centerCoordinates: lonlat.toLeaflet(startCoordinate)}))
+    } else if (start) {
+      dispatch(updateMap({centerCoordinates: lonlat.toLeaflet(start)}))
     }
 
     dispatch(loadDataset(
@@ -96,7 +96,7 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
           c.networks,
           c.grids,
           c.pointsOfInterestUrl,
-          startCoordinate || c.startCoordinate
+          start
         )
       }
     }))
@@ -164,18 +164,7 @@ export const loadDataset = (
       if (startCoordinate) {
         dispatch(fetchAllTimesAndPathsForCoordinate(startCoordinate))
       } else {
-        // Center x / y of the first network
-        dispatch(logItem(
-          `No starting coordinate, fetching data for network center...`))
-        const x = fullNetworks[0].west + fullNetworks[0].width / 2
-        const y = fullNetworks[0].north + fullNetworks[0].height / 2
-        const centerCoordinates = pointToCoordinate(x, y, fullNetworks[0].zoom)
-        dispatch(updateMap({centerCoordinates}))
-        dispatch({
-          type: 'set geocoder',
-          payload: {proximity: lonlat.toString(centerCoordinates)}
-        })
-        dispatch(updateStartPosition(centerCoordinates))
+        console.warn('No starting coordinate on page load! Starting coordinate should be set.')
       }
     }
   }))

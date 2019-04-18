@@ -32,6 +32,7 @@ COLUMNS = {
     'id': 'str',
     'town': 'str',
     'zipcode': 'str',
+    'ecc': 'int',
     'overall_affordability_quintile': 'float',
     'violentcrime_quintile': 'float',
     'education_percentile_quintile': 'float',
@@ -41,7 +42,14 @@ COLUMNS = {
     'has_t_stop': 'int',
     'near_t_station': 'float',
     'near_park': 'float',
-    'near_railstation': 'float'
+    'near_railstation': 'float',
+    'max_rent_0br': 'float',
+    'max_rent_1br': 'float',
+    'max_rent_2br': 'float',
+    'max_rent_3br': 'float',
+    'max_rent_4br': 'float',
+    'max_rent_5br': 'float',
+    'max_rent_6br': 'float'
 }
 
 if not os.path.isfile(NEIGHBORHOOD_CSV):
@@ -58,10 +66,6 @@ if not os.path.isfile(DESCRIPTIONS_CSV):
                   os.strerror(errno.ENOENT),
                   DESCRIPTIONS_CSV)
 
-# Read CSV of descriptions and images, keyed by zip code.
-# Fields in DESCRIPTIONS_CSV:
-# zip_code,town,town_website_description,town_link,wikipedia,wikipedia_link,street,school,
-# town_square,open_space_or_landmark,extra
 descriptions_zips = {}
 with open(DESCRIPTIONS_CSV) as df:
     rdr = csv.DictReader(df)
@@ -73,6 +77,8 @@ with open(DESCRIPTIONS_CSV) as df:
         descriptions_zips[zipcode] = row
 
 description_columns = OrderedDict((field, 'str') for field in fieldnames)
+description_fields = description_columns.copy()
+description_fields.pop('town')
 description_columns.update(COLUMNS)
 
 with open(NEIGHBORHOOD_CSV) as inf:
@@ -123,8 +129,14 @@ with open(NEIGHBORHOOD_CSV) as inf:
 
                 description = descriptions_zips.get(zipcode)
                 if not description:
-                    raise ValueError(
-                        'Missing description for {z}.'.format(z=zipcode))
+                    if n['ecc'] == '1':
+                        print(n)
+                        raise ValueError(
+                            'Missing description for {z}.'.format(z=zipcode))
+                    else:
+                        # non-ECC neighborhoods do not yet have descriptive info
+                        for fld in description_fields:
+                            properties[fld] = ''
                 else:
                     # append description and image fields to the propertiess
                     for fld in description:
