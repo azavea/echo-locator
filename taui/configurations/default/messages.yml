@@ -109,6 +109,9 @@ Profile:
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Frequent destinations
+  ImportanceAccessibility: Accessibility
+  ImportanceSchools: Schools
+  ImportanceViolentCrime: Violent crime
   Primary: Primary
   Purpose: Purpose
   Rooms: Number of rooms in voucher
@@ -117,6 +120,11 @@ Profile:
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
+ImportanceLabels:
+  1: Not important
+  2: Somewhat important
+  3: Important
+  4: Very Important
 QuintileLabels:
   Affordability:
     1: Very affordable

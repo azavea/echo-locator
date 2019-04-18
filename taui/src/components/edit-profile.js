@@ -8,8 +8,13 @@ import Icon from '@conveyal/woonerf/components/icon'
 
 import {
   ANONYMOUS_USERNAME,
+  DEFAULT_ACCESSIBILITY_IMPORTANCE,
+  DEFAULT_CRIME_IMPORTANCE,
   DEFAULT_PROFILE_DESTINATION_TYPE,
+  DEFAULT_SCHOOLS_IMPORTANCE,
   MAX_ADDRESSES,
+  MAX_IMPORTANCE,
+  MAX_ROOMS,
   PROFILE_DESTINATION_TYPES
 } from '../constants'
 import type {AccountAddress, AccountProfile} from '../types'
@@ -52,20 +57,7 @@ export default class EditProfile extends PureComponent<Props> {
     this.validDestinations = this.validDestinations.bind(this)
 
     const profile = props.userProfile
-
-    this.state = {
-      destinations: profile && profile.destinations.length
-        ? profile.destinations : [Object.assign({}, firstAddress)],
-      favorites: profile ? profile.favorites : [],
-      hasVehicle: profile ? profile.hasVehicle : false,
-      headOfHousehold: profile ? profile.headOfHousehold : '',
-      key: profile ? profile.key : '',
-      rooms: profile ? profile.rooms : 0,
-      voucherNumber: profile ? profile.voucherNumber : '',
-      componentError: null,
-      errorMessage: '',
-      isAnonymous: !profile || profile.key === ANONYMOUS_USERNAME
-    }
+    this.state = this.getDefaultState(profile)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -76,6 +68,48 @@ export default class EditProfile extends PureComponent<Props> {
         nextProps.userProfile.destinations = [Object.assign({}, firstAddress)]
       }
       this.setState(nextProps.userProfile)
+    }
+  }
+
+  getDefaultState (profile: AccountProfile) {
+    if (profile) {
+      // Read profile into an object for initial component state
+      return {
+        destinations: profile && profile.destinations.length
+          ? profile.destinations : [Object.assign({}, firstAddress)],
+        favorites: profile.favorites,
+        hasVehicle: profile.hasVehicle,
+        headOfHousehold: profile.headOfHousehold,
+        importanceAccessibility: profile.importanceAccessibility ? profile.importanceAccessibility
+          : DEFAULT_ACCESSIBILITY_IMPORTANCE,
+        importanceSchools: profile.importanceSchools ? profile.importanceSchools
+          : DEFAULT_SCHOOLS_IMPORTANCE,
+        importanceViolentCrime: profile.importanceViolentCrime ? profile.importanceViolentCrime
+          : DEFAULT_CRIME_IMPORTANCE,
+        key: profile.key,
+        rooms: profile.rooms,
+        voucherNumber: profile.voucherNumber,
+        componentError: null,
+        errorMessage: '',
+        isAnonymous: profile.key === ANONYMOUS_USERNAME
+      }
+    } else {
+      // Use defaults for new profile
+      return {
+        destinations: [Object.assign({}, firstAddress)],
+        favorites: [],
+        hasVehicle: false,
+        headOfHousehold: '',
+        importanceAccessibility: DEFAULT_ACCESSIBILITY_IMPORTANCE,
+        importanceSchools: DEFAULT_SCHOOLS_IMPORTANCE,
+        importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE,
+        key: '',
+        rooms: 0,
+        voucherNumber: '',
+        componentError: null,
+        errorMessage: '',
+        isAnonymous: true
+      }
     }
   }
 
@@ -100,6 +134,9 @@ export default class EditProfile extends PureComponent<Props> {
       destinations,
       hasVehicle,
       headOfHousehold,
+      importanceAccessibility,
+      importanceSchools,
+      importanceViolentCrime,
       key,
       rooms,
       voucherNumber
@@ -108,9 +145,12 @@ export default class EditProfile extends PureComponent<Props> {
 
     return {
       destinations,
+      favorites,
       hasVehicle,
       headOfHousehold,
-      favorites,
+      importanceAccessibility,
+      importanceSchools,
+      importanceViolentCrime,
       key,
       rooms,
       voucherNumber
@@ -355,10 +395,27 @@ export default class EditProfile extends PureComponent<Props> {
     )
   }
 
+  importanceOptions (props) {
+    const { changeField, fieldName, importance } = props
+    const importanceRange = range(1, MAX_IMPORTANCE + 1)
+    const importanceOptions = importanceRange.map((num) => {
+      const strVal = num.toString()
+      const label = message('ImportanceLabels.' + strVal)
+      return <option key={strVal} value={strVal}>{label}</option>
+    })
+    return (
+      <select
+        className='account-profile__input account-profile__input--wide-select'
+        defaultValue={importance}
+        onChange={(e) => changeField(fieldName, e.currentTarget.value)}>
+        {importanceOptions}
+      </select>
+    )
+  }
+
   roomOptions (props) {
     const { changeField, rooms } = props
-    const maxRooms = 4
-    const roomCountOptions = range(maxRooms + 1)
+    const roomCountOptions = range(MAX_ROOMS + 1)
     const roomOptions = roomCountOptions.map((num) => {
       const strVal = num.toString()
       return <option key={strVal} value={strVal}>{strVal}</option>
@@ -390,6 +447,9 @@ export default class EditProfile extends PureComponent<Props> {
       destinations,
       hasVehicle,
       headOfHousehold,
+      importanceAccessibility,
+      importanceSchools,
+      importanceViolentCrime,
       errorMessage,
       isAnonymous,
       key,
@@ -397,6 +457,7 @@ export default class EditProfile extends PureComponent<Props> {
     } = this.state
 
     const DestinationsList = this.destinationsList
+    const ImportanceOptions = this.importanceOptions
     const RoomOptions = this.roomOptions
     const TripPurposeOptions = this.tripPurposeOptions
 
@@ -439,6 +500,33 @@ export default class EditProfile extends PureComponent<Props> {
               setPrimaryAddress={setPrimaryAddress}
               TripPurposeOptions={TripPurposeOptions}
             />
+            <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='importanceAccessibility'>{message('Profile.ImportanceAccessibility')}</label>
+              <ImportanceOptions
+                fieldName='importanceAccessibility'
+                importance={importanceAccessibility}
+                changeField={changeField} />
+            </div>
+            <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='importanceSchools'>{message('Profile.ImportanceSchools')}</label>
+              <ImportanceOptions
+                fieldName='importanceSchools'
+                importance={importanceSchools}
+                changeField={changeField} />
+            </div>
+            <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='importanceViolentCrime'>{message('Profile.ImportanceViolentCrime')}</label>
+              <ImportanceOptions
+                fieldName='importanceViolentCrime'
+                importance={importanceViolentCrime}
+                changeField={changeField} />
+            </div>
             <div className='account-profile__field account-profile__field--inline'>
               <input
                 className='account-profile__input account-profile__input--checkbox'

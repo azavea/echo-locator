@@ -58,6 +58,9 @@ export type AccountProfile = {
   favorites: Array<string>,
   hasVehicle: boolean,
   headOfHousehod: string,
+  importanceAccessibility: number,
+  importanceSchools: number,
+  importanceViolentCrime: number,
   key: string,
   rooms: number,
   voucherNumber: string
