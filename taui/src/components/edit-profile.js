@@ -79,7 +79,7 @@ export default class EditProfile extends PureComponent<Props> {
           ? profile.destinations : [Object.assign({}, firstAddress)],
         favorites: profile.favorites,
         hasVehicle: profile.hasVehicle,
-        useCommuterRail: profile.useCommuterRail,
+        useCommuterRail: !profile.hasVehicle && profile.useCommuterRail,
         headOfHousehold: profile.headOfHousehold,
         importanceAccessibility: profile.importanceAccessibility ? profile.importanceAccessibility
           : DEFAULT_ACCESSIBILITY_IMPORTANCE,
@@ -141,10 +141,10 @@ export default class EditProfile extends PureComponent<Props> {
       importanceViolentCrime,
       key,
       rooms,
-      useCommuterRail,
       voucherNumber
     } = this.state
     const favorites = this.state.favorites || []
+    const useCommuterRail = !this.state.hasVehicle && this.state.useCommuterRail
 
     return {
       destinations,
@@ -508,7 +508,7 @@ export default class EditProfile extends PureComponent<Props> {
                 {message('Profile.HasVehicle')}
               </label>
             </div>
-	    <div className='account-profile__field account-profile__field--inline'>
+            {!hasVehicle && <div className='account-profile__field account-profile__field--inline'>
               <input
                 className='account-profile__input account-profile__input--checkbox'
                 id='useCommuterRail'
@@ -521,7 +521,7 @@ export default class EditProfile extends PureComponent<Props> {
                 htmlFor='useCommuterRail'>
                 {message('Profile.UseCommuterRail')}
               </label>
-            </div>
+            </div>}
             <DestinationsList
               addAddress={addAddress}
               deleteAddress={deleteAddress}
