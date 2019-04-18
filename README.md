@@ -86,11 +86,11 @@ where `ENVIRONMENT` is either `staging` or `production`.
 
 ### About the data processing scripts
 
-The `neighborhoods.csv` file is the source file for data on the neighborhoods, organized by zip code. The `add_zcta_centroids.py` script downloads Census Zip Code Tabulation Area (ZCTA) data, looks up the zip codes from `neighborhoods.csv`, and writes two files. One is `neighborhood_centroids.csv`, which is the input file content with two new columns added for the coordiates of the matching ZCTA's centroid (approximate center). The other is `neighborhood_bounds.json`, a GeoJSON file of the bounds of the ZCTAs marked as ECC in `neighborhoods.csv`.
+The `ecc_neighborhoods.csv` file is the primary source file for data on the neighborhoods, organized by zip code. `non_ecc_max_subsidies.csv` also contains non-ECC zipcodes, but does not contain the additional fields in `ecc_neighborhoods.csv`. The `add_non_ecc.py` script combines the two into `neighborhoods.csv`. The `add_zcta_centroids.py` script downloads Census Zip Code Tabulation Area (ZCTA) data, looks up the zip codes from `neighborhoods.csv`, and writes two files. One is `neighborhood_centroids.csv`, which is the input file content with two new columns added for the coordiates of the matching ZCTA's centroid (approximate center). The other is `neighborhood_bounds.json`, a GeoJSON file of the bounds of the ZCTAs marked as ECC in `neighborhoods.csv`.
 
-The `fetch_images.py` script downloads metadata for and thumbnail versions of the image fields in `neighborhood_descriptions.csv` and appends fields with the metadata (to be used for attribution) to `neighborhood_extended_descriptions.csv`.
+The `fetch_images.py` script downloads metadata for and thumbnail versions of the image fields in `neighborhood_descriptions.csv` and appends fields with the metadata (to be used for attribution) to `neighborhood_extended_descriptions.csv`. This script only needs to be run if the images or their metadata need updating.
 
-The `generate_neighborhood_json.py` script expects the `add_zcta_centroids.py` and `fetch_images.py` scripts to have already been run. It transforms the `neighborhood_centroids.csv` data into GeoJSON, appends the description and image-related fields from `neighborhood_extended_descriptions.csv`, and writes the results to `neighborhoods.json`.
+The `generate_neighborhood_json.py` script expects the `add_non_ecc`, `add_zcta_centroids.py`, and `fetch_images.py` scripts to have already been run. It transforms the `neighborhood_centroids.csv` data into GeoJSON, appends the description and image-related fields from `neighborhood_extended_descriptions.csv`, and writes the results to `neighborhoods.json`.
 
 
 ## Testing
