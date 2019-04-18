@@ -194,6 +194,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           <Icon className='neighborhood-details__marker' type='map-marker' />
         </header>
         {!hasVehicle && <div className='neighborhood-details__trip'>
+          {message('Units.About')}&nbsp;
           {Math.round(neighborhood.time)}&nbsp;
           {message('Units.Mins')}&nbsp;
           <ModesList segments={bestJourney} />&nbsp;
