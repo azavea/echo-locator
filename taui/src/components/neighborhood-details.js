@@ -184,7 +184,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     // Look up the currently selected user profile destination from the origin
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
-    const { id, town, wikipedia } = neighborhood.properties
+    const { ecc, id, town, wikipedia } = neighborhood.properties
 
     const bestJourney = neighborhood.segments && neighborhood.segments.length
       ? neighborhood.segments[0] : null
@@ -213,6 +213,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           travelTime={neighborhood.time}
         />}
         <NeighborhoodImages neighborhood={neighborhood} />
+        {!!ecc && <span>{message('NeighborhoodInfo.IsExpandedChoice')}</span>}
         <div className='neighborhood-details__desc'>
           {wikipedia}
         </div>
