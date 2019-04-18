@@ -54,16 +54,9 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     const tableData = [
       {label: 'NeighborhoodInfo.Score', value: overallScore},
-      {label: 'NeighborhoodInfo.Affordability', value: labels.affordability},
       {label: 'NeighborhoodInfo.ViolentCrime', value: labels.violentCrime},
       {label: 'NeighborhoodInfo.EducationCategory', value: labels.education},
-      {label: 'NeighborhoodInfo.EducationPercentile', value: labels.educationPercentile},
-      {label: 'NeighborhoodInfo.Population', value: labels.population},
-      {label: 'NeighborhoodInfo.PercentCollegeGraduates', value: labels.percentCollegeGraduates},
-      {label: 'NeighborhoodInfo.HasTransitStop', value: labels.hasTransitStop},
-      {label: 'NeighborhoodInfo.NearTransit', value: labels.nearTransitStop},
-      {label: 'NeighborhoodInfo.NearRailStation', value: labels.nearRailStation},
-      {label: 'NeighborhoodInfo.NearPark', value: labels.nearPark}
+      {label: 'NeighborhoodInfo.Population', value: labels.population}
     ]
 
     return (

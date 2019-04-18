@@ -52,16 +52,8 @@ NeighborhoodDetails:
   GoogleMapsLink: Google Maps
   ModeSummary: via
 NeighborhoodInfo:
-  Affordability: Affordability
   EducationCategory: Schools
-  EducationPercentile: Education percentile
-  HasNoTransitStop: Has no transit stop
-  HasTransitStop: Has transit stop
   IsExpandedChoice: Expanded Choice Community
-  NearPark: Near a park
-  NearRailStation: Near a rail station
-  NearTransit: Near transit stops
-  PercentCollegeGraduates: College graduates
   Population: Population
   Score: Overall score
   ViolentCrime: Violent crime
