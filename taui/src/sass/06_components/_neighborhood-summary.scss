@@ -39,7 +39,7 @@
 
   &__descriptive {
     flex: none;
-    margin-right: 2.4rem;
+    margin-right: 1.6rem;
     margin-left: 0.8rem;
   }
 
@@ -79,7 +79,7 @@
   }
 
   &__cell {
-    width: 50%;
-    padding-bottom: 0.6rem;
+    padding-bottom: 0.8rem;
+    white-space: nowrap;
   }
 }

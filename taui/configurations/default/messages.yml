@@ -53,7 +53,7 @@ NeighborhoodDetails:
   ModeSummary: via
 NeighborhoodInfo:
   EducationCategory: Schools
-  IsExpandedChoice: Expanded Choice Community
+  ExpandedChoice: Expanded Choice
   Population: Population
   Score: Overall score
   ViolentCrime: Violent crime
@@ -142,4 +142,7 @@ TripPurpose:
   Daycare: Day care
   Other: Other
   Work: Work
+Booleans:
+  Yes: Yes
+  No: No
 UnknownValue: Unknown
