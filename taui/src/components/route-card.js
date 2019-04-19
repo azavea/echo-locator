@@ -30,15 +30,13 @@ export default class RouteCard extends React.PureComponent<Props> {
     }
 
     return (
-      <a
+      <div
         className='neighborhood-summary__image'
-        target='_blank'
-        title={image.attribution}
-        href={image.imageLink}>
+        title={image.attribution}>
         <img
           alt={image.description}
           src={image.thumbnail} />
-      </a>
+      </div>
     )
   }
 
