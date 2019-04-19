@@ -102,8 +102,9 @@ Profile:
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Frequent destinations
-  ImportanceAccessibility: Accessibility
-  ImportanceSchools: Schools
+  ImportanceAccessibility: Travel time
+  ImportanceHeading: How important are the following?
+  ImportanceSchools: School quality
   ImportanceViolentCrime: Violent crime
   Primary: Primary
   Purpose: Purpose
