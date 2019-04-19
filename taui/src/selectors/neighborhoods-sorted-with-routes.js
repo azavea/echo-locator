@@ -30,8 +30,9 @@ export default createSelector(
   neighborhoodTravelTimes,
   state => get(state, 'data.neighborhoods'),
   state => get(state, 'data.origin'),
+  state => get(state, 'data.useNonECC'),
   state => get(state, 'data.userProfile'),
-  (neighborhoodRoutes, travelTimes, neighborhoods, origin, profile) => {
+  (neighborhoodRoutes, travelTimes, neighborhoods, origin, useNonECC, profile) => {
     if (!neighborhoods || !neighborhoods.features || !neighborhoods.features.length ||
       !neighborhoodRoutes || !neighborhoodRoutes.length) {
       return []
@@ -58,7 +59,10 @@ export default createSelector(
     const crimePercent = crimeImportance / totalImportance
     const schoolPercent = schoolsImportance / totalImportance
 
-    const neighborhoodsWithRoutes = filter(neighborhoods.features.map((n, index) => {
+    // Filter out non-ECC neighborhoods if that option is set
+    const useNeighborhoods = filter(neighborhoods.features, n => useNonECC || n.properties.ecc)
+
+    const neighborhoodsWithRoutes = filter(useNeighborhoods.map((n, index) => {
       const properties: NeighborhoodProperties = n.properties
       const route = neighborhoodRoutes[index]
       const active = route.active

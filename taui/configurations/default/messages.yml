@@ -114,6 +114,7 @@ Profile:
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
+  IncludeNonExpandedChoiceCommunities: Include non-expanded choice communities
 ImportanceLabels:
   1: Not important
   2: Somewhat important

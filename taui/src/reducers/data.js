@@ -10,7 +10,8 @@ export default handleActions(
         networks: [],
         page: 0,
         showDetails: false,
-        showFavorites: false
+        showFavorites: false,
+        useNonECC: true
       }
     },
     'set grid' (state, action) {
@@ -116,6 +117,12 @@ export default handleActions(
         ...state,
         showFavorites: !!action.payload
       }
+    },
+    'set use non-ECC' (state, action) {
+      return {
+        ...state,
+        useNonECC: !!action.payload
+      }
     }
   },
   {
@@ -127,6 +134,7 @@ export default handleActions(
     profileLoading: true,
     showDetails: false,
     showFavorites: false,
+    useNonECC: true,
     userProfile: null
   }
 )

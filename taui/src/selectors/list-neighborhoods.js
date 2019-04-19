@@ -16,6 +16,7 @@ export default createSelector(
     if (!neighborhoodsSortedWithRoutes) {
       return []
     }
+    // filter to only show favorites, if in favorites view
     return showFavorites
       ? filter(neighborhoodsSortedWithRoutes,
         n => userProfile.favorites.indexOf(n.properties.id) !== -1)

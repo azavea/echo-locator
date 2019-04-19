@@ -15,10 +15,10 @@ import type {
 } from '../types'
 
 type Props = {
-  end: null | Location,
-  geocode: (string, Function) => void,
-  reverseGeocode: (string, Function) => void,
-  start: null | Location,
+  networks: any[],
+  setActiveNetwork: (string) => void,
+  setUseNonECC: (boolean) => void,
+  updateOrigin: (Location) => void,
   userProfile: AccountProfile
 }
 
@@ -114,12 +114,12 @@ export default class Form extends React.PureComponent {
   }
 
   render () {
-    const p = this.props
+    const {setUseNonECC, useNonECC, userProfile} = this.props
     const {destination, network} = this.state
-    const destinations: Array<AccountAddress> = p.userProfile ? p.userProfile.destinations : []
+    const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
     const locations = destinations.map(d => d.location)
     const destinationFilterOptions = createDestinationsFilter(locations)
-    const networks = p.networks.map(n => ({label: n.name, value: n.url}))
+    const networks = this.props.networks.map(n => ({label: n.name, value: n.url}))
     const networkFilterOptions = createNetworksFilter(networks)
 
     const setNetwork = this.setNetwork
@@ -147,6 +147,20 @@ export default class Form extends React.PureComponent {
           wrapperStyle={SELECT_WRAPPER_STYLE}
           value={network}
         />
+        <div className='account-profile__field account-profile__field--inline'>
+          <input
+            className='account-profile__input account-profile__input--checkbox'
+            id='useNonECC'
+            type='checkbox'
+            onClick={(e) => setUseNonECC(e.currentTarget.checked)}
+            defaultChecked={useNonECC}
+          />
+          <label
+            className='account-profile__label'
+            htmlFor='useNonECC'>
+            {message('Profile.IncludeNonExpandedChoiceCommunities')}
+          </label>
+        </div>
       </div>
     )
   }

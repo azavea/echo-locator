@@ -150,7 +150,9 @@ export default class MainPage extends React.PureComponent<Props> {
             reverseGeocode={p.reverseGeocode}
             setActiveNetwork={p.setActiveNetwork}
             origin={p.data.origin}
+            setUseNonECC={p.setUseNonECC}
             updateOrigin={p.updateOrigin}
+            useNonECC={p.data.useNonECC}
             userProfile={p.userProfile}
           />
         </Dock>
