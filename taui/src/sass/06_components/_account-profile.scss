@@ -15,15 +15,26 @@
       align-items: center;
 
       > *:not(:last-child) {
-        margin-right: 0.8rem;
+        margin-right: 1.6rem;
         margin-bottom: 0;
       }
+    }
+
+    &--stack {
+      justify-content: space-between;
+      max-width: 40rem;
+      margin: 2.4rem 0;
     }
   }
 
   &__label {
     @include text(400);
     @include font-weight(bold);
+
+    &--secondary {
+      @include text(300);
+      @include font-weight(bold);
+    }
   }
 
   &__input {
@@ -126,6 +137,10 @@
     }
   }
 
+  &__importance-options {
+    margin-bottom: 4rem;
+  }
+
   &__error {
     @include text(400);
     margin-top: 1.6rem;
@@ -157,7 +172,7 @@
 
     &--secondary {
       @include button($color: $black, $background: $gray-300);
-      min-width: 12rem;
+      min-width: 14rem;
     }
 
     &--tertiary {

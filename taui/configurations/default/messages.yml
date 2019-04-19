@@ -53,7 +53,7 @@ NeighborhoodDetails:
   ModeSummary: via
 NeighborhoodInfo:
   EducationCategory: Schools
-  IsExpandedChoice: Expanded Choice Community
+  ExpandedChoice: Expanded Choice
   Population: Population
   Score: Overall score
   ViolentCrime: Violent crime
@@ -102,8 +102,9 @@ Profile:
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Frequent destinations
-  ImportanceAccessibility: Accessibility
-  ImportanceSchools: Schools
+  ImportanceAccessibility: Travel time
+  ImportanceHeading: How important are the following?
+  ImportanceSchools: School quality
   ImportanceViolentCrime: Violent crime
   Primary: Primary
   Purpose: Purpose
@@ -141,4 +142,7 @@ TripPurpose:
   Daycare: Day care
   Other: Other
   Work: Work
+Booleans:
+  Yes: Yes
+  No: No
 UnknownValue: Unknown

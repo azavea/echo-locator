@@ -14,6 +14,8 @@ export default function NeighborhoodListInfo ({neighborhood}) {
     ? neighborhood.score.toLocaleString('en-US', {style: 'percent'})
     : message('UnknownValue')
 
+  const ecc = neighborhood.properties.ecc ? message('Booleans.Yes') : message('Booleans.No')
+
   return (
     <table className='neighborhood-summary__facts'>
       <tbody>
@@ -28,6 +30,10 @@ export default function NeighborhoodListInfo ({neighborhood}) {
         <tr>
           <td className='neighborhood-summary__cell'>{message('NeighborhoodInfo.EducationCategory')}:</td>
           <td className='neighborhood-summary__cell'>{labels.education}</td>
+        </tr>
+        <tr>
+          <td className='neighborhood-summary__cell'>{message('NeighborhoodInfo.ExpandedChoice')}:</td>
+          <td className='neighborhood-summary__cell'>{ecc}</td>
         </tr>
       </tbody>
     </table>

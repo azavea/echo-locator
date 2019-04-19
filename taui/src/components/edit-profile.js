@@ -359,7 +359,7 @@ export default class EditProfile extends PureComponent<Props> {
 
     return (
       <div className='account-profile__destinations'>
-        <h2 className='account-profile__label'>{message('Profile.Destinations')}</h2>
+        <h3 className='account-profile__label'>{message('Profile.Destinations')}</h3>
         <div className='account-profile__destination-list-header'>
           <div className='account-profile__destination_field account-profile__destination_field--wide'>
             <span className='account-profile__destination-list-heading'>
@@ -489,44 +489,6 @@ export default class EditProfile extends PureComponent<Props> {
                 rooms={rooms}
                 changeField={changeField} />
             </div>
-            <DestinationsList
-              addAddress={addAddress}
-              deleteAddress={deleteAddress}
-              destinations={destinations}
-              editAddress={editAddress}
-              geocode={geocode}
-              reverseGeocode={reverseGeocode}
-              setGeocodeLocation={setGeocodeLocation}
-              setPrimaryAddress={setPrimaryAddress}
-              TripPurposeOptions={TripPurposeOptions}
-            />
-            <div className='account-profile__field'>
-              <label
-                className='account-profile__label'
-                htmlFor='importanceAccessibility'>{message('Profile.ImportanceAccessibility')}</label>
-              <ImportanceOptions
-                fieldName='importanceAccessibility'
-                importance={importanceAccessibility}
-                changeField={changeField} />
-            </div>
-            <div className='account-profile__field'>
-              <label
-                className='account-profile__label'
-                htmlFor='importanceSchools'>{message('Profile.ImportanceSchools')}</label>
-              <ImportanceOptions
-                fieldName='importanceSchools'
-                importance={importanceSchools}
-                changeField={changeField} />
-            </div>
-            <div className='account-profile__field'>
-              <label
-                className='account-profile__label'
-                htmlFor='importanceViolentCrime'>{message('Profile.ImportanceViolentCrime')}</label>
-              <ImportanceOptions
-                fieldName='importanceViolentCrime'
-                importance={importanceViolentCrime}
-                changeField={changeField} />
-            </div>
             <div className='account-profile__field account-profile__field--inline'>
               <input
                 className='account-profile__input account-profile__input--checkbox'
@@ -540,6 +502,49 @@ export default class EditProfile extends PureComponent<Props> {
                 htmlFor='hasVehicle'>
                 {message('Profile.HasVehicle')}
               </label>
+            </div>
+            <DestinationsList
+              addAddress={addAddress}
+              deleteAddress={deleteAddress}
+              destinations={destinations}
+              editAddress={editAddress}
+              geocode={geocode}
+              reverseGeocode={reverseGeocode}
+              setGeocodeLocation={setGeocodeLocation}
+              setPrimaryAddress={setPrimaryAddress}
+              TripPurposeOptions={TripPurposeOptions}
+            />
+            <div className='account-profile__importance-options'>
+              <h3 className='account-profile__label'>
+                {message('Profile.ImportanceHeading')}
+              </h3>
+              <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
+                <label
+                  className='account-profile__label account-profile__label--secondary'
+                  htmlFor='importanceAccessibility'>{message('Profile.ImportanceAccessibility')}</label>
+                <ImportanceOptions
+                  fieldName='importanceAccessibility'
+                  importance={importanceAccessibility}
+                  changeField={changeField} />
+              </div>
+              <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
+                <label
+                  className='account-profile__label account-profile__label--secondary'
+                  htmlFor='importanceSchools'>{message('Profile.ImportanceSchools')}</label>
+                <ImportanceOptions
+                  fieldName='importanceSchools'
+                  importance={importanceSchools}
+                  changeField={changeField} />
+              </div>
+              <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
+                <label
+                  className='account-profile__label account-profile__label--secondary'
+                  htmlFor='importanceViolentCrime'>{message('Profile.ImportanceViolentCrime')}</label>
+                <ImportanceOptions
+                  fieldName='importanceViolentCrime'
+                  importance={importanceViolentCrime}
+                  changeField={changeField} />
+              </div>
             </div>
             {errorMessage &&
               <p className='account-profile__error'>{errorMessage}</p>

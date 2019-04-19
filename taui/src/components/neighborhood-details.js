@@ -52,11 +52,14 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       ? neighborhood.score.toLocaleString('en-US', {style: 'percent'})
       : message('UnknownValue')
 
+    const ecc = neighborhood.properties.ecc ? message('Booleans.Yes') : message('Booleans.No')
+
     const tableData = [
       {label: 'NeighborhoodInfo.Score', value: overallScore},
       {label: 'NeighborhoodInfo.ViolentCrime', value: labels.violentCrime},
       {label: 'NeighborhoodInfo.EducationCategory', value: labels.education},
-      {label: 'NeighborhoodInfo.Population', value: labels.population}
+      {label: 'NeighborhoodInfo.Population', value: labels.population},
+      {label: 'NeighborhoodInfo.ExpandedChoice', value: ecc}
     ]
 
     return (
@@ -177,7 +180,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     // Look up the currently selected user profile destination from the origin
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
-    const { ecc, id, town, wikipedia } = neighborhood.properties
+    const { id, town, wikipedia } = neighborhood.properties
 
     const bestJourney = neighborhood.segments && neighborhood.segments.length
       ? neighborhood.segments[0] : null
@@ -207,7 +210,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           travelTime={neighborhood.time}
         />}
         <NeighborhoodImages neighborhood={neighborhood} />
-        {!!ecc && <span>{message('NeighborhoodInfo.IsExpandedChoice')}</span>}
         <div className='neighborhood-details__desc'>
           {wikipedia}
         </div>

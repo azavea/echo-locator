@@ -39,12 +39,14 @@
 
   &__descriptive {
     flex: none;
-    margin-right: 2.4rem;
+    margin-right: 1.6rem;
     margin-left: 0.8rem;
   }
 
   &__image {
     width: 12rem;
+    height: 9rem;
+    margin-bottom: 0.8rem;
 
     img {
       width: 120px;
@@ -79,7 +81,7 @@
   }
 
   &__cell {
-    width: 50%;
-    padding-bottom: 0.6rem;
+    padding-bottom: 0.8rem;
+    white-space: nowrap;
   }
 }
