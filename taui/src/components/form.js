@@ -50,7 +50,7 @@ export default class Form extends React.PureComponent<Props> {
       network: networks && networks.length ? {
         label: networks[0].name, value: networks[0].url
       } : null,
-      useNonECC: true
+      useNonECC: false
     }
 
     if (this.state.destination) {

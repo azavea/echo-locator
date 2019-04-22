@@ -11,7 +11,7 @@ export default handleActions(
         page: 0,
         showDetails: false,
         showFavorites: false,
-        useNonECC: true
+        useNonECC: false
       }
     },
     'set grid' (state, action) {
@@ -134,7 +134,7 @@ export default handleActions(
     profileLoading: true,
     showDetails: false,
     showFavorites: false,
-    useNonECC: true,
+    useNonECC: false,
     userProfile: null
   }
 )
