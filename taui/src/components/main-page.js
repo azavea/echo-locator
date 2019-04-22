@@ -150,7 +150,9 @@ export default class MainPage extends React.PureComponent<Props> {
             reverseGeocode={p.reverseGeocode}
             setActiveNetwork={p.setActiveNetwork}
             origin={p.data.origin}
+            setUseNonECC={p.setUseNonECC}
             updateOrigin={p.updateOrigin}
+            useNonECC={p.data.useNonECC}
             userProfile={p.userProfile}
           />
         </Dock>
@@ -167,6 +169,7 @@ export default class MainPage extends React.PureComponent<Props> {
             activeNeighborhood={p.data.activeNeighborhood}
             activeNetworkIndex={p.activeNetworkIndex}
             clearStartAndEnd={this._clearStartAndEnd}
+            detailNeighborhood={p.detailNeighborhood}
             displayNeighborhoods={p.displayPageNeighborhoods}
             end={p.geocoder.end}
             isLoading={p.isLoading}
@@ -177,6 +180,7 @@ export default class MainPage extends React.PureComponent<Props> {
             neighborhoods={p.routableNeighborhoods}
             neighborhoodBounds={p.neighborhoodBounds}
             neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
+            neighborhoodBoundsFiltered={p.neighborhoodBoundsFiltered}
             origin={p.data.origin}
             pointsOfInterest={p.pointsOfInterest}
             showRoutes={this._showNeighborhoodRoutes()}

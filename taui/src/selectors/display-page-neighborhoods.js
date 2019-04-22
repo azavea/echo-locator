@@ -1,5 +1,4 @@
 // @flow
-import get from 'lodash/get'
 import {createSelector} from 'reselect'
 
 import {SIDEBAR_PAGE_SIZE} from '../constants'
@@ -11,8 +10,6 @@ import listNeighborhoods from './list-neighborhoods'
 export default createSelector(
   listNeighborhoods,
   selectPage,
-  state => get(state, 'data.showFavorites'),
-  state => get(state, 'data.userProfile'),
   (neighborhoods, page) => {
     if (!neighborhoods) {
       return []

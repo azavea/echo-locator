@@ -11,7 +11,6 @@ import {
   ZoomControl
 } from 'react-leaflet'
 
-import {NEIGHBORHOOD_BOUNDS_STYLE} from '../constants'
 import type {
   Coordinate,
   Location,
@@ -20,9 +19,9 @@ import type {
 } from '../types'
 import getNeighborhoodById from '../utils/get-neighborhood'
 
+import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
 import DrawNeighborhoods from './draw-neighborhoods'
 import DrawRoute from './draw-route'
-import VGrid from './vector-grid'
 
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
   ? process.env.LEAFLET_RETINA_URL
@@ -75,6 +74,7 @@ type Props = {
   end: null | Location,
   isLoading: boolean,
   neighborhoodBounds: any,
+  neighborhoodBoundsFiltered: any,
   neighborhoods: any,
   pointsOfInterest: void | any, // FeatureCollection
   setEndPosition: LonLat => void,
@@ -240,15 +240,12 @@ export default class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />)}
 
-        {!p.isLoading && p.neighborhoodBounds &&
-          <VGrid
-            data={p.neighborhoodBounds}
-            idField='id'
-            tooltip='town'
-            vectorTileLayerStyles={
-              {'sliced': NEIGHBORHOOD_BOUNDS_STYLE}
-            }
-            zIndex={getZIndex()} />}
+        {!p.isLoading && p.neighborhoodBoundsFiltered &&
+          <DrawNeighborhoodBounds
+            key={`start-${this._getKey()}`}
+            neighborhoodBounds={p.neighborhoodBoundsFiltered}
+            zIndex={getZIndex()}
+          />}
 
         {!p.isLoading && p.neighborhoods &&
           <DrawNeighborhoods
@@ -269,7 +266,7 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {activeNeighborhood &&
+        {activeNeighborhood && !p.showDetails &&
           <Marker
             icon={endIcon}
             key={`end-${this._getKey()}`}
@@ -278,6 +275,18 @@ export default class Map extends PureComponent<Props, State> {
           >
             <Popup>
               <span>{activeNeighborhood.properties.town} {activeNeighborhood.properties.id}</span>
+            </Popup>
+          </Marker>}
+
+        {p.detailNeighborhood && p.showDetails &&
+          <Marker
+            icon={endIcon}
+            key={`end-${this._getKey()}`}
+            position={lonlat.toLeaflet(p.detailNeighborhood.geometry.coordinates)}
+            zIndex={getZIndex()}
+          >
+            <Popup>
+              <span>{p.detailNeighborhood.properties.town} {p.detailNeighborhood.properties.id}</span>
             </Popup>
           </Marker>}
 
