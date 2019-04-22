@@ -3,7 +3,10 @@ import React from 'react'
 import {LayerGroup} from 'react-leaflet'
 
 import {
-  NEIGHBORHOOD_BOUNDS_STYLE
+  NEIGHBORHOOD_BOUNDS_STYLE,
+  NEIGHBORHOOD_BOUNDS_HOVER_STYLE,
+  NEIGHBORHOOD_NONROUTABLE_COLOR,
+  NEIGHBORHOOD_ROUTABLE_COLOR
 } from '../constants'
 
 import VGrid from './vector-grid'
@@ -15,15 +18,21 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
   render () {
     const p = this.props
     return <LayerGroup key={`neighborhood-boundary-${this._getKey()}`}>
-      {p.neighborhoodBounds && <VGrid
-        data={p.neighborhoodBounds}
+      {p.neighborhoods && <VGrid
+        data={p.neighborhoods}
         idField='id'
+        tooltip='town'
+        onClick={p.clickNeighborhood}
         zIndex={p.zIndex}
         activeStyle={NEIGHBORHOOD_BOUNDS_STYLE}
-        style={NEIGHBORHOOD_BOUNDS_STYLE}
+        style={NEIGHBORHOOD_BOUNDS_HOVER_STYLE}
         vectorTileLayerStyles={
           {'sliced': (properties) => {
-            return NEIGHBORHOOD_BOUNDS_STYLE
+            return Object.assign({}, NEIGHBORHOOD_BOUNDS_STYLE, {
+              color: properties.routable
+                ? NEIGHBORHOOD_ROUTABLE_COLOR
+                : NEIGHBORHOOD_NONROUTABLE_COLOR
+            })
           }}
         }
       />}

@@ -79,6 +79,14 @@ export const NEIGHBORHOOD_BOUNDS_STYLE = {
   fill: false
 }
 
+export const NEIGHBORHOOD_BOUNDS_HOVER_STYLE = {
+  stroke: true,
+  weight: 4,
+  color: '#159d37',
+  opacity: 1,
+  fill: false
+}
+
 export const NEIGHBORHOOD_STYLE = {
   color: '#333',
   opacity: 0.7,

@@ -13,7 +13,7 @@ export default createSelector(
     if (useNonECC || !neighborhoodBounds) {
       return neighborhoodBounds
     }
-    const filteredFeatures = filter(neighborhoodBounds.features, n => n.properties.ECC)
+    const filteredFeatures = filter(neighborhoodBounds.features, n => n.properties.ecc)
     return Object.assign({}, neighborhoodBounds, {features: filteredFeatures})
   }
 )

@@ -177,12 +177,10 @@ export default class MainPage extends React.PureComponent<Props> {
             drawIsochrones={p.drawIsochrones}
             drawOpportunityDatasets={p.drawOpportunityDatasets}
             drawRoutes={p.drawNeighborhoodRoutes}
-            neighborhoods={p.routableNeighborhoods}
-            neighborhoodBounds={p.neighborhoodBounds}
             neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
-            neighborhoodBoundsFiltered={p.neighborhoodBoundsFiltered}
             origin={p.data.origin}
             pointsOfInterest={p.pointsOfInterest}
+            routableNeighborhoods={p.routableNeighborhoods}
             showRoutes={this._showNeighborhoodRoutes()}
             setActiveNeighborhood={p.setActiveNeighborhood}
             setPage={p.setPage}

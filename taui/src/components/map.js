@@ -2,6 +2,7 @@
 import lonlat from '@conveyal/lonlat'
 import Leaflet from 'leaflet'
 import filter from 'lodash/filter'
+import find from 'lodash/find'
 import React, {PureComponent} from 'react'
 import {
   Map as LeafletMap,
@@ -17,10 +18,8 @@ import type {
   LonLat,
   MapEvent
 } from '../types'
-import getNeighborhoodById from '../utils/get-neighborhood'
 
 import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
-import DrawNeighborhoods from './draw-neighborhoods'
 import DrawRoute from './draw-route'
 
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
@@ -73,10 +72,8 @@ type Props = {
   drawRoutes: any[],
   end: null | Location,
   isLoading: boolean,
-  neighborhoodBounds: any,
-  neighborhoodBoundsFiltered: any,
-  neighborhoods: any,
   pointsOfInterest: void | any, // FeatureCollection
+  routableNeighborhoods: any,
   setEndPosition: LonLat => void,
   setStartPosition: LonLat => void,
   start: null | Location,
@@ -195,17 +192,16 @@ export default class Map extends PureComponent<Props, State> {
       ? filter(p.displayNeighborhoods, n => !n.active)
       : []
 
+    const showDetailNeighborhood = p.showDetails ? p.detailNeighborhood
+      : find(p.displayNeighborhoods, n => n.properties.id === p.activeNeighborhood)
+
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
     let zIndex = 0
     const getZIndex = () => zIndex++
 
-    const activeNeighborhood = p.neighborhoods
-      ? getNeighborhoodById(p.neighborhoods.features, p.activeNeighborhood)
-      : null
-
     return (
-      p.neighborhoodBounds ? <LeafletMap
+      p.routableNeighborhoods ? <LeafletMap
         bounds={p.neighborhoodBoundsExtent}
         center={p.centerCoordinates}
         className='Taui-Map map'
@@ -240,18 +236,11 @@ export default class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />)}
 
-        {!p.isLoading && p.neighborhoodBoundsFiltered &&
+        {!p.isLoading && p.routableNeighborhoods &&
           <DrawNeighborhoodBounds
             key={`start-${this._getKey()}`}
-            neighborhoodBounds={p.neighborhoodBoundsFiltered}
-            zIndex={getZIndex()}
-          />}
-
-        {!p.isLoading && p.neighborhoods &&
-          <DrawNeighborhoods
             clickNeighborhood={clickNeighborhood}
-            neighborhoods={p.neighborhoods}
-            key={`neighborhoods-${this._getKey()}`}
+            neighborhoods={p.routableNeighborhoods}
             zIndex={getZIndex()}
           />}
 
@@ -266,27 +255,15 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {activeNeighborhood && !p.showDetails &&
+        {showDetailNeighborhood &&
           <Marker
             icon={endIcon}
             key={`end-${this._getKey()}`}
-            position={lonlat.toLeaflet(activeNeighborhood.geometry.coordinates)}
+            position={lonlat.toLeaflet(showDetailNeighborhood.geometry.coordinates)}
             zIndex={getZIndex()}
           >
             <Popup>
-              <span>{activeNeighborhood.properties.town} {activeNeighborhood.properties.id}</span>
-            </Popup>
-          </Marker>}
-
-        {p.detailNeighborhood && p.showDetails &&
-          <Marker
-            icon={endIcon}
-            key={`end-${this._getKey()}`}
-            position={lonlat.toLeaflet(p.detailNeighborhood.geometry.coordinates)}
-            zIndex={getZIndex()}
-          >
-            <Popup>
-              <span>{p.detailNeighborhood.properties.town} {p.detailNeighborhood.properties.id}</span>
+              <span>{showDetailNeighborhood.properties.town} {showDetailNeighborhood.properties.id}</span>
             </Popup>
           </Marker>}
 
