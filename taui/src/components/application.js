@@ -64,6 +64,7 @@ type Props = {
   map: MapState,
   neighborhoodBounds: any,
   neighborhoodBoundsExtent: any[],
+  neighborhoodBoundsFiltered: any,
   neighborhoodRoutes: any,
   neighborhoodTravelTimes: any,
   neighborhoods: any,

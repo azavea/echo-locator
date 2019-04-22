@@ -179,6 +179,7 @@ export default class MainPage extends React.PureComponent<Props> {
             neighborhoods={p.routableNeighborhoods}
             neighborhoodBounds={p.neighborhoodBounds}
             neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
+            neighborhoodBoundsFiltered={p.neighborhoodBoundsFiltered}
             origin={p.data.origin}
             pointsOfInterest={p.pointsOfInterest}
             showRoutes={this._showNeighborhoodRoutes()}

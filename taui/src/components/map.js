@@ -20,6 +20,7 @@ import type {
 } from '../types'
 import getNeighborhoodById from '../utils/get-neighborhood'
 
+import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
 import DrawNeighborhoods from './draw-neighborhoods'
 import DrawRoute from './draw-route'
 import VGrid from './vector-grid'
@@ -75,6 +76,7 @@ type Props = {
   end: null | Location,
   isLoading: boolean,
   neighborhoodBounds: any,
+  neighborhoodBoundsFiltered: any,
   neighborhoods: any,
   pointsOfInterest: void | any, // FeatureCollection
   setEndPosition: LonLat => void,
@@ -240,15 +242,12 @@ export default class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />)}
 
-        {!p.isLoading && p.neighborhoodBounds &&
-          <VGrid
-            data={p.neighborhoodBounds}
-            idField='id'
-            tooltip='town'
-            vectorTileLayerStyles={
-              {'sliced': NEIGHBORHOOD_BOUNDS_STYLE}
-            }
-            zIndex={getZIndex()} />}
+        {!p.isLoading && p.neighborhoodBoundsFiltered &&
+          <DrawNeighborhoodBounds
+            key={`start-${this._getKey()}`}
+            neighborhoodBounds={p.neighborhoodBoundsFiltered}
+            zIndex={getZIndex()}
+          />}
 
         {!p.isLoading && p.neighborhoods &&
           <DrawNeighborhoods
