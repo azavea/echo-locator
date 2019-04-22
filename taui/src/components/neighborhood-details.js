@@ -5,6 +5,7 @@ import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
 import type {AccountProfile, NeighborhoodImageMetadata, NeighborhoodLabels} from '../types'
+import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getGoogleSearchLink from '../utils/google-search-link'
 import getNeighborhoodImage from '../utils/neighborhood-images'
@@ -122,7 +123,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodLinks (props) {
-    const { hasVehicle, neighborhood, origin } = this.props
+    const { hasVehicle, neighborhood, origin, userProfile } = this.props
     // lat,lon strings for Google Directions link from neighborhood to current destination
     const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
     const originCoordinateString = neighborhood.geometry.coordinates[1] +
@@ -160,6 +161,15 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           target='_blank'
         >
           {message('NeighborhoodDetails.GoogleMapsLink')}
+        </a>
+        <a
+          className='neighborhood-details__link'
+          href={getCraigslistSearchLink(
+            neighborhood.properties.id,
+            userProfile.rooms)}
+          target='_blank'
+        >
+          {message('NeighborhoodDetails.CraigslistSearchLink')}
         </a>
       </div>
     )
@@ -216,7 +226,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         <NeighborhoodLinks
           hasVehicle={hasVehicle}
           neighborhood={neighborhood}
-          origin={origin} />
+          origin={origin}
+          userProfile={userProfile} />
         <NeighborhoodDetailsTable neighborhood={neighborhood} />
       </div>
     )
