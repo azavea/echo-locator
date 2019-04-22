@@ -169,6 +169,7 @@ export default class MainPage extends React.PureComponent<Props> {
             activeNeighborhood={p.data.activeNeighborhood}
             activeNetworkIndex={p.activeNetworkIndex}
             clearStartAndEnd={this._clearStartAndEnd}
+            detailNeighborhood={p.detailNeighborhood}
             displayNeighborhoods={p.displayPageNeighborhoods}
             end={p.geocoder.end}
             isLoading={p.isLoading}
