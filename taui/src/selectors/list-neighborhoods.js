@@ -4,22 +4,22 @@ import get from 'lodash/get'
 import {createSelector} from 'reselect'
 
 import selectPage from './page'
-import neighborhoodsSortedWithRoutes from './neighborhoods-sorted-with-routes'
+import neighborhoods from './filtered-neighborhoods-with-routes'
 
 // Returns the slice of neighborhoods (all or favorites) for the current page
 export default createSelector(
   selectPage,
-  neighborhoodsSortedWithRoutes,
+  neighborhoods,
   state => get(state, 'data.showFavorites'),
   state => get(state, 'data.userProfile'),
-  (page, neighborhoodsSortedWithRoutes, showFavorites, userProfile) => {
-    if (!neighborhoodsSortedWithRoutes) {
+  (page, neighborhoods, showFavorites, userProfile) => {
+    if (!neighborhoods) {
       return []
     }
     // filter to only show favorites, if in favorites view
     return showFavorites
-      ? filter(neighborhoodsSortedWithRoutes,
+      ? filter(neighborhoods,
         n => userProfile.favorites.indexOf(n.properties.id) !== -1)
-      : neighborhoodsSortedWithRoutes
+      : neighborhoods
   }
 )

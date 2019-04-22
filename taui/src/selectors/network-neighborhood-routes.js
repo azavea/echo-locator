@@ -1,6 +1,5 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
-import filter from 'lodash/filter'
 import get from 'lodash/get'
 import memoize from 'lodash/memoize'
 import {createSelector} from 'reselect'
@@ -24,27 +23,19 @@ export default createSelector(
   state => get(state, 'data.networks'),
   state => get(state, 'data.origin'),
   state => get(state, 'data.neighborhoods'),
-  state => get(state, 'data.useNonECC'),
-  (activeNetworkIndex, activeNeighborhood, networks, start, neighborhoods, useNonECC) => {
+  (activeNetworkIndex, activeNeighborhood, networks, start, neighborhoods) => {
     const network = networks[activeNetworkIndex]
     if (!neighborhoods || !neighborhoods.features || !neighborhoods.features.length || !network) {
       return []
     }
 
-    const filteredNeighborhoods = useNonECC ? neighborhoods.features
-      : filter(neighborhoods.features, n => n.properties.ecc)
-
-    if (!filteredNeighborhoods.length) {
-      return []
-    }
-
     // Default to first neighborhood active, as does draw-neighborhood-routes
     if (!activeNeighborhood) {
-      activeNeighborhood = filteredNeighborhoods[0].id
+      activeNeighborhood = neighborhoods.features[0].id
     }
 
     const routes = []
-    filteredNeighborhoods.map((neighborhood, neighborhoodIndex) => {
+    neighborhoods.features.map((neighborhood, neighborhoodIndex) => {
       if (
         start &&
         start.position &&
