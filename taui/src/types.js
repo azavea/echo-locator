@@ -75,7 +75,6 @@ export type NeighborhoodProperties = {
   education_percentile_quintile: number,
   has_t_stop: boolean,
   id: string, // same as zipcode; unique
-  routable: boolean, // derived property changed with the origin
   town: string, // the label
   town_link: string,
   town_website_description: string,
