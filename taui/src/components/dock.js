@@ -53,8 +53,8 @@ export default class Dock extends PureComponent<Props> {
 
   backFromDetails (e) {
     e.stopPropagation()
-    this.props.setActiveNeighborhood()
     this.props.setShowDetails(false)
+    this.props.setActiveNeighborhood()
   }
 
   goPreviousPage (e) {
