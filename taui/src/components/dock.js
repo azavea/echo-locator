@@ -66,11 +66,13 @@ export default class Dock extends PureComponent<Props> {
       console.warn('Cannot move back from page ' + page)
       this.props.setPage(0)
     }
+    this.props.setActiveNeighborhood()
   }
 
   goNextPage (e) {
     e.stopPropagation()
     this.props.setPage(this.props.page + 1)
+    this.props.setActiveNeighborhood()
   }
 
   goToDetails (e, neighborhood) {
