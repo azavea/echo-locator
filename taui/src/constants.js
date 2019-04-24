@@ -73,18 +73,22 @@ export const NEIGHBORHOOD_ROUTABLE_COLOR = '#15369d'
 
 export const NEIGHBORHOOD_BOUNDS_STYLE = {
   stroke: true,
-  weight: 2,
-  color: '#85929E',
+  weight: 1,
+  color: '#fff',
   opacity: 0.5,
-  fill: false
+  fill: true,
+  fillColor: '#85929E',
+  fillOpacity: 0.4
 }
 
 export const NEIGHBORHOOD_BOUNDS_HOVER_STYLE = {
   stroke: true,
-  weight: 4,
-  color: '#159d37',
-  opacity: 1,
-  fill: false
+  weight: 1,
+  color: '#fff',
+  opacity: 0.5,
+  fill: true,
+  fillColor: '#159d37',
+  fillOpacity: 0.6
 }
 
 export const NEIGHBORHOOD_STYLE = {
