@@ -166,13 +166,13 @@ export default class Form extends React.PureComponent<Props> {
             className='map-sidebar__checkbox'
             id='useNonECC'
             type='checkbox'
-            onClick={(e) => setStateUseNonECC(e.currentTarget.checked)}
-            defaultChecked={useNonECC}
+            onClick={(e) => setStateUseNonECC(!e.currentTarget.checked)}
+            defaultChecked={!useNonECC}
           />
           <label
             className='map-sidebar__label'
             htmlFor='useNonECC'>
-            {message('Profile.IncludeNonExpandedChoiceCommunities')}
+            {message('Profile.ExpandedChoiceCommunitiesOnly')}
           </label>
         </div>
       </div>
