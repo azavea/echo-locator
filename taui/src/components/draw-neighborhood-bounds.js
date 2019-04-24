@@ -24,12 +24,12 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
         tooltip='town'
         onClick={p.clickNeighborhood}
         zIndex={p.zIndex}
-        activeStyle={NEIGHBORHOOD_BOUNDS_STYLE}
-        style={NEIGHBORHOOD_BOUNDS_HOVER_STYLE}
+        style={NEIGHBORHOOD_BOUNDS_STYLE}
+        hoverStyle={NEIGHBORHOOD_BOUNDS_HOVER_STYLE}
         vectorTileLayerStyles={
           {'sliced': (properties) => {
             return Object.assign({}, NEIGHBORHOOD_BOUNDS_STYLE, {
-              color: properties.routable
+              fillColor: properties.routable
                 ? NEIGHBORHOOD_ROUTABLE_COLOR
                 : NEIGHBORHOOD_NONROUTABLE_COLOR
             })
