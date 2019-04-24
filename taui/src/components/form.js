@@ -161,16 +161,16 @@ export default class Form extends React.PureComponent<Props> {
           wrapperStyle={SELECT_WRAPPER_STYLE}
           value={network}
         />
-        <div className='account-profile__field account-profile__field--inline'>
+        <div className='map-sidebar__ecc-checkbox'>
           <input
-            className='account-profile__input account-profile__input--checkbox'
+            className='map-sidebar__checkbox'
             id='useNonECC'
             type='checkbox'
             onClick={(e) => setStateUseNonECC(e.currentTarget.checked)}
             defaultChecked={useNonECC}
           />
           <label
-            className='account-profile__label'
+            className='map-sidebar__label'
             htmlFor='useNonECC'>
             {message('Profile.IncludeNonExpandedChoiceCommunities')}
           </label>
