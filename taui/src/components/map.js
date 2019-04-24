@@ -2,6 +2,7 @@
 import lonlat from '@conveyal/lonlat'
 import Leaflet from 'leaflet'
 import filter from 'lodash/filter'
+import find from 'lodash/find'
 import React, {PureComponent} from 'react'
 import {
   Map as LeafletMap,
@@ -11,18 +12,15 @@ import {
   ZoomControl
 } from 'react-leaflet'
 
-import {NEIGHBORHOOD_BOUNDS_STYLE} from '../constants'
 import type {
   Coordinate,
   Location,
   LonLat,
   MapEvent
 } from '../types'
-import getNeighborhoodById from '../utils/get-neighborhood'
 
-import DrawNeighborhoods from './draw-neighborhoods'
+import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
 import DrawRoute from './draw-route'
-import VGrid from './vector-grid'
 
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
   ? process.env.LEAFLET_RETINA_URL
@@ -74,9 +72,8 @@ type Props = {
   drawRoutes: any[],
   end: null | Location,
   isLoading: boolean,
-  neighborhoodBounds: any,
-  neighborhoods: any,
   pointsOfInterest: void | any, // FeatureCollection
+  routableNeighborhoods: any,
   setEndPosition: LonLat => void,
   setStartPosition: LonLat => void,
   start: null | Location,
@@ -195,17 +192,16 @@ export default class Map extends PureComponent<Props, State> {
       ? filter(p.displayNeighborhoods, n => !n.active)
       : []
 
+    const showDetailNeighborhood = p.showDetails ? p.detailNeighborhood
+      : find(p.displayNeighborhoods, n => n.properties.id === p.activeNeighborhood)
+
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
     let zIndex = 0
     const getZIndex = () => zIndex++
 
-    const activeNeighborhood = p.neighborhoods
-      ? getNeighborhoodById(p.neighborhoods.features, p.activeNeighborhood)
-      : null
-
     return (
-      p.neighborhoodBounds ? <LeafletMap
+      p.routableNeighborhoods ? <LeafletMap
         bounds={p.neighborhoodBoundsExtent}
         center={p.centerCoordinates}
         className='Taui-Map map'
@@ -240,21 +236,11 @@ export default class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />)}
 
-        {!p.isLoading && p.neighborhoodBounds &&
-          <VGrid
-            data={p.neighborhoodBounds}
-            idField='id'
-            tooltip='town'
-            vectorTileLayerStyles={
-              {'sliced': NEIGHBORHOOD_BOUNDS_STYLE}
-            }
-            zIndex={getZIndex()} />}
-
-        {!p.isLoading && p.neighborhoods &&
-          <DrawNeighborhoods
+        {!p.isLoading && p.routableNeighborhoods &&
+          <DrawNeighborhoodBounds
+            key={`start-${this._getKey()}`}
             clickNeighborhood={clickNeighborhood}
-            neighborhoods={p.neighborhoods}
-            key={`neighborhoods-${this._getKey()}`}
+            neighborhoods={p.routableNeighborhoods}
             zIndex={getZIndex()}
           />}
 
@@ -269,15 +255,15 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {activeNeighborhood &&
+        {showDetailNeighborhood &&
           <Marker
             icon={endIcon}
             key={`end-${this._getKey()}`}
-            position={lonlat.toLeaflet(activeNeighborhood.geometry.coordinates)}
+            position={lonlat.toLeaflet(showDetailNeighborhood.geometry.coordinates)}
             zIndex={getZIndex()}
           >
             <Popup>
-              <span>{activeNeighborhood.properties.town} {activeNeighborhood.properties.id}</span>
+              <span>{showDetailNeighborhood.properties.town} {showDetailNeighborhood.properties.id}</span>
             </Popup>
           </Marker>}
 

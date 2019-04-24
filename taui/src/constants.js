@@ -15,6 +15,9 @@ export const IMAGE_FIELDS = [
 // Maximum number of destinations that may be added to a user profile
 export const MAX_ADDRESSES = 3
 
+// Maximum number of rooms for user profile
+export const MAX_ROOMS = 6
+
 // Number of neighborhood suggestions to show at a time
 export const SIDEBAR_PAGE_SIZE = 3
 
@@ -27,6 +30,12 @@ export const PROFILE_DESTINATION_TYPES = [
   'Daycare',
   'Other'
 ]
+
+// Account profile defaults for weight importance
+export const MAX_IMPORTANCE = 4
+export const DEFAULT_ACCESSIBILITY_IMPORTANCE = 2
+export const DEFAULT_SCHOOLS_IMPORTANCE = 1
+export const DEFAULT_CRIME_IMPORTANCE = 1
 
 // URLS
 export const MAPBOX_GEOCODING_URL =
@@ -67,6 +76,14 @@ export const NEIGHBORHOOD_BOUNDS_STYLE = {
   weight: 2,
   color: '#85929E',
   opacity: 0.5,
+  fill: false
+}
+
+export const NEIGHBORHOOD_BOUNDS_HOVER_STYLE = {
+  stroke: true,
+  weight: 4,
+  color: '#159d37',
+  opacity: 1,
   fill: false
 }
 

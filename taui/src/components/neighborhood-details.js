@@ -5,6 +5,7 @@ import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
 import type {AccountProfile, NeighborhoodImageMetadata, NeighborhoodLabels} from '../types'
+import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getGoogleSearchLink from '../utils/google-search-link'
 import getNeighborhoodImage from '../utils/neighborhood-images'
@@ -52,18 +53,14 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       ? neighborhood.score.toLocaleString('en-US', {style: 'percent'})
       : message('UnknownValue')
 
+    const ecc = neighborhood.properties.ecc ? message('Booleans.Yes') : message('Booleans.No')
+
     const tableData = [
       {label: 'NeighborhoodInfo.Score', value: overallScore},
-      {label: 'NeighborhoodInfo.Affordability', value: labels.affordability},
       {label: 'NeighborhoodInfo.ViolentCrime', value: labels.violentCrime},
       {label: 'NeighborhoodInfo.EducationCategory', value: labels.education},
-      {label: 'NeighborhoodInfo.EducationPercentile', value: labels.educationPercentile},
       {label: 'NeighborhoodInfo.Population', value: labels.population},
-      {label: 'NeighborhoodInfo.PercentCollegeGraduates', value: labels.percentCollegeGraduates},
-      {label: 'NeighborhoodInfo.HasTransitStop', value: labels.hasTransitStop},
-      {label: 'NeighborhoodInfo.NearTransit', value: labels.nearTransitStop},
-      {label: 'NeighborhoodInfo.NearRailStation', value: labels.nearRailStation},
-      {label: 'NeighborhoodInfo.NearPark', value: labels.nearPark}
+      {label: 'NeighborhoodInfo.ExpandedChoice', value: ecc}
     ]
 
     return (
@@ -126,7 +123,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodLinks (props) {
-    const { hasVehicle, neighborhood, origin } = this.props
+    const { hasVehicle, neighborhood, origin, userProfile } = this.props
     // lat,lon strings for Google Directions link from neighborhood to current destination
     const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
     const originCoordinateString = neighborhood.geometry.coordinates[1] +
@@ -165,6 +162,15 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         >
           {message('NeighborhoodDetails.GoogleMapsLink')}
         </a>
+        <a
+          className='neighborhood-details__link'
+          href={getCraigslistSearchLink(
+            neighborhood.properties.id,
+            userProfile.rooms)}
+          target='_blank'
+        >
+          {message('NeighborhoodDetails.CraigslistSearchLink')}
+        </a>
       </div>
     )
   }
@@ -201,13 +207,14 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           <Icon className='neighborhood-details__marker' type='map-marker' />
         </header>
         {!hasVehicle && <div className='neighborhood-details__trip'>
+          {message('Units.About')}&nbsp;
           {Math.round(neighborhood.time)}&nbsp;
           {message('Units.Mins')}&nbsp;
           <ModesList segments={bestJourney} />&nbsp;
           {message('NeighborhoodDetails.FromOrigin')}&nbsp;
           {currentDestination && currentDestination.purpose.toLowerCase()}
         </div>}
-        {hasVehicle && <RouteSegments
+        {!hasVehicle && <RouteSegments
           hasVehicle={hasVehicle}
           routeSegments={neighborhood.segments}
           travelTime={neighborhood.time}
@@ -219,7 +226,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         <NeighborhoodLinks
           hasVehicle={hasVehicle}
           neighborhood={neighborhood}
-          origin={origin} />
+          origin={origin}
+          userProfile={userProfile} />
         <NeighborhoodDetailsTable neighborhood={neighborhood} />
       </div>
     )

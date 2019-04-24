@@ -1,5 +1,4 @@
 // @flow
-import get from 'lodash/get'
 import {createSelector} from 'reselect'
 
 import {SIDEBAR_PAGE_SIZE} from '../constants'
@@ -11,14 +10,16 @@ import listNeighborhoods from './list-neighborhoods'
 export default createSelector(
   listNeighborhoods,
   selectPage,
-  state => get(state, 'data.showFavorites'),
-  state => get(state, 'data.userProfile'),
   (neighborhoods, page) => {
     if (!neighborhoods) {
       return []
     }
     const startingOffset = page * SIDEBAR_PAGE_SIZE
-    return neighborhoods && neighborhoods.length ? neighborhoods.slice(
+    const result = neighborhoods && neighborhoods.length ? neighborhoods.slice(
       startingOffset, SIDEBAR_PAGE_SIZE + startingOffset) : []
+    return result.map(n => {
+      n.properties.routable = true // mark as routable for shared click interaction
+      return n
+    })
   }
 )

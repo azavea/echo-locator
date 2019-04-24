@@ -7,7 +7,8 @@ export default class DrawRoute extends React.PureComponent {
   componentWillReceiveProps (nextProps) {
     // Zoom to active route on going to detail view, or back to full extent on returning to list
     const layer = this.refs ? get(this.refs, 'features.leafletElement') : null
-    if (!layer || nextProps.activeNeighborhood !== nextProps.id) {
+    if (!layer || (nextProps.activeNeighborhood &&
+      nextProps.activeNeighborhood !== nextProps.id)) {
       return
     }
     const needToZoomIn = nextProps.showDetails && !this.props.showDetails

@@ -1,19 +1,20 @@
 // @flow
 import find from 'lodash/find'
 import get from 'lodash/get'
-import map from 'lodash/map'
 import {createSelector} from 'reselect'
 
+import neighborhoodFilteredBounds from './neighborhood-bounds-filtered'
 import neighborhoodsSortedWithRoutes from './neighborhoods-sorted-with-routes'
 
 export default createSelector(
   neighborhoodsSortedWithRoutes,
-  state => get(state, 'data.neighborhoods'),
-  (neighborhoodsSortedWithRoutes, neighborhoods) => {
+  neighborhoodFilteredBounds,
+  state => get(state, 'data.useNonECC'),
+  (neighborhoodsSortedWithRoutes, neighborhoods, useNonECC) => {
     if (!neighborhoodsSortedWithRoutes || !neighborhoodsSortedWithRoutes.length) {
       return neighborhoods
     }
-    const routableNeighborhoods = map(neighborhoods.features, n => {
+    const routableNeighborhoods = neighborhoods.features.map(n => {
       const routable = !!find(neighborhoodsSortedWithRoutes,
         s => s.properties.id === n.properties.id)
       const neighborhood = Object.assign({}, n)

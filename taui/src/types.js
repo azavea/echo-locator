@@ -58,6 +58,9 @@ export type AccountProfile = {
   favorites: Array<string>,
   hasVehicle: boolean,
   headOfHousehod: string,
+  importanceAccessibility: number,
+  importanceSchools: number,
+  importanceViolentCrime: number,
   key: string,
   rooms: number,
   voucherNumber: string
@@ -69,16 +72,9 @@ export type AccountProfile = {
  */
 
 export type NeighborhoodProperties = {
-  education_percentile: number,
   education_percentile_quintile: number,
   has_t_stop: boolean,
   id: string, // same as zipcode; unique
-  near_park: number,
-  near_railstation: number,
-  near_t_stop: number,
-  overall_affordability_quintile: number, // rental affordability
-  percentage_college_graduates: number,
-  routable: boolean, // derived property changed with the origin
   town: string, // the label
   town_link: string,
   town_website_description: string,
@@ -94,14 +90,7 @@ export type NeighborhoodProperties = {
  * calcualted in `utils/neighborhood-properties.js`.
  */
 export type NeighborhoodLabels = {
-  affordability: string,
   education: string,
-  educationPercentile: string,
-  hasTransitStop: string,
-  nearPark: string,
-  nearRailStation: string,
-  nearTransitStop: string,
-  percentCollegeGraduates: string,
   population: string,
   violentCrime: string
 }

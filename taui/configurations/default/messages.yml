@@ -42,6 +42,7 @@ Dock:
   ShowAllButton: All
   ShowSavedButton: Saved
 NeighborhoodDetails:
+  CraigslistSearchLink: Search Craigslist
   DriveMode: drive
   TransitMode: transit
   FromOrigin: from
@@ -52,15 +53,8 @@ NeighborhoodDetails:
   GoogleMapsLink: Google Maps
   ModeSummary: via
 NeighborhoodInfo:
-  Affordability: Affordability
   EducationCategory: Schools
-  EducationPercentile: Education percentile
-  HasNoTransitStop: Has no transit stop
-  HasTransitStop: Has transit stop
-  NearPark: Near a park
-  NearRailStation: Near a rail station
-  NearTransit: Near transit stops
-  PercentCollegeGraduates: College graduates
+  ExpandedChoice: Expanded Choice
   Population: Population
   Score: Overall score
   ViolentCrime: Violent crime
@@ -76,13 +70,13 @@ Strings:
 Slower: slower
 Title: ECHOLocator
 Units:
+  About: About
   Minutes: minutes
   Mins: min
 Agency: Boston Housing Authority
 SignIn:
   Anonymous: Continue without an account
   AnonymousExplanation: Don't have an account?
-  Greeting: At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
 Header:
   New: New search
   Edit: Edit profile
@@ -109,6 +103,10 @@ Profile:
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Frequent destinations
+  ImportanceAccessibility: Travel time
+  ImportanceHeading: How important are the following?
+  ImportanceSchools: School quality
+  ImportanceViolentCrime: Violent crime
   Primary: Primary
   Purpose: Purpose
   Rooms: Number of rooms in voucher
@@ -117,6 +115,12 @@ Profile:
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
+  IncludeNonExpandedChoiceCommunities: Include non-expanded choice communities
+ImportanceLabels:
+  1: Not important
+  2: Somewhat important
+  3: Important
+  4: Very Important
 QuintileLabels:
   Affordability:
     1: Very affordable
@@ -140,4 +144,7 @@ TripPurpose:
   Daycare: Day care
   Other: Other
   Work: Work
+Booleans:
+  Yes: Yes
+  No: No
 UnknownValue: Unknown
