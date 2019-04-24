@@ -3,7 +3,6 @@
 set -e
 
 pip install -r requirements.txt
-python add_non_ecc.py
 python add_zcta_centroids.py
 python fetch_images.py
 python generate_neighborhood_json.py

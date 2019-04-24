@@ -11,12 +11,12 @@ from collections import OrderedDict
 import csv
 import errno
 import os
+import sys
 
 import fiona
 from fiona.crs import from_epsg
 
-NEIGHBORHOOD_CSV = 'neighborhood_centroids.csv'
-DESCRIPTIONS_CSV = 'neighborhood_extended_descriptions.csv'
+NEIGHBORHOOD_CSV = 'neighborhood_centroids_descriptions.csv'
 OUTPUT_FILE = 'neighborhoods.json'
 
 # Columns to treat as text in the input CSV; all others assumed to be floats.
@@ -33,24 +33,38 @@ COLUMNS = {
     'town': 'str',
     'zipcode': 'str',
     'ecc': 'int',
-    'overall_affordability_quintile': 'float',
     'violentcrime_quintile': 'float',
     'education_percentile_quintile': 'float',
     'education_percentile': 'float',
-    'zipcode_population': 'int',
-    'percentage_college_graduates': 'float',
-    'has_t_stop': 'int',
-    'near_t_station': 'float',
-    'near_park': 'float',
-    'near_railstation': 'float',
     'max_rent_0br': 'float',
     'max_rent_1br': 'float',
     'max_rent_2br': 'float',
     'max_rent_3br': 'float',
     'max_rent_4br': 'float',
     'max_rent_5br': 'float',
-    'max_rent_6br': 'float'
+    'max_rent_6br': 'float',
+    'town_website_description': 'str',
+    'town_link': 'str',
+    'wikipedia': 'str',
+    'wikipedia_link': 'str',
+    'street': 'str',
+    'school': 'str',
+    'town_square': 'str',
+    'open_space_or_landmark': 'str'
 }
+
+# Add column definitions for the extra image metadata columns
+IMAGE_COLUMNS = ['street', 'school', 'town_square', 'open_space_or_landmark']
+EXTRA_IMAGE_COLUMNS = ['_thumbnail', '_license', '_license_url', '_description', '_artist',
+                       '_username']
+
+# ensure Unicode will be handled properly
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+for col in IMAGE_COLUMNS:
+    for suffix in EXTRA_IMAGE_COLUMNS:
+        COLUMNS[col + suffix] = 'str'
 
 if not os.path.isfile(NEIGHBORHOOD_CSV):
     print('\nFirst run add_zcta_centroids.py to generate {f}.\n\n'.format(
@@ -58,28 +72,6 @@ if not os.path.isfile(NEIGHBORHOOD_CSV):
     raise IOError(errno.ENOENT,
                   os.strerror(errno.ENOENT),
                   NEIGHBORHOOD_CSV)
-
-if not os.path.isfile(DESCRIPTIONS_CSV):
-    print('\nFirst run fetch_images.py to generate {f}.\n\n'.format(
-        f=DESCRIPTIONS_CSV))
-    raise IOError(errno.ENOENT,
-                  os.strerror(errno.ENOENT),
-                  DESCRIPTIONS_CSV)
-
-descriptions_zips = {}
-with open(DESCRIPTIONS_CSV) as df:
-    rdr = csv.DictReader(df)
-    fieldnames = list(rdr.fieldnames)
-    fieldnames.remove('zip_code')
-    for row in rdr:
-        zipcode = row['zip_code'].zfill(5)
-        row.pop('zip_code')
-        descriptions_zips[zipcode] = row
-
-description_columns = OrderedDict((field, 'str') for field in fieldnames)
-description_fields = description_columns.copy()
-description_fields.pop('town')
-description_columns.update(COLUMNS)
 
 with open(NEIGHBORHOOD_CSV) as inf:
         rdr = csv.DictReader(inf)
@@ -93,7 +85,7 @@ with open(NEIGHBORHOOD_CSV) as inf:
         schema = {
             'id': 'str',
             'geometry': 'Point',
-            'properties': description_columns
+            'properties': COLUMNS
         }
 
         with fiona.open(OUTPUT_FILE, 'w', driver='GeoJSON', schema=schema,
@@ -126,21 +118,6 @@ with open(NEIGHBORHOOD_CSV) as inf:
                         properties[field] = int(val)
                     else:
                         properties[field] = str(val)
-
-                description = descriptions_zips.get(zipcode)
-                if not description:
-                    if n['ecc'] == '1':
-                        print(n)
-                        raise ValueError(
-                            'Missing description for {z}.'.format(z=zipcode))
-                    else:
-                        # non-ECC neighborhoods do not yet have descriptive info
-                        for fld in description_fields:
-                            properties[fld] = ''
-                else:
-                    # append description and image fields to the propertiess
-                    for fld in description:
-                        properties[fld] = str(description[fld])
 
                 neighborhood = {
                     'id': zipcode,
