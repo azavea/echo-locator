@@ -15,8 +15,27 @@
   }
 
   &__travel-form {
-    padding-bottom: 0.8rem;
+    padding-bottom: 1.6rem;
     border-bottom: 1px solid $gray-400;
+  }
+
+  &__ecc-checkbox {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 1.6rem;
+  }
+
+  &__checkbox {
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-right: 0.8rem;
+  }
+
+  &__label {
+    @include text(300);
+    @include font-weight(bold);
   }
 
   &__details-navigation {

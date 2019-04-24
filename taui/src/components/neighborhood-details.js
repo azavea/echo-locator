@@ -138,6 +138,15 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         >
           {message('NeighborhoodDetails.WebsiteLink')}
         </a>}
+        <a
+          className='neighborhood-details__link'
+          href={getCraigslistSearchLink(
+            neighborhood.properties.id,
+            userProfile.rooms)}
+          target='_blank'
+        >
+          {message('NeighborhoodDetails.CraigslistSearchLink')}
+        </a>
         {neighborhood.properties.wikipedia_link && <a
           className='neighborhood-details__link'
           href={neighborhood.properties.wikipedia_link}
@@ -161,15 +170,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           target='_blank'
         >
           {message('NeighborhoodDetails.GoogleMapsLink')}
-        </a>
-        <a
-          className='neighborhood-details__link'
-          href={getCraigslistSearchLink(
-            neighborhood.properties.id,
-            userProfile.rooms)}
-          target='_blank'
-        >
-          {message('NeighborhoodDetails.CraigslistSearchLink')}
         </a>
       </div>
     )
