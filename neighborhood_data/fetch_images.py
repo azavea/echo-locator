@@ -9,10 +9,11 @@ import csv
 import errno
 import os
 import requests
+import sys
 import urllib
 
-DESCRIPTIONS_CSV = 'neighborhood_descriptions.csv'
-OUTPUT_FILE = 'neighborhood_extended_descriptions.csv'
+DESCRIPTIONS_CSV = 'neighborhood_centroids.csv'
+OUTPUT_FILE = 'neighborhood_centroids_descriptions.csv'
 STATUS_FILE = 'image_status.csv'
 
 STATUS_FIELDS = ['zipcode', 'source_field', 'url', 'issue']
@@ -36,6 +37,10 @@ IMAGE_METADATA_FIELDS = [
 ]
 
 METADATA_URL = 'https://en.wikipedia.org/w/api.php'
+
+# ensure Unicode will be handled properly
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 def get_image_metadata(url, type):
@@ -146,9 +151,6 @@ def get_image_filename(zipcode, fieldname, thumbnail):
                                                             extension=extension))
 
 
-# Fields in DESCRIPTIONS_CSV:
-# zip_code,town,town_website_description,town_link,wikipedia,wikipedia_link,street,school,
-# town_square,open_space_or_landmark,extra
 with open(DESCRIPTIONS_CSV) as df:
     rdr = csv.DictReader(df)
     fieldnames = list(rdr.fieldnames)
@@ -173,7 +175,7 @@ with open(OUTPUT_FILE, 'w') as outf:
         status_wtr = csv.DictWriter(statusf, fieldnames=STATUS_FIELDS)
         status_wtr.writeheader()
         for row in descriptions:
-            zipcode = row['zip_code'].zfill(5)
+            zipcode = row['zipcode'].zfill(5)
             print('Processing {zip}...'.format(zip=zipcode))
             extended_row = row
             for fld in IMAGE_FIELDS:
@@ -204,7 +206,12 @@ with open(OUTPUT_FILE, 'w') as outf:
                 else:
                     missing_urls += 1
                 extended_row.update(get_image_metadata_fields(fld, metadata))
-            wtr.writerow(extended_row)
+            try:
+                wtr.writerow(extended_row)
+            except Exception as ex:
+                print('Failed to write:')
+                print(extended_row)
+                raise ex
 
 print('Good: {g} Bad: {b} Missing: {m}'.format(g=good_urls,
                                                b=bad_urls,
