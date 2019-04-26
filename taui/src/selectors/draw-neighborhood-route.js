@@ -15,11 +15,11 @@ export default createSelector(
   selectNeighborhoodRoutes,
   (activeNeighborhood, neighborhoodRoutes = []) => {
     if (!neighborhoodRoutes) {
-      return []
+      return null
     }
     const index = findIndex(neighborhoodRoutes, (route) => route.id === activeNeighborhood)
     if (index === -1) {
-      return []
+      return null
     }
     const transitive = neighborhoodRoutes[index]
     const applyStyle = {opacity: 1, fillOpacity: 1}
@@ -27,7 +27,7 @@ export default createSelector(
     const transitStyle = {...TRANSIT_STYLE, ...applyStyle}
     const stopStyle = {...STOP_STYLE, ...applyStyle}
     const segments = get(transitive, 'journeys[0].segments', [])
-    return [{
+    return {
       index,
       id: transitive.id,
       label: transitive.label,
@@ -42,7 +42,7 @@ export default createSelector(
       stopStyle,
       transitStyle,
       walkStyle
-    }]
+    }
   }
 )
 
