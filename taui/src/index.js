@@ -74,7 +74,6 @@ function mapStateToProps (state, ownProps) {
     isLoading: select.loading(state, ownProps),
     neighborhoods: get(state, 'data.neighborhoods'),
     neighborhoodBounds: get(state, 'data.neighborhoodBounds'),
-    neighborhoodBoundsFiltered: select.neighborhoodBoundsFiltered(state, ownProps),
     neighborhoodBoundsExtent: select.neighborhoodBoundsExtent(state, ownProps),
     neighborhoodRoutes: select.neighborhoodRoutes(state, ownProps),
     neighborhoodsSortedWithRoutes: select.neighborhoodsSortedWithRoutes(state, ownProps),
