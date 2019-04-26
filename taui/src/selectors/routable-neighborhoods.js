@@ -3,12 +3,11 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import {createSelector} from 'reselect'
 
-import neighborhoodFilteredBounds from './neighborhood-bounds-filtered'
 import neighborhoodsSortedWithRoutes from './neighborhoods-sorted-with-routes'
 
 export default createSelector(
   neighborhoodsSortedWithRoutes,
-  neighborhoodFilteredBounds,
+  state => get(state, 'data.neighborhoodBounds'),
   state => get(state, 'data.useNonECC'),
   (neighborhoodsSortedWithRoutes, neighborhoods, useNonECC) => {
     if (!neighborhoodsSortedWithRoutes || !neighborhoodsSortedWithRoutes.length) {
