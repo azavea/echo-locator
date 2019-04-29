@@ -3,6 +3,7 @@ import lonlat from '@conveyal/lonlat'
 import Leaflet from 'leaflet'
 import filter from 'lodash/filter'
 import find from 'lodash/find'
+import get from 'lodash/get'
 import React, {PureComponent} from 'react'
 import {
   Map as LeafletMap,
@@ -69,7 +70,7 @@ type Props = {
   clearStartAndEnd: () => void,
   drawIsochrones: Function[],
   drawOpportunityDatasets: Function[],
-  drawRoutes: any[],
+  drawRoute: any,
   end: null | Location,
   isLoading: boolean,
   pointsOfInterest: void | any, // FeatureCollection
@@ -107,6 +108,15 @@ export default class Map extends PureComponent<Props, State> {
 
   componentDidCatch (error) {
     console.error(error)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const needToZoomOut = !nextProps.showDetails && this.props.showDetails
+    const map = this.refs ? get(this.refs, 'map.leafletElement') : null
+
+    if (needToZoomOut && nextProps.neighborhoodBoundsExtent) {
+      map.fitBounds(nextProps.neighborhoodBoundsExtent)
+    }
   }
 
   // Click on map marker for a neighborhood
@@ -226,15 +236,15 @@ export default class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />}
 
-        {p.showRoutes && p.drawRoutes.map(drawRoute =>
+        {p.showRoutes && p.drawRoute &&
           <DrawRoute
-            {...drawRoute}
+            {...p.drawRoute}
             activeNeighborhood={p.activeNeighborhood}
-            key={`draw-routes-${drawRoute.id}-${this._getKey()}`}
+            key={`draw-routes-${p.drawRoute.id}-${this._getKey()}`}
             neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
             showDetails={p.showDetails}
             zIndex={getZIndex()}
-          />)}
+          />}
 
         {!p.isLoading && p.routableNeighborhoods &&
           <DrawNeighborhoodBounds
