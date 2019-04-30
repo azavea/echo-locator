@@ -166,7 +166,7 @@ export default class Form extends React.PureComponent<Props> {
           wrapperStyle={SELECT_WRAPPER_STYLE}
           value={destination}
         />
-        <Select
+        {!userProfile.hasVehicle && <Select
           clearable={false}
           filterOptions={networkFilterOptions}
           options={networks}
@@ -175,7 +175,7 @@ export default class Form extends React.PureComponent<Props> {
           style={SELECT_STYLE}
           wrapperStyle={SELECT_WRAPPER_STYLE}
           value={network}
-        />
+        />}
         <div className='map-sidebar__ecc-checkbox'>
           <input
             className='map-sidebar__checkbox'
