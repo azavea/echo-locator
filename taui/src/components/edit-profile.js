@@ -79,7 +79,9 @@ export default class EditProfile extends PureComponent<Props> {
           ? profile.destinations : [Object.assign({}, firstAddress)],
         favorites: profile.favorites,
         hasVehicle: profile.hasVehicle,
-        useCommuterRail: !profile.hasVehicle && profile.useCommuterRail,
+        useCommuterRail: !profile.hasVehicle &&
+        // Default to true for profiles that do not have the useCommuterRail property set yet
+        (profile.useCommuterRail || profile.useCommuterRail === undefined),
         headOfHousehold: profile.headOfHousehold,
         importanceAccessibility: profile.importanceAccessibility ? profile.importanceAccessibility
           : DEFAULT_ACCESSIBILITY_IMPORTANCE,
