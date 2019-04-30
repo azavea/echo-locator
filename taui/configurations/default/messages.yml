@@ -52,6 +52,7 @@ NeighborhoodDetails:
   GoogleSearchLink: Google
   GoogleMapsLink: Google Maps
   ModeSummary: via
+  ZillowSearchLink: Zillow
 NeighborhoodInfo:
   EducationCategory: Schools
   ExpandedChoice: Expanded Choice
