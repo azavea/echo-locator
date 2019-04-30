@@ -81,17 +81,6 @@ export default class MainPage extends React.PureComponent<Props> {
     this.props.setSelectedTimeCutoff(parseInt(event.currentTarget.value, 10))
   }
 
-  _setShowOnMap = memoize(index => () => {
-    const p = this.props
-    const network = p.data.networks[index]
-    const showOnMap = !network.showOnMap
-    p.setNetwork({
-      ...network,
-      showOnMap
-    })
-    if (showOnMap) p.setActiveNetwork(network.name)
-  })
-
   _downloadIsochrone = memoize(index => () => {
     const p = this.props
     const isochrone = p.isochrones[index]

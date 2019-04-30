@@ -22,7 +22,7 @@ export default createSelector(
   state => get(state, 'data.networks', []),
   (networks = []) =>
     networks.map((n, i) => {
-      if (n.showOnMap && n.travelTimeSurface && n.travelTimeSurface.data) {
+      if (n.travelTimeSurface && n.travelTimeSurface.data) {
         return gdlz.createDrawTile({
           colorizer: colorizer(i),
           grid: n.travelTimeSurface,

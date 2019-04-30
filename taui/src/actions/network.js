@@ -115,7 +115,7 @@ export function loadDatasetFromJSON (jsonConfig: any) {
 }
 
 export const loadDataset = (
-  networks: {name: string, showOnMap: boolean, url: string},
+  networks: {commuter: boolean, name: string, url: string},
   grids: {icon: string, name: string, showOnMap: boolean, url: string},
   pointsOfInterestUrl?: string,
   startCoordinate?: LonLat

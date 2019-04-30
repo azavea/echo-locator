@@ -11,8 +11,6 @@ import NeighborhoodListInfo from './neighborhood-list-info'
 type Props = {
   children?: any,
   downloadIsochrone?: Function,
-  setShowOnMap: Function,
-  showOnMap: boolean,
   title: string
 }
 

@@ -2,6 +2,7 @@
 import lonlat from '@conveyal/lonlat'
 import message from '@conveyal/woonerf/message'
 import find from 'lodash/find'
+import filter from 'lodash/filter'
 import memoize from 'lodash/memoize'
 import React from 'react'
 import Select from 'react-virtualized-select'
@@ -132,7 +133,9 @@ export default class Form extends React.PureComponent<Props> {
     const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
     const locations = destinations.map(d => d.location)
     const destinationFilterOptions = createDestinationsFilter(locations)
-    const networks = this.props.networks.map(n => ({label: n.name, value: n.url}))
+    const useNetworks = filter(this.props.networks,
+      n => !!n.commuter === !!userProfile.useCommuterRail)
+    const networks = useNetworks.map(n => ({label: n.name, value: n.url}))
     const networkFilterOptions = createNetworksFilter(networks)
 
     const setNetwork = this.setNetwork
