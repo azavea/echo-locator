@@ -3,6 +3,11 @@ import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
+import {
+  DEFAULT_ACCESSIBILITY_IMPORTANCE,
+  DEFAULT_CRIME_IMPORTANCE,
+  DEFAULT_SCHOOLS_IMPORTANCE
+} from '../constants'
 import type {AccountProfile} from '../types'
 import validateVoucherNumber from '../utils/validate-voucher-number'
 
@@ -46,12 +51,19 @@ export default class SelectAccount extends PureComponent<Props> {
     }
 
     const key = voucher.toUpperCase()
+
+    // Default profile
     const profile: AccountProfile = {
       destinations: [],
+      favorites: [],
       hasVehicle: false,
       headOfHousehold: name,
+      importanceAccessibility: DEFAULT_ACCESSIBILITY_IMPORTANCE,
+      importanceSchools: DEFAULT_SCHOOLS_IMPORTANCE,
+      importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE,
       key: key,
       rooms: 0,
+      useCommuterRail: true,
       voucherNumber: voucher
     }
 

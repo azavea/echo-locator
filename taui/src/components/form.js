@@ -2,6 +2,7 @@
 import lonlat from '@conveyal/lonlat'
 import message from '@conveyal/woonerf/message'
 import find from 'lodash/find'
+import filter from 'lodash/filter'
 import memoize from 'lodash/memoize'
 import React from 'react'
 import Select from 'react-virtualized-select'
@@ -38,6 +39,7 @@ export default class Form extends React.PureComponent<Props> {
   constructor (props) {
     super(props)
 
+    this.getProfileNetworks = this.getProfileNetworks.bind(this)
     this.setNetwork = this.setNetwork.bind(this)
 
     const {networks, userProfile} = props
@@ -45,10 +47,12 @@ export default class Form extends React.PureComponent<Props> {
     const destination = userProfile && userProfile.destinations
       ? this.getPrimaryDestination(userProfile.destinations) : null
 
+    const useNetworks = this.getProfileNetworks(networks, userProfile)
+
     this.state = {
       destination,
-      network: networks && networks.length ? {
-        label: networks[0].name, value: networks[0].url
+      network: useNetworks ? {
+        label: useNetworks[0].name, value: useNetworks[0].url
       } : null,
       useNonECC: false
     }
@@ -62,8 +66,9 @@ export default class Form extends React.PureComponent<Props> {
     if (!nextProps) {
       return
     }
-    if (!this.state.network && nextProps.networks && nextProps.networks.length) {
-      this.setStateNetwork(nextProps.networks)
+    if (!this.state.network && nextProps.networks && nextProps.networks.length &&
+      nextProps.userProfile) {
+      this.setStateNetwork(nextProps.networks, nextProps.userProfile)
     }
 
     if (this.state.useNonECC !== nextProps.useNonECC) {
@@ -85,6 +90,14 @@ export default class Form extends React.PureComponent<Props> {
     }
   }
 
+  // Filter networks to list/use based on user profile setting
+  // to use commuter rail/express bus or not.
+  getProfileNetworks (networks, userProfile): any[] {
+    const useCommuter = !userProfile || userProfile.useCommuterRail === undefined ||
+      !!userProfile.useCommuterRail
+    return networks ? filter(networks, n => !!n.commuter === useCommuter) : null
+  }
+
   getPrimaryDestination = (destinations) => {
     const destination = find(destinations, d => !!d.primary)
     if (!destination) {
@@ -98,8 +111,9 @@ export default class Form extends React.PureComponent<Props> {
     } : null
   }
 
-  setStateNetwork = (networks) => {
-    const first = networks[0]
+  setStateNetwork = (networks, userProfile) => {
+    const useNetworks = this.getProfileNetworks(networks, userProfile)
+    const first = useNetworks[0]
     const network = {label: first.name, value: first.url}
     this.setState({network})
     this.props.setActiveNetwork(network.label)
@@ -132,7 +146,8 @@ export default class Form extends React.PureComponent<Props> {
     const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
     const locations = destinations.map(d => d.location)
     const destinationFilterOptions = createDestinationsFilter(locations)
-    const networks = this.props.networks.map(n => ({label: n.name, value: n.url}))
+    const useNetworks = this.getProfileNetworks(this.props.networks, userProfile)
+    const networks = useNetworks.map(n => ({label: n.name, value: n.url}))
     const networkFilterOptions = createNetworksFilter(networks)
 
     const setNetwork = this.setNetwork
@@ -151,7 +166,7 @@ export default class Form extends React.PureComponent<Props> {
           wrapperStyle={SELECT_WRAPPER_STYLE}
           value={destination}
         />
-        <Select
+        {!userProfile.hasVehicle && <Select
           clearable={false}
           filterOptions={networkFilterOptions}
           options={networks}
@@ -160,7 +175,7 @@ export default class Form extends React.PureComponent<Props> {
           style={SELECT_STYLE}
           wrapperStyle={SELECT_WRAPPER_STYLE}
           value={network}
-        />
+        />}
         <div className='map-sidebar__ecc-checkbox'>
           <input
             className='map-sidebar__checkbox'

@@ -3,20 +3,30 @@
     {
       "name": "home locations",
       "icon": "home",
-      "url": "https://d2z7d5345ccuw9.cloudfront.net/5b4667b532b98e1992ca79a9/Workers_with_earnings_1250_per_month_or_less.grid",
+      "url": "https://d2z7d5345ccuw9.cloudfront.net/5c9bdffa37ed813dbe27f8f1/Workers_with_earnings_1250_per_month_or_less.grid",
       "showOnMap": true
     }
   ],
   "networks": [
     {
-      "name": "Late Night",
-      "url": "https://d2z7d5345ccuw9.cloudfront.net/5b46678232b98e1992ca79a5",
-      "showOnMap": true
+      "name": "Peak",
+      "url": "https://d2z7d5345ccuw9.cloudfront.net/5c9bdffa37ed813dbe27f8f1",
+      "commuter": true
     },
     {
-      "name": "Late Afternoon",
-      "url": "https://d2z7d5345ccuw9.cloudfront.net/5b4667b532b98e1992ca79a9",
-      "showOnMap": true
+      "name": "Off Peak",
+      "url": "https://d2z7d5345ccuw9.cloudfront.net/5c9be04737ed813dbe27f8f3",
+      "commuter": true
+    },
+    {
+      "name": "Peak No Express",
+      "url": "https://d2z7d5345ccuw9.cloudfront.net/5cb8ebc037ed813dbe29182e",
+      "commuter": false
+    },
+    {
+      "name": "Off Peak No Express",
+      "url": "https://d2z7d5345ccuw9.cloudfront.net/5cb8ebe437ed813dbe291830",
+      "commuter": false
     }
   ]
 }
