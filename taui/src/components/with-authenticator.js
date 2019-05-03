@@ -52,7 +52,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
     handleAuthStateChange (state, data) {
       const { userProfile } = this.props.data
       // Create new empty profile to use when browsing anonymously
-      if (state === 'useAnonymous') {
+      if (state === 'useAnonymous' && process.env.ALLOW_ANONYMOUS) {
         LogRocket.identify()
         const profile: AccountProfile = {
           destinations: [],
