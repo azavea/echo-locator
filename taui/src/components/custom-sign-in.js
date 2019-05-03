@@ -94,12 +94,12 @@ export default class CustomSignIn extends SignIn {
                 {I18n.get('Sign In')}
               </Button>
             </SectionFooterPrimaryContent>
-            <SectionFooterSecondaryContent theme={theme}>
+            {process.env.ALLOW_ANONYMOUS && <SectionFooterSecondaryContent theme={theme}>
               {message('SignIn.AnonymousExplanation') + ' '}
               <Link theme={theme} onClick={() => this.changeState('useAnonymous')}>
                 {message('SignIn.Anonymous')}
               </Link>
-            </SectionFooterSecondaryContent>
+            </SectionFooterSecondaryContent>}
           </SectionFooter>
         </FormSection>
       </div>
