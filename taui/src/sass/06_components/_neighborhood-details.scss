@@ -37,19 +37,18 @@
   }
 
   &__links {
-    @include text(200);
+    @include text(300);
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
+    flex-flow: row wrap;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.6rem;
+    margin-bottom: 2.4rem;
   }
 
   &__link {
     @include link-states() {
       color: $brand-blue;
     }
-    @include font-weight(bold);
     margin-right: auto;
   }
 
@@ -90,8 +89,8 @@
     @include text(200);
     margin-top: -0.8rem;
     margin-bottom: 1.6rem;
-    padding: 0.4rem 0.8rem;
-    line-height: 2;
+    padding: 0.8rem;
+    line-height: 2.4;
     background-color: $gray-100;
   }
 }

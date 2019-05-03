@@ -79,6 +79,9 @@ export default class EditProfile extends PureComponent<Props> {
           ? profile.destinations : [Object.assign({}, firstAddress)],
         favorites: profile.favorites,
         hasVehicle: profile.hasVehicle,
+        useCommuterRail: !profile.hasVehicle &&
+        // Default to true for profiles that do not have the useCommuterRail property set yet
+        (profile.useCommuterRail || profile.useCommuterRail === undefined),
         headOfHousehold: profile.headOfHousehold,
         importanceAccessibility: profile.importanceAccessibility ? profile.importanceAccessibility
           : DEFAULT_ACCESSIBILITY_IMPORTANCE,
@@ -99,6 +102,7 @@ export default class EditProfile extends PureComponent<Props> {
         destinations: [Object.assign({}, firstAddress)],
         favorites: [],
         hasVehicle: false,
+        useCommuterRail: true,
         headOfHousehold: '',
         importanceAccessibility: DEFAULT_ACCESSIBILITY_IMPORTANCE,
         importanceSchools: DEFAULT_SCHOOLS_IMPORTANCE,
@@ -142,6 +146,7 @@ export default class EditProfile extends PureComponent<Props> {
       voucherNumber
     } = this.state
     const favorites = this.state.favorites || []
+    const useCommuterRail = !this.state.hasVehicle && this.state.useCommuterRail
 
     return {
       destinations,
@@ -153,6 +158,7 @@ export default class EditProfile extends PureComponent<Props> {
       importanceViolentCrime,
       key,
       rooms,
+      useCommuterRail,
       voucherNumber
     }
   }
@@ -453,7 +459,8 @@ export default class EditProfile extends PureComponent<Props> {
       errorMessage,
       isAnonymous,
       key,
-      rooms
+      rooms,
+      useCommuterRail
     } = this.state
 
     const DestinationsList = this.destinationsList
@@ -503,6 +510,20 @@ export default class EditProfile extends PureComponent<Props> {
                 {message('Profile.HasVehicle')}
               </label>
             </div>
+            {!hasVehicle && <div className='account-profile__field account-profile__field--inline'>
+              <input
+                className='account-profile__input account-profile__input--checkbox'
+                id='useCommuterRail'
+                type='checkbox'
+                onChange={(e) => changeField('useCommuterRail', e.currentTarget.checked)}
+                defaultChecked={useCommuterRail}
+              />
+              <label
+                className='account-profile__label'
+                htmlFor='useCommuterRail'>
+                {message('Profile.UseCommuterRail')}
+              </label>
+            </div>}
             <DestinationsList
               addAddress={addAddress}
               deleteAddress={deleteAddress}

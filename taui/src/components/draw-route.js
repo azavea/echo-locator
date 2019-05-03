@@ -12,12 +12,8 @@ export default class DrawRoute extends React.PureComponent {
       return
     }
     const needToZoomIn = nextProps.showDetails && !this.props.showDetails
-    const needToZoomOut = !nextProps.showDetails && this.props.showDetails
-    const neighborhoodBoundsExtent = nextProps.neighborhoodBoundsExtent
     if (needToZoomIn) {
       layer._map.fitBounds(layer.getBounds())
-    } else if (needToZoomOut && neighborhoodBoundsExtent) {
-      layer._map.fitBounds(neighborhoodBoundsExtent)
     }
   }
 

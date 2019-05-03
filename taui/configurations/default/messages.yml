@@ -42,11 +42,11 @@ Dock:
   ShowAllButton: All
   ShowSavedButton: Saved
 NeighborhoodDetails:
-  CraigslistSearchLink: Search Craigslist
+  CraigslistSearchLink: Craigslist
   DriveMode: drive
   TransitMode: transit
   FromOrigin: from
-  WebsiteLink: Official site
+  WebsiteLink: Website
   WikipediaAttribution: via Wikimedia Commons
   WikipediaLink: Wikipedia
   GoogleSearchLink: Google
@@ -115,7 +115,8 @@ Profile:
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
-  IncludeNonExpandedChoiceCommunities: Include non-expanded choice communities
+  ExpandedChoiceCommunitiesOnly: Expanded Choice Communities only
+  UseCommuterRail: Can take commuter rail or express bus
 ImportanceLabels:
   1: Not important
   2: Somewhat important

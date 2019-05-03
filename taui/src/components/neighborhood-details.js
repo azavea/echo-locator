@@ -138,6 +138,15 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         >
           {message('NeighborhoodDetails.WebsiteLink')}
         </a>}
+        <a
+          className='neighborhood-details__link'
+          href={getCraigslistSearchLink(
+            neighborhood.properties.id,
+            userProfile.rooms)}
+          target='_blank'
+        >
+          {message('NeighborhoodDetails.CraigslistSearchLink')}
+        </a>
         {neighborhood.properties.wikipedia_link && <a
           className='neighborhood-details__link'
           href={neighborhood.properties.wikipedia_link}
@@ -162,15 +171,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         >
           {message('NeighborhoodDetails.GoogleMapsLink')}
         </a>
-        <a
-          className='neighborhood-details__link'
-          href={getCraigslistSearchLink(
-            neighborhood.properties.id,
-            userProfile.rooms)}
-          target='_blank'
-        >
-          {message('NeighborhoodDetails.CraigslistSearchLink')}
-        </a>
       </div>
     )
   }
@@ -190,7 +190,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     // Look up the currently selected user profile destination from the origin
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
-    const { id, town, wikipedia } = neighborhood.properties
+    const { id, town } = neighborhood.properties
+    const description = neighborhood.properties['town_website_description']
 
     const bestJourney = neighborhood.segments && neighborhood.segments.length
       ? neighborhood.segments[0] : null
@@ -221,7 +222,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         />}
         <NeighborhoodImages neighborhood={neighborhood} />
         <div className='neighborhood-details__desc'>
-          {wikipedia}
+          {description}
         </div>
         <NeighborhoodLinks
           hasVehicle={hasVehicle}

@@ -1,13 +1,11 @@
 import polyline from '@mapbox/polyline'
+import findIndex from 'lodash/findIndex'
 import get from 'lodash/get'
-import pullAt from 'lodash/pullAt'
 import {createSelector} from 'reselect'
 
 import {STOP_STYLE, TRANSIT_STYLE, WALK_STYLE} from '../constants'
 
 import selectNeighborhoodRoutes from './network-neighborhood-routes'
-
-const INACTIVE_OPACITY = 0 // hide inactive routes
 
 /**
  * NB: All positions are [latitude, longitude] as they go directly to Leaflet
@@ -16,39 +14,35 @@ export default createSelector(
   state => get(state, 'data.activeNeighborhood'),
   selectNeighborhoodRoutes,
   (activeNeighborhood, neighborhoodRoutes = []) => {
-    var activeNeighborhoodIndex = 0 // default to first
-    const drawRoutes = neighborhoodRoutes.map((transitive, index) => {
-      const isActive = transitive.id === activeNeighborhood
-      if (isActive) {
-        activeNeighborhoodIndex = index
-      }
-      const applyStyle = isActive
-        ? {opacity: 1, fillOpacity: 1}
-        : {opacity: INACTIVE_OPACITY, fillOpacity: INACTIVE_OPACITY}
-      const walkStyle = {...WALK_STYLE, ...applyStyle}
-      const transitStyle = {...TRANSIT_STYLE, ...applyStyle}
-      const stopStyle = {...STOP_STYLE, ...applyStyle}
-      const segments = get(transitive, 'journeys[0].segments', [])
-      return {
-        index,
-        id: transitive.id,
-        label: transitive.label,
-        segments: segments.map(s => getSegmentPositions(s, transitive)),
-        stops: segments
-          .filter(s => s.type === 'TRANSIT')
-          .reduce((stops, s, i) => [
-            ...stops,
-            getStopPositions(s.pattern_id, s.from_stop_index, transitive),
-            getStopPositions(s.pattern_id, s.to_stop_index, transitive)
-          ], []),
-        stopStyle,
-        transitStyle,
-        walkStyle
-      }
-    })
-
-    // Put the active network first
-    return [pullAt(drawRoutes, activeNeighborhoodIndex)[0], ...drawRoutes]
+    if (!neighborhoodRoutes) {
+      return null
+    }
+    const index = findIndex(neighborhoodRoutes, (route) => route.id === activeNeighborhood)
+    if (index === -1) {
+      return null
+    }
+    const transitive = neighborhoodRoutes[index]
+    const applyStyle = {opacity: 1, fillOpacity: 1}
+    const walkStyle = {...WALK_STYLE, ...applyStyle}
+    const transitStyle = {...TRANSIT_STYLE, ...applyStyle}
+    const stopStyle = {...STOP_STYLE, ...applyStyle}
+    const segments = get(transitive, 'journeys[0].segments', [])
+    return {
+      index,
+      id: transitive.id,
+      label: transitive.label,
+      segments: segments.map(s => getSegmentPositions(s, transitive)),
+      stops: segments
+        .filter(s => s.type === 'TRANSIT')
+        .reduce((stops, s, i) => [
+          ...stops,
+          getStopPositions(s.pattern_id, s.from_stop_index, transitive),
+          getStopPositions(s.pattern_id, s.to_stop_index, transitive)
+        ], []),
+      stopStyle,
+      transitStyle,
+      walkStyle
+    }
   }
 )
 
