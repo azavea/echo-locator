@@ -123,7 +123,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodLinks (props) {
-    const { hasVehicle, neighborhood, origin, userProfile } = this.props
+    const { hasVehicle, neighborhood, origin, userProfile } = props
     // lat,lon strings for Google Directions link from neighborhood to current destination
     const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
     const originCoordinateString = neighborhood.geometry.coordinates[1] +
