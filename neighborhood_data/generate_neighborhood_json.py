@@ -2,7 +2,7 @@
 # encoding=utf8
 
 """
-Produces a GeoJSON file of the ECC neighborhood points with associated data.
+Produces a GeoJSON file of the neighborhood points with associated data.
 
 Expects `add_zcta_centroids.py` was already run to identify the points.
 """
@@ -32,7 +32,6 @@ COLUMNS = {
     'id': 'str',
     'town': 'str',
     'zipcode': 'str',
-    'ecc': 'int',
     'violentcrime_quintile': 'float',
     'education_percentile_quintile': 'float',
     'education_percentile': 'float',
@@ -74,63 +73,63 @@ if not os.path.isfile(NEIGHBORHOOD_CSV):
                   NEIGHBORHOOD_CSV)
 
 with open(NEIGHBORHOOD_CSV) as inf:
-        rdr = csv.DictReader(inf)
+    rdr = csv.DictReader(inf)
 
-        # Copy the fields from the CSV and create a GeoJSON schema for them
-        fieldnames = ['id'] + list(rdr.fieldnames)
-        # Do not treat point geometry columns as properties
-        fieldnames.remove('x')
-        fieldnames.remove('y')
+    # Copy the fields from the CSV and create a GeoJSON schema for them
+    fieldnames = ['id'] + list(rdr.fieldnames)
+    # Do not treat point geometry columns as properties
+    fieldnames.remove('x')
+    fieldnames.remove('y')
 
-        schema = {
-            'id': 'str',
-            'geometry': 'Point',
-            'properties': COLUMNS
-        }
+    schema = {
+        'id': 'str',
+        'geometry': 'Point',
+        'properties': COLUMNS
+    }
 
-        with fiona.open(OUTPUT_FILE, 'w', driver='GeoJSON', schema=schema,
-                        crs=from_epsg(4326)) as outjson:
+    with fiona.open(OUTPUT_FILE, 'w', driver='GeoJSON', schema=schema,
+                    crs=from_epsg(4326)) as outjson:
 
-            exported = 0
-            for n in rdr:
-                zipcode = str(n['zipcode'])
-                if not n['x'] or not n['y']:
-                    print('Skipping ECC zip missing coordinates: {z}'.format(
-                        z=zipcode))
-                    continue
+        exported = 0
+        for n in rdr:
+            zipcode = str(n['zipcode'])
+            if not n['x'] or not n['y']:
+                print('Skipping zip missing coordinates: {z}'.format(
+                    z=zipcode))
+                continue
 
-                x = float(n['x'])
-                y = float(n['y'])
-                properties = OrderedDict()
-                properties['id'] = zipcode
-                for field in fieldnames:
-                    if field == 'id':
-                        val = zipcode
-                    else:
-                        val = n[field].strip()
-                    if not val:
-                        # explicitly set nulls so fiona will be satisfied
-                        # with the schema definition
-                        properties[field] = None
-                    elif COLUMNS[field] == 'float':
-                        properties[field] = float(val)
-                    elif COLUMNS[field] == 'int':
-                        properties[field] = int(val)
-                    else:
-                        properties[field] = str(val)
+            x = float(n['x'])
+            y = float(n['y'])
+            properties = OrderedDict()
+            properties['id'] = zipcode
+            for field in fieldnames:
+                if field == 'id':
+                    val = zipcode
+                else:
+                    val = n[field].strip()
+                if not val:
+                    # explicitly set nulls so fiona will be satisfied
+                    # with the schema definition
+                    properties[field] = None
+                elif COLUMNS[field] == 'float':
+                    properties[field] = float(val)
+                elif COLUMNS[field] == 'int':
+                    properties[field] = int(val)
+                else:
+                    properties[field] = str(val)
 
-                neighborhood = {
-                    'id': zipcode,
-                    'geometry': {
-                        'type': 'Point',
-                        'coordinates': (x, y)
-                    },
-                    'properties': properties
-                }
+            neighborhood = {
+                'id': zipcode,
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': (x, y)
+                },
+                'properties': properties
+            }
 
-                print('Writing ECC zip: {f}...'.format(f=zipcode))
-                outjson.write(neighborhood)
-                exported += 1
+            print('Writing zip: {f}...'.format(f=zipcode))
+            outjson.write(neighborhood)
+            exported += 1
 
 print('\nAll done writing {n} neighborhoods to {f}.'.format(n=exported,
                                                             f=OUTPUT_FILE))
