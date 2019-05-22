@@ -16,7 +16,6 @@ import {updateMap} from './map'
 import {loadDataFromJSON} from './json-data'
 import {setPage} from './neighborhood'
 
-export const setUseNonECC = (payload: boolean) => ({type: 'set use non-ECC', payload})
 export const setNetwork = (payload: any) => ({type: 'set network', payload})
 export const setActiveNetwork = (payload: string) => ({
   type: 'set active network',

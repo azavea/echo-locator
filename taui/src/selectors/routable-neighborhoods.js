@@ -8,8 +8,7 @@ import neighborhoodsSortedWithRoutes from './neighborhoods-sorted-with-routes'
 export default createSelector(
   neighborhoodsSortedWithRoutes,
   state => get(state, 'data.neighborhoodBounds'),
-  state => get(state, 'data.useNonECC'),
-  (neighborhoodsSortedWithRoutes, neighborhoods, useNonECC) => {
+  (neighborhoodsSortedWithRoutes, neighborhoods) => {
     if (!neighborhoodsSortedWithRoutes || !neighborhoodsSortedWithRoutes.length) {
       return neighborhoods
     }
