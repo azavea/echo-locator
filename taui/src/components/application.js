@@ -32,8 +32,6 @@ type MapState = {
 type Props = {
   accessibility: number[][],
   actionLog: LogItems,
-  activeTransitive: any,
-  allTransitive: any,
   data: {
     grids: string[],
     neighborhoodBounds: any,
@@ -89,7 +87,6 @@ type Props = {
   timeCutoff: any,
   travelTimes: number[],
   ui: UIStore,
-  uniqueRoutes: any[],
   updateEnd: any => void,
   updateEndPosition: LonLat => void,
   updateMap: any => void,

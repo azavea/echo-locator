@@ -102,11 +102,6 @@ export default class MainPage extends React.PureComponent<Props> {
     return !p.isLoading && useTransit && !!get(p, 'neighborhoodRoutes[0]')
   }
 
-  _showRoutes () {
-    const p = this.props
-    return !p.isLoading && get(p, 'allTransitiveData[0].journeys[0]')
-  }
-
   /**
    *
    */
