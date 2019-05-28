@@ -2,7 +2,6 @@
 import lonlat from '@conveyal/lonlat'
 import Leaflet from 'leaflet'
 import filter from 'lodash/filter'
-import find from 'lodash/find'
 import get from 'lodash/get'
 import React, {PureComponent} from 'react'
 import {
@@ -45,13 +44,6 @@ const iconHTML = '' // <div className="innerMarker"></div>'
 
 const startIcon = Leaflet.divIcon({
   className: 'LeafletIcon Start map__marker map__marker--start',
-  html: iconHTML,
-  iconAnchor,
-  iconSize
-})
-
-const endIcon = Leaflet.divIcon({
-  className: 'LeafletIcon End map__marker map__marker--end',
   html: iconHTML,
   iconAnchor,
   iconSize
@@ -201,9 +193,6 @@ export default class Map extends PureComponent<Props, State> {
     const otherNeighborhoods = (p.displayNeighborhoods && !p.showDetails)
       ? filter(p.displayNeighborhoods, n => !n.active)
       : []
-
-    const showDetailNeighborhood = p.showDetails ? p.detailNeighborhood
-      : find(p.displayNeighborhoods, n => n.properties.id === p.activeNeighborhood)
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
