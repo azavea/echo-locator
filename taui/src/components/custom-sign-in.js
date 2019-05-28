@@ -36,6 +36,11 @@ class SignInHeader extends React.Component {
 }
 
 export default class CustomSignIn extends SignIn {
+  submitOnEnter = (e) => {
+    if (e.key === 'Enter') {
+      this.signIn(e)
+    }
+  }
   // Have to copy showComponent here, because `hide` non-mutable property
   // results in null being returned from call to super.
   // Based on source:
@@ -64,6 +69,7 @@ export default class CustomSignIn extends SignIn {
                 autoFocus
                 theme={theme}
                 key='username'
+                onKeyPress={(e) => this.submitOnEnter(e)}
                 name='username'
                 onChange={this.handleInputChange}
               />
@@ -74,6 +80,7 @@ export default class CustomSignIn extends SignIn {
                 data-private
                 theme={theme}
                 key='password'
+                onKeyPress={(e) => this.submitOnEnter(e)}
                 type='password'
                 name='password'
                 onChange={this.handleInputChange}
