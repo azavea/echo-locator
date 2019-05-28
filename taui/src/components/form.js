@@ -18,7 +18,6 @@ import type {
 type Props = {
   networks: any[],
   setActiveNetwork: (string) => void,
-  setUseNonECC: (boolean) => void,
   updateOrigin: (Location) => void,
   userProfile: AccountProfile
 }
@@ -53,8 +52,7 @@ export default class Form extends React.PureComponent<Props> {
       destination,
       network: useNetworks ? {
         label: useNetworks[0].name, value: useNetworks[0].url
-      } : null,
-      useNonECC: false
+      } : null
     }
 
     if (this.state.destination) {
@@ -69,10 +67,6 @@ export default class Form extends React.PureComponent<Props> {
     if (!this.state.network && nextProps.networks && nextProps.networks.length &&
       nextProps.userProfile) {
       this.setStateNetwork(nextProps.networks, nextProps.userProfile)
-    }
-
-    if (this.state.useNonECC !== nextProps.useNonECC) {
-      this.setState({useNonECC: nextProps.useNonECC})
     }
 
     if (!this.state.destination && nextProps.userProfile && nextProps.userProfile.destinations) {
@@ -119,11 +113,6 @@ export default class Form extends React.PureComponent<Props> {
     this.props.setActiveNetwork(network.label)
   }
 
-  setStateUseNonECC = (useNonECC) => {
-    this.setState({useNonECC})
-    this.props.setUseNonECC(useNonECC)
-  }
-
   selectDestination = (option?: ReactSelectOption) => {
     const destinationObj = option ? {
       label: option.label,
@@ -142,7 +131,7 @@ export default class Form extends React.PureComponent<Props> {
 
   render () {
     const {userProfile} = this.props
-    const {destination, network, useNonECC} = this.state
+    const {destination, network} = this.state
     const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
     const locations = destinations.map(d => d.location)
     const destinationFilterOptions = createDestinationsFilter(locations)
@@ -151,7 +140,6 @@ export default class Form extends React.PureComponent<Props> {
     const networkFilterOptions = createNetworksFilter(networks)
 
     const setNetwork = this.setNetwork
-    const setStateUseNonECC = this.setStateUseNonECC
 
     return (
       <div className='map-sidebar__travel-form'>
@@ -176,20 +164,6 @@ export default class Form extends React.PureComponent<Props> {
           wrapperStyle={SELECT_WRAPPER_STYLE}
           value={network}
         />}
-        <div className='map-sidebar__ecc-checkbox'>
-          <input
-            className='map-sidebar__checkbox'
-            id='useNonECC'
-            type='checkbox'
-            onClick={(e) => setStateUseNonECC(!e.currentTarget.checked)}
-            defaultChecked={!useNonECC}
-          />
-          <label
-            className='map-sidebar__label'
-            htmlFor='useNonECC'>
-            {message('Profile.ExpandedChoiceCommunitiesOnly')}
-          </label>
-        </div>
       </div>
     )
   }

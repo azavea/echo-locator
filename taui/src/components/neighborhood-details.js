@@ -53,14 +53,11 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       ? neighborhood.score.toLocaleString('en-US', {style: 'percent'})
       : message('UnknownValue')
 
-    const ecc = neighborhood.properties.ecc ? message('Booleans.Yes') : message('Booleans.No')
-
     const tableData = [
       {label: 'NeighborhoodInfo.Score', value: overallScore},
       {label: 'NeighborhoodInfo.ViolentCrime', value: labels.violentCrime},
       {label: 'NeighborhoodInfo.EducationCategory', value: labels.education},
-      {label: 'NeighborhoodInfo.Population', value: labels.population},
-      {label: 'NeighborhoodInfo.ExpandedChoice', value: ecc}
+      {label: 'NeighborhoodInfo.Population', value: labels.population}
     ]
 
     return (

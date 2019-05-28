@@ -54,7 +54,6 @@ NeighborhoodDetails:
   ModeSummary: via
 NeighborhoodInfo:
   EducationCategory: Schools
-  ExpandedChoice: Expanded Choice
   Population: Population
   Score: Overall score
   ViolentCrime: Violent crime
@@ -115,7 +114,6 @@ Profile:
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
-  ExpandedChoiceCommunitiesOnly: Expanded Choice Communities only
   UseCommuterRail: Can take commuter rail or express bus
 ImportanceLabels:
   1: Not important
