@@ -265,18 +265,6 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {showDetailNeighborhood &&
-          <Marker
-            icon={endIcon}
-            key={`end-${this._getKey()}`}
-            position={lonlat.toLeaflet(showDetailNeighborhood.geometry.coordinates)}
-            zIndex={getZIndex()}
-          >
-            <Popup>
-              <span>{showDetailNeighborhood.properties.town} {showDetailNeighborhood.properties.id}</span>
-            </Popup>
-          </Marker>}
-
         {otherNeighborhoods && otherNeighborhoods.length &&
           otherNeighborhoods.map((other) =>
             <Marker
