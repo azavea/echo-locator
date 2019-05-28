@@ -27,6 +27,8 @@ export default createSelector(
     const transitStyle = {...TRANSIT_STYLE, ...applyStyle}
     const stopStyle = {...STOP_STYLE, ...applyStyle}
     const segments = get(transitive, 'journeys[0].segments', [])
+    // Remove final walk leg
+    segments.pop()
     return {
       index,
       id: transitive.id,
