@@ -65,7 +65,6 @@ const otherIcon = Leaflet.divIcon({
 })
 
 type Props = {
-  allTransitiveData: any[],
   centerCoordinates: Coordinate,
   clearStartAndEnd: () => void,
   drawIsochrones: Function[],
