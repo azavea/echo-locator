@@ -17,6 +17,21 @@ const memoizedTransitiveRoutes = memoize(
     `${n.name}-${i}-${n.originPoint.x}-${n.originPoint.y}-${lonlat.toString(e.position)}`
 )
 
+const routeToString = s =>
+  s.map(s => `${s.name}-${s.backgroundColor}-${s.type}`).join('-')
+
+const uniqueSegments = routeSegments => {
+  const foundKeys = {}
+  return (routeSegments || []).reduce((uniqueRoutes, route) => {
+    const key = routeToString(route)
+    if (!foundKeys[key]) {
+      foundKeys[key] = true
+      return [...uniqueRoutes, route]
+    }
+    return uniqueRoutes
+  }, [])
+}
+
 export default createSelector(
   selectActiveNetworkIndex,
   state => get(state, 'data.activeNeighborhood'),
@@ -62,7 +77,7 @@ export default createSelector(
           patterns: result.patterns,
           places: result.places,
           routes: result.routes,
-          routeSegments: result.routeSegments,
+          routeSegments: uniqueSegments(result.routeSegments),
           stops: result.stops
         })
       } else {
