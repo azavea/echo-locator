@@ -77,7 +77,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
         // Clear all local storage after logout
         clearLocalStorage()
       } else {
-        if (data.username) {
+        if (data && data.username) {
           LogRocket.identify(data.username)
         }
         this.setState({authState: state, authData: data})
