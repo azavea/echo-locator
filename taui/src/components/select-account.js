@@ -98,7 +98,10 @@ export default class SelectAccount extends PureComponent<Props> {
       const text = result.Body.toString('utf-8')
       const profile: AccountProfile = JSON.parse(text)
       this.props.changeUserProfile(profile)
-      this.props.history.push({pathname: '/profile', state: {fromApp: true}})
+      // Skip profile page and go to map if profile exists and has destinations set
+      const destination = profile && profile.destinations &&
+        profile.destinations.length ? '/map' : '/profile'
+      this.props.history.push({pathname: destination, state: {fromApp: true}})
     }).catch(err => {
       // If file not found, error message returned has `code` / `name`: NoSuchKey
       // and `message`: The specified key does not exist `statusCode`: 404
