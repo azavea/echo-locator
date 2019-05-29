@@ -15,6 +15,9 @@ export const IMAGE_FIELDS = [
 // Maximum number of destinations that may be added to a user profile
 export const MAX_ADDRESSES = 3
 
+// Round travel times to nearest five minutes
+export const ROUND_TRIP_MINUTES = 5
+
 // Maximum number of rooms for user profile
 export const MAX_ROOMS = 6
 

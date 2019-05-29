@@ -3,6 +3,7 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import React from 'react'
 
+import {ROUND_TRIP_MINUTES} from '../constants'
 import type {NeighborhoodImageMetadata} from '../types'
 import {getFirstNeighborhoodImage} from '../utils/neighborhood-images'
 
@@ -61,6 +62,8 @@ export default class RouteCard extends React.PureComponent<Props> {
 
     const SummaryImage = this.summaryImage
 
+    const roundedTripTime = Math.round(time / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
+
     return (
       <div
         className='neighborhood-summary'
@@ -84,9 +87,9 @@ export default class RouteCard extends React.PureComponent<Props> {
           <div className='neighborhood-summary__descriptive'>
             <SummaryImage nprops={neighborhood.properties} />
             <div className='neighborhood-summary__trip'>
-              {!userProfile.hasVehicle && <div className='neighborhood-summary__duration'>
-                {message('Units.About')} {Math.round(time)} {message('Units.Mins')}
-              </div>}
+              <div className='neighborhood-summary__duration'>
+                {message('Units.About')} {roundedTripTime} {message('Units.Mins')}
+              </div>
               <div className='neighborhood-summary__trajectory'>
                 <span className='neighborhood-summary__mode'>
                   {message(modeKey)}
