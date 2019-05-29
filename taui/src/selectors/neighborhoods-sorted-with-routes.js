@@ -32,7 +32,7 @@ export default createSelector(
   state => get(state, 'data.origin'),
   state => get(state, 'data.userProfile'),
   (neighborhoodRoutes, travelTimes, neighborhoods, origin, profile) => {
-    if (!neighborhoods || !neighborhoods.features || !neighborhoods.features.length ||
+    if (!neighborhoods || !profile || !neighborhoods.features || !neighborhoods.features.length ||
       !neighborhoodRoutes || !neighborhoodRoutes.length) {
       return []
     }
