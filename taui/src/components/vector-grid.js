@@ -1,7 +1,7 @@
 // @flow
 import Leaflet from 'leaflet'
 import find from 'lodash/find'
-import VectorGrid from 'react-leaflet-vectorgrid/dist/react-leaflet-vectorgrid'
+import VectorGrid from 'react-leaflet-vectorgrid/dist/react-leaflet-vectorgrid.min'
 
 // Overridden to workaround VectorGrid's `getFeature`
 export default class VGrid extends VectorGrid {
