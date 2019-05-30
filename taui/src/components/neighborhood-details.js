@@ -126,6 +126,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
     const originCoordinateString = neighborhood.geometry.coordinates[1] +
       ',' + neighborhood.geometry.coordinates[0]
+    const maxSubsidy = neighborhood.properties['max_rent_' + userProfile.rooms + 'br']
 
     return (
       <>
@@ -167,7 +168,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             className='neighborhood-details__link'
             href={getCraigslistSearchLink(
               neighborhood.properties.id,
-              userProfile.rooms)}
+              userProfile.rooms,
+              maxSubsidy)}
             target='_blank'
           >
             {message('NeighborhoodDetails.CraigslistSearchLink')}
@@ -176,7 +178,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             className='neighborhood-details__link'
             href={getZillowSearchLink(
               neighborhood.properties.id,
-              userProfile.rooms)}
+              userProfile.rooms,
+              maxSubsidy)}
             target='_blank'
           >
             {message('NeighborhoodDetails.ZillowSearchLink')}
