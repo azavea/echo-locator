@@ -10,6 +10,7 @@ import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getGoogleSearchLink from '../utils/google-search-link'
 import getNeighborhoodImage from '../utils/neighborhood-images'
 import getNeighborhoodPropertyLabels from '../utils/neighborhood-properties'
+import getZillowSearchLink from '../utils/zillow-search-link'
 
 import RouteSegments from './route-segments'
 
@@ -127,48 +128,61 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       ',' + neighborhood.geometry.coordinates[0]
 
     return (
-      <div className='neighborhood-details__links'>
-        {neighborhood.properties.town_link && <a
-          className='neighborhood-details__link'
-          href={neighborhood.properties.town_link}
-          target='_blank'
-        >
-          {message('NeighborhoodDetails.WebsiteLink')}
-        </a>}
-        <a
-          className='neighborhood-details__link'
-          href={getCraigslistSearchLink(
-            neighborhood.properties.id,
-            userProfile.rooms)}
-          target='_blank'
-        >
-          {message('NeighborhoodDetails.CraigslistSearchLink')}
-        </a>
-        {neighborhood.properties.wikipedia_link && <a
-          className='neighborhood-details__link'
-          href={neighborhood.properties.wikipedia_link}
-          target='_blank'
-        >
-          {message('NeighborhoodDetails.WikipediaLink')}
-        </a>}
-        <a
-          className='neighborhood-details__link'
-          href={getGoogleSearchLink(neighborhood.properties.id)}
-          target='_blank'
-        >
-          {message('NeighborhoodDetails.GoogleSearchLink')}
-        </a>
-        <a
-          className='neighborhood-details__link'
-          href={getGoogleDirectionsLink(
-            originCoordinateString,
-            destinationCoordinateString,
-            hasVehicle)}
-          target='_blank'
-        >
-          {message('NeighborhoodDetails.GoogleMapsLink')}
-        </a>
-      </div>
+      <>
+        <div className='neighborhood-details__links'>
+          {neighborhood.properties.town_link && <a
+            className='neighborhood-details__link'
+            href={neighborhood.properties.town_link}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.WebsiteLink')}
+          </a>}
+          {neighborhood.properties.wikipedia_link && <a
+            className='neighborhood-details__link'
+            href={neighborhood.properties.wikipedia_link}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.WikipediaLink')}
+          </a>}
+          <a
+            className='neighborhood-details__link'
+            href={getGoogleSearchLink(neighborhood.properties.id)}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.GoogleSearchLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href={getGoogleDirectionsLink(
+              originCoordinateString,
+              destinationCoordinateString,
+              hasVehicle)}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.GoogleMapsLink')}
+          </a>
+        </div>
+        <div className='neighborhood-details__links'>
+          <a
+            className='neighborhood-details__link'
+            href={getCraigslistSearchLink(
+              neighborhood.properties.id,
+              userProfile.rooms)}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.CraigslistSearchLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href={getZillowSearchLink(
+              neighborhood.properties.id,
+              userProfile.rooms)}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.ZillowSearchLink')}
+          </a>
+        </div>
+      </>
     )
   }
 
