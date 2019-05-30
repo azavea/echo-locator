@@ -100,7 +100,7 @@ export default class Form extends React.PureComponent<Props> {
     }
     const position = destination.location.position
     return (position.lat !== 0 && position.lon !== 0) ? {
-      label: destination.location.label,
+      label: destination.purpose + ': ' + destination.location.label,
       position: position
     } : null
   }
@@ -133,7 +133,12 @@ export default class Form extends React.PureComponent<Props> {
     const {userProfile} = this.props
     const {destination, network} = this.state
     const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
-    const locations = destinations.map(d => d.location)
+    const locations = destinations.map(d => {
+      return {
+        label: d.purpose + ': ' + d.location.label,
+        position: d.location.position
+      }
+    })
     const destinationFilterOptions = createDestinationsFilter(locations)
     const useNetworks = this.getProfileNetworks(this.props.networks, userProfile)
     const networks = useNetworks.map(n => ({label: n.name, value: n.url}))
