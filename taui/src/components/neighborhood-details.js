@@ -4,6 +4,7 @@ import message from '@conveyal/woonerf/message'
 import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
+import {ROUND_TRIP_MINUTES} from '../constants'
 import type {AccountProfile, NeighborhoodImageMetadata, NeighborhoodLabels} from '../types'
 import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
@@ -210,6 +211,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const bestJourney = neighborhood.segments && neighborhood.segments.length
       ? neighborhood.segments[0] : null
 
+    const roundedTripTime = Math.round(neighborhood.time / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
+
     return (
       <div className='neighborhood-details'>
         <header className='neighborhood-details__header'>
@@ -221,14 +224,14 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           {town} &ndash; {id}
           <Icon className='neighborhood-details__marker' type='map-marker' />
         </header>
-        {!hasVehicle && <div className='neighborhood-details__trip'>
+        <div className='neighborhood-details__trip'>
           {message('Units.About')}&nbsp;
-          {Math.round(neighborhood.time)}&nbsp;
+          {roundedTripTime}&nbsp;
           {message('Units.Mins')}&nbsp;
           <ModesList segments={bestJourney} />&nbsp;
           {message('NeighborhoodDetails.FromOrigin')}&nbsp;
           {currentDestination && currentDestination.purpose.toLowerCase()}
-        </div>}
+        </div>
         {!hasVehicle && <RouteSegments
           hasVehicle={hasVehicle}
           routeSegments={neighborhood.segments}
