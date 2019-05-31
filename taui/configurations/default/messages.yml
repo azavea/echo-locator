@@ -57,7 +57,7 @@ NeighborhoodInfo:
   EducationCategory: Schools
   Population: Population
   Score: Overall score
-  ViolentCrime: Violent crime
+  ViolentCrime: Public safety
 PageNotFound: Oops! There is no page at
 RouteCard:
   MarkerLink: Show neighborhood on map
@@ -106,7 +106,7 @@ Profile:
   ImportanceAccessibility: Travel time
   ImportanceHeading: How important are the following?
   ImportanceSchools: School quality
-  ImportanceViolentCrime: Violent crime
+  ImportanceViolentCrime: Public safety
   Primary: Primary
   Purpose: Purpose
   Rooms: Number of rooms in voucher
