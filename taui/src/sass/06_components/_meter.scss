@@ -1,0 +1,23 @@
+.meter {
+  &__track {
+    fill: $meter-track;
+  }
+
+  &__fill {
+    &--high {
+      fill: $meter-fill-high;
+    }
+
+    &--med {
+      fill: $meter-fill-med;
+    }
+
+    &--low {
+      fill: $meter-fill-low;
+    }
+  }
+
+  &__average {
+    fill: $meter-average;
+  }
+}

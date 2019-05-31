@@ -59,6 +59,7 @@ NeighborhoodDetails:
 NeighborhoodInfo:
   EducationCategory: Schools
   Population: Population
+  RentalUnits: Rental units
   Score: Overall score
   ViolentCrime: Public safety
 PageNotFound: Oops! There is no page at

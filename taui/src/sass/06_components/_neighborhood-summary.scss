@@ -39,7 +39,7 @@
 
   &__descriptive {
     flex: none;
-    margin-right: 1.6rem;
+    margin-right: 1.2rem;
     margin-left: 0.8rem;
   }
 
@@ -67,7 +67,7 @@
 
   &__trajectory {
     @include text(200);
-    color: $gray-500;
+    color: $gray-600;
   }
 
   &__location {
@@ -75,13 +75,30 @@
   }
 
   &__facts {
-    @include text(300);
+    @include text(200);
     flex: auto;
     table-layout: fixed;
   }
 
   &__cell {
-    padding-bottom: 0.8rem;
+    padding-top: 0.4rem;
+    padding-bottom: 1.2rem;
     white-space: nowrap;
+    vertical-align: middle;
+
+    &:first-child {
+      padding-right: 0.8rem;
+      text-align: right;
+    }
+  }
+
+  &__value {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+  }
+
+  &__percentage {
+    margin-left: 0.8rem;
   }
 }

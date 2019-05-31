@@ -23,3 +23,9 @@ $font-colors: (
     normal: $gray-800,
     dark: $black,
 );
+
+$meter-track: #e0e0e0;
+$meter-fill-high: #7cd193;
+$meter-fill-med: #ffee92;
+$meter-fill-low: #fedca0;
+$meter-average: rgba(#000, 0.8);
