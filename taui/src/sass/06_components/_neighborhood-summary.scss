@@ -35,12 +35,12 @@
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: flex-start;
+    padding: 0 0.8rem;
   }
 
   &__descriptive {
     flex: none;
     margin-right: 1.2rem;
-    margin-left: 0.8rem;
   }
 
   &__image {
@@ -90,15 +90,5 @@
       padding-right: 0.8rem;
       text-align: right;
     }
-  }
-
-  &__value {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-  }
-
-  &__percentage {
-    margin-left: 0.8rem;
   }
 }

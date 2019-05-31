@@ -2,6 +2,7 @@
 import message from '@conveyal/woonerf/message'
 
 import Meter from './meter'
+import RentalUnitsMeter from './rental-units-meter'
 
 export default function NeighborhoodListInfo ({neighborhood}) {
   if (!neighborhood || !neighborhood.properties) {
@@ -14,31 +15,19 @@ export default function NeighborhoodListInfo ({neighborhood}) {
         <tr>
           <td className='neighborhood-summary__cell'>{message('NeighborhoodInfo.EducationCategory')}:</td>
           <td className='neighborhood-summary__cell'>
-            <div className='neighborhood-summary__value'>
-              <Meter value={86} average={58} tier='high' tooltip='hello' />
-              <span className='neighborhood-summary__percentage'>
-                86%
-              </span>
-            </div>
+            <Meter value={86} average={58} tier='high' tooltip='hello' />
           </td>
         </tr>
         <tr>
           <td className='neighborhood-summary__cell'>{message('NeighborhoodInfo.ViolentCrime')}:</td>
           <td className='neighborhood-summary__cell'>
-            <div className='neighborhood-summary__value'>
-              <Meter value={72} average={66} tier='med' />
-              <span className='neighborhood-summary__percentage'>
-                72%
-              </span>
-            </div>
+            <Meter value={72} average={66} tier='med' />
           </td>
         </tr>
         <tr>
           <td className='neighborhood-summary__cell'>{message('NeighborhoodInfo.RentalUnits')}:</td>
           <td className='neighborhood-summary__cell'>
-            <div className='neighborhood-summary__value'>
-              TK
-            </div>
+            <RentalUnitsMeter value={400} max={1000} tier='low' />
           </td>
         </tr>
       </tbody>

@@ -1,4 +1,8 @@
 .meter {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
   &__track {
     fill: $meter-track;
   }
@@ -19,5 +23,9 @@
 
   &__average {
     fill: $meter-average;
+  }
+
+  &__percentage {
+    margin-left: 0.8rem;
   }
 }
