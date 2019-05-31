@@ -9,6 +9,7 @@ import type {AccountProfile, NeighborhoodImageMetadata, NeighborhoodLabels} from
 import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getGoogleSearchLink from '../utils/google-search-link'
+import getGoogleMapsLink from '../utils/google-maps-link'
 import getNeighborhoodImage from '../utils/neighborhood-images'
 import getNeighborhoodPropertyLabels from '../utils/neighborhood-properties'
 import getZillowSearchLink from '../utils/zillow-search-link'
@@ -122,11 +123,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodLinks (props) {
-    const { hasVehicle, neighborhood, origin, userProfile } = props
-    // lat,lon strings for Google Directions link from neighborhood to current destination
-    const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
-    const originCoordinateString = neighborhood.geometry.coordinates[1] +
-      ',' + neighborhood.geometry.coordinates[0]
+    const { neighborhood, userProfile } = props
     const maxSubsidy = neighborhood.properties['max_rent_' + userProfile.rooms + 'br']
 
     return (
@@ -155,10 +152,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           </a>
           <a
             className='neighborhood-details__link'
-            href={getGoogleDirectionsLink(
-              originCoordinateString,
-              destinationCoordinateString,
-              hasVehicle)}
+            href={getGoogleMapsLink(neighborhood.properties.id)}
             target='_blank'
           >
             {message('NeighborhoodDetails.GoogleMapsLink')}
@@ -204,7 +198,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     // Look up the currently selected user profile destination from the origin
     const originLabel = origin ? origin.label || '' : ''
-    const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
+    const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
     const { id, town } = neighborhood.properties
     const description = neighborhood.properties['town_website_description']
 
@@ -212,6 +206,11 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       ? neighborhood.segments[0] : null
 
     const roundedTripTime = Math.round(neighborhood.time / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
+
+    // lat,lon strings for Google Directions link from neighborhood to current destination
+    const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
+    const originCoordinateString = neighborhood.geometry.coordinates[1] +
+      ',' + neighborhood.geometry.coordinates[0]
 
     return (
       <div className='neighborhood-details'>
@@ -231,6 +230,16 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           <ModesList segments={bestJourney} />&nbsp;
           {message('NeighborhoodDetails.FromOrigin')}&nbsp;
           {currentDestination && currentDestination.purpose.toLowerCase()}
+          {hasVehicle && <a
+            className='neighborhood-details__directions'
+            href={getGoogleDirectionsLink(
+              originCoordinateString,
+              destinationCoordinateString,
+              hasVehicle)}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.DirectionsLink')}
+          </a>}
         </div>
         {!hasVehicle && <RouteSegments
           hasVehicle={hasVehicle}

@@ -26,8 +26,20 @@
   }
 
   &__trip {
+    @include text(200);
     @include font-weight(bold);
     margin-bottom: 1.6rem;
+  }
+
+  &__directions {
+    @include font-weight(normal);
+    @include link-states() {
+      color: $brand-blue;
+    }
+
+    &::before {
+      content: ' – ';
+    }
   }
 
   &__desc {
@@ -89,8 +101,6 @@
     @include text(200);
     margin-top: -0.8rem;
     margin-bottom: 1.6rem;
-    padding: 0.8rem;
     line-height: 2.4;
-    background-color: $gray-100;
   }
 }

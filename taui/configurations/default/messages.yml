@@ -46,6 +46,7 @@ NeighborhoodDetails:
   DriveMode: drive
   TransitMode: transit
   FromOrigin: from
+  DirectionsLink: Directions
   WebsiteLink: Website
   WikipediaAttribution: via Wikimedia Commons
   WikipediaLink: Wikipedia

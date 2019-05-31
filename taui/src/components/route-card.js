@@ -54,7 +54,7 @@ export default class RouteCard extends React.PureComponent<Props> {
     const markerClass = `neighborhood-summary__marker ${neighborhood.active ? 'neighborhood-summary__marker--on' : ''}`
     const { time } = neighborhood
     const originLabel = origin ? origin.label || '' : ''
-    const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
+    const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
 
     const modeKey = userProfile.hasVehicle
       ? 'NeighborhoodDetails.DriveMode'
