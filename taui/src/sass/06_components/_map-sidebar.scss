@@ -19,15 +19,24 @@
     border-bottom: 1px solid $gray-400;
   }
 
-  &__checkbox {
-    width: 1.6rem;
-    height: 1.6rem;
-    margin-right: 0.8rem;
+  &__field {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 0.8rem;
   }
 
   &__label {
     @include text(300);
     @include font-weight(bold);
+    flex: none;
+    min-width: 3.6em;
+    padding-right: 0.4rem;
+  }
+
+  &__select {
+    flex: auto;
   }
 
   &__details-navigation {

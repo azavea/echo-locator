@@ -123,7 +123,6 @@ export const SELECT_STYLE = {
 
 export const SELECT_WRAPPER_STYLE = {
   'height': '4rem',
-  'marginBottom': '0.8rem',
   'boxShadow': 'none',
   'border': '1px solid #bdbdbd'
 }

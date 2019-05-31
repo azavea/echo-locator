@@ -32,6 +32,8 @@ Map:
     SetEnd: Set end
     ClearMarkers: Clear markers
 Dock:
+  LocationLabel: From
+  NetworkLabel: When
   Favorites: Saved recommendations
   GoBackToRecommendations: Back to recommendations
   GoBackToFavorites: Back to saved recommendations
