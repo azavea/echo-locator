@@ -107,14 +107,14 @@ Profile:
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Frequent destinations
   ImportanceAccessibility: Travel time
-  ImportanceHeading: How important are the following?
+  ImportanceHeading: How important are these factors when choosing a home?
   ImportanceSchools: School quality
   ImportanceViolentCrime: Public safety
   Primary: Primary
   Purpose: Purpose
   Rooms: Number of rooms in voucher
   HasVehicle: Will have a car
-  Go: Go
+  Go: Save profile
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
