@@ -496,34 +496,57 @@ export default class EditProfile extends PureComponent<Props> {
                 rooms={rooms}
                 changeField={changeField} />
             </div>
-            <div className='account-profile__field account-profile__field--inline'>
-              <input
-                className='account-profile__input account-profile__input--checkbox'
-                id='hasVehicle'
-                type='checkbox'
-                onChange={(e) => changeField('hasVehicle', e.currentTarget.checked)}
-                defaultChecked={hasVehicle}
-              />
-              <label
+            <div className='account-profile__field'>
+              <div
                 className='account-profile__label'
-                htmlFor='hasVehicle'>
-                {message('Profile.HasVehicle')}
-              </label>
+                htmlFor='rooms'>{message('Profile.ChooseTravelMode')}</div>
+              <div className='account-profile__field-row'>
+                <div className='account-profile__field account-profile__field--inline'>
+                  <input
+                    className='account-profile__input account-profile__input--checkbox'
+                    id='byCar'
+                    name='travelMode'
+                    type='radio'
+                    onChange={(e) => changeField('hasVehicle', e.currentTarget.checked)}
+                    defaultChecked={hasVehicle}
+                  />
+                  <label
+                    className='account-profile__label account-profile__label--secondary'
+                    htmlFor='byCar'>
+                    {message('Profile.ByCar')}
+                  </label>
+                </div>
+                <div className='account-profile__field account-profile__field--inline'>
+                  <input
+                    className='account-profile__input account-profile__input--checkbox'
+                    id='byTransit'
+                    name='travelMode'
+                    type='radio'
+                    onChange={(e) => changeField('hasVehicle', !e.currentTarget.checked)}
+                    defaultChecked={!hasVehicle}
+                  />
+                  <label
+                    className='account-profile__label account-profile__label--secondary'
+                    htmlFor='byTransit'>
+                    {message('Profile.ByTransit')}
+                  </label>
+                </div>
+                {!hasVehicle && <div className='account-profile__field account-profile__field--inline'>
+                  <input
+                    className='account-profile__input account-profile__input--checkbox'
+                    id='useCommuterRail'
+                    type='checkbox'
+                    onChange={(e) => changeField('useCommuterRail', e.currentTarget.checked)}
+                    defaultChecked={useCommuterRail}
+                  />
+                  <label
+                    className='account-profile__label account-profile__label--secondary'
+                    htmlFor='useCommuterRail'>
+                    {message('Profile.UseCommuterRail')}
+                  </label>
+                </div>}
+              </div>
             </div>
-            {!hasVehicle && <div className='account-profile__field account-profile__field--inline'>
-              <input
-                className='account-profile__input account-profile__input--checkbox'
-                id='useCommuterRail'
-                type='checkbox'
-                onChange={(e) => changeField('useCommuterRail', e.currentTarget.checked)}
-                defaultChecked={useCommuterRail}
-              />
-              <label
-                className='account-profile__label'
-                htmlFor='useCommuterRail'>
-                {message('Profile.UseCommuterRail')}
-              </label>
-            </div>}
             <DestinationsList
               addAddress={addAddress}
               deleteAddress={deleteAddress}

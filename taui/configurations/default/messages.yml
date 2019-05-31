@@ -99,6 +99,9 @@ Profile:
   AddAddress: Add another destination
   Address: Address
   AddressMissing: All destinations should have an address. Please set or remove any empty destinations.
+  ByCar: Car
+  ByTransit: Transit
+  ChooseTravelMode: Will travel by
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
   Cancel: Cancel
@@ -113,12 +116,11 @@ Profile:
   Primary: Primary
   Purpose: Purpose
   Rooms: Number of rooms in voucher
-  HasVehicle: Will have a car
   Go: Save profile
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
-  UseCommuterRail: Can take commuter rail or express bus
+  UseCommuterRail: Include commuter rail and express bus
 ImportanceLabels:
   1: Not important
   2: Somewhat important
