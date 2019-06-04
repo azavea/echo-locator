@@ -1,6 +1,7 @@
 .meter {
   display: flex;
   flex-flow: row nowrap;
+  justify-content: flex-start;
   align-items: center;
 
   &__track {

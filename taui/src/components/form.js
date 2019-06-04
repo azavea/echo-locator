@@ -149,7 +149,7 @@ export default class Form extends React.PureComponent<Props> {
     return (
       <div className='map-sidebar__travel-form'>
         <div className='map-sidebar__field'>
-          <label className='map-sidebar__label'>{message('Dock.LocationLabel')}:</label>
+          <label className='map-sidebar__label'>{message('Dock.LocationLabel')}</label>
           <Select
             className='map-sidebar__select'
             clearable={false}
@@ -164,7 +164,7 @@ export default class Form extends React.PureComponent<Props> {
           />
         </div>
         {!userProfile.hasVehicle && <div className='map-sidebar__field'>
-          <label className='map-sidebar__label'>{message('Dock.NetworkLabel')}:</label>
+          <label className='map-sidebar__label'>{message('Dock.NetworkLabel')}</label>
           <Select
             className='map-sidebar__select'
             clearable={false}

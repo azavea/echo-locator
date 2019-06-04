@@ -44,17 +44,23 @@ Dock:
   ShowAllButton: All
   ShowSavedButton: Saved
 NeighborhoodDetails:
+  AboutNeighborhoodLinksHeading: Learn about this neighborhood
+  ChildCareSearchLink: Child Care Search
   CraigslistSearchLink: Craigslist
-  DriveMode: drive
-  TransitMode: transit
-  FromOrigin: from
   DirectionsLink: Directions
+  DriveMode: drive
+  FromOrigin: from
+  GoogleSearchLink: Google
+  GoogleMapsLink: Google Maps
+  MassHousingLink: Mass Housing
+  MaxRent: Est. max rent
+  ModeSummary: via
+  MoreSearchToolsLinksHeading: More search tools
+  Section8Link: Section 8
+  TransitMode: transit
   WebsiteLink: Website
   WikipediaAttribution: via Wikimedia Commons
   WikipediaLink: Wikipedia
-  GoogleSearchLink: Google
-  GoogleMapsLink: Google Maps
-  ModeSummary: via
   ZillowSearchLink: Zillow
 NeighborhoodInfo:
   EducationCategory: Schools
