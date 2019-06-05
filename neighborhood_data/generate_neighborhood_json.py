@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding=utf8
 
 """
@@ -11,7 +11,6 @@ from collections import OrderedDict
 import csv
 import errno
 import os
-import sys
 
 import fiona
 from fiona.crs import from_epsg
@@ -35,6 +34,8 @@ COLUMNS = {
     'violentcrime_quintile': 'float',
     'education_percentile_quintile': 'float',
     'education_percentile': 'float',
+    'house_number_symbol': 'int',
+    'lat_lon_category': 'int',
     'max_rent_0br': 'float',
     'max_rent_1br': 'float',
     'max_rent_2br': 'float',
@@ -42,6 +43,8 @@ COLUMNS = {
     'max_rent_4br': 'float',
     'max_rent_5br': 'float',
     'max_rent_6br': 'float',
+    'school_choice': 'int',
+    'total_mapc': 'float',
     'town_website_description': 'str',
     'town_link': 'str',
     'wikipedia': 'str',
@@ -49,17 +52,14 @@ COLUMNS = {
     'street': 'str',
     'school': 'str',
     'town_square': 'str',
-    'open_space_or_landmark': 'str'
+    'open_space_or_landmark': 'str',
+    'zviolentcrimeflip': 'float'
 }
 
 # Add column definitions for the extra image metadata columns
 IMAGE_COLUMNS = ['street', 'school', 'town_square', 'open_space_or_landmark']
 EXTRA_IMAGE_COLUMNS = ['_thumbnail', '_license', '_license_url', '_description', '_artist',
                        '_username']
-
-# ensure Unicode will be handled properly
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 for col in IMAGE_COLUMNS:
     for suffix in EXTRA_IMAGE_COLUMNS:
@@ -80,6 +80,8 @@ with open(NEIGHBORHOOD_CSV) as inf:
     # Do not treat point geometry columns as properties
     fieldnames.remove('x')
     fieldnames.remove('y')
+    fieldnames.remove('lat')
+    fieldnames.remove('lon')
 
     schema = {
         'id': 'str',

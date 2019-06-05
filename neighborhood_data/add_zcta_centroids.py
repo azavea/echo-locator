@@ -1,9 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding=utf8
 
 import csv
 import os
-import sys
 import zipfile
 
 import fiona
@@ -23,10 +22,6 @@ ZCTA_URL = 'http://www2.census.gov/geo/tiger/GENZ2017/shp/{base}.zip'.format(
 
 OUT_FILE = 'neighborhood_centroids.csv'
 OUT_ZCTA_GEOJSON = 'neighborhood_bounds.json'
-
-# ensure Unicode will be handled properly
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 if not os.path.isfile(ZCTA_FILE):
     print('Census ZCTA Shapefile not found. Downloading...')
@@ -48,7 +43,10 @@ with open(NEIGHBORHOOD_FILE) as inf:
     for neighborhood in rdr:
         zipcode = neighborhood['zipcode'].zfill(5)
         neighborhood['zipcode'] = zipcode
+        print(neighborhood)
         places[zipcode] = neighborhood
+        places[zipcode]['x'] = neighborhood['lon']
+        places[zipcode]['y'] = neighborhood['lat']
 
 with fiona.open(ZCTA_FILE) as shp:
     schema = shp.schema.copy()
@@ -62,9 +60,12 @@ with fiona.open(ZCTA_FILE) as shp:
             zipcode = zcta['properties']['ZCTA5CE10']
             if zipcode in places:
                 print('Found zipcode {zipcode}'.format(zipcode=zipcode))
-                centroid = shape(zcta['geometry']).centroid
-                places[zipcode]['x'] = centroid.x
-                places[zipcode]['y'] = centroid.y
+                if places[zipcode]['x'] and places[zipcode]['y']:
+                    print('Already have centroid for zip code {zipcode}'.format(zipcode=zipcode))
+                else:
+                    centroid = shape(zcta['geometry']).centroid
+                    places[zipcode]['x'] = centroid.x
+                    places[zipcode]['y'] = centroid.y
                 # normalize all polygons as multi polygons for GeoJSON
                 if zcta['geometry']['type'] == 'Polygon':
                     zcta['geometry']['coordinates'] = [zcta[
