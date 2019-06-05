@@ -73,17 +73,33 @@ export type AccountProfile = {
  */
 
 export type NeighborhoodProperties = {
+  education_percentile: number,
   education_percentile_quintile: number,
-  has_t_stop: boolean,
+  house_number_symbol: number,
   id: string, // same as zipcode; unique
+  lat_lon_category: number,
+  max_rent_0br: number,
+  max_rent_1br: number,
+  max_rent_2br: number,
+  max_rent_3br: number,
+  max_rent_4br: number,
+  max_rent_5br: number,
+  max_rent_6br: number,
+  open_space_or_landmark: string,
+  school: string,
+  school_choice: boolean,
+  street: string,
+  total_mapc: number,
   town: string, // the label
   town_link: string,
+  town_square: string,
   town_website_description: string,
   violentcrime_quintile: number,
   wikipedia: string,
   wikipedia_link: string,
   zipcode: string,
-  zipcode_population: number
+  zipcode_population: number,
+  zviolentcrimeflip: number
 }
 
 /**
