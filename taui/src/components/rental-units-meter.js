@@ -1,18 +1,28 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
 
+import {getTier} from '../utils/scaling'
+
 export default function RentalUnitsMeter ({
   value,
-  max,
-  tier,
   tooltip
 }) {
   const NUM_ICONS = 5
-  const filledCount = Math.round(NUM_ICONS * value / max)
-  const unfilledCount = NUM_ICONS - filledCount
+
+  if (value > NUM_ICONS || value < 0) {
+    console.warn('Rental unit meter count out of range')
+    if (value < 0) {
+      value = 0
+    } else {
+      value = NUM_ICONS
+    }
+  }
+
+  const unfilledCount = NUM_ICONS - value
+  const tier = getTier(value / NUM_ICONS)
 
   const filledIcons = []
-  for (let i = 0; i < filledCount; i++) {
+  for (let i = 0; i < value; i++) {
     filledIcons.push(
       <span
         key={i}
