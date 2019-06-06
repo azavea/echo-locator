@@ -48,13 +48,16 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodStats (props) {
-    const { neighborhood } = props
+    const { neighborhood, userProfile } = props
+    const { rooms } = userProfile
+    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
+
     return (
       <div className='neighborhood-details__stats'>
         <div className='neighborhood-details__rent'>
           <div className='neighborhood-details__rent-label'>{message('NeighborhoodDetails.MaxRent')}</div>
-          <div className='neighborhood-details__rent-value'>$2500</div>
-          <div className='neighborhood-details__rent-rooms'>3br</div>
+          <div className='neighborhood-details__rent-value'>${maxSubsidy}</div>
+          <div className='neighborhood-details__rent-rooms'>{rooms}br</div>
         </div>
         <NeighborhoodListInfo neighborhood={neighborhood} />
       </div>
@@ -108,12 +111,13 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
   neighborhoodLinks (props) {
     const { neighborhood, userProfile } = props
-    const maxSubsidy = neighborhood.properties['max_rent_' + userProfile.rooms + 'br']
+    const { rooms } = userProfile
+    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          Search for 3br with max rent $2500
+          Search for {rooms}br with max rent ${maxSubsidy}
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -267,7 +271,9 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           />}
         </div>
         <div className='neighborhood-details__section'>
-          <NeighborhoodStats neighborhood={neighborhood} />
+          <NeighborhoodStats
+            neighborhood={neighborhood}
+            userProfile={userProfile} />
         </div>
         <div className='neighborhood-details__section'>
           <NeighborhoodLinks
