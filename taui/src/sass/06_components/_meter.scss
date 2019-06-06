@@ -1,0 +1,32 @@
+.meter {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  &__track {
+    fill: $meter-track;
+  }
+
+  &__fill {
+    &--high {
+      fill: $meter-fill-high;
+    }
+
+    &--med {
+      fill: $meter-fill-med;
+    }
+
+    &--low {
+      fill: $meter-fill-low;
+    }
+  }
+
+  &__average {
+    fill: $meter-average;
+  }
+
+  &__percentage {
+    margin-left: 0.8rem;
+  }
+}

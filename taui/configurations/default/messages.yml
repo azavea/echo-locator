@@ -32,6 +32,8 @@ Map:
     SetEnd: Set end
     ClearMarkers: Clear markers
 Dock:
+  LocationLabel: From
+  NetworkLabel: When
   Favorites: Saved recommendations
   GoBackToRecommendations: Back to recommendations
   GoBackToFavorites: Back to saved recommendations
@@ -42,22 +44,30 @@ Dock:
   ShowAllButton: All
   ShowSavedButton: Saved
 NeighborhoodDetails:
+  AboutNeighborhoodLinksHeading: Learn about this neighborhood
+  ChildCareSearchLink: Child Care Search
   CraigslistSearchLink: Craigslist
+  DirectionsLink: Directions
   DriveMode: drive
-  TransitMode: transit
   FromOrigin: from
+  GoogleSearchLink: Google
+  GoogleMapsLink: Google Maps
+  MassHousingLink: Mass Housing
+  MaxRent: Est. max rent
+  ModeSummary: via
+  MoreSearchToolsLinksHeading: More search tools
+  Section8Link: Section 8
+  TransitMode: transit
   WebsiteLink: Website
   WikipediaAttribution: via Wikimedia Commons
   WikipediaLink: Wikipedia
-  GoogleSearchLink: Google
-  GoogleMapsLink: Google Maps
-  ModeSummary: via
   ZillowSearchLink: Zillow
 NeighborhoodInfo:
   EducationCategory: Schools
   Population: Population
+  RentalUnits: Rental units
   Score: Overall score
-  ViolentCrime: Violent crime
+  ViolentCrime: Public safety
 PageNotFound: Oops! There is no page at
 RouteCard:
   MarkerLink: Show neighborhood on map
@@ -96,6 +106,9 @@ Profile:
   AddAddress: Add another destination
   Address: Address
   AddressMissing: All destinations should have an address. Please set or remove any empty destinations.
+  ByCar: Car
+  ByTransit: Transit
+  ChooseTravelMode: Will travel by
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
   Cancel: Cancel
@@ -104,18 +117,17 @@ Profile:
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Frequent destinations
   ImportanceAccessibility: Travel time
-  ImportanceHeading: How important are the following?
+  ImportanceHeading: How important are these factors when choosing a home?
   ImportanceSchools: School quality
-  ImportanceViolentCrime: Violent crime
+  ImportanceViolentCrime: Public safety
   Primary: Primary
   Purpose: Purpose
   Rooms: Number of rooms in voucher
-  HasVehicle: Will have a car
-  Go: Go
+  Go: Save profile
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
-  UseCommuterRail: Can take commuter rail or express bus
+  UseCommuterRail: Include commuter rail and express bus
 ImportanceLabels:
   1: Not important
   2: Somewhat important

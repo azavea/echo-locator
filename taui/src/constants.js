@@ -121,9 +121,10 @@ export const SELECT_STYLE = {
   'height': '3.8rem'
 }
 
+export const SELECT_OPTION_HEIGHT = 38
+
 export const SELECT_WRAPPER_STYLE = {
   'height': '4rem',
-  'marginBottom': '0.8rem',
   'boxShadow': 'none',
   'border': '1px solid #bdbdbd'
 }

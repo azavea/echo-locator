@@ -5,14 +5,15 @@ import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
 import {ROUND_TRIP_MINUTES} from '../constants'
-import type {AccountProfile, NeighborhoodImageMetadata, NeighborhoodLabels} from '../types'
+import type {AccountProfile, NeighborhoodImageMetadata} from '../types'
 import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getGoogleSearchLink from '../utils/google-search-link'
+import getGoogleMapsLink from '../utils/google-maps-link'
 import getNeighborhoodImage from '../utils/neighborhood-images'
-import getNeighborhoodPropertyLabels from '../utils/neighborhood-properties'
 import getZillowSearchLink from '../utils/zillow-search-link'
 
+import NeighborhoodListInfo from './neighborhood-list-info'
 import RouteSegments from './route-segments'
 
 type Props = {
@@ -32,7 +33,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       : false
     }
 
-    this.neighborhoodDetailsTable = this.neighborhoodDetailsTable.bind(this)
+    this.neighborhoodStats = this.neighborhoodStats.bind(this)
     this.neighborhoodImage = this.neighborhoodImage.bind(this)
     this.neighborhoodImages = this.neighborhoodImages.bind(this)
     this.neighborhoodLinks = this.neighborhoodLinks.bind(this)
@@ -46,33 +47,20 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     }
   }
 
-  neighborhoodDetailsTable (props) {
-    const { neighborhood } = props
-    const labels: NeighborhoodLabels = getNeighborhoodPropertyLabels(neighborhood.properties)
-
-    // Overall score is a derived value and not a neighborhood property (so not in `labels`).
-    const overallScore = neighborhood.score
-      ? neighborhood.score.toLocaleString('en-US', {style: 'percent'})
-      : message('UnknownValue')
-
-    const tableData = [
-      {label: 'NeighborhoodInfo.Score', value: overallScore},
-      {label: 'NeighborhoodInfo.ViolentCrime', value: labels.violentCrime},
-      {label: 'NeighborhoodInfo.EducationCategory', value: labels.education},
-      {label: 'NeighborhoodInfo.Population', value: labels.population}
-    ]
+  neighborhoodStats (props) {
+    const { neighborhood, userProfile } = props
+    const { rooms } = userProfile
+    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
 
     return (
-      <table className='neighborhood-details__facts'>
-        <tbody>
-          {tableData.map(data => (
-            <tr className='neighborhood-details__row' key={data.label}>
-              <td className='neighborhood-details__cell'>{message(data.label)}:</td>
-              <td className='neighborhood-details__cell'>{data.value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className='neighborhood-details__stats'>
+        <div className='neighborhood-details__rent'>
+          <div className='neighborhood-details__rent-label'>{message('NeighborhoodDetails.MaxRent')}</div>
+          <div className='neighborhood-details__rent-value'>${maxSubsidy}</div>
+          <div className='neighborhood-details__rent-rooms'>{rooms}br</div>
+        </div>
+        <NeighborhoodListInfo neighborhood={neighborhood} />
+      </div>
     )
   }
 
@@ -122,15 +110,66 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodLinks (props) {
-    const { hasVehicle, neighborhood, origin, userProfile } = props
-    // lat,lon strings for Google Directions link from neighborhood to current destination
-    const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
-    const originCoordinateString = neighborhood.geometry.coordinates[1] +
-      ',' + neighborhood.geometry.coordinates[0]
-    const maxSubsidy = neighborhood.properties['max_rent_' + userProfile.rooms + 'br']
+    const { neighborhood, userProfile } = props
+    const { rooms } = userProfile
+    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
     return (
       <>
+        <h6 className='neighborhood-details__link-heading'>
+          Search for {rooms}br with max rent ${maxSubsidy}
+        </h6>
+        <div className='neighborhood-details__links'>
+          <a
+            className='neighborhood-details__link'
+            href='/'
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.Section8Link')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href={getZillowSearchLink(
+              neighborhood.properties.id,
+              userProfile.rooms,
+              maxSubsidy)}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.ZillowSearchLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href={getCraigslistSearchLink(
+              neighborhood.properties.id,
+              userProfile.rooms,
+              maxSubsidy)}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.CraigslistSearchLink')}
+          </a>
+        </div>
+        <h6 className='neighborhood-details__link-heading'>
+          {message('NeighborhoodDetails.MoreSearchToolsLinksHeading')}
+        </h6>
+        <div className='neighborhood-details__links'>
+          <a
+            className='neighborhood-details__link'
+            href='https://www.masshousing.com/portal/server.pt/community/rental_housing/240/looking_for_an_affordable_apartment_'
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.MassHousingLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href='https://eeclead.force.com/EEC_ChildCareSearch'
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.ChildCareSearchLink')}
+          </a>
+        </div>
+        <h6 className='neighborhood-details__link-heading'>
+          {message('NeighborhoodDetails.AboutNeighborhoodLinksHeading')}
+        </h6>
         <div className='neighborhood-details__links'>
           {neighborhood.properties.town_link && <a
             className='neighborhood-details__link'
@@ -155,35 +194,10 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           </a>
           <a
             className='neighborhood-details__link'
-            href={getGoogleDirectionsLink(
-              originCoordinateString,
-              destinationCoordinateString,
-              hasVehicle)}
+            href={getGoogleMapsLink(neighborhood.properties.id)}
             target='_blank'
           >
             {message('NeighborhoodDetails.GoogleMapsLink')}
-          </a>
-        </div>
-        <div className='neighborhood-details__links'>
-          <a
-            className='neighborhood-details__link'
-            href={getCraigslistSearchLink(
-              neighborhood.properties.id,
-              userProfile.rooms,
-              maxSubsidy)}
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.CraigslistSearchLink')}
-          </a>
-          <a
-            className='neighborhood-details__link'
-            href={getZillowSearchLink(
-              neighborhood.properties.id,
-              userProfile.rooms,
-              maxSubsidy)}
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.ZillowSearchLink')}
           </a>
         </div>
       </>
@@ -194,7 +208,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const { changeUserProfile, neighborhood, origin, setFavorite, userProfile } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
-    const NeighborhoodDetailsTable = this.neighborhoodDetailsTable
+    const NeighborhoodStats = this.neighborhoodStats
     const NeighborhoodImages = this.neighborhoodImages
     const NeighborhoodLinks = this.neighborhoodLinks
 
@@ -204,7 +218,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     // Look up the currently selected user profile destination from the origin
     const originLabel = origin ? origin.label || '' : ''
-    const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
+    const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
     const { id, town } = neighborhood.properties
     const description = neighborhood.properties['town_website_description']
 
@@ -213,40 +227,67 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     const roundedTripTime = Math.round(neighborhood.time / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
 
+    // lat,lon strings for Google Directions link from neighborhood to current destination
+    const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
+    const originCoordinateString = neighborhood.geometry.coordinates[1] +
+      ',' + neighborhood.geometry.coordinates[0]
+
     return (
       <div className='neighborhood-details'>
-        <header className='neighborhood-details__header'>
-          <Icon
-            className='neighborhood-details__star'
-            type={isFavorite ? 'star' : 'star-o'}
-            onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
-          />
-          {town} &ndash; {id}
-          <Icon className='neighborhood-details__marker' type='map-marker' />
-        </header>
-        <div className='neighborhood-details__trip'>
-          {message('Units.About')}&nbsp;
-          {roundedTripTime}&nbsp;
-          {message('Units.Mins')}&nbsp;
-          <ModesList segments={bestJourney} />&nbsp;
-          {message('NeighborhoodDetails.FromOrigin')}&nbsp;
-          {currentDestination && currentDestination.purpose.toLowerCase()}
+        <div className='neighborhood-details__section'>
+          <header className='neighborhood-details__header'>
+            <Icon
+              className='neighborhood-details__star'
+              type={isFavorite ? 'star' : 'star-o'}
+              onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
+            />
+            <div className='neighborhood-details__name'>{town} &ndash; {id}</div>
+            <Icon className='neighborhood-details__marker' type='map-marker' />
+          </header>
         </div>
-        {!hasVehicle && <RouteSegments
-          hasVehicle={hasVehicle}
-          routeSegments={neighborhood.segments}
-          travelTime={neighborhood.time}
-        />}
-        <NeighborhoodImages neighborhood={neighborhood} />
-        <div className='neighborhood-details__desc'>
-          {description}
+        <div className='neighborhood-details__section'>
+          <div className='neighborhood-details__trip'>
+            {message('Units.About')}&nbsp;
+            {roundedTripTime}&nbsp;
+            {message('Units.Mins')}&nbsp;
+            <ModesList segments={bestJourney} />&nbsp;
+            {message('NeighborhoodDetails.FromOrigin')}&nbsp;
+            {currentDestination && currentDestination.purpose.toLowerCase()}
+            {hasVehicle && <a
+              className='neighborhood-details__directions'
+              href={getGoogleDirectionsLink(
+                originCoordinateString,
+                destinationCoordinateString,
+                hasVehicle)}
+              target='_blank'
+            >
+              {message('NeighborhoodDetails.DirectionsLink')}
+            </a>}
+          </div>
+          {!hasVehicle && <RouteSegments
+            hasVehicle={hasVehicle}
+            routeSegments={neighborhood.segments}
+            travelTime={neighborhood.time}
+          />}
         </div>
-        <NeighborhoodLinks
-          hasVehicle={hasVehicle}
-          neighborhood={neighborhood}
-          origin={origin}
-          userProfile={userProfile} />
-        <NeighborhoodDetailsTable neighborhood={neighborhood} />
+        <div className='neighborhood-details__section'>
+          <NeighborhoodStats
+            neighborhood={neighborhood}
+            userProfile={userProfile} />
+        </div>
+        <div className='neighborhood-details__section'>
+          <NeighborhoodLinks
+            hasVehicle={hasVehicle}
+            neighborhood={neighborhood}
+            origin={origin}
+            userProfile={userProfile} />
+        </div>
+        <div className='neighborhood-details__section'>
+          <NeighborhoodImages neighborhood={neighborhood} />
+          <div className='neighborhood-details__desc'>
+            {description}
+          </div>
+        </div>
       </div>
     )
   }

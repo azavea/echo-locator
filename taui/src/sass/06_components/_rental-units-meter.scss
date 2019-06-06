@@ -1,0 +1,22 @@
+.rental-units-meter {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  &__icon {
+    color: $meter-track;
+    font-size: 2rem;
+
+    &--high {
+      color: $meter-fill-high;
+    }
+
+    &--med {
+      color: $meter-fill-med;
+    }
+
+    &--low {
+      color: $meter-fill-low;
+    }
+  }
+}

@@ -8,7 +8,7 @@ import React from 'react'
 import Select from 'react-virtualized-select'
 import createFilterOptions from 'react-select-fast-filter-options'
 
-import {SELECT_STYLE, SELECT_WRAPPER_STYLE} from '../constants'
+import {SELECT_STYLE, SELECT_WRAPPER_STYLE, SELECT_OPTION_HEIGHT} from '../constants'
 import type {
   AccountAddress,
   AccountProfile,
@@ -148,27 +148,36 @@ export default class Form extends React.PureComponent<Props> {
 
     return (
       <div className='map-sidebar__travel-form'>
-        <Select
-          clearable={false}
-          filterOptions={destinationFilterOptions}
-          options={locations}
-          optionHeight={38}
-          onChange={this.selectDestination}
-          placeholder={message('Geocoding.StartPlaceholder')}
-          style={SELECT_STYLE}
-          wrapperStyle={SELECT_WRAPPER_STYLE}
-          value={destination}
-        />
-        {!userProfile.hasVehicle && <Select
-          clearable={false}
-          filterOptions={networkFilterOptions}
-          options={networks}
-          onChange={(e) => setNetwork(e)}
-          placeholder={message('Map.SelectNetwork')}
-          style={SELECT_STYLE}
-          wrapperStyle={SELECT_WRAPPER_STYLE}
-          value={network}
-        />}
+        <div className='map-sidebar__field'>
+          <label className='map-sidebar__label'>{message('Dock.LocationLabel')}</label>
+          <Select
+            className='map-sidebar__select'
+            clearable={false}
+            filterOptions={destinationFilterOptions}
+            options={locations}
+            optionHeight={SELECT_OPTION_HEIGHT}
+            onChange={this.selectDestination}
+            placeholder={message('Geocoding.StartPlaceholder')}
+            style={SELECT_STYLE}
+            wrapperStyle={SELECT_WRAPPER_STYLE}
+            value={destination}
+          />
+        </div>
+        {!userProfile.hasVehicle && <div className='map-sidebar__field'>
+          <label className='map-sidebar__label'>{message('Dock.NetworkLabel')}</label>
+          <Select
+            className='map-sidebar__select'
+            clearable={false}
+            filterOptions={networkFilterOptions}
+            options={networks}
+            optionHeight={SELECT_OPTION_HEIGHT}
+            onChange={(e) => setNetwork(e)}
+            placeholder={message('Map.SelectNetwork')}
+            style={SELECT_STYLE}
+            wrapperStyle={SELECT_WRAPPER_STYLE}
+            value={network}
+          />
+        </div>}
       </div>
     )
   }
