@@ -69,6 +69,7 @@
     "reselect": "~4.0.0"
   },
   "devDependencies": {
+    "core-js": "~2.6.9",
     "mastarm": "https://github.com/azavea/mastarm.git#dev",
     "semantic-release": "^15.13.12",
     "stylelint": "^9.6.0",
