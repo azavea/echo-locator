@@ -11,6 +11,7 @@ import {
   DEFAULT_SCHOOLS_IMPORTANCE
 } from '../constants'
 import {NeighborhoodProperties} from '../types'
+import scale from '../utils/scaling'
 
 import selectNeighborhoodRoutes from './network-neighborhood-routes'
 import neighborhoodTravelTimes from './neighborhood-travel-times'
@@ -110,9 +111,4 @@ const distanceTime = (origin, neighborhood) => {
   const normalized = distance < MAX_DISTANCE ? distance : MAX_DISTANCE
   // Then map the distance to the travel time range
   return scale(normalized, 0, MAX_DISTANCE, 0, MAX_TRAVEL_TIME)
-}
-
-// Map value from one range to another
-const scale = (num, startMin, startMax, rangeMin, rangeMax) => {
-  return (num - startMin) * (rangeMax - rangeMin) / (startMax - startMin) + rangeMin
 }

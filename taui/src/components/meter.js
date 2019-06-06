@@ -1,15 +1,17 @@
 // @flow
+import {getTier} from '../utils/scaling'
+
 export default function Meter ({
   value,
   max = 100,
-  average,
-  tier,
+  average = 50,
   width = 100,
   height = 12,
   tooltip
 }) {
   const percentage = value / max
   const percentageLabel = Math.round(percentage * 100)
+  const tier = getTier(percentage)
 
   return (
     <div className='meter'>
