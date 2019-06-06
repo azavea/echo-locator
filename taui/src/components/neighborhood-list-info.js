@@ -13,16 +13,17 @@ export default function NeighborhoodListInfo ({neighborhood}) {
   const crimeQuintile = props['violentcrime_quintile']
   const edPercentile = props['education_percentile']
   const houses = props['house_number_symbol']
+  const isSchoolChoice = !!props['school_choice']
 
   return (
     <table className='neighborhood-facts'>
       <tbody>
-        <tr>
+        {!isSchoolChoice && <tr>
           <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.EducationCategory')}</td>
           <td className='neighborhood-facts__cell'>
             <Meter value={edPercentile} />
           </td>
-        </tr>
+        </tr>}
         <tr>
           <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ViolentCrime')}</td>
           <td className='neighborhood-facts__cell'>
