@@ -36,7 +36,9 @@ export default function getNeighborhoodImage (properties: NeighborhoodProperties
   const license = properties[imageField + '_license']
   const licenseUrl = properties[imageField + '_license_url']
   const imageLink = properties[imageField]
-  const thumbnail = 'assets/neighborhoods/' + properties['id'] + '_' + imageField + '.jpg'
+  // Get the extension for the image from the link
+  const ext = imageLink.toLowerCase().split('.').pop()
+  const thumbnail = 'assets/neighborhoods/' + properties['id'] + '_' + imageField + '.' + ext
   const userName = properties[imageField + '_username']
 
   let attribution = userName + ' [' + license
