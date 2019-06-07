@@ -1,4 +1,6 @@
 // @flow
+import ReactTooltip from 'react-tooltip'
+
 import {getTier} from '../utils/scaling'
 
 export default function Meter ({
@@ -14,13 +16,13 @@ export default function Meter ({
   const tier = getTier(percentage)
 
   return (
-    <div className='meter'>
+    <div className='meter' data-tip={tooltip}>
+      <ReactTooltip />
       <svg
         className='meter__chart'
         viewBox={`0 0 ${width} ${height}`}
         width={width}
         height={height}
-        title={tooltip}
       >
         <rect
           className='meter__track'

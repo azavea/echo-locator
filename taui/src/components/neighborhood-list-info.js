@@ -25,19 +25,22 @@ export default function NeighborhoodListInfo ({neighborhood}) {
         {!isSchoolChoice && <tr>
           <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.EducationCategory')}</td>
           <td className='neighborhood-facts__cell'>
-            <Meter value={edPercentile} />
+            <Meter value={edPercentile} tooltip={message('NeighborhoodInfo.EducationCategory')} />
           </td>
         </tr>}
         <tr>
           <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ViolentCrime')}</td>
           <td className='neighborhood-facts__cell'>
-            <Meter value={crimeQuintile} average={2} max={4} />
+            <Meter value={crimeQuintile}
+              average={2}
+              max={4}
+              tooltip={message('NeighborhoodInfo.ViolentCrime')} />
           </td>
         </tr>
         <tr>
           <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.RentalUnits')}</td>
           <td className='neighborhood-facts__cell'>
-            <RentalUnitsMeter value={houses} />
+            <RentalUnitsMeter value={houses} tooltip={message('NeighborhoodInfo.RentalUnits')} />
           </td>
         </tr>
       </tbody>
