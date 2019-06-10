@@ -132,7 +132,7 @@ export default class Map extends PureComponent<Props, State> {
 
   // Hover over neighborhood map bounds or marker
   hoverNeighborhood = (feature, event) => {
-    if (!feature || !feature.properties) return
+    if (this.props.showDetails || !feature || !feature.properties) return
     const sleep = (time) => {
       return new Promise((resolve) => setTimeout(resolve, time))
     }
@@ -273,7 +273,7 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {p.displayNeighborhoods && p.displayNeighborhoods.length &&
+        {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
           p.displayNeighborhoods.map((n) =>
             <Marker
               icon={n.active ? endIcon : otherIcon}
