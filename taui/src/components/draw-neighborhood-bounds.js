@@ -1,4 +1,5 @@
 // @flow
+import message from '@conveyal/woonerf/message'
 import React from 'react'
 import {LayerGroup} from 'react-leaflet'
 
@@ -23,14 +24,21 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
     })
   }
 
+  getTooltip = (feature) => {
+    if (!feature || !feature.properties) return ''
+    const {routable, town} = feature.properties
+    return routable ? town : town + ' ' + message('Map.Unreachable')
+  }
+
   render () {
     const p = this.props
     const hoverStyle = this.hoverStyle
+    const getTooltip = this.getTooltip
     return <LayerGroup key={`neighborhood-boundary-${this._getKey()}`}>
       {p.neighborhoods && <VGrid
         data={p.neighborhoods}
         idField='id'
-        tooltip='town'
+        tooltip={(feature) => getTooltip(feature)}
         hoverStyle={(feature) => hoverStyle(feature)}
         onClick={p.clickNeighborhood}
         onMouseover={p.hoverNeighborhood}
