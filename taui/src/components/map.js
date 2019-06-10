@@ -1,7 +1,6 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
 import Leaflet from 'leaflet'
-import filter from 'lodash/filter'
 import get from 'lodash/get'
 import React, {PureComponent} from 'react'
 import {
@@ -96,6 +95,7 @@ export default class Map extends PureComponent<Props, State> {
   constructor (props) {
     super(props)
     this.clickNeighborhood = this.clickNeighborhood.bind(this)
+    this.hoverNeighborhood = this.hoverNeighborhood.bind(this)
   }
 
   state = {
@@ -127,6 +127,21 @@ export default class Map extends PureComponent<Props, State> {
       this.props.setShowDetails(true)
     } else {
       console.warn('clicked unroutable neighborhood ' + feature.properties.id)
+    }
+  }
+
+  // Hover over neighborhood map bounds or marker
+  hoverNeighborhood = (feature, event) => {
+    if (!feature || !feature.properties) return
+    const sleep = (time) => {
+      return new Promise((resolve) => setTimeout(resolve, time))
+    }
+    if (feature.properties.routable) {
+      // Change active neighborhood after a delay to prevent Leaflet mouse event errors
+      sleep(50).then(() => {
+        this.props.setActiveNeighborhood(feature.properties.id)
+      })
+      return false
     }
   }
 
@@ -195,6 +210,7 @@ export default class Map extends PureComponent<Props, State> {
   render () {
     const p = this.props
     const clickNeighborhood = this.clickNeighborhood
+    const hoverNeighborhood = this.hoverNeighborhood
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
@@ -241,6 +257,7 @@ export default class Map extends PureComponent<Props, State> {
           <DrawNeighborhoodBounds
             key={`start-${this._getKey()}`}
             clickNeighborhood={clickNeighborhood}
+            hoverNeighborhood={hoverNeighborhood}
             neighborhoods={p.routableNeighborhoods}
             zIndex={getZIndex()}
           />}
@@ -262,6 +279,7 @@ export default class Map extends PureComponent<Props, State> {
               icon={n.active ? endIcon : otherIcon}
               key={`n-${n.properties.id}-${this._getKey()}`}
               onClick={(e) => clickNeighborhood(n)}
+              onHover={(e) => hoverNeighborhood(n)}
               position={lonlat.toLeaflet(n.geometry.coordinates)}
               zIndex={getZIndex()}
             />)}

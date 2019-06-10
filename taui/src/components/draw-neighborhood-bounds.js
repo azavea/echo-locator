@@ -4,7 +4,7 @@ import {LayerGroup} from 'react-leaflet'
 
 import {
   NEIGHBORHOOD_BOUNDS_STYLE,
-  NEIGHBORHOOD_BOUNDS_HOVER_STYLE,
+  NEIGHBORHOOD_HOVER_COLOR,
   NEIGHBORHOOD_NONROUTABLE_COLOR,
   NEIGHBORHOOD_ROUTABLE_COLOR
 } from '../constants'
@@ -23,15 +23,17 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
         idField='id'
         tooltip='town'
         onClick={p.clickNeighborhood}
+        onMouseover={p.hoverNeighborhood}
         zIndex={p.zIndex}
         style={NEIGHBORHOOD_BOUNDS_STYLE}
-        hoverStyle={NEIGHBORHOOD_BOUNDS_HOVER_STYLE}
         vectorTileLayerStyles={
           {'sliced': (properties) => {
             return Object.assign({}, NEIGHBORHOOD_BOUNDS_STYLE, {
-              fillColor: properties.routable
-                ? NEIGHBORHOOD_ROUTABLE_COLOR
-                : NEIGHBORHOOD_NONROUTABLE_COLOR
+              fillColor: properties.active
+                ? NEIGHBORHOOD_HOVER_COLOR
+                : (properties.routable
+                  ? NEIGHBORHOOD_ROUTABLE_COLOR
+                  : NEIGHBORHOOD_NONROUTABLE_COLOR)
             })
           }}
         }
