@@ -42,6 +42,13 @@ const iconSize = [iconWidth, iconHeight]
 const iconAnchor = [iconWidth / 2, iconHeight + 13] // height plus the pointer size
 const iconHTML = '' // <div className="innerMarker"></div>'
 
+const endIcon = Leaflet.divIcon({
+  className: 'LeafletIcon End map__marker map__marker--end',
+  html: iconHTML,
+  iconAnchor,
+  iconSize
+})
+
 const startIcon = Leaflet.divIcon({
   className: 'LeafletIcon Start map__marker map__marker--start',
   html: iconHTML,
@@ -189,10 +196,6 @@ export default class Map extends PureComponent<Props, State> {
     const p = this.props
     const clickNeighborhood = this.clickNeighborhood
 
-    const otherNeighborhoods = (p.displayNeighborhoods && !p.showDetails)
-      ? filter(p.displayNeighborhoods, n => !n.active)
-      : []
-
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
     let zIndex = 0
@@ -253,13 +256,13 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {otherNeighborhoods && otherNeighborhoods.length &&
-          otherNeighborhoods.map((other) =>
+        {p.displayNeighborhoods && p.displayNeighborhoods.length &&
+          p.displayNeighborhoods.map((n) =>
             <Marker
-              icon={otherIcon}
-              key={`other-${other.properties.id}-${this._getKey()}`}
-              onClick={(e) => clickNeighborhood(other)}
-              position={lonlat.toLeaflet(other.geometry.coordinates)}
+              icon={n.active ? endIcon : otherIcon}
+              key={`n-${n.properties.id}-${this._getKey()}`}
+              onClick={(e) => clickNeighborhood(n)}
+              position={lonlat.toLeaflet(n.geometry.coordinates)}
               zIndex={getZIndex()}
             />)}
       </LeafletMap> : null
