@@ -1,5 +1,6 @@
 fiona
 ipdb
+optimize-images
+pillow
 shapely
 requests
-

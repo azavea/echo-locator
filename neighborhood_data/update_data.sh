@@ -7,6 +7,9 @@ python3 add_zcta_centroids.py
 python3 fetch_images.py
 python3 generate_neighborhood_json.py
 
+# optimize downloaded images
+optimize-images ./images/
+
 cp neighborhoods.json neighborhood_bounds.json ../taui/
 
 mkdir -p ../taui/assets/neighborhoods/
