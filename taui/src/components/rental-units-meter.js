@@ -1,5 +1,6 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
+import ReactTooltip from 'react-tooltip'
 
 import {getTier} from '../utils/scaling'
 
@@ -46,7 +47,9 @@ export default function RentalUnitsMeter ({
   }
 
   return (
-    <div className='rental-units-meter'>
+    <div className='rental-units-meter'
+      data-tip={tooltip}>
+      <ReactTooltip />
       {filledIcons}
       {unfilledIcons}
     </div>
