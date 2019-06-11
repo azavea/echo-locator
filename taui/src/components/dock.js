@@ -12,6 +12,7 @@ import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
 
 type Props = {
+  activeNeighborhood: string,
   activeNetworkIndex: number,
   detailNeighborhood: any,
   endingOffset: number,
@@ -154,6 +155,7 @@ export default class Dock extends PureComponent<Props> {
   // Render list of neighborhoods
   neighborhoodsList (props) {
     const {
+      activeNeighborhood,
       changeUserProfile,
       neighborhoods,
       setActiveNeighborhood,
@@ -170,6 +172,7 @@ export default class Dock extends PureComponent<Props> {
     return (
       neighborhoods.map((neighborhood, index) =>
         <RouteCard
+          activeNeighborhood={activeNeighborhood}
           goToDetails={(e) => goToDetails(e, neighborhood)}
           index={index}
           isFavorite={userProfile.favorites &&
