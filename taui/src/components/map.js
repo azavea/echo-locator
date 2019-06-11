@@ -140,10 +140,9 @@ export default class Map extends PureComponent<Props, State> {
     }
     if (feature.properties.routable) {
       // Change active neighborhood after a delay to prevent Leaflet mouse event errors
-      sleep(50).then(() => {
+      sleep(10).then(() => {
         this.props.setActiveNeighborhood(feature.properties.id)
       })
-      return false
     }
   }
 
