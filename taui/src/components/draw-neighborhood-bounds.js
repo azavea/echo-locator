@@ -16,9 +16,9 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
   _key = 0
   _getKey () { return this._key++ }
 
-  hoverStyle = (feature) => {
+  hoverStyle = (feature, activeNeighborhood) => {
     return Object.assign({}, NEIGHBORHOOD_BOUNDS_STYLE, {
-      fillColor: feature.active || feature.routable
+      fillColor: feature.id === activeNeighborhood || feature.routable
         ? NEIGHBORHOOD_HOVER_COLOR
         : NEIGHBORHOOD_NONROUTABLE_COLOR
     })
@@ -32,6 +32,7 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
 
   render () {
     const p = this.props
+    const activeNeighborhood = p.activeNeighborhood
     const hoverStyle = this.hoverStyle
     const getTooltip = this.getTooltip
     return <LayerGroup key={`neighborhood-boundary-${this._getKey()}`}>
@@ -39,7 +40,7 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
         data={p.neighborhoods}
         idField='id'
         tooltip={(feature) => getTooltip(feature)}
-        hoverStyle={(feature) => hoverStyle(feature)}
+        hoverStyle={(feature, activeNeighborhood) => hoverStyle(feature, activeNeighborhood)}
         onClick={p.clickNeighborhood}
         onMouseover={p.hoverNeighborhood}
         zIndex={p.zIndex}
@@ -47,7 +48,7 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
         vectorTileLayerStyles={
           {'sliced': (properties) => {
             return Object.assign({}, NEIGHBORHOOD_BOUNDS_STYLE, {
-              fillColor: properties.active
+              fillColor: properties.id === activeNeighborhood
                 ? NEIGHBORHOOD_HOVER_COLOR
                 : (properties.routable
                   ? NEIGHBORHOOD_ROUTABLE_COLOR

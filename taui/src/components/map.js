@@ -256,6 +256,7 @@ export default class Map extends PureComponent<Props, State> {
         {!p.isLoading && p.routableNeighborhoods &&
           <DrawNeighborhoodBounds
             key={`start-${this._getKey()}`}
+            activeNeighborhood={p.activeNeighborhood}
             clickNeighborhood={clickNeighborhood}
             hoverNeighborhood={hoverNeighborhood}
             neighborhoods={p.routableNeighborhoods}

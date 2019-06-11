@@ -8,8 +8,7 @@ import neighborhoodsSortedWithRoutes from './neighborhoods-sorted-with-routes'
 export default createSelector(
   neighborhoodsSortedWithRoutes,
   state => get(state, 'data.neighborhoodBounds'),
-  state => get(state, 'data.activeNeighborhood'),
-  (neighborhoodsSortedWithRoutes, neighborhoods, activeNeighborhood) => {
+  (neighborhoodsSortedWithRoutes, neighborhoods) => {
     if (!neighborhoodsSortedWithRoutes || !neighborhoodsSortedWithRoutes.length) {
       return neighborhoods
     }
@@ -18,7 +17,6 @@ export default createSelector(
         s => s.properties.id === n.properties.id)
       const neighborhood = Object.assign({}, n)
       neighborhood.properties.routable = routable
-      neighborhood.properties.active = n.properties.id === activeNeighborhood
       return neighborhood
     })
     return Object.assign({}, neighborhoods, {features: routableNeighborhoods})
