@@ -301,7 +301,7 @@ export default class Map extends PureComponent<Props, State> {
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
           p.displayNeighborhoods.map((n) =>
             <Marker
-              icon={n.active ? endIcon : otherIcon}
+              icon={n.properties.id === p.activeNeighborhood ? endIcon : otherIcon}
               key={`n-${n.properties.id}-${this._getKey()}`}
               onClick={(e) => clickNeighborhood(n)}
               onHover={(e) => hoverNeighborhood(n)}
