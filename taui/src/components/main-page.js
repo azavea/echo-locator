@@ -150,6 +150,7 @@ export default class MainPage extends React.PureComponent<Props> {
           <Map
             {...p.map}
             activeNeighborhood={p.data.activeNeighborhood}
+            activeNeighborhoodBounds={p.activeNeighborhoodBounds}
             activeNetworkIndex={p.activeNetworkIndex}
             clearStartAndEnd={this._clearStartAndEnd}
             detailNeighborhood={p.detailNeighborhood}

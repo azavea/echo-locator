@@ -11,6 +11,7 @@ import {
   ZoomControl
 } from 'react-leaflet'
 
+import {NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE} from '../constants'
 import type {
   Coordinate,
   Location,
@@ -20,6 +21,7 @@ import type {
 
 import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
 import DrawRoute from './draw-route'
+import VGrid from './vector-grid'
 
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
   ? process.env.LEAFLET_RETINA_URL
@@ -261,6 +263,17 @@ export default class Map extends PureComponent<Props, State> {
             hoverNeighborhood={hoverNeighborhood}
             neighborhoods={p.routableNeighborhoods}
             styleNeighborhood={styleNeighborhood}
+            zIndex={getZIndex()}
+          />}
+
+        {!p.isLoading && p.activeNeighborhoodBounds &&
+          <VGrid
+            data={p.activeNeighborhoodBounds}
+            interactive={false}
+            key={`active-bounds-${p.activeNeighborhood}-${this._getKey()}`}
+            vectorTileLayerStyles={
+              {'sliced': NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE}
+            }
             zIndex={getZIndex()}
           />}
 

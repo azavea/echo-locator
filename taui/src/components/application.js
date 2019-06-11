@@ -32,6 +32,7 @@ type MapState = {
 type Props = {
   accessibility: number[][],
   actionLog: LogItems,
+  activeNeighborhoodBounds: any,
   data: {
     grids: string[],
     neighborhoodBounds: any,
