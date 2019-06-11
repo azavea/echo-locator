@@ -11,6 +11,12 @@ import {
   ZoomControl
 } from 'react-leaflet'
 
+import {
+  NEIGHBORHOOD_BOUNDS_STYLE,
+  NEIGHBORHOOD_HOVER_COLOR,
+  NEIGHBORHOOD_NONROUTABLE_COLOR,
+  NEIGHBORHOOD_ROUTABLE_COLOR
+} from '../constants'
 import type {
   Coordinate,
   Location,
@@ -96,6 +102,7 @@ export default class Map extends PureComponent<Props, State> {
     super(props)
     this.clickNeighborhood = this.clickNeighborhood.bind(this)
     this.hoverNeighborhood = this.hoverNeighborhood.bind(this)
+    this.styleNeighborhood = this.styleNeighborhood.bind(this)
   }
 
   state = {
@@ -143,6 +150,22 @@ export default class Map extends PureComponent<Props, State> {
       })
       return false
     }
+  }
+
+  // Define neighborhood bounds layer styling here instead of in
+  // `draw-neighborhood-bounds.js` to access `activeNeighborhood` off of the map properties
+  // without having to pass `activeNeighborhood` to the VectorGrid component.
+  // This prevents the bounds layer react component from redrawing when the active neighborhood
+  // changes, while still styling the active neigbhorhood differently on layer load.
+  styleNeighborhood = (feature) => {
+    const activeNeighborhood = this.props.activeNeighborhood
+    return Object.assign({}, NEIGHBORHOOD_BOUNDS_STYLE, {
+      fillColor: activeNeighborhood === feature.id
+        ? NEIGHBORHOOD_HOVER_COLOR
+        : (feature.routable
+          ? NEIGHBORHOOD_ROUTABLE_COLOR
+          : NEIGHBORHOOD_NONROUTABLE_COLOR)
+    })
   }
 
   /**
@@ -211,6 +234,7 @@ export default class Map extends PureComponent<Props, State> {
     const p = this.props
     const clickNeighborhood = this.clickNeighborhood
     const hoverNeighborhood = this.hoverNeighborhood
+    const styleNeighborhood = this.styleNeighborhood
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
@@ -256,10 +280,10 @@ export default class Map extends PureComponent<Props, State> {
         {!p.isLoading && p.routableNeighborhoods &&
           <DrawNeighborhoodBounds
             key={`start-${this._getKey()}`}
-            activeNeighborhood={p.activeNeighborhood}
             clickNeighborhood={clickNeighborhood}
             hoverNeighborhood={hoverNeighborhood}
             neighborhoods={p.routableNeighborhoods}
+            styleNeighborhood={styleNeighborhood}
             zIndex={getZIndex()}
           />}
 
