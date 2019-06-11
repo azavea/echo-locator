@@ -1,6 +1,7 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
 import Leaflet from 'leaflet'
+import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import React, {PureComponent} from 'react'
 import {
@@ -132,17 +133,13 @@ export default class Map extends PureComponent<Props, State> {
     }
   }
 
+  debouncedSetActive = debounce(this.props.setActiveNeighborhood, 100)
+
   // Hover over neighborhood map bounds or marker
   hoverNeighborhood = (feature, event) => {
     if (this.props.showDetails || !feature || !feature.properties) return
-    const sleep = (time) => {
-      return new Promise((resolve) => setTimeout(resolve, time))
-    }
     if (feature.properties.routable) {
-      // Change active neighborhood after a delay to prevent Leaflet mouse event errors
-      sleep(10).then(() => {
-        this.props.setActiveNeighborhood(feature.properties.id)
-      })
+      this.debouncedSetActive(feature.properties.id)
     }
   }
 
