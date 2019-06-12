@@ -63,6 +63,7 @@ function mapStateToProps (state, ownProps) {
     ...state,
     accessibility: select.accessibility(state, ownProps),
     activeNetworkIndex: select.activeNetworkIndex(state, ownProps),
+    activeNeighborhoodBounds: select.activeNeighborhoodBounds(state, ownProps),
     detailNeighborhood: select.detailNeighborhood(state, ownProps),
     displayPageNeighborhoods: select.displayPageNeighborhoods(state, ownProps),
     drawNeighborhoodRoute: select.drawNeighborhoodRoute(state, ownProps),

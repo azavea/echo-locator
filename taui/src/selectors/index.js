@@ -1,6 +1,7 @@
 // @flow
 export {default as accessibility} from './accessibility'
 export {default as activeNetworkIndex} from './active-network-index'
+export {default as activeNeighborhoodBounds} from './active-neighborhood-bounds'
 export {default as detailNeighborhood} from './detail-neighborhood'
 export {default as displayPageNeighborhoods} from './display-page-neighborhoods'
 export {default as drawOpportunityDatasets} from './draw-opportunity-datasets'

@@ -62,7 +62,6 @@ export default createSelector(
     const neighborhoodsWithRoutes = filter(neighborhoods.features.map((n, index) => {
       const properties: NeighborhoodProperties = n.properties
       const route = neighborhoodRoutes[index]
-      const active = route.active
       const segments = useTransit ? route.routeSegments : []
       const time = useTransit ? travelTimes[index] : distanceTime(origin, n)
 
@@ -89,7 +88,7 @@ export default createSelector(
         (crimeWeight * crimePercent) +
         (educationWeight * schoolPercent)
 
-      return Object.assign({active,
+      return Object.assign({
         score,
         segments,
         time,

@@ -41,6 +41,7 @@ export default class RouteCard extends React.PureComponent<Props> {
 
   render () {
     const {
+      activeNeighborhood,
       isFavorite,
       goToDetails,
       neighborhood,
@@ -51,7 +52,8 @@ export default class RouteCard extends React.PureComponent<Props> {
       userProfile
     } = this.props
 
-    const markerClass = `neighborhood-summary__marker ${neighborhood.active ? 'neighborhood-summary__marker--on' : ''}`
+    const active = activeNeighborhood === neighborhood.properties.id
+    const markerClass = `neighborhood-summary__marker ${active ? 'neighborhood-summary__marker--on' : ''}`
     const { time } = neighborhood
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
