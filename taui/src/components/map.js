@@ -124,8 +124,6 @@ export default class Map extends PureComponent<Props, State> {
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
-      // Toggle `showDetails` off first to zoom to route on switching detail views
-      this.props.setShowDetails(false)
       this.props.setActiveNeighborhood(feature.properties.id)
       this.props.setShowDetails(true)
     } else {
@@ -133,6 +131,7 @@ export default class Map extends PureComponent<Props, State> {
     }
   }
 
+  // Debounced version of setActiveNeighborhood used on hover
   debouncedSetActive = debounce(this.props.setActiveNeighborhood, 100)
 
   // Hover over neighborhood map bounds or marker
