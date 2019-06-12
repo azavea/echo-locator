@@ -8,6 +8,7 @@ import type {NeighborhoodImageMetadata} from '../types'
 import {getFirstNeighborhoodImage} from '../utils/neighborhood-images'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
+import MapMarkerIcon from './map-marker-icon'
 
 type Props = {
   children?: any,
@@ -83,7 +84,7 @@ export default class RouteCard extends React.PureComponent<Props> {
             }}
           />
           {title}
-          <Icon className={markerClass} type='map-marker' />
+          <MapMarkerIcon className={markerClass} active={active} />
         </header>
         <div className='neighborhood-summary__contents'>
           <div className='neighborhood-summary__descriptive'>
