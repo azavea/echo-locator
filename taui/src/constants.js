@@ -60,7 +60,7 @@ export const COLORS_RGB = [
 
 export const WALK_STYLE = {
   color: '#333',
-  dashArray: '5, 5',
+  dashArray: '12, 8',
   lineCap: 'butt',
   lineMeter: 'miter',
   weight: 5
@@ -71,38 +71,38 @@ export const TRANSIT_STYLE = {
   weight: 5
 }
 
-export const NEIGHBORHOOD_NONROUTABLE_COLOR = '#85929E'
+export const NEIGHBORHOOD_NONROUTABLE_COLOR = '#85929e'
 export const NEIGHBORHOOD_ROUTABLE_COLOR = '#15369d'
-export const NEIGHBORHOOD_HOVER_COLOR = '#159d37'
+export const NEIGHBORHOOD_ACTIVE_COLOR = '#159d37'
 
 export const NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE = {
   stroke: true,
-  weight: 1,
-  color: '#fff',
-  opacity: 1,
+  weight: 3,
+  color: NEIGHBORHOOD_ACTIVE_COLOR,
+  opacity: 0.8,
   fill: true,
-  fillColor: '#159d37',
-  fillOpacity: 1
+  fillColor: NEIGHBORHOOD_ACTIVE_COLOR,
+  fillOpacity: 0.08
+}
+
+export const NEIGHBORHOOD_ROUTABLE_BOUNDS_STYLE = {
+  stroke: true,
+  weight: 1,
+  color: NEIGHBORHOOD_ROUTABLE_COLOR,
+  opacity: 0.8,
+  fill: true,
+  fillColor: NEIGHBORHOOD_ROUTABLE_COLOR,
+  fillOpacity: 0.03
 }
 
 export const NEIGHBORHOOD_BOUNDS_STYLE = {
-  stroke: true,
+  stroke: false,
   weight: 1,
   color: '#fff',
-  opacity: 0.5,
-  fill: true,
-  fillColor: '#85929E',
-  fillOpacity: 0.4
-}
-
-export const NEIGHBORHOOD_STYLE = {
-  color: '#333',
-  opacity: 0.7,
+  opacity: 0.1,
   fill: false,
-  fillColor: '#333',
-  radius: 5,
-  stroke: true,
-  weight: 3
+  fillColor: NEIGHBORHOOD_NONROUTABLE_COLOR,
+  fillOpacity: 0.1
 }
 
 export const STOP_STYLE = {

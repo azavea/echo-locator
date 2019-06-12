@@ -9,18 +9,18 @@
     }
 
     &--end {
-      background-color: $green;
+      background-color: $active;
 
       &::before {
-        border-top: 20px solid $green;
+        border-top: 20px solid $active;
       }
     }
 
     &--other {
-      background-color: $brand-blue;
+      background-color: $primary;
 
       &::before {
-        border-top: 20px solid $brand-blue;
+        border-top: 20px solid $primary;
       }
     }
   }

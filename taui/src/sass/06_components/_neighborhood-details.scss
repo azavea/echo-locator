@@ -32,7 +32,7 @@
     flex: none;
     width: auto !important;
     margin-left: auto;
-    color: $green;
+    color: $active;
     font-size: 3.2rem !important;
   }
 
@@ -47,7 +47,7 @@
 
   &__directions {
     @include link-states() {
-      color: $brand-blue;
+      color: $primary;
     }
     margin-left: auto;
   }
@@ -134,7 +134,7 @@
 
   &__link {
     @include link-states() {
-      color: $brand-blue;
+      color: $primary;
     }
 
     &:not(:last-child) {

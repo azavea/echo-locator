@@ -22,11 +22,11 @@
   &__marker {
     width: auto !important;
     margin-left: auto;
-    color: $brand-blue;
+    color: $primary;
     font-size: 3.2rem !important;
 
     &--on {
-      color: $green;
+      color: $active;
     }
   }
 
