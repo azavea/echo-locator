@@ -15,6 +15,7 @@ import getZillowSearchLink from '../utils/zillow-search-link'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
 import RouteSegments from './route-segments'
+import PolygonIcon from './polygon-icon'
 
 type Props = {
   changeUserProfile: any,
@@ -242,7 +243,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
             />
             <div className='neighborhood-details__name'>{town} &ndash; {id}</div>
-            <Icon className='neighborhood-details__marker' type='map-marker' />
+            <PolygonIcon className='neighborhood-details__marker' />
           </header>
         </div>
         <div className='neighborhood-details__section'>

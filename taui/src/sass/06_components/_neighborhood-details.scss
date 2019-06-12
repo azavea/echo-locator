@@ -30,10 +30,13 @@
 
   &__marker {
     flex: none;
-    width: auto !important;
+    width: 2.4rem;
     margin-left: auto;
-    color: $active;
-    font-size: 3.2rem !important;
+    fill: $active;
+    fill-opacity: 0.1;
+    stroke: $active;
+    stroke-width: 48;
+    stroke-opacity: 0.8;
   }
 
   &__trip {
