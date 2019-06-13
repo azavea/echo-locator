@@ -5,7 +5,7 @@ import {CircleMarker, FeatureGroup, Polyline} from 'react-leaflet'
 
 export default class DrawRoute extends React.PureComponent {
   componentWillReceiveProps (nextProps) {
-    if (!nextProps.showDetails) return
+    if (!nextProps.showDetails || this.props.showDetails) return
     // Zoom to active route on going to detail view, or back to full extent on returning to list
     const layer = this.refs ? get(this.refs, 'features.leafletElement') : null
     if (!layer || (nextProps.activeNeighborhood &&
