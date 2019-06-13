@@ -124,6 +124,11 @@ export default class Map extends PureComponent<Props, State> {
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
+      // Tell route layer we are navigating to details so it will zoom to fit route
+      // by toggling `showDetails` off first, so the layer will see the state change.
+      if (!this.props.showDetails) {
+        this.props.setShowDetails(false)
+      }
       this.props.setActiveNeighborhood(feature.properties.id)
       this.props.setShowDetails(true)
     } else {
