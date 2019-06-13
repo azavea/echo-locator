@@ -31,7 +31,7 @@ Map:
     SetStart: Set start
     SetEnd: Set end
     ClearMarkers: Clear markers
-  Unreachable: cannot be reached by transit
+  Unreachable: Unreachable by transit
 Dock:
   LocationLabel: From
   NetworkLabel: When

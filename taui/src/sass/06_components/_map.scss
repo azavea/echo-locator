@@ -1,4 +1,35 @@
 .map {
+  &__tooltip {
+    margin-top: 24px;
+    padding: 0 !important;
+    background-color: transparent !important;
+    border: 0 !important;
+    border-radius: 3px !important;
+    opacity: 0.9;
+    transition: opacity 0.3s ease-out;
+
+    &.leaflet-tooltip-left {
+      margin-left: -10px !important;
+    }
+
+    &.leaflet-tooltip-right {
+      margin-left: 15px !important;
+    }
+  }
+
+  &__tooltip-town {
+    @include text(200, $white, true);
+    @include font-weight(bold);
+    padding: 0.4rem 0.8rem;
+    background-color: $gray-900;
+
+    &--unroutable {
+      @include font-weight(normal);
+      color: $gray-800;
+      background-color: $gray-200;
+    }
+  }
+
   &__marker {
     &--start {
       background-color: $black;

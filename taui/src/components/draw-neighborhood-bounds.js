@@ -17,7 +17,12 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
   getTooltip = (feature) => {
     if (!feature || !feature.properties) return ''
     const {routable, town} = feature.properties
-    return routable ? town : town + ' ' + message('Map.Unreachable')
+    const tooltipEl = document.createElement('div')
+    const tooltipClass = routable ? 'map__tooltip-town' : 'map__tooltip-town map__tooltip-town--unroutable'
+    tooltipEl.setAttribute('class', tooltipClass)
+    const townText = document.createTextNode(routable ? town : town + ' (' + message('Map.Unreachable') + ')')
+    tooltipEl.appendChild(townText)
+    return tooltipEl
   }
 
   render () {
@@ -28,6 +33,7 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
         data={p.neighborhoods}
         idField='id'
         tooltip={(feature) => getTooltip(feature)}
+        tooltipClassName='map__tooltip'
         onClick={p.clickNeighborhood}
         onMouseover={p.hoverNeighborhood}
         zIndex={p.zIndex}
