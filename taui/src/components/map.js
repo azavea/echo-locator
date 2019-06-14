@@ -124,8 +124,8 @@ export default class Map extends PureComponent<Props, State> {
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
-      this.props.setActiveNeighborhood(feature.properties.id)
       this.props.setShowDetails(true)
+      this.props.setActiveNeighborhood(feature.properties.id)
     } else {
       console.warn('clicked unroutable neighborhood ' + feature.properties.id)
     }
@@ -246,7 +246,6 @@ export default class Map extends PureComponent<Props, State> {
             {...p.drawRoute}
             activeNeighborhood={p.activeNeighborhood}
             key={`draw-routes-${p.drawRoute.id}-${this._getKey()}`}
-            neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
             showDetails={p.showDetails}
             zIndex={getZIndex()}
           />}
