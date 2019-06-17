@@ -116,7 +116,13 @@ with open(NEIGHBORHOOD_CSV) as inf:
                     # with the schema definition
                     properties[field] = None
                 elif COLUMNS[field] == 'float':
-                    properties[field] = float(val)
+                    try:
+                        properties[field] = float(val)
+                    except ValueError as ex:
+                        if field == 'crime_percentile':
+                            properties[field] = -1  # flag for no value
+                        else:
+                            raise ex
                 elif COLUMNS[field] == 'int':
                     properties[field] = int(val)
                 else:
