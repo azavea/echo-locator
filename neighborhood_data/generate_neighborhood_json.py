@@ -30,6 +30,7 @@ near_park,near_railstation
 COLUMNS = {
     'id': 'str',
     'town': 'str',
+    'town_area': 'str',
     'zipcode': 'str',
     'violentcrime_quintile': 'float',
     'education_percentile_quintile': 'float',
@@ -53,7 +54,8 @@ COLUMNS = {
     'school': 'str',
     'town_square': 'str',
     'open_space_or_landmark': 'str',
-    'zviolentcrimeflip': 'float'
+    'zviolentcrimeflip': 'float',
+    'crime_percentile': 'float'
 }
 
 # Add column definitions for the extra image metadata columns
@@ -114,7 +116,13 @@ with open(NEIGHBORHOOD_CSV) as inf:
                     # with the schema definition
                     properties[field] = None
                 elif COLUMNS[field] == 'float':
-                    properties[field] = float(val)
+                    try:
+                        properties[field] = float(val)
+                    except ValueError as ex:
+                        if field == 'crime_percentile':
+                            properties[field] = -1  # flag for no value
+                        else:
+                            raise ex
                 elif COLUMNS[field] == 'int':
                     properties[field] = int(val)
                 else:
