@@ -73,6 +73,7 @@ export type AccountProfile = {
  */
 
 export type NeighborhoodProperties = {
+  crime_percentile: number,
   education_percentile: number,
   education_percentile_quintile: number,
   house_number_symbol: number,
@@ -91,6 +92,7 @@ export type NeighborhoodProperties = {
   street: string,
   total_mapc: number,
   town: string, // the label
+  town_area: string, // zip code grouping (Boston, Cambridge, or blank)
   town_link: string,
   town_square: string,
   town_website_description: string,

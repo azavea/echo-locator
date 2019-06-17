@@ -55,9 +55,9 @@ export default createSelector(
 
     const totalImportance = accessibilityImportance + crimeImportance + schoolsImportance
 
-    const accessibilityPercent = accessibilityImportance / totalImportance
-    const crimePercent = crimeImportance / totalImportance
-    const schoolPercent = schoolsImportance / totalImportance
+    let accessibilityPercent = accessibilityImportance / totalImportance
+    let crimePercent = crimeImportance / totalImportance
+    let schoolPercent = schoolsImportance / totalImportance
 
     const neighborhoodsWithRoutes = filter(neighborhoods.features.map((n, index) => {
       const properties: NeighborhoodProperties = n.properties
@@ -82,6 +82,15 @@ export default createSelector(
       const crimeQuintile = properties.violentcrime_quintile
         ? properties.violentcrime_quintile : DEFAULT_CRIME_QUINTILE
       const crimeWeight = scale(crimeQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
+
+      // Handle missing values (zero in spreadsheet) by re-assigning crime weight
+      // evenly to the other two factors
+      if (properties.violentcrime_quintile === 0) {
+        const halfCrimePercent = crimePercent / 2
+        schoolPercent += halfCrimePercent
+        accessibilityPercent += halfCrimePercent
+        crimePercent = 0
+      }
 
       // Calculate weighted overall score from the percentages. Larger score is better.
       const score = (timeWeight * accessibilityPercent) +
