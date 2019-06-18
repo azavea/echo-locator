@@ -14,6 +14,8 @@ export default function NeighborhoodListInfo ({neighborhood}) {
   const edPercentile = props['education_percentile']
   const houses = props['house_number_symbol']
   const isSchoolChoice = !!props['school_choice']
+  const totalMapc = props['total_mapc']
+  const town = props['town']
 
   return (
     <table className='neighborhood-facts'>
@@ -34,7 +36,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
         <tr>
           <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.RentalUnits')}</td>
           <td className='neighborhood-facts__cell'>
-            <RentalUnitsMeter value={houses} tooltip={message('NeighborhoodInfo.RentalUnits')} />
+            <RentalUnitsMeter value={houses} totalMapc={totalMapc} town={town} />
           </td>
         </tr>
       </tbody>
