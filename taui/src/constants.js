@@ -89,14 +89,14 @@ export const NEIGHBORHOOD_ROUTABLE_BOUNDS_STYLE = {
   stroke: true,
   weight: 1,
   color: NEIGHBORHOOD_ROUTABLE_COLOR,
-  opacity: 0.8,
+  opacity: 0.08,
   fill: true,
   fillColor: NEIGHBORHOOD_ROUTABLE_COLOR,
-  fillOpacity: 0.03
+  fillOpacity: 0.1
 }
 
 export const NEIGHBORHOOD_BOUNDS_STYLE = {
-  stroke: false,
+  stroke: true,
   weight: 1,
   color: '#fff',
   opacity: 0.1,
