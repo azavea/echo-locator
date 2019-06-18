@@ -98,9 +98,13 @@ export default createSelector(
         // Lowest education quintile is best (reverse range).
         educationWeight = scale(educationQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
       }
-      // Lowest crime quintile is best (reverse range).
-      const crimeQuintile = properties.violentcrime_quintile
+      let crimeQuintile = properties.violentcrime_quintile
         ? properties.violentcrime_quintile : DEFAULT_CRIME_QUINTILE
+      // Treat lowest two (safest) violent crime quintiles equally
+      if (crimeQuintile === 2) {
+        crimeQuintile = 1
+      }
+      // Lowest crime quintile is best (reverse range).
       const crimeWeight = scale(crimeQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
 
       // Handle missing values (zero in spreadsheet) by re-assigning crime weight
