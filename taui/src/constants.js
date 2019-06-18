@@ -59,16 +59,16 @@ export const COLORS_RGB = [
 ]
 
 export const WALK_STYLE = {
-  color: '#333',
+  color: '#555',
   dashArray: '12, 8',
   lineCap: 'butt',
   lineMeter: 'miter',
-  weight: 5
+  weight: 4
 }
 
 export const TRANSIT_STYLE = {
-  color: 'green',
-  weight: 5
+  color: '#555',
+  weight: 4
 }
 
 export const NEIGHBORHOOD_NONROUTABLE_COLOR = '#85929e'
