@@ -60,8 +60,12 @@ export default function RentalUnitsMeter ({
 
   return (
     <div className='rental-units-meter'
-      data-tip={tooltip} data-multiline>
-      <ReactTooltip />
+      data-tip={tooltip}
+      data-effect={'solid'}
+      data-multiline
+      data-event-off={'click'}
+      data-event={'mouseover'}>
+      <ReactTooltip globalEventOff='click' />
       {filledIcons}
       {unfilledIcons}
     </div>
