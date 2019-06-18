@@ -72,8 +72,8 @@ export const TRANSIT_STYLE = {
 }
 
 export const NEIGHBORHOOD_NONROUTABLE_COLOR = '#85929e'
-export const NEIGHBORHOOD_ROUTABLE_COLOR = '#15369d'
-export const NEIGHBORHOOD_ACTIVE_COLOR = '#159d37'
+export const NEIGHBORHOOD_ROUTABLE_COLOR = '#15379d'
+export const NEIGHBORHOOD_ACTIVE_COLOR = '#128d31'
 
 export const NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE = {
   stroke: true,
