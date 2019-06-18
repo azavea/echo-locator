@@ -32,7 +32,7 @@
     flex: none;
     width: 2.4rem;
     margin-left: auto;
-    fill: $active;
+    fill: mix(rgba($active, 8%), rgba($primary, 8%));
     fill-opacity: 0.1;
     stroke: $active;
     stroke-width: 48;
