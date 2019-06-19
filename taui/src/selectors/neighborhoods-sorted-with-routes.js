@@ -8,7 +8,8 @@ import {createSelector} from 'reselect'
 import {
   DEFAULT_ACCESSIBILITY_IMPORTANCE,
   DEFAULT_CRIME_IMPORTANCE,
-  DEFAULT_SCHOOLS_IMPORTANCE
+  DEFAULT_SCHOOLS_IMPORTANCE,
+  MAX_IMPORTANCE
 } from '../constants'
 import {NeighborhoodProperties} from '../types'
 import scale from '../utils/scaling'
@@ -25,6 +26,9 @@ const MAX_QUINTILE = 5
 // default to worst, if unknown
 const DEFAULT_EDUCATION_QUINTILE = 5
 const DEFAULT_CRIME_QUINTILE = 5
+
+// extra constant weighting always given to travel time over the other two factors
+const EXTRA_ACCESS_WEIGHT = 1
 
 export default createSelector(
   selectNeighborhoodRoutes,
@@ -53,6 +57,9 @@ export default createSelector(
       accessibilityImportance = crimeImportance = schoolsImportance = 1
     }
 
+    // Give accessibility (travel time) extra weighting
+    accessibilityImportance += EXTRA_ACCESS_WEIGHT
+
     const totalImportance = accessibilityImportance + crimeImportance + schoolsImportance
 
     let accessibilityPercent = accessibilityImportance / totalImportance
@@ -71,16 +78,33 @@ export default createSelector(
       // Smaller travel time is better; larger timeWeight is better (reverse range).
       const timeWeight = time < MAX_TRAVEL_TIME ? scale(time, 0, MAX_TRAVEL_TIME, 1, 0) : 1
 
-      const eduationQuintile = properties.education_percentile_quintile
-        ? properties.education_percentile_quintile
-        : DEFAULT_EDUCATION_QUINTILE
+      // Weight schools either by percentile binned into quarters if given max importance,
+      // or otherwise weight by quintile.
+      let educationWeight
+      if (schoolsImportance === (MAX_IMPORTANCE - 1)) {
+        // Group percentile ranking into quarters instead of using quintiles
+        // if the importance of schools is the max importance.
+        const edPercent = properties.education_percentile
+          ? properties.education_percentile
+          : (DEFAULT_EDUCATION_QUINTILE - 1) * 20
+        const edPercentQuarter = Math.round(scale(edPercent, 0, 100, 3, 0))
+        educationWeight = scale(edPercentQuarter, 0, 3, 1, 0)
+      } else {
+        // Use quintiles if the importance of schools is anything less than the max importance.
+        const educationQuintile = properties.education_percentile_quintile
+          ? properties.education_percentile_quintile
+          : DEFAULT_EDUCATION_QUINTILE
 
-      // Lowest education quintile is best (reverse range).
-      const educationWeight = scale(eduationQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
-
-      // Lowest crime quintile is best (reverse range).
-      const crimeQuintile = properties.violentcrime_quintile
+        // Lowest education quintile is best (reverse range).
+        educationWeight = scale(educationQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
+      }
+      let crimeQuintile = properties.violentcrime_quintile
         ? properties.violentcrime_quintile : DEFAULT_CRIME_QUINTILE
+      // Treat lowest two (safest) violent crime quintiles equally
+      if (crimeQuintile === 2) {
+        crimeQuintile = 1
+      }
+      // Lowest crime quintile is best (reverse range).
       const crimeWeight = scale(crimeQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
 
       // Handle missing values (zero in spreadsheet) by re-assigning crime weight
