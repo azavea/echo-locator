@@ -77,6 +77,10 @@ export default class Dock extends PureComponent<Props> {
   }
 
   goToDetails (e, neighborhood) {
+    // Do not go to details if user clicked a link (for chart tooltip links)
+    if (e.target.tagName.toLowerCase() === 'a') {
+      return
+    }
     e.stopPropagation()
     this.props.setActiveNeighborhood(neighborhood.properties.id)
     this.props.setShowDetails(true)

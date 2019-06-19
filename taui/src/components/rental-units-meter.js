@@ -1,14 +1,21 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
+import message from '@conveyal/woonerf/message'
 import ReactTooltip from 'react-tooltip'
 
+import {
+  TOOLTIP_HIDE_DELAY_MS,
+  TOOLTIP_UPDATE_DELAY_MS
+} from '../constants'
 import {getTier} from '../utils/scaling'
 
 export default function RentalUnitsMeter ({
-  value,
-  tooltip
+  totalMapc,
+  town,
+  value
 }) {
   const NUM_ICONS = 5
+  const AVERAGE_VALUE = 3
 
   if (value > NUM_ICONS || value < 0) {
     console.warn('Rental unit meter count out of range')
@@ -46,10 +53,29 @@ export default function RentalUnitsMeter ({
     )
   }
 
+  const averageRelation = value > AVERAGE_VALUE
+    ? message('Tooltips.AboveAverage')
+    : (value < AVERAGE_VALUE ? message('Tooltips.BelowAverage') : message('Tooltips.Average'))
+  const tooltip = message('Tooltips.RentalUnits', {
+    averageRelation: averageRelation,
+    town: town,
+    totalMapc: totalMapc ? (totalMapc).toLocaleString() : message('UnknownValue')
+  })
+
   return (
     <div className='rental-units-meter'
-      data-tip={tooltip}>
-      <ReactTooltip />
+      data-tip={tooltip}
+      data-iscapture
+      data-for={`rental-units-tooltip-${town}`}
+      id={`rental-units-${town}`}>
+      <ReactTooltip
+        clickable
+        delayHide={TOOLTIP_HIDE_DELAY_MS}
+        delayUpdate={TOOLTIP_UPDATE_DELAY_MS}
+        html
+        effect='solid'
+        isCapture
+        id={`rental-units-tooltip-${town}`} />
       {filledIcons}
       {unfilledIcons}
     </div>

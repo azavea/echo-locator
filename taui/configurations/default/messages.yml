@@ -129,6 +129,11 @@ Profile:
   SaveError: Failed to save profile. Please try again.
   Title: Profile
   UseCommuterRail: Include commuter rail and express bus
+Tooltips:
+  AboveAverage: above average
+  Average: about average
+  BelowAverage: below average
+  RentalUnits: "<p>%(town) has an %(averageRelation) number of rental units for the state.<br />From 2017-2018 there were %(totalMapc) units listed on Craigslist (source: <a href=\"https://www.mapc.org/\" target=\"blank\">MAPC</a>).</p>"
 ImportanceLabels:
   1: Not important
   2: Somewhat important
