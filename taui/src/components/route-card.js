@@ -6,9 +6,9 @@ import React from 'react'
 import {ROUND_TRIP_MINUTES} from '../constants'
 import type {NeighborhoodImageMetadata} from '../types'
 import {getFirstNeighborhoodImage} from '../utils/neighborhood-images'
+import MapMarkerIcon from '../icons/map-marker-icon'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
-import MapMarkerIcon from './map-marker-icon'
 
 type Props = {
   children?: any,

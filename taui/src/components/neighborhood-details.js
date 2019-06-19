@@ -12,10 +12,10 @@ import getGoogleSearchLink from '../utils/google-search-link'
 import getGoogleMapsLink from '../utils/google-maps-link'
 import getNeighborhoodImage from '../utils/neighborhood-images'
 import getZillowSearchLink from '../utils/zillow-search-link'
+import PolygonIcon from '../icons/polygon-icon'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
 import RouteSegments from './route-segments'
-import PolygonIcon from './polygon-icon'
 
 type Props = {
   changeUserProfile: any,
