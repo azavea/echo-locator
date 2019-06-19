@@ -3,6 +3,10 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import ReactTooltip from 'react-tooltip'
 
+import {
+  TOOLTIP_HIDE_DELAY_MS,
+  TOOLTIP_UPDATE_DELAY_MS
+} from '../constants'
 import {getTier} from '../utils/scaling'
 
 export default function RentalUnitsMeter ({
@@ -61,17 +65,15 @@ export default function RentalUnitsMeter ({
   return (
     <div className='rental-units-meter'
       data-tip={tooltip}
-      data-event-off='click'
-      data-event='mouseover'
       data-iscapture
       data-for={`rental-units-tooltip-${town}`}
       id={`rental-units-${town}`}>
       <ReactTooltip
         clickable
+        delayHide={TOOLTIP_HIDE_DELAY_MS}
+        delayUpdate={TOOLTIP_UPDATE_DELAY_MS}
         html
         effect='solid'
-        event='mouseover'
-        globalEventOff='click'
         isCapture
         id={`rental-units-tooltip-${town}`} />
       {filledIcons}
