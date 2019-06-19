@@ -12,6 +12,7 @@ import getGoogleSearchLink from '../utils/google-search-link'
 import getGoogleMapsLink from '../utils/google-maps-link'
 import getNeighborhoodImage from '../utils/neighborhood-images'
 import getZillowSearchLink from '../utils/zillow-search-link'
+import PolygonIcon from '../icons/polygon-icon'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
 import RouteSegments from './route-segments'
@@ -242,7 +243,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
             />
             <div className='neighborhood-details__name'>{town} &ndash; {id}</div>
-            <Icon className='neighborhood-details__marker' type='map-marker' />
+            <PolygonIcon className='neighborhood-details__marker' />
           </header>
         </div>
         <div className='neighborhood-details__section'>

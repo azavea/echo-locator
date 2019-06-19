@@ -176,7 +176,7 @@
     height: 4rem;
 
     &--primary {
-      @include button($color: $white, $background: $brand-blue);
+      @include button($color: $white, $background: $primary);
       @include light-on-dark();
       @include font-weight(bold);
       min-width: 16rem;
@@ -189,7 +189,7 @@
 
     &--tertiary {
       margin-left: auto;
-      color: $brand-blue;
+      color: $primary;
     }
 
     &--iconLeft {

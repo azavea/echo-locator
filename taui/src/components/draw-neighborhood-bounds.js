@@ -5,8 +5,7 @@ import {LayerGroup} from 'react-leaflet'
 
 import {
   NEIGHBORHOOD_BOUNDS_STYLE,
-  NEIGHBORHOOD_ROUTABLE_COLOR,
-  NEIGHBORHOOD_NONROUTABLE_COLOR
+  NEIGHBORHOOD_ROUTABLE_BOUNDS_STYLE
 } from '../constants'
 
 import VGrid from './vector-grid'
@@ -18,7 +17,12 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
   getTooltip = (feature) => {
     if (!feature || !feature.properties) return ''
     const {routable, town} = feature.properties
-    return routable ? town : town + ' ' + message('Map.Unreachable')
+    const tooltipEl = document.createElement('div')
+    const tooltipClass = routable ? 'map__tooltip-town' : 'map__tooltip-town map__tooltip-town--unroutable'
+    tooltipEl.setAttribute('class', tooltipClass)
+    const townText = document.createTextNode(routable ? town : town + ' (' + message('Map.Unreachable') + ')')
+    tooltipEl.appendChild(townText)
+    return tooltipEl
   }
 
   render () {
@@ -29,17 +33,16 @@ export default class DrawNeighborhoodBounds extends React.PureComponent {
         data={p.neighborhoods}
         idField='id'
         tooltip={(feature) => getTooltip(feature)}
+        tooltipClassName='map__tooltip'
         onClick={p.clickNeighborhood}
         onMouseover={p.hoverNeighborhood}
         zIndex={p.zIndex}
         style={NEIGHBORHOOD_BOUNDS_STYLE}
         vectorTileLayerStyles={
           {'sliced': (properties) => {
-            return Object.assign({}, NEIGHBORHOOD_BOUNDS_STYLE, {
-              fillColor: properties.routable
-                ? NEIGHBORHOOD_ROUTABLE_COLOR
-                : NEIGHBORHOOD_NONROUTABLE_COLOR
-            })
+            return properties.routable
+              ? NEIGHBORHOOD_ROUTABLE_BOUNDS_STYLE
+              : NEIGHBORHOOD_BOUNDS_STYLE
           }}
         }
       />}

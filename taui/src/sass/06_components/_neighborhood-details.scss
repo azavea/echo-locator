@@ -30,10 +30,13 @@
 
   &__marker {
     flex: none;
-    width: auto !important;
+    width: 2.4rem;
     margin-left: auto;
-    color: $green;
-    font-size: 3.2rem !important;
+    fill: mix(rgba($active, 8%), rgba($primary, 8%));
+    fill-opacity: 0.1;
+    stroke: $active;
+    stroke-width: 48;
+    stroke-opacity: 0.8;
   }
 
   &__trip {
@@ -47,7 +50,7 @@
 
   &__directions {
     @include link-states() {
-      color: $brand-blue;
+      color: $primary;
     }
     margin-left: auto;
   }
@@ -100,6 +103,9 @@
   }
 
   &__image {
+    width: 110px;
+    overflow: hidden;
+
     img {
       width: 110px;
       height: 83px;
@@ -134,7 +140,7 @@
 
   &__link {
     @include link-states() {
-      color: $brand-blue;
+      color: $primary;
     }
 
     &:not(:last-child) {

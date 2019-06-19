@@ -6,6 +6,7 @@ import React from 'react'
 import {ROUND_TRIP_MINUTES} from '../constants'
 import type {NeighborhoodImageMetadata} from '../types'
 import {getFirstNeighborhoodImage} from '../utils/neighborhood-images'
+import MapMarkerIcon from '../icons/map-marker-icon'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
 
@@ -83,7 +84,7 @@ export default class RouteCard extends React.PureComponent<Props> {
             }}
           />
           {title}
-          <Icon className={markerClass} type='map-marker' />
+          <MapMarkerIcon className={markerClass} active={active} />
         </header>
         <div className='neighborhood-summary__contents'>
           <div className='neighborhood-summary__descriptive'>

@@ -8,7 +8,7 @@ export default function Meter ({
   max = 100,
   average = 50,
   width = 100,
-  height = 12,
+  height = 10,
   tooltip
 }) {
   const percentage = value / max

@@ -9,7 +9,7 @@ export const CustomAuthenticatorTheme = {
   sectionFooterSecondaryContent: {'display': 'block', 'marginTop': '2.4rem'},
   inputLabel: {'fontSize': '1.4rem'},
   hint: {'marginTop': '1.6rem'},
-  button: {'backgroundColor': '#15369d', 'width': '100%'},
+  button: {'backgroundColor': '#15379d', 'width': '100%'},
   navButton: {
     'backgroundColor': 'transparent',
     'color': '#757575',

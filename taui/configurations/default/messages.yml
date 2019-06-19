@@ -31,17 +31,17 @@ Map:
     SetStart: Set start
     SetEnd: Set end
     ClearMarkers: Clear markers
-  Unreachable: cannot be reached by transit
+  Unreachable: Unreachable by transit
 Dock:
   LocationLabel: From
   NetworkLabel: When
   Favorites: Saved recommendations
-  GoBackToRecommendations: Back to recommendations
+  GoBackToRecommendations: Back to your recommendations
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
   GoNextPage: Show more
   NoResults: No results
-  Recommendations: Recommendations
+  Recommendations: Your recommendations
   ShowAllButton: All
   ShowSavedButton: Saved
 NeighborhoodDetails:

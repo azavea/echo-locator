@@ -48,7 +48,7 @@
 
   &__navigation-button {
     @include heading(300);
-    color: $brand-blue;
+    color: $primary;
 
     > *:first-child {
       margin-right: 0.6rem;
