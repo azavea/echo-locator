@@ -66,12 +66,12 @@ export default function RentalUnitsMeter ({
     <div className='rental-units-meter'
       data-tip={tooltip}
       data-iscapture
+      data-delay-hide={TOOLTIP_HIDE_DELAY_MS}
+      data-delay-update={TOOLTIP_UPDATE_DELAY_MS}
       data-for={`rental-units-tooltip-${town}`}
       id={`rental-units-${town}`}>
       <ReactTooltip
         clickable
-        delayHide={TOOLTIP_HIDE_DELAY_MS}
-        delayUpdate={TOOLTIP_UPDATE_DELAY_MS}
         html
         effect='solid'
         isCapture
