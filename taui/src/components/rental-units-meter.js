@@ -3,16 +3,14 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import ReactTooltip from 'react-tooltip'
 
-import {
-  TOOLTIP_HIDE_DELAY_MS,
-  TOOLTIP_UPDATE_DELAY_MS
-} from '../constants'
+import {TOOLTIP_HIDE_DELAY_MS} from '../constants'
 import {getTier} from '../utils/scaling'
 
 export default function RentalUnitsMeter ({
   totalMapc,
   town,
-  value
+  value,
+  id
 }) {
   const NUM_ICONS = 5
   const AVERAGE_VALUE = 3
@@ -66,16 +64,19 @@ export default function RentalUnitsMeter ({
     <div className='rental-units-meter'
       data-tip={tooltip}
       data-iscapture
+      data-effect='solid'
       data-delay-hide={TOOLTIP_HIDE_DELAY_MS}
-      data-delay-update={TOOLTIP_UPDATE_DELAY_MS}
-      data-for={`rental-units-tooltip-${town}`}
-      id={`rental-units-${town}`}>
+      data-for={`rental-units-tooltip-${id}`}
+      data-id={`rental-units-${id}`}
+      id={`rental-units-${id}`}>
       <ReactTooltip
         clickable
         html
+        delayHide={TOOLTIP_HIDE_DELAY_MS}
         effect='solid'
         isCapture
-        id={`rental-units-tooltip-${town}`} />
+        data-id={`rental-units-tooltip-${id}`}
+        id={`rental-units-tooltip-${id}`} />
       {filledIcons}
       {unfilledIcons}
     </div>

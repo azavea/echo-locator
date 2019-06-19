@@ -12,9 +12,11 @@ export const IMAGE_FIELDS = [
   'street'
 ]
 
+// Value in `town_area` column of source data for grouping zip codes in Boston
+export const BOSTON_TOWN_AREA = 'Boston'
+
 // Allow clicking links in tooltips by delaying hide/update
 export const TOOLTIP_HIDE_DELAY_MS = 1000
-export const TOOLTIP_UPDATE_DELAY_MS = 1000
 
 // Maximum number of destinations that may be added to a user profile
 export const MAX_ADDRESSES = 3
