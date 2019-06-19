@@ -64,6 +64,7 @@ NeighborhoodDetails:
   WikipediaLink: Wikipedia
   ZillowSearchLink: Zillow
 NeighborhoodInfo:
+  SchoolChoice: "%(townArea) has school choice"
   EducationCategory: Schools
   Population: Population
   RentalUnits: Rental units

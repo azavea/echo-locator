@@ -15,6 +15,9 @@ export const IMAGE_FIELDS = [
 // Value in `town_area` column of source data for grouping zip codes in Boston
 export const BOSTON_TOWN_AREA = 'Boston'
 
+export const BOSTON_SCHOOL_CHOICE_LINK = 'https://discover.bostonpublicschools.org/'
+export const CAMBRIDGE_SCHOOL_CHOICE_LINK = 'https://www.cpsd.us/'
+
 // Allow clicking links in tooltips by delaying hide/update
 export const TOOLTIP_HIDE_DELAY_MS = 1000
 
