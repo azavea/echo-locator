@@ -39,30 +39,26 @@ export default function NeighborhoodListInfo ({neighborhood}) {
     town: town
   })
 
-  const schoolChoiceText = message('NeighborhoodInfo.SchoolChoice', {
-    townArea: townArea
-  })
-
   const schoolChoiceLink = isBoston ? BOSTON_SCHOOL_CHOICE_LINK : CAMBRIDGE_SCHOOL_CHOICE_LINK
 
   return (
     <table className='neighborhood-facts'>
       <tbody>
-        {!isSchoolChoice && <tr>
+        <tr>
           <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.EducationCategory')}</td>
-          <td className='neighborhood-facts__cell'>
+          {!isSchoolChoice && <td className='neighborhood-facts__cell'>
             <Meter
               category='school'
               value={edPercentile}
               id={zipcode}
               tooltip={edTooltip} />
-          </td>
-        </tr>}
-        {isSchoolChoice && <tr>
-          <td className='neighborhood-facts__text' />
-          <td className='neighborhood-facts__text'>
-            <a href={schoolChoiceLink} target='blank'>{schoolChoiceText}</a></td>
-        </tr>}
+          </td>}
+          {isSchoolChoice && <td className='neighborhood-facts__text'>
+            <a href={schoolChoiceLink} target='blank'>
+              {message('NeighborhoodInfo.SchoolChoice')}
+            </a>
+          </td>}
+        </tr>
         {crime >= 0 && <tr>
           <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ViolentCrime')}</td>
           <td className='neighborhood-facts__cell'>
