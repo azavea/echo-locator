@@ -2,7 +2,9 @@
 import message from '@conveyal/woonerf/message'
 
 import {
-  BOSTON_TOWN_AREA
+  BOSTON_TOWN_AREA,
+  BOSTON_SCHOOL_CHOICE_LINK,
+  CAMBRIDGE_SCHOOL_CHOICE_LINK
 } from '../constants'
 
 import Meter from './meter'
@@ -22,28 +24,41 @@ export default function NeighborhoodListInfo ({neighborhood}) {
   const totalMapc = props['total_mapc']
   const town = props['town']
   const townArea = props['town_area']
+  const isBoston = townArea && townArea === BOSTON_TOWN_AREA
 
-  const crimeMessage = townArea && townArea === BOSTON_TOWN_AREA
-    ? 'Tooltips.ViolentCrimeBoston' : 'Tooltips.ViolentCrime'
+  const crimeMessage = isBoston ? 'Tooltips.ViolentCrimeBoston' : 'Tooltips.ViolentCrime'
   const crimeTooltip = message(crimeMessage, {
     averageRelation: getAverageRelationPercentage(crime),
     crimePercentile: crime,
     town: town
   })
 
+  const edTooltip = message('Tooltips.Education', {
+    averageRelation: getAverageRelationPercentage(edPercentile),
+    edPercentile: edPercentile,
+    town: town
+  })
+
+  const schoolChoiceLink = isBoston ? BOSTON_SCHOOL_CHOICE_LINK : CAMBRIDGE_SCHOOL_CHOICE_LINK
+
   return (
     <table className='neighborhood-facts'>
       <tbody>
-        {!isSchoolChoice && <tr>
+        <tr>
           <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.EducationCategory')}</td>
-          <td className='neighborhood-facts__cell'>
+          {!isSchoolChoice && <td className='neighborhood-facts__cell'>
             <Meter
               category='school'
               value={edPercentile}
               id={zipcode}
-              tooltip={message('NeighborhoodInfo.EducationCategory')} />
-          </td>
-        </tr>}
+              tooltip={edTooltip} />
+          </td>}
+          {isSchoolChoice && <td className='neighborhood-facts__text'>
+            <a href={schoolChoiceLink} target='blank'>
+              {message('NeighborhoodInfo.SchoolChoice')}
+            </a>
+          </td>}
+        </tr>
         {crime >= 0 && <tr>
           <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ViolentCrime')}</td>
           <td className='neighborhood-facts__cell'>

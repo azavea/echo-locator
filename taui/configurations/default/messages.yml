@@ -64,6 +64,7 @@ NeighborhoodDetails:
   WikipediaLink: Wikipedia
   ZillowSearchLink: Zillow
 NeighborhoodInfo:
+  SchoolChoice: School choice
   EducationCategory: Schools
   Population: Population
   RentalUnits: Rental units
@@ -133,6 +134,7 @@ Tooltips:
   AboveAverage: above average
   Average: about average
   BelowAverage: below average
+  Education: "<p>%(town) schools are %(averageRelation) for the state and rank<br />higher than %(edPercentile)% of other school districts when considering<br />overall school quality and performance of low-income students.<br />(Source: <a href=\"http://profiles.doe.mass.edu/\" target=\"blank\">MA DOE</a>.)</p>"
   ViolentCrime: "<p>%(town) has %(averageRelation) public safety,<br />safer than %(crimePercentile)% of other zipcodes in the state.<br />(Source: <a href=\"https://www.fbi.gov/services/cjis/ucr\" target=\"blank\">FBI Uniform Crime Reporting violent crime data</a>.)</p>"
   ViolentCrimeBoston: "<p>%(town) has %(averageRelation) public safety,<br />safer than %(crimePercentile)% of other zipcodes in the state.<br />(Source: <a href=\"https://data.boston.gov/\" target=\"blank\">Boston Police Department Incident Reports</a>.)</p>"
   RentalUnits: "<p>%(town) has an %(averageRelation) number of rental units for the state.<br />From 2017-2018 there were %(totalMapc) units listed on Craigslist.<br />(Source: <a href=\"https://www.mapc.org/\" target=\"blank\">MAPC</a>.)</p>"
