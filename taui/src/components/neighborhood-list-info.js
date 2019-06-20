@@ -33,6 +33,12 @@ export default function NeighborhoodListInfo ({neighborhood}) {
     town: town
   })
 
+  const edTooltip = message('Tooltips.Education', {
+    averageRelation: getAverageRelationPercentage(edPercentile),
+    edPercentile: edPercentile,
+    town: town
+  })
+
   const schoolChoiceText = message('NeighborhoodInfo.SchoolChoice', {
     townArea: townArea
   })
@@ -49,7 +55,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
               category='school'
               value={edPercentile}
               id={zipcode}
-              tooltip={message('NeighborhoodInfo.EducationCategory')} />
+              tooltip={edTooltip} />
           </td>
         </tr>}
         {isSchoolChoice && <tr>
