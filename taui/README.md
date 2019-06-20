@@ -7,7 +7,7 @@
 
 ## Running
 
-Clone the repository and with [yarn](https://yarnpkg.com/en/) and [node v8](https://nodejs.org/en/) installed run `yarn start`. Changes to JavaScript and CSS will be rebuilt automatically. Refresh your web page to see changes. Changes to configuration files require a full stop and fresh `yarn start`.
+Clone the repository and with [yarn](https://yarnpkg.com/en/) and [node v10](https://nodejs.org/en/) installed run `yarn start`. Changes to JavaScript and CSS will be rebuilt automatically. Refresh your web page to see changes. Changes to configuration files require a full stop and fresh `yarn start`.
 
 ## Configuration
 

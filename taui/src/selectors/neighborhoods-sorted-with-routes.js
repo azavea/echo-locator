@@ -8,9 +8,11 @@ import {createSelector} from 'reselect'
 import {
   DEFAULT_ACCESSIBILITY_IMPORTANCE,
   DEFAULT_CRIME_IMPORTANCE,
-  DEFAULT_SCHOOLS_IMPORTANCE
+  DEFAULT_SCHOOLS_IMPORTANCE,
+  MAX_IMPORTANCE
 } from '../constants'
 import {NeighborhoodProperties} from '../types'
+import scale from '../utils/scaling'
 
 import selectNeighborhoodRoutes from './network-neighborhood-routes'
 import neighborhoodTravelTimes from './neighborhood-travel-times'
@@ -25,6 +27,9 @@ const MAX_QUINTILE = 5
 const DEFAULT_EDUCATION_QUINTILE = 5
 const DEFAULT_CRIME_QUINTILE = 5
 
+// extra constant weighting always given to travel time over the other two factors
+const EXTRA_ACCESS_WEIGHT = 1
+
 export default createSelector(
   selectNeighborhoodRoutes,
   neighborhoodTravelTimes,
@@ -32,7 +37,7 @@ export default createSelector(
   state => get(state, 'data.origin'),
   state => get(state, 'data.userProfile'),
   (neighborhoodRoutes, travelTimes, neighborhoods, origin, profile) => {
-    if (!neighborhoods || !neighborhoods.features || !neighborhoods.features.length ||
+    if (!neighborhoods || !profile || !neighborhoods.features || !neighborhoods.features.length ||
       !neighborhoodRoutes || !neighborhoodRoutes.length) {
       return []
     }
@@ -52,16 +57,18 @@ export default createSelector(
       accessibilityImportance = crimeImportance = schoolsImportance = 1
     }
 
+    // Give accessibility (travel time) extra weighting
+    accessibilityImportance += EXTRA_ACCESS_WEIGHT
+
     const totalImportance = accessibilityImportance + crimeImportance + schoolsImportance
 
-    const accessibilityPercent = accessibilityImportance / totalImportance
-    const crimePercent = crimeImportance / totalImportance
-    const schoolPercent = schoolsImportance / totalImportance
+    let accessibilityPercent = accessibilityImportance / totalImportance
+    let crimePercent = crimeImportance / totalImportance
+    let schoolPercent = schoolsImportance / totalImportance
 
     const neighborhoodsWithRoutes = filter(neighborhoods.features.map((n, index) => {
       const properties: NeighborhoodProperties = n.properties
       const route = neighborhoodRoutes[index]
-      const active = route.active
       const segments = useTransit ? route.routeSegments : []
       const time = useTransit ? travelTimes[index] : distanceTime(origin, n)
 
@@ -71,24 +78,50 @@ export default createSelector(
       // Smaller travel time is better; larger timeWeight is better (reverse range).
       const timeWeight = time < MAX_TRAVEL_TIME ? scale(time, 0, MAX_TRAVEL_TIME, 1, 0) : 1
 
-      const eduationQuintile = properties.education_percentile_quintile
-        ? properties.education_percentile_quintile
-        : DEFAULT_EDUCATION_QUINTILE
+      // Weight schools either by percentile binned into quarters if given max importance,
+      // or otherwise weight by quintile.
+      let educationWeight
+      if (schoolsImportance === (MAX_IMPORTANCE - 1)) {
+        // Group percentile ranking into quarters instead of using quintiles
+        // if the importance of schools is the max importance.
+        const edPercent = properties.education_percentile
+          ? properties.education_percentile
+          : (DEFAULT_EDUCATION_QUINTILE - 1) * 20
+        const edPercentQuarter = Math.round(scale(edPercent, 0, 100, 3, 0))
+        educationWeight = scale(edPercentQuarter, 0, 3, 1, 0)
+      } else {
+        // Use quintiles if the importance of schools is anything less than the max importance.
+        const educationQuintile = properties.education_percentile_quintile
+          ? properties.education_percentile_quintile
+          : DEFAULT_EDUCATION_QUINTILE
 
-      // Lowest education quintile is best (reverse range).
-      const educationWeight = scale(eduationQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
-
-      // Lowest crime quintile is best (reverse range).
-      const crimeQuintile = properties.violentcrime_quintile
+        // Lowest education quintile is best (reverse range).
+        educationWeight = scale(educationQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
+      }
+      let crimeQuintile = properties.violentcrime_quintile
         ? properties.violentcrime_quintile : DEFAULT_CRIME_QUINTILE
+      // Treat lowest two (safest) violent crime quintiles equally
+      if (crimeQuintile === 2) {
+        crimeQuintile = 1
+      }
+      // Lowest crime quintile is best (reverse range).
       const crimeWeight = scale(crimeQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
+
+      // Handle missing values (zero in spreadsheet) by re-assigning crime weight
+      // evenly to the other two factors
+      if (properties.violentcrime_quintile === 0) {
+        const halfCrimePercent = crimePercent / 2
+        schoolPercent += halfCrimePercent
+        accessibilityPercent += halfCrimePercent
+        crimePercent = 0
+      }
 
       // Calculate weighted overall score from the percentages. Larger score is better.
       const score = (timeWeight * accessibilityPercent) +
         (crimeWeight * crimePercent) +
         (educationWeight * schoolPercent)
 
-      return Object.assign({active,
+      return Object.assign({
         score,
         segments,
         time,
@@ -110,9 +143,4 @@ const distanceTime = (origin, neighborhood) => {
   const normalized = distance < MAX_DISTANCE ? distance : MAX_DISTANCE
   // Then map the distance to the travel time range
   return scale(normalized, 0, MAX_DISTANCE, 0, MAX_TRAVEL_TIME)
-}
-
-// Map value from one range to another
-const scale = (num, startMin, startMax, rangeMin, rangeMax) => {
-  return (num - startMin) * (rangeMax - rangeMin) / (startMax - startMin) + rangeMin
 }

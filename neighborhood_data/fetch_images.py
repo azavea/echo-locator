@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding=utf8
 
 """
@@ -9,8 +9,8 @@ import csv
 import errno
 import os
 import requests
-import sys
-import urllib
+from time import sleep
+import urllib.parse
 
 DESCRIPTIONS_CSV = 'neighborhood_centroids.csv'
 OUTPUT_FILE = 'neighborhood_centroids_descriptions.csv'
@@ -25,6 +25,11 @@ if not os.path.isfile(DESCRIPTIONS_CSV):
                   os.strerror(errno.ENOENT),
                   DESCRIPTIONS_CSV)
 
+# Set the user agent to avoid 403s. See: https://meta.wikimedia.org/wiki/User-Agent_policy
+USER_AGENT = 'ECHOLocatorCacheBot/1.0 (https://github.com/azavea/echo-locator; kkillebrew@azavea.com) requests/2.22'
+HEADERS = {
+    'User-Agent': USER_AGENT
+}
 IMAGE_DIRECTORY = 'images/'
 IMAGE_FIELDS = ['school', 'open_space_or_landmark', 'street', 'town_square']
 IMAGE_METADATA_FIELDS = [
@@ -37,10 +42,6 @@ IMAGE_METADATA_FIELDS = [
 ]
 
 METADATA_URL = 'https://en.wikipedia.org/w/api.php'
-
-# ensure Unicode will be handled properly
-reload(sys)
-sys.setdefaultencoding('utf8')
 
 
 def get_image_metadata(url, type):
@@ -73,7 +74,8 @@ def get_image_metadata(url, type):
             u=url, t=type))
         return {'error': 'Not a link to a Wikipedia file reference'}
 
-    query_url = '{meta}?titles={title}'.format(meta=METADATA_URL, title=urllib.unquote(filename))
+    query_url = '{meta}?titles={title}'.format(meta=METADATA_URL,
+                                               title=urllib.parse.unquote(filename))
     params = {
         'action': 'query',
         'prop': 'imageinfo',
@@ -82,12 +84,13 @@ def get_image_metadata(url, type):
         'iiurlheight': '90',
         'format': 'json'
     }
-    r = requests.get(query_url, params=params)
+    sleep(.3)
+    r = requests.get(query_url, params=params, headers=HEADERS)
     if not r.ok:
         print('request failed!')
         return {'error': 'Request for Wikipedia metadata failed'}
     resp = r.json()
-    page = resp['query']['pages'].keys()[0]
+    page = list(resp['query']['pages'].keys())[0]
     imageinfo = (resp['query']['pages'][page]['imageinfo'][0]
                  if 'imageinfo' in resp['query']['pages'][page] else '')
     if not imageinfo:
@@ -129,15 +132,17 @@ def get_image_metadata_fields(fld, data):
 def download_image(url, filename):
     """Return true on success."""
     print('Download image to {filename}...'.format(filename=filename))
-    r = requests.get(url, stream=True)
+    sleep(1)
+    r = requests.get(url, headers=HEADERS, stream=True)
     if r.status_code == 200:
-        with open(filename, 'w') as imagefile:
+        with open(filename, 'wb') as imagefile:
             for chunk in r.iter_content(chunk_size=128):
                 imagefile.write(chunk)
         return True
     else:
         print('Failed to download image from {url}. Response: {status}.'.format(
             url=url, status=r.status_code))
+        print(r.text)
     return False
 
 

@@ -1,0 +1,32 @@
+.neighborhood-facts {
+  @include text(200);
+  flex: none;
+  table-layout: fixed;
+
+  &__cell {
+    white-space: nowrap;
+    vertical-align: middle;
+
+    &:first-child {
+      padding-right: 0.8rem;
+      text-align: right;
+    }
+  }
+
+  tr:not(:last-of-type) &__cell {
+    padding-top: 0.6rem;
+    padding-bottom: 0.8rem;
+  }
+
+  &__text {
+    padding-top: 0.6rem;
+    padding-right: 0.8rem;
+    padding-bottom: 0.8rem;
+    text-align: left;
+    vertical-align: middle;
+
+    a {
+      text-decoration: underline;
+    }
+  }
+}

@@ -63,12 +63,11 @@ function mapStateToProps (state, ownProps) {
     ...state,
     accessibility: select.accessibility(state, ownProps),
     activeNetworkIndex: select.activeNetworkIndex(state, ownProps),
-    allTransitiveData: select.allTransitiveData(state, ownProps),
+    activeNeighborhoodBounds: select.activeNeighborhoodBounds(state, ownProps),
     detailNeighborhood: select.detailNeighborhood(state, ownProps),
     displayPageNeighborhoods: select.displayPageNeighborhoods(state, ownProps),
     drawNeighborhoodRoute: select.drawNeighborhoodRoute(state, ownProps),
     drawOpportunityDatasets: select.drawOpportunityDatasets(state, ownProps),
-    filteredNeighborhoodsWithRoutes: select.filteredNeighborhoodsWithRoutes(state, ownProps),
     haveAnotherPage: select.haveAnotherPage(state, ownProps),
     isLoading: select.loading(state, ownProps),
     neighborhoods: get(state, 'data.neighborhoods'),
@@ -84,7 +83,6 @@ function mapStateToProps (state, ownProps) {
     routableNeighborhoods: select.routableNeighborhoods(state, ownProps),
     showComparison: select.showComparison(state, ownProps),
     travelTimes: select.travelTimes(state, ownProps),
-    uniqueRoutes: select.uniqueRoutes(state, ownProps),
     userProfile: select.userProfile(state, ownProps)
   }
 }

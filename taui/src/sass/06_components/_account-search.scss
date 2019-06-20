@@ -55,7 +55,7 @@
     height: 4rem;
 
     &--search {
-      @include button($color: $white, $background: $brand-blue);
+      @include button($color: $white, $background: $primary);
       @include light-on-dark();
       @include font-weight(bold);
     }

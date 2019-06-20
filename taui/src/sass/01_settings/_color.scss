@@ -13,8 +13,8 @@ $black: #000;
 
 $bg-gray: #ecedef;
 
-$brand-blue: #15369d;
-$green: #159d37;
+$primary: #15379d;
+$active: #128d31;
 
 $error: #9d3715;
 
@@ -23,3 +23,9 @@ $font-colors: (
     normal: $gray-800,
     dark: $black,
 );
+
+$meter-track: #e0e0e0;
+$meter-fill-high: #92c980;
+$meter-fill-med: #b4c77a;
+$meter-fill-low: #c9b67e;
+$meter-average: rgba(#fff, 0.8);

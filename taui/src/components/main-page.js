@@ -102,11 +102,6 @@ export default class MainPage extends React.PureComponent<Props> {
     return !p.isLoading && useTransit && !!get(p, 'neighborhoodRoutes[0]')
   }
 
-  _showRoutes () {
-    const p = this.props
-    return !p.isLoading && get(p, 'allTransitiveData[0].journeys[0]')
-  }
-
   /**
    *
    */
@@ -117,6 +112,7 @@ export default class MainPage extends React.PureComponent<Props> {
     return (
       <div className={mapScreenClass}>
         <Dock
+          activeNeighborhood={p.data.activeNeighborhood}
           changeUserProfile={p.changeUserProfile}
           componentError={this.state.componentError}
           detailNeighborhood={p.detailNeighborhood}
@@ -139,9 +135,7 @@ export default class MainPage extends React.PureComponent<Props> {
             reverseGeocode={p.reverseGeocode}
             setActiveNetwork={p.setActiveNetwork}
             origin={p.data.origin}
-            setUseNonECC={p.setUseNonECC}
             updateOrigin={p.updateOrigin}
-            useNonECC={p.data.useNonECC}
             userProfile={p.userProfile}
           />
         </Dock>
@@ -156,6 +150,7 @@ export default class MainPage extends React.PureComponent<Props> {
           <Map
             {...p.map}
             activeNeighborhood={p.data.activeNeighborhood}
+            activeNeighborhoodBounds={p.activeNeighborhoodBounds}
             activeNetworkIndex={p.activeNetworkIndex}
             clearStartAndEnd={this._clearStartAndEnd}
             detailNeighborhood={p.detailNeighborhood}

@@ -1,8 +1,7 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
 import Leaflet from 'leaflet'
-import filter from 'lodash/filter'
-import find from 'lodash/find'
+import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import React, {PureComponent} from 'react'
 import {
@@ -13,6 +12,7 @@ import {
   ZoomControl
 } from 'react-leaflet'
 
+import {NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE} from '../constants'
 import type {
   Coordinate,
   Location,
@@ -22,6 +22,7 @@ import type {
 
 import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
 import DrawRoute from './draw-route'
+import VGrid from './vector-grid'
 
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
   ? process.env.LEAFLET_RETINA_URL
@@ -43,15 +44,15 @@ const iconSize = [iconWidth, iconHeight]
 const iconAnchor = [iconWidth / 2, iconHeight + 13] // height plus the pointer size
 const iconHTML = '' // <div className="innerMarker"></div>'
 
-const startIcon = Leaflet.divIcon({
-  className: 'LeafletIcon Start map__marker map__marker--start',
+const endIcon = Leaflet.divIcon({
+  className: 'LeafletIcon End map__marker map__marker--end',
   html: iconHTML,
   iconAnchor,
   iconSize
 })
 
-const endIcon = Leaflet.divIcon({
-  className: 'LeafletIcon End map__marker map__marker--end',
+const startIcon = Leaflet.divIcon({
+  className: 'LeafletIcon Start map__marker map__marker--start',
   html: iconHTML,
   iconAnchor,
   iconSize
@@ -65,7 +66,6 @@ const otherIcon = Leaflet.divIcon({
 })
 
 type Props = {
-  allTransitiveData: any[],
   centerCoordinates: Coordinate,
   clearStartAndEnd: () => void,
   drawIsochrones: Function[],
@@ -98,6 +98,7 @@ export default class Map extends PureComponent<Props, State> {
   constructor (props) {
     super(props)
     this.clickNeighborhood = this.clickNeighborhood.bind(this)
+    this.hoverNeighborhood = this.hoverNeighborhood.bind(this)
   }
 
   state = {
@@ -123,12 +124,21 @@ export default class Map extends PureComponent<Props, State> {
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
-      // Toggle `showDetails` off first to zoom to route on switching detail views
-      this.props.setShowDetails(false)
-      this.props.setActiveNeighborhood(feature.properties.id)
       this.props.setShowDetails(true)
+      this.props.setActiveNeighborhood(feature.properties.id)
     } else {
       console.warn('clicked unroutable neighborhood ' + feature.properties.id)
+    }
+  }
+
+  // Debounced version of setActiveNeighborhood used on hover
+  debouncedSetActive = debounce(this.props.setActiveNeighborhood, 100)
+
+  // Hover over neighborhood map bounds or marker
+  hoverNeighborhood = (feature, event) => {
+    if (this.props.showDetails || !feature || !feature.properties) return
+    if (feature.properties.routable) {
+      this.debouncedSetActive(feature.properties.id)
     }
   }
 
@@ -197,13 +207,8 @@ export default class Map extends PureComponent<Props, State> {
   render () {
     const p = this.props
     const clickNeighborhood = this.clickNeighborhood
-
-    const otherNeighborhoods = (p.displayNeighborhoods && !p.showDetails)
-      ? filter(p.displayNeighborhoods, n => !n.active)
-      : []
-
-    const showDetailNeighborhood = p.showDetails ? p.detailNeighborhood
-      : find(p.displayNeighborhoods, n => n.properties.id === p.activeNeighborhood)
+    const hoverNeighborhood = this.hoverNeighborhood
+    const styleNeighborhood = this.styleNeighborhood
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
@@ -241,7 +246,6 @@ export default class Map extends PureComponent<Props, State> {
             {...p.drawRoute}
             activeNeighborhood={p.activeNeighborhood}
             key={`draw-routes-${p.drawRoute.id}-${this._getKey()}`}
-            neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
             showDetails={p.showDetails}
             zIndex={getZIndex()}
           />}
@@ -250,7 +254,20 @@ export default class Map extends PureComponent<Props, State> {
           <DrawNeighborhoodBounds
             key={`start-${this._getKey()}`}
             clickNeighborhood={clickNeighborhood}
+            hoverNeighborhood={hoverNeighborhood}
             neighborhoods={p.routableNeighborhoods}
+            styleNeighborhood={styleNeighborhood}
+            zIndex={getZIndex()}
+          />}
+
+        {!p.isLoading && p.activeNeighborhoodBounds &&
+          <VGrid
+            data={p.activeNeighborhoodBounds}
+            interactive={false}
+            key={`active-bounds-${p.activeNeighborhood}-${this._getKey()}`}
+            vectorTileLayerStyles={
+              {'sliced': NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE}
+            }
             zIndex={getZIndex()}
           />}
 
@@ -265,25 +282,14 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {showDetailNeighborhood &&
-          <Marker
-            icon={endIcon}
-            key={`end-${this._getKey()}`}
-            position={lonlat.toLeaflet(showDetailNeighborhood.geometry.coordinates)}
-            zIndex={getZIndex()}
-          >
-            <Popup>
-              <span>{showDetailNeighborhood.properties.town} {showDetailNeighborhood.properties.id}</span>
-            </Popup>
-          </Marker>}
-
-        {otherNeighborhoods && otherNeighborhoods.length &&
-          otherNeighborhoods.map((other) =>
+        {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
+          p.displayNeighborhoods.map((n) =>
             <Marker
-              icon={otherIcon}
-              key={`other-${other.properties.id}-${this._getKey()}`}
-              onClick={(e) => clickNeighborhood(other)}
-              position={lonlat.toLeaflet(other.geometry.coordinates)}
+              icon={n.properties.id === p.activeNeighborhood ? endIcon : otherIcon}
+              key={`n-${n.properties.id}-${this._getKey()}`}
+              onClick={(e) => clickNeighborhood(n)}
+              onHover={(e) => hoverNeighborhood(n)}
+              position={lonlat.toLeaflet(n.geometry.coordinates)}
               zIndex={getZIndex()}
             />)}
       </LeafletMap> : null

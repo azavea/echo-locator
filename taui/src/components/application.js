@@ -32,8 +32,7 @@ type MapState = {
 type Props = {
   accessibility: number[][],
   actionLog: LogItems,
-  activeTransitive: any,
-  allTransitive: any,
+  activeNeighborhoodBounds: any,
   data: {
     grids: string[],
     neighborhoodBounds: any,
@@ -43,7 +42,6 @@ type Props = {
     profileLoading: boolean,
     showDetails: boolean,
     showFavorites: boolean,
-    useNonECC: boolean,
     userProfile: AccountProfile
   },
   detailNeighborhood: any,
@@ -53,7 +51,6 @@ type Props = {
   drawNeighborhoodRotues: any[],
   drawOpportunityDatasets: any[],
   drawRoutes: any[],
-  filteredNeighborhoodsWithRoutes: any,
   geocode: (string, Function) => void,
   geocoder: GeocoderStore,
   initialize: Function => void,
@@ -83,21 +80,18 @@ type Props = {
   setShowDetails: Function => void,
   setShowFavorites: Function => void,
   setStart: any => void,
-  setUseNonECC: (boolean) => void,
   showComparison: boolean,
   showFavorites: boolean,
   timeCutoff: any,
   travelTimes: number[],
   ui: UIStore,
-  uniqueRoutes: any[],
   updateEnd: any => void,
   updateEndPosition: LonLat => void,
   updateMap: any => void,
   updateOrigin: any => void,
   updateStart: any => void,
   updateStartPosition: LonLat => void,
-  updateUserProfile: AccountProfile => void,
-  useNonECC: boolean
+  updateUserProfile: AccountProfile => void
 }
 
 type State = {

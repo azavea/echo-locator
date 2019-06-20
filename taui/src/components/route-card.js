@@ -3,8 +3,10 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import React from 'react'
 
+import {ROUND_TRIP_MINUTES} from '../constants'
 import type {NeighborhoodImageMetadata} from '../types'
 import {getFirstNeighborhoodImage} from '../utils/neighborhood-images'
+import MapMarkerIcon from '../icons/map-marker-icon'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
 
@@ -40,6 +42,7 @@ export default class RouteCard extends React.PureComponent<Props> {
 
   render () {
     const {
+      activeNeighborhood,
       isFavorite,
       goToDetails,
       neighborhood,
@@ -50,16 +53,19 @@ export default class RouteCard extends React.PureComponent<Props> {
       userProfile
     } = this.props
 
-    const markerClass = `neighborhood-summary__marker ${neighborhood.active ? 'neighborhood-summary__marker--on' : ''}`
+    const active = activeNeighborhood === neighborhood.properties.id
+    const markerClass = `neighborhood-summary__marker ${active ? 'neighborhood-summary__marker--on' : ''}`
     const { time } = neighborhood
     const originLabel = origin ? origin.label || '' : ''
-    const currentDestination = userProfile.destinations.find(d => d.location.label === originLabel)
+    const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
 
     const modeKey = userProfile.hasVehicle
       ? 'NeighborhoodDetails.DriveMode'
       : 'NeighborhoodDetails.TransitMode'
 
     const SummaryImage = this.summaryImage
+
+    const roundedTripTime = Math.round(time / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
 
     return (
       <div
@@ -78,15 +84,15 @@ export default class RouteCard extends React.PureComponent<Props> {
             }}
           />
           {title}
-          <Icon className={markerClass} type='map-marker' />
+          <MapMarkerIcon className={markerClass} active={active} />
         </header>
         <div className='neighborhood-summary__contents'>
           <div className='neighborhood-summary__descriptive'>
             <SummaryImage nprops={neighborhood.properties} />
             <div className='neighborhood-summary__trip'>
-              {!userProfile.hasVehicle && <div className='neighborhood-summary__duration'>
-                {message('Units.About')} {Math.round(time)} {message('Units.Mins')}
-              </div>}
+              <div className='neighborhood-summary__duration'>
+                {message('Units.About')} {roundedTripTime} {message('Units.Mins')}
+              </div>
               <div className='neighborhood-summary__trajectory'>
                 <span className='neighborhood-summary__mode'>
                   {message(modeKey)}

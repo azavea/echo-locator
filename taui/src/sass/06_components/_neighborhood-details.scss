@@ -1,55 +1,97 @@
 .neighborhood-details {
   margin-bottom: 1.6rem;
-  padding: 0 0.8rem 0.8rem;
-  background-color: $white;
+
+  &__section {
+    margin-bottom: 0.8rem;
+    padding: 1.6rem;
+    background-color: $white;
+  }
 
   &__header {
-    @include heading(500);
+    @include heading(400);
     @include font-weight(bold);
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
-    padding: 0.6rem 0 0.8rem;
   }
 
   &__star {
+    flex: none;
     margin-right: 0.8rem;
     font-size: 1.8rem !important;
   }
 
+  &__name {
+    flex: auto;
+    margin-right: 0.8rem;
+    line-height: 1.5;
+  }
+
   &__marker {
-    width: auto !important;
+    flex: none;
+    width: 2.4rem;
     margin-left: auto;
-    color: $green;
-    font-size: 3.2rem !important;
+    fill: mix(rgba($active, 8%), rgba($primary, 8%));
+    fill-opacity: 0.1;
+    stroke: $active;
+    stroke-width: 48;
+    stroke-opacity: 0.8;
   }
 
   &__trip {
-    @include font-weight(bold);
-    margin-bottom: 1.6rem;
-  }
-
-  &__desc {
-    @include text(200);
-    margin-bottom: 1.6rem;
-    color: $gray-800;
-  }
-
-  &__links {
     @include text(300);
+    @include font-weight(bold);
     display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
     align-items: center;
-    margin-bottom: 2.4rem;
   }
 
-  &__link {
+  &__directions {
     @include link-states() {
-      color: $brand-blue;
+      color: $primary;
     }
-    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .route-segments {
+    @include text(200);
+    margin-top: 0.6rem;
+    line-height: 2.4;
+  }
+
+  &__stats {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  &__rent {
+    flex: none;
+    margin-right: 0.8rem;
+    padding-top: 0.4rem;
+    padding-right: 1.6rem;
+    text-align: center;
+    border-right: 4px solid $bg-gray;
+  }
+
+  &__rent-label {
+    @include text(300);
+    margin-bottom: 0.8rem;
+  }
+
+  &__rent-value {
+    @include text(500);
+    @include font-weight(bold);
+    margin-bottom: 0.8rem;
+  }
+
+  &__rent-rooms {
+    @include text(300);
+    @include font-weight(bold);
   }
 
   &__images {
@@ -57,10 +99,13 @@
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: flex-start;
-    margin-bottom: 1.6rem;
+    margin-bottom: 0.8rem;
   }
 
   &__image {
+    width: 110px;
+    overflow: hidden;
+
     img {
       width: 110px;
       height: 83px;
@@ -71,26 +116,35 @@
     margin-right: 1.6rem;
   }
 
-  &__facts {
-    @include text(200);
-    @include font-weight(bold);
-    width: 100%;
+  &__desc {
+    @include text(300);
+    color: $gray-800;
   }
 
-  &__row:nth-child(odd) {
-    background-color: $gray-100;
+  &__link-heading {
+    @include heading(300);
+    margin-bottom: 0.8rem;
+
+    &:not(:first-of-type) {
+      margin-top: 2.4rem;
+    }
   }
 
-  &__cell {
-    padding: 0.8rem 0.4rem;
+  &__links {
+    @include text(300);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
   }
 
-  > .route-segments {
-    @include text(200);
-    margin-top: -0.8rem;
-    margin-bottom: 1.6rem;
-    padding: 0.8rem;
-    line-height: 2.4;
-    background-color: $gray-100;
+  &__link {
+    @include link-states() {
+      color: $primary;
+    }
+
+    &:not(:last-child) {
+      margin-right: 2.4rem;
+    }
   }
 }

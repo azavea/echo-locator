@@ -3,7 +3,7 @@ import Storage from '@aws-amplify/storage'
 import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import remove from 'lodash/remove'
-import {PureComponent} from 'react'
+import {PureComponent, createRef} from 'react'
 
 import {ANONYMOUS_USERNAME, SIDEBAR_PAGE_SIZE} from '../constants'
 import type {AccountProfile, PointFeature} from '../types'
@@ -12,6 +12,7 @@ import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
 
 type Props = {
+  activeNeighborhood: string,
   activeNetworkIndex: number,
   detailNeighborhood: any,
   endingOffset: number,
@@ -45,9 +46,16 @@ export default class Dock extends PureComponent<Props> {
     this.neighborhoodSection = this.neighborhoodSection.bind(this)
     this.setFavorite = this.setFavorite.bind(this)
     this.setShowFavorites = this.setShowFavorites.bind(this)
+    this.sidebar = createRef()
 
     this.state = {
       componentError: props.componentError
+    }
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails) {
+      this.sidebar.current.scrollTop = 0
     }
   }
 
@@ -76,6 +84,10 @@ export default class Dock extends PureComponent<Props> {
   }
 
   goToDetails (e, neighborhood) {
+    // Do not go to details if user clicked a link (for chart tooltip links)
+    if (e.target.tagName.toLowerCase() === 'a') {
+      return
+    }
     e.stopPropagation()
     this.props.setActiveNeighborhood(neighborhood.properties.id)
     this.props.setShowDetails(true)
@@ -154,6 +166,7 @@ export default class Dock extends PureComponent<Props> {
   // Render list of neighborhoods
   neighborhoodsList (props) {
     const {
+      activeNeighborhood,
       changeUserProfile,
       neighborhoods,
       setActiveNeighborhood,
@@ -170,6 +183,7 @@ export default class Dock extends PureComponent<Props> {
     return (
       neighborhoods.map((neighborhood, index) =>
         <RouteCard
+          activeNeighborhood={activeNeighborhood}
           goToDetails={(e) => goToDetails(e, neighborhood)}
           index={index}
           isFavorite={userProfile.favorites &&
@@ -253,7 +267,7 @@ export default class Dock extends PureComponent<Props> {
 
     const startingOffset = page * SIDEBAR_PAGE_SIZE
 
-    return <div className='map-sidebar'>
+    return <div className='map-sidebar' ref={this.sidebar}>
       {componentError &&
         <p className='map-sidebar__error'>
           <Icon type='exclamation-triangle' />

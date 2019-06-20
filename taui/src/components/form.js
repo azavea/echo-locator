@@ -8,7 +8,7 @@ import React from 'react'
 import Select from 'react-virtualized-select'
 import createFilterOptions from 'react-select-fast-filter-options'
 
-import {SELECT_STYLE, SELECT_WRAPPER_STYLE} from '../constants'
+import {SELECT_STYLE, SELECT_WRAPPER_STYLE, SELECT_OPTION_HEIGHT} from '../constants'
 import type {
   AccountAddress,
   AccountProfile,
@@ -18,7 +18,6 @@ import type {
 type Props = {
   networks: any[],
   setActiveNetwork: (string) => void,
-  setUseNonECC: (boolean) => void,
   updateOrigin: (Location) => void,
   userProfile: AccountProfile
 }
@@ -53,8 +52,7 @@ export default class Form extends React.PureComponent<Props> {
       destination,
       network: useNetworks ? {
         label: useNetworks[0].name, value: useNetworks[0].url
-      } : null,
-      useNonECC: false
+      } : null
     }
 
     if (this.state.destination) {
@@ -69,10 +67,6 @@ export default class Form extends React.PureComponent<Props> {
     if (!this.state.network && nextProps.networks && nextProps.networks.length &&
       nextProps.userProfile) {
       this.setStateNetwork(nextProps.networks, nextProps.userProfile)
-    }
-
-    if (this.state.useNonECC !== nextProps.useNonECC) {
-      this.setState({useNonECC: nextProps.useNonECC})
     }
 
     if (!this.state.destination && nextProps.userProfile && nextProps.userProfile.destinations) {
@@ -106,7 +100,7 @@ export default class Form extends React.PureComponent<Props> {
     }
     const position = destination.location.position
     return (position.lat !== 0 && position.lon !== 0) ? {
-      label: destination.location.label,
+      label: destination.purpose + ': ' + destination.location.label,
       position: position
     } : null
   }
@@ -117,11 +111,6 @@ export default class Form extends React.PureComponent<Props> {
     const network = {label: first.name, value: first.url}
     this.setState({network})
     this.props.setActiveNetwork(network.label)
-  }
-
-  setStateUseNonECC = (useNonECC) => {
-    this.setState({useNonECC})
-    this.props.setUseNonECC(useNonECC)
   }
 
   selectDestination = (option?: ReactSelectOption) => {
@@ -142,54 +131,53 @@ export default class Form extends React.PureComponent<Props> {
 
   render () {
     const {userProfile} = this.props
-    const {destination, network, useNonECC} = this.state
+    const {destination, network} = this.state
     const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
-    const locations = destinations.map(d => d.location)
+    const locations = destinations.map(d => {
+      return {
+        label: d.purpose + ': ' + d.location.label,
+        position: d.location.position
+      }
+    })
     const destinationFilterOptions = createDestinationsFilter(locations)
     const useNetworks = this.getProfileNetworks(this.props.networks, userProfile)
     const networks = useNetworks.map(n => ({label: n.name, value: n.url}))
     const networkFilterOptions = createNetworksFilter(networks)
 
     const setNetwork = this.setNetwork
-    const setStateUseNonECC = this.setStateUseNonECC
 
     return (
       <div className='map-sidebar__travel-form'>
-        <Select
-          clearable={false}
-          filterOptions={destinationFilterOptions}
-          options={locations}
-          optionHeight={38}
-          onChange={this.selectDestination}
-          placeholder={message('Geocoding.StartPlaceholder')}
-          style={SELECT_STYLE}
-          wrapperStyle={SELECT_WRAPPER_STYLE}
-          value={destination}
-        />
-        {!userProfile.hasVehicle && <Select
-          clearable={false}
-          filterOptions={networkFilterOptions}
-          options={networks}
-          onChange={(e) => setNetwork(e)}
-          placeholder={message('Map.SelectNetwork')}
-          style={SELECT_STYLE}
-          wrapperStyle={SELECT_WRAPPER_STYLE}
-          value={network}
-        />}
-        <div className='map-sidebar__ecc-checkbox'>
-          <input
-            className='map-sidebar__checkbox'
-            id='useNonECC'
-            type='checkbox'
-            onClick={(e) => setStateUseNonECC(!e.currentTarget.checked)}
-            defaultChecked={!useNonECC}
+        <div className='map-sidebar__field'>
+          <label className='map-sidebar__label'>{message('Dock.LocationLabel')}</label>
+          <Select
+            className='map-sidebar__select'
+            clearable={false}
+            filterOptions={destinationFilterOptions}
+            options={locations}
+            optionHeight={SELECT_OPTION_HEIGHT}
+            onChange={this.selectDestination}
+            placeholder={message('Geocoding.StartPlaceholder')}
+            style={SELECT_STYLE}
+            wrapperStyle={SELECT_WRAPPER_STYLE}
+            value={destination}
           />
-          <label
-            className='map-sidebar__label'
-            htmlFor='useNonECC'>
-            {message('Profile.ExpandedChoiceCommunitiesOnly')}
-          </label>
         </div>
+        {!userProfile.hasVehicle && <div className='map-sidebar__field'>
+          <label className='map-sidebar__label'>{message('Dock.NetworkLabel')}</label>
+          <Select
+            className='map-sidebar__select'
+            clearable={false}
+            filterOptions={networkFilterOptions}
+            options={networks}
+            optionHeight={SELECT_OPTION_HEIGHT}
+            onChange={(e) => setNetwork(e)}
+            placeholder={message('Map.SelectNetwork')}
+            style={SELECT_STYLE}
+            wrapperStyle={SELECT_WRAPPER_STYLE}
+            value={network}
+          />
+        </div>}
       </div>
     )
   }

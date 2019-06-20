@@ -12,8 +12,20 @@ export const IMAGE_FIELDS = [
   'street'
 ]
 
+// Value in `town_area` column of source data for grouping zip codes in Boston
+export const BOSTON_TOWN_AREA = 'Boston'
+
+export const BOSTON_SCHOOL_CHOICE_LINK = 'https://discover.bostonpublicschools.org/'
+export const CAMBRIDGE_SCHOOL_CHOICE_LINK = 'https://www.cpsd.us/'
+
+// Allow clicking links in tooltips by delaying hide/update
+export const TOOLTIP_HIDE_DELAY_MS = 1000
+
 // Maximum number of destinations that may be added to a user profile
 export const MAX_ADDRESSES = 3
+
+// Round travel times to nearest five minutes
+export const ROUND_TRIP_MINUTES = 5
 
 // Maximum number of rooms for user profile
 export const MAX_ROOMS = 6
@@ -56,49 +68,50 @@ export const COLORS_RGB = [
 ]
 
 export const WALK_STYLE = {
-  color: '#333',
-  dashArray: '5, 5',
+  color: '#555',
+  dashArray: '12, 8',
   lineCap: 'butt',
   lineMeter: 'miter',
-  weight: 5
+  weight: 4
 }
 
 export const TRANSIT_STYLE = {
-  color: 'green',
-  weight: 5
+  color: '#555',
+  weight: 4
 }
 
-export const NEIGHBORHOOD_NONROUTABLE_COLOR = '#85929E'
-export const NEIGHBORHOOD_ROUTABLE_COLOR = '#15369d'
+export const NEIGHBORHOOD_NONROUTABLE_COLOR = '#85929e'
+export const NEIGHBORHOOD_ROUTABLE_COLOR = '#15379d'
+export const NEIGHBORHOOD_ACTIVE_COLOR = '#128d31'
+
+export const NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE = {
+  stroke: true,
+  weight: 3,
+  color: NEIGHBORHOOD_ACTIVE_COLOR,
+  opacity: 0.8,
+  fill: true,
+  fillColor: NEIGHBORHOOD_ACTIVE_COLOR,
+  fillOpacity: 0.08
+}
+
+export const NEIGHBORHOOD_ROUTABLE_BOUNDS_STYLE = {
+  stroke: true,
+  weight: 1,
+  color: NEIGHBORHOOD_ROUTABLE_COLOR,
+  opacity: 0.08,
+  fill: true,
+  fillColor: NEIGHBORHOOD_ROUTABLE_COLOR,
+  fillOpacity: 0.1
+}
 
 export const NEIGHBORHOOD_BOUNDS_STYLE = {
   stroke: true,
   weight: 1,
   color: '#fff',
-  opacity: 0.5,
-  fill: true,
-  fillColor: '#85929E',
-  fillOpacity: 0.4
-}
-
-export const NEIGHBORHOOD_BOUNDS_HOVER_STYLE = {
-  stroke: true,
-  weight: 1,
-  color: '#fff',
-  opacity: 0.5,
-  fill: true,
-  fillColor: '#159d37',
-  fillOpacity: 0.6
-}
-
-export const NEIGHBORHOOD_STYLE = {
-  color: '#333',
-  opacity: 0.7,
+  opacity: 0.1,
   fill: false,
-  fillColor: '#333',
-  radius: 5,
-  stroke: true,
-  weight: 3
+  fillColor: NEIGHBORHOOD_NONROUTABLE_COLOR,
+  fillOpacity: 0.1
 }
 
 export const STOP_STYLE = {
@@ -118,9 +131,10 @@ export const SELECT_STYLE = {
   'height': '3.8rem'
 }
 
+export const SELECT_OPTION_HEIGHT = 38
+
 export const SELECT_WRAPPER_STYLE = {
   'height': '4rem',
-  'marginBottom': '0.8rem',
   'boxShadow': 'none',
   'border': '1px solid #bdbdbd'
 }
