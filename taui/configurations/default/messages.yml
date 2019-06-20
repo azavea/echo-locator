@@ -118,14 +118,14 @@ Profile:
   DeleteDestination: Delete this destination
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
-  Destinations: Frequent destinations
-  ImportanceAccessibility: Travel time
+  Destinations: Where do you go most frequently (besides your home)?
+  ImportanceAccessibility: Commute time
   ImportanceHeading: How important are these factors when choosing a home?
   ImportanceSchools: School quality
   ImportanceViolentCrime: Public safety
   Primary: Primary
   Purpose: Purpose
-  Rooms: Number of rooms in voucher
+  Rooms: Number of bedrooms in voucher
   Go: Save profile
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
@@ -165,7 +165,11 @@ QuintileLabels:
     5: High
 TripPurpose:
   Daycare: Day care
+  Doctor: Doctor
+  Family: Family
+  Friends: Friends
   Other: Other
+  Worship: Worship
   Work: Work
 Booleans:
   Yes: Yes
