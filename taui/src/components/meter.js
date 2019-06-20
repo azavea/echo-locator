@@ -33,6 +33,7 @@ export default function Meter ({
         effect='solid'
         isCapture
         delayHide={TOOLTIP_HIDE_DELAY_MS}
+        className='map-sidebar__tooltip'
         data-id={`meter-tooltip-${category}-${id}`}
         id={`meter-tooltip-${category}-${id}`} />
       <svg

@@ -75,6 +75,7 @@ export default function RentalUnitsMeter ({
         delayHide={TOOLTIP_HIDE_DELAY_MS}
         effect='solid'
         isCapture
+        className='map-sidebar__tooltip'
         data-id={`rental-units-tooltip-${id}`}
         id={`rental-units-tooltip-${id}`} />
       {filledIcons}

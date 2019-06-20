@@ -94,6 +94,22 @@
     text-align: center;
   }
 
+  &__tooltip {
+    @include text(200);
+    max-width: 30rem;
+    padding: 0.8rem 1.2rem;
+    white-space: normal;
+
+    strong {
+      @include font-weight(bold);
+      font-style: italic;
+    }
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
   &__pagination {
     display: flex;
     flex-flow: row nowrap;
