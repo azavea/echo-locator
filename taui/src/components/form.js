@@ -148,6 +148,7 @@ export default class Form extends React.PureComponent<Props> {
 
     return (
       <div className='map-sidebar__travel-form'>
+        <h2 className='map-sidebar__travel-form-heading'>{message('Dock.FormHeading')}</h2>
         <div className='map-sidebar__field'>
           <label className='map-sidebar__label'>{message('Dock.LocationLabel')}</label>
           <Select

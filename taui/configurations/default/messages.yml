@@ -33,8 +33,9 @@ Map:
     ClearMarkers: Clear markers
   Unreachable: Unreachable by transit
 Dock:
-  LocationLabel: From
-  NetworkLabel: When
+  FormHeading: Show travel times …
+  LocationLabel: from
+  NetworkLabel: when
   Favorites: Saved recommendations
   GoBackToRecommendations: Back to your recommendations
   GoBackToFavorites: Back to saved recommendations

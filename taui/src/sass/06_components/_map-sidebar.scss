@@ -22,6 +22,12 @@
     border-bottom: 1px solid $gray-400;
   }
 
+  &__travel-form-heading {
+    @include text(300);
+    @include font-weight(bold);
+    margin-bottom: 1.2rem;
+  }
+
   &__field {
     display: flex;
     flex-flow: row nowrap;
