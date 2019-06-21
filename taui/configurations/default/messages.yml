@@ -96,14 +96,14 @@ Header:
 Accounts:
   Create: Create new profile
   CreateError: Failed to create profile. Please try again.
-  InvalidVoucherNumber: Voucher number should be eight digits, or two letters followed by six digits.
-  MissingVoucherNumber: Enter a voucher number to create a profile.
+  InvalidVoucherNumber: Client ID should be six to eight digits or letters.
+  MissingVoucherNumber: Enter a client ID to create a profile.
   Name: Name of head of household
   Search: Search
   SelectError: Failed to set profile. Please try again.
   NoResults: Profile not found. Create one now?
   Title: Profiles
-  Voucher: Voucher number
+  Voucher: Client ID
 Profile:
   AddAddress: Add another destination
   Address: Address
