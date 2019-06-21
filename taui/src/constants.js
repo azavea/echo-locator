@@ -19,7 +19,7 @@ export const BOSTON_SCHOOL_CHOICE_LINK = 'https://discover.bostonpublicschools.o
 export const CAMBRIDGE_SCHOOL_CHOICE_LINK = 'https://www.cpsd.us/'
 
 // Allow clicking links in tooltips by delaying hide/update
-export const TOOLTIP_HIDE_DELAY_MS = 1000
+export const TOOLTIP_HIDE_DELAY_MS = 150
 
 // Maximum number of destinations that may be added to a user profile
 export const MAX_ADDRESSES = 3
