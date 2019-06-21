@@ -6,7 +6,7 @@ import remove from 'lodash/remove'
 import {PureComponent, createRef} from 'react'
 
 import {ANONYMOUS_USERNAME, SIDEBAR_PAGE_SIZE} from '../constants'
-import type {AccountProfile, PointFeature} from '../types'
+import type {AccountProfile} from '../types'
 
 import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
@@ -18,9 +18,9 @@ type Props = {
   endingOffset: number,
   haveAnotherPage: boolean,
   isLoading: boolean,
+  neighborhoodCount: number,
   neighborhoodPage: any[],
   neighborhoodRoutes: any,
-  neighborhoods: Array<PointFeature>,
   origin: any,
   page: number,
   showDetails: boolean,
@@ -257,7 +257,7 @@ export default class Dock extends PureComponent<Props> {
       endingOffset,
       haveAnotherPage,
       isLoading,
-      neighborhoods,
+      neighborhoodCount,
       neighborhoodPage,
       origin,
       page,
@@ -272,7 +272,6 @@ export default class Dock extends PureComponent<Props> {
     const backFromDetails = this.backFromDetails
 
     const startingOffset = page * SIDEBAR_PAGE_SIZE
-    const totalNeighborhoodCount = (neighborhoods && neighborhoods.length) || 0
 
     return <div className='map-sidebar' ref={this.sidebar}>
       {componentError &&
@@ -286,7 +285,7 @@ export default class Dock extends PureComponent<Props> {
           {...this.props}
           changeUserProfile={changeUserProfile}
           neighborhoods={neighborhoodPage}
-          totalNeighborhoodCount={totalNeighborhoodCount}
+          totalNeighborhoodCount={neighborhoodCount}
           endingOffset={endingOffset}
           origin={origin}
           setFavorite={setFavorite}
