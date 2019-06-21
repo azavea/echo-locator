@@ -6,7 +6,7 @@ import remove from 'lodash/remove'
 import {PureComponent, createRef} from 'react'
 
 import {ANONYMOUS_USERNAME, SIDEBAR_PAGE_SIZE} from '../constants'
-import type {AccountProfile, PointFeature} from '../types'
+import type {AccountProfile} from '../types'
 
 import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
@@ -18,9 +18,9 @@ type Props = {
   endingOffset: number,
   haveAnotherPage: boolean,
   isLoading: boolean,
+  neighborhoodCount: number,
   neighborhoodPage: any[],
   neighborhoodRoutes: any,
-  neighborhoods: Array<PointFeature>,
   origin: any,
   page: number,
   showDetails: boolean,
@@ -204,6 +204,7 @@ export default class Dock extends PureComponent<Props> {
     const {
       endingOffset,
       neighborhoods,
+      totalNeighborhoodCount,
       origin,
       startingOffset,
       showFavorites
@@ -217,9 +218,13 @@ export default class Dock extends PureComponent<Props> {
       <>
         <header className='map-sidebar__neighborhoods-header'>
           <h2 className='map-sidebar__neighborhoods-heading'>
-            {!showFavorites ? message('Dock.Recommendations') : message('Dock.Favorites')}
-            &nbsp;
-            {endingOffset > 0 && `${startingOffset + 1}–${endingOffset}`}
+            {showFavorites && message('Dock.Favorites')}
+            {!showFavorites && <>
+                {message('Dock.Recommendations')}
+                &nbsp;
+                {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
+              </>
+            }
           </h2>
           <div className='map-sidebar__neighborhoods-actions'>
             <button
@@ -252,6 +257,7 @@ export default class Dock extends PureComponent<Props> {
       endingOffset,
       haveAnotherPage,
       isLoading,
+      neighborhoodCount,
       neighborhoodPage,
       origin,
       page,
@@ -279,6 +285,7 @@ export default class Dock extends PureComponent<Props> {
           {...this.props}
           changeUserProfile={changeUserProfile}
           neighborhoods={neighborhoodPage}
+          totalNeighborhoodCount={neighborhoodCount}
           endingOffset={endingOffset}
           origin={origin}
           setFavorite={setFavorite}
