@@ -1,9 +1,7 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
-import ReactTooltip from 'react-tooltip'
 
-import {TOOLTIP_HIDE_DELAY_MS} from '../constants'
 import {getTier} from '../utils/scaling'
 
 export default function RentalUnitsMeter ({
@@ -61,23 +59,7 @@ export default function RentalUnitsMeter ({
   })
 
   return (
-    <div className='rental-units-meter'
-      data-tip={tooltip}
-      data-iscapture
-      data-effect='solid'
-      data-delay-hide={TOOLTIP_HIDE_DELAY_MS}
-      data-for={`rental-units-tooltip-${id}`}
-      data-id={`rental-units-${id}`}
-      id={`rental-units-${id}`}>
-      <ReactTooltip
-        clickable
-        html
-        delayHide={TOOLTIP_HIDE_DELAY_MS}
-        effect='solid'
-        isCapture
-        className='map-sidebar__tooltip'
-        data-id={`rental-units-tooltip-${id}`}
-        id={`rental-units-tooltip-${id}`} />
+    <div className='rental-units-meter' data-tip={tooltip}>
       {filledIcons}
       {unfilledIcons}
     </div>

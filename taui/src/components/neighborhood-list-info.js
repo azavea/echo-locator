@@ -1,7 +1,8 @@
 // @flow
 import message from '@conveyal/woonerf/message'
+import ReactTooltip from 'react-tooltip'
 
-import {
+import {TOOLTIP_HIDE_DELAY_MS,
   BOSTON_TOWN_AREA,
   BOSTON_SCHOOL_CHOICE_LINK,
   CAMBRIDGE_SCHOOL_CHOICE_LINK
@@ -42,41 +43,52 @@ export default function NeighborhoodListInfo ({neighborhood}) {
   const schoolChoiceLink = isBoston ? BOSTON_SCHOOL_CHOICE_LINK : CAMBRIDGE_SCHOOL_CHOICE_LINK
 
   return (
-    <table className='neighborhood-facts'>
-      <tbody>
-        <tr>
-          <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.EducationCategory')}</td>
-          {!isSchoolChoice && <td className='neighborhood-facts__cell'>
-            <Meter
-              category='school'
-              value={edPercentile}
-              id={zipcode}
-              tooltip={edTooltip} />
-          </td>}
-          {isSchoolChoice && <td className='neighborhood-facts__text'>
-            <a href={schoolChoiceLink} target='_blank' className='neighborhood-facts__school-choice'>
-              {message('NeighborhoodInfo.SchoolChoice')}
-            </a>
-          </td>}
-        </tr>
-        {crime >= 0 && <tr>
-          <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ViolentCrime')}</td>
-          <td className='neighborhood-facts__cell'>
-            <Meter
-              category='crime'
-              value={crime}
-              id={zipcode}
-              tooltip={crimeTooltip} />
-          </td>
-        </tr>}
-        <tr>
-          <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.RentalUnits')}</td>
-          <td className='neighborhood-facts__cell'>
-            <RentalUnitsMeter value={houses} totalMapc={totalMapc} id={zipcode} town={town} />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <>
+      <table className='neighborhood-facts'>
+        <tbody>
+          <tr>
+            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.EducationCategory')}</td>
+            {!isSchoolChoice && <td className='neighborhood-facts__cell'>
+              <Meter
+                category='school'
+                value={edPercentile}
+                id={zipcode}
+                tooltip={edTooltip} />
+            </td>}
+            {isSchoolChoice && <td className='neighborhood-facts__text'>
+              <a href={schoolChoiceLink} target='_blank' className='neighborhood-facts__school-choice'>
+                {message('NeighborhoodInfo.SchoolChoice')}
+              </a>
+            </td>}
+          </tr>
+          {crime >= 0 && <tr>
+            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ViolentCrime')}</td>
+            <td className='neighborhood-facts__cell'>
+              <Meter
+                category='crime'
+                value={crime}
+                id={zipcode}
+                tooltip={crimeTooltip} />
+            </td>
+          </tr>}
+          <tr>
+            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.RentalUnits')}</td>
+            <td className='neighborhood-facts__cell'>
+              <RentalUnitsMeter value={houses} totalMapc={totalMapc} id={zipcode} town={town} />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ReactTooltip
+        clickable
+        html
+        effect='solid'
+        place='right'
+        isCapture
+        delayHide={TOOLTIP_HIDE_DELAY_MS}
+        className='map-sidebar__tooltip'
+      />
+    </>
   )
 }
 
