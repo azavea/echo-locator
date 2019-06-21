@@ -87,6 +87,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
         isCapture
         delayHide={TOOLTIP_HIDE_DELAY_MS}
         className='map-sidebar__tooltip'
+        id={`tooltip-${zipcode}`}
       />
     </>
   )

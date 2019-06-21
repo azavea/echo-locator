@@ -16,7 +16,7 @@ export default function Meter ({
   const tier = getTier(percentage)
 
   return (
-    <div className='meter' data-tip={tooltip}>
+    <div className='meter' data-tip={tooltip} data-for={`tooltip-${id}`}>
       <svg
         className='meter__chart'
         viewBox={`0 0 ${width} ${height}`}

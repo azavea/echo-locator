@@ -59,7 +59,7 @@ export default function RentalUnitsMeter ({
   })
 
   return (
-    <div className='rental-units-meter' data-tip={tooltip}>
+    <div className='rental-units-meter' data-tip={tooltip} data-for={`tooltip-${id}`}>
       {filledIcons}
       {unfilledIcons}
     </div>
