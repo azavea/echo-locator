@@ -54,7 +54,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
               tooltip={edTooltip} />
           </td>}
           {isSchoolChoice && <td className='neighborhood-facts__text'>
-            <a href={schoolChoiceLink} target='blank'>
+            <a href={schoolChoiceLink} target='_blank' className='neighborhood-facts__school-choice'>
               {message('NeighborhoodInfo.SchoolChoice')}
             </a>
           </td>}

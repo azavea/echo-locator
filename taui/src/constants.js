@@ -40,6 +40,10 @@ export const DEFAULT_PROFILE_DESTINATION_TYPE = 'Work'
 export const PROFILE_DESTINATION_TYPES = [
   'Work',
   'Daycare',
+  'Family',
+  'Friends',
+  'Worship',
+  'Doctor',
   'Other'
 ]
 

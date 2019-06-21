@@ -33,8 +33,9 @@ Map:
     ClearMarkers: Clear markers
   Unreachable: Unreachable by transit
 Dock:
-  LocationLabel: From
-  NetworkLabel: When
+  FormHeading: Show travel times …
+  LocationLabel: from
+  NetworkLabel: when
   Favorites: Saved recommendations
   GoBackToRecommendations: Back to your recommendations
   GoBackToFavorites: Back to saved recommendations
@@ -64,7 +65,7 @@ NeighborhoodDetails:
   WikipediaLink: Wikipedia
   ZillowSearchLink: Zillow
 NeighborhoodInfo:
-  SchoolChoice: School choice
+  SchoolChoice: School choice options »
   EducationCategory: Schools
   Population: Population
   RentalUnits: Rental units
@@ -117,14 +118,14 @@ Profile:
   DeleteDestination: Delete this destination
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
-  Destinations: Frequent destinations
-  ImportanceAccessibility: Travel time
+  Destinations: Where do you go most frequently (besides your home)?
+  ImportanceAccessibility: Commute time
   ImportanceHeading: How important are these factors when choosing a home?
   ImportanceSchools: School quality
   ImportanceViolentCrime: Public safety
   Primary: Primary
   Purpose: Purpose
-  Rooms: Number of rooms in voucher
+  Rooms: Number of bedrooms in voucher
   Go: Save profile
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
@@ -134,10 +135,10 @@ Tooltips:
   AboveAverage: above average
   Average: about average
   BelowAverage: below average
-  Education: "<p>%(town) schools are %(averageRelation) for the state and rank<br />higher than %(edPercentile)% of other school districts when considering<br />overall school quality and performance of low-income students.<br />(Source: <a href=\"http://profiles.doe.mass.edu/\" target=\"blank\">MA DOE</a>.)</p>"
-  ViolentCrime: "<p>%(town) has %(averageRelation) public safety,<br />safer than %(crimePercentile)% of other zipcodes in the state.<br />(Source: <a href=\"https://www.fbi.gov/services/cjis/ucr\" target=\"blank\">FBI Uniform Crime Reporting violent crime data</a>.)</p>"
-  ViolentCrimeBoston: "<p>%(town) has %(averageRelation) public safety,<br />safer than %(crimePercentile)% of other zipcodes in the state.<br />(Source: <a href=\"https://data.boston.gov/\" target=\"blank\">Boston Police Department Incident Reports</a>.)</p>"
-  RentalUnits: "<p>%(town) has an %(averageRelation) number of rental units for the state.<br />From 2017-2018 there were %(totalMapc) units listed on Craigslist.<br />(Source: <a href=\"https://www.mapc.org/\" target=\"blank\">MAPC</a>.)</p>"
+  Education: "<p><strong>%(town)</strong> schools are <strong>%(averageRelation)</strong> for the state and rank higher than <strong>%(edPercentile)%</strong> of other school districts when considering overall school quality and performance of low-income students. (Source: <a href=\"http://profiles.doe.mass.edu/\" target=\"_blank\">MA DOE</a>)</p>"
+  ViolentCrime: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://www.fbi.gov/services/cjis/ucr\" target=\"_blank\">FBI Uniform Crime Reporting violent crime data</a>)</p>"
+  ViolentCrimeBoston: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://data.boston.gov/\" target=\"_blank\">Boston Police Department Incident Reports</a>)</p>"
+  RentalUnits: "<p><strong>%(town)</strong> has an <strong>%(averageRelation)</strong> number of rental units for the state. From 2017-2018 there were <strong>%(totalMapc)</strong> units listed on Craigslist. (Source: <a href=\"https://www.mapc.org/\" target=\"_blank\">MAPC</a>)</p>"
 ImportanceLabels:
   1: Not important
   2: Somewhat important
@@ -164,7 +165,11 @@ QuintileLabels:
     5: High
 TripPurpose:
   Daycare: Day care
+  Doctor: Doctor
+  Family: Family
+  Friends: Friends
   Other: Other
+  Worship: Worship
   Work: Work
 Booleans:
   Yes: Yes

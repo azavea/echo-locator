@@ -204,6 +204,7 @@ export default class Dock extends PureComponent<Props> {
     const {
       endingOffset,
       neighborhoods,
+      totalNeighborhoodCount,
       origin,
       startingOffset,
       showFavorites
@@ -217,9 +218,13 @@ export default class Dock extends PureComponent<Props> {
       <>
         <header className='map-sidebar__neighborhoods-header'>
           <h2 className='map-sidebar__neighborhoods-heading'>
-            {!showFavorites ? message('Dock.Recommendations') : message('Dock.Favorites')}
-            &nbsp;
-            {endingOffset > 0 && `${startingOffset + 1}–${endingOffset}`}
+            {showFavorites && message('Dock.Favorites')}
+            {!showFavorites && <>
+                {message('Dock.Recommendations')}
+                &nbsp;
+                {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
+              </>
+            }
           </h2>
           <div className='map-sidebar__neighborhoods-actions'>
             <button
@@ -252,6 +257,7 @@ export default class Dock extends PureComponent<Props> {
       endingOffset,
       haveAnotherPage,
       isLoading,
+      neighborhoods,
       neighborhoodPage,
       origin,
       page,
@@ -266,6 +272,7 @@ export default class Dock extends PureComponent<Props> {
     const backFromDetails = this.backFromDetails
 
     const startingOffset = page * SIDEBAR_PAGE_SIZE
+    const totalNeighborhoodCount = (neighborhoods && neighborhoods.length) || 0
 
     return <div className='map-sidebar' ref={this.sidebar}>
       {componentError &&
@@ -279,6 +286,7 @@ export default class Dock extends PureComponent<Props> {
           {...this.props}
           changeUserProfile={changeUserProfile}
           neighborhoods={neighborhoodPage}
+          totalNeighborhoodCount={totalNeighborhoodCount}
           endingOffset={endingOffset}
           origin={origin}
           setFavorite={setFavorite}
