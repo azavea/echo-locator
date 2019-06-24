@@ -1,15 +1,22 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
+import concat from 'lodash/concat'
 import filter from 'lodash/filter'
+import findIndex from 'lodash/findIndex'
 import get from 'lodash/get'
+import includes from 'lodash/includes'
 import orderBy from 'lodash/orderBy'
+import pullAt from 'lodash/pullAt'
 import {createSelector} from 'reselect'
 
 import {
+  BOOST_DOWNTOWN_RESULT_PLACE,
   DEFAULT_ACCESSIBILITY_IMPORTANCE,
   DEFAULT_CRIME_IMPORTANCE,
   DEFAULT_SCHOOLS_IMPORTANCE,
-  MAX_IMPORTANCE
+  DOWNTOWN_AREAS,
+  MAX_IMPORTANCE,
+  RESULTS_WITH_DOWNTOWN
 } from '../constants'
 import {NeighborhoodProperties} from '../types'
 import scale from '../utils/scaling'
@@ -131,7 +138,23 @@ export default createSelector(
       }, n)
     }), n => !useTransit || (n.segments && n.segments.length && n.time < MAX_TRAVEL_TIME))
 
-    return orderBy(neighborhoodsWithRoutes, ['score'], ['desc'])
+    const ordered = orderBy(neighborhoodsWithRoutes, ['score'], ['desc'])
+
+    // Boost the first downtown result into the BOOST_DOWNTOWN_RESULT_PLACE
+    // if there's not already a downtown result in the top RESULTS_WITH_DOWNTOWN results.
+    const firstDowntownIndex = findIndex(ordered, n => {
+      const townArea = n.properties['town_area']
+      return townArea && includes(DOWNTOWN_AREAS, townArea)
+    })
+    if (firstDowntownIndex >= RESULTS_WITH_DOWNTOWN - 1) {
+      // extract first downtown result, removing it from `ordered` array
+      const firstDowntown = pullAt(ordered, firstDowntownIndex)
+      // splice returns the members removed from the start, mutating `ordered` in place
+      const reorderedStart = ordered.splice(0, BOOST_DOWNTOWN_RESULT_PLACE - 1)
+      return concat(reorderedStart, firstDowntown, ordered)
+    } else {
+      return ordered
+    }
   }
 )
 

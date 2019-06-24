@@ -15,11 +15,18 @@ export const IMAGE_FIELDS = [
 // Value in `town_area` column of source data for grouping zip codes in Boston
 export const BOSTON_TOWN_AREA = 'Boston'
 
+// `town-area`s considered to be downtown, for special boosting in results
+export const DOWNTOWN_AREAS = [BOSTON_TOWN_AREA]
+// Include at least one downtown result in this many of the top results
+export const RESULTS_WITH_DOWNTOWN = 6
+// Place in the top results for boosted downtown results
+export const BOOST_DOWNTOWN_RESULT_PLACE = 3
+
 export const BOSTON_SCHOOL_CHOICE_LINK = 'https://discover.bostonpublicschools.org/'
 export const CAMBRIDGE_SCHOOL_CHOICE_LINK = 'https://www.cpsd.us/'
 
 // Allow clicking links in tooltips by delaying hide/update
-export const TOOLTIP_HIDE_DELAY_MS = 1000
+export const TOOLTIP_HIDE_DELAY_MS = 150
 
 // Maximum number of destinations that may be added to a user profile
 export const MAX_ADDRESSES = 3
