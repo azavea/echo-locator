@@ -15,6 +15,13 @@ export const IMAGE_FIELDS = [
 // Value in `town_area` column of source data for grouping zip codes in Boston
 export const BOSTON_TOWN_AREA = 'Boston'
 
+// `town-area`s considered to be downtown, for special boosting in results
+export const DOWNTOWN_AREAS = [BOSTON_TOWN_AREA]
+// Include at least one downtown result in this many of the top results
+export const RESULTS_WITH_DOWNTOWN = 6
+// Place in the top results for boosted downtown results
+export const BOOST_DOWNTOWN_RESULT_PLACE = 3
+
 export const BOSTON_SCHOOL_CHOICE_LINK = 'https://discover.bostonpublicschools.org/'
 export const CAMBRIDGE_SCHOOL_CHOICE_LINK = 'https://www.cpsd.us/'
 
