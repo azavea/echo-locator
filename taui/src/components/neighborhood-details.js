@@ -9,7 +9,6 @@ import type {AccountProfile, NeighborhoodImageMetadata} from '../types'
 import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getGoogleSearchLink from '../utils/google-search-link'
-import getGoogleMapsLink from '../utils/google-maps-link'
 import getNeighborhoodImage from '../utils/neighborhood-images'
 import getZillowSearchLink from '../utils/zillow-search-link'
 import PolygonIcon from '../icons/polygon-icon'
@@ -193,13 +192,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           >
             {message('NeighborhoodDetails.GoogleSearchLink')}
           </a>
-          <a
-            className='neighborhood-details__link'
-            href={getGoogleMapsLink(neighborhood.properties.id)}
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.GoogleMapsLink')}
-          </a>
         </div>
       </>
     )
@@ -254,7 +246,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             <ModesList segments={bestJourney} />&nbsp;
             {message('NeighborhoodDetails.FromOrigin')}&nbsp;
             {currentDestination && currentDestination.purpose.toLowerCase()}
-            {hasVehicle && <a
+            <a
               className='neighborhood-details__directions'
               href={getGoogleDirectionsLink(
                 originCoordinateString,
@@ -263,7 +255,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               target='_blank'
             >
               {message('NeighborhoodDetails.DirectionsLink')}
-            </a>}
+            </a>
           </div>
           {!hasVehicle && <RouteSegments
             hasVehicle={hasVehicle}
