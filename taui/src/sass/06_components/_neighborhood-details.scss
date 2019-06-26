@@ -44,15 +44,15 @@
     @include font-weight(bold);
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
   }
 
   &__directions {
     @include link-states() {
       color: $primary;
     }
-    margin-left: auto;
+    margin-left: 1.6rem;
   }
 
   .route-segments {

@@ -72,7 +72,7 @@
   "devDependencies": {
     "core-js": "~2.6.9",
     "mastarm": "https://github.com/azavea/mastarm.git#dev",
-    "semantic-release": "^15.13.16",
+    "semantic-release": "^15.13.18",
     "stylelint": "^9.6.0",
     "stylelint-azavea": "https://github.com/azavea/stylelint-azavea#develop"
   },
