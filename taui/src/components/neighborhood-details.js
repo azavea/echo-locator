@@ -166,6 +166,13 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           >
             {message('NeighborhoodDetails.ChildCareSearchLink')}
           </a>
+          <a
+            className='neighborhood-details__link'
+            href='http://bha.cvrapps.com/'
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.RentEstimatorLink')}
+          </a>
         </div>
         <h6 className='neighborhood-details__link-heading'>
           {message('NeighborhoodDetails.AboutNeighborhoodLinksHeading')}
