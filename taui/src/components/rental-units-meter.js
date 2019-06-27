@@ -23,7 +23,7 @@ export default function RentalUnitsMeter ({
   }
 
   const unfilledCount = NUM_ICONS - value
-  const tier = getTier(value / NUM_ICONS)
+  const tier = getTier(value, 'rental')
 
   const filledIcons = []
   for (let i = 0; i < value; i++) {
