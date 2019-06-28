@@ -218,7 +218,12 @@ export default class Dock extends PureComponent<Props> {
       <>
         <header className='map-sidebar__neighborhoods-header'>
           <h2 className='map-sidebar__neighborhoods-heading'>
-            {showFavorites && message('Dock.Favorites')}
+            {showFavorites && <>
+                {message('Dock.Favorites')}
+                &nbsp;
+                {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
+              </>
+            }
             {!showFavorites && <>
                 {message('Dock.Recommendations')}
                 &nbsp;
