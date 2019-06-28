@@ -55,6 +55,7 @@
     "logrocket-react": "~3.0.0",
     "react": "~16.8.6",
     "react-dom": "~16.8.6",
+    "react-ga": "~2.6.0",
     "react-leaflet": "~1.9.1",
     "react-leaflet-vectorgrid": "~2.2.1",
     "react-redux": "~5.1.1",

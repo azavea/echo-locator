@@ -143,8 +143,11 @@
       color: $primary;
     }
 
+    line-height: 2;
+    white-space: nowrap;
+
     &:not(:last-child) {
-      margin-right: 2.4rem;
+      margin-right: 1.6rem;
     }
   }
 }

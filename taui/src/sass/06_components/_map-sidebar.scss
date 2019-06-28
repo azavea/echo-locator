@@ -132,11 +132,35 @@
     }
   }
 
-  &__attribution {
-    @include text(200);
+  &__footer {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
     margin-top: auto;
     padding-top: 3.2rem;
     color: $gray-600;
     text-align: center;
+  }
+
+  &__feedback {
+    margin-bottom: 2.4rem;
+
+    &:hover,
+    &:active {
+      color: $primary;
+    }
+  }
+
+  &__feedback-icon {
+    margin-right: 0.6rem;
+  }
+
+  &__attribution {
+    @include text(200);
+
+    &:hover,
+    &:active {
+      color: $primary;
+    }
   }
 }

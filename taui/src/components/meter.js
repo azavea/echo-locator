@@ -13,7 +13,7 @@ export default function Meter ({
 }) {
   const percentage = value / max
   const percentageLabel = Math.round(percentage * 100)
-  const tier = getTier(percentage)
+  const tier = getTier(value, category)
 
   return (
     <div className='meter' data-tip={tooltip} data-for={`tooltip-${id}`}>

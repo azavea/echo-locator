@@ -37,6 +37,7 @@ Dock:
   LocationLabel: from
   NetworkLabel: when
   Favorites: Saved recommendations
+  FeedbackLink: ECHOLocator needs your feedback
   GoBackToRecommendations: Back to your recommendations
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
@@ -45,8 +46,10 @@ Dock:
   Recommendations: Your recommendations
   ShowAllButton: All
   ShowSavedButton: Saved
+  SiteBy: site by Azavea
 NeighborhoodDetails:
   AboutNeighborhoodLinksHeading: Learn about this neighborhood
+  ApartmentsDotComLink: Apartments.com
   ChildCareSearchLink: Child Care Search
   CraigslistSearchLink: Craigslist
   DirectionsLink: Directions
@@ -58,6 +61,7 @@ NeighborhoodDetails:
   MaxRent: Est. max rent
   ModeSummary: via
   MoreSearchToolsLinksHeading: More search tools
+  RentEstimatorLink: Rent Estimator
   Section8Link: Section 8
   TransitMode: transit
   WebsiteLink: Website
@@ -90,6 +94,7 @@ Agency: Boston Housing Authority
 SignIn:
   Anonymous: Continue without an account
   AnonymousExplanation: Don't have an account?
+  Greeting: Improving Housing Search for Voucher Families
 Header:
   New: New search
   Edit: Edit profile
