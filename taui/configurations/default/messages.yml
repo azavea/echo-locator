@@ -37,6 +37,7 @@ Dock:
   LocationLabel: from
   NetworkLabel: when
   Favorites: Saved recommendations
+  FeedbackLink: ECHOLocator needs your feedback
   GoBackToRecommendations: Back to your recommendations
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
@@ -45,6 +46,7 @@ Dock:
   Recommendations: Your recommendations
   ShowAllButton: All
   ShowSavedButton: Saved
+  SiteBy: site by Azavea
 NeighborhoodDetails:
   AboutNeighborhoodLinksHeading: Learn about this neighborhood
   ChildCareSearchLink: Child Care Search
