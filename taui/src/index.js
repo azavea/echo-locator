@@ -6,6 +6,7 @@ import mount from '@conveyal/woonerf/mount'
 import get from 'lodash/get'
 import LogRocket from 'logrocket'
 import React from 'react'
+import ReactGA from 'react-ga'
 import { connect } from 'react-redux'
 import { BrowserRouter, withRouter } from 'react-router-dom'
 import {
@@ -25,6 +26,7 @@ import { CustomAuthenticatorTheme } from './amplify-theme'
 import Application from './components/application'
 import CustomSignIn from './components/custom-sign-in'
 import withAuthenticator from './components/with-authenticator'
+import withTracker from './components/with-tracker'
 import reducers from './reducers'
 import * as select from './selectors'
 import 'focus-visible'
@@ -58,6 +60,11 @@ if (process.env.LOGROCKET_APP_ID) {
   })
 }
 
+// configure Google Analytics
+if (process.env.GOOGLE_ANALYTICS_ID) {
+  ReactGA.initialize(process.env.GOOGLE_ANALYTICS_ID)
+}
+
 function mapStateToProps (state, ownProps) {
   return {
     ...state,
@@ -87,7 +94,7 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-const ConnectedApplication = withRouter(connect(mapStateToProps, actions)(
+const ConnectedApplication = withRouter(withTracker(connect(mapStateToProps, actions)(
   withAuthenticator(Application, true, [
     <CustomSignIn override={SignIn} />,
     <ConfirmSignIn />,
@@ -97,7 +104,7 @@ const ConnectedApplication = withRouter(connect(mapStateToProps, actions)(
     <RequireNewPassword />,
     <TOTPSetup />,
     <VerifyContact />
-  ], null, CustomAuthenticatorTheme)))
+  ], null, CustomAuthenticatorTheme))))
 
 // Create an Application wrapper
 class InitializationWrapper extends React.Component {
