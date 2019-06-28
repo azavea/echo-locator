@@ -122,13 +122,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         <div className='neighborhood-details__links'>
           <a
             className='neighborhood-details__link'
-            href='/'
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.Section8Link')}
-          </a>
-          <a
-            className='neighborhood-details__link'
             href={getZillowSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
@@ -152,6 +145,13 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           {message('NeighborhoodDetails.MoreSearchToolsLinksHeading')}
         </h6>
         <div className='neighborhood-details__links'>
+          <a
+            className='neighborhood-details__link'
+            href='https://www.apartments.com/'
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.ApartmentsDotComLink')}
+          </a>
           <a
             className='neighborhood-details__link'
             href='https://www.masshousing.com/portal/server.pt/community/rental_housing/240/looking_for_an_affordable_apartment_'
