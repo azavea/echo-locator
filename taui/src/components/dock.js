@@ -316,8 +316,22 @@ export default class Dock extends PureComponent<Props> {
         <ButtonRow {...this.props}
           haveAnotherPage={haveAnotherPage} page={page}
         />}
-      <div className='map-sidebar__attribution'>
-        site by <a href='https://www.azavea.com' target='_blank'>Azavea</a>
+      <div className='map-sidebar__footer'>
+        <a
+          href='https://www.mysurveygizmo.com/s3/5088311/ECHOLocator-Feedback-tool'
+          target='_blank'
+          className='map-sidebar__feedback'
+        >
+          <Icon type='comment-o' className='map-sidebar__feedback-icon' />
+          {message('Dock.FeedbackLink')}
+        </a>
+        <a
+          href='https://www.azavea.com'
+          target='_blank'
+          className='map-sidebar__attribution'
+        >
+          {message('Dock.SiteBy')}
+        </a>
       </div>
     </div>
   }
