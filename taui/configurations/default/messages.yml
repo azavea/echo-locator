@@ -91,6 +91,7 @@ Agency: Boston Housing Authority
 SignIn:
   Anonymous: Continue without an account
   AnonymousExplanation: Don't have an account?
+  Greeting: Improving Housing Search for Voucher Families
 Header:
   New: New search
   Edit: Edit profile
