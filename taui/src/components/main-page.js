@@ -108,8 +108,6 @@ export default class MainPage extends React.PureComponent<Props> {
   render () {
     const p = this.props
     const mapScreenClass = p.isLoading ? 'map-screen isLoading' : 'map-screen'
-    const neighborhoodCount = p.data.neighborhoods && p.data.neighborhoods.features
-      ? p.data.neighborhoods.features.length : 0
 
     return (
       <div className={mapScreenClass}>
@@ -121,7 +119,7 @@ export default class MainPage extends React.PureComponent<Props> {
           endingOffset={p.pageEndingOffset}
           haveAnotherPage={p.haveAnotherPage}
           isLoading={p.isLoading}
-          neighborhoodCount={neighborhoodCount}
+          neighborhoodCount={p.routableNeighborhoodCount}
           neighborhoodPage={p.displayPageNeighborhoods}
           origin={p.data.origin}
           page={p.data.page}
