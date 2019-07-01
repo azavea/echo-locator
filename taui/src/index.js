@@ -87,6 +87,7 @@ function mapStateToProps (state, ownProps) {
     pageEndingOffset: select.pageEndingOffset(state, ownProps),
     pointsOfInterest: get(state, 'data.pointsOfInterest'),
     pointsOfInterestOptions: select.pointsOfInterestOptions(state, ownProps),
+    routableNeighborhoodCount: select.routableNeighborhoodCount(state, ownProps),
     routableNeighborhoods: select.routableNeighborhoods(state, ownProps),
     showComparison: select.showComparison(state, ownProps),
     travelTimes: select.travelTimes(state, ownProps),
