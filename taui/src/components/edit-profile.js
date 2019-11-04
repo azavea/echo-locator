@@ -347,6 +347,7 @@ export default class EditProfile extends PureComponent<Props> {
               type='radio'
               onChange={(e) => setPrimaryAddress(index, e)}
               checked={!!destination.primary}
+              autoComplete='off'
             />
           </div>
           <div className='account-profile__destination_field account-profile__destination_field--xnarrow account-profile__destination_field--center'>
@@ -486,6 +487,7 @@ export default class EditProfile extends PureComponent<Props> {
                 type='text'
                 onChange={(e) => changeField('headOfHousehold', e.currentTarget.value)}
                 defaultValue={headOfHousehold || ''}
+                autoComplete='off'
               />
             </div>}
             <div className='account-profile__field'>
@@ -509,6 +511,7 @@ export default class EditProfile extends PureComponent<Props> {
                     type='radio'
                     onChange={(e) => changeField('hasVehicle', e.currentTarget.checked)}
                     defaultChecked={hasVehicle}
+                    autoComplete='off'
                   />
                   <label
                     className='account-profile__label account-profile__label--secondary'
@@ -524,6 +527,7 @@ export default class EditProfile extends PureComponent<Props> {
                     type='radio'
                     onChange={(e) => changeField('hasVehicle', !e.currentTarget.checked)}
                     defaultChecked={!hasVehicle}
+                    autoComplete='off'
                   />
                   <label
                     className='account-profile__label account-profile__label--secondary'
@@ -538,6 +542,7 @@ export default class EditProfile extends PureComponent<Props> {
                     type='checkbox'
                     onChange={(e) => changeField('useCommuterRail', e.currentTarget.checked)}
                     defaultChecked={useCommuterRail}
+                    autoComplete='off'
                   />
                   <label
                     className='account-profile__label account-profile__label--secondary'

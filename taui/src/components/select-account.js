@@ -146,6 +146,7 @@ export default class SelectAccount extends PureComponent<Props> {
                     className='account-search__input'
                     id='voucher'
                     type='text'
+                    autoComplete='off'
                     onChange={changeVoucherNumber}
                     value={state.voucherNumber}
                   />
