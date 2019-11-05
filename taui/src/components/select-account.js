@@ -1,4 +1,5 @@
 // @flow
+import Auth from '@aws-amplify/auth'
 import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
@@ -38,7 +39,7 @@ export default class SelectAccount extends PureComponent<Props> {
 
   createAccount () {
     const search = this.search
-    const voucher = this.state.voucherNumber
+    const voucher = this.state.voucherNumber.toUpperCase().replace(/\s+/g, '')
 
     if (!voucher) {
       this.setState({errorMessage: message('Accounts.MissingVoucherNumber')})
@@ -50,8 +51,6 @@ export default class SelectAccount extends PureComponent<Props> {
       this.setState({errorMessage: ''})
     }
 
-    const key = voucher.toUpperCase()
-
     // Default profile
     const profile: AccountProfile = {
       destinations: [],
@@ -61,13 +60,13 @@ export default class SelectAccount extends PureComponent<Props> {
       importanceAccessibility: DEFAULT_ACCESSIBILITY_IMPORTANCE,
       importanceSchools: DEFAULT_SCHOOLS_IMPORTANCE,
       importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE,
-      key: key,
+      key: voucher,
       rooms: 0,
       useCommuterRail: true,
       voucherNumber: voucher
     }
 
-    Storage.put(key, JSON.stringify(profile))
+    Storage.put(voucher, JSON.stringify(profile))
       .then(result => {
         search() // Refresh results; will find and go to the new profile
       })
@@ -97,11 +96,17 @@ export default class SelectAccount extends PureComponent<Props> {
     Storage.get(key, {download: true, expires: 60}).then(result => {
       const text = result.Body.toString('utf-8')
       const profile: AccountProfile = JSON.parse(text)
-      this.props.changeUserProfile(profile)
-      // Skip profile page and go to map if profile exists and has destinations set
-      const destination = profile && profile.destinations &&
-        profile.destinations.length ? '/map' : '/profile'
-      this.props.history.push({pathname: destination, state: {fromApp: true}})
+      this.props.changeUserProfile(profile).then(didChange => {
+        if (didChange) {
+          // Skip profile page and go to map if profile exists and has destinations set
+          const destination = profile && profile.destinations &&
+            profile.destinations.length ? '/map' : '/profile'
+          this.props.history.push({pathname: destination, state: {fromApp: true}})
+        } else {
+          // Failed to set profile (maybe due to voucher number mismatch; shouldn't get here)
+          this.setState({errorMessage: message('Accounts.SelectError')})
+        }
+      })
     }).catch(err => {
       // If file not found, error message returned has `code` / `name`: NoSuchKey
       // and `message`: The specified key does not exist `statusCode`: 404

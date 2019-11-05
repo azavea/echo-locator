@@ -1,4 +1,5 @@
 // @flow
+import Auth from '@aws-amplify/auth'
 import { Component, Fragment } from 'react'
 import { Authenticator } from 'aws-amplify-react/dist/Auth'
 import LogRocket from 'logrocket'
@@ -20,6 +21,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
 
       this.changeUserProfile = this.changeUserProfile.bind(this)
       this.handleAuthStateChange = this.handleAuthStateChange.bind(this)
+      this.validateVoucherNumber = this.validateVoucherNumber.bind(this)
 
       this.state = {
         authState: props.authState || null,
@@ -44,9 +46,56 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       this.props.loadProfile()
     }
 
-    changeUserProfile (profile: AccountProfile) {
-      storeConfig(PROFILE_CONFIG_KEY, profile)
-      this.props.store.dispatch({type: 'set profile', payload: profile})
+    /**
+     * Returns promise that resovles to `true` if the voucher number and `key` on the given
+     * account profile match each other and the voucher number attribute on the currently
+     * logged-in user's Cognito account. Counselors have no voucher number assigned in Cognito,
+     * so for them, it only checks that the voucher number and key match.
+     */
+    validateVoucherNumber (profile: AccountProfile): Promise<boolean> {
+      return new Promise((resolve, reject) => {
+        // Call to get Cognito profile (copy of profile in local storage can be manipulated).
+        Auth.currentUserInfo().then(data => {
+          if (data && data.attributes) {
+            const vnum = data.attributes['custom:voucher']
+            if (!profile || !profile.voucherNumber || !profile.key) {
+              console.error('Cannot verify profile voucher number because it is missing.')
+              resolve(false)
+            }
+            // counselor account
+            if (!vnum) {
+              resolve(profile.voucherNumber === profile.key)
+            }
+            // client account; verify Cognito voucher number matches profile voucher and key
+            resolve(profile.voucherNumber === vnum && vnum === profile.key)
+          } else {
+            console.error('Failed to get Cognito profile attributes for currently logged in user.')
+            resolve(false)
+          }
+        }).catch(err => {
+          console.error('Failed to fetch Cognito profile for currently logged in user.')
+          console.error(err)
+          resolve(false)
+        })
+      })
+    }
+
+    // Returns promise that resolves to `true` if successful
+    changeUserProfile (profile: AccountProfile): Promise<boolean> {
+      // First verify that if this is a client account, the voucher number of the profile
+      // matches the voucher number of the logged-in user.
+      return new Promise((resolve, reject) => {
+        this.validateVoucherNumber(profile).then(isValid => {
+          if (isValid) {
+            storeConfig(PROFILE_CONFIG_KEY, profile)
+            this.props.store.dispatch({type: 'set profile', payload: profile})
+            resolve(true)
+          } else {
+            console.error('Cannot change user profile; voucher number does not match.')
+            resolve(false)
+          }
+        })
+      })
     }
 
     handleAuthStateChange (state, data) {
