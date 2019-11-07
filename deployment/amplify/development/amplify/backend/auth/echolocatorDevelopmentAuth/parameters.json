@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "echolocatorDevIdentityPool",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "echolo1d14b8b2",
-    "userPoolName": "echolocatorDevUserPool",
+    "identityPoolName": "echolocatorDevelopmentIDPool",
+    "allowUnauthenticatedIdentities": true,
+    "resourceNameTruncated": "echolobc426169",
+    "userPoolName": "echolocatorDevelopmentUserPool",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -23,19 +23,22 @@
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": "90",
     "userpoolClientWriteAttributes": [
-        "email"
+        "phone_number",
+        "email",
+        "custom:voucher"
     ],
     "userpoolClientReadAttributes": [
         "email",
         "phone_number",
         "email_verified",
-        "phone_number_verified"
+        "phone_number_verified",
+        "custom:voucher"
     ],
-    "userpoolClientLambdaRole": "echolo1d14b8b2_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "echolobc426169_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": true,
     "useDefault": "manual",
     "authSelections": "identityPoolAndUserPool",
-    "resourceName": "echolocatorDevAuth",
+    "resourceName": "echolocatorDevelopmentAuth",
     "thirdPartyAuth": false,
     "userPoolGroups": true,
     "adminQueries": false,
