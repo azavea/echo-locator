@@ -21,5 +21,27 @@
 			"providerPlugin": "awscloudformation",
 			"dependsOn": []
 		}
+	},
+	"storage": {
+		"echolocatorDevStorage": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "echolocatorDevelopmentAuth",
+					"attributes": [
+						"UserPoolId"
+					]
+				},
+				{
+					"category": "auth",
+					"resourceName": "userPoolGroups",
+					"attributes": [
+						"counselorsGroupRole"
+					]
+				}
+			]
+		}
 	}
 }
