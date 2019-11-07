@@ -100,7 +100,7 @@ Parameters:
                     
   userPoolGroupList:
     Type: CommaDelimitedList
-                                                
+                                    
   parentStack:
     Type: String
                 
@@ -121,7 +121,7 @@ Resources:
   # Created to allow the UserPool SMS Config to publish via the Simple Notification Service during MFA Process
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !If [ShouldNotCreateEnvResources, 'echoloa65db624_sns-role', !Join ['',['echoloa65db624_sns-role', '-', !Ref env]]]
+      RoleName: !If [ShouldNotCreateEnvResources, 'echolo1d14b8b2_sns-role', !Join ['',['echolo1d14b8b2_sns-role', '-', !Ref env]]]
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement: 
@@ -133,10 +133,10 @@ Resources:
               - "sts:AssumeRole"
             Condition: 
               StringEquals:
-                sts:ExternalId: echoloa65db624_role_external_id
+                sts:ExternalId: echolo1d14b8b2_role_external_id
       Policies: 
         - 
-          PolicyName: echoloa65db624-sns-policy
+          PolicyName: echolo1d14b8b2-sns-policy
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
@@ -182,7 +182,7 @@ Resources:
       SmsVerificationMessage: !Ref smsVerificationMessage
       SmsConfiguration: 
         SnsCallerArn: !GetAtt SNSRole.Arn
-        ExternalId: echoloa65db624_role_external_id
+        ExternalId: echolo1d14b8b2_role_external_id
     
   
     
@@ -202,7 +202,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: echoloa65db624_app_clientWeb
+      ClientName: echolo1d14b8b2_app_clientWeb
       
       ReadAttributes: !Ref userpoolClientReadAttributes
       WriteAttributes: !Ref userpoolClientWriteAttributes
@@ -215,7 +215,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: echoloa65db624_app_client
+      ClientName: echolo1d14b8b2_app_client
       
       ReadAttributes: !Ref userpoolClientReadAttributes
       WriteAttributes: !Ref userpoolClientWriteAttributes
@@ -283,7 +283,7 @@ Resources:
   # Marked as depending on UserPoolClientRole for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: echoloa65db624_userpoolclient_lambda_iam_policy
+      PolicyName: echolo1d14b8b2_userpoolclient_lambda_iam_policy
       Roles: 
         - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
       PolicyDocument:
@@ -300,7 +300,7 @@ Resources:
   # Marked as depending on UserPoolClientLambdaPolicy for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: echoloa65db624_userpoolclient_lambda_log_policy
+      PolicyName: echolo1d14b8b2_userpoolclient_lambda_log_policy
       Roles: 
         - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
       PolicyDocument:

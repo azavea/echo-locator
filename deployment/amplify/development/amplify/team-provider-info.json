@@ -1,14 +1,14 @@
 {
     "dev": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-echolocator-dev-120438-authRole",
-            "UnauthRoleArn": "arn:aws:iam::715496170458:role/amplify-echolocator-dev-120438-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::715496170458:role/amplify-echolocator-dev-120438-authRole",
+            "AuthRoleName": "amplify-echolocator-dev-153558-authRole",
+            "UnauthRoleArn": "arn:aws:iam::715496170458:role/amplify-echolocator-dev-153558-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::715496170458:role/amplify-echolocator-dev-153558-authRole",
             "Region": "us-east-1",
-            "DeploymentBucketName": "amplify-echolocator-dev-120438-deployment",
-            "UnauthRoleName": "amplify-echolocator-dev-120438-unauthRole",
-            "StackName": "amplify-echolocator-dev-120438",
-            "StackId": "arn:aws:cloudformation:us-east-1:715496170458:stack/amplify-echolocator-dev-120438/aeacbfe0-0180-11ea-9922-1271b8f35690"
+            "DeploymentBucketName": "amplify-echolocator-dev-153558-deployment",
+            "UnauthRoleName": "amplify-echolocator-dev-153558-unauthRole",
+            "StackName": "amplify-echolocator-dev-153558",
+            "StackId": "arn:aws:cloudformation:us-east-1:715496170458:stack/amplify-echolocator-dev-153558/34b2e020-019e-11ea-9f6e-12bdd946785e"
         },
         "categories": {
             "auth": {
