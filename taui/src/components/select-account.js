@@ -77,22 +77,8 @@ export default class SelectAccount extends PureComponent<Props> {
       })
   }
 
-  search () {
-    // Capitalize and strip whitespace from voucher numbers to normalize
-    const searchVoucher = this.state.voucherNumber.toUpperCase().replace(/\s+/g, '')
-    if (!searchVoucher) {
-      this.setState({errorMessage: message('Accounts.SearchError')})
-      return
-    } else if (!validateVoucherNumber(searchVoucher)) {
-      this.setState({errorMessage: message('Accounts.InvalidVoucherNumber')})
-      return
-    } else {
-      this.setState({errorMessage: ''})
-    }
-    this.selectAccount(searchVoucher)
-  }
-
-  selectAccount (key) {
+  // given an s3 key, fetch the profile for that key and use it
+  goToProfile (key: string) {
     Storage.get(key, {download: true, expires: 60}).then(result => {
       const text = result.Body.toString('utf-8')
       const profile: AccountProfile = JSON.parse(text)
@@ -110,10 +96,12 @@ export default class SelectAccount extends PureComponent<Props> {
     }).catch(err => {
       // If file not found, error message returned has `code` / `name`: NoSuchKey
       // and `message`: The specified key does not exist `statusCode`: 404
-      // This is an expected case.
+      // Should not happen, as key would not have been found by s3 list operation.
       if (err.code === 'NoSuchKey') {
+        console.error('Failed to get key found on s3: ' + key)
         this.setState({noResults: true})
       } else {
+        console.error(err.code)
         // This is an actual error.
         // `code`: CredentialsError will occur if attempting to access when not signed in
         // (should not happen)
@@ -121,6 +109,61 @@ export default class SelectAccount extends PureComponent<Props> {
         console.error('Failed to fetch account profile from S3 for key ' + key)
         console.error(err)
       }
+    })
+  }
+
+  search () {
+    // Capitalize and strip whitespace from voucher numbers to normalize
+    const searchVoucher = this.state.voucherNumber.toUpperCase().replace(/\s+/g, '')
+    if (!searchVoucher) {
+      this.setState({errorMessage: message('Accounts.SearchError')})
+      return
+    } else if (!validateVoucherNumber(searchVoucher)) {
+      this.setState({errorMessage: message('Accounts.InvalidVoucherNumber')})
+      return
+    } else {
+      this.setState({errorMessage: ''})
+    }
+    this.selectAccount(searchVoucher)
+  }
+
+  selectAccount (voucher) {
+    Auth.currentSession().then(data => {
+      if (data && data.idToken && data.idToken.payload) {
+        const groups = data.idToken.payload['cognito:groups']
+        if (groups && groups.length > 0 && groups.indexOf('counselors') > -1) {
+          console.log('user is a counselor!')
+          Storage.list(voucher).then(s3list => {
+            console.log('found profiles matching voucher:')
+            console.log(s3list)
+            if (!s3list || s3list.length === 0) {
+              this.setState({noResults: true})
+              return
+            } else if (s3list.length > 1) {
+              // FIXME: what else to do?
+              console.error('Found more than one profile for voucher ' + voucher)
+            }
+            const key = s3list[0].key
+            this.goToProfile(key)
+          }).catch(err => {
+            this.setState({errorMessage: message('Accounts.SelectError')})
+            console.error('Failed to fetch s3 contents that match voucher ' + voucher)
+            console.error(err)
+          })
+        } else {
+          console.warn('not a counselor, attempt to go directly to profile')
+          Auth.currentUserInfo().then(data => {
+            console.log('user info:')
+            console.log(data)
+            console.log('identity ID: ' + data.id)
+            this.goToProfile(`${voucher}_${data.id}`)
+          }).catch(err => {
+            console.error(err)
+          })
+        }
+      }
+    }).catch(err => {
+      console.error(err)
     })
   }
 
