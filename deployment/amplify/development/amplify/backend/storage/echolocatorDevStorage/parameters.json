@@ -8,23 +8,22 @@
     "unauthRoleName": {
         "Ref": "UnauthRoleName"
     },
-    "selectedGuestPermissions": [
-    ],
+    "selectedGuestPermissions": [],
     "selectedAuthenticatedPermissions": [
         "s3:PutObject",
         "s3:GetObject",
         "s3:DeleteObject"
     ],
     "s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
-    "s3PublicPolicy": "Public_policy_47533768",
+    "s3PublicPolicy": "Public_policy_863a5301",
     "s3PermissionsAuthenticatedUploads": "s3:PutObject",
-    "s3UploadsPolicy": "Uploads_policy_47533768",
+    "s3UploadsPolicy": "Uploads_policy_863a5301",
     "s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
-    "s3ProtectedPolicy": "Protected_policy_47533768",
+    "s3ProtectedPolicy": "Protected_policy_863a5301",
     "s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
-    "s3PrivatePolicy": "Private_policy_47533768",
+    "s3PrivatePolicy": "Private_policy_863a5301",
     "AuthenticatedAllowList": "DISALLOW",
-    "s3ReadPolicy": "read_policy_47533768",
+    "s3ReadPolicy": "read_policy_863a5301",
     "s3PermissionsGuestPublic": "DISALLOW",
     "s3PermissionsGuestUploads": "DISALLOW",
     "GuestAllowList": "DISALLOW",
