@@ -1,0 +1,57 @@
+{
+    "paths": [
+        {
+            "name": "/clients",
+            "lambdaFunction": "echolocatorDevEmailClientsLambda",
+            "privacy": {
+                "userPoolGroups": {
+                    "counselors": [
+                        "/POST",
+                        "/GET",
+                        "/PUT",
+                        "/PATCH",
+                        "/DELETE"
+                    ]
+                }
+            }
+        }
+    ],
+    "resourceName": "echolocatorDevEmailApi",
+    "apiName": "echolocatorDevEmailApi",
+    "authResourceName": "echolocatorDevEmailAuth",
+    "functionArns": [
+        {
+            "lambdaFunction": "echolocatorDevEmailClientsLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-echolocatordevemail-devemail-124850-authRole",
+        "unAuthRoleName": "amplify-echolocatordevemail-devemail-124850-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "echolocatorDevEmailClientsLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "auth",
+            "resourceName": "echolocatorDevEmailAuth",
+            "attributes": [
+                "UserPoolId"
+            ]
+        },
+        {
+            "category": "auth",
+            "resourceName": "userPoolGroups",
+            "attributes": [
+                "counselorsGroupRole"
+            ]
+        }
+    ]
+}
