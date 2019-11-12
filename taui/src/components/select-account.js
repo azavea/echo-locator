@@ -1,4 +1,5 @@
 // @flow
+import API from '@aws-amplify/api'
 import Auth from '@aws-amplify/auth'
 import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
@@ -30,6 +31,7 @@ export default class SelectAccount extends PureComponent<Props> {
     this.createAccount = this.createAccount.bind(this)
     this.selectAccount = this.selectAccount.bind(this)
     this.search = this.search.bind(this)
+    this.testApi = this.testApi.bind(this)
   }
 
   changeVoucherNumber (event) {
@@ -167,9 +169,36 @@ export default class SelectAccount extends PureComponent<Props> {
     })
   }
 
+  testApi () {
+    console.log('test api query')
+
+    // Also set `response: true` in addition to `body` to get full response,
+    // instead of just data (AWS library uses Axios).
+    API.post('echolocatorDevEmailApi', '/clients', {
+      body: {
+        email: 'kkillebrew+test111@azavea.com',
+        voucher: '11223344'
+      }
+    }).then(response => {
+      if (response.error) {
+        console.error('Failed to create user')
+        console.error(response.error)
+      } else {
+        console.log('User created!')
+        console.log(response)
+      }
+    }).catch(error => {
+      // A 403 (as when user is not a counselor) will only return "Network Error"
+      console.error('API call to create user failed')
+      console.error(error)
+    })
+  }
+
   render () {
     const changeVoucherNumber = this.changeVoucherNumber
     const createAccount = this.createAccount
+    const testApi = this.testApi
+
     const state = this.state
 
     const search = (e) => {
@@ -201,6 +230,11 @@ export default class SelectAccount extends PureComponent<Props> {
                 <button
                   className='account-search__button account-search__button--search'>
                   {message('Accounts.Search')}
+                </button>
+                <button
+                  className='account-search__button account-search__button--create'
+                  onClick={testApi}>
+                  Test the thing
                 </button>
               </div>
             </form>
