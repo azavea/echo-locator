@@ -55,15 +55,27 @@ app.post('/clients', function(req, res) {
   AWS.config.update({region: 'us-east-1'});
   var cognito = new AWS.CognitoIdentityServiceProvider();
   var username = req.body.email;
+  var voucher = req.body.voucher;
   if (!username) {
     res.json({error: 'Missing user email in POST body'});
     return;
   }
+  if (!voucher) {
+    res.json({error: 'Missing user voucher in POST body'});
+    return;
+  }
   // get Cognito user pool ID from CloudFront env parameters
   var userPool = process.env.AUTH_ECHOLOCATORDEVEMAILAUTH_USERPOOLID;
-  var params = {UserPoolId: userPool, Username: username};
+  var params = {
+    UserPoolId: userPool,
+    Username: username
+  };
   cognito.adminGetUser(params, function(err, data) {
     if (err && err.code === 'UserNotFoundException') {
+      params['UserAttributes'] = [{
+        Name: 'custom:voucher',
+        Value: voucher
+      }];
       cognito.adminCreateUser(params, function(err, data) {
         if (err) {
           console.log('Error creating user', err);
