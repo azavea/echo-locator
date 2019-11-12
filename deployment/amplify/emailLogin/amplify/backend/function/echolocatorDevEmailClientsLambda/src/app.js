@@ -55,25 +55,28 @@ app.post('/clients', function(req, res) {
   AWS.config.update({region: 'us-east-1'});
   var cognito = new AWS.CognitoIdentityServiceProvider();
   var username = req.body.email;
-  // FIXME: get Cognito user pool ID from CloudFront env parameters
-  // https://aws-amplify.github.io/docs/cli-toolchain/quickstart#custom-cloudformation-stacks
-  var params = {UserPoolId: 'us-east-1_xsIQERzMP', Username: username};
+  if (!username) {
+    res.json({error: 'Missing user email in POST body'});
+    return;
+  }
+  // get Cognito user pool ID from CloudFront env parameters
+  var userPool = process.env.AUTH_ECHOLOCATORDEVEMAILAUTH_USERPOOLID;
+  var params = {UserPoolId: userPool, Username: username};
   cognito.adminGetUser(params, function(err, data) {
     if (err && err.code === 'UserNotFoundException') {
       cognito.adminCreateUser(params, function(err, data) {
         if (err) {
-          console.log("Error creating user", err);
+          console.log('Error creating user', err);
         } else {
-          console.log("Successfully created user", data);
+          console.log('Successfully created user', data);
           res.json({data, url: req.url});
         }
       });
     } else if (err) {
       res.json({error: err});
     } else {
-      console.log("User " + username + " already exists");
-      res.json({error: "User " + username + " already exists",
-                requestBody: req.body});
+      console.log('User ' + username + ' already exists');
+      res.json({error: 'User ' + username + ' already exists'});
     }
   });
 });
