@@ -56,76 +56,124 @@ app.get('/profiles/*', function(req, res) {
 app.post('/profiles', function(req, res) {
   AWS.config.update({region: 'us-east-1'});
   var s3 = new AWS.S3();
+  var cognito = new AWS.CognitoIdentityServiceProvider();
+
   var identityId = req.body.identityId;
-  var voucher = req.body.voucher;
+  var email = req.body.email;
   if (!identityId) {
     res.json({error: 'Missing Cognito user identityId in POST body'});
     return;
+  } else {
+    // TODO: sanity-check identity ID looks like [AWS region]:[UUID]
   }
-  if (!voucher) {
-    res.json({error: 'Missing user voucher in POST body'});
+  if (!email) {
+    res.json({error: 'Missing user email in POST body'});
     return;
   }
 
+  // get Cognito user pool ID from CloudFront env parameters
+  var userPool = process.env.AUTH_ECHOLOCATORDEVEMAILAUTH_USERPOOLID;
   var bucketName = process.env.STORAGE_ECHOLOCATORDEVEMAILSTORAGE_BUCKETNAME;
   console.log('Bucket name: ' + bucketName);
 
-  s3.listObjectsV2({
-    Bucket: bucketName,
-    Prefix: 'public/' + voucher
-  }, function (err, data) {
-    if (err) {
-      console.error('S3 query failed');
-      console.error(err);
+  cognito.adminGetUser({
+    UserPoolId: userPool,
+    Username: email
+  }, function(getUserError, userData) {
+    if (getUserError && getUserError.code === 'UserNotFoundException') {
+      console.error('User with email ' + email + 'does not exist');
+      res.json({error: 'User does not exist', email: email});
+    } else if (getUserError) {
+      console.error('Failed to get user');
+      console.error(getUserError);
       res.json({error: err});
     } else {
-      console.log('S3 query succeeded', data);
-      if (data && data.KeyCount > 0) {
-        if (data.KeyCount > 1) {
-          // FIXME: Shouldn't happen, but might. How should this situation be resolved?
-          res.json({error: 'Multiple profiles matching voucher number already exist',
-                    voucher});
+      console.log('Found user');
+      console.log(userData);
+
+      // get voucher number from user data
+      if (!userData || !userData.UserAttributes || userData.UserAttributes.length === 0) {
+        // Shouldn't happen, but check anyways
+        console.error('Returned user data is missing attributes');
+        console.error(userData);
+        res.json({error: 'Returned user data is missing attributes'});
+        return;
+      }
+
+      // Look through the name/value pairs for the voucher number
+      var voucher = null;
+      for (var i = 0; i < userData.UserAttributes.length; i++) {
+        var attr = userData.UserAttributes[i];
+        if (attr.Name === 'custom:voucher') {
+          voucher = attr.Value;
+          break;
+        }
+      }
+
+      if (!voucher) {
+        console.error('Failed to find voucher number for user account');
+        res.json({error: 'User has no voucher number in Cognito', email});
+        return;
+      }
+
+      s3.listObjectsV2({
+        Bucket: bucketName,
+        Prefix: 'public/' + voucher
+      }, function (listError, listData) {
+        if (listError) {
+          console.error('S3 query failed');
+          console.error(listError);
+          res.json({error: listError});
         } else {
-          var key = data.Contents[0].Key; // exists if KeyCount is nonzero
-          console.log('Copy S3 file at ' + key + ' for identity ' + identityId);
-          var newS3Key = 'public/' + voucher + '_' + identityId;
-          if (newS3Key === key) {
-            console.error('Cannot copy a file to itself');
-            res.json({error: 'Profile already exists', key: key});
-            return;
-          }
-          s3.copyObject({
-            Bucket: bucketName,
-            CopySource: bucketName + '/' + key,
-            Key: newS3Key
-          }, function(copyError, copyResult) {
-            if (copyError) {
-              console.error('S3 file copy failed');
-              console.error(copyError);
-              res.json({error: copyError});
+          console.log('S3 query succeeded', listData);
+          if (listData && listData.KeyCount > 0) {
+            if (listData.KeyCount > 1) {
+              // FIXME: Shouldn't happen, but might. How should this situation be resolved?
+              res.json({error: 'Multiple profiles matching voucher number already exist',
+                        voucher});
             } else {
-              console.log('File copy succeeded. Delete the original.');
-              s3.deleteObject({
+              var key = listData.Contents[0].Key; // exists if KeyCount is nonzero
+              console.log('Copy S3 file at ' + key + ' for identity ' + identityId);
+              var newS3Key = 'public/' + voucher + '_' + identityId;
+              if (newS3Key === key) {
+                console.error('Cannot copy a file to itself');
+                res.json({error: 'Profile already exists', key: key});
+                return;
+              }
+              s3.copyObject({
                 Bucket: bucketName,
-                Key: key
-              }, function (deleteError, deleteResult) {
-                if (deleteError) {
-                  console.error('Failed to delete original S3 file after copying it');
-                  console.error(deleteError);
-                  res.json({error: deleteError});
+                CopySource: bucketName + '/' + key,
+                Key: newS3Key
+              }, function(copyError, copyResult) {
+                if (copyError) {
+                  console.error('S3 file copy failed');
+                  console.error(copyError);
+                  res.json({error: copyError});
                 } else {
-                  console.log('Successfully deleted original S3 file aftery copying it');
-                  res.json({key: newS3Key})
+                  console.log('File copy succeeded. Delete the original.');
+                  s3.deleteObject({
+                    Bucket: bucketName,
+                    Key: key
+                  }, function (deleteError, deleteResult) {
+                    if (deleteError) {
+                      console.error('Failed to delete original S3 file after copying it');
+                      console.error(deleteError);
+                      res.json({error: deleteError});
+                    } else {
+                      console.log('Successfully deleted original S3 file aftery copying it');
+                      res.json({key: newS3Key})
+                    }
+                  });
                 }
               });
             }
-          });
+          } else {
+            // no results
+            console.log('No results found on S3 for voucher ' + voucher);
+            res.json({error: 'No profiles found on S3 for voucher', voucher});
+          }
         }
-      } else {
-        // no results
-        console.log('No results found on S3 for voucher ' + voucher);
-        res.json({error: 'NoResults'});
-      }
+      });
     }
   });
 });
