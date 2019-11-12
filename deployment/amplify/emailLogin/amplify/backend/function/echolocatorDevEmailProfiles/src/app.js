@@ -20,6 +20,7 @@ var AWS = require('aws-sdk')
 var express = require('express')
 var bodyParser = require('body-parser')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+var validateUuid = require('uuid-validate')
 
 // declare a new express app
 var app = express()
@@ -64,7 +65,15 @@ app.post('/profiles', function(req, res) {
     res.json({error: 'Missing Cognito user identityId in POST body'});
     return;
   } else {
-    // TODO: sanity-check identity ID looks like [AWS region]:[UUID]
+    // sanity-check identity ID looks like [AWS region]:[UUID]
+    var idParts = identityId.split(':')
+    if (!idParts || idParts.length !== 2 ||
+      idParts[0] !== 'us-east-1' || !validateUuid(idParts[1])) {
+
+      console.error('Cognito identity ID sent does not match expected format');
+      res.json({error: 'Cognito identity ID does not match expected format', identityId});
+      return;
+    }
   }
   if (!email) {
     res.json({error: 'Missing user email in POST body'});
