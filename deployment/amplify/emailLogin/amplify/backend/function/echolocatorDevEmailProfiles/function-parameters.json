@@ -1,0 +1,18 @@
+{
+    "permissions": {
+        "auth": {
+            "echolocatorDevEmailAuth": [
+                "read",
+                "update"
+            ]
+        },
+        "storage": {
+            "echolocatorDevEmailStorage": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}

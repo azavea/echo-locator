@@ -58,6 +58,27 @@
 					]
 				}
 			]
+		},
+		"echolocatorDevEmailProfiles": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "echolocatorDevEmailAuth",
+					"attributes": [
+						"UserPoolId"
+					]
+				},
+				{
+					"category": "storage",
+					"resourceName": "echolocatorDevEmailStorage",
+					"attributes": [
+						"BucketName"
+					]
+				}
+			]
 		}
 	},
 	"api": {
@@ -85,6 +106,20 @@
 					"resourceName": "userPoolGroups",
 					"attributes": [
 						"counselorsGroupRole"
+					]
+				}
+			]
+		},
+		"echolocatorDevEmailProfilesApi": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "echolocatorDevEmailProfiles",
+					"attributes": [
+						"Name",
+						"Arn"
 					]
 				}
 			]
