@@ -82,7 +82,7 @@
 		}
 	},
 	"api": {
-		"echolocatorDevEmailApi": {
+		"echolocatorDevEmailUsersApi": {
 			"service": "API Gateway",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [
@@ -107,13 +107,7 @@
 					"attributes": [
 						"counselorsGroupRole"
 					]
-				}
-			]
-		},
-		"echolocatorDevEmailProfilesApi": {
-			"service": "API Gateway",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [
+				},
 				{
 					"category": "function",
 					"resourceName": "echolocatorDevEmailProfiles",

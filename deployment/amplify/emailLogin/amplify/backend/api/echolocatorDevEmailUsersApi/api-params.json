@@ -14,18 +14,35 @@
                     ]
                 }
             }
+        },
+        {
+            "name": "/profiles",
+            "lambdaFunction": "echolocatorDevEmailProfiles",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
         }
     ],
-    "resourceName": "echolocatorDevEmailApi",
-    "apiName": "echolocatorDevEmailApi",
+    "resourceName": "echolocatorDevEmailUsersApi",
+    "apiName": "echolocatorDevEmailUsersApi",
     "authResourceName": "echolocatorDevEmailAuth",
     "functionArns": [
         {
             "lambdaFunction": "echolocatorDevEmailClientsLambda"
+        },
+        {
+            "lambdaFunction": "echolocatorDevEmailProfiles"
         }
     ],
     "privacy": {
-        "auth": 0,
+        "auth": 1,
         "unauth": 0,
         "authRoleName": "amplify-echolocatordevemail-devemail-124850-authRole",
         "unAuthRoleName": "amplify-echolocatordevemail-devemail-124850-unauthRole"
@@ -51,6 +68,14 @@
             "resourceName": "userPoolGroups",
             "attributes": [
                 "counselorsGroupRole"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "echolocatorDevEmailProfiles",
+            "attributes": [
+                "Name",
+                "Arn"
             ]
         }
     ]

@@ -7,7 +7,7 @@ import { Authenticator } from 'aws-amplify-react/dist/Auth'
 import LogRocket from 'logrocket'
 
 import {clearLocalStorage, storeConfig} from '../config'
-import {ANONYMOUS_USERNAME, PROFILE_CONFIG_KEY} from '../constants'
+import {AMPLIFY_API_NAME, ANONYMOUS_USERNAME, PROFILE_CONFIG_KEY} from '../constants'
 import type {AccountProfile} from '../types'
 
 import CustomHeaderBar from './custom-header-bar'
@@ -157,8 +157,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
 
     setClientProfile (identityId: string, email: string): Promise<boolean> {
       return new Promise((resolve, reject) => {
-        // FIXME: put API name in constants? config?
-        API.post('echolocatorDevEmailProfilesApi', '/profiles', {
+        API.post(AMPLIFY_API_NAME, '/profiles', {
           body: {
             identityId,
             email
@@ -209,11 +208,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
         console.log('A client logged in. Voucher #' + voucher)
         // attempt to go to client profile directly
         this.goToClientProfile(voucher, email).then(succeeded => {
-          if (succeeded) {
-            console.log('yay went to profile')
-          } else {
-            console.error('boo failed to go to profile')
-          }
+          // FIXME: do something on failure
           this.setState({authState: state, authData: data})
         })
       } else {
@@ -250,7 +245,8 @@ export default function withAuthenticator (Comp, includeGreetings = false,
         if (data && data.attributes) {
           this.handleUserSignIn(state, data)
         } else {
-          console.warn('signed in with no data?', data)
+          // shouldn't happen
+          console.warn('signed in with no data', data)
           this.setState({authState: state, authData: data})
         }
       } else {

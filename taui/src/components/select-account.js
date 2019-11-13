@@ -6,6 +6,7 @@ import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
 import {
+  AMPLIFY_API_NAME,
   DEFAULT_ACCESSIBILITY_IMPORTANCE,
   DEFAULT_CRIME_IMPORTANCE,
   DEFAULT_SCHOOLS_IMPORTANCE
@@ -175,10 +176,10 @@ export default class SelectAccount extends PureComponent<Props> {
 
     // Also set `response: true` in addition to `body` to get full response,
     // instead of just data (AWS library uses Axios).
-    API.post('echolocatorDevEmailApi', '/clients', {
+    API.post(AMPLIFY_API_NAME, '/clients', {
       body: {
-        email: 'kkillebrew+plzwork@azavea.com',
-        voucher: '11111111'
+        email: 'kkillebrew+ok@azavea.com',
+        voucher: '22222222'
       }
     }).then(response => {
       if (response.error) {
