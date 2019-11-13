@@ -24,6 +24,9 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       this.changeUserProfile = this.changeUserProfile.bind(this)
       this.handleAuthStateChange = this.handleAuthStateChange.bind(this)
       this.logoutEcholocator = this.logoutEcholocator.bind(this)
+      this.setClientProfile = this.setClientProfile.bind(this)
+      this.goToClientProfile = this.goToClientProfile.bind(this)
+      this.handleUserSignIn = this.handleUserSignIn.bind(this)
 
       this.state = {
         authState: props.authState || null,
@@ -103,6 +106,82 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       })
     }
 
+    goToClientProfile (voucher: string, email: string): Promise<boolean> {
+      return new Promise((resolve, reject) => {
+        Auth.currentUserInfo().then(data => {
+          console.log('user info:')
+          console.log(data)
+          console.log('identity ID: ' + data.id)
+          const identityId = data.id
+          const key = `${voucher}_${identityId}`
+          Storage.get(key, {download: true, expires: 60}).then(result => {
+            const text = result.Body.toString('utf-8')
+            const profile: AccountProfile = JSON.parse(text)
+            this.changeUserProfile(profile).then(didChange => {
+              if (didChange) {
+                // Skip profile page and go to map if profile exists and has destinations set
+                const destination = profile && profile.destinations &&
+                  profile.destinations.length ? '/map' : '/profile'
+                this.props.history.push({pathname: destination, state: {fromApp: true}})
+                resolve(true)
+              } else {
+                // Failed to set profile
+                console.error('Failed to set user profile')
+                resolve(false)
+              }
+            })
+          }).catch(err => {
+            // If file not found, client users only get `AccessDenied`
+            // because they do not have list bucket permissions
+            if (err.code === 'AccessDenied') {
+              console.error('Failed to get key found on s3: ' + key)
+              // Hit API endpoint to handle getting counselor-created profile
+              // First have to use `Auth.currentUserInfo` to get Identity ID
+              this.setClientProfile(identityId, email).then(itWorked => {
+                resolve(itWorked)
+              })
+            } else {
+              console.error(err.code)
+              console.error('Failed to fetch account profile from S3 for key ' + key)
+              console.error(err)
+              resolve(false)
+            }
+          })
+        }).catch(err => {
+          console.error('Failed to fetch user info for identity ID')
+          console.error(err)
+          resolve(false)
+        })
+      })
+    }
+
+    setClientProfile (identityId: string, email: string): Promise<boolean> {
+      return new Promise((resolve, reject) => {
+        // FIXME: put API name in constants? config?
+        API.post('echolocatorDevEmailProfilesApi', '/profiles', {
+          body: {
+            identityId,
+            email
+          }
+        }).then(response => {
+          if (response.error) {
+            console.error('Failed to POST to profiles API')
+            console.error(response.error)
+            console.error(response)
+            resolve(false)
+          } else {
+            console.log('Profile API POST succeeded')
+            console.log(response)
+            resolve(true)
+          }
+        }).catch(error => {
+          console.error('Profile API call failed')
+          console.error(error)
+          resolve(false)
+        })
+      })
+    }
+
     // Helper to log out and clean up
     logoutEcholocator (authData) {
       LogRocket.identify()
@@ -113,7 +192,38 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       clearLocalStorage()
     }
 
-    handleAuthStateChange (state, data) {
+    handleUserSignIn (state: string, data: any) {
+      const email = data.attributes.email
+      LogRocket.identify(email)
+      console.log('Logged in user ' + email)
+      const voucher = data.attributes['custom:voucher']
+      const groups = data.signInUserSession && data.signInUserSession.idToken
+        ? data.signInUserSession.idToken.payload['cognito:groups'] : []
+
+      if (groups && groups.length > 0 && groups.indexOf('counselors') > -1) {
+        console.log('A counselor logged in')
+        // Set a convenience property for group membership
+        data.counselor = true
+        this.setState({authState: state, authData: data})
+      } else if (voucher) {
+        console.log('A client logged in. Voucher #' + voucher)
+        // attempt to go to client profile directly
+        this.goToClientProfile(voucher, email).then(succeeded => {
+          if (succeeded) {
+            console.log('yay went to profile')
+          } else {
+            console.error('boo failed to go to profile')
+          }
+          this.setState({authState: state, authData: data})
+        })
+      } else {
+        console.error('User logged in who is not a counselor and has no voucher set')
+        // FIXME: do something
+        this.setState({authState: state, authData: data})
+      }
+    }
+
+    handleAuthStateChange (state: string, data: any) {
       const { userProfile } = this.props.data
 
       // Create new empty profile to use when browsing anonymously
@@ -138,98 +248,11 @@ export default function withAuthenticator (Comp, includeGreetings = false,
         this.logoutEcholocator(data)
       } else if (state === 'signedIn') {
         if (data && data.attributes) {
-          const email = data.attributes.email
-          LogRocket.identify(email)
-          console.log('Logged in user ' + email)
-          console.log(data)
-
-          const voucher = data.attributes['custom:voucher']
-          const groups = data.signInUserSession && data.signInUserSession.idToken ?
-            data.signInUserSession.idToken.payload['cognito:groups'] : []
-
-          if (voucher) {
-            console.log('A client logged in. Voucher #' + voucher)
-            // attempt to go to client profile directly
-            Auth.currentUserInfo().then(data => {
-              console.log('user info:')
-              console.log(data)
-              console.log('identity ID: ' + data.id)
-              const key = `${voucher}_${data.id}`
-              Storage.get(key, {download: true, expires: 60}).then(result => {
-                const text = result.Body.toString('utf-8')
-                const profile: AccountProfile = JSON.parse(text)
-                this.changeUserProfile(profile).then(didChange => {
-                  if (didChange) {
-                    // Skip profile page and go to map if profile exists and has destinations set
-                    const destination = profile && profile.destinations &&
-                      profile.destinations.length ? '/map' : '/profile'
-                    this.props.history.push({pathname: destination, state: {fromApp: true}})
-                  } else {
-                    // Failed to set profile
-                    console.error('Failed to set user profile')
-                    // FIXME: now what
-                  }
-                })
-              }).catch(err => {
-                // If file not found, client users only get `AccessDenied`
-                // because they do not have list bucket permissions
-                if (err.code === 'AccessDenied') {
-                  console.error('Failed to get key found on s3: ' + key)
-                  // Hit API endpoint to handle getting counselor-created profile
-                  // First have to use `Auth.currentUserInfo` to get Identity ID
-                  Auth.currentUserInfo().then(data => {
-                    console.log('user info:')
-                    console.log(data)
-                    console.log('identity ID: ' + data.id)
-                    // FIXME: put API name in constants? config?
-                    API.post('echolocatorDevEmailProfilesApi', '/profiles', {
-                      body: {
-                        identityId: data.id,
-                        email: email
-                      }
-                    }).then(response => {
-                      if (response.error) {
-                        console.error('Failed to POST to profiles API')
-                        console.error(response.error)
-                        console.error(response)
-                      } else {
-                        console.log('Profile API POST succeeded')
-                        console.log(response)
-                      }
-                    }).catch(error => {
-                      console.error('Profile API call failed')
-                      console.error(error)
-                    })
-                  }).catch(err => {
-                    console.error('Failed to fetch user identity ID')
-                    console.error(err)
-                  })
-                } else {
-                  console.error(err.code)
-                  // This is an actual error.
-                  // `code`: CredentialsError will occur if attempting to access when not signed in
-                  // FIXME: now what
-                  console.error('Failed to fetch account profile from S3 for key ' + key)
-                  console.error(err)
-                }
-              })
-            }).catch(err => {
-              console.error(err)
-            })
-          } else if (groups && groups.length > 0 && groups.indexOf('counselors') > -1) {
-            console.log('A counselor logged in')
-            // Set a convenience property for group membership
-            data.counselor = true
-          } else {
-            console.error('User logged in who is not a counselor and has no voucher set')
-            // FIXME: do something
-          }
+          this.handleUserSignIn(state, data)
         } else {
           console.warn('signed in with no data?', data)
+          this.setState({authState: state, authData: data})
         }
-
-        console.log('finally, set auth state')
-        this.setState({authState: state, authData: data})
       } else {
         console.log('Setting state ' + state)
         this.setState({authState: state, authData: data})
