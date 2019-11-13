@@ -52,7 +52,7 @@ app.get('/clients/*', function(req, res) {
 ****************************/
 
 app.post('/clients', function(req, res) {
-  AWS.config.update({region: 'us-east-1'});
+  AWS.config.update({region: process.env.REGION});
   var cognito = new AWS.CognitoIdentityServiceProvider();
 
   var username = req.body.email;

@@ -55,7 +55,8 @@ app.get('/profiles/*', function(req, res) {
 ****************************/
 
 app.post('/profiles', function(req, res) {
-  AWS.config.update({region: 'us-east-1'});
+  var region = process.env.REGION;
+  AWS.config.update({region: region});
   var s3 = new AWS.S3();
   var cognito = new AWS.CognitoIdentityServiceProvider();
 
@@ -68,7 +69,7 @@ app.post('/profiles', function(req, res) {
     // sanity-check identity ID looks like [AWS region]:[UUID]
     var idParts = identityId.split(':')
     if (!idParts || idParts.length !== 2 ||
-      idParts[0] !== 'us-east-1' || !validateUuid(idParts[1])) {
+      idParts[0] !== region || !validateUuid(idParts[1])) {
 
       console.error('Cognito identity ID sent does not match expected format');
       res.json({error: 'Cognito identity ID does not match expected format', identityId});
