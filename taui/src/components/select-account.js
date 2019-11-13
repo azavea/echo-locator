@@ -145,6 +145,7 @@ export default class SelectAccount extends PureComponent<Props> {
               // FIXME: what else to do?
               console.error('Found more than one profile for voucher ' + voucher)
             }
+            // FIXME: store key for profile in use and use it when saving to it later
             const key = s3list[0].key
             this.goToProfile(key)
           }).catch(err => {
@@ -176,8 +177,8 @@ export default class SelectAccount extends PureComponent<Props> {
     // instead of just data (AWS library uses Axios).
     API.post('echolocatorDevEmailApi', '/clients', {
       body: {
-        email: 'kkillebrew+test111@azavea.com',
-        voucher: '11223344'
+        email: 'kkillebrew+plzwork@azavea.com',
+        voucher: '11111111'
       }
     }).then(response => {
       if (response.error) {

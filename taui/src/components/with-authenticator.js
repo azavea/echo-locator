@@ -1,5 +1,7 @@
 // @flow
+import API from '@aws-amplify/api'
 import Auth from '@aws-amplify/auth'
+import Storage from '@aws-amplify/storage'
 import { Component, Fragment } from 'react'
 import { Authenticator } from 'aws-amplify-react/dist/Auth'
 import LogRocket from 'logrocket'
@@ -21,6 +23,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
 
       this.changeUserProfile = this.changeUserProfile.bind(this)
       this.handleAuthStateChange = this.handleAuthStateChange.bind(this)
+      this.logoutEcholocator = this.logoutEcholocator.bind(this)
 
       this.state = {
         authState: props.authState || null,
@@ -100,12 +103,23 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       })
     }
 
+    // Helper to log out and clean up
+    logoutEcholocator (authData) {
+      LogRocket.identify()
+      this.setState({authState: 'signedOut', authData: authData})
+      // Clear profile in components
+      this.props.store.dispatch({type: 'set profile', payload: null})
+      // Clear all local storage after logout
+      clearLocalStorage()
+    }
+
     handleAuthStateChange (state, data) {
       const { userProfile } = this.props.data
+
       // Create new empty profile to use when browsing anonymously
       if (state === 'useAnonymous' && process.env.ALLOW_ANONYMOUS) {
         LogRocket.identify()
-        const profile: AccountProfile = {
+        const anonymousProfile: AccountProfile = {
           destinations: [],
           hasVehicle: false,
           headOfHousehold: ANONYMOUS_USERNAME,
@@ -113,7 +127,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
           rooms: 0,
           voucherNumber: ANONYMOUS_USERNAME
         }
-        this.changeUserProfile(profile)
+        this.changeUserProfile(anonymousProfile)
         // Tell auth library that the anonymous user is signed in
         this.setState({authState: 'signedIn', authData: {username: ANONYMOUS_USERNAME}})
       } else if (state === 'signIn' && userProfile && userProfile.key === ANONYMOUS_USERNAME) {
@@ -121,16 +135,103 @@ export default function withAuthenticator (Comp, includeGreetings = false,
         // Handle full page reload when browsing site anonymously
         this.setState({authState: 'signedIn', authData: {username: ANONYMOUS_USERNAME}})
       } else if (state === 'signedOut') {
-        LogRocket.identify()
-        this.setState({authState: state, authData: data})
-        // Clear profile in components
-        this.props.store.dispatch({type: 'set profile', payload: null})
-        // Clear all local storage after logout
-        clearLocalStorage()
-      } else {
-        if (data && data.username) {
-          LogRocket.identify(data.username)
+        this.logoutEcholocator(data)
+      } else if (state === 'signedIn') {
+        if (data && data.attributes) {
+          const email = data.attributes.email
+          LogRocket.identify(email)
+          console.log('Logged in user ' + email)
+          console.log(data)
+
+          const voucher = data.attributes['custom:voucher']
+          const groups = data.signInUserSession && data.signInUserSession.idToken ?
+            data.signInUserSession.idToken.payload['cognito:groups'] : []
+
+          if (voucher) {
+            console.log('A client logged in. Voucher #' + voucher)
+            // attempt to go to client profile directly
+            Auth.currentUserInfo().then(data => {
+              console.log('user info:')
+              console.log(data)
+              console.log('identity ID: ' + data.id)
+              const key = `${voucher}_${data.id}`
+              Storage.get(key, {download: true, expires: 60}).then(result => {
+                const text = result.Body.toString('utf-8')
+                const profile: AccountProfile = JSON.parse(text)
+                this.changeUserProfile(profile).then(didChange => {
+                  if (didChange) {
+                    // Skip profile page and go to map if profile exists and has destinations set
+                    const destination = profile && profile.destinations &&
+                      profile.destinations.length ? '/map' : '/profile'
+                    this.props.history.push({pathname: destination, state: {fromApp: true}})
+                  } else {
+                    // Failed to set profile
+                    console.error('Failed to set user profile')
+                    // FIXME: now what
+                  }
+                })
+              }).catch(err => {
+                // If file not found, client users only get `AccessDenied`
+                // because they do not have list bucket permissions
+                if (err.code === 'AccessDenied') {
+                  console.error('Failed to get key found on s3: ' + key)
+                  // Hit API endpoint to handle getting counselor-created profile
+                  // First have to use `Auth.currentUserInfo` to get Identity ID
+                  Auth.currentUserInfo().then(data => {
+                    console.log('user info:')
+                    console.log(data)
+                    console.log('identity ID: ' + data.id)
+                    // FIXME: put API name in constants? config?
+                    API.post('echolocatorDevEmailProfilesApi', '/profiles', {
+                      body: {
+                        identityId: data.id,
+                        email: email
+                      }
+                    }).then(response => {
+                      if (response.error) {
+                        console.error('Failed to POST to profiles API')
+                        console.error(response.error)
+                        console.error(response)
+                      } else {
+                        console.log('Profile API POST succeeded')
+                        console.log(response)
+                      }
+                    }).catch(error => {
+                      console.error('Profile API call failed')
+                      console.error(error)
+                    })
+                  }).catch(err => {
+                    console.error('Failed to fetch user identity ID')
+                    console.error(err)
+                  })
+                } else {
+                  console.error(err.code)
+                  // This is an actual error.
+                  // `code`: CredentialsError will occur if attempting to access when not signed in
+                  // FIXME: now what
+                  console.error('Failed to fetch account profile from S3 for key ' + key)
+                  console.error(err)
+                }
+              })
+            }).catch(err => {
+              console.error(err)
+            })
+          } else if (groups && groups.length > 0 && groups.indexOf('counselors') > -1) {
+            console.log('A counselor logged in')
+            // Set a convenience property for group membership
+            data.counselor = true
+          } else {
+            console.error('User logged in who is not a counselor and has no voucher set')
+            // FIXME: do something
+          }
+        } else {
+          console.warn('signed in with no data?', data)
         }
+
+        console.log('finally, set auth state')
+        this.setState({authState: state, authData: data})
+      } else {
+        console.log('Setting state ' + state)
         this.setState({authState: state, authData: data})
       }
     }

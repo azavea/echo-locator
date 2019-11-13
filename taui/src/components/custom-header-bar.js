@@ -21,11 +21,7 @@ export default class CustomHeaderBar extends Greetings {
   getUserName () {
     const user = this.props.authData
     // get name from attributes first
-    const nameFromAttr = user.attributes
-      ? (user.attributes.name ||
-      (user.attributes.given_name
-        ? (user.attributes.given_name + ' ' + user.attributes.family_name) : undefined))
-      : undefined
+    const nameFromAttr = user.attributes ? user.attributes.email : undefined
     return nameFromAttr || user.name || user.username
   }
 
