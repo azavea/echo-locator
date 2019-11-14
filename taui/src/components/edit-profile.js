@@ -184,8 +184,16 @@ export default class EditProfile extends PureComponent<Props> {
     if (!isAnonymous) {
       Storage.put(profile.key, JSON.stringify(profile))
         .then(result => {
-          this.props.changeUserProfile(profile)
-          this.props.history.push('/map')
+          this.props.changeUserProfile(profile).then(res => {
+            if (res) {
+              this.props.history.push('/map')
+            } else {
+              console.error('Could not change user profile after edit')
+            }
+          }).catch(changeError => {
+            console.error('Failed to change user profile after edit')
+            console.error(changeError)
+          })
         })
         .catch(err => {
           console.error(err)
