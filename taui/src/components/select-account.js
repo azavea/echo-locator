@@ -5,13 +5,9 @@ import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
-import {
-  AMPLIFY_API_NAME,
-  DEFAULT_ACCESSIBILITY_IMPORTANCE,
-  DEFAULT_CRIME_IMPORTANCE,
-  DEFAULT_SCHOOLS_IMPORTANCE
-} from '../constants'
+import {AMPLIFY_API_NAME} from '../constants'
 import type {AccountProfile} from '../types'
+import storeDefaultProfile from '../utils/store-default-profile'
 import validateVoucherNumber from '../utils/validate-voucher-number'
 
 /**
@@ -54,30 +50,13 @@ export default class SelectAccount extends PureComponent<Props> {
       this.setState({errorMessage: ''})
     }
 
-    // Default profile
-    const profile: AccountProfile = {
-      destinations: [],
-      favorites: [],
-      hasVehicle: false,
-      headOfHousehold: name,
-      importanceAccessibility: DEFAULT_ACCESSIBILITY_IMPORTANCE,
-      importanceSchools: DEFAULT_SCHOOLS_IMPORTANCE,
-      importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE,
-      key: voucher,
-      rooms: 0,
-      useCommuterRail: true,
-      voucherNumber: voucher
-    }
-
-    Storage.put(voucher, JSON.stringify(profile))
-      .then(result => {
-        search() // Refresh results; will find and go to the new profile
-      })
-      .catch(err => {
-        console.error('Failed to post new profile to S3')
-        console.error(err)
-        this.setState({errorMessage: message('Accounts.CreateError')})
-      })
+    storeDefaultProfile(voucher).then(result => {
+      search() // Refresh results; will find and go to the new profile
+    }).catch(err => {
+      console.error('Failed to post new profile to S3')
+      console.error(err)
+      this.setState({errorMessage: message('Accounts.CreateError')})
+    })
   }
 
   // given an s3 key, fetch the profile for that key and use it
@@ -178,8 +157,8 @@ export default class SelectAccount extends PureComponent<Props> {
     // instead of just data (AWS library uses Axios).
     API.post(AMPLIFY_API_NAME, '/clients', {
       body: {
-        email: 'kkillebrew+ok@azavea.com',
-        voucher: '22222222'
+        email: 'kkillebrew+jkl@azavea.com',
+        voucher: '33333333'
       }
     }).then(response => {
       if (response.error) {
