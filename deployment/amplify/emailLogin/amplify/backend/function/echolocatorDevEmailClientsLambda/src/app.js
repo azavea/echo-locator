@@ -55,9 +55,9 @@ app.post('/clients', function(req, res) {
   AWS.config.update({region: process.env.REGION});
   var cognito = new AWS.CognitoIdentityServiceProvider();
 
-  var username = req.body.email;
+  var email = req.body.email;
   var voucher = req.body.voucher;
-  if (!username) {
+  if (!email) {
     res.json({error: 'Missing user email in POST body'});
     return;
   }
@@ -69,13 +69,19 @@ app.post('/clients', function(req, res) {
   var userPool = process.env.AUTH_ECHOLOCATORDEVEMAILAUTH_USERPOOLID;
   var params = {
     UserPoolId: userPool,
-    Username: username
+    Username: email
   };
   cognito.adminGetUser(params, function(err, data) {
     if (err && err.code === 'UserNotFoundException') {
       params['UserAttributes'] = [{
         Name: 'custom:voucher',
         Value: voucher
+      }, {
+        Name: 'email',
+        Value: email
+      }, {
+        Name: 'email_verified',
+        Value: 'true'
       }];
       cognito.adminCreateUser(params, function(err, data) {
         if (err) {
@@ -88,8 +94,8 @@ app.post('/clients', function(req, res) {
     } else if (err) {
       res.json({error: err});
     } else {
-      console.log('User ' + username + ' already exists');
-      res.json({error: 'User ' + username + ' already exists'});
+      console.log('User ' + email + ' already exists');
+      res.json({error: 'User ' + email + ' already exists'});
     }
   });
 });

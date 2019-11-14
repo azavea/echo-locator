@@ -70,7 +70,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-echolocatordevemail-devemail-124850-deployment",
-					"S3Key": "amplify-builds/echolocatorDevEmailClientsLambda-414a6c444c5362464845-build.zip"
+					"S3Key": "amplify-builds/echolocatorDevEmailClientsLambda-4376724a34304e383159-build.zip"
 				}
 			}
 		},
