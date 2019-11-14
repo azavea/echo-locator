@@ -245,9 +245,17 @@ export default function withAuthenticator (Comp, includeGreetings = false,
         if (data && data.attributes) {
           this.handleUserSignIn(state, data)
         } else {
-          // shouldn't happen
+          // On user's first login, auth data user attributes are not set.
+          // Fetch user data, then handle the login.
           console.warn('signed in with no data', data)
-          this.setState({authState: state, authData: data})
+          Auth.currentAuthenticatedUser({bypassCache: true}).then(userData => {
+            console.log('got user data for new user login', userData)
+            this.handleUserSignIn(state, userData)
+          }).catch(userDataErr => {
+            console.error('Failed to get user data for new user login')
+            console.error(userDataErr)
+            this.setState({authState: state, authData: data})
+          })
         }
       } else {
         console.log('Setting state ' + state)
