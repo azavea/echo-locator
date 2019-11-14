@@ -9,6 +9,7 @@ import LogRocket from 'logrocket'
 import {clearLocalStorage, storeConfig} from '../config'
 import {AMPLIFY_API_NAME, ANONYMOUS_USERNAME, PROFILE_CONFIG_KEY} from '../constants'
 import type {AccountProfile} from '../types'
+import storeDefaultProfile from '../utils/store-default-profile'
 
 import CustomHeaderBar from './custom-header-bar'
 
@@ -25,6 +26,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       this.handleAuthStateChange = this.handleAuthStateChange.bind(this)
       this.logoutEcholocator = this.logoutEcholocator.bind(this)
       this.setClientProfile = this.setClientProfile.bind(this)
+      this.fetchAndSetProfile = this.fetchAndSetProfile.bind(this)
       this.goToClientProfile = this.goToClientProfile.bind(this)
       this.handleUserSignIn = this.handleUserSignIn.bind(this)
 
@@ -52,10 +54,10 @@ export default function withAuthenticator (Comp, includeGreetings = false,
     }
 
     /**
-     * Returns promise that resovles to `true` if the voucher number and `key` on the given
-     * account profile match each other and the voucher number attribute on the currently
+     * Returns promise that resovles to `true` if the `key` on the given account profile contains
+     * the voucher number and the voucher number matches the custom attribute on the currently
      * logged-in user's Cognito account. Counselors have no voucher number assigned in Cognito,
-     * so for them, it only checks that the voucher number and key match.
+     * so for them, it only checks that the key contains the voucher number.
      */
     checkVoucherNumber (profile: AccountProfile): Promise<boolean> {
       return new Promise((resolve, reject) => {
@@ -69,13 +71,14 @@ export default function withAuthenticator (Comp, includeGreetings = false,
             }
             // counselor account
             if (!vnum) {
-              resolve(profile.voucherNumber === profile.key)
+              resolve(profile.key.indexOf(profile.voucherNumber) > -1)
+            } else {
+              // client account; verify Cognito voucher number matches profile voucher and key
+              resolve(profile.voucherNumber === vnum && profile.key.indexOf(vnum) > -1)
             }
-            // client account; verify Cognito voucher number matches profile voucher and key
-            resolve(profile.voucherNumber === vnum && vnum === profile.key)
           } else if (profile.voucherNumber === ANONYMOUS_USERNAME) {
             // anonymous login has no current user data
-            resolve(profile.voucherNumber === profile.key)
+            resolve(profile.key.indexOf(profile.voucherNumber) > -1)
           } else {
             console.error('Failed to get Cognito profile attributes for currently logged in user.')
             resolve(false)
@@ -97,11 +100,49 @@ export default function withAuthenticator (Comp, includeGreetings = false,
           if (isValid) {
             storeConfig(PROFILE_CONFIG_KEY, profile)
             this.props.store.dispatch({type: 'set profile', payload: profile})
-            resolve(true)
           } else {
             console.error('Cannot change user profile; voucher number does not match.')
-            resolve(false)
           }
+          resolve(isValid)
+        })
+      })
+    }
+
+    fetchAndSetProfile (key: string): Promise<boolean> {
+      return new Promise((resolve, reject) => {
+        Storage.get(key, {download: true, expires: 60}).then(s3Result => {
+          const text = s3Result.Body.toString('utf-8')
+          const profile: AccountProfile = JSON.parse(text)
+          // Ensure profile key always matches S3 key
+          // In case it has been copied from a counselor-created profile,
+          // it might not yet.
+          if (profile.key !== key) {
+            console.warn('Correcting profile key')
+            profile.key = key
+            Storage.put(key, JSON.stringify(profile)).then(saveResult => {
+              console.log('Updated profile with client key')
+              console.log(saveResult)
+            }).catch(saveError => {
+              console.error('Failed to update profile key on S3')
+              console.error(saveError)
+            })
+          }
+          this.changeUserProfile(profile).then(didChange => {
+            if (didChange) {
+              // Skip profile page and go to map if profile exists and has destinations set
+              const destination = profile && profile.destinations &&
+                profile.destinations.length ? '/map' : '/profile'
+              this.props.history.push({pathname: destination, state: {fromApp: true}})
+              resolve(true)
+            } else {
+              // Failed to set profile
+              console.error('Failed to set user profile')
+              resolve(false)
+            }
+          })
+        }).catch(err => {
+          console.warn('Failed to fetch profile from S3 at ' + key)
+          reject(err)
         })
       })
     }
@@ -114,22 +155,8 @@ export default function withAuthenticator (Comp, includeGreetings = false,
           console.log('identity ID: ' + data.id)
           const identityId = data.id
           const key = `${voucher}_${identityId}`
-          Storage.get(key, {download: true, expires: 60}).then(result => {
-            const text = result.Body.toString('utf-8')
-            const profile: AccountProfile = JSON.parse(text)
-            this.changeUserProfile(profile).then(didChange => {
-              if (didChange) {
-                // Skip profile page and go to map if profile exists and has destinations set
-                const destination = profile && profile.destinations &&
-                  profile.destinations.length ? '/map' : '/profile'
-                this.props.history.push({pathname: destination, state: {fromApp: true}})
-                resolve(true)
-              } else {
-                // Failed to set profile
-                console.error('Failed to set user profile')
-                resolve(false)
-              }
-            })
+          this.fetchAndSetProfile(key).then(fetchAndSetWorked => {
+            resolve(fetchAndSetWorked)
           }).catch(err => {
             // If file not found, client users only get `AccessDenied`
             // because they do not have list bucket permissions
@@ -137,8 +164,21 @@ export default function withAuthenticator (Comp, includeGreetings = false,
               console.error('Failed to get key found on s3: ' + key)
               // Hit API endpoint to handle getting counselor-created profile
               // First have to use `Auth.currentUserInfo` to get Identity ID
-              this.setClientProfile(identityId, email).then(itWorked => {
-                resolve(itWorked)
+              this.setClientProfile(identityId, email, voucher).then(itWorked => {
+                if (!itWorked) {
+                  console.warn('Failed to setClientProfile')
+                  resolve(false)
+                } else {
+                  // retry s3 get; now it should exist
+                  this.fetchAndSetProfile(key).then(retryWorked => {
+                    resolve(retryWorked)
+                  }).catch(retryErr => {
+                    // Shouldn't happen
+                    console.error('Failed to get S3 profile after setting it')
+                    console.error(retryErr)
+                    resolve(false)
+                  })
+                }
               })
             } else {
               console.error(err.code)
@@ -155,7 +195,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       })
     }
 
-    setClientProfile (identityId: string, email: string): Promise<boolean> {
+    setClientProfile (identityId: string, email: string, voucher: string): Promise<boolean> {
       return new Promise((resolve, reject) => {
         API.post(AMPLIFY_API_NAME, '/profiles', {
           body: {
@@ -164,18 +204,31 @@ export default function withAuthenticator (Comp, includeGreetings = false,
           }
         }).then(response => {
           if (response.error) {
-            console.error('Failed to POST to profiles API')
-            console.error(response.error)
-            console.error(response)
-            resolve(false)
+            if (response.error === 'No profiles found on S3 for voucher') {
+              // There is no counselor-created profile to edit, so
+              // make a default profile.
+              const key = `${voucher}_${identityId}`
+              storeDefaultProfile(voucher, key).then(s3PutResult => {
+                console.log('stored default profile', s3PutResult)
+                resolve(true)
+              }).catch(s3PutError => {
+                console.error('Failed to store default profile to s3')
+                console.error(s3PutError)
+                resolve(false)
+              })
+            } else {
+              console.error('Failed to POST to profiles API')
+              console.error(response)
+              resolve(false)
+            }
           } else {
             console.log('Profile API POST succeeded')
             console.log(response)
             resolve(true)
           }
-        }).catch(error => {
+        }).catch(err => {
           console.error('Profile API call failed')
-          console.error(error)
+          console.error(err)
           resolve(false)
         })
       })
@@ -208,12 +261,11 @@ export default function withAuthenticator (Comp, includeGreetings = false,
         console.log('A client logged in. Voucher #' + voucher)
         // attempt to go to client profile directly
         this.goToClientProfile(voucher, email).then(succeeded => {
-          // FIXME: do something on failure
           this.setState({authState: state, authData: data})
         })
       } else {
+        // Shouldn't happen
         console.error('User logged in who is not a counselor and has no voucher set')
-        // FIXME: do something
         this.setState({authState: state, authData: data})
       }
     }

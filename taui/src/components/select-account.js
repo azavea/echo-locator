@@ -28,7 +28,7 @@ export default class SelectAccount extends PureComponent<Props> {
     this.createAccount = this.createAccount.bind(this)
     this.selectAccount = this.selectAccount.bind(this)
     this.search = this.search.bind(this)
-    this.testApi = this.testApi.bind(this)
+    this.createClientUser = this.createClientUser.bind(this)
   }
 
   changeVoucherNumber (event) {
@@ -50,7 +50,7 @@ export default class SelectAccount extends PureComponent<Props> {
       this.setState({errorMessage: ''})
     }
 
-    storeDefaultProfile(voucher).then(result => {
+    storeDefaultProfile(voucher, voucher).then(result => {
       search() // Refresh results; will find and go to the new profile
     }).catch(err => {
       console.error('Failed to post new profile to S3')
@@ -122,10 +122,9 @@ export default class SelectAccount extends PureComponent<Props> {
               this.setState({noResults: true})
               return
             } else if (s3list.length > 1) {
-              // FIXME: what else to do?
+              // FIXME: how should this be handled? Not impossible
               console.error('Found more than one profile for voucher ' + voucher)
             }
-            // FIXME: store key for profile in use and use it when saving to it later
             const key = s3list[0].key
             this.goToProfile(key)
           }).catch(err => {
@@ -150,15 +149,15 @@ export default class SelectAccount extends PureComponent<Props> {
     })
   }
 
-  testApi () {
-    console.log('test api query')
+  createClientUser () {
+    console.log('test creating a client user Cognito account...')
 
     // Also set `response: true` in addition to `body` to get full response,
     // instead of just data (AWS library uses Axios).
     API.post(AMPLIFY_API_NAME, '/clients', {
       body: {
-        email: 'kkillebrew+jkl@azavea.com',
-        voucher: '33333333'
+        email: 'kkillebrew+k@azavea.com',
+        voucher: 'KKKKKK'
       }
     }).then(response => {
       if (response.error) {
@@ -178,7 +177,7 @@ export default class SelectAccount extends PureComponent<Props> {
   render () {
     const changeVoucherNumber = this.changeVoucherNumber
     const createAccount = this.createAccount
-    const testApi = this.testApi
+    const createClientUser = this.createClientUser
 
     const state = this.state
 
@@ -214,8 +213,8 @@ export default class SelectAccount extends PureComponent<Props> {
                 </button>
                 <button
                   className='account-search__button account-search__button--create'
-                  onClick={testApi}>
-                  Test the thing
+                  onClick={createClientUser}>
+                  Test client user creation
                 </button>
               </div>
             </form>
