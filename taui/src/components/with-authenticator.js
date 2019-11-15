@@ -68,6 +68,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
             if (!profile || !profile.voucherNumber || !profile.key) {
               console.error('Cannot verify profile voucher number because it is missing.')
               resolve(false)
+              return
             }
             // counselor account
             if (!vnum) {
