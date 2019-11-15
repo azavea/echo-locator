@@ -1,11 +1,9 @@
 // @flow
-import API from '@aws-amplify/api'
 import Auth from '@aws-amplify/auth'
 import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
-import {AMPLIFY_API_NAME} from '../constants'
 import type {AccountProfile} from '../types'
 import storeDefaultProfile from '../utils/store-default-profile'
 import validateVoucherNumber from '../utils/validate-voucher-number'
@@ -28,7 +26,6 @@ export default class SelectAccount extends PureComponent<Props> {
     this.createAccount = this.createAccount.bind(this)
     this.selectAccount = this.selectAccount.bind(this)
     this.search = this.search.bind(this)
-    this.createClientUser = this.createClientUser.bind(this)
   }
 
   changeVoucherNumber (event) {
@@ -109,35 +106,94 @@ export default class SelectAccount extends PureComponent<Props> {
     this.selectAccount(searchVoucher)
   }
 
-  selectAccount (voucher) {
+  selectAccount (voucher: string) {
     Auth.currentSession().then(data => {
       if (data && data.idToken && data.idToken.payload) {
         const groups = data.idToken.payload['cognito:groups']
         if (groups && groups.length > 0 && groups.indexOf('counselors') > -1) {
-          console.log('user is a counselor!')
+          console.log('user is a counselor')
           Storage.list(voucher).then(s3list => {
-            console.log('found profiles matching voucher:')
+            console.log('found possible profile search results for voucher:')
             console.log(s3list)
             if (!s3list || s3list.length === 0) {
               this.setState({noResults: true})
-              return
             } else if (s3list.length > 1) {
-              // FIXME: how should this be handled? Not impossible
-              console.error('Found more than one profile for voucher ' + voucher)
+              // Attempt to handle multiple matches
+              // Might happen if search overlapped another voucher, as length can vary
+              // (i.e., searched for '123456' but found '12345678')
+              // Might also happen if a counselor edited a previously-opened profile
+              // after the client for that profile logged in for the first time,
+              // which should be unusual but not impossible.
+              console.log('Found more than one profile for voucher ' + voucher)
+              var useKey = ''
+              var clientMatches = 0
+              var counselorMatch = false
+              for (var i = 0; i < s3list.length; i++) {
+                const key = s3list[i].key
+                const splitKey = key.split('_')
+                // Ensure it is an exact match
+                if (splitKey[0] !== voucher) {
+                  console.log('Found an inexact match for voucher, ignoring')
+                  continue
+                }
+                if (splitKey.length === 1) {
+                  console.log('Found a counselor-created profile')
+                  counselorMatch = true
+                  if (!useKey) {
+                    useKey = key // use counselor-created profile, if nothing else matches
+                  }
+                } else if (splitKey.length === 2) {
+                  console.log('Found a client-owned profile')
+                  clientMatches += 1
+                  useKey = key
+                }
+              }
+
+              // Should not find more than one client-owned profile for a given voucher number.
+              // Log it if it happens.
+              if (clientMatches > 1) {
+                console.error('Found ' + clientMatches + ' client profiles; should only have one')
+              } else if (clientMatches > 0 && counselorMatch) {
+                // In this case, the counselor-created profile should be deleted
+                // and the client profile used instead.
+                console.warn('Found both a client and a counselor-created profile; delete counselor-created copy')
+                // Note this happens asynchronously from loading the client copy
+                Storage.remove(voucher).then(result => {
+                  console.log('Succeeded in removing counselor-created profile copy')
+                }).catch(err => {
+                  console.error('Failed to delete counselor-created profile copy')
+                  console.error(err)
+                })
+              }
+
+              if (useKey) {
+                console.log('Going to load profile for key ' + useKey)
+                this.goToProfile(useKey)
+              } else {
+                console.log('Found no useable matches, although there were results')
+                this.setState({noResults: true})
+              }
+            } else {
+              // Exactly one result, as expected. Ensure it is an exact match.
+              const key = s3list[0].key
+              if (key.split('_')[0] === voucher) {
+                this.goToProfile(key)
+              } else {
+                this.setState({noResults: true})
+              }
             }
-            const key = s3list[0].key
-            this.goToProfile(key)
           }).catch(err => {
             this.setState({errorMessage: message('Accounts.SelectError')})
             console.error('Failed to fetch s3 contents that match voucher ' + voucher)
             console.error(err)
           })
         } else {
+          // Should not happen, as clients do not have access to this search page
+          // and should have their profile retrieved automatically.
+          // But if a client does get here and they search for themselves, go to their profile.
+          // (S3 permissions will prevent them from loading anyone else's).
           console.warn('not a counselor, attempt to go directly to profile')
           Auth.currentUserInfo().then(data => {
-            console.log('user info:')
-            console.log(data)
-            console.log('identity ID: ' + data.id)
             this.goToProfile(`${voucher}_${data.id}`)
           }).catch(err => {
             console.error(err)
@@ -149,35 +205,9 @@ export default class SelectAccount extends PureComponent<Props> {
     })
   }
 
-  createClientUser () {
-    console.log('test creating a client user Cognito account...')
-
-    // Also set `response: true` in addition to `body` to get full response,
-    // instead of just data (AWS library uses Axios).
-    API.post(AMPLIFY_API_NAME, '/clients', {
-      body: {
-        email: 'kkillebrew+k@azavea.com',
-        voucher: 'KKKKKK'
-      }
-    }).then(response => {
-      if (response.error) {
-        console.error('Failed to create user')
-        console.error(response.error)
-      } else {
-        console.log('User created!')
-        console.log(response)
-      }
-    }).catch(error => {
-      // A 403 (as when user is not a counselor) will only return "Network Error"
-      console.error('API call to create user failed')
-      console.error(error)
-    })
-  }
-
   render () {
     const changeVoucherNumber = this.changeVoucherNumber
     const createAccount = this.createAccount
-    const createClientUser = this.createClientUser
 
     const state = this.state
 
@@ -210,11 +240,6 @@ export default class SelectAccount extends PureComponent<Props> {
                 <button
                   className='account-search__button account-search__button--search'>
                   {message('Accounts.Search')}
-                </button>
-                <button
-                  className='account-search__button account-search__button--create'
-                  onClick={createClientUser}>
-                  Test client user creation
                 </button>
               </div>
             </form>
