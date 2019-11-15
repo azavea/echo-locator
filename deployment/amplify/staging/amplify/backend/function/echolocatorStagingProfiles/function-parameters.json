@@ -1,0 +1,20 @@
+{
+    "permissions": {
+        "auth": {
+            "echolocatorStagingAuth": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        },
+        "storage": {
+            "echolocatorStagingStorage": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}

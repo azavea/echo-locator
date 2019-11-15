@@ -1,141 +1,130 @@
 AWSTemplateFormatVersion: 2010-09-09
 
 Parameters:
+  env:
+    Type: String
+  authRoleArn:
+    Type: String
+  unauthRoleArn:
+    Type: String
+  
+  
+
     
   identityPoolName:
     Type: String
-              
+                
   allowUnauthenticatedIdentities:
     Type: String
             
-  thirdPartyAuth:
+  resourceNameTruncated:
     Type: String
-          
-  lambdaLogPolicy:
-    Type: String
-            
-  openIdLambdaRoleName:
-    Type: String
-            
-  openIdRolePolicy:
-    Type: String
-            
-  openIdLambdaIAMPolicy:
-    Type: String
-            
-  openIdLogPolicy:
-    Type: String
-            
+              
   userPoolName:
     Type: String
-                  
+                      
   autoVerifiedAttributes:
     Type: CommaDelimitedList
       
   mfaConfiguration:
     Type: String
-                  
+                      
   mfaTypes:
     Type: CommaDelimitedList
       
-  roleName:
-    Type: String
-            
-  roleExternalId:
-    Type: String
-            
-  policyName:
-    Type: String
-            
   smsAuthenticationMessage:
     Type: String
-            
+              
   smsVerificationMessage:
     Type: String
-            
+              
   emailVerificationSubject:
     Type: String
-            
+              
   emailVerificationMessage:
     Type: String
-              
+                
   defaultPasswordPolicy:
     Type: String
-              
+                
   passwordPolicyMinLength:
     Type: Number
-              
+                  
   passwordPolicyCharacters:
     Type: CommaDelimitedList
-            
+              
   requiredAttributes:
     Type: CommaDelimitedList
-      
-  userpoolClientName:
-    Type: String
-              
+        
   userpoolClientGenerateSecret:
     Type: String
-          
+                
   userpoolClientRefreshTokenValidity:
-    Type: String
+    Type: Number
                   
+  userpoolClientWriteAttributes:
+    Type: CommaDelimitedList
+              
   userpoolClientReadAttributes:
     Type: CommaDelimitedList
       
-  mfaLambdaRole:
-    Type: String
-            
-  mfaLambdaLogPolicy:
-    Type: String
-            
-  mfaPassRolePolicy:
-    Type: String
-            
-  mfaLambdaIAMPolicy:
-    Type: String
-            
   userpoolClientLambdaRole:
     Type: String
-            
-  userpoolClientLogPolicy:
-    Type: String
-            
-  userpoolClientLambdaPolicy:
-    Type: String
-              
+                
   userpoolClientSetAttributes:
     Type: String
-          
+            
   useDefault:
     Type: String
-            
+              
   authSelections:
     Type: String
-            
+              
   resourceName:
     Type: String
-            
-  unAuthRoleName:
+                
+  thirdPartyAuth:
+    Type: String
+                    
+  usernameAttributes:
+    Type: CommaDelimitedList
+        
+  userPoolGroups:
+    Type: String
+              
+  adminQueries:
     Type: String
             
-  authRoleName:
+  triggers:
     Type: String
-            
-  unAuthRoleArn:
+                
+  hostedUI:
     Type: String
-            
-  authRoleArn:
+                    
+  userPoolGroupList:
+    Type: CommaDelimitedList
+                                    
+  parentStack:
     Type: String
-          
+                
+  permissions:
+    Type: CommaDelimitedList
+              
+  dependsOn:
+    Type: CommaDelimitedList
+    
+Conditions:
+  ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
+
 Resources:
+  
   
   # BEGIN SNS ROLE RESOURCE
   SNSRole: 
   # Created to allow the UserPool SMS Config to publish via the Simple Notification Service during MFA Process
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Ref roleName
+      RoleName: !If [ShouldNotCreateEnvResources, 'echolo468d423e_sns-role', !Join ['',['echolo468d423e_sns-role', '-', !Ref env]]]
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement: 
@@ -147,10 +136,10 @@ Resources:
               - "sts:AssumeRole"
             Condition: 
               StringEquals:
-                sts:ExternalId: !Ref roleExternalId
+                sts:ExternalId: echolo468d423e_role_external_id
       Policies: 
         - 
-          PolicyName: !Ref policyName
+          PolicyName: echolo468d423e-sns-policy
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
@@ -166,14 +155,24 @@ Resources:
     Type: AWS::Cognito::UserPool
     UpdateReplacePolicy: Retain
     Properties:
-      UserPoolName: !Ref userPoolName
+      UserPoolName: !If [ShouldNotCreateEnvResources, !Ref userPoolName, !Join ['',[!Ref userPoolName, '-', !Ref env]]]
+      
       Schema: 
         
         -
           Name: email
           Required: true
           Mutable: true
-        
+        -
+          Name: voucher
+          Required: false
+          Mutable: false
+          AttributeDataType: String
+          StringAttributeConstraints:
+            MinLength: "6"
+            MaxLength: "8"
+      
+      
       
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
       
@@ -184,22 +183,41 @@ Resources:
       Policies:
         PasswordPolicy:
           MinimumLength: !Ref passwordPolicyMinLength
-          RequireLowercase: true
-          RequireNumbers: true
-          RequireSymbols: true
-          RequireUppercase: true
+          RequireLowercase: false
+          RequireNumbers: false
+          RequireSymbols: false
+          RequireUppercase: false
+      
+      UsernameAttributes: !Ref usernameAttributes
+          
       MfaConfiguration: !Ref mfaConfiguration
       SmsVerificationMessage: !Ref smsVerificationMessage
       SmsConfiguration: 
         SnsCallerArn: !GetAtt SNSRole.Arn
-        ExternalId: !Ref roleExternalId 
+        ExternalId: echolo468d423e_role_external_id
     
+  
+    
+    
+  
+    
+    
+  
+  
+   
+    
+  # Updating lambda role with permissions to Cognito
+  
+  
   UserPoolClientWeb:
   # Created provide application access to user pool
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: cognitoEcholocatorTest_app_clientWeb
+      ClientName: echolo468d423e_app_clientWeb
+      
+      ReadAttributes: !Ref userpoolClientReadAttributes
+      WriteAttributes: !Ref userpoolClientWriteAttributes
       
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
@@ -209,7 +227,10 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: !Ref userpoolClientName
+      ClientName: echolo468d423e_app_client
+      
+      ReadAttributes: !Ref userpoolClientReadAttributes
+      WriteAttributes: !Ref userpoolClientWriteAttributes
       
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
@@ -220,7 +241,7 @@ Resources:
   # Created to execute Lambda which gets userpool app client config values
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: !Ref userpoolClientLambdaRole     
+      RoleName: !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -257,12 +278,12 @@ Resources:
             - '       response.send(event, context, response.SUCCESS, {''appSecret'': res.UserPoolClient.ClientSecret});'   
             - '     })'
             - '     .catch((err) => {'
-            - '       response.send(event, context, response.FAILURE, {err});'
+            - '       response.send(event, context, response.FAILED, {err});'
             - '     });'
             - ' }'
             - '};'
       Handler: index.handler
-      Runtime: nodejs6.10
+      Runtime: nodejs8.10
       Timeout: '300'
       Role: !GetAtt 
         - UserPoolClientRole
@@ -274,9 +295,9 @@ Resources:
   # Marked as depending on UserPoolClientRole for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: !Ref userpoolClientLambdaPolicy
+      PolicyName: echolo468d423e_userpoolclient_lambda_iam_policy
       Roles: 
-        - !Ref userpoolClientLambdaRole
+        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -291,9 +312,9 @@ Resources:
   # Marked as depending on UserPoolClientLambdaPolicy for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: !Ref userpoolClientLogPolicy
+      PolicyName: echolo468d423e_userpoolclient_lambda_log_policy
       Roles: 
-        - !Ref userpoolClientLambdaRole
+        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -318,15 +339,20 @@ Resources:
       userpoolId: !Ref UserPool
     DependsOn: UserPoolClientLogPolicy
   
+
+  
+  
+
+  
     
   # BEGIN IDENTITY POOL RESOURCES
   
-  
+ 
   IdentityPool:
   # Always created
     Type: AWS::Cognito::IdentityPool
     Properties: 
-      IdentityPoolName: echolocatorIdentityPoolTest
+      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'echolocatorStagingIdentityPool', !Join ['',['echolocatorStagingIdentityPool', '__', !Ref env]]]
       
       CognitoIdentityProviders:
         - ClientId:  !Ref UserPoolClient
@@ -351,7 +377,7 @@ Resources:
     Properties: 
       IdentityPoolId: !Ref IdentityPool
       Roles:
-          unauthenticated: !Ref unAuthRoleArn
+          unauthenticated: !Ref unauthRoleArn
           authenticated: !Ref authRoleArn
     DependsOn: IdentityPool
   
@@ -363,6 +389,8 @@ Outputs :
     Description:  Id for the identity pool
   IdentityPoolName:
     Value: !GetAtt IdentityPool.Name 
+  
+  
   
   
   UserPoolId:
@@ -382,5 +410,6 @@ Outputs :
    
    
   
+   
    
   
