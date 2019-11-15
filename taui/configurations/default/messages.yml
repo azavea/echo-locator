@@ -120,6 +120,11 @@ Profile:
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
   Cancel: Cancel
+  ClientEmail: Client e-mail address
+  ClientEmailError: Please enter a valid e-mail address for the client.
+  ClientInviteSent: Invitation has been emailed to the client.
+  CreateClientAccount: Create client account
+  CreateClientAccountError: Failed to create client log-in account. Please try again.
   DeleteDestination: Delete this destination
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.

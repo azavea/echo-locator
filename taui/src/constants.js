@@ -8,6 +8,9 @@ export const ANONYMOUS_USERNAME = 'ANONYMOUS'
 
 export const AMPLIFY_API_NAME = awsmobile['aws_cloud_logic_custom'][0].name
 
+// https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
+export const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
 // Neighborhood image fields
 export const IMAGE_FIELDS = [
   'town_square',
