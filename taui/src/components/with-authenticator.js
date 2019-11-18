@@ -54,7 +54,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
     }
 
     /**
-     * Returns promise that resovles to `true` if the `key` on the given account profile contains
+     * Returns promise that resolves to `true` if the `key` on the given account profile contains
      * the voucher number and the voucher number matches the custom attribute on the currently
      * logged-in user's Cognito account. Counselors have no voucher number assigned in Cognito,
      * so for them, it only checks that the key contains the voucher number.
