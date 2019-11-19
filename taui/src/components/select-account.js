@@ -117,7 +117,16 @@ export default class SelectAccount extends PureComponent<Props> {
             console.log(s3list)
             if (!s3list || s3list.length === 0) {
               this.setState({noResults: true})
-            } else if (s3list.length > 1) {
+            } else if (s3list.length === 1) {
+              // Exactly one result, as expected. Ensure it is an exact match.
+              const key = s3list[0].key
+              if (key.split('_')[0] === voucher) {
+                this.goToProfile(key)
+              } else {
+                this.setState({noResults: true})
+              }
+            } else {
+              // s3list.length > 1
               // Attempt to handle multiple matches
               // Might happen if search overlapped another voucher, as length can vary
               // (i.e., searched for '123456' but found '12345678')
@@ -171,14 +180,6 @@ export default class SelectAccount extends PureComponent<Props> {
                 this.goToProfile(useKey)
               } else {
                 console.log('Found no useable matches, although there were results')
-                this.setState({noResults: true})
-              }
-            } else {
-              // Exactly one result, as expected. Ensure it is an exact match.
-              const key = s3list[0].key
-              if (key.split('_')[0] === voucher) {
-                this.goToProfile(key)
-              } else {
                 this.setState({noResults: true})
               }
             }
