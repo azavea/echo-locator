@@ -21,11 +21,7 @@ export default class CustomHeaderBar extends Greetings {
   getUserName () {
     const user = this.props.authData
     // get name from attributes first
-    const nameFromAttr = user.attributes
-      ? (user.attributes.name ||
-      (user.attributes.given_name
-        ? (user.attributes.given_name + ' ' + user.attributes.family_name) : undefined))
-      : undefined
+    const nameFromAttr = user.attributes ? user.attributes.email : undefined
     return nameFromAttr || user.name || user.username
   }
 
@@ -42,6 +38,7 @@ export default class CustomHeaderBar extends Greetings {
     if (!signedIn) { return null }
     const userProfile: AccountProfile = this.props.userProfile || this.state.userProfile
     const isAnonymous = userProfile && userProfile.key === ANONYMOUS_USERNAME
+    const isCounselor = !!this.props.authData.counselor && !isAnonymous
     const signIn = this.signIn
     const theme = this.props.theme
 
@@ -52,7 +49,7 @@ export default class CustomHeaderBar extends Greetings {
         <span className='app-header__button'>
           <Link to={{pathname: '/profile', state: {fromApp: true}}}>{message('Header.Edit')}</Link>
         </span>
-        {!isAnonymous && <span className='app-header__button app-header__button--new'>
+        {isCounselor && <span className='app-header__button app-header__button--new'>
           <Link to='/search'>{message('Header.New')}</Link>
         </span>}
       </div>

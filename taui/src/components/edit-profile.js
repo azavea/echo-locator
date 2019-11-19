@@ -1,4 +1,5 @@
 // @flow
+import API from '@aws-amplify/api'
 import Storage from '@aws-amplify/storage'
 import lonlat from '@conveyal/lonlat'
 import message from '@conveyal/woonerf/message'
@@ -7,11 +8,13 @@ import {PureComponent} from 'react'
 import Icon from '@conveyal/woonerf/components/icon'
 
 import {
+  AMPLIFY_API_NAME,
   ANONYMOUS_USERNAME,
   DEFAULT_ACCESSIBILITY_IMPORTANCE,
   DEFAULT_CRIME_IMPORTANCE,
   DEFAULT_PROFILE_DESTINATION_TYPE,
   DEFAULT_SCHOOLS_IMPORTANCE,
+  EMAIL_REGEX,
   MAX_ADDRESSES,
   MAX_IMPORTANCE,
   MAX_ROOMS,
@@ -22,6 +25,7 @@ import type {AccountAddress, AccountProfile} from '../types'
 import Geocoder from './geocoder'
 
 type Props = {
+  authData: any,
   geocode: (string, Function) => void,
   reverseGeocode: (string, Function) => void
 }
@@ -45,6 +49,8 @@ export default class EditProfile extends PureComponent<Props> {
     super(props)
 
     this.addAddress = this.addAddress.bind(this)
+    this.changedClientEmail = this.changedClientEmail.bind(this)
+    this.createClientAccount = this.createClientAccount.bind(this)
     this.deleteAddress = this.deleteAddress.bind(this)
     this.deleteProfile = this.deleteProfile.bind(this)
     this.editAddress = this.editAddress.bind(this)
@@ -94,7 +100,10 @@ export default class EditProfile extends PureComponent<Props> {
         voucherNumber: profile.voucherNumber,
         componentError: null,
         errorMessage: '',
-        isAnonymous: profile.key === ANONYMOUS_USERNAME
+        isAnonymous: profile.key === ANONYMOUS_USERNAME,
+        // not part of profile
+        clientEmail: '',
+        clientInviteSent: false
       }
     } else {
       // Use defaults for new profile
@@ -112,7 +121,10 @@ export default class EditProfile extends PureComponent<Props> {
         voucherNumber: '',
         componentError: null,
         errorMessage: '',
-        isAnonymous: true
+        isAnonymous: true,
+        // not part of profile
+        clientEmail: '',
+        clientInviteSent: false
       }
     }
   }
@@ -184,8 +196,16 @@ export default class EditProfile extends PureComponent<Props> {
     if (!isAnonymous) {
       Storage.put(profile.key, JSON.stringify(profile))
         .then(result => {
-          this.props.changeUserProfile(profile)
-          this.props.history.push('/map')
+          this.props.changeUserProfile(profile).then(res => {
+            if (res) {
+              this.props.history.push('/map')
+            } else {
+              console.error('Could not change user profile after edit')
+            }
+          }).catch(changeError => {
+            console.error('Failed to change user profile after edit')
+            console.error(changeError)
+          })
         })
         .catch(err => {
           console.error(err)
@@ -196,6 +216,55 @@ export default class EditProfile extends PureComponent<Props> {
       this.props.changeUserProfile(profile)
       this.props.history.push('/map')
     }
+  }
+
+  changedClientEmail (newValue: string) {
+    this.setState({clientEmail: newValue})
+  }
+
+  createClientAccount (key: string, event: any) {
+    if (!key) {
+      console.error('Cannot create client log-in account without key')
+      this.setState({errorMessage: message('Profile.CreateClientAccountError')})
+      return
+    } else if (key.indexOf('_') > -1) {
+      console.error('Cannot create client log-in account. It looks like it already exists')
+      this.setState({errorMessage: message('Profile.CreateClientAccountError')})
+      return
+    }
+
+    const clientEmail = this.state.clientEmail
+    if (!clientEmail || !EMAIL_REGEX.test(clientEmail)) {
+      console.warn('does not look like an email', clientEmail)
+      this.setState({errorMessage: message('Profile.ClientEmailError')})
+      return
+    }
+
+    console.log('Create client user Cognito account for ' + clientEmail)
+    // Also set `response: true` in addition to `body` to get full response,
+    // instead of just data (AWS library uses Axios).
+    API.post(AMPLIFY_API_NAME, '/clients', {
+      body: {
+        email: clientEmail,
+        voucher: key
+      }
+    }).then(response => {
+      if (response.error) {
+        console.error('Failed to create user')
+        console.error(response.error)
+        console.error(response)
+        this.setState({errorMessage: message('Profile.CreateClientAccountError')})
+      } else {
+        console.log('User created (or invite resent)')
+        console.log(response)
+        this.setState({errorMessage: '', clientInviteSent: true})
+      }
+    }).catch(error => {
+      // A 403 (as when user is not a counselor) will only return "Network Error"
+      console.error('API call to create user failed')
+      console.error(error)
+      this.setState({errorMessage: message('Profile.CreateClientAccountError')})
+    })
   }
 
   deleteProfile (key, event) {
@@ -445,12 +514,15 @@ export default class EditProfile extends PureComponent<Props> {
     const setGeocodeLocation = this.setGeocodeLocation
     const setPrimaryAddress = this.setPrimaryAddress
     const cancel = this.cancel
+    const changedClientEmail = this.changedClientEmail
     const changeField = this.changeField
+    const createClientAccount = this.createClientAccount
     const deleteProfile = this.deleteProfile
     const save = this.save
 
-    const { geocode, reverseGeocode } = this.props
+    const { authData, geocode, reverseGeocode } = this.props
     const {
+      clientInviteSent,
       destinations,
       hasVehicle,
       headOfHousehold,
@@ -463,6 +535,9 @@ export default class EditProfile extends PureComponent<Props> {
       rooms,
       useCommuterRail
     } = this.state
+
+    const isCounselor = !!authData.counselor && !isAnonymous
+    const clientAccountExists = key.indexOf('_') > -1
 
     const DestinationsList = this.destinationsList
     const ImportanceOptions = this.importanceOptions
@@ -613,6 +688,34 @@ export default class EditProfile extends PureComponent<Props> {
                 {message('Profile.DeleteProfile')}
               </button>}
             </div>
+            {isCounselor && !clientAccountExists && !clientInviteSent &&
+            <div className='account-profile__actions'>
+              <div className='account-profile__field'>
+                <label
+                  className='account-profile__label'
+                  htmlFor='clientEmail'>
+                  {message('Profile.ClientEmail')}
+                </label>
+                <input
+                  data-private
+                  className='account-profile__input account-profile__input--text'
+                  id='clientEmail'
+                  type='email'
+                  defaultValue=''
+                  onChange={(e) => changedClientEmail(e.currentTarget.value)}
+                />
+              </div>
+              <button
+                className='account-profile__button account-profile__button--tertiary account-profile__button--iconLeft'
+                onClick={(e) => createClientAccount(key, e)}
+              >
+                <Icon type='sign-in' />
+                {message('Profile.CreateClientAccount')}
+              </button>
+            </div>}
+            {isCounselor && clientInviteSent && <div className='account-profile__actions'>
+              <p>{message('Profile.ClientInviteSent')}</p>
+            </div>}
           </div>}
         </div>
       </div>
