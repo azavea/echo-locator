@@ -69,7 +69,6 @@ app.post('/clients', function(req, res) {
         if (createErr) {
           console.log('Error creating user', createErr);
         } else {
-          console.log('Successfully created user', createData);
           res.json({user: createData, url: req.url});
         }
       });
@@ -77,14 +76,9 @@ app.post('/clients', function(req, res) {
       res.json({error: getErr});
     } else {
       // User already exists; resend the invite if user is not already confirmed
-      console.log('User ' + email + ' already exists');
-      console.log(userData);
       if (userData.UserStatus === 'CONFIRMED') {
-        console.log('User ' + email + ' already exists, and the account has been confirmed');
         res.json({error: 'User ' + email + ' already exists'});
       } else {
-        console.log('Resend invite to unconfirmed user ' + email);
-        console.log('Username ' + userData.Username + ' status: ' + userData.UserStatus);
         // The way to resend a user invite is not to use `ResendConfirmationCode`, but
         // to call to create the user again with the message action set to `RESEND`.
         params.MessageAction = 'RESEND';
@@ -92,7 +86,6 @@ app.post('/clients', function(req, res) {
           if (resendErr) {
             console.log('Error resending user invite', resendErr);
           } else {
-            console.log('Successfully resent user invite', resendData);
             res.json({user: resendData, url: req.url});
           }
         });

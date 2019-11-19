@@ -70,7 +70,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-echolocatorstaging-staging-202454-deployment",
-					"S3Key": "amplify-builds/echolocatorStagingClients-544e672b6336627a506c-build.zip"
+					"S3Key": "amplify-builds/echolocatorStagingClients-41552f566d5a38766265-build.zip"
 				}
 			}
 		},

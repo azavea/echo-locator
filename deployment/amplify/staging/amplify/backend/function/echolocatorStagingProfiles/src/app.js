@@ -66,7 +66,6 @@ app.post('/profiles', function(req, res) {
   // get Cognito user pool ID from CloudFront env parameters
   var userPool = process.env.AUTH_ECHOLOCATORSTAGINGAUTH_USERPOOLID;
   var bucketName = process.env.STORAGE_ECHOLOCATORSTAGINGSTORAGE_BUCKETNAME;
-  console.log('Bucket name: ' + bucketName);
 
   cognito.adminGetUser({
     UserPoolId: userPool,
@@ -80,9 +79,6 @@ app.post('/profiles', function(req, res) {
       console.error(getUserError);
       res.json({error: err});
     } else {
-      console.log('Found user');
-      console.log(userData);
-
       // get voucher number from user data
       if (!userData || !userData.UserAttributes || userData.UserAttributes.length === 0) {
         // Shouldn't happen, but check anyways
@@ -93,14 +89,10 @@ app.post('/profiles', function(req, res) {
       }
 
       // Look through the name/value pairs for the voucher number
-      var voucher = null;
-      for (var i = 0; i < userData.UserAttributes.length; i++) {
-        var attr = userData.UserAttributes[i];
-        if (attr.Name === 'custom:voucher') {
-          voucher = attr.Value;
-          break;
-        }
-      }
+      var voucherAttr = userData.UserAttributes.find(function(attr) {
+        return attr.Name === 'custom:voucher';
+      });
+      var voucher = voucherAttr.Value;
 
       if (!voucher) {
         console.error('Failed to find voucher number for user account');
@@ -117,7 +109,6 @@ app.post('/profiles', function(req, res) {
           console.error(listError);
           res.json({error: listError});
         } else {
-          console.log('S3 query succeeded', listData);
           if (listData && listData.KeyCount > 0) {
             if (listData.KeyCount > 1) {
               // Shouldn't happen, but might. This situation should be resolved manually.
@@ -142,7 +133,6 @@ app.post('/profiles', function(req, res) {
                   console.error(copyError);
                   res.json({error: copyError});
                 } else {
-                  console.log('File copy succeeded. Delete the original.');
                   s3.deleteObject({
                     Bucket: bucketName,
                     Key: key
@@ -152,7 +142,6 @@ app.post('/profiles', function(req, res) {
                       console.error(deleteError);
                       res.json({error: deleteError});
                     } else {
-                      console.log('Successfully deleted original S3 file aftery copying it');
                       res.json({key: newS3Key})
                     }
                   });
@@ -161,7 +150,6 @@ app.post('/profiles', function(req, res) {
             }
           } else {
             // no results
-            console.log('No results found on S3 for voucher ' + voucher);
             res.json({error: 'No profiles found on S3 for voucher', voucher});
           }
         }
