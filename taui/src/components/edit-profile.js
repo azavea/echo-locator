@@ -670,9 +670,6 @@ export default class EditProfile extends PureComponent<Props> {
                   changeField={changeField} />
               </div>
             </div>
-            {errorMessage &&
-              <p className='account-profile__error'>{errorMessage}</p>
-            }
             <div className='account-profile__actions'>
               <button
                 className='account-profile__button account-profile__button--primary'
@@ -690,6 +687,9 @@ export default class EditProfile extends PureComponent<Props> {
             </div>
           </div>}
         </div>
+        {errorMessage &&
+          <p className='account-profile__error'>{errorMessage}</p>
+        }
         {key && isCounselor && <div className='form-screen__callout'>
           {!clientAccountExists && !clientInviteSent &&
           <div className='convert-to-account'>

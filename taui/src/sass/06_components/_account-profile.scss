@@ -155,10 +155,12 @@
 
   &__error {
     @include text(400);
-    margin-top: 1.6rem;
+    @include font-weight(bold);
+    margin-top: 2.4rem;
     padding: 1.6rem;
-    color: $error;
-    background-color: $gray-100;
+    color: $white;
+    text-align: center;
+    background-color: $error;
   }
 
   &__actions {
