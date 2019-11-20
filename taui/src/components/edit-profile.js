@@ -690,44 +690,44 @@ export default class EditProfile extends PureComponent<Props> {
         {errorMessage &&
           <p className='account-profile__error'>{errorMessage}</p>
         }
-        {key && isCounselor && <div className='form-screen__callout'>
-          {!clientAccountExists && !clientInviteSent &&
-          <div className='convert-to-account'>
-            <h3 className='convert-to-account__heading'>
-              {message('Profile.ClientEmailHeading')}
-            </h3>
-            <p className='convert-to-account__subhead'>
-              {message('Profile.ClientEmailSubhead')}
-            </p>
-            <label
-              className='convert-to-account__label'
-              htmlFor='clientEmail'>
-              {message('Profile.ClientEmailLabel')}
-            </label>
-            <div className='convert-to-account__field'>
-              <input
-                data-private
-                className='convert-to-account__input'
-                id='clientEmail'
-                type='email'
-                defaultValue=''
-                onChange={(e) => changedClientEmail(e.currentTarget.value)}
-              />
-              <button
-                className='convert-to-account__button'
-                onClick={(e) => createClientAccount(key, e)}
-              >
-                {message('Profile.CreateClientAccount')}
-              </button>
-            </div>
+        {key && isCounselor && !clientAccountExists &&
+          <div className='form-screen__callout'>
+            {!clientInviteSent && <div className='convert-to-account'>
+              <h3 className='convert-to-account__heading'>
+                {message('Profile.ClientEmailHeading')}
+              </h3>
+              <p className='convert-to-account__subhead'>
+                {message('Profile.ClientEmailSubhead')}
+              </p>
+              <label
+                className='convert-to-account__label'
+                htmlFor='clientEmail'>
+                {message('Profile.ClientEmailLabel')}
+              </label>
+              <div className='convert-to-account__field'>
+                <input
+                  data-private
+                  className='convert-to-account__input'
+                  id='clientEmail'
+                  type='email'
+                  defaultValue=''
+                  onChange={(e) => changedClientEmail(e.currentTarget.value)}
+                />
+                <button
+                  className='convert-to-account__button'
+                  onClick={(e) => createClientAccount(key, e)}
+                >
+                  {message('Profile.CreateClientAccount')}
+                </button>
+              </div>
+            </div>}
+            {clientInviteSent && <div className='convert-to-account'>
+              <h3 className='convert-to-account__heading'>
+                {message('Profile.ClientEmailHeading')}
+              </h3>
+              <p className='convert-to-account__message-sent'>{message('Profile.ClientInviteSent')}</p>
+            </div>}
           </div>}
-          {clientInviteSent && <div className='convert-to-account'>
-            <h3 className='convert-to-account__heading'>
-              {message('Profile.ClientEmailHeading')}
-            </h3>
-            <p className='convert-to-account__message-sent'>{message('Profile.ClientInviteSent')}</p>
-          </div>}
-        </div>}
       </div>
     )
   }
