@@ -74,10 +74,12 @@ app.post('/profiles', function(req, res) {
     if (getUserError && getUserError.code === 'UserNotFoundException') {
       console.error('User with email ' + email + 'does not exist');
       res.json({error: 'User does not exist', email: email});
+      return;
     } else if (getUserError) {
       console.error('Failed to get user');
       console.error(getUserError);
       res.json({error: err});
+      return;
     } else {
       // get voucher number from user data
       if (!userData || !userData.UserAttributes || userData.UserAttributes.length === 0) {
@@ -93,13 +95,13 @@ app.post('/profiles', function(req, res) {
         return attr.Name === 'custom:voucher';
       });
       var voucher = voucherAttr.Value;
-
       if (!voucher) {
         console.error('Failed to find voucher number for user account');
         res.json({error: 'User has no voucher number in Cognito', email});
         return;
       }
 
+      var key = null;
       s3.listObjectsV2({
         Bucket: bucketName,
         Prefix: 'public/' + voucher
@@ -108,50 +110,77 @@ app.post('/profiles', function(req, res) {
           console.error('S3 query failed');
           console.error(listError);
           res.json({error: listError});
-        } else {
-          if (listData && listData.KeyCount > 0) {
-            if (listData.KeyCount > 1) {
+          return;
+        }
+        if (listData && listData.KeyCount > 0) {
+          if (listData.KeyCount > 1) {
+            // check for an exact match
+            var exactMatches = listData.Contents.filter(function(result) {
+              // strip prefix
+              var resultKey = result.Key.substring('public/'.length);
+              // strip user ID suffix, if any, before comparing key to voucher number
+              if (resultKey.indexOf('_') > -1) {
+                resultKey = resultKey.split('_')[0];
+              }
+              return resultKey === voucher;
+            });
+            if (exactMatches && exactMatches.length > 1) {
               // Shouldn't happen, but might. This situation should be resolved manually.
               res.json({error: 'Multiple profiles matching voucher number already exist',
-                        voucher});
+                       voucher});
+              return;
+            } else if (exactMatches && exactMatches.length === 1) {
+              // Found one exact match, as expected
+              key = exactMatches[0].Key;
             } else {
-              var key = listData.Contents[0].Key; // exists if KeyCount is nonzero
-              console.log('Copy S3 file at ' + key + ' for identity ' + identityId);
-              var newS3Key = 'public/' + voucher + '_' + identityId;
-              if (newS3Key === key) {
-                console.error('Cannot copy a file to itself');
-                res.json({error: 'Profile already exists', key: key});
-                return;
-              }
-              s3.copyObject({
+              // Found no exact matches
+              res.json({error: 'No profiles found on S3 for voucher', voucher});
+              return;
+            }
+          } else {
+            key = listData.Contents[0].Key; // exists if KeyCount is nonzero
+          }
+        } else {
+          // no results
+          res.json({error: 'No profiles found on S3 for voucher', voucher});
+          return;
+        }
+        if (key) {
+          console.log('Copy S3 file at ' + key + ' for identity ' + identityId);
+          var newS3Key = 'public/' + voucher + '_' + identityId;
+          if (newS3Key === key) {
+            console.error('Cannot copy a file to itself');
+            res.json({error: 'Profile already exists', key: key});
+            return;
+          }
+          s3.copyObject({
+            Bucket: bucketName,
+            CopySource: bucketName + '/' + key,
+            Key: newS3Key
+          }, function(copyError, copyResult) {
+            if (copyError) {
+              console.error('S3 file copy failed');
+              console.error(copyError);
+              res.json({error: copyError});
+            } else {
+              s3.deleteObject({
                 Bucket: bucketName,
-                CopySource: bucketName + '/' + key,
-                Key: newS3Key
-              }, function(copyError, copyResult) {
-                if (copyError) {
-                  console.error('S3 file copy failed');
-                  console.error(copyError);
-                  res.json({error: copyError});
+                Key: key
+              }, function (deleteError, deleteResult) {
+                if (deleteError) {
+                  console.error('Failed to delete original S3 file after copying it');
+                  console.error(deleteError);
+                  res.json({error: deleteError});
                 } else {
-                  s3.deleteObject({
-                    Bucket: bucketName,
-                    Key: key
-                  }, function (deleteError, deleteResult) {
-                    if (deleteError) {
-                      console.error('Failed to delete original S3 file after copying it');
-                      console.error(deleteError);
-                      res.json({error: deleteError});
-                    } else {
-                      res.json({key: newS3Key})
-                    }
-                  });
+                  res.json({key: newS3Key})
                 }
               });
             }
-          } else {
-            // no results
-            res.json({error: 'No profiles found on S3 for voucher', voucher});
-          }
+          });
+        } else {
+          // Shouldn't get here
+          console.error('Failed to find exact match for voucher, but found results', voucher);
+          res.json({error: 'No profiles found on S3 for voucher', voucher});
         }
       });
     }
