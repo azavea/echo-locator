@@ -43,7 +43,6 @@ with open(NEIGHBORHOOD_FILE) as inf:
     for neighborhood in rdr:
         zipcode = neighborhood['zipcode'].zfill(5)
         neighborhood['zipcode'] = zipcode
-        print(neighborhood)
         places[zipcode] = neighborhood
         places[zipcode]['x'] = neighborhood['lon']
         places[zipcode]['y'] = neighborhood['lat']
@@ -54,6 +53,7 @@ with fiona.open(ZCTA_FILE) as shp:
     schema['geometry'] = 'MultiPolygon'
     schema['properties']['town'] = 'str:30'
     schema['properties']['id'] = 'str:5'
+    schema['properties']['ecc'] = 'int'
     with fiona.open(OUT_ZCTA_GEOJSON, 'w', driver='GeoJSON', schema=schema,
                     crs=crs) as outjson:
         for zcta in shp:
@@ -72,6 +72,7 @@ with fiona.open(ZCTA_FILE) as shp:
                         'geometry']['coordinates']]
                     zcta['geometry']['type'] = 'MultiPolygon'
                 zcta['properties']['town'] = places[zipcode]['town']
+                zcta['properties']['ecc'] = places[zipcode]['ecc']
                 zcta['properties']['id'] = zipcode
                 outjson.write(zcta)
 
