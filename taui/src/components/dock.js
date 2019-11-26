@@ -14,6 +14,8 @@ import RouteCard from './route-card'
 type Props = {
   activeNeighborhood: string,
   activeNetworkIndex: number,
+  changeUserProfile: (any) => void,
+  children: any,
   detailNeighborhood: any,
   endingOffset: number,
   haveAnotherPage: boolean,
@@ -219,17 +221,15 @@ export default class Dock extends PureComponent<Props> {
         <header className='map-sidebar__neighborhoods-header'>
           <h2 className='map-sidebar__neighborhoods-heading'>
             {showFavorites && <>
-                {message('Dock.Favorites')}
-                &nbsp;
-                {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
-              </>
-            }
+              {message('Dock.Favorites')}
+              &nbsp;
+              {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
+            </>}
             {!showFavorites && <>
-                {message('Dock.Recommendations')}
-                &nbsp;
-                {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
-              </>
-            }
+              {message('Dock.Recommendations')}
+              &nbsp;
+              {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
+            </>}
           </h2>
           <div className='map-sidebar__neighborhoods-actions'>
             <button

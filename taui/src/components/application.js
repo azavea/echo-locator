@@ -42,7 +42,6 @@ type Props = {
     profileLoading: boolean,
     showDetails: boolean,
     showFavorites: boolean,
-    useNonECC: boolean,
     userProfile: AccountProfile
   },
   detailNeighborhood: any,
@@ -83,7 +82,6 @@ type Props = {
   setShowDetails: Function => void,
   setShowFavorites: Function => void,
   setStart: any => void,
-  setUseNonECC: (boolean) => void,
   showComparison: boolean,
   showFavorites: boolean,
   timeCutoff: any,
@@ -95,8 +93,7 @@ type Props = {
   updateOrigin: any => void,
   updateStart: any => void,
   updateStartPosition: LonLat => void,
-  updateUserProfile: AccountProfile => void,
-  useNonECC: boolean
+  updateUserProfile: AccountProfile => void
 }
 
 type State = {
