@@ -89,6 +89,7 @@ export default class EditProfile extends PureComponent<Props> {
         // Default to true for profiles that do not have the useCommuterRail property set yet
         (profile.useCommuterRail || profile.useCommuterRail === undefined),
         headOfHousehold: profile.headOfHousehold,
+        hideNonECC: !!profile.hideNonECC,
         importanceAccessibility: profile.importanceAccessibility ? profile.importanceAccessibility
           : DEFAULT_ACCESSIBILITY_IMPORTANCE,
         importanceSchools: profile.importanceSchools ? profile.importanceSchools
@@ -113,6 +114,7 @@ export default class EditProfile extends PureComponent<Props> {
         hasVehicle: false,
         useCommuterRail: true,
         headOfHousehold: '',
+        hideNonECC: false,
         importanceAccessibility: DEFAULT_ACCESSIBILITY_IMPORTANCE,
         importanceSchools: DEFAULT_SCHOOLS_IMPORTANCE,
         importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE,
@@ -150,6 +152,7 @@ export default class EditProfile extends PureComponent<Props> {
       destinations,
       hasVehicle,
       headOfHousehold,
+      hideNonECC,
       importanceAccessibility,
       importanceSchools,
       importanceViolentCrime,
@@ -165,6 +168,7 @@ export default class EditProfile extends PureComponent<Props> {
       favorites,
       hasVehicle,
       headOfHousehold,
+      hideNonECC,
       importanceAccessibility,
       importanceSchools,
       importanceViolentCrime,
@@ -526,6 +530,7 @@ export default class EditProfile extends PureComponent<Props> {
       destinations,
       hasVehicle,
       headOfHousehold,
+      hideNonECC,
       importanceAccessibility,
       importanceSchools,
       importanceViolentCrime,
@@ -572,6 +577,23 @@ export default class EditProfile extends PureComponent<Props> {
               <RoomOptions
                 rooms={rooms}
                 changeField={changeField} />
+            </div>
+            <div className='account-profile__field'>
+              <div className='account-profile__field account-profile__field--inline'>
+                <input
+                  className='account-profile__input account-profile__input--checkbox'
+                  id='hideNonECC'
+                  type='checkbox'
+                  onChange={(e) => changeField('hideNonECC', e.currentTarget.checked)}
+                  defaultChecked={hideNonECC}
+                  autoComplete='off'
+                />
+                <label
+                  className='account-profile__label account-profile__label--secondary'
+                  htmlFor='hideNonECC'>
+                  {message('Profile.HideNonECC')}
+                </label>
+              </div>
             </div>
             <div className='account-profile__field'>
               <div
