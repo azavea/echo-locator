@@ -78,6 +78,10 @@ export default function NeighborhoodListInfo ({neighborhood}) {
               <RentalUnitsMeter value={houses} totalMapc={totalMapc} id={zipcode} town={town} />
             </td>
           </tr>
+          {ecc ? <tr>
+            <td />
+            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ExpandedChoice')}</td>
+          </tr> : null}
         </tbody>
       </table>
       <ReactTooltip
