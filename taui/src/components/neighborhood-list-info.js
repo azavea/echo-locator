@@ -18,6 +18,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
 
   const props = neighborhood.properties
   const zipcode = props['id']
+  const ecc = props['ecc']
   const crime = props['crime_percentile']
   const edPercentile = props['education_percentile']
   const houses = props['house_number_symbol']

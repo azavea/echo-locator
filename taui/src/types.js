@@ -74,6 +74,7 @@ export type AccountProfile = {
 
 export type NeighborhoodProperties = {
   crime_percentile: number,
+  ecc: boolean,
   education_percentile: number,
   education_percentile_quintile: number,
   house_number_symbol: number,

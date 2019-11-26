@@ -77,6 +77,7 @@ function mapStateToProps (state, ownProps) {
     displayPageNeighborhoods: select.displayPageNeighborhoods(state, ownProps),
     drawNeighborhoodRoute: select.drawNeighborhoodRoute(state, ownProps),
     drawOpportunityDatasets: select.drawOpportunityDatasets(state, ownProps),
+    filteredNeighborhoodsWithRoutes: select.filteredNeighborhoodsWithRoutes(state, ownProps),
     haveAnotherPage: select.haveAnotherPage(state, ownProps),
     isLoading: select.loading(state, ownProps),
     neighborhoods: get(state, 'data.neighborhoods'),
