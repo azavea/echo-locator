@@ -71,6 +71,7 @@ NeighborhoodDetails:
 NeighborhoodInfo:
   SchoolChoice: School choice options »
   EducationCategory: Schools
+  ExpandedChoice: Expanded Choice
   Population: Population
   RentalUnits: Rental units
   Score: Overall score
@@ -131,6 +132,7 @@ Profile:
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Where do you go most frequently (besides your home)?
+  HideNonECC: Only show Expanded Choice Communities?
   ImportanceAccessibility: Commute time
   ImportanceHeading: How important are these factors when choosing a home?
   ImportanceSchools: School quality

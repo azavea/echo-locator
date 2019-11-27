@@ -121,8 +121,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
             console.warn('Correcting profile key')
             profile.key = key
             Storage.put(key, JSON.stringify(profile)).then(saveResult => {
-              console.log('Updated profile with client key')
-              console.log(saveResult)
+              // Do not resolve here, but in user profile change below
             }).catch(saveError => {
               console.error('Failed to update profile key on S3')
               console.error(saveError)
@@ -151,9 +150,6 @@ export default function withAuthenticator (Comp, includeGreetings = false,
     goToClientProfile (voucher: string, email: string): Promise<boolean> {
       return new Promise((resolve, reject) => {
         Auth.currentUserInfo().then(data => {
-          console.log('user info:')
-          console.log(data)
-          console.log('identity ID: ' + data.id)
           const identityId = data.id
           const key = `${voucher}_${identityId}`
           this.fetchAndSetProfile(key).then(fetchAndSetWorked => {
@@ -210,7 +206,6 @@ export default function withAuthenticator (Comp, includeGreetings = false,
               // make a default profile.
               const key = `${voucher}_${identityId}`
               storeDefaultProfile(voucher, key).then(s3PutResult => {
-                console.log('stored default profile', s3PutResult)
                 resolve(true)
               }).catch(s3PutError => {
                 console.error('Failed to store default profile to s3')
@@ -223,8 +218,6 @@ export default function withAuthenticator (Comp, includeGreetings = false,
               resolve(false)
             }
           } else {
-            console.log('Profile API POST succeeded')
-            console.log(response)
             resolve(true)
           }
         }).catch(err => {
@@ -248,18 +241,15 @@ export default function withAuthenticator (Comp, includeGreetings = false,
     handleUserSignIn (state: string, data: any) {
       const email = data.attributes.email
       LogRocket.identify(email)
-      console.log('Logged in user ' + email)
       const voucher = data.attributes['custom:voucher']
       const groups = data.signInUserSession && data.signInUserSession.idToken
         ? data.signInUserSession.idToken.payload['cognito:groups'] : []
 
       if (groups && groups.length > 0 && groups.indexOf('counselors') > -1) {
-        console.log('A counselor logged in')
         // Set a convenience property for group membership
         data.counselor = true
         this.setState({authState: state, authData: data})
       } else if (voucher) {
-        console.log('A client logged in. Voucher #' + voucher)
         // attempt to go to client profile directly
         this.goToClientProfile(voucher, email).then(succeeded => {
           this.setState({authState: state, authData: data})
@@ -302,7 +292,6 @@ export default function withAuthenticator (Comp, includeGreetings = false,
           // Fetch user data, then handle the login.
           console.warn('signed in with no data', data)
           Auth.currentAuthenticatedUser({bypassCache: true}).then(userData => {
-            console.log('got user data for new user login', userData)
             this.handleUserSignIn(state, userData)
           }).catch(userDataErr => {
             console.error('Failed to get user data for new user login')
@@ -311,7 +300,6 @@ export default function withAuthenticator (Comp, includeGreetings = false,
           })
         }
       } else {
-        console.log('Setting state ' + state)
         this.setState({authState: state, authData: data})
       }
     }

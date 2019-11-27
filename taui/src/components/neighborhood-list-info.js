@@ -18,6 +18,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
 
   const props = neighborhood.properties
   const zipcode = props['id']
+  const ecc = props['ecc']
   const crime = props['crime_percentile']
   const edPercentile = props['education_percentile']
   const houses = props['house_number_symbol']
@@ -77,6 +78,10 @@ export default function NeighborhoodListInfo ({neighborhood}) {
               <RentalUnitsMeter value={houses} totalMapc={totalMapc} id={zipcode} town={town} />
             </td>
           </tr>
+          {ecc ? <tr>
+            <td />
+            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ExpandedChoice')}</td>
+          </tr> : null}
         </tbody>
       </table>
       <ReactTooltip
