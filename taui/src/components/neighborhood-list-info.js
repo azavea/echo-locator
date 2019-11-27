@@ -78,10 +78,14 @@ export default function NeighborhoodListInfo ({neighborhood}) {
               <RentalUnitsMeter value={houses} totalMapc={totalMapc} id={zipcode} town={town} />
             </td>
           </tr>
-          {ecc ? <tr>
-            <td />
+          <tr>
             <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ExpandedChoice')}</td>
-          </tr> : null}
+            <td className='neighborhood-facts__text'>
+              <div className='neighborhood-facts-ecc' data-tip={message('Tooltips.ExpandedChoice')} data-for={`tooltip-${zipcode}`}>
+                {ecc ? message('Booleans.Yes') : message('Booleans.No')}
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
       <ReactTooltip
