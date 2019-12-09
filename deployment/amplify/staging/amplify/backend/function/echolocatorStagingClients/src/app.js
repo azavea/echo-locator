@@ -77,18 +77,38 @@ app.post('/clients', function(req, res) {
     } else {
       // User already exists; resend the invite if user is not already confirmed
       if (userData.UserStatus === 'CONFIRMED') {
-        res.json({error: 'User ' + email + ' already exists'});
+        res.json({error: 'User ' + email + ' already exists',
+                  user: userData,
+                  result: 'userExists'
+                });
       } else {
         // The way to resend a user invite is not to use `ResendConfirmationCode`, but
         // to call to create the user again with the message action set to `RESEND`.
-        params.MessageAction = 'RESEND';
-        cognito.adminCreateUser(params, function(resendErr, resendData) {
-          if (resendErr) {
-            console.log('Error resending user invite', resendErr);
-          } else {
-            res.json({user: resendData, url: req.url});
-          }
+
+        // Only resend invite if the profile voucher number sent matches the Cognito account.
+        // Look through the name/value pairs for the voucher number
+        var voucherAttr = userData.UserAttributes.find(function(attr) {
+          return attr.Name === 'custom:voucher';
         });
+        var emailVoucher = voucherAttr.Value;
+        if (emailVoucher === voucher) {
+          params.MessageAction = 'RESEND';
+          cognito.adminCreateUser(params, function(resendErr, resendData) {
+            if (resendErr) {
+              res.json({error: 'Failed to resend user invite',
+                        user: userData,
+                        errorObj: resendErr,
+                        result: 'inviteResendFailed'})
+            } else {
+              res.json({user: resendData, result: 'resendingInvite'});
+            }
+          });
+        } else {
+          // Not resending user invite because voucher numbers do not match
+          res.json({error: 'Not resending user invitation because voucher numbers do not match',
+                    user: userData,
+                    result: 'inviteNotResentVoucherMismatch'})
+        }
       }
     }
   });

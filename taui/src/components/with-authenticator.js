@@ -7,7 +7,10 @@ import { Authenticator } from 'aws-amplify-react/dist/Auth'
 import LogRocket from 'logrocket'
 
 import {clearLocalStorage, storeConfig} from '../config'
-import {AMPLIFY_API_NAME, ANONYMOUS_USERNAME, PROFILE_CONFIG_KEY} from '../constants'
+import {AMPLIFY_API_NAME,
+  ANONYMOUS_USERNAME,
+  CUSTOM_VOUCHER_KEY,
+  PROFILE_CONFIG_KEY} from '../constants'
 import type {AccountProfile} from '../types'
 import storeDefaultProfile from '../utils/store-default-profile'
 
@@ -64,7 +67,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
         // Call to get Cognito profile (copy of profile in local storage can be manipulated).
         Auth.currentUserInfo().then(data => {
           if (data && data.attributes) {
-            const vnum = data.attributes['custom:voucher']
+            const vnum = data.attributes[CUSTOM_VOUCHER_KEY]
             if (!profile || !profile.voucherNumber || !profile.key) {
               console.error('Cannot verify profile voucher number because it is missing.')
               resolve(false)
@@ -97,11 +100,24 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       // First verify that if this is a client account, the voucher number of the profile
       // matches the voucher number of the logged-in user.
       return new Promise((resolve, reject) => {
+        if (!profile) {
+          console.log('clear local profile')
+          storeConfig(PROFILE_CONFIG_KEY, null)
+          this.props.store.dispatch({type: 'set profile', payload: null})
+          if (this.state.authData && this.state.authData.attributes &&
+              this.state.authData.attributes[CUSTOM_VOUCHER_KEY]) {
+            // logout user if client deleted their own account
+            // A new, blank profile will be created on next login
+            console.warn('log out client after deleting profile')
+            this.logoutEcholocator(this.state.authData)
+          }
+          return
+        }
         this.checkVoucherNumber(profile).then(isValid => {
           if (isValid) {
             storeConfig(PROFILE_CONFIG_KEY, profile)
             this.props.store.dispatch({type: 'set profile', payload: profile})
-          } else {
+          } else if (profile) {
             console.error('Cannot change user profile; voucher number does not match.')
           }
           resolve(isValid)
@@ -109,7 +125,8 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       })
     }
 
-    fetchAndSetProfile (key: string): Promise<boolean> {
+    // Fetch profile from S3 and set it in local storage
+    fetchAndSetProfile (key: string, email: string): Promise<boolean> {
       return new Promise((resolve, reject) => {
         Storage.get(key, {download: true, expires: 60}).then(s3Result => {
           const text = s3Result.Body.toString('utf-8')
@@ -117,9 +134,17 @@ export default function withAuthenticator (Comp, includeGreetings = false,
           // Ensure profile key always matches S3 key
           // In case it has been copied from a counselor-created profile,
           // it might not yet.
+          // Also check that the email address is set.
+          const needsChanges = (profile.key !== key) || (profile.clientEmail !== email)
           if (profile.key !== key) {
             console.warn('Correcting profile key')
             profile.key = key
+          } else if (profile.clientEmail !== email) {
+            console.warn('Correcting profile email')
+            profile.clientEmail = email
+            profile.clientInviteSent = true // User re-created their own profile
+          }
+          if (needsChanges) {
             Storage.put(key, JSON.stringify(profile)).then(saveResult => {
               // Do not resolve here, but in user profile change below
             }).catch(saveError => {
@@ -147,12 +172,14 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       })
     }
 
+    // Get the profile from S3 for the currently logged-in user,
+    // or create them a new, blank profile and put it on S3.
     goToClientProfile (voucher: string, email: string): Promise<boolean> {
       return new Promise((resolve, reject) => {
         Auth.currentUserInfo().then(data => {
           const identityId = data.id
           const key = `${voucher}_${identityId}`
-          this.fetchAndSetProfile(key).then(fetchAndSetWorked => {
+          this.fetchAndSetProfile(key, email).then(fetchAndSetWorked => {
             resolve(fetchAndSetWorked)
           }).catch(err => {
             // If file not found, client users only get `AccessDenied`
@@ -167,7 +194,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
                   resolve(false)
                 } else {
                   // retry s3 get; now it should exist
-                  this.fetchAndSetProfile(key).then(retryWorked => {
+                  this.fetchAndSetProfile(key, email).then(retryWorked => {
                     resolve(retryWorked)
                   }).catch(retryErr => {
                     // Shouldn't happen
@@ -241,7 +268,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
     handleUserSignIn (state: string, data: any) {
       const email = data.attributes.email
       LogRocket.identify(email)
-      const voucher = data.attributes['custom:voucher']
+      const voucher = data.attributes[CUSTOM_VOUCHER_KEY]
       const groups = data.signInUserSession && data.signInUserSession.idToken
         ? data.signInUserSession.idToken.payload['cognito:groups'] : []
 

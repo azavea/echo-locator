@@ -54,6 +54,9 @@ export type AccountAddress = {
 }
 
 export type AccountProfile = {
+  clientAccountConfirmed: boolean,
+  clientEmail: string,
+  clientInviteSent: boolean,
   destinations: Array<AccountAddress>,
   favorites: Array<string>,
   hasVehicle: boolean,

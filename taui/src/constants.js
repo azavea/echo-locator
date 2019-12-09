@@ -48,6 +48,9 @@ export const MAX_ROOMS = 6
 // Number of neighborhood suggestions to show at a time
 export const SIDEBAR_PAGE_SIZE = 3
 
+// Cognito account UserAttribute for client voucher number
+export const CUSTOM_VOUCHER_KEY = 'custom:voucher'
+
 // Account profile destination types.
 // Each of these should have a translatable string label in `messages.yml`,
 // defined under `TripPurpose`.

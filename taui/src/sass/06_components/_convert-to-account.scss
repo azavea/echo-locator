@@ -31,6 +31,10 @@
     height: 4rem;
     margin-right: 2.4rem;
     padding: 0 0.8rem;
+
+    &:disabled {
+      background: $bg-gray;
+    }
   }
 
   &__button {
