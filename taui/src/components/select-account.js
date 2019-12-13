@@ -61,6 +61,11 @@ export default class SelectAccount extends PureComponent<Props> {
     Storage.get(key, {download: true, expires: 60}).then(result => {
       const text = result.Body.toString('utf-8')
       const profile: AccountProfile = JSON.parse(text)
+      // Confirm key matches profile key
+      if (key != profile.key) {
+        console.warn('Correcting profile key as counselor')
+        profile.key = key
+      }
       this.props.changeUserProfile(profile).then(didChange => {
         if (didChange) {
           // Skip profile page and go to map if profile exists and has destinations set

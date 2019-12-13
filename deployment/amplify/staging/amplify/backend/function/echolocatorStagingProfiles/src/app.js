@@ -146,36 +146,67 @@ app.post('/profiles', function(req, res) {
           return;
         }
         if (key) {
-          console.log('Copy S3 file at ' + key + ' for identity ' + identityId);
-          var newS3Key = 'public/' + voucher + '_' + identityId;
-          if (newS3Key === key) {
-            console.error('Cannot copy a file to itself');
-            res.json({error: 'Profile already exists', key: key});
-            return;
-          }
-          s3.copyObject({
+          // Verify file to copy is for an email that matches this Cognito account.
+          // If not, delete this Cognito account.
+          s3.getObject({
             Bucket: bucketName,
-            CopySource: bucketName + '/' + key,
-            Key: newS3Key
-          }, function(copyError, copyResult) {
-            if (copyError) {
-              console.error('S3 file copy failed');
-              console.error(copyError);
-              res.json({error: copyError});
-            } else {
-              s3.deleteObject({
-                Bucket: bucketName,
-                Key: key
-              }, function (deleteError, deleteResult) {
-                if (deleteError) {
-                  console.error('Failed to delete original S3 file after copying it');
-                  console.error(deleteError);
-                  res.json({error: deleteError});
-                } else {
-                  res.json({key: newS3Key})
+            Key: key
+          }, function(downloadError, downloadResult) {
+            if (downloadError) {
+              console.error('S3 download failed');
+              res.json({error: downloadError});
+              return;
+            }
+            var fileContents = downloadResult.Body.toString();
+            var json = JSON.parse(fileContents);
+            if (json.clientEmail && json.clientEmail !== email) {
+              console.warn('Profile exists, but for another email. Deleting Cognito account for ' +
+                email);
+              // Delete Cognito account
+              cognito.adminDeleteUser({
+                UserPoolId: userPool,
+                Username: email
+              }, function(deleteUserError, deleteUserResult) {
+                if (deleteUserError) {
+                  res.json({error: 'Error deleting Cognito account ' + email +
+                    ': ' + deleteUserError});
+                  return;
                 }
+                res.json({error: 'Profile exists for another email. Deleted account for ' + email});
+                return;
               });
             }
+            console.log('Copy S3 file at ' + key + ' for identity ' + identityId);
+            var newS3Key = 'public/' + voucher + '_' + identityId;
+            if (newS3Key === key) {
+              console.error('Cannot copy a file to itself');
+              res.json({error: 'Profile already exists', key: key});
+              return;
+            }
+            s3.copyObject({
+              Bucket: bucketName,
+              CopySource: bucketName + '/' + key,
+              Key: newS3Key
+            }, function(copyError, copyResult) {
+              if (copyError) {
+                console.error('S3 file copy failed');
+                console.error(copyError);
+                res.json({error: copyError});
+              } else {
+                s3.deleteObject({
+                  Bucket: bucketName,
+                  Key: key
+                }, function (deleteError, deleteResult) {
+                  if (deleteError) {
+                    console.error('Failed to delete original S3 file after copying it');
+                    console.error(deleteError);
+                    res.json({error: deleteError});
+                  } else {
+                    res.json({key: newS3Key})
+                  }
+                });
+              }
+            });
           });
         } else {
           // Shouldn't get here

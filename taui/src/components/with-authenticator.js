@@ -239,6 +239,11 @@ export default function withAuthenticator (Comp, includeGreetings = false,
                 console.error(s3PutError)
                 resolve(false)
               })
+            } else if (response.error.indexOf('Profile exists for another email') === 0) {
+                // Profile for this user voucher number exists for another user.
+                // The login account for this user has just been deleted; log out.
+                console.error('Email mismatch on profile. User account deleted.')
+                resolve(false)
             } else {
               console.error('Failed to POST to profiles API')
               console.error(response)
@@ -279,7 +284,12 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       } else if (voucher) {
         // attempt to go to client profile directly
         this.goToClientProfile(voucher, email).then(succeeded => {
-          this.setState({authState: state, authData: data})
+          if (succeeded) {
+            this.setState({authState: state, authData: data})
+          } else {
+            console.warn('Failed to load client profile; logging out')
+            this.logoutEcholocator(this.state.authData)
+          }
         })
       } else {
         // Shouldn't happen

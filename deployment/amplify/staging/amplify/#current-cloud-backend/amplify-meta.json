@@ -31,7 +31,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/auth/template.json",
 				"logicalId": "authuserPoolGroups"
 			},
-			"lastPushTimeStamp": "2019-12-11T17:34:27.574Z",
+			"lastPushTimeStamp": "2019-12-13T05:41:31.780Z",
 			"output": {
 				"counselorsGroupRole": "arn:aws:iam::715496170458:role/us-east-1_JUROw4bAA-counselorsGroupRole"
 			},
@@ -45,7 +45,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/auth/echolocatorStagingAuth-cloudformation-template.yml",
 				"logicalId": "authecholocatorStagingAuth"
 			},
-			"lastPushTimeStamp": "2019-12-11T17:34:27.577Z",
+			"lastPushTimeStamp": "2019-12-13T05:41:31.782Z",
 			"output": {
 				"AppClientSecret": "1j0gpob90aulc3cnopv27ndaepechmbvo5mt0epac455tq2cuto2",
 				"UserPoolId": "us-east-1_JUROw4bAA",
@@ -82,7 +82,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"logicalId": "storageecholocatorStagingStorage"
 			},
-			"lastPushTimeStamp": "2019-12-11T17:34:27.585Z",
+			"lastPushTimeStamp": "2019-12-13T05:41:31.788Z",
 			"output": {
 				"BucketName": "echolocator-staging-profiles-staging",
 				"Region": "us-east-1"
@@ -111,7 +111,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/function/echolocatorStagingClients-cloudformation-template.json",
 				"logicalId": "functionecholocatorStagingClients"
 			},
-			"lastPushTimeStamp": "2019-12-11T17:34:27.594Z",
+			"lastPushTimeStamp": "2019-12-13T05:41:31.789Z",
 			"output": {
 				"Region": "us-east-1",
 				"Arn": "arn:aws:lambda:us-east-1:715496170458:function:echolocatorStagingClientsLambda-staging",
@@ -140,21 +140,21 @@
 					]
 				}
 			],
-			"lastBuildTimeStamp": "2019-11-21T22:16:33.839Z",
-			"lastPackageTimeStamp": "2019-11-22T18:09:17.275Z",
-			"distZipFilename": "echolocatorStagingProfiles-4e655577652f6565614d-build.zip",
+			"lastBuildTimeStamp": "2019-12-13T05:26:04.561Z",
+			"lastPackageTimeStamp": "2019-12-13T05:40:23.151Z",
+			"distZipFilename": "echolocatorStagingProfiles-59764f434c4736594675-build.zip",
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/function/echolocatorStagingProfiles-cloudformation-template.json",
 				"logicalId": "functionecholocatorStagingProfiles"
 			},
-			"lastPushTimeStamp": "2019-12-11T17:34:27.588Z",
+			"lastPushTimeStamp": "2019-12-13T05:41:31.795Z",
 			"output": {
 				"Region": "us-east-1",
 				"Arn": "arn:aws:lambda:us-east-1:715496170458:function:echolocatorStagingProfilesLambda-staging",
 				"Name": "echolocatorStagingProfilesLambda-staging",
 				"LambdaExecutionRole": "echolocatorstagingLambdaRole6febe39a-staging"
 			},
-			"lastPushDirHash": "erlubS5hDBBK1z/kUkDzq6W/j7s="
+			"lastPushDirHash": "Jh7P3QHgjOssajTzyXIZuRcz9XQ="
 		}
 	},
 	"api": {
@@ -197,7 +197,7 @@
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/api/echolocatorStagingApi-cloudformation-template.json",
 				"logicalId": "apiecholocatorStagingApi"
 			},
-			"lastPushTimeStamp": "2019-12-11T17:34:27.589Z",
+			"lastPushTimeStamp": "2019-12-13T05:41:31.792Z",
 			"output": {
 				"ApiName": "echolocatorStagingApi",
 				"RootUrl": "https://zbg2hyg4yc.execute-api.us-east-1.amazonaws.com/staging"
