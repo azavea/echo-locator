@@ -240,10 +240,10 @@ export default function withAuthenticator (Comp, includeGreetings = false,
                 resolve(false)
               })
             } else if (response.error.indexOf('Profile exists for another email') === 0) {
-                // Profile for this user voucher number exists for another user.
-                // The login account for this user has just been deleted; log out.
-                console.error('Email mismatch on profile. User account deleted.')
-                resolve(false)
+              // Profile for this user voucher number exists for another user.
+              // The login account for this user has just been deleted; log out.
+              console.error('Email mismatch on profile. User account deleted.')
+              resolve(false)
             } else {
               console.error('Failed to POST to profiles API')
               console.error(response)
