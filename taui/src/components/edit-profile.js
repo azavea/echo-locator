@@ -79,6 +79,12 @@ export default class EditProfile extends PureComponent<Props> {
     }
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.errorMessage !== prevState.errorMessage) {
+      window.scroll(0, 0)
+    }
+  }
+
   getDefaultState (profile: AccountProfile) {
     if (profile) {
       // Read profile into an object for initial component state
