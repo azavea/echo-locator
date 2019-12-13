@@ -242,7 +242,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
             />
             <div className='neighborhood-details__name'>
-              {town} &ndash; {id}
+              <div className='neighborhood-details__title'>{town} &ndash; {id}</div>
               {ecc &&
                 <div
                   className='neighborhood-details__ecc'

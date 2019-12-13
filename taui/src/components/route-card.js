@@ -86,7 +86,7 @@ export default class RouteCard extends React.PureComponent<Props> {
             }}
           />
           <div className='neighborhood-summary__name'>
-            {title}
+            <div className='neighborhood-summary__title'>{title}</div>
             {ecc &&
               <div
                 className='neighborhood-summary__ecc'
