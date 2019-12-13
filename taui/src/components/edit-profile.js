@@ -664,6 +664,9 @@ export default class EditProfile extends PureComponent<Props> {
     return (
       <div className='form-screen'>
         <h2 className='form-screen__heading'>{message('Profile.Title')}</h2>
+        {errorMessage &&
+          <p className='account-profile__error'>{errorMessage}</p>
+        }
         <div className='form-screen__main'>
           {key && <div className='account-profile'>
             {!isAnonymous && <div className='account-profile__field'>
@@ -682,6 +685,50 @@ export default class EditProfile extends PureComponent<Props> {
                 autoComplete='off'
               />
             </div>}
+
+            {key && isCounselor &&
+              <div className='account-profile__field'>
+                <label
+                  className='account-profile__label'
+                  htmlFor='clientEmail'>
+                  {message('Profile.ClientEmailLabel')}
+                </label>
+                <div className='account-profile__field-row'>
+                  <input
+                    data-private
+                    className='account-profile__input account-profile__input--text'
+                    id='clientEmail'
+                    type='email'
+                    autoComplete='off'
+                    disabled={clientInviteSent}
+                    onChange={(e) => changeField('clientEmail', e.currentTarget.value)}
+                    defaultValue={clientEmail || ''}
+                  />
+                  {clientInviteSent && !clientAccountConfirmed && <button
+                    className='account-profile__button account-profile__button--secondary'
+                    onClick={(e) => createClientAccount(key, e)}
+                  >
+                    {message('Profile.RecreateClientAccount')}
+                  </button>}
+                </div>
+              </div>}
+            {!isCounselor && key && clientEmail && clientInviteSent && <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='clientEmail'>
+                {message('Profile.ClientEmailLabel')}
+              </label>
+              <input
+                data-private
+                className='account-profile__input'
+                id='clientEmail'
+                type='email'
+                autoComplete='off'
+                disabled
+                defaultValue={clientEmail || ''}
+              />
+            </div>}
+
             <div className='account-profile__field'>
               <label
                 className='account-profile__label'
@@ -803,57 +850,6 @@ export default class EditProfile extends PureComponent<Props> {
                   importance={importanceViolentCrime}
                   changeField={changeField} />
               </div>
-
-              {key && isCounselor &&
-                <div className='form-screen__callout'>
-                  <div className='convert-to-account'>
-                    {!clientInviteSent && (<>
-                      <h3 className='convert-to-account__heading'>
-                        {message('Profile.ClientEmailHeading')}
-                      </h3>
-                      <p className='convert-to-account__subhead'>
-                        {message('Profile.ClientEmailSubhead')}
-                      </p>
-                    </>)}
-                    <label
-                      className='convert-to-account__label'
-                      htmlFor='clientEmail'>
-                      {message('Profile.ClientEmailLabel')}
-                    </label>
-                    <div className='convert-to-account__field'>
-                      <input
-                        data-private
-                        className='convert-to-account__input'
-                        id='clientEmail'
-                        type='email'
-                        autoComplete='off'
-                        disabled={clientInviteSent}
-                        onChange={(e) => changeField('clientEmail', e.currentTarget.value)}
-                        defaultValue={clientEmail || ''}
-                      />
-                      {clientInviteSent && !clientAccountConfirmed && <button
-                        className='convert-to-account__button'
-                        onClick={(e) => createClientAccount(key, e)}
-                      >
-                        {message('Profile.RecreateClientAccount')}
-                      </button>}
-                    </div>
-                  </div>
-                  {clientInviteSent && !clientAccountConfirmed && <div className='convert-to-account'>
-                    <p className='convert-to-account__message-sent'>{message('Profile.ClientInviteSent')}</p>
-                  </div>}
-                </div>}
-              {!isCounselor && key && clientEmail && clientInviteSent && <div className='convert-to-account__field'>
-                <input
-                  data-private
-                  className='convert-to-account__input'
-                  id='clientEmail'
-                  type='email'
-                  autoComplete='off'
-                  disabled
-                  defaultValue={clientEmail || ''}
-                />
-              </div>}
             </div>
             <div className='account-profile__actions'>
               <button
@@ -872,9 +868,6 @@ export default class EditProfile extends PureComponent<Props> {
             </div>
           </div>}
         </div>
-        {errorMessage &&
-          <p className='account-profile__error'>{errorMessage}</p>
-        }
       </div>
     )
   }
