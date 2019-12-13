@@ -62,7 +62,7 @@ export default class SelectAccount extends PureComponent<Props> {
       const text = result.Body.toString('utf-8')
       const profile: AccountProfile = JSON.parse(text)
       // Confirm key matches profile key
-      if (key != profile.key) {
+      if (key !== profile.key) {
         console.warn('Correcting profile key as counselor')
         profile.key = key
       }
