@@ -160,10 +160,11 @@ export default class Application extends Component<Props, State> {
           profileLoading || canViewMap
             ? (<MainPage {...props} />) : (<Redirect to='/search' />))} />
         <Route path='/search' render={() => (
-          !isCounselor ? (<Redirect to='/profile' />) : <SelectAccount
-            {...props}
-            headOfHousehold={props.headOfHousehold}
-            voucherNumber={props.voucherNumber} />)} />
+          !isCounselor ? (userProfile ? (<Redirect to='/profile' />) : (console.warn('logout'))) : (
+            <SelectAccount
+              {...props}
+              headOfHousehold={props.headOfHousehold}
+              voucherNumber={props.voucherNumber} />))} />
         <Route path='/profile' render={() => (
           profileLoading || userProfile
             ? (<EditProfile {...props} />) : (<Redirect to='/search' />))} />
