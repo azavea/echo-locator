@@ -18,7 +18,6 @@ export default function NeighborhoodListInfo ({neighborhood}) {
 
   const props = neighborhood.properties
   const zipcode = props['id']
-  const ecc = props['ecc']
   const crime = props['crime_percentile']
   const edPercentile = props['education_percentile']
   const houses = props['house_number_symbol']
@@ -76,14 +75,6 @@ export default function NeighborhoodListInfo ({neighborhood}) {
             <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.RentalUnits')}</td>
             <td className='neighborhood-facts__cell'>
               <RentalUnitsMeter value={houses} totalMapc={totalMapc} id={zipcode} town={town} />
-            </td>
-          </tr>
-          <tr>
-            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ExpandedChoice')}</td>
-            <td className='neighborhood-facts__text'>
-              <div className='neighborhood-facts-ecc' data-tip={message('Tooltips.ExpandedChoice')} data-for={`tooltip-${zipcode}`}>
-                {ecc ? message('Booleans.Yes') : message('Booleans.No')}
-              </div>
             </td>
           </tr>
         </tbody>

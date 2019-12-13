@@ -6,16 +6,15 @@
   cursor: pointer;
 
   &__header {
-    @include heading(400);
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
-    align-items: center;
-    padding: 1.2rem 0.4rem;
+    align-items: flex-start;
+    padding: 1.6rem 0.4rem;
   }
 
   &__star {
-    margin-right: 0.4rem;
+    margin-right: 0.8rem;
     font-size: 1.8rem !important;
   }
 
@@ -27,6 +26,19 @@
     &--on {
       fill: $active;
     }
+  }
+
+  &__name {
+    @include heading(400);
+    flex: auto;
+    margin-right: 0.8rem;
+  }
+
+  &__ecc {
+    @include text(200);
+    @include font-weight(bold);
+    margin-top: 0.4rem;
+    color: $ecc;
   }
 
   &__contents {
