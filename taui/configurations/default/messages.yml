@@ -71,7 +71,7 @@ NeighborhoodDetails:
 NeighborhoodInfo:
   SchoolChoice: School choice options »
   EducationCategory: Schools
-  ExpandedChoice: Expanded Choice
+  ExpandedChoice: An Expanded Choice Community
   Population: Population
   RentalUnits: Rental units
   Score: Overall score
@@ -121,15 +121,11 @@ Profile:
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
   Cancel: Cancel
-  ClientEmailHeading: Create client account
-  ClientEmailSubhead: We recommend you create an account for this client so they can sign in directly.
-  ClientEmailLabel: Client email address
-  ClientEmailError: Please enter a valid email address for the client.
-  ClientInviteSent: An invitation has been emailed to the client.
-  CreateClientAccount: Create client account
-  CreateClientAccountError: Failed to create client log-in account. Please try again.
-  CreateClientAccountExistsError: A client log-in account already exists for that email with voucher number %(voucher).
-  RecreateClientAccount: Resend invite to client email
+  ClientEmailLabel: Email address
+  ClientEmailError: Please enter a valid email address.
+  CreateClientAccountError: Failed to create client login account. Please try again.
+  CreateClientAccountExistsError: A client login account already exists for that email with voucher number %(voucher).
+  RecreateClientAccount: Resend invitation email
   DeleteDestination: Delete this destination
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.

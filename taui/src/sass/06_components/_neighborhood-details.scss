@@ -8,12 +8,11 @@
   }
 
   &__header {
-    @include heading(400);
-    @include font-weight(bold);
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
+    margin: auto -0.4rem;
   }
 
   &__star {
@@ -23,9 +22,20 @@
   }
 
   &__name {
+    @include heading(400);
+    @include font-weight(bold);
+    display: flex;
     flex: auto;
+    flex-flow: column nowrap;
+    align-items: flex-start;
     margin-right: 0.8rem;
-    line-height: 1.5;
+  }
+
+  &__ecc {
+    @include text(200);
+    @include font-weight(bold);
+    margin-top: 0.4rem;
+    color: $ecc;
   }
 
   &__marker {

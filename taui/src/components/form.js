@@ -101,7 +101,8 @@ export default class Form extends React.PureComponent<Props> {
     const position = destination.location.position
     return (position.lat !== 0 && position.lon !== 0) ? {
       label: destination.purpose + ': ' + destination.location.label,
-      position: position
+      position: position,
+      value: position
     } : null
   }
 
@@ -116,7 +117,8 @@ export default class Form extends React.PureComponent<Props> {
   selectDestination = (option?: ReactSelectOption) => {
     const destinationObj = option ? {
       label: option.label,
-      position: lonlat(option.position)
+      position: lonlat(option.position),
+      value: option.position
     } : null
     this.setState({destination: destinationObj})
     this.props.updateOrigin(destinationObj)
@@ -136,7 +138,8 @@ export default class Form extends React.PureComponent<Props> {
     const locations = destinations.map(d => {
       return {
         label: d.purpose + ': ' + d.location.label,
-        position: d.location.position
+        position: d.location.position,
+        value: d.location.position
       }
     })
     const destinationFilterOptions = createDestinationsFilter(locations)

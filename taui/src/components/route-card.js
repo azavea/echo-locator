@@ -58,6 +58,8 @@ export default class RouteCard extends React.PureComponent<Props> {
     const { time } = neighborhood
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
+    const ecc = neighborhood.properties.ecc || null
+    const zipcode = neighborhood.properties.id
 
     const modeKey = userProfile.hasVehicle
       ? 'NeighborhoodDetails.DriveMode'
@@ -83,7 +85,18 @@ export default class RouteCard extends React.PureComponent<Props> {
               setFavorite(neighborhood.properties.id, userProfile)
             }}
           />
-          {title}
+          <div className='neighborhood-summary__name'>
+            <div className='neighborhood-summary__title'>{title}</div>
+            {ecc &&
+              <div
+                className='neighborhood-summary__ecc'
+                data-tip={message('Tooltips.ExpandedChoice')}
+                data-for={`tooltip-${zipcode}`}
+              >
+                {message('NeighborhoodInfo.ExpandedChoice')}
+              </div>
+            }
+          </div>
           <MapMarkerIcon className={markerClass} active={active} />
         </header>
         <div className='neighborhood-summary__contents'>
