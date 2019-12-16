@@ -80,7 +80,7 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (this.state.errorMessage !== prevState.errorMessage) {
+    if (this.state.errorMessage) {
       window.scroll(0, 0)
     }
   }
