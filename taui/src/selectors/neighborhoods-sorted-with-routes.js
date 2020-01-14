@@ -93,22 +93,37 @@ export default createSelector(
       // or otherwise weight by quintile.
       let educationWeight
       if (schoolsImportance === (MAX_IMPORTANCE - 1)) {
-        // Group percentile ranking into quarters instead of using quintiles
-        // if the importance of schools is the max importance.
+        // "very important"
+        // instead of quintiles, group percentile ranking into quarters
         const edPercent = properties.education_percentile
           ? properties.education_percentile
           : (DEFAULT_EDUCATION_QUINTILE - 1) * 20
-        const edPercentQuarter = Math.round(scale(edPercent, 0, 100, 3, 0))
+        let edPercentQuarter = Math.round(scale(edPercent, 0, 100, 3, 0))
+        // Treat all schools not in the top quarter as being in the bottom quarter
+        // to strongly prioritize the top quarter
+        if (edPercentQuarter > 0) {
+          edPercentQuarter = 3
+        }
         educationWeight = scale(edPercentQuarter, 0, 3, 1, 0)
-      } else {
-        // Use quintiles if the importance of schools is anything less than the max importance.
-        const educationQuintile = properties.education_percentile_quintile
+      } else if (schoolsImportance > 0) {
+        // For "somewhat important", prioritize quintile 2 and below
+        // For "important", quintile 3 and below
+        // (lower is better)
+        const prioritizeQuintile = schoolsImportance === 1 ? 2 : 3
+        let educationQuintile = properties.education_percentile_quintile
           ? properties.education_percentile_quintile
           : DEFAULT_EDUCATION_QUINTILE
-
+        // Treat all quintiles above the maximum to prioritize as being in the worst quintile
+        if (educationQuintile > prioritizeQuintile) {
+          educationQuintile = MAX_QUINTILE
+        }
         // Lowest education quintile is best (reverse range).
         educationWeight = scale(educationQuintile, MIN_QUINTILE, MAX_QUINTILE, 1, 0)
+      } else {
+        // Not important
+        educationWeight = 0
       }
+
       let crimeQuintile = properties.violentcrime_quintile
         ? properties.violentcrime_quintile : DEFAULT_CRIME_QUINTILE
       // Treat lowest two (safest) violent crime quintiles equally
