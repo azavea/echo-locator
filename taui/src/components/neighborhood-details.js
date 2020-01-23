@@ -9,6 +9,7 @@ import type {AccountProfile, NeighborhoodImageMetadata} from '../types'
 import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getGoogleSearchLink from '../utils/google-search-link'
+import getHotpadsSearchLink from '../utils/hotpads-search-link';
 import getNeighborhoodImage from '../utils/neighborhood-images'
 import getZillowSearchLink from '../utils/zillow-search-link'
 import PolygonIcon from '../icons/polygon-icon'
@@ -139,6 +140,16 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             target='_blank'
           >
             {message('NeighborhoodDetails.CraigslistSearchLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href={getHotpadsSearchLink(
+              neighborhood.properties.id,
+              userProfile.rooms,
+              maxSubsidy)}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.HotpadsSearchLink')}
           </a>
         </div>
         <h6 className='neighborhood-details__link-heading'>
