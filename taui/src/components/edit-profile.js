@@ -813,6 +813,10 @@ export default class EditProfile extends PureComponent<Props> {
                   </label>
                 </div>}
               </div>
+              {!hasVehicle && <div>
+                <span>{useCommuterRail ? message('Profile.UseCommuterRailExplanation')
+                  : message('Profile.ByTransitExplanation')}</span>
+              </div>}
             </div>
             <DestinationsList
               addAddress={addAddress}
