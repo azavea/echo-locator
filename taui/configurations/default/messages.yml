@@ -119,6 +119,7 @@ Profile:
   AddressMissing: All destinations should have an address. Please set or remove any empty destinations.
   ByCar: Car
   ByTransit: Transit
+  ByTransitExplanation: Search results will include subway and local bus.
   ChooseTravelMode: Will travel by
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
@@ -144,7 +145,8 @@ Profile:
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
-  UseCommuterRail: Include commuter rail and express bus
+  UseCommuterRail: Including commuter rail and express bus
+  UseCommuterRailExplanation: Search results will include subway, local bus, commuter rail, and express bus. Commuter rail and express bus will make more communities accessible, but typically cost more than subway and local bus service.
 Tooltips:
   AboveAverage: above average
   Average: about average
