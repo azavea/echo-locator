@@ -57,6 +57,8 @@ NeighborhoodDetails:
   FromOrigin: from
   GoogleSearchLink: Google
   GoogleMapsLink: Google Maps
+  GoSection8SearchLink: GoSection8
+  HotpadsSearchLink: Hotpads
   MassHousingLink: Mass Housing
   MaxRent: Est. max rent
   ModeSummary: via
