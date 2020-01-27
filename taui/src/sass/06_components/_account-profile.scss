@@ -39,6 +39,11 @@
     }
   }
 
+  &__field-description {
+    max-width: 48rem;
+    font-size: 1.3rem;
+  }
+
   &__label {
     @include text(400);
     @include font-weight(bold);
