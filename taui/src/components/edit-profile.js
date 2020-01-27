@@ -813,9 +813,9 @@ export default class EditProfile extends PureComponent<Props> {
                   </label>
                 </div>}
               </div>
-              {!hasVehicle && <div>
-                <span>{useCommuterRail ? message('Profile.UseCommuterRailExplanation')
-                  : message('Profile.ByTransitExplanation')}</span>
+              {!hasVehicle && <div className='account-profile__field-description'>
+                {useCommuterRail ? message('Profile.UseCommuterRailExplanation')
+                  : message('Profile.ByTransitExplanation')}
               </div>}
             </div>
             <DestinationsList

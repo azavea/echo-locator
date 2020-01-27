@@ -169,17 +169,24 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         <div className='neighborhood-details__links'>
           <a
             className='neighborhood-details__link'
-            href='https://www.apartments.com/'
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.ApartmentsDotComLink')}
-          </a>
-          <a
-            className='neighborhood-details__link'
             href='https://www.masshousing.com/portal/server.pt/community/rental_housing/240/looking_for_an_affordable_apartment_'
             target='_blank'
           >
             {message('NeighborhoodDetails.MassHousingLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href='https://www.bostonhousing.org/en/Apartment-Listing.aspx?btype=8,7,6,5,4,3,2,1'
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.BHAApartmentsLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href='https://www.apartments.com/'
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.ApartmentsDotComLink')}
           </a>
           <a
             className='neighborhood-details__link'
