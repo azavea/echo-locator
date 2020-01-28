@@ -269,23 +269,54 @@
 	          "Version": "2012-10-17",
 	          "Statement": [
 	            {
-	              "Effect": "Allow",
-	              "Action": ["s3:PutObject","s3:GetObject","s3:ListBucket","s3:DeleteObject"],
-	              "Resource": [
-	                  {
-	                      "Fn::Join": [
-	                          "",
-	                          [
-	                              "arn:aws:s3:::",
-	                              {
-	                                  "Ref": "S3Bucket"
-	                              },
-	                              "/*"
-	                          ]
-	                      ]
-	                  }
-	              ]
-	            }
+					"Effect": "Allow",
+					"Action": [
+					    "s3:PutObject",
+					    "s3:GetObject",
+					    "s3:DeleteObject"
+					],
+					"Resource": [
+					    {
+					        "Fn::Join": [
+					            "",
+					            [
+					                "arn:aws:s3:::",
+					                {
+					                    "Ref": "S3Bucket"
+					                },
+					                "/*"
+					            ]
+					        ]
+					    }
+					]
+					},
+					{
+					"Effect": "Allow",
+					"Action": [
+					    "s3:ListBucket"
+					],
+					"Resource": [
+					    {
+					        "Fn::Join": [
+					            "",
+					            [
+					                "arn:aws:s3:::",
+					                {
+					                    "Ref": "S3Bucket"
+					                }
+					            ]
+					        ]
+					    }
+					],
+					"Condition": {
+					    "StringLike": {
+					        "s3:prefix": [
+					            "public/",
+					            "public/*"
+					        ]
+					    }
+					}
+				}
 	          ]
 	        }
 	      }
@@ -327,7 +358,7 @@
 											{
 												"Ref": "S3Bucket"
 											},
-											"/public/*"
+											"/public/*_${cognito-identity.amazonaws.com:sub}"
 										]
 									]
 								}

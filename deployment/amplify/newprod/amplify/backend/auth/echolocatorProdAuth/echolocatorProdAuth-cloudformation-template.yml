@@ -163,7 +163,14 @@ Resources:
           Name: email
           Required: true
           Mutable: true
-        
+        -
+          Name: voucher
+          Required: false
+          Mutable: false
+          AttributeDataType: String
+          StringAttributeConstraints:
+            MinLength: "6"
+            MaxLength: "8"
       
       
       

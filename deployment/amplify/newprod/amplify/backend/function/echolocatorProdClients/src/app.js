@@ -15,6 +15,7 @@ var authEcholocatorProdAuthUserPoolId = process.env.AUTH_ECHOLOCATORPRODAUTH_USE
 
 Amplify Params - DO NOT EDIT */
 
+var AWS = require('aws-sdk')
 var express = require('express')
 var bodyParser = require('body-parser')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
@@ -26,66 +27,91 @@ app.use(awsServerlessExpressMiddleware.eventContext())
 
 // Enable CORS for all methods
 app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Credentials", true)
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
 });
 
-
-/**********************
- * Example get method *
- **********************/
-
-app.get('/clients', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
-});
-
-app.get('/clients/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
-});
-
-/****************************
-* Example post method *
-****************************/
-
 app.post('/clients', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
-});
+  AWS.config.update({region: process.env.REGION});
+  var cognito = new AWS.CognitoIdentityServiceProvider();
 
-app.post('/clients/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
-});
+  var email = req.body.email;
+  var voucher = req.body.voucher;
+  if (!email) {
+    res.json({error: 'Missing user email in POST body'});
+    return;
+  }
+  if (!voucher) {
+    res.json({error: 'Missing user voucher in POST body'});
+    return;
+  }
+  // get Cognito user pool ID from CloudFront env parameters
+  var userPool = process.env.AUTH_ECHOLOCATORPRODAUTH_USERPOOLID;
+  var params = {
+    UserPoolId: userPool,
+    Username: email
+  };
+  cognito.adminGetUser(params, function(getErr, userData) {
+    if (getErr && getErr.code === 'UserNotFoundException') {
+      params['UserAttributes'] = [{
+        Name: 'custom:voucher',
+        Value: voucher
+      }, {
+        Name: 'email',
+        Value: email
+      }, {
+        Name: 'email_verified',
+        Value: 'true'
+      }];
+      cognito.adminCreateUser(params, function(createErr, createData) {
+        if (createErr) {
+          console.log('Error creating user', createErr);
+        } else {
+          res.json({user: createData, url: req.url});
+        }
+      });
+    } else if (getErr) {
+      res.json({error: getErr});
+    } else {
+      // User already exists; resend the invite if user is not already confirmed
+      if (userData.UserStatus === 'CONFIRMED') {
+        res.json({error: 'User ' + email + ' already exists',
+                  user: userData,
+                  result: 'userExists'
+                });
+      } else {
+        // The way to resend a user invite is not to use `ResendConfirmationCode`, but
+        // to call to create the user again with the message action set to `RESEND`.
 
-/****************************
-* Example put method *
-****************************/
-
-app.put('/clients', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
-
-app.put('/clients/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
-
-/****************************
-* Example delete method *
-****************************/
-
-app.delete('/clients', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
-app.delete('/clients/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
+        // Only resend invite if the profile voucher number sent matches the Cognito account.
+        // Look through the name/value pairs for the voucher number
+        var voucherAttr = userData.UserAttributes.find(function(attr) {
+          return attr.Name === 'custom:voucher';
+        });
+        var emailVoucher = voucherAttr.Value;
+        if (emailVoucher === voucher) {
+          params.MessageAction = 'RESEND';
+          cognito.adminCreateUser(params, function(resendErr, resendData) {
+            if (resendErr) {
+              res.json({error: 'Failed to resend user invite',
+                        user: userData,
+                        errorObj: resendErr,
+                        result: 'inviteResendFailed'})
+            } else {
+              res.json({user: resendData, result: 'resendingInvite'});
+            }
+          });
+        } else {
+          // Not resending user invite because voucher numbers do not match
+          res.json({error: 'Not resending user invitation because voucher numbers do not match',
+                    user: userData,
+                    result: 'inviteNotResentVoucherMismatch'})
+        }
+      }
+    }
+  });
 });
 
 app.listen(3000, function() {
