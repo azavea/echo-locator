@@ -1,7 +1,7 @@
 {
     "identityPoolName": "echolocatorProdIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "echolo00fe6f3e",
+    "resourceNameTruncated": "echoloe1b48416",
     "userPoolName": "echolocatorProdUserPool",
     "autoVerifiedAttributes": [
         "email"
@@ -12,8 +12,8 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "\tYour ECHOLocator verification code",
-    "emailVerificationMessage": "Welcome to the ECHOLocator!\n\nYour ECHOLocator verification code is {####}.\nYour username is your email address.\n\nClick <a href=\"https://echolocator.org/\">here</a> to log in to your account, set a new password, and continue your housing search.\n\nRegards,\nThe Boston Housing Authority ECHOLocator Team",
+    "emailVerificationSubject": "Your ECHOLocator verification code",
+    "emailVerificationMessage": "Welcome to the ECHOLocator!\\n\\nYour ECHOLocator verification code is {####}.\\nYour username is your email address.\\n\\nClick <a href=\\\"https://echolocator.org/\\\">here</a> to log in to your account, set a new password, and continue your housing search.\\n\\nRegards,\\nThe Boston Housing Authority ECHOLocator Team",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
@@ -24,17 +24,15 @@
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
         "phone_number",
-        "email",
-        "custom:voucher"
+        "email"
     ],
     "userpoolClientReadAttributes": [
         "email",
         "phone_number",
         "email_verified",
-        "phone_number_verified",
-        "custom:voucher"
+        "phone_number_verified"
     ],
-    "userpoolClientLambdaRole": "echolo00fe6f3e_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "echoloe1b48416_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": true,
     "useDefault": "manual",
     "authSelections": "identityPoolAndUserPool",

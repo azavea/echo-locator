@@ -194,6 +194,19 @@
                                     {
                                         "Ref": "bucketName"
                                     },
+                                    {
+                                      "Fn::Select": [
+                                          3,
+                                          {
+                                              "Fn::Split": [
+                                                  "-",
+                                                  {
+                                                      "Ref": "AWS::StackName"
+                                                  }
+                                              ]
+                                          }
+                                      ]
+                                    },
                                     "-",
                                     {
                                         "Ref": "env"
@@ -255,56 +268,24 @@
 	        "PolicyDocument": {
 	          "Version": "2012-10-17",
 	          "Statement": [
-	          	{
-					"Effect": "Allow",
-					"Action": [
-					    "s3:PutObject",
-					    "s3:GetObject",
-					    "s3:DeleteObject"
-					],
-					"Resource": [
-					    {
-					        "Fn::Join": [
-					            "",
-					            [
-					                "arn:aws:s3:::",
-					                {
-					                    "Ref": "S3Bucket"
-					                },
-					                "/*"
-					            ]
-					        ]
-					    }
-					]
-					},
-					{
-					"Effect": "Allow",
-					"Action": [
-					    "s3:ListBucket"
-					],
-					"Resource": [
-					    {
-					        "Fn::Join": [
-					            "",
-					            [
-					                "arn:aws:s3:::",
-					                {
-					                    "Ref": "S3Bucket"
-					                }
-					            ]
-					        ]
-					    }
-					],
-					"Condition": {
-					    "StringLike": {
-					        "s3:prefix": [
-					            "public/",
-					            "public/*"
-					        ]
-					    }
-					}
-				}
-
+	            {
+	              "Effect": "Allow",
+	              "Action": ["s3:PutObject","s3:GetObject","s3:ListBucket","s3:DeleteObject"],
+	              "Resource": [
+	                  {
+	                      "Fn::Join": [
+	                          "",
+	                          [
+	                              "arn:aws:s3:::",
+	                              {
+	                                  "Ref": "S3Bucket"
+	                              },
+	                              "/*"
+	                          ]
+	                      ]
+	                  }
+	              ]
+	            }
 	          ]
 	        }
 	      }
@@ -346,7 +327,7 @@
 											{
 												"Ref": "S3Bucket"
 											},
-											"/public/*_${cognito-identity.amazonaws.com:sub}"
+											"/public/*"
 										]
 									]
 								}

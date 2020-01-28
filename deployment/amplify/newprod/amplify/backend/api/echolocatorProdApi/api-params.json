@@ -44,8 +44,8 @@
     "privacy": {
         "auth": 1,
         "unauth": 0,
-        "authRoleName": "amplify-echolocatorprod-prod-102824-authRole",
-        "unAuthRoleName": "amplify-echolocatorprod-prod-102824-unauthRole"
+        "authRoleName": "amplify-echolocatorprod-prod-125932-authRole",
+        "unAuthRoleName": "amplify-echolocatorprod-prod-125932-unauthRole"
     },
     "dependsOn": [
         {

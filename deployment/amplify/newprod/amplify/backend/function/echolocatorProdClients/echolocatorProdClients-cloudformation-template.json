@@ -76,13 +76,13 @@
                 "RoleName": {
                     "Fn::If": [
                         "ShouldNotCreateEnvResources",
-                        "echolocatorprodLambdaRole4dca2975", 
+                        "echolocatorprodLambdaRole17014045", 
                         {
 
                             "Fn::Join": [
                                 "",
                                 [
-                                    "echolocatorprodLambdaRole4dca2975",
+                                    "echolocatorprodLambdaRole17014045",
                                     "-",
                                     {
                                         "Ref": "env"
