@@ -1,0 +1,82 @@
+{
+    "paths": [
+        {
+            "name": "/clients",
+            "lambdaFunction": "echolocatorProdClients",
+            "privacy": {
+                "userPoolGroups": {
+                    "counselors": [
+                        "/POST",
+                        "/GET",
+                        "/PUT",
+                        "/PATCH",
+                        "/DELETE"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "/profiles",
+            "lambdaFunction": "echolocatorProdProfiles",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        }
+    ],
+    "resourceName": "echolocatorProdApi",
+    "apiName": "echolocatorProdApi",
+    "authResourceName": "echolocatorProdAuth",
+    "functionArns": [
+        {
+            "lambdaFunction": "echolocatorProdClients"
+        },
+        {
+            "lambdaFunction": "echolocatorProdProfiles"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "amplify-echolocatorprod-prod-102824-authRole",
+        "unAuthRoleName": "amplify-echolocatorprod-prod-102824-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "echolocatorProdClients",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "auth",
+            "resourceName": "echolocatorProdAuth",
+            "attributes": [
+                "UserPoolId"
+            ]
+        },
+        {
+            "category": "auth",
+            "resourceName": "userPoolGroups",
+            "attributes": [
+                "counselorsGroupRole"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "echolocatorProdProfiles",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

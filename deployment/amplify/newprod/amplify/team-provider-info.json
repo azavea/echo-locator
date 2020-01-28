@@ -1,0 +1,19 @@
+{
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-echolocatorprod-prod-102824-authRole",
+            "UnauthRoleArn": "arn:aws:iam::322268938932:role/amplify-echolocatorprod-prod-102824-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::322268938932:role/amplify-echolocatorprod-prod-102824-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-echolocatorprod-prod-102824-deployment",
+            "UnauthRoleName": "amplify-echolocatorprod-prod-102824-unauthRole",
+            "StackName": "amplify-echolocatorprod-prod-102824",
+            "StackId": "arn:aws:cloudformation:us-east-1:322268938932:stack/amplify-echolocatorprod-prod-102824/d3066f10-41e2-11ea-bd89-0e2470ba0d5b"
+        },
+        "categories": {
+            "auth": {
+                "echolocatorProdAuth": {}
+            }
+        }
+    }
+}
