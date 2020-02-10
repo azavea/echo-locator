@@ -5,7 +5,7 @@ import get from 'lodash/get'
 import {createSelector} from 'reselect'
 
 import selectPage from './page'
-import neighborhoods from './filtered-neighborhoods-with-routes'
+import neighborhoods from './neighborhoods-sorted-with-routes'
 
 // Returns the slice of neighborhoods (all or favorites) for the current page
 export default createSelector(

@@ -134,7 +134,6 @@ Profile:
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Where do you go most frequently (besides your home)?
-  HideNonECC: Show Expanded Choice communities only
   ImportanceAccessibility: Commute time
   ImportanceHeading: How important are these factors when choosing a home?
   ImportanceSchools: School quality

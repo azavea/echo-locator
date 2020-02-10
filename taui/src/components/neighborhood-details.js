@@ -248,7 +248,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     // Look up the currently selected user profile destination from the origin
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
-    const { id, town, ecc } = neighborhood.properties
+    const { id, town } = neighborhood.properties
     const description = neighborhood.properties['town_website_description']
 
     const bestJourney = neighborhood.segments && neighborhood.segments.length
@@ -272,15 +272,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             />
             <div className='neighborhood-details__name'>
               <div className='neighborhood-details__title'>{town} &ndash; {id}</div>
-              {ecc &&
-                <div
-                  className='neighborhood-details__ecc'
-                  data-tip={message('Tooltips.ExpandedChoice')}
-                  data-for={`tooltip-${id}`}
-                >
-                  {message('NeighborhoodInfo.ExpandedChoice')}
-                </div>
-              }
             </div>
             <PolygonIcon className='neighborhood-details__marker' />
           </header>

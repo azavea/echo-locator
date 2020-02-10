@@ -3,7 +3,7 @@ import find from 'lodash/find'
 import get from 'lodash/get'
 import {createSelector} from 'reselect'
 
-import neighborhoodsSortedWithRoutes from './filtered-neighborhoods-with-routes'
+import neighborhoodsSortedWithRoutes from './neighborhoods-sorted-with-routes'
 
 export default createSelector(
   neighborhoodsSortedWithRoutes,

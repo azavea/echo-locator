@@ -51,7 +51,6 @@ type Props = {
   drawNeighborhoodRotues: any[],
   drawOpportunityDatasets: any[],
   drawRoutes: any[],
-  filteredNeighborhoodsWithRoutes: any[],
   geocode: (string, Function) => void,
   geocoder: GeocoderStore,
   initialize: Function => void,
