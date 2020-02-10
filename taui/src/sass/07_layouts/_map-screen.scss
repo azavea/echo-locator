@@ -2,8 +2,8 @@
   display: flex;
   flex: auto;
   flex-flow: row nowrap;
-  justify-content: flex-start;
   align-items: stretch;
+  justify-content: flex-start;
   max-height: calc(100vh - 6.4rem);
 
   > .map-sidebar {

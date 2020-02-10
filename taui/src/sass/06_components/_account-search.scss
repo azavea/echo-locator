@@ -2,16 +2,16 @@
   &__main {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: flex-end;
+    justify-content: flex-start;
   }
 
   &__field {
     display: flex;
     flex: auto;
     flex-flow: column nowrap;
-    justify-content: flex-start;
     align-items: stretch;
+    justify-content: flex-start;
     min-width: 24rem;
     max-width: 32rem;
     margin-right: 2.4rem;
@@ -39,8 +39,8 @@
   &__no-results {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
     margin-top: 4rem;
   }
 

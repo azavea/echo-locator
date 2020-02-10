@@ -58,7 +58,6 @@ export default class RouteCard extends React.PureComponent<Props> {
     const { time } = neighborhood
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
-    const zipcode = neighborhood.properties.id
 
     const modeKey = userProfile.hasVehicle
       ? 'NeighborhoodDetails.DriveMode'

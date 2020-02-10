@@ -8,8 +8,8 @@
   &__header {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: flex-start;
+    justify-content: flex-start;
     padding: 1.6rem 0.4rem;
   }
 
@@ -47,8 +47,8 @@
   &__contents {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
     align-items: flex-start;
+    justify-content: space-between;
     padding: 0 0.8rem;
   }
 
@@ -71,8 +71,8 @@
   &__trip {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
   }
 
   &__duration {

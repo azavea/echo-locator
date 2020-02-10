@@ -2,8 +2,8 @@
   &__field {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: flex-start;
     align-items: flex-start;
+    justify-content: flex-start;
     margin-bottom: 4rem;
 
     > *:not(:last-child) {
@@ -31,8 +31,8 @@
   &__field-row {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
 
     > *:not(:last-child) {
       margin-right: 2.4rem;
@@ -95,8 +95,8 @@
   &__destination-list-header {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
     margin-top: 1.6rem;
     margin-bottom: 0.8rem;
   }
@@ -113,8 +113,8 @@
   &__destination {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: stretch;
+    justify-content: flex-start;
 
     &:not(:last-of-type) {
       margin-bottom: 1.6rem;
@@ -144,8 +144,8 @@
     &--center {
       display: flex;
       flex-flow: column nowrap;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       text-align: center;
     }
   }
@@ -176,8 +176,8 @@
   &__actions {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
 
     > *:not(:last-child) {
       margin-right: 3.2rem;
@@ -207,8 +207,8 @@
     &--iconLeft {
       display: inline-flex;
       flex-flow: row nowrap;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
 
       > *:first-child {
         margin-right: 0.8rem;
