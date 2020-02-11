@@ -1,16 +1,16 @@
 .app-header {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: flex-start;
   height: 6.4rem;
   padding: 0 2.4rem 0.8rem;
 
   &__brand {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
     margin-right: 8rem;
   }
 

@@ -31,8 +31,8 @@
   &__field {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
     margin-bottom: 0.8rem;
   }
 
@@ -64,8 +64,8 @@
   &__neighborhoods-header {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     margin: 1.6rem 0;
   }
 
@@ -113,8 +113,8 @@
   &__pagination {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     margin: 3.2rem 0;
   }
 
