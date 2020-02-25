@@ -10,11 +10,6 @@
             "StackName": "amplify-echolocatorprod-prod-125932",
             "StackId": "arn:aws:cloudformation:us-east-1:322268938932:stack/amplify-echolocatorprod-prod-125932/f0749080-41f7-11ea-8a29-0e43f2110cc5",
             "AmplifyAppId": "d124t9i86hy5l2"
-        },
-        "categories": {
-            "auth": {
-                "echolocatorProdAuth": {}
-            }
         }
     }
 }
