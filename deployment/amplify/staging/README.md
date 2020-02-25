@@ -15,13 +15,14 @@ Named things that should remain consistent across stacks due to references in th
 	- the API endpoint names `/clients` and `/profiles`
 
 Other identifiers given to the prompts should generally differ across stacks.
-	
+
 Regarding the read/write attribute steps below, the React Amplify library wants to have access to the phone number and whether the phone number is verified, so even though we aren't using phone numbers, select those fields during configuration (this caused an issue with an earlier version of the Amplify CLI).
 
 
 #### Before starting
 
 If you will be replacing an existing stack, first copy the `app.js` files for the functions (if any) before deleting the stack and its configuration files.
+
 
 #### Amplify CLI steps
 
@@ -61,7 +62,7 @@ If you will be replacing an existing stack, first copy the `app.js` files for th
 	21. add capabilities? none
 	22. OAuth flow? no
 	23. Cognito triggers? no
-	 
+
 - `amplify add storage`
 	1. content type
 	2. name `echolocatorStagingStorage`

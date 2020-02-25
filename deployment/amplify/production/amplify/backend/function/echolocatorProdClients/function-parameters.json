@@ -1,0 +1,12 @@
+{
+    "permissions": {
+        "auth": {
+            "echolocatorProdAuth": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}

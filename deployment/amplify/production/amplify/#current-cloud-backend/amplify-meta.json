@@ -1,51 +1,209 @@
 {
 	"providers": {
 		"awscloudformation": {
-			"AuthRoleName": "production-20190329182339-authRole",
-			"UnauthRoleArn": "arn:aws:iam::322268938932:role/production-20190329182339-unauthRole",
-			"AuthRoleArn": "arn:aws:iam::322268938932:role/production-20190329182339-authRole",
+			"AuthRoleName": "amplify-echolocatorprod-prod-125932-authRole",
+			"UnauthRoleArn": "arn:aws:iam::322268938932:role/amplify-echolocatorprod-prod-125932-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::322268938932:role/amplify-echolocatorprod-prod-125932-authRole",
 			"Region": "us-east-1",
-			"DeploymentBucketName": "production-20190329182339-deployment",
-			"UnauthRoleName": "production-20190329182339-unauthRole",
-			"StackName": "production-20190329182339",
-			"StackId": "arn:aws:cloudformation:us-east-1:322268938932:stack/production-20190329182339/c66f7cc0-524f-11e9-aea5-0eee516a945a"
+			"DeploymentBucketName": "amplify-echolocatorprod-prod-125932-deployment",
+			"UnauthRoleName": "amplify-echolocatorprod-prod-125932-unauthRole",
+			"StackName": "amplify-echolocatorprod-prod-125932",
+			"StackId": "arn:aws:cloudformation:us-east-1:322268938932:stack/amplify-echolocatorprod-prod-125932/f0749080-41f7-11ea-8a29-0e43f2110cc5",
+			"AmplifyAppId": "d124t9i86hy5l2"
 		}
 	},
 	"auth": {
-		"echolocatorProductionAuth": {
+		"userPoolGroups": {
+			"service": "Cognito-UserPool-Groups",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "echolocatorProdAuth",
+					"attributes": [
+						"UserPoolId",
+						"AppClientIDWeb",
+						"AppClientID",
+						"IdentityPoolId"
+					]
+				}
+			],
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorprod-prod-125932-deployment/amplify-cfn-templates/auth/template.json",
+				"logicalId": "authuserPoolGroups"
+			},
+			"lastPushTimeStamp": "2020-01-28T18:30:38.342Z",
+			"output": {
+				"counselorsGroupRole": "arn:aws:iam::322268938932:role/us-east-1_fmUkTpTzT-counselorsGroupRole"
+			},
+			"lastPushDirHash": "isGCICjjg/DHYsi24PbaVdh3w1Q="
+		},
+		"echolocatorProdAuth": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
 			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/production-20190329182339-deployment/amplify-cfn-templates/auth/echolocatorProductionAuth-cloudformation-template.yml",
-				"logicalId": "authecholocatorProductionAuth"
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorprod-prod-125932-deployment/amplify-cfn-templates/auth/echolocatorProdAuth-cloudformation-template.yml",
+				"logicalId": "authecholocatorProdAuth"
 			},
-			"lastPushTimeStamp": "2019-03-29T18:50:48.743Z",
+			"lastPushTimeStamp": "2020-01-28T18:30:38.342Z",
 			"output": {
-				"AppClientSecret": "1co5j4aoef9sqjntt8vl5b6l4a5j336ddj48tbsnkv615hrrtbc0",
-				"UserPoolId": "us-east-1_bmAWZZga7",
-				"AppClientIDWeb": "4uc9ignm9mggcscd4pn01mcedq",
-				"AppClientID": "4cq21ohd26tm19souljsa3esc0",
-				"IdentityPoolId": "us-east-1:6ac3b80b-6d3f-4d4f-82fe-6646f38aecc8",
-				"IdentityPoolName": "echolocatorProductionIdentityPool__production",
-				"UserPoolName": "echolocatorProductionUserPool"
+				"AppClientSecret": "1552v1lp3p8kq8o1bh5rt7edoaccvh0gap6tfd67rlf07mkr05jq",
+				"UserPoolId": "us-east-1_fmUkTpTzT",
+				"AppClientIDWeb": "366viqdp9p1d4frltl4n5nm554",
+				"AppClientID": "crim88e9d4a2h0fdgl8omfeq7",
+				"IdentityPoolId": "us-east-1:0462cd2b-daff-448d-9933-84e23614679f",
+				"IdentityPoolName": "echolocatorProdIdentityPool__prod",
+				"UserPoolName": "echolocatorProdUserPool"
 			},
-			"lastPushDirHash": "6ece9UuSG30yIuFDyDynnDwEtDw="
+			"lastPushDirHash": "Lh2V8W7FgZ54nGti6Manh8/xfk0="
 		}
 	},
 	"storage": {
-		"echolocatorProductionStorage": {
+		"echolocatorProdStorage": {
 			"service": "S3",
 			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "echolocatorProdAuth",
+					"attributes": [
+						"UserPoolId"
+					]
+				},
+				{
+					"category": "auth",
+					"resourceName": "userPoolGroups",
+					"attributes": [
+						"counselorsGroupRole"
+					]
+				}
+			],
 			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/production-20190329182339-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
-				"logicalId": "storageecholocatorProductionStorage"
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorprod-prod-125932-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"logicalId": "storageecholocatorProdStorage"
 			},
-			"lastPushTimeStamp": "2019-03-29T18:50:48.754Z",
+			"lastPushTimeStamp": "2020-01-28T18:30:38.342Z",
 			"output": {
-				"BucketName": "echolocator-production",
+				"BucketName": "echolocator-prod-profiles125932-prod",
 				"Region": "us-east-1"
 			},
-			"lastPushDirHash": "te7s5UXH372rZbe+FjSL+RhK1U4="
+			"lastPushDirHash": "bTBP7dYZWdflCEDsxQ24YlOvr/c="
+		}
+	},
+	"function": {
+		"echolocatorProdClients": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "echolocatorProdAuth",
+					"attributes": [
+						"UserPoolId"
+					]
+				}
+			],
+			"lastBuildTimeStamp": "2020-01-28T18:22:04.240Z",
+			"lastPackageTimeStamp": "2020-01-28T18:22:09.822Z",
+			"distZipFilename": "echolocatorProdClients-314a7a4c74726d573030-build.zip",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorprod-prod-125932-deployment/amplify-cfn-templates/function/echolocatorProdClients-cloudformation-template.json",
+				"logicalId": "functionecholocatorProdClients"
+			},
+			"lastPushTimeStamp": "2020-01-28T18:30:38.342Z",
+			"output": {
+				"Region": "us-east-1",
+				"Arn": "arn:aws:lambda:us-east-1:322268938932:function:echolocatorProdClientsLambda-prod",
+				"Name": "echolocatorProdClientsLambda-prod",
+				"LambdaExecutionRole": "echolocatorprodLambdaRole17014045-prod"
+			},
+			"lastPushDirHash": "oWnOF5cQlKSeMV90TR1rIIUdFWM="
+		},
+		"echolocatorProdProfiles": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "echolocatorProdAuth",
+					"attributes": [
+						"UserPoolId"
+					]
+				},
+				{
+					"category": "storage",
+					"resourceName": "echolocatorProdStorage",
+					"attributes": [
+						"BucketName"
+					]
+				}
+			],
+			"lastBuildTimeStamp": "2020-01-28T18:22:06.958Z",
+			"lastPackageTimeStamp": "2020-01-28T18:22:09.968Z",
+			"distZipFilename": "echolocatorProdProfiles-4b53434d786930563769-build.zip",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorprod-prod-125932-deployment/amplify-cfn-templates/function/echolocatorProdProfiles-cloudformation-template.json",
+				"logicalId": "functionecholocatorProdProfiles"
+			},
+			"lastPushTimeStamp": "2020-01-28T18:30:38.342Z",
+			"output": {
+				"Region": "us-east-1",
+				"Arn": "arn:aws:lambda:us-east-1:322268938932:function:echolocatorProdProfilesLambda-prod",
+				"Name": "echolocatorProdProfilesLambda-prod",
+				"LambdaExecutionRole": "echolocatorprodLambdaRole7a7da1d1-prod"
+			},
+			"lastPushDirHash": "3UFLjjhnmvUZFRJD9YsGKY2fQTo="
+		}
+	},
+	"api": {
+		"echolocatorProdApi": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "echolocatorProdClients",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				},
+				{
+					"category": "auth",
+					"resourceName": "echolocatorProdAuth",
+					"attributes": [
+						"UserPoolId"
+					]
+				},
+				{
+					"category": "auth",
+					"resourceName": "userPoolGroups",
+					"attributes": [
+						"counselorsGroupRole"
+					]
+				},
+				{
+					"category": "function",
+					"resourceName": "echolocatorProdProfiles",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			],
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorprod-prod-125932-deployment/amplify-cfn-templates/api/echolocatorProdApi-cloudformation-template.json",
+				"logicalId": "apiecholocatorProdApi"
+			},
+			"lastPushTimeStamp": "2020-01-28T18:30:38.342Z",
+			"output": {
+				"ApiName": "echolocatorProdApi",
+				"RootUrl": "https://hsmw0hfp0c.execute-api.us-east-1.amazonaws.com/prod"
+			},
+			"lastPushDirHash": "GHwrX5uGCSqj/nqrOyOuslItciA="
 		}
 	}
 }

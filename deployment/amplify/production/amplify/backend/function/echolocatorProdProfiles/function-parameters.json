@@ -1,0 +1,20 @@
+{
+    "permissions": {
+        "auth": {
+            "echolocatorProdAuth": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        },
+        "storage": {
+            "echolocatorProdStorage": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}
