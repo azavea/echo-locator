@@ -54,10 +54,14 @@ export type AccountAddress = {
 }
 
 export type AccountProfile = {
+  clientAccountConfirmed: boolean,
+  clientEmail: string,
+  clientInviteSent: boolean,
   destinations: Array<AccountAddress>,
   favorites: Array<string>,
   hasVehicle: boolean,
-  headOfHousehod: string,
+  headOfHousehold: string,
+  hideNonECC: boolean,
   importanceAccessibility: number,
   importanceSchools: number,
   importanceViolentCrime: number,
@@ -74,6 +78,7 @@ export type AccountProfile = {
 
 export type NeighborhoodProperties = {
   crime_percentile: number,
+  ecc: boolean,
   education_percentile: number,
   education_percentile_quintile: number,
   house_number_symbol: number,

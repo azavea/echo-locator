@@ -148,6 +148,7 @@ export default class Application extends Component<Props, State> {
     // Can navigate to map once at least one destination set on the profile.
     const canViewMap = userProfile && userProfile.destinations && userProfile.destinations.length
     const isAnonymous = userProfile && userProfile.key === ANONYMOUS_USERNAME
+    const isCounselor = !!props.authData.counselor && !isAnonymous
     const NoMatch = this.noMatch
     return (
       <Switch>
@@ -158,10 +159,11 @@ export default class Application extends Component<Props, State> {
           profileLoading || canViewMap
             ? (<MainPage {...props} />) : (<Redirect to='/search' />))} />
         <Route path='/search' render={() => (
-          isAnonymous ? (<Redirect to='/profile' />) : <SelectAccount
-            {...props}
-            headOfHousehold={props.headOfHousehold}
-            voucherNumber={props.voucherNumber} />)} />
+          !isCounselor ? (userProfile ? (<Redirect to='/profile' />) : (console.warn('logout'))) : (
+            <SelectAccount
+              {...props}
+              headOfHousehold={props.headOfHousehold}
+              voucherNumber={props.voucherNumber} />))} />
         <Route path='/profile' render={() => (
           profileLoading || userProfile
             ? (<EditProfile {...props} />) : (<Redirect to='/search' />))} />

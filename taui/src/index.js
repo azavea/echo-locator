@@ -1,4 +1,5 @@
 // @flow
+import API from '@aws-amplify/api'
 import Auth from '@aws-amplify/auth'
 import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
@@ -37,7 +38,8 @@ import './taui.css'
 // Set the title
 document.title = message('Title')
 
-// configure Amplify resources (Cognito authentication and S3 storage)
+// configure Amplify resources (API, Cognito authentication, and S3 storage)
+API.configure({endpoints: awsmobile['aws_cloud_logic_custom']})
 Auth.configure(awsmobile)
 Storage.configure(awsmobile)
 

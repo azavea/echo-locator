@@ -32,7 +32,7 @@ COLUMNS = {
     'town': 'str',
     'town_area': 'str',
     'zipcode': 'str',
-    'ecc': 'float',
+    'ecc': 'int',
     'violentcrime_quintile': 'float',
     'education_percentile_quintile': 'float',
     'education_percentile': 'float',

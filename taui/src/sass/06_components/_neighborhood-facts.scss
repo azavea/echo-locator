@@ -4,6 +4,8 @@
   table-layout: fixed;
 
   &__cell {
+    padding-top: 0.6rem;
+    padding-bottom: 0.8rem;
     white-space: nowrap;
     vertical-align: middle;
 
@@ -11,11 +13,6 @@
       padding-right: 0.8rem;
       text-align: right;
     }
-  }
-
-  tr:not(:last-of-type) &__cell {
-    padding-top: 0.6rem;
-    padding-bottom: 0.8rem;
   }
 
   &__text {

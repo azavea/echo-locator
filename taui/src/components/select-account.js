@@ -1,14 +1,11 @@
 // @flow
+import Auth from '@aws-amplify/auth'
 import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import {PureComponent} from 'react'
 
-import {
-  DEFAULT_ACCESSIBILITY_IMPORTANCE,
-  DEFAULT_CRIME_IMPORTANCE,
-  DEFAULT_SCHOOLS_IMPORTANCE
-} from '../constants'
 import type {AccountProfile} from '../types'
+import storeDefaultProfile from '../utils/store-default-profile'
 import validateVoucherNumber from '../utils/validate-voucher-number'
 
 /**
@@ -38,7 +35,7 @@ export default class SelectAccount extends PureComponent<Props> {
 
   createAccount () {
     const search = this.search
-    const voucher = this.state.voucherNumber
+    const voucher = this.state.voucherNumber.toUpperCase().replace(/\s+/g, '')
 
     if (!voucher) {
       this.setState({errorMessage: message('Accounts.MissingVoucherNumber')})
@@ -50,32 +47,53 @@ export default class SelectAccount extends PureComponent<Props> {
       this.setState({errorMessage: ''})
     }
 
-    const key = voucher.toUpperCase()
+    storeDefaultProfile(voucher, voucher).then(result => {
+      search() // Refresh results; will find and go to the new profile
+    }).catch(err => {
+      console.error('Failed to post new profile to S3')
+      console.error(err)
+      this.setState({errorMessage: message('Accounts.CreateError')})
+    })
+  }
 
-    // Default profile
-    const profile: AccountProfile = {
-      destinations: [],
-      favorites: [],
-      hasVehicle: false,
-      headOfHousehold: name,
-      importanceAccessibility: DEFAULT_ACCESSIBILITY_IMPORTANCE,
-      importanceSchools: DEFAULT_SCHOOLS_IMPORTANCE,
-      importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE,
-      key: key,
-      rooms: 0,
-      useCommuterRail: true,
-      voucherNumber: voucher
-    }
-
-    Storage.put(key, JSON.stringify(profile))
-      .then(result => {
-        search() // Refresh results; will find and go to the new profile
+  // given an s3 key, fetch the profile for that key and use it
+  goToProfile (key: string) {
+    Storage.get(key, {download: true, expires: 60}).then(result => {
+      const text = result.Body.toString('utf-8')
+      const profile: AccountProfile = JSON.parse(text)
+      // Confirm key matches profile key
+      if (key !== profile.key) {
+        console.warn('Correcting profile key as counselor')
+        profile.key = key
+      }
+      this.props.changeUserProfile(profile).then(didChange => {
+        if (didChange) {
+          // Skip profile page and go to map if profile exists and has destinations set
+          const destination = profile && profile.destinations &&
+            profile.destinations.length ? '/map' : '/profile'
+          this.props.history.push({pathname: destination, state: {fromApp: true}})
+        } else {
+          // Failed to set profile (maybe due to voucher number mismatch; shouldn't get here)
+          this.setState({errorMessage: message('Accounts.SelectError')})
+        }
       })
-      .catch(err => {
-        console.error('Failed to post new profile to S3')
+    }).catch(err => {
+      // If file not found, error message returned has `code` / `name`: NoSuchKey
+      // and `message`: The specified key does not exist `statusCode`: 404
+      // Should not happen, as key would not have been found by s3 list operation.
+      if (err.code === 'NoSuchKey') {
+        console.error('Failed to get key found on s3: ' + key)
+        this.setState({noResults: true})
+      } else {
+        console.error(err.code)
+        // This is an actual error.
+        // `code`: CredentialsError will occur if attempting to access when not signed in
+        // (should not happen)
+        this.setState({errorMessage: message('Accounts.SelectError')})
+        console.error('Failed to fetch account profile from S3 for key ' + key)
         console.error(err)
-        this.setState({errorMessage: message('Accounts.CreateError')})
-      })
+      }
+    })
   }
 
   search () {
@@ -93,35 +111,110 @@ export default class SelectAccount extends PureComponent<Props> {
     this.selectAccount(searchVoucher)
   }
 
-  selectAccount (key) {
-    Storage.get(key, {download: true, expires: 60}).then(result => {
-      const text = result.Body.toString('utf-8')
-      const profile: AccountProfile = JSON.parse(text)
-      this.props.changeUserProfile(profile)
-      // Skip profile page and go to map if profile exists and has destinations set
-      const destination = profile && profile.destinations &&
-        profile.destinations.length ? '/map' : '/profile'
-      this.props.history.push({pathname: destination, state: {fromApp: true}})
-    }).catch(err => {
-      // If file not found, error message returned has `code` / `name`: NoSuchKey
-      // and `message`: The specified key does not exist `statusCode`: 404
-      // This is an expected case.
-      if (err.code === 'NoSuchKey') {
-        this.setState({noResults: true})
-      } else {
-        // This is an actual error.
-        // `code`: CredentialsError will occur if attempting to access when not signed in
-        // (should not happen)
-        this.setState({errorMessage: message('Accounts.SelectError')})
-        console.error('Failed to fetch account profile from S3 for key ' + key)
-        console.error(err)
+  selectAccount (voucher: string) {
+    Auth.currentSession().then(data => {
+      if (data && data.idToken && data.idToken.payload) {
+        const groups = data.idToken.payload['cognito:groups']
+        if (groups && groups.length > 0 && groups.indexOf('counselors') > -1) {
+          console.log('user is a counselor')
+          Storage.list(voucher).then(s3list => {
+            console.log('found possible profile search results for voucher:')
+            console.log(s3list)
+            if (!s3list || s3list.length === 0) {
+              this.setState({noResults: true})
+            } else if (s3list.length === 1) {
+              // Exactly one result, as expected. Ensure it is an exact match.
+              const key = s3list[0].key
+              if (key.split('_')[0] === voucher) {
+                this.goToProfile(key)
+              } else {
+                this.setState({noResults: true})
+              }
+            } else {
+              // s3list.length > 1
+              // Attempt to handle multiple matches
+              // Might happen if search overlapped another voucher, as length can vary
+              // (i.e., searched for '123456' but found '12345678')
+              // Might also happen if a counselor edited a previously-opened profile
+              // after the client for that profile logged in for the first time,
+              // which should be unusual but not impossible.
+              console.log('Found more than one profile for voucher ' + voucher)
+              var useKey = ''
+              var clientMatches = 0
+              var counselorMatch = false
+              for (var i = 0; i < s3list.length; i++) {
+                const key = s3list[i].key
+                const splitKey = key.split('_')
+                // Ensure it is an exact match
+                if (splitKey[0] !== voucher) {
+                  console.log('Found an inexact match for voucher, ignoring')
+                  continue
+                }
+                if (splitKey.length === 1) {
+                  console.log('Found a counselor-created profile')
+                  counselorMatch = true
+                  if (!useKey) {
+                    useKey = key // use counselor-created profile, if nothing else matches
+                  }
+                } else if (splitKey.length === 2) {
+                  console.log('Found a client-owned profile')
+                  clientMatches += 1
+                  useKey = key
+                }
+              }
+
+              // Should not find more than one client-owned profile for a given voucher number.
+              // Log it if it happens.
+              if (clientMatches > 1) {
+                console.error('Found ' + clientMatches + ' client profiles; should only have one')
+              } else if (clientMatches > 0 && counselorMatch) {
+                // In this case, the counselor-created profile should be deleted
+                // and the client profile used instead.
+                console.warn('Found both a client and a counselor-created profile; delete counselor-created copy')
+                // Note this happens asynchronously from loading the client copy
+                Storage.remove(voucher).then(result => {
+                  console.log('Succeeded in removing counselor-created profile copy')
+                }).catch(err => {
+                  console.error('Failed to delete counselor-created profile copy')
+                  console.error(err)
+                })
+              }
+
+              if (useKey) {
+                console.log('Going to load profile for key ' + useKey)
+                this.goToProfile(useKey)
+              } else {
+                console.log('Found no useable matches, although there were results')
+                this.setState({noResults: true})
+              }
+            }
+          }).catch(err => {
+            this.setState({errorMessage: message('Accounts.SelectError')})
+            console.error('Failed to fetch s3 contents that match voucher ' + voucher)
+            console.error(err)
+          })
+        } else {
+          // Should not happen, as clients do not have access to this search page
+          // and should have their profile retrieved automatically.
+          // But if a client does get here and they search for themselves, go to their profile.
+          // (S3 permissions will prevent them from loading anyone else's).
+          console.warn('not a counselor, attempt to go directly to profile')
+          Auth.currentUserInfo().then(data => {
+            this.goToProfile(`${voucher}_${data.id}`)
+          }).catch(err => {
+            console.error(err)
+          })
+        }
       }
+    }).catch(err => {
+      console.error(err)
     })
   }
 
   render () {
     const changeVoucherNumber = this.changeVoucherNumber
     const createAccount = this.createAccount
+
     const state = this.state
 
     const search = (e) => {
@@ -146,6 +239,7 @@ export default class SelectAccount extends PureComponent<Props> {
                     className='account-search__input'
                     id='voucher'
                     type='text'
+                    autoComplete='off'
                     onChange={changeVoucherNumber}
                     value={state.voucherNumber}
                   />

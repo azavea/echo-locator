@@ -8,12 +8,11 @@
   }
 
   &__header {
-    @include heading(400);
-    @include font-weight(bold);
     display: flex;
     flex-flow: row nowrap;
+    align-items: flex-start;
     justify-content: flex-start;
-    align-items: center;
+    margin: auto -0.4rem;
   }
 
   &__star {
@@ -23,9 +22,20 @@
   }
 
   &__name {
+    @include heading(400);
+    @include font-weight(bold);
+    display: flex;
     flex: auto;
+    flex-flow: column nowrap;
+    align-items: flex-start;
     margin-right: 0.8rem;
-    line-height: 1.5;
+  }
+
+  &__ecc {
+    @include text(200);
+    @include font-weight(bold);
+    margin-top: 0.4rem;
+    color: $ecc;
   }
 
   &__marker {
@@ -44,8 +54,8 @@
     @include font-weight(bold);
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
     align-items: flex-start;
+    justify-content: space-between;
   }
 
   &__directions {
@@ -64,8 +74,8 @@
   &__stats {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
     align-items: stretch;
+    justify-content: space-between;
     width: 100%;
   }
 
@@ -97,8 +107,8 @@
   &__images {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: flex-start;
+    justify-content: flex-start;
     margin-bottom: 0.8rem;
   }
 
@@ -134,8 +144,8 @@
     @include text(300);
     display: flex;
     flex-flow: row wrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
   }
 
   &__link {

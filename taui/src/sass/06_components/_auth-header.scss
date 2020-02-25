@@ -1,15 +1,15 @@
 .auth-header {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: flex-start;
   align-items: stretch;
+  justify-content: flex-start;
 
   &__agency {
     @include heading(500);
     display: flex;
     flex-flow: row nowrap;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     margin: 1.6rem 0;
     text-align: center;
   }

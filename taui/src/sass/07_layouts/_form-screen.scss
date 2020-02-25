@@ -1,8 +1,8 @@
 .form-screen {
   display: flex;
   flex-flow: column nowrap;
-  justify-content: flex-start;
   align-items: stretch;
+  justify-content: flex-start;
   min-width: 64rem;
   max-width: 80rem;
   margin: 4rem auto;
@@ -14,6 +14,12 @@
   }
 
   &__main {
+    padding: 3.2rem 2.4rem;
+    background: $white;
+  }
+
+  &__callout {
+    margin-top: 2.4rem;
     padding: 3.2rem 2.4rem;
     background: $white;
   }

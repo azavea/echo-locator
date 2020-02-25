@@ -12,6 +12,7 @@ html {
     width: 100%;
     color: $black;
     font-size: 62.5%;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -19,8 +20,8 @@ body {
     position: relative;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: flex-start;
     align-items: stretch;
+    justify-content: flex-start;
     width: 100%;
     height: 100vh;
     background-color: $bg-gray;

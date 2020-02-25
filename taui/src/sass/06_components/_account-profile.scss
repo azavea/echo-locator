@@ -2,8 +2,8 @@
   &__field {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: flex-start;
     align-items: flex-start;
+    justify-content: flex-start;
     margin-bottom: 4rem;
 
     > *:not(:last-child) {
@@ -31,12 +31,17 @@
   &__field-row {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
 
     > *:not(:last-child) {
       margin-right: 2.4rem;
     }
+  }
+
+  &__field-description {
+    max-width: 48rem;
+    font-size: 1.3rem;
   }
 
   &__label {
@@ -76,6 +81,11 @@
       width: 1.6rem;
       height: 1.6rem;
     }
+
+    &:disabled {
+      background-color: $gray-100;
+      border-color: $gray-300;
+    }
   }
 
   &__destinations {
@@ -85,8 +95,8 @@
   &__destination-list-header {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
     margin-top: 1.6rem;
     margin-bottom: 0.8rem;
   }
@@ -103,8 +113,8 @@
   &__destination {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: stretch;
+    justify-content: flex-start;
 
     &:not(:last-of-type) {
       margin-bottom: 1.6rem;
@@ -134,8 +144,8 @@
     &--center {
       display: flex;
       flex-flow: column nowrap;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       text-align: center;
     }
   }
@@ -155,17 +165,19 @@
 
   &__error {
     @include text(400);
-    margin-top: 1.6rem;
+    @include font-weight(bold);
+    margin-bottom: 2.4rem;
     padding: 1.6rem;
-    color: $error;
-    background-color: $gray-100;
+    color: $white;
+    text-align: center;
+    background-color: $error;
   }
 
   &__actions {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
 
     > *:not(:last-child) {
       margin-right: 3.2rem;
@@ -195,12 +207,16 @@
     &--iconLeft {
       display: inline-flex;
       flex-flow: row nowrap;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
 
       > *:first-child {
         margin-right: 0.8rem;
       }
     }
+  }
+
+  &__message-sent {
+    @include text(300);
   }
 }

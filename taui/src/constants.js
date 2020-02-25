@@ -1,8 +1,16 @@
 // @flow
+import awsmobile from './aws-exports'
+
 export const ACCESSIBILITY_IS_EMPTY = 'accessibility-is-empty'
 export const ACCESSIBILITY_IS_LOADING = 'accessibility-is-loading'
 
 export const ANONYMOUS_USERNAME = 'ANONYMOUS'
+
+export const AMPLIFY_API_NAME = awsmobile['aws_cloud_logic_custom'][0].name
+
+// https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
+// eslint-disable-next-line no-useless-escape
+export const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
 // Neighborhood image fields
 export const IMAGE_FIELDS = [
@@ -20,7 +28,7 @@ export const DOWNTOWN_AREAS = [BOSTON_TOWN_AREA]
 // Include at least one downtown result in this many of the top results
 export const RESULTS_WITH_DOWNTOWN = 6
 // Place in the top results for boosted downtown results
-export const BOOST_DOWNTOWN_RESULT_PLACE = 3
+export const BOOST_DOWNTOWN_RESULT_PLACE = 6
 
 export const BOSTON_SCHOOL_CHOICE_LINK = 'https://discover.bostonpublicschools.org/'
 export const CAMBRIDGE_SCHOOL_CHOICE_LINK = 'https://www.cpsd.us/'
@@ -39,6 +47,9 @@ export const MAX_ROOMS = 6
 
 // Number of neighborhood suggestions to show at a time
 export const SIDEBAR_PAGE_SIZE = 3
+
+// Cognito account UserAttribute for client voucher number
+export const CUSTOM_VOUCHER_KEY = 'custom:voucher'
 
 // Account profile destination types.
 // Each of these should have a translatable string label in `messages.yml`,

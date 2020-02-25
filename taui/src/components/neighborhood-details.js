@@ -9,6 +9,8 @@ import type {AccountProfile, NeighborhoodImageMetadata} from '../types'
 import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getGoogleSearchLink from '../utils/google-search-link'
+import getGoSection8SearchLink from '../utils/gosection8-search-link'
+import getHotpadsSearchLink from '../utils/hotpads-search-link'
 import getNeighborhoodImage from '../utils/neighborhood-images'
 import getZillowSearchLink from '../utils/zillow-search-link'
 import PolygonIcon from '../icons/polygon-icon'
@@ -140,6 +142,26 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           >
             {message('NeighborhoodDetails.CraigslistSearchLink')}
           </a>
+          <a
+            className='neighborhood-details__link'
+            href={getHotpadsSearchLink(
+              neighborhood.properties.id,
+              userProfile.rooms,
+              maxSubsidy)}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.HotpadsSearchLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href={getGoSection8SearchLink(
+              neighborhood.properties.id,
+              userProfile.rooms,
+              maxSubsidy)}
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.GoSection8SearchLink')}
+          </a>
         </div>
         <h6 className='neighborhood-details__link-heading'>
           {message('NeighborhoodDetails.MoreSearchToolsLinksHeading')}
@@ -147,17 +169,24 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         <div className='neighborhood-details__links'>
           <a
             className='neighborhood-details__link'
-            href='https://www.apartments.com/'
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.ApartmentsDotComLink')}
-          </a>
-          <a
-            className='neighborhood-details__link'
             href='https://www.masshousing.com/portal/server.pt/community/rental_housing/240/looking_for_an_affordable_apartment_'
             target='_blank'
           >
             {message('NeighborhoodDetails.MassHousingLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href='https://www.bostonhousing.org/en/Apartment-Listing.aspx?btype=8,7,6,5,4,3,2,1'
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.BHAApartmentsLink')}
+          </a>
+          <a
+            className='neighborhood-details__link'
+            href='https://www.apartments.com/'
+            target='_blank'
+          >
+            {message('NeighborhoodDetails.ApartmentsDotComLink')}
           </a>
           <a
             className='neighborhood-details__link'
@@ -241,7 +270,9 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               type={isFavorite ? 'star' : 'star-o'}
               onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
             />
-            <div className='neighborhood-details__name'>{town} &ndash; {id}</div>
+            <div className='neighborhood-details__name'>
+              <div className='neighborhood-details__title'>{town} &ndash; {id}</div>
+            </div>
             <PolygonIcon className='neighborhood-details__marker' />
           </header>
         </div>

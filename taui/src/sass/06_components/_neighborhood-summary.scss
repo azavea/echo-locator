@@ -6,16 +6,15 @@
   cursor: pointer;
 
   &__header {
-    @include heading(400);
     display: flex;
     flex-flow: row nowrap;
+    align-items: flex-start;
     justify-content: flex-start;
-    align-items: center;
-    padding: 1.2rem 0.4rem;
+    padding: 1.6rem 0.4rem;
   }
 
   &__star {
-    margin-right: 0.4rem;
+    margin-right: 0.8rem;
     font-size: 1.8rem !important;
   }
 
@@ -29,11 +28,27 @@
     }
   }
 
+  &__name {
+    @include heading(400);
+    display: flex;
+    flex: auto;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    margin-right: 0.8rem;
+  }
+
+  &__ecc {
+    @include text(200);
+    @include font-weight(bold);
+    margin-top: 0.4rem;
+    color: $ecc;
+  }
+
   &__contents {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-between;
     align-items: flex-start;
+    justify-content: space-between;
     padding: 0 0.8rem;
   }
 
@@ -56,8 +71,8 @@
   &__trip {
     display: flex;
     flex-flow: column nowrap;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
   }
 
   &__duration {

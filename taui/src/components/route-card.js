@@ -83,7 +83,9 @@ export default class RouteCard extends React.PureComponent<Props> {
               setFavorite(neighborhood.properties.id, userProfile)
             }}
           />
-          {title}
+          <div className='neighborhood-summary__name'>
+            <div className='neighborhood-summary__title'>{title}</div>
+          </div>
           <MapMarkerIcon className={markerClass} active={active} />
         </header>
         <div className='neighborhood-summary__contents'>

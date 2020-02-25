@@ -31,7 +31,7 @@ then
         echo "LOGROCKET_RELEASE: '${TRAVIS_COMMIT}'" >> "taui/${TAUI_CONFIG_DIR}/env.yml"
 
         # Move the Amplify config for the proper env into the source dir
-        cp "deployment/amplify/${ENV}/aws-exports.js" taui/src/aws-exports.js
+        cp "deployment/amplify/${ENV}/src/aws-exports.js" taui/src/aws-exports.js
 
         # Deploy CSS and JS with Mastarm
         docker-compose -f docker-compose.yml \

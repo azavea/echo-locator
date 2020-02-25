@@ -50,6 +50,7 @@ Dock:
 NeighborhoodDetails:
   AboutNeighborhoodLinksHeading: Learn about this neighborhood
   ApartmentsDotComLink: Apartments.com
+  BHAApartmentsLink: Boston Housing Authority
   ChildCareSearchLink: Child Care Search
   CraigslistSearchLink: Craigslist
   DirectionsLink: Directions
@@ -57,6 +58,8 @@ NeighborhoodDetails:
   FromOrigin: from
   GoogleSearchLink: Google
   GoogleMapsLink: Google Maps
+  GoSection8SearchLink: GoSection8
+  HotpadsSearchLink: Hotpads
   MassHousingLink: Mass Housing
   MaxRent: Est. max rent
   ModeSummary: via
@@ -71,6 +74,7 @@ NeighborhoodDetails:
 NeighborhoodInfo:
   SchoolChoice: School choice options »
   EducationCategory: Schools
+  ExpandedChoice: An Expanded Choice Community
   Population: Population
   RentalUnits: Rental units
   Score: Overall score
@@ -116,10 +120,16 @@ Profile:
   AddressMissing: All destinations should have an address. Please set or remove any empty destinations.
   ByCar: Car
   ByTransit: Transit
+  ByTransitExplanation: Search results will include subway and local bus.
   ChooseTravelMode: Will travel by
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
   Cancel: Cancel
+  ClientEmailLabel: Email address
+  ClientEmailError: Please enter a valid email address.
+  CreateClientAccountError: Failed to create client login account. Please try again.
+  CreateClientAccountExistsError: A client login account already exists for that email with voucher number %(voucher).
+  RecreateClientAccount: Resend invitation email
   DeleteDestination: Delete this destination
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
@@ -135,12 +145,14 @@ Profile:
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
   Title: Profile
-  UseCommuterRail: Include commuter rail and express bus
+  UseCommuterRail: Including commuter rail and express bus
+  UseCommuterRailExplanation: Search results will include subway, local bus, commuter rail, and express bus. Commuter rail and express bus will make more communities accessible, but typically cost more than subway and local bus service.
 Tooltips:
   AboveAverage: above average
   Average: about average
   BelowAverage: below average
   Education: "<p><strong>%(town)</strong> schools are <strong>%(averageRelation)</strong> for the state and rank higher than <strong>%(edPercentile)%</strong> of other school districts when considering overall school quality and performance of low-income students. (Source: <a href=\"http://profiles.doe.mass.edu/\" target=\"_blank\">MA DOE</a>)</p>"
+  ExpandedChoice: "<p>Expanded Choice communities are TK</p>"
   ViolentCrime: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://www.fbi.gov/services/cjis/ucr\" target=\"_blank\">FBI Uniform Crime Reporting violent crime data</a>)</p>"
   ViolentCrimeBoston: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://data.boston.gov/\" target=\"_blank\">Boston Police Department Incident Reports</a>)</p>"
   RentalUnits: "<p><strong>%(town)</strong> has an <strong>%(averageRelation)</strong> number of rental units for the state. From 2017-2018 there were <strong>%(totalMapc)</strong> units listed on Craigslist. (Source: <a href=\"https://www.mapc.org/\" target=\"_blank\">MAPC</a>)</p>"

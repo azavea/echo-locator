@@ -37,16 +37,11 @@
 					"Statement": [
 						{
 							"Sid": "",
-							"Effect": "Allow",
+							"Effect": "Deny",
 							"Principal": {
 								"Federated": "cognito-identity.amazonaws.com"
 							},
-							"Action": "sts:AssumeRoleWithWebIdentity",
-							"Condition": {
-								"ForAnyValue:StringLike": {
-									"cognito-identity.amazonaws.com:amr": "authenticated"
-								}
-							}
+							"Action": "sts:AssumeRoleWithWebIdentity"
 						}
 					]
 				}
@@ -63,84 +58,419 @@
 					"Statement": [
 						{
 							"Sid": "",
-							"Effect": "Allow",
+							"Effect": "Deny",
 							"Principal": {
 								"Federated": "cognito-identity.amazonaws.com"
 							},
-							"Action": "sts:AssumeRoleWithWebIdentity",
-							"Condition": {
-								"ForAnyValue:StringLike": {
-									"cognito-identity.amazonaws.com:amr": "unauthenticated"
-								}
-							}
+							"Action": "sts:AssumeRoleWithWebIdentity"
 						}
 					]
 				}
 			}
 		},
-		"authcognitoEcholocatorTest": {
+		"authuserPoolGroups": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/src-20190206161419-deployment/amplify-cfn-templates/auth/cognitoEcholocatorTest-cloudformation-template.yml",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/auth/template.json",
 				"Parameters": {
-					"identityPoolName": "echolocatorIdentityPoolTest",
-					"allowUnauthenticatedIdentities": false,
-					"thirdPartyAuth": false,
-					"lambdaLogPolicy": "cognitoEcholocatorTest_lambda_log_policy",
-					"openIdLambdaRoleName": "cognitoEcholocatorTest_openid_lambda_role",
-					"openIdRolePolicy": "cognitoEcholocatorTest_openid_pass_role_policy",
-					"openIdLambdaIAMPolicy": "cognitoEcholocatorTest_openid_lambda_iam_policy",
-					"openIdLogPolicy": "cognitoEcholocatorTest_openid_lambda_log_policy",
-					"userPoolName": "cognitoUserPoolTest",
-					"autoVerifiedAttributes": "email",
-					"mfaConfiguration": "OFF",
-					"mfaTypes": "SMS Text Message",
-					"roleName": "cognitoEcholocatorTest_sns-role",
-					"roleExternalId": "cognitoEcholocatorTest_role_external_id",
-					"policyName": "cognitoEcholocatorTest-sns-policy",
-					"smsAuthenticationMessage": "Your authentication code is {####}",
-					"smsVerificationMessage": "Your verification code is {####}",
-					"emailVerificationSubject": "Your verification code",
-					"emailVerificationMessage": "Your verification code is {####}",
-					"defaultPasswordPolicy": false,
-					"passwordPolicyMinLength": 8,
-					"passwordPolicyCharacters": "Requires Lowercase,Requires Uppercase,Requires Numbers,Requires Symbols",
-					"requiredAttributes": "email",
-					"userpoolClientName": "cognitoEcholocatorTest_app_client",
-					"userpoolClientGenerateSecret": true,
-					"userpoolClientRefreshTokenValidity": "90",
-					"userpoolClientReadAttributes": "email",
-					"mfaLambdaRole": "cognitoEcholocatorTest_totp_lambda_role",
-					"mfaLambdaLogPolicy": "cognitoEcholocatorTest_totp_lambda_log_policy",
-					"mfaPassRolePolicy": "cognitoEcholocatorTest_totp_pass_role_policy",
-					"mfaLambdaIAMPolicy": "cognitoEcholocatorTest_totp_lambda_iam_policy",
-					"userpoolClientLambdaRole": "cognitoEcholocatorTest_userpoolclient_lambda_role",
-					"userpoolClientLogPolicy": "cognitoEcholocatorTest_userpoolclient_lambda_log_policy",
-					"userpoolClientLambdaPolicy": "cognitoEcholocatorTest_userpoolclient_lambda_iam_policy",
-					"userpoolClientSetAttributes": false,
-					"useDefault": "manual",
-					"authSelections": "identityPoolAndUserPool",
-					"resourceName": "cognitoEcholocatorTest",
-					"unAuthRoleName": "src-20190206161419-unauthRole",
-					"authRoleName": "src-20190206161419-authRole",
-					"unAuthRoleArn": "arn:aws:iam::715496170458:role/src-20190206161419-unauthRole",
-					"authRoleArn": "arn:aws:iam::715496170458:role/src-20190206161419-authRole"
+					"AuthRoleArn": {
+						"Fn::GetAtt": [
+							"AuthRole",
+							"Arn"
+						]
+					},
+					"UnauthRoleArn": {
+						"Fn::GetAtt": [
+							"UnauthRole",
+							"Arn"
+						]
+					},
+					"authecholocatorStagingAuthUserPoolId": {
+						"Fn::GetAtt": [
+							"authecholocatorStagingAuth",
+							"Outputs.UserPoolId"
+						]
+					},
+					"authecholocatorStagingAuthAppClientIDWeb": {
+						"Fn::GetAtt": [
+							"authecholocatorStagingAuth",
+							"Outputs.AppClientIDWeb"
+						]
+					},
+					"authecholocatorStagingAuthAppClientID": {
+						"Fn::GetAtt": [
+							"authecholocatorStagingAuth",
+							"Outputs.AppClientID"
+						]
+					},
+					"authecholocatorStagingAuthIdentityPoolId": {
+						"Fn::GetAtt": [
+							"authecholocatorStagingAuth",
+							"Outputs.IdentityPoolId"
+						]
+					},
+					"env": "staging"
 				}
 			}
 		},
-		"storageecholocatorContent": {
+		"authecholocatorStagingAuth": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/src-20190206161419-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/auth/echolocatorStagingAuth-cloudformation-template.yml",
 				"Parameters": {
-					"bucketName": "echolocator",
-					"authPolicyName": "s3_amplify_4a0e9dff",
-					"unauthPolicyName": "s3_amplify_4a0e9dff",
-					"authRoleName": "src-20190206161419-authRole",
-					"unauthRoleName": "src-20190206161419-unauthRole",
-					"authPermissions": "rw",
-					"unauthPermissions": ""
+					"identityPoolName": "echolocatorStagingIdentityPool",
+					"allowUnauthenticatedIdentities": false,
+					"resourceNameTruncated": "echolo468d423e",
+					"userPoolName": "echolocatorStagingUserPool",
+					"autoVerifiedAttributes": "email",
+					"mfaConfiguration": "OFF",
+					"mfaTypes": "SMS Text Message",
+					"smsAuthenticationMessage": "Your authentication code is {####}",
+					"smsVerificationMessage": "Your verification code is {####}",
+					"emailVerificationSubject": "Your EchoLocator verification code",
+					"emailVerificationMessage": "Your verification code is {####}",
+					"defaultPasswordPolicy": false,
+					"passwordPolicyMinLength": 8,
+					"passwordPolicyCharacters": "",
+					"requiredAttributes": "email",
+					"userpoolClientGenerateSecret": true,
+					"userpoolClientRefreshTokenValidity": 30,
+					"userpoolClientWriteAttributes": "phone_number,email,custom:voucher",
+					"userpoolClientReadAttributes": "email,phone_number,email_verified,phone_number_verified,custom:voucher",
+					"userpoolClientLambdaRole": "echolo468d423e_userpoolclient_lambda_role",
+					"userpoolClientSetAttributes": true,
+					"useDefault": "manual",
+					"authSelections": "identityPoolAndUserPool",
+					"resourceName": "echolocatorStagingAuth",
+					"thirdPartyAuth": false,
+					"usernameAttributes": "email",
+					"userPoolGroups": true,
+					"adminQueries": false,
+					"triggers": "{}",
+					"hostedUI": false,
+					"userPoolGroupList": "counselors",
+					"authRoleArn": {
+						"Fn::GetAtt": [
+							"AuthRole",
+							"Arn"
+						]
+					},
+					"unauthRoleArn": {
+						"Fn::GetAtt": [
+							"UnauthRole",
+							"Arn"
+						]
+					},
+					"parentStack": {
+						"Ref": "AWS::StackId"
+					},
+					"permissions": "",
+					"dependsOn": "",
+					"env": "staging"
 				}
+			}
+		},
+		"storageecholocatorStagingStorage": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"Parameters": {
+					"bucketName": "echolocator-staging-profiles",
+					"authPolicyName": "s3_amplify_133e40a2",
+					"unauthPolicyName": "s3_amplify_133e40a2",
+					"authRoleName": {
+						"Ref": "AuthRoleName"
+					},
+					"unauthRoleName": {
+						"Ref": "UnauthRoleName"
+					},
+					"selectedGuestPermissions": "",
+					"selectedAuthenticatedPermissions": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+					"s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+					"s3PublicPolicy": "Public_policy_1ff8b244",
+					"s3PermissionsAuthenticatedUploads": "s3:PutObject",
+					"s3UploadsPolicy": "Uploads_policy_1ff8b244",
+					"s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+					"s3ProtectedPolicy": "Protected_policy_1ff8b244",
+					"s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+					"s3PrivatePolicy": "Private_policy_1ff8b244",
+					"AuthenticatedAllowList": "DISALLOW",
+					"s3ReadPolicy": "read_policy_1ff8b244",
+					"s3PermissionsGuestPublic": "DISALLOW",
+					"s3PermissionsGuestUploads": "DISALLOW",
+					"GuestAllowList": "DISALLOW",
+					"triggerFunction": "NONE",
+					"authecholocatorStagingAuthUserPoolId": {
+						"Fn::GetAtt": [
+							"authecholocatorStagingAuth",
+							"Outputs.UserPoolId"
+						]
+					},
+					"authuserPoolGroupscounselorsGroupRole": {
+						"Fn::GetAtt": [
+							"authuserPoolGroups",
+							"Outputs.counselorsGroupRole"
+						]
+					},
+					"env": "staging"
+				}
+			}
+		},
+		"functionecholocatorStagingClients": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/function/echolocatorStagingClients-cloudformation-template.json",
+				"Parameters": {
+					"authecholocatorStagingAuthUserPoolId": {
+						"Fn::GetAtt": [
+							"authecholocatorStagingAuth",
+							"Outputs.UserPoolId"
+						]
+					},
+					"env": "staging"
+				}
+			}
+		},
+		"functionecholocatorStagingProfiles": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/function/echolocatorStagingProfiles-cloudformation-template.json",
+				"Parameters": {
+					"authecholocatorStagingAuthUserPoolId": {
+						"Fn::GetAtt": [
+							"authecholocatorStagingAuth",
+							"Outputs.UserPoolId"
+						]
+					},
+					"storageecholocatorStagingStorageBucketName": {
+						"Fn::GetAtt": [
+							"storageecholocatorStagingStorage",
+							"Outputs.BucketName"
+						]
+					},
+					"env": "staging"
+				}
+			}
+		},
+		"apiecholocatorStagingApi": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/api/echolocatorStagingApi-cloudformation-template.json",
+				"Parameters": {
+					"authRoleName": {
+						"Ref": "AuthRoleName"
+					},
+					"unauthRoleName": {
+						"Ref": "UnauthRoleName"
+					},
+					"functionecholocatorStagingClientsName": {
+						"Fn::GetAtt": [
+							"functionecholocatorStagingClients",
+							"Outputs.Name"
+						]
+					},
+					"functionecholocatorStagingClientsArn": {
+						"Fn::GetAtt": [
+							"functionecholocatorStagingClients",
+							"Outputs.Arn"
+						]
+					},
+					"authecholocatorStagingAuthUserPoolId": {
+						"Fn::GetAtt": [
+							"authecholocatorStagingAuth",
+							"Outputs.UserPoolId"
+						]
+					},
+					"authuserPoolGroupscounselorsGroupRole": {
+						"Fn::GetAtt": [
+							"authuserPoolGroups",
+							"Outputs.counselorsGroupRole"
+						]
+					},
+					"functionecholocatorStagingProfilesName": {
+						"Fn::GetAtt": [
+							"functionecholocatorStagingProfiles",
+							"Outputs.Name"
+						]
+					},
+					"functionecholocatorStagingProfilesArn": {
+						"Fn::GetAtt": [
+							"functionecholocatorStagingProfiles",
+							"Outputs.Arn"
+						]
+					},
+					"env": "staging"
+				}
+			}
+		},
+		"UpdateRolesWithIDPFunction": {
+			"DependsOn": [
+				"AuthRole",
+				"UnauthRole",
+				"authecholocatorStagingAuth"
+			],
+			"Type": "AWS::Lambda::Function",
+			"Properties": {
+				"Code": {
+					"ZipFile": {
+						"Fn::Join": [
+							"\n",
+							[
+								"const response = require('cfn-response');",
+								"const aws = require('aws-sdk');",
+								"let responseData = {};",
+								"exports.handler = function(event, context) {",
+								"  try {",
+								"    let authRoleName = event.ResourceProperties.authRoleName;",
+								"    let unauthRoleName = event.ResourceProperties.unauthRoleName;",
+								"    let idpId = event.ResourceProperties.idpId;",
+								"    let promises = [];",
+								"    let authParamsJson = { 'Version': '2012-10-17','Statement': [{'Effect': 'Allow','Principal': {'Federated': 'cognito-identity.amazonaws.com'},'Action': 'sts:AssumeRoleWithWebIdentity','Condition': {'StringEquals': {'cognito-identity.amazonaws.com:aud': idpId},'ForAnyValue:StringLike': {'cognito-identity.amazonaws.com:amr': 'authenticated'}}}]};",
+								"    let unauthParamsJson = { 'Version': '2012-10-17','Statement': [{'Effect': 'Allow','Principal': {'Federated': 'cognito-identity.amazonaws.com'},'Action': 'sts:AssumeRoleWithWebIdentity','Condition': {'StringEquals': {'cognito-identity.amazonaws.com:aud': idpId},'ForAnyValue:StringLike': {'cognito-identity.amazonaws.com:amr': 'unauthenticated'}}}]};",
+								"    if (event.RequestType == 'Delete') {",
+								"        delete authParamsJson.Statement.Condition;",
+								"        delete unauthParamsJson.Statement.Condition;",
+								"        let authParams = { PolicyDocument: JSON.stringify(authParamsJson),RoleName: authRoleName};",
+								"        let unauthParams = {PolicyDocument: JSON.stringify(unauthParamsJson),RoleName: unauthRoleName};",
+								"        const iam = new aws.IAM({ apiVersion: '2010-05-08', region: event.ResourceProperties.region});",
+								"        promises.push(iam.updateAssumeRolePolicy(authParams).promise());",
+								"        promises.push(iam.updateAssumeRolePolicy(unauthParams).promise());",
+								"        Promise.all(promises)",
+								"         .then((res) => {",
+								"            console.log(\"delete response data\" + JSON.stringify(res));",
+								"            response.send(event, context, response.SUCCESS, {});",
+								"         });",
+								"    }",
+								"    if (event.RequestType == 'Update' || event.RequestType == 'Create') {",
+								"       const iam = new aws.IAM({ apiVersion: '2010-05-08', region: event.ResourceProperties.region});",
+								"        let authParams = { PolicyDocument: JSON.stringify(authParamsJson),RoleName: authRoleName};",
+								"        let unauthParams = {PolicyDocument: JSON.stringify(unauthParamsJson),RoleName: unauthRoleName};",
+								"        promises.push(iam.updateAssumeRolePolicy(authParams).promise());",
+								"        promises.push(iam.updateAssumeRolePolicy(unauthParams).promise());",
+								"        Promise.all(promises)",
+								"         .then((res) => {",
+								"            console.log(\"createORupdate\" + res);",
+								"            console.log(\"response data\" + JSON.stringify(res));",
+								"            response.send(event, context, response.SUCCESS, {});",
+								"         });",
+								"    }",
+								"  } catch(err) {",
+								"       console.log(err.stack);",
+								"       responseData = {Error: err};",
+								"       response.send(event, context, response.FAILED, responseData);",
+								"       throw err;",
+								"  }",
+								"};"
+							]
+						]
+					}
+				},
+				"Handler": "index.handler",
+				"Runtime": "nodejs8.10",
+				"Timeout": "300",
+				"Role": {
+					"Fn::GetAtt": [
+						"UpdateRolesWithIDPFunctionRole",
+						"Arn"
+					]
+				}
+			}
+		},
+		"UpdateRolesWithIDPFunctionOutputs": {
+			"Type": "Custom::LambdaCallout",
+			"Properties": {
+				"ServiceToken": {
+					"Fn::GetAtt": [
+						"UpdateRolesWithIDPFunction",
+						"Arn"
+					]
+				},
+				"region": {
+					"Ref": "AWS::Region"
+				},
+				"idpId": {
+					"Fn::GetAtt": [
+						"authecholocatorStagingAuth",
+						"Outputs.IdentityPoolId"
+					]
+				},
+				"authRoleName": {
+					"Ref": "AuthRoleName"
+				},
+				"unauthRoleName": {
+					"Ref": "UnauthRoleName"
+				}
+			}
+		},
+		"UpdateRolesWithIDPFunctionRole": {
+			"Type": "AWS::IAM::Role",
+			"Properties": {
+				"RoleName": {
+					"Fn::Join": [
+						"",
+						[
+							{
+								"Ref": "AuthRoleName"
+							},
+							"-idp"
+						]
+					]
+				},
+				"AssumeRolePolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Principal": {
+								"Service": [
+									"lambda.amazonaws.com"
+								]
+							},
+							"Action": [
+								"sts:AssumeRole"
+							]
+						}
+					]
+				},
+				"Policies": [
+					{
+						"PolicyName": "UpdateRolesWithIDPFunctionPolicy",
+						"PolicyDocument": {
+							"Version": "2012-10-17",
+							"Statement": [
+								{
+									"Effect": "Allow",
+									"Action": [
+										"logs:CreateLogGroup",
+										"logs:CreateLogStream",
+										"logs:PutLogEvents"
+									],
+									"Resource": "arn:aws:logs:*:*:*"
+								},
+								{
+									"Effect": "Allow",
+									"Action": "iam:UpdateAssumeRolePolicy",
+									"Resource": {
+										"Fn::GetAtt": [
+											"AuthRole",
+											"Arn"
+										]
+									}
+								},
+								{
+									"Effect": "Allow",
+									"Action": "iam:UpdateAssumeRolePolicy",
+									"Resource": {
+										"Fn::GetAtt": [
+											"UnauthRole",
+											"Arn"
+										]
+									}
+								}
+							]
+						}
+					}
+				]
 			}
 		}
 	},
