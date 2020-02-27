@@ -29,8 +29,6 @@ const MAX_DISTANCE = 130000
 const MAX_TRAVEL_TIME = 120
 const MIN_QUINTILE = 1
 const MAX_QUINTILE = 5
-// stored profile importance is offset by one from MAX_IMPORTANCE
-const PROFILE_MAX_IMPORTANCE = MAX_IMPORTANCE - 1
 
 // default to worst, if unknown
 const DEFAULT_EDUCATION_QUINTILE = 5
@@ -67,13 +65,12 @@ export default createSelector(
       accessibilityImportance = crimeImportance = schoolsImportance = 1
     }
 
-    if (accessibilityImportance === PROFILE_MAX_IMPORTANCE) {
-      // if set to very important, add more extra weight to travel time
-      accessibilityImportance += 1
-    }
-
-    // Alwasy give accessibility (travel time) some extra weighting
+    // Give accessibility (travel time) extra weighting
     accessibilityImportance += EXTRA_ACCESS_WEIGHT
+    if (accessibilityImportance === MAX_IMPORTANCE) {
+      // if set to very important, add more extra weight to travel time
+      accessibilityImportance += EXTRA_ACCESS_WEIGHT
+    }
 
     const totalImportance = accessibilityImportance + crimeImportance + schoolsImportance
 
@@ -92,7 +89,7 @@ export default createSelector(
       // Weight schools either by percentile binned into quarters if given max importance,
       // or otherwise weight by quintile.
       let educationWeight
-      if (schoolsImportance === PROFILE_MAX_IMPORTANCE) {
+      if (schoolsImportance === (MAX_IMPORTANCE - 1)) {
         // "very important": instead of quintiles, group percentile ranking into quarters
         const edPercent = properties.education_percentile
           ? properties.education_percentile
@@ -141,7 +138,7 @@ export default createSelector(
         } else if (crimeImportance === 2 && crimeQuintile < 4) {
           // "important"; treat all but worst two quintiles the same
           crimeQuintile = 1
-        } else if (crimeImportance === PROFILE_MAX_IMPORTANCE && crimeQuintile > 3) {
+        } else if (crimeImportance === (MAX_IMPORTANCE - 1) && crimeQuintile > 3) {
           // "very important"; push results for worst two quintiles to bottom
           // by reassigning weights for those quintiles to be 90% crime
           crimePercent = 90
