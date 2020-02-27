@@ -35,7 +35,7 @@ const DEFAULT_EDUCATION_QUINTILE = 5
 const DEFAULT_CRIME_QUINTILE = 5
 
 // extra constant weighting always given to travel time over the other two factors
-const EXTRA_ACCESS_WEIGHT = 2
+const EXTRA_ACCESS_WEIGHT = 1
 
 export default createSelector(
   selectNeighborhoodRoutes,
@@ -66,10 +66,6 @@ export default createSelector(
 
     // Give accessibility (travel time) extra weighting
     accessibilityImportance += EXTRA_ACCESS_WEIGHT
-    if (accessibilityImportance === MAX_IMPORTANCE) {
-      // if set to very important, add more extra weight to travel time
-      accessibilityImportance += EXTRA_ACCESS_WEIGHT
-    }
 
     const totalImportance = accessibilityImportance + crimeImportance + schoolsImportance
 
