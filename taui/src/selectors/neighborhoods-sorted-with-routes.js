@@ -120,13 +120,6 @@ export default createSelector(
       } else {
         educationWeight = 0 // Not important
       }
-      // Re-assign education weight for Boston zipcodes evenly to the other two factors
-      if (includes(DOWNTOWN_AREAS, properties['town_area'])) {
-        const halfEdPercent = schoolPercent / 2
-        crimePercent += halfEdPercent
-        accessibilityPercent += halfEdPercent
-        schoolPercent = 0
-      }
       let crimeWeight = 0
       // Handle missing values (zero in spreadsheet) by re-assigning crime weight
       // evenly to the other two factors. Also do so if crime set as unimportant.
