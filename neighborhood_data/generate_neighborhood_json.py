@@ -55,7 +55,6 @@ COLUMNS = {
     'school': 'str',
     'town_square': 'str',
     'open_space_or_landmark': 'str',
-    'zviolentcrimeflip': 'float',
     'crime_percentile': 'float'
 }
 
