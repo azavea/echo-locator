@@ -13,7 +13,7 @@
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
     "emailVerificationSubject": "Your ECHOLocator verification code",
-    "emailVerificationMessage": "Welcome to the ECHOLocator!\\n\\nYour ECHOLocator verification code is {####}.\\nYour username is your email address.\\n\\nClick <a href=\\\"https://echolocator.org/\\\">here</a> to log in to your account, set a new password, and continue your housing search.\\n\\nRegards,\\nThe Boston Housing Authority ECHOLocator Team",
+    "emailVerificationMessage": "Welcome to the ECHOLocator!\\n\\nYour ECHOLocator verification code is {####}\\nYour username is your email address.\\n\\nClick <a href=\\\"https://echolocator.org/\\\">here</a> to log in to your account, set a new password, and continue your housing search.\\n\\nRegards,\\nThe Boston Housing Authority ECHOLocator Team",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
