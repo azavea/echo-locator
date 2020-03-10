@@ -108,7 +108,7 @@ Accounts:
   CreateError: Failed to create profile. Please try again.
   InvalidVoucherNumber: Client ID should be six to eight digits or letters.
   MissingVoucherNumber: Enter a client ID to create a profile.
-  Name: Name of head of household
+  Name: Your full name
   Search: Search
   SelectError: Failed to set profile. Please try again.
   NoResults: Profile not found. Create one now?
@@ -121,7 +121,7 @@ Profile:
   ByCar: Car
   ByTransit: Transit
   ByTransitExplanation: Search results will include subway and local bus.
-  ChooseTravelMode: Will travel by
+  ChooseTravelMode: How will you most often get to the above addresses?
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
   Cancel: Cancel
@@ -135,12 +135,12 @@ Profile:
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Where do you go most frequently (besides your home)?
   ImportanceAccessibility: Commute time
-  ImportanceHeading: How important are these factors when choosing a home?
+  ImportanceHeading: How important are the factors below when choosing a place to live?
   ImportanceSchools: School quality
   ImportanceViolentCrime: Public safety
   Primary: Primary
   Purpose: Purpose
-  Rooms: Number of bedrooms in voucher
+  Rooms: Number of bedrooms on your voucher
   Go: Save profile
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
