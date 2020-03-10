@@ -135,7 +135,7 @@ Profile:
   DeleteProfileError: Failed to delete profile. Please try again.
   Destinations: Where do you go most frequently (besides your home)?
   ImportanceAccessibility: Commute time
-  ImportanceHeading: How important are these factors below when choosing a place to live?
+  ImportanceHeading: How important are the factors below when choosing a place to live?
   ImportanceSchools: School quality
   ImportanceViolentCrime: Public safety
   Primary: Primary
