@@ -77,11 +77,11 @@ export default createSelector(
 
     const totalImportance = accessibilityImportance + crimeImportance + schoolsImportance
 
-    let accessibilityPercent = accessibilityImportance / totalImportance
-    let crimePercent = crimeImportance / totalImportance
-    let schoolPercent = schoolsImportance / totalImportance
-
     const neighborhoodsWithRoutes = filter(neighborhoods.features.map((n, index) => {
+      let accessibilityPercent = accessibilityImportance / totalImportance
+      let crimePercent = crimeImportance / totalImportance
+      let schoolPercent = schoolsImportance / totalImportance
+
       const properties: NeighborhoodProperties = n.properties
       const route = neighborhoodRoutes[index]
       const segments = useTransit ? route.routeSegments : []
