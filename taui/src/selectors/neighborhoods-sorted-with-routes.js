@@ -77,11 +77,11 @@ export default createSelector(
 
     const totalImportance = accessibilityImportance + crimeImportance + schoolsImportance
 
-    let accessibilityPercent = accessibilityImportance / totalImportance
-    let crimePercent = crimeImportance / totalImportance
-    let schoolPercent = schoolsImportance / totalImportance
-
     const neighborhoodsWithRoutes = filter(neighborhoods.features.map((n, index) => {
+      let accessibilityPercent = accessibilityImportance / totalImportance
+      let crimePercent = crimeImportance / totalImportance
+      let schoolPercent = schoolsImportance / totalImportance
+
       const properties: NeighborhoodProperties = n.properties
       const route = neighborhoodRoutes[index]
       const segments = useTransit ? route.routeSegments : []
@@ -144,7 +144,7 @@ export default createSelector(
         } else if (crimeImportance === PROFILE_MAX_IMPORTANCE && crimeQuintile > 3) {
           // "very important"; push results for worst two quintiles to bottom
           // by reassigning weights for those quintiles to be 90% crime
-          crimePercent = 90
+          crimePercent = 0.9
           schoolPercent /= 10
           accessibilityPercent /= 10
         }
