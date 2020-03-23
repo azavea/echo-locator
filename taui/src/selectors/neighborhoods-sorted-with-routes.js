@@ -144,7 +144,7 @@ export default createSelector(
         } else if (crimeImportance === PROFILE_MAX_IMPORTANCE && crimeQuintile > 3) {
           // "very important"; push results for worst two quintiles to bottom
           // by reassigning weights for those quintiles to be 90% crime
-          crimePercent = 90
+          crimePercent = 0.9
           schoolPercent /= 10
           accessibilityPercent /= 10
         }
