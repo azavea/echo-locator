@@ -738,6 +738,17 @@ export default class EditProfile extends PureComponent<Props> {
                 rooms={rooms}
                 changeField={changeField} />
             </div>
+            <DestinationsList
+              addAddress={addAddress}
+              deleteAddress={deleteAddress}
+              destinations={destinations}
+              editAddress={editAddress}
+              geocode={geocode}
+              reverseGeocode={reverseGeocode}
+              setGeocodeLocation={setGeocodeLocation}
+              setPrimaryAddress={setPrimaryAddress}
+              TripPurposeOptions={TripPurposeOptions}
+            />
             <div className='account-profile__field'>
               <div
                 className='account-profile__label'
@@ -796,17 +807,6 @@ export default class EditProfile extends PureComponent<Props> {
                   : message('Profile.ByTransitExplanation')}
               </div>}
             </div>
-            <DestinationsList
-              addAddress={addAddress}
-              deleteAddress={deleteAddress}
-              destinations={destinations}
-              editAddress={editAddress}
-              geocode={geocode}
-              reverseGeocode={reverseGeocode}
-              setGeocodeLocation={setGeocodeLocation}
-              setPrimaryAddress={setPrimaryAddress}
-              TripPurposeOptions={TripPurposeOptions}
-            />
             <div className='account-profile__importance-options'>
               <h3 className='account-profile__label'>
                 {message('Profile.ImportanceHeading')}
