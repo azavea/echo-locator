@@ -141,9 +141,11 @@ Profile:
   Primary: Primary
   Purpose: Purpose
   Rooms: Number of bedrooms on your voucher
+  Budget: Budget for apartment
   Go: Save profile
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
+  InvalidBudget: Invalid budget. Please enter a positive number.
   Title: Profile
   UseCommuterRail: Including commuter rail and express bus
   UseCommuterRailExplanation: Search results will include subway, local bus, commuter rail, and express bus. Commuter rail and express bus will make more communities accessible, but typically cost more than subway and local bus service.

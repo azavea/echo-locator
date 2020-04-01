@@ -63,6 +63,7 @@ export default class EditProfile extends PureComponent<Props> {
     this.setGeocodeLocation = this.setGeocodeLocation.bind(this)
     this.setPrimaryAddress = this.setPrimaryAddress.bind(this)
     this.validDestinations = this.validDestinations.bind(this)
+    this.validBudget = this.validBudget.bind(this)
 
     const profile = props.userProfile
     this.state = this.getDefaultState(profile)
@@ -109,6 +110,7 @@ export default class EditProfile extends PureComponent<Props> {
           : DEFAULT_CRIME_IMPORTANCE,
         key: profile.key,
         rooms: profile.rooms,
+        budget: profile.budget,
         voucherNumber: profile.voucherNumber,
         componentError: null,
         errorMessage: '',
@@ -130,6 +132,7 @@ export default class EditProfile extends PureComponent<Props> {
         importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE,
         key: '',
         rooms: 0,
+        budget: 2000,
         voucherNumber: '',
         componentError: null,
         errorMessage: '',
@@ -167,6 +170,7 @@ export default class EditProfile extends PureComponent<Props> {
       importanceViolentCrime,
       key,
       rooms,
+      budget,
       voucherNumber
     } = this.state
     const favorites = this.state.favorites || []
@@ -185,6 +189,7 @@ export default class EditProfile extends PureComponent<Props> {
       importanceViolentCrime,
       key,
       rooms,
+      budget,
       useCommuterRail,
       voucherNumber
     }
@@ -240,6 +245,9 @@ export default class EditProfile extends PureComponent<Props> {
     } else if (!this.validDestinations(profile.destinations)) {
       this.setState({errorMessage: message('Profile.AddressMissing')})
       return
+    } else if (!this.validBudget(profile.budget)) {
+      this.setState({errorMessage: message('Profile.InvalidBudget')})
+     return
     } else {
       this.setState({errorMessage: ''})
     }
@@ -623,6 +631,38 @@ export default class EditProfile extends PureComponent<Props> {
     )
   }
 
+  // handles the budget
+  budgetOptions (props) {
+    const { changeField, budget } = props
+    const budgetCountOptions = range(0,10000,1000)
+    const budgetOptions = budgetCountOptions.map((num) => {
+      const strVal = num.toString()
+      return <option key={strVal} value={strVal}>{strVal}</option>
+    })
+
+    return (
+      <input
+        className='account-profile__input account-profile__input--select'
+        defaultValue={budget}
+        onChange={(e) => changeField('budget', e.currentTarget.value)}>
+      </input>
+    )
+  }
+
+  validBudget (budget): boolean {
+    // check if budget is actually a number
+    if (isNaN(budget)) {
+      return false
+    }
+    // check if budget is negative
+    if(parseInt(budget) <= 0) {
+      console.log('false')
+      return false;
+    }
+    return true
+  }
+
+
   /* eslint-disable complexity */
   // TODO: refactor out yet more sub-components
   render () {
@@ -652,6 +692,7 @@ export default class EditProfile extends PureComponent<Props> {
       isAnonymous,
       key,
       rooms,
+      budget,
       useCommuterRail
     } = this.state
 
@@ -660,6 +701,7 @@ export default class EditProfile extends PureComponent<Props> {
     const DestinationsList = this.destinationsList
     const ImportanceOptions = this.importanceOptions
     const RoomOptions = this.roomOptions
+    const BudgetOptions = this.budgetOptions
     const TripPurposeOptions = this.tripPurposeOptions
 
     return (
@@ -736,6 +778,14 @@ export default class EditProfile extends PureComponent<Props> {
                 htmlFor='rooms'>{message('Profile.Rooms')}</label>
               <RoomOptions
                 rooms={rooms}
+                changeField={changeField} />
+            </div>
+            <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='budget'>{message('Profile.Budget')}</label>
+              <BudgetOptions
+                budget={budget}
                 changeField={changeField} />
             </div>
             <DestinationsList
