@@ -127,7 +127,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getZillowSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              userProfile.budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.ZillowSearchLink')}
