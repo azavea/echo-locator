@@ -113,13 +113,13 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
   neighborhoodLinks (props) {
     const { neighborhood, userProfile } = props
-    const { rooms } = userProfile
+    const { rooms, budget } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          Search for {rooms}br with max rent ${maxSubsidy}
+          Search for {rooms}br with a max budget of ${budget}
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -137,7 +137,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getCraigslistSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              userProfile.budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.CraigslistSearchLink')}
@@ -147,7 +147,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getHotpadsSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              userProfile.budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.HotpadsSearchLink')}
@@ -157,7 +157,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getGoSection8SearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              userProfile.budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.GoSection8SearchLink')}
