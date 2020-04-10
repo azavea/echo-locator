@@ -126,8 +126,10 @@ export default class MainPage extends React.PureComponent<Props> {
           setActiveNeighborhood={p.setActiveNeighborhood}
           setPage={p.setPage}
           setShowDetails={p.setShowDetails}
+          setShowListings={p.setShowListings}
           setShowFavorites={p.setShowFavorites}
           showDetails={p.data.showDetails}
+          showListings={p.data.showListings}
           showFavorites={p.data.showFavorites}
           userProfile={p.userProfile}>
           <Form
@@ -171,8 +173,10 @@ export default class MainPage extends React.PureComponent<Props> {
             setPage={p.setPage}
             setEndPosition={p.updateEndPosition}
             setShowDetails={p.setShowDetails}
+            setShowListings={p.setShowListings}
             setStartPosition={p.updateStartPosition}
             showDetails={p.data.showDetails}
+            showListings={p.data.showListings}
             start={p.geocoder.start}
             updateEnd={p.updateEnd}
             updateMap={p.updateMap}

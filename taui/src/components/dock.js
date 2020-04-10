@@ -26,6 +26,7 @@ type Props = {
   origin: any,
   page: number,
   showDetails: boolean,
+  showListings: boolean,
   showFavorites: boolean,
   userProfile: AccountProfile
 }
@@ -43,6 +44,10 @@ export default class Dock extends PureComponent<Props> {
     this.goPreviousPage = this.goPreviousPage.bind(this)
     this.goNextPage = this.goNextPage.bind(this)
     this.goToDetails = this.goToDetails.bind(this)
+    this.displayListings = this.displayListings.bind(this)
+    this.hideListings = this.hideListings.bind(this)
+    this.listingsButton = this.listingsButton.bind(this)
+    this.hideListingsButton = this.hideListingsButton.bind(this)
     this.buttonRow = this.buttonRow.bind(this)
     this.neighborhoodsList = this.neighborhoodsList.bind(this)
     this.neighborhoodSection = this.neighborhoodSection.bind(this)
@@ -56,7 +61,7 @@ export default class Dock extends PureComponent<Props> {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails) {
+    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails || this.props.showListings !== prevProps.showListings) {
       this.sidebar.current.scrollTop = 0
     }
   }
@@ -83,6 +88,20 @@ export default class Dock extends PureComponent<Props> {
     e.stopPropagation()
     this.props.setPage(this.props.page + 1)
     this.props.setActiveNeighborhood()
+  }
+
+  displayListings (e) {
+
+    e.stopPropagation()
+    this.props.setShowListings(true)
+
+  }
+
+  hideListings (e) {
+
+    e.stopPropagation()
+    this.props.setShowListings(false)
+
   }
 
   goToDetails (e, neighborhood) {
@@ -163,6 +182,31 @@ export default class Dock extends PureComponent<Props> {
           onClick={goNextPage}>{message('Dock.GoNextPage')}
         </button>}
       </nav>)
+  }
+
+  // Render show listings button
+  listingsButton (props) {
+
+    const displayListings = this.displayListings
+
+    return (
+      <button
+        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
+        onClick={displayListings}>Show Listings
+      </button>
+    )
+  }
+
+  hideListingsButton (props) {
+
+    const hideListings = this.hideListings
+
+    return (
+      <button
+        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
+        onClick={hideListings}>Hide Listings
+      </button>
+    )
   }
 
   // Render list of neighborhoods
@@ -267,11 +311,14 @@ export default class Dock extends PureComponent<Props> {
       origin,
       page,
       showDetails,
+      showListings,
       showFavorites,
       userProfile
     } = this.props
     const {componentError} = this.state
     const ButtonRow = this.buttonRow
+    const ListingsButton = this.listingsButton
+    const HideListingsButton = this.hideListingsButton
     const NeighborhoodSection = this.neighborhoodSection
     const setFavorite = this.setFavorite
     const backFromDetails = this.backFromDetails
@@ -285,6 +332,15 @@ export default class Dock extends PureComponent<Props> {
           {componentError.info}
         </p>}
       {children}
+
+      {showDetails &&
+        <ListingsButton/>
+      }
+
+      {showDetails &&
+        <HideListingsButton/>
+      }
+
       {!isLoading && !showDetails &&
         <NeighborhoodSection
           {...this.props}
@@ -321,6 +377,7 @@ export default class Dock extends PureComponent<Props> {
         <ButtonRow {...this.props}
           haveAnotherPage={haveAnotherPage} page={page}
         />}
+
       <div className='map-sidebar__footer'>
         <a
           href='https://www.mysurveygizmo.com/s3/5088311/ECHOLocator-Feedback-tool'

@@ -21,6 +21,11 @@ export const setShowDetails = (show) => (dispatch, getState) => {
   dispatch({type: 'set show details', payload: !!show})
 }
 
+export const setShowListings = (show) => (dispatch, getState) => {
+  addActionLogItem(`Set show listings to ${show}`)
+  dispatch({type: 'set show listings', payload: !!show})
+}
+
 export const setShowFavorites = (show) => (dispatch, getState) => {
   addActionLogItem(`Set show favorites to ${show}`)
   dispatch({type: 'set show favorites', payload: !!show})

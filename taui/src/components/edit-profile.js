@@ -132,7 +132,7 @@ export default class EditProfile extends PureComponent<Props> {
         importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE,
         key: '',
         rooms: 0,
-        budget: 2000,
+        budget: 0,
         voucherNumber: '',
         componentError: null,
         errorMessage: '',

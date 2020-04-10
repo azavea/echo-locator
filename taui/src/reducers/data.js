@@ -10,6 +10,7 @@ export default handleActions(
         networks: [],
         page: 0,
         showDetails: false,
+        showListings: false,
         showFavorites: false
       }
     },
@@ -111,6 +112,12 @@ export default handleActions(
         showDetails: !!action.payload
       }
     },
+    'set show listings' (state, action) {
+      return {
+        ...state,
+        showListings: !!action.payload
+      }
+    },
     'set show favorites' (state, action) {
       return {
         ...state,
@@ -126,6 +133,7 @@ export default handleActions(
     page: 0,
     profileLoading: true,
     showDetails: false,
+    showListings: false,
     showFavorites: false,
     userProfile: null
   }

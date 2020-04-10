@@ -41,6 +41,7 @@ type Props = {
     page: number,
     profileLoading: boolean,
     showDetails: boolean,
+    showListings: boolean,
     showFavorites: boolean,
     userProfile: AccountProfile
   },
@@ -79,6 +80,7 @@ type Props = {
   setProfile: Function => void,
   setSelectedTimeCutoff: any => void,
   setShowDetails: Function => void,
+  setShowListings: Function => void,
   setShowFavorites: Function => void,
   setStart: any => void,
   showComparison: boolean,
