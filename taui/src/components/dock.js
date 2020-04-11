@@ -11,6 +11,8 @@ import type {AccountProfile} from '../types'
 import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
 
+import getListings from '../actions/listings'
+
 type Props = {
   activeNeighborhood: string,
   activeNetworkIndex: number,
@@ -93,11 +95,13 @@ export default class Dock extends PureComponent<Props> {
   displayListings (e) {
 
     e.stopPropagation()
-    this.props.setShowListings(true)
-
+    getListings(this.props.activeNeighborhood).then(data => {
+      this.props.setDataListings(data.listings)
+      this.props.setShowListings(true)
+    })
   }
 
-  hideListings (e) {
+  hideListings (e, props) {
 
     e.stopPropagation()
     this.props.setShowListings(false)

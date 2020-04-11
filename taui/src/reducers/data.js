@@ -123,6 +123,12 @@ export default handleActions(
         ...state,
         showFavorites: !!action.payload
       }
+    },
+    'set datalistings' (state, action) {
+      return {
+        ...state,
+        dataListings: action.payload
+      }
     }
   },
   {
@@ -135,6 +141,8 @@ export default handleActions(
     showDetails: false,
     showListings: false,
     showFavorites: false,
-    userProfile: null
+    userProfile: null,
+    dataListings: []
+
   }
 )
