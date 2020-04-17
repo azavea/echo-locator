@@ -303,8 +303,19 @@ export default class Map extends PureComponent<Props, State> {
           p.showListings && p.dataListings.map((item, key) =>
             <Marker
               key={`listings-${this._getKey()}`}
-              position={[item.lat,item.lon]}
+              position={[item.address.lat,item.address.lon]}
               zIndex={getZIndex()}>
+
+              <Popup>
+                <div>
+                  {/*<img src={item.photo} width='120px'/> <br />*/}
+                  Address: {item.address.line} <br />
+                  {item.community && <div>Price: ${item.community.price_min} - ${item.community.price_max}/month</div>}
+                  {item.price && <div>Price: ${item.price}/month</div>}
+                  <a href={item.rdc_web_url} target='_blank'>Click for Listing</a>
+                </div>
+              </Popup>
+
             </Marker>
           )
         }

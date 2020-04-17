@@ -18,10 +18,13 @@ import PolygonIcon from '../icons/polygon-icon'
 import NeighborhoodListInfo from './neighborhood-list-info'
 import RouteSegments from './route-segments'
 
+import getListings from '../utils/listings'
+
 type Props = {
   changeUserProfile: any,
   neighborhood: any,
   setFavorite: any,
+  showListings: boolean,
   userProfile: AccountProfile
 }
 export default class NeighborhoodDetails extends PureComponent<Props> {
@@ -39,6 +42,11 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     this.neighborhoodImage = this.neighborhoodImage.bind(this)
     this.neighborhoodImages = this.neighborhoodImages.bind(this)
     this.neighborhoodLinks = this.neighborhoodLinks.bind(this)
+
+    this.displayListings = this.displayListings.bind(this)
+    this.hideListings = this.hideListings.bind(this)
+    this.listingsButton = this.listingsButton.bind(this)
+    this.hideListingsButton = this.hideListingsButton.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -63,6 +71,42 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         </div>
         <NeighborhoodListInfo neighborhood={neighborhood} />
       </div>
+    )
+  }
+
+  displayListings (e) {
+
+    getListings(this.props.neighborhood.properties.zipcode, this.props.userProfile.budget, this.props.userProfile.rooms).then(data => {
+      this.props.setDataListings(data.properties)
+      this.props.setShowListings(true)
+    })
+  }
+
+  hideListings (e) {
+    this.props.setShowListings(false)
+  }
+
+  listingsButton (props) {
+
+    const displayListings = this.displayListings
+
+    return (
+      <button
+        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
+        onClick={displayListings}>Show Listings
+      </button>
+    )
+  }
+
+  hideListingsButton (props) {
+
+    const hideListings = this.hideListings
+
+    return (
+      <button
+        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
+        onClick={hideListings}>Hide Listings
+      </button>
     )
   }
 
@@ -234,12 +278,16 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   render () {
-    const { changeUserProfile, neighborhood, origin, setFavorite, userProfile } = this.props
+    const { changeUserProfile, neighborhood, origin, setFavorite, userProfile, showListings } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
     const NeighborhoodImages = this.neighborhoodImages
     const NeighborhoodLinks = this.neighborhoodLinks
+    const NeighborhoodSection = this.neighborhoodSection
+
+    const ListingsButton = this.listingsButton
+    const HideListingsButton = this.hideListingsButton
 
     if (!neighborhood || !userProfile) {
       return null
@@ -249,6 +297,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
     const { id, town } = neighborhood.properties
+    const { rooms, budget } = userProfile
     const description = neighborhood.properties['town_website_description']
 
     const bestJourney = neighborhood.segments && neighborhood.segments.length
@@ -306,6 +355,14 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             neighborhood={neighborhood}
             userProfile={userProfile} />
         </div>
+
+        <div className='neighborhood-details__section'>
+          <h6 className='neighborhood-details__link-heading'>
+            {rooms}br listings with a budget of ${budget}
+          </h6>
+          {showListings ? <HideListingsButton/> : <ListingsButton/>}
+        </div>
+
         <div className='neighborhood-details__section'>
           <NeighborhoodLinks
             hasVehicle={hasVehicle}
@@ -313,6 +370,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             origin={origin}
             userProfile={userProfile} />
         </div>
+
         <div className='neighborhood-details__section'>
           <NeighborhoodImages neighborhood={neighborhood} />
           <div className='neighborhood-details__desc'>

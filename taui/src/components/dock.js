@@ -11,7 +11,7 @@ import type {AccountProfile} from '../types'
 import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
 
-import getListings from '../actions/listings'
+import getListings from '../utils/listings'
 
 type Props = {
   activeNeighborhood: string,
@@ -46,10 +46,6 @@ export default class Dock extends PureComponent<Props> {
     this.goPreviousPage = this.goPreviousPage.bind(this)
     this.goNextPage = this.goNextPage.bind(this)
     this.goToDetails = this.goToDetails.bind(this)
-    this.displayListings = this.displayListings.bind(this)
-    this.hideListings = this.hideListings.bind(this)
-    this.listingsButton = this.listingsButton.bind(this)
-    this.hideListingsButton = this.hideListingsButton.bind(this)
     this.buttonRow = this.buttonRow.bind(this)
     this.neighborhoodsList = this.neighborhoodsList.bind(this)
     this.neighborhoodSection = this.neighborhoodSection.bind(this)
@@ -71,6 +67,7 @@ export default class Dock extends PureComponent<Props> {
   backFromDetails (e) {
     e.stopPropagation()
     this.props.setShowDetails(false)
+    this.props.setShowListings(false)
     this.props.setActiveNeighborhood()
   }
 
@@ -90,22 +87,6 @@ export default class Dock extends PureComponent<Props> {
     e.stopPropagation()
     this.props.setPage(this.props.page + 1)
     this.props.setActiveNeighborhood()
-  }
-
-  displayListings (e) {
-
-    e.stopPropagation()
-    getListings(this.props.activeNeighborhood).then(data => {
-      this.props.setDataListings(data.listings)
-      this.props.setShowListings(true)
-    })
-  }
-
-  hideListings (e, props) {
-
-    e.stopPropagation()
-    this.props.setShowListings(false)
-
   }
 
   goToDetails (e, neighborhood) {
@@ -186,31 +167,6 @@ export default class Dock extends PureComponent<Props> {
           onClick={goNextPage}>{message('Dock.GoNextPage')}
         </button>}
       </nav>)
-  }
-
-  // Render show listings button
-  listingsButton (props) {
-
-    const displayListings = this.displayListings
-
-    return (
-      <button
-        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
-        onClick={displayListings}>Show Listings
-      </button>
-    )
-  }
-
-  hideListingsButton (props) {
-
-    const hideListings = this.hideListings
-
-    return (
-      <button
-        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
-        onClick={hideListings}>Hide Listings
-      </button>
-    )
   }
 
   // Render list of neighborhoods
@@ -317,12 +273,12 @@ export default class Dock extends PureComponent<Props> {
       showDetails,
       showListings,
       showFavorites,
-      userProfile
+      userProfile,
+      setShowListings,
+      setDataListings
     } = this.props
     const {componentError} = this.state
     const ButtonRow = this.buttonRow
-    const ListingsButton = this.listingsButton
-    const HideListingsButton = this.hideListingsButton
     const NeighborhoodSection = this.neighborhoodSection
     const setFavorite = this.setFavorite
     const backFromDetails = this.backFromDetails
@@ -336,14 +292,6 @@ export default class Dock extends PureComponent<Props> {
           {componentError.info}
         </p>}
       {children}
-
-      {showDetails &&
-        <ListingsButton/>
-      }
-
-      {showDetails &&
-        <HideListingsButton/>
-      }
 
       {!isLoading && !showDetails &&
         <NeighborhoodSection
@@ -374,6 +322,9 @@ export default class Dock extends PureComponent<Props> {
           changeUserProfile={changeUserProfile}
           neighborhood={detailNeighborhood}
           origin={origin}
+          setShowListings={setShowListings}
+          setDataListings={setDataListings}
+          showListings={showListings}
           setFavorite={setFavorite}
           userProfile={userProfile} />
       </>}
