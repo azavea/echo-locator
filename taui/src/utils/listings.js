@@ -28,8 +28,18 @@ export default function getListings(zipcode, budget, beds) {
 
       var updatedProperties = [...response.data.properties]
 
-      for(var i = updatedProperties.length - 1; i >= 0; i--) {
+      for(var i = response.data.properties.length - 1; i >= 0; i--) {
 
+        // get high quality images
+        var link = ''
+        var newLink = ''
+        for(var j = updatedProperties[i].photos.length - 1; j >= 0; j--) {
+          link = updatedProperties[i].photos[j].href
+          newLink = link.substr(0, link.lastIndexOf('.')) + '-w1020_h770_q80' + link.substr(link.lastIndexOf('.'))
+          updatedProperties[i].photos[j].href = newLink
+        }
+
+        // only keep the listings with the right number of beds
         if (!response.data.properties[i].community) {
           if (response.data.properties[i].beds != beds) {
             updatedProperties.splice(i,1)

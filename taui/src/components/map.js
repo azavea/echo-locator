@@ -4,6 +4,9 @@ import Leaflet from 'leaflet'
 import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import React, {PureComponent} from 'react'
+import "react-responsive-carousel/lib/styles/carousel.min.css"
+import { Carousel } from 'react-responsive-carousel'
+
 import {
   Map as LeafletMap,
   Marker,
@@ -98,10 +101,7 @@ export default class Map extends PureComponent<Props, State> {
   constructor (props) {
     super(props)
 
-    /*this.state = {
-      data: dataListings
-    }*/
-
+    this.listingPopup = this.listingPopup.bind(this)
     this.clickNeighborhood = this.clickNeighborhood.bind(this)
     this.hoverNeighborhood = this.hoverNeighborhood.bind(this)
   }
@@ -123,6 +123,36 @@ export default class Map extends PureComponent<Props, State> {
     if (needToZoomOut && nextProps.neighborhoodBoundsExtent) {
       map.fitBounds(nextProps.neighborhoodBoundsExtent)
     }
+  }
+
+  /*
+    this.state.data.map((item, key) =>
+      <Marker
+        icon={otherIcon}
+        key={`listings-${this._getKey()}`}
+        position={[item.lat,item.lon]}
+        zIndex={getZIndex()}>
+      </Marker>
+    )
+  */
+
+  listingPopup (photos, address, community, price, url) {
+    console.log("7")
+    return(
+      <div>
+        <Carousel showIndicators={false} dynamicHeight={true}>
+          {photos.map((item, key) =>
+            <div key={`listings-image-${this._getKey()}`}>
+              <img src={item.href}/> <br />
+            </div>
+          )}
+        </Carousel>
+        Address: {address.line} <br />
+        {community && <div>Price: ${community.price_min} - ${community.price_max}/month</div>}
+        {price && <div>Price: ${price}/month</div>}
+        <a href={url} target='_blank'>Click for Listing</a>
+      </div>
+    )
   }
 
   // Click on map marker for a neighborhood
@@ -215,6 +245,7 @@ export default class Map extends PureComponent<Props, State> {
     const clickNeighborhood = this.clickNeighborhood
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
+    const listingPopup = this.listingPopup
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
@@ -307,19 +338,12 @@ export default class Map extends PureComponent<Props, State> {
               zIndex={getZIndex()}>
 
               <Popup>
-                <div>
-                  {/*<img src={item.photo} width='120px'/> <br />*/}
-                  Address: {item.address.line} <br />
-                  {item.community && <div>Price: ${item.community.price_min} - ${item.community.price_max}/month</div>}
-                  {item.price && <div>Price: ${item.price}/month</div>}
-                  <a href={item.rdc_web_url} target='_blank'>Click for Listing</a>
-                </div>
+                {listingPopup(item.photos,item.address,item.community,item.price,item.rdc_web_url)}
               </Popup>
 
             </Marker>
           )
         }
-
 
 
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
