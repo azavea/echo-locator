@@ -29,6 +29,7 @@ type Props = {
   page: number,
   showDetails: boolean,
   showListings: boolean,
+  listingsLoading: boolean,
   showFavorites: boolean,
   userProfile: AccountProfile
 }
@@ -59,7 +60,7 @@ export default class Dock extends PureComponent<Props> {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails || this.props.showListings !== prevProps.showListings) {
+    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails || this.props.showListings !== prevProps.showListings || this.props.listingsLoading !== prevProps.listingsLoading) {
       this.sidebar.current.scrollTop = 0
     }
   }
@@ -68,6 +69,7 @@ export default class Dock extends PureComponent<Props> {
     e.stopPropagation()
     this.props.setShowDetails(false)
     this.props.setShowListings(false)
+    this.props.setListingsLoading(false)
     this.props.setActiveNeighborhood()
   }
 
@@ -272,9 +274,11 @@ export default class Dock extends PureComponent<Props> {
       page,
       showDetails,
       showListings,
+      listingsLoading,
       showFavorites,
       userProfile,
       setShowListings,
+      setListingsLoading,
       setDataListings
     } = this.props
     const {componentError} = this.state
@@ -323,8 +327,10 @@ export default class Dock extends PureComponent<Props> {
           neighborhood={detailNeighborhood}
           origin={origin}
           setShowListings={setShowListings}
+          setListingsLoading={setListingsLoading}
           setDataListings={setDataListings}
           showListings={showListings}
+          listingsLoading={listingsLoading}
           setFavorite={setFavorite}
           userProfile={userProfile} />
       </>}

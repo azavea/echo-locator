@@ -127,10 +127,12 @@ export default class MainPage extends React.PureComponent<Props> {
           setPage={p.setPage}
           setShowDetails={p.setShowDetails}
           setShowListings={p.setShowListings}
+          setListingsLoading={p.setListingsLoading}
           setDataListings={p.setDataListings}
           setShowFavorites={p.setShowFavorites}
           showDetails={p.data.showDetails}
           showListings={p.data.showListings}
+          listingsLoading={p.data.listingsLoading}
           showFavorites={p.data.showFavorites}
           userProfile={p.userProfile}>
           <Form

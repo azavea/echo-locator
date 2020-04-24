@@ -13,6 +13,7 @@ import getGoSection8SearchLink from '../utils/gosection8-search-link'
 import getHotpadsSearchLink from '../utils/hotpads-search-link'
 import getNeighborhoodImage from '../utils/neighborhood-images'
 import getZillowSearchLink from '../utils/zillow-search-link'
+import getRealtorSearchLink from '../utils/realtor-search-link'
 import PolygonIcon from '../icons/polygon-icon'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
@@ -25,6 +26,7 @@ type Props = {
   neighborhood: any,
   setFavorite: any,
   showListings: boolean,
+  listingsLoading: boolean,
   userProfile: AccountProfile
 }
 export default class NeighborhoodDetails extends PureComponent<Props> {
@@ -76,9 +78,12 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
   displayListings (e) {
 
+    this.props.setListingsLoading(true)
+
     getListings(this.props.neighborhood.properties.zipcode, this.props.userProfile.budget, this.props.userProfile.rooms).then(data => {
       this.props.setDataListings(data.properties)
       this.props.setShowListings(true)
+      this.props.setListingsLoading(false)
     })
   }
 
@@ -278,7 +283,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   render () {
-    const { changeUserProfile, neighborhood, origin, setFavorite, userProfile, showListings } = this.props
+    const { changeUserProfile, neighborhood, origin, setFavorite, userProfile, showListings, listingsLoading } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
@@ -361,6 +366,17 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             {rooms}br listings with a budget of ${budget}
           </h6>
           {showListings ? <HideListingsButton/> : <ListingsButton/>}
+          {listingsLoading ? <span>Loading</span> : <span></span>}
+          <div className='neighborhood-details__desc'>
+            ECHOLocator omits listings without a specific address. There may be more listings at the Realtor.com page <a href={getRealtorSearchLink(
+              neighborhood.properties.id,
+              userProfile.rooms,
+              userProfile.budget)}
+              target='_blank'
+              className='neighborhood-details__link'>
+                here
+            </a>.
+          </div>
         </div>
 
         <div className='neighborhood-details__section'>

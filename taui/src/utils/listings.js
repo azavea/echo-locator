@@ -2,9 +2,6 @@
 import axios from 'axios'
 
 export default function getListings(zipcode, budget, beds) {
-  console.log(zipcode)
-  console.log(budget)
-  console.log(beds)
 
   const test = {
     url: 'https://realtor.p.rapidapi.com/properties/v2/list-for-rent',
@@ -30,6 +27,20 @@ export default function getListings(zipcode, budget, beds) {
 
       for(var i = response.data.properties.length - 1; i >= 0; i--) {
 
+        // only keep the listings with address lines
+        if (!response.data.properties[i].address.line) {
+          updatedProperties.splice(i,1)
+          continue
+        }
+
+        // only keep the listings with the right number of beds
+        if (!response.data.properties[i].community) {
+          if (response.data.properties[i].beds != beds) {
+            updatedProperties.splice(i,1)
+            continue
+          }
+        }
+
         // get high quality images
         var link = ''
         var newLink = ''
@@ -37,13 +48,6 @@ export default function getListings(zipcode, budget, beds) {
           link = updatedProperties[i].photos[j].href
           newLink = link.substr(0, link.lastIndexOf('.')) + '-w1020_h770_q80' + link.substr(link.lastIndexOf('.'))
           updatedProperties[i].photos[j].href = newLink
-        }
-
-        // only keep the listings with the right number of beds
-        if (!response.data.properties[i].community) {
-          if (response.data.properties[i].beds != beds) {
-            updatedProperties.splice(i,1)
-          }
         }
       }
 

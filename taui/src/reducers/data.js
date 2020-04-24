@@ -11,6 +11,7 @@ export default handleActions(
         page: 0,
         showDetails: false,
         showListings: false,
+        listingsLoading: false,
         showFavorites: false
       }
     },
@@ -118,6 +119,12 @@ export default handleActions(
         showListings: !!action.payload
       }
     },
+    'set listings loading' (state, action) {
+      return{
+        ...state,
+        listingsLoading: !!action.payload
+      }
+    },
     'set show favorites' (state, action) {
       return {
         ...state,
@@ -141,6 +148,7 @@ export default handleActions(
     showDetails: false,
     showListings: false,
     showFavorites: false,
+    listingsLoading: false,
     userProfile: null,
     dataListings: []
 

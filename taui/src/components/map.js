@@ -137,7 +137,6 @@ export default class Map extends PureComponent<Props, State> {
   */
 
   listingPopup (photos, address, community, price, url) {
-    console.log("7")
     return(
       <div>
         <Carousel showIndicators={false} dynamicHeight={true}>

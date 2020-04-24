@@ -26,6 +26,11 @@ export const setShowListings = (show) => (dispatch, getState) => {
   dispatch({type: 'set show listings', payload: !!show})
 }
 
+export const setListingsLoading = (show) => (dispatch, getState) => {
+  addActionLogItem(`Set listings loading to ${show}`)
+  dispatch({type: 'set listings loading', payload: !!show})
+}
+
 export const setDataListings = (listingsArray) => (dispatch, getState) => {
   addActionLogItem(`Set datalistings to listings array`)
   dispatch({type: 'set datalistings', payload: listingsArray})
