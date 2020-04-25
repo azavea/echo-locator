@@ -33,14 +33,6 @@ export default function getListings(zipcode, budget, beds) {
           continue
         }
 
-        // only keep the listings with the right number of beds
-        if (!response.data.properties[i].community) {
-          if (response.data.properties[i].beds != beds) {
-            updatedProperties.splice(i,1)
-            continue
-          }
-        }
-
         // get high quality images
         var link = ''
         var newLink = ''

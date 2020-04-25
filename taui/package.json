@@ -61,6 +61,7 @@
     "react-ga": "~2.7.0",
     "react-leaflet": "~1.9.1",
     "react-leaflet-vectorgrid": "~2.2.1",
+    "react-loader-spinner": "^3.1.14",
     "react-redux": "~5.1.2",
     "react-responsive-carousel": "^3.2.4",
     "react-router": "~5.1.2",

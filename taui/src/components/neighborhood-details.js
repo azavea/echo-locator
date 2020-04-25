@@ -19,6 +19,9 @@ import PolygonIcon from '../icons/polygon-icon'
 import NeighborhoodListInfo from './neighborhood-list-info'
 import RouteSegments from './route-segments'
 
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import Loader from 'react-loader-spinner'
+
 import getListings from '../utils/listings'
 
 type Props = {
@@ -366,7 +369,13 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             {rooms}br listings with a budget of ${budget}
           </h6>
           {showListings ? <HideListingsButton/> : <ListingsButton/>}
-          {listingsLoading ? <span>Loading</span> : <span></span>}
+          <div style={{ display: 'inline-block' }}><Loader
+                 visible={listingsLoading}
+                 type="Oval"
+                 color="#000000"
+                 height={20}
+                 width={20}
+              /></div>
           <div className='neighborhood-details__desc'>
             ECHOLocator omits listings without a specific address. There may be more listings at the Realtor.com page <a href={getRealtorSearchLink(
               neighborhood.properties.id,
