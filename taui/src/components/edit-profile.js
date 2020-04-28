@@ -98,6 +98,7 @@ export default class EditProfile extends PureComponent<Props> {
           ? profile.destinations : [Object.assign({}, firstAddress)],
         favorites: profile.favorites,
         hasVehicle: profile.hasVehicle,
+        hasVoucher: profile.hasVoucher,
         useCommuterRail: !profile.hasVehicle &&
         // Default to true for profiles that do not have the useCommuterRail property set yet
         (profile.useCommuterRail || profile.useCommuterRail === undefined),
@@ -125,6 +126,7 @@ export default class EditProfile extends PureComponent<Props> {
         destinations: [Object.assign({}, firstAddress)],
         favorites: [],
         hasVehicle: false,
+        hasVoucher: false,
         useCommuterRail: true,
         headOfHousehold: '',
         importanceAccessibility: DEFAULT_ACCESSIBILITY_IMPORTANCE,
@@ -164,6 +166,7 @@ export default class EditProfile extends PureComponent<Props> {
       clientInviteSent,
       destinations,
       hasVehicle,
+      hasVoucher,
       headOfHousehold,
       importanceAccessibility,
       importanceSchools,
@@ -183,6 +186,7 @@ export default class EditProfile extends PureComponent<Props> {
       destinations,
       favorites,
       hasVehicle,
+      hasVoucher,
       headOfHousehold,
       importanceAccessibility,
       importanceSchools,
@@ -634,16 +638,13 @@ export default class EditProfile extends PureComponent<Props> {
   // handles the budget
   budgetOptions (props) {
     const { changeField, budget } = props
-    const budgetCountOptions = range(0,10000,1000)
-    const budgetOptions = budgetCountOptions.map((num) => {
-      const strVal = num.toString()
-      return <option key={strVal} value={strVal}>{strVal}</option>
-    })
 
     return (
       <input
         className='account-profile__input account-profile__input--select'
         defaultValue={budget}
+        placeholder='0' // placeholder hard coded
+        type='number'
         onChange={(e) => changeField('budget', e.currentTarget.value)}>
       </input>
     )
@@ -651,11 +652,16 @@ export default class EditProfile extends PureComponent<Props> {
 
   validBudget (budget): boolean {
     // check if budget is actually a number
-    if (isNaN(budget)) {
+    /*if (isNaN(budget)) {
       return false
     }
     // check if budget is negative
-    if(parseInt(budget) <= 0) {
+    if(parseInt(budget) < 0) {
+      console.log('false')
+      return false;
+    }*/
+    console.log("UPDATED")
+    if(budget < 0) {
       console.log('false')
       return false;
     }
@@ -684,6 +690,7 @@ export default class EditProfile extends PureComponent<Props> {
       clientInviteSent,
       destinations,
       hasVehicle,
+      hasVoucher,
       headOfHousehold,
       importanceAccessibility,
       importanceSchools,
@@ -773,19 +780,60 @@ export default class EditProfile extends PureComponent<Props> {
             </div>}
 
             <div className='account-profile__field'>
-              <label
+              <div
                 className='account-profile__label'
-                htmlFor='rooms'>{message('Profile.Rooms')}</label>
-              <RoomOptions
-                rooms={rooms}
-                changeField={changeField} />
+                htmlFor='rooms'>{message('Profile.ChooseVoucher')}</div>
+              <div className='account-profile__field-row'>
+                <div className='account-profile__field account-profile__field--inline'>
+                  <input
+                    className='account-profile__input account-profile__input--checkbox'
+                    id='yesVoucher'
+                    name='voucherMode'
+                    type='radio'
+                    onChange={(e) => changeField('hasVoucher', e.currentTarget.checked)}
+                    defaultChecked={hasVoucher}
+                    autoComplete='off'
+                  />
+                  <label
+                    className='account-profile__label account-profile__label--secondary'
+                    htmlFor='yesVoucher'>
+                    {message('Profile.YesVoucher')}
+                  </label>
+                </div>
+                <div className='account-profile__field account-profile__field--inline'>
+                  <input
+                    className='account-profile__input account-profile__input--checkbox'
+                    id='noVoucher'
+                    name='voucherMode'
+                    type='radio'
+                    onChange={(e) => changeField('hasVoucher', !e.currentTarget.checked)}
+                    defaultChecked={!hasVoucher}
+                    autoComplete='off'
+                  />
+                  <label
+                    className='account-profile__label account-profile__label--secondary'
+                    htmlFor='noVoucher'>
+                    {message('Profile.NoVoucher')}
+                  </label>
+                </div>
+              </div>
             </div>
+            {!hasVoucher &&
+              <div className='account-profile__field'>
+                <label
+                  className='account-profile__label'
+                  htmlFor='budget'>{message('Profile.Budget')}</label>
+                <BudgetOptions
+                  budget={budget}
+                  changeField={changeField} />
+              </div>
+            }
             <div className='account-profile__field'>
               <label
                 className='account-profile__label'
-                htmlFor='budget'>{message('Profile.Budget')}</label>
-              <BudgetOptions
-                budget={budget}
+                htmlFor='rooms'>{hasVoucher ? message('Profile.RoomsVoucher') : message('Profile.RoomsNoVoucher')}</label>
+              <RoomOptions
+                rooms={rooms}
                 changeField={changeField} />
             </div>
             <DestinationsList
