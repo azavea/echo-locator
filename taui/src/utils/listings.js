@@ -3,6 +3,8 @@ import axios from 'axios'
 
 export default function getListings(zipcode, budget, beds) {
 
+  console.log(budget)
+
   const test = {
     url: 'https://realtor.p.rapidapi.com/properties/v2/list-for-rent',
     method: 'GET',
