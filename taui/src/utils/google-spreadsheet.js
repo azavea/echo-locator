@@ -3,7 +3,6 @@
 //real: 1aTsG_fm5CGYWiM-YJkfXKzJwEVWjo7-HNQ9t1S6_jQY
 const SHEET_ID = '1-oSni5SVKOjj_9YR4LPKN7N4UgPdi3eeFA8sM-X0XNw'
 const RANGES = 'Sheet1'
-const API_KEY = 'AIzaSyDANgcXR-EZJ9sY-QpIv0HylVfkO3BKgI4';
 
 //or: Form+Responses+1
 
