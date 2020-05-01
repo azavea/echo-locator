@@ -249,7 +249,7 @@ export default class EditProfile extends PureComponent<Props> {
     } else if (!this.validDestinations(profile.destinations)) {
       this.setState({errorMessage: message('Profile.AddressMissing')})
       return
-    } else if (!this.validBudget(profile.budget)) {
+    } else if (!this.validBudget(profile.budget, profile.hasVoucher)) {
       this.setState({errorMessage: message('Profile.InvalidBudget')})
      return
     } else {
@@ -650,7 +650,7 @@ export default class EditProfile extends PureComponent<Props> {
     )
   }
 
-  validBudget (budget): boolean {
+  validBudget (budget, hasVoucher): boolean {
     // check if budget is actually a number
     /*if (isNaN(budget)) {
       return false
@@ -660,12 +660,12 @@ export default class EditProfile extends PureComponent<Props> {
       console.log('false')
       return false;
     }*/
-    console.log("UPDATED")
-    if(budget < 0) {
-      console.log('false')
-      return false;
+    
+    if(hasVoucher || (!hasVoucher && budget > 0)) {
+      console.log('true')
+      return true
     }
-    return true
+    return false
   }
 
 

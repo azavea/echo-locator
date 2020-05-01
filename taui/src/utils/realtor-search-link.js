@@ -3,9 +3,9 @@
 const REALTOR_BASE_URL = 'https://www.realtor.com/apartments/'
 export default function getZillowSearchLink (zipcode, rooms, budget) {
   let zipcodeSearch = REALTOR_BASE_URL + encodeURIComponent(zipcode) + '/price-na-' +
-    encodeURIComponent(parseInt(budget)) + '/beds-'
+    encodeURIComponent(parseInt(budget))
   if (parseInt(rooms) > 0) {
-    zipcodeSearch += encodeURIComponent(rooms)
+    zipcodeSearch += '/beds-' + encodeURIComponent(rooms)
   }
   return zipcodeSearch
 }

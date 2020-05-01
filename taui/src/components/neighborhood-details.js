@@ -81,9 +81,14 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
   displayListings (e) {
 
+    const hasVoucher = this.props.userProfile.hasVoucher
+    const budget = this.props.userProfile.budget
+    const rooms = this.props.userProfile.rooms
+    const maxSubsidy = this.props.neighborhood.properties['max_rent_' + rooms + 'br']
+
     this.props.setListingsLoading(true)
 
-    getListings(this.props.neighborhood.properties.zipcode, this.props.userProfile.budget, this.props.userProfile.rooms).then(data => {
+    getListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
       this.props.setDataListings(data.properties)
       this.props.setShowListings(true)
       this.props.setListingsLoading(false)
@@ -165,7 +170,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
   neighborhoodLinks (props) {
     const { neighborhood, userProfile } = props
-    const { rooms, budget } = userProfile
+    const { rooms, budget, hasVoucher } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
     return (
@@ -179,7 +184,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getZillowSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              userProfile.budget)}
+              hasVoucher ? maxSubsidy : budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.ZillowSearchLink')}
@@ -189,7 +194,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getCraigslistSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              userProfile.budget)}
+              hasVoucher ? maxSubsidy : budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.CraigslistSearchLink')}
@@ -199,7 +204,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getHotpadsSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              userProfile.budget)}
+              hasVoucher ? maxSubsidy : budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.HotpadsSearchLink')}
@@ -209,7 +214,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getGoSection8SearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              userProfile.budget)}
+              hasVoucher ? maxSubsidy : budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.GoSection8SearchLink')}
@@ -305,8 +310,9 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
     const { id, town } = neighborhood.properties
-    const { rooms, budget } = userProfile
+    const { rooms, budget, hasVoucher } = userProfile
     const description = neighborhood.properties['town_website_description']
+    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
     const bestJourney = neighborhood.segments && neighborhood.segments.length
       ? neighborhood.segments[0] : null
@@ -366,7 +372,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
         <div className='neighborhood-details__section'>
           <h6 className='neighborhood-details__link-heading'>
-            {rooms}br listings with a budget of ${budget}
+            {rooms}br listings with a budget of ${ hasVoucher ? maxSubsidy : budget }
           </h6>
           {showListings ? <HideListingsButton/> : <ListingsButton/>}
           <div style={{ display: 'inline-block' }}><Loader
@@ -380,7 +386,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             ECHOLocator omits listings without a specific address. There may be more listings at the Realtor.com page <a href={getRealtorSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              userProfile.budget)}
+              hasVoucher ? maxSubsidy : budget)}
               target='_blank'
               className='neighborhood-details__link'>
                 here
