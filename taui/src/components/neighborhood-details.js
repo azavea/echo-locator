@@ -24,6 +24,8 @@ import Loader from 'react-loader-spinner'
 
 import getListings from '../utils/listings'
 
+import readSheetValues, {fwdGeocode} from '../utils/google-spreadsheet'
+
 type Props = {
   changeUserProfile: any,
   neighborhood: any,
@@ -52,6 +54,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     this.hideListings = this.hideListings.bind(this)
     this.listingsButton = this.listingsButton.bind(this)
     this.hideListingsButton = this.hideListingsButton.bind(this)
+    this.readSheetData = this.readSheetData.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -104,10 +107,17 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const displayListings = this.displayListings
 
     return (
+      <div>
       <button
         className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
         onClick={displayListings}>Show Listings
       </button>
+      {/* new changes, testing button */}
+      <button
+          className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
+          onClick={this.readSheetData}>Print Sheet Values
+      </button>
+      </div>
     )
   }
 
@@ -121,6 +131,18 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         onClick={hideListings}>Hide Listings
       </button>
     )
+  }
+
+  readSheetData(props) {
+    const sheetValues = readSheetValues()
+    console.log("GSHEET Info:", sheetValues)
+    // sheetValues.map((rowObject) => 
+    //     console.log('gosh', rowObject.locAddress) doesn't print
+    // )
+    // console.log("asdfaf", sheetValues[0])   undefined
+    //fwdGeocode takes param address
+    const latlong = fwdGeocode('1 Oxford St, Cambridge, MA 02138')
+    console.log("Geocode Results: ", latlong)
   }
 
   neighborhoodImage (props) {
