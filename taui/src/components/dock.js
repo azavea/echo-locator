@@ -279,7 +279,8 @@ export default class Dock extends PureComponent<Props> {
       userProfile,
       setShowListings,
       setListingsLoading,
-      setDataListings
+      setDataListings,
+      setBHAListings
     } = this.props
     const {componentError} = this.state
     const ButtonRow = this.buttonRow
@@ -329,6 +330,7 @@ export default class Dock extends PureComponent<Props> {
           setShowListings={setShowListings}
           setListingsLoading={setListingsLoading}
           setDataListings={setDataListings}
+          setBHAListings={setBHAListings}
           showListings={showListings}
           listingsLoading={listingsLoading}
           setFavorite={setFavorite}

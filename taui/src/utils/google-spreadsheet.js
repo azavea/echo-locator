@@ -8,11 +8,11 @@ const RANGES = 'Sheet1'
 
 import axios from 'axios'
 //GSHEET_API_KEY
-//reads from BHA Coronvirus google sheets -> returns data from spreadsheet SHEET_ID for RANGES as specified. 
+//reads from BHA Coronvirus google sheets -> returns data from spreadsheet SHEET_ID for RANGES as specified.
 export default function readSheetValues() {
-  const rows = [];
-      axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values:batchGet?ranges=Sheet1&majorDimension=ROWS&key=${API_KEY}`)
-      .then(response => {
+  return axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values:batchGet?ranges=Sheet1&majorDimension=ROWS&key=${process.env.GSHEET_API_KEY}`)
+    .then(response => {
+      var rows = []
 
       const data = response.data
       let batchRowValues = data.valueRanges[0].values;
@@ -24,26 +24,33 @@ export default function readSheetValues() {
         }
         rows.push(rowObject);
       }
-    })
+      const promises = rows.map((item, key) => {
+        return fwdGeocode(item.locAddress)
+      })
 
-    return rows;
-  }
+      return Promise.all(promises).then((results) => {
+        for(var i = 0; i < results.length; i++) {
+          rows[i].latLon = results[i]
+        }
+
+        return rows
+      })
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
 
 
 //address to coordinate, using MapQuest
 export function fwdGeocode(address){
-  let coord = [];
-  axios.get(`http://www.mapquestapi.com/geocoding/v1/address?key=${process.env.MAPQUEST_API_KEY}&location=${address}`)
+  return axios.get(`http://www.mapquestapi.com/geocoding/v1/address?key=${process.env.MAPQUEST_API_KEY}&location=${address}`)
     .then(response => {
-      const results = response.data
-      let lat = results.results[0].locations[0].latLng.lat;
-      let lng = results.results[0].locations[0].latLng.lng;
-      coord.push(lat);
-      coord.push(lng);
+
+      return response.data.results[0].locations[0].latLng
+
     })
     .catch(err => {
         console.log("fwdGeo", err)
     })
-    return coord;
 }
-  

@@ -36,6 +36,11 @@ export const setDataListings = (listingsArray) => (dispatch, getState) => {
   dispatch({type: 'set datalistings', payload: listingsArray})
 }
 
+export const setBHAListings = (listingsArray) => (dispatch, getState) => {
+  addActionLogItem(`Set bhaListings to listings array`)
+  dispatch({type: 'set bhaListings', payload: listingsArray})
+}
+
 export const setShowFavorites = (show) => (dispatch, getState) => {
   addActionLogItem(`Set show favorites to ${show}`)
   dispatch({type: 'set show favorites', payload: !!show})

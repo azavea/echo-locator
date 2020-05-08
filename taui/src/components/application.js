@@ -44,6 +44,7 @@ type Props = {
     showListings: boolean,
     listingsLoading: boolean,
     dataListings: Listings[],
+    bhaListings: bhaListings[],
     showFavorites: boolean,
     userProfile: AccountProfile
   },
@@ -85,6 +86,7 @@ type Props = {
   setShowListings: Function => void,
   setLoadingListings: Function => void,
   setDataListings: Function => void,
+  setBHAListings: Function => void,
   setShowFavorites: Function => void,
   setStart: any => void,
   showComparison: boolean,

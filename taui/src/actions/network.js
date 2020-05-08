@@ -261,6 +261,8 @@ const fetchTimesAndPathsForNetworkAtIndex = (network, originPoint, index) => [
       }
 
       const travelTimeSurface = parseTimesData(timesResponse.value)
+      console.log(travelTimeSurface)
+
       return [
         logItem(`Found times for ${index}...`),
         setNetwork({

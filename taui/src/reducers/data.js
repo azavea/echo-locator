@@ -136,6 +136,12 @@ export default handleActions(
         ...state,
         dataListings: action.payload
       }
+    },
+    'set bhaListings' (state, action) {
+      return {
+        ...state,
+        bhaListings: action.payload
+      }
     }
   },
   {
@@ -150,7 +156,8 @@ export default handleActions(
     showFavorites: false,
     listingsLoading: false,
     userProfile: null,
-    dataListings: []
+    dataListings: [],
+    bhaListings: []
 
   }
 )

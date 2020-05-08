@@ -129,6 +129,7 @@ export default class MainPage extends React.PureComponent<Props> {
           setShowListings={p.setShowListings}
           setListingsLoading={p.setListingsLoading}
           setDataListings={p.setDataListings}
+          setBHAListings={p.setBHAListings}
           setShowFavorites={p.setShowFavorites}
           showDetails={p.data.showDetails}
           showListings={p.data.showListings}
@@ -181,6 +182,7 @@ export default class MainPage extends React.PureComponent<Props> {
             showDetails={p.data.showDetails}
             showListings={p.data.showListings}
             dataListings={p.data.dataListings}
+            bhaListings={p.data.bhaListings}
             start={p.geocoder.start}
             updateEnd={p.updateEnd}
             updateMap={p.updateMap}

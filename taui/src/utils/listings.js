@@ -3,14 +3,12 @@ import axios from 'axios'
 
 export default function getListings(zipcode, budget, beds) {
 
-  console.log(budget)
-
   const test = {
     url: 'https://realtor.p.rapidapi.com/properties/v2/list-for-rent',
     method: 'GET',
     headers: {
       'x-rapidapi-host': 'realtor.p.rapidapi.com',
-		  'x-rapidapi-key': '6fc125e6c9mshc9f4623469e7eccp10c1bajsnaca460b441e6'
+		  'x-rapidapi-key': process.env.REALTOR_ACCESS_TOKEN
     },
     params: {
       postal_code: zipcode,
@@ -23,8 +21,6 @@ export default function getListings(zipcode, budget, beds) {
 
   return axios(test)
     .then(response => {
-      console.log(response.data)
-
       var updatedProperties = [...response.data.properties]
 
       for(var i = response.data.properties.length - 1; i >= 0; i--) {

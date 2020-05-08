@@ -111,12 +111,16 @@ export default class Map extends PureComponent<Props, State> {
     this.listingPopup = this.listingPopup.bind(this)
     this.clickNeighborhood = this.clickNeighborhood.bind(this)
     this.hoverNeighborhood = this.hoverNeighborhood.bind(this)
+    this.showListingPath = this.showListingPath.bind(this)
   }
 
   state = {
     lastClickedLabel: null,
     lastClickedPosition: null,
-    showSelectStartOrEnd: false
+    showSelectStartOrEnd: false,
+    showListingRoute: false,
+    selectedListingLat: null,
+    selectedListingLon: null
   }
 
   componentDidCatch (error) {
@@ -161,16 +165,59 @@ export default class Map extends PureComponent<Props, State> {
     )
   }
 
+  showListingPath (showDetails, zIndex, lastStop) {
+    if(this.state.selectedListingLon == null || this.state.selectedListingLon == null) {
+      return (<div></div>)
+    }
+    else {
+      return (
+        <DrawRoute
+          segments={[
+              {
+                positions: [
+                  [lastStop[0], lastStop[1]],
+                  [this.state.selectedListingLat, this.state.selectedListingLon]
+                ],
+                type: "WALK"
+              }
+            ]}
+          stops={[]}
+          walkStyle={{
+            color: "#555",
+            dashArray: "12, 8",
+            fillOpacity: 1,
+            lineCap: "butt",
+            lineMeter: "miter",
+            opacity: 1,
+            weight: 4
+            }}
+          key={`draw-routes-${this._getKey()}`}
+          showDetails={showDetails}
+          zIndex={zIndex}
+        />
+      )
+    }
+  }
+
   // Click on map marker for a neighborhood
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
       this.props.setShowListings(false)
+      this.setState({showListingRoute: false})
       this.props.setShowDetails(true)
       this.props.setActiveNeighborhood(feature.properties.id)
     } else {
       console.warn('clicked unroutable neighborhood ' + feature.properties.id)
     }
+  }
+
+  clickListing = (lat, lon) => {
+    // console.log(address)
+    // console.log(this.state.showListingRoute)
+    this.setState({selectedListingLat: lat})
+    this.setState({selectedListingLon: lon})
+    this.setState({showListingRoute: true})
   }
 
   // Debounced version of setActiveNeighborhood used on hover
@@ -191,7 +238,10 @@ export default class Map extends PureComponent<Props, State> {
     this.setState({
       lastClickedLabel: null,
       lastClickedPosition: null,
-      showSelectStartOrEnd: false
+      showSelectStartOrEnd: false,
+      showListingRoute: false,
+      selectedListingLat: null,
+      selectedListingLon: null
     })
   }
 
@@ -252,6 +302,8 @@ export default class Map extends PureComponent<Props, State> {
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
     const listingPopup = this.listingPopup
+    const clickListing = this.clickListing
+    const showListingPath = this.showListingPath
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
@@ -342,7 +394,8 @@ export default class Map extends PureComponent<Props, State> {
               icon={realtorIcon}
               key={`listings-${this._getKey()}`}
               position={[item.address.lat,item.address.lon]}
-              zIndex={getZIndex()}>
+              zIndex={getZIndex()}
+              onClick={ () => clickListing(item.address.lat, item.address.lon) }>
 
               <Popup>
                 {listingPopup(item.photos,item.address,item.community,item.price,item.rdc_web_url)}
@@ -351,6 +404,26 @@ export default class Map extends PureComponent<Props, State> {
             </Marker>
           )
         }
+
+        {
+          p.showListings && p.bhaListings.map((item, key) =>
+            <Marker
+              key={`listings-${this._getKey()}`}
+              position={[item.latLon.lat,item.latLon.lng]}
+              zIndex={getZIndex()}
+              onClick={ () => clickListing(item.latLon.lat, item.latLon.lng) }>
+
+              <Popup>
+                <span>{item.locAddress}</span>
+              </Popup>
+
+            </Marker>
+          )
+        }
+
+        {p.showListings && this.state.showListingRoute &&
+            showListingPath(p.showDetails, getZIndex(), p.drawRoute.stops[p.drawRoute.stops.length - 1])
+          }
 
 
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
