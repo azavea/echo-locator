@@ -31,7 +31,8 @@ type Props = {
   showListings: boolean,
   listingsLoading: boolean,
   showFavorites: boolean,
-  userProfile: AccountProfile
+  userProfile: AccountProfile,
+  activeListing: any
 }
 
 /**
@@ -280,7 +281,9 @@ export default class Dock extends PureComponent<Props> {
       setShowListings,
       setListingsLoading,
       setDataListings,
-      setBHAListings
+      setBHAListings,
+      activeListing,
+      listingTravelTime
     } = this.props
     const {componentError} = this.state
     const ButtonRow = this.buttonRow
@@ -325,6 +328,8 @@ export default class Dock extends PureComponent<Props> {
         </nav>
         <NeighborhoodDetails
           changeUserProfile={changeUserProfile}
+          activeListing={activeListing}
+          listingTravelTime={listingTravelTime}
           neighborhood={detailNeighborhood}
           origin={origin}
           setShowListings={setShowListings}

@@ -8,7 +8,7 @@ export default function getListings(zipcode, budget, beds) {
     method: 'GET',
     headers: {
       'x-rapidapi-host': 'realtor.p.rapidapi.com',
-		  'x-rapidapi-key': process.env.REALTOR_ACCESS_TOKEN
+		  'x-rapidapi-key': process.env.REALTOR_API_KEY
     },
     params: {
       postal_code: zipcode,

@@ -113,6 +113,8 @@ export default class MainPage extends React.PureComponent<Props> {
       <div className={mapScreenClass}>
         <Dock
           activeNeighborhood={p.data.activeNeighborhood}
+          activeListing={p.data.activeListing}
+          listingTravelTime={p.listingTravelTime}
           changeUserProfile={p.changeUserProfile}
           componentError={this.state.componentError}
           detailNeighborhood={p.detailNeighborhood}
@@ -157,6 +159,7 @@ export default class MainPage extends React.PureComponent<Props> {
           <Map
             {...p.map}
             activeNeighborhood={p.data.activeNeighborhood}
+            activeListing={p.data.activeListing}
             activeNeighborhoodBounds={p.activeNeighborhoodBounds}
             activeNetworkIndex={p.activeNetworkIndex}
             clearStartAndEnd={this._clearStartAndEnd}
@@ -168,12 +171,15 @@ export default class MainPage extends React.PureComponent<Props> {
             drawIsochrones={p.drawIsochrones}
             drawOpportunityDatasets={p.drawOpportunityDatasets}
             drawRoute={p.drawNeighborhoodRoute}
+            drawListingRoute={p.drawListingRoute}
             neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
             origin={p.data.origin}
             pointsOfInterest={p.pointsOfInterest}
             routableNeighborhoods={p.routableNeighborhoods}
             showRoutes={this._showNeighborhoodRoutes()}
             setActiveNeighborhood={p.setActiveNeighborhood}
+            setActiveListing={p.setActiveListing}
+            setListingRoute={p.setListingRoute}
             setPage={p.setPage}
             setEndPosition={p.updateEndPosition}
             setShowDetails={p.setShowDetails}

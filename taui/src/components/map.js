@@ -81,6 +81,7 @@ type Props = {
   drawIsochrones: Function[],
   drawOpportunityDatasets: Function[],
   drawRoute: any,
+  drawListingRoute: any,
   end: null | Location,
   isLoading: boolean,
   pointsOfInterest: void | any, // FeatureCollection
@@ -111,16 +112,13 @@ export default class Map extends PureComponent<Props, State> {
     this.listingPopup = this.listingPopup.bind(this)
     this.clickNeighborhood = this.clickNeighborhood.bind(this)
     this.hoverNeighborhood = this.hoverNeighborhood.bind(this)
-    this.showListingPath = this.showListingPath.bind(this)
   }
 
   state = {
     lastClickedLabel: null,
     lastClickedPosition: null,
     showSelectStartOrEnd: false,
-    showListingRoute: false,
-    selectedListingLat: null,
-    selectedListingLon: null
+    showListingRoute: false
   }
 
   componentDidCatch (error) {
@@ -164,47 +162,13 @@ export default class Map extends PureComponent<Props, State> {
       </div>
     )
   }
-
-  showListingPath (showDetails, zIndex, lastStop) {
-    if(this.state.selectedListingLon == null || this.state.selectedListingLon == null) {
-      return (<div></div>)
-    }
-    else {
-      return (
-        <DrawRoute
-          segments={[
-              {
-                positions: [
-                  [lastStop[0], lastStop[1]],
-                  [this.state.selectedListingLat, this.state.selectedListingLon]
-                ],
-                type: "WALK"
-              }
-            ]}
-          stops={[]}
-          walkStyle={{
-            color: "#555",
-            dashArray: "12, 8",
-            fillOpacity: 1,
-            lineCap: "butt",
-            lineMeter: "miter",
-            opacity: 1,
-            weight: 4
-            }}
-          key={`draw-routes-${this._getKey()}`}
-          showDetails={showDetails}
-          zIndex={zIndex}
-        />
-      )
-    }
-  }
-
   // Click on map marker for a neighborhood
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
       this.props.setShowListings(false)
       this.setState({showListingRoute: false})
+      this.props.setActiveListing(null)
       this.props.setShowDetails(true)
       this.props.setActiveNeighborhood(feature.properties.id)
     } else {
@@ -213,10 +177,7 @@ export default class Map extends PureComponent<Props, State> {
   }
 
   clickListing = (lat, lon) => {
-    // console.log(address)
-    // console.log(this.state.showListingRoute)
-    this.setState({selectedListingLat: lat})
-    this.setState({selectedListingLon: lon})
+    this.props.setActiveListing([lon, lat])
     this.setState({showListingRoute: true})
   }
 
@@ -239,9 +200,7 @@ export default class Map extends PureComponent<Props, State> {
       lastClickedLabel: null,
       lastClickedPosition: null,
       showSelectStartOrEnd: false,
-      showListingRoute: false,
-      selectedListingLat: null,
-      selectedListingLon: null
+      showListingRoute: false
     })
   }
 
@@ -303,7 +262,6 @@ export default class Map extends PureComponent<Props, State> {
     const styleNeighborhood = this.styleNeighborhood
     const listingPopup = this.listingPopup
     const clickListing = this.clickListing
-    const showListingPath = this.showListingPath
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
@@ -336,7 +294,7 @@ export default class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />}
 
-        {p.showRoutes && p.drawRoute &&
+        {p.showRoutes && p.drawRoute && !this.state.showListingRoute &&
           <DrawRoute
             {...p.drawRoute}
             activeNeighborhood={p.activeNeighborhood}
@@ -421,9 +379,14 @@ export default class Map extends PureComponent<Props, State> {
           )
         }
 
-        {p.showListings && this.state.showListingRoute &&
-            showListingPath(p.showDetails, getZIndex(), p.drawRoute.stops[p.drawRoute.stops.length - 1])
-          }
+        {p.showListings && this.state.showListingRoute && p.drawListingRoute &&
+          <DrawRoute
+            {...p.drawListingRoute}
+            activeNeighborhood={p.activeNeighborhood}
+            key={`draw-routes-${p.drawRoute.id}-${this._getKey()}`}
+            showDetails={p.showDetails}
+            zIndex={getZIndex()}
+          />}
 
 
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&

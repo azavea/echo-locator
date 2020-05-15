@@ -6,6 +6,16 @@ export const setActiveNeighborhood = (neighborhood) => (dispatch, getState) => {
   dispatch({type: 'set active neighborhood', payload: neighborhood})
 }
 
+export const setActiveListing = (listing) => (dispatch, getState) => {
+  addActionLogItem(`Updating currently selected neighborhood to ${listing}`)
+  dispatch({type: 'set active listing', payload: listing})
+}
+
+export const setListingRoute = (route) => (dispatch, getState) => {
+  addActionLogItem(`Setting the listing route as ${route}`)
+  dispatch({type: 'set listing route', payload: route})
+}
+
 export const setDisplayNeighborhoods = (neighborhoods) => (dispatch, getState) => {
   addActionLogItem(`Updating currently displayed neighborhoods`)
   dispatch({type: 'set display neighborhoods', payload: neighborhoods})

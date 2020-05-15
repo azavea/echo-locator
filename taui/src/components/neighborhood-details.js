@@ -32,7 +32,9 @@ type Props = {
   setFavorite: any,
   showListings: boolean,
   listingsLoading: boolean,
-  userProfile: AccountProfile
+  userProfile: AccountProfile,
+  activeListing: any,
+  listingTravelTime: any
 }
 export default class NeighborhoodDetails extends PureComponent<Props> {
   props: Props
@@ -182,7 +184,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          Search for {rooms}br with a max budget of ${budget}
+          Search for {rooms}br with a max budget of ${hasVoucher ? maxSubsidy : budget}
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -297,7 +299,17 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   render () {
-    const { changeUserProfile, neighborhood, origin, setFavorite, userProfile, showListings, listingsLoading } = this.props
+    const {
+      changeUserProfile,
+      neighborhood,
+      origin,
+      setFavorite,
+      userProfile,
+      showListings,
+      listingsLoading,
+      activeListing,
+      listingTravelTime
+       } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
@@ -323,7 +335,10 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const bestJourney = neighborhood.segments && neighborhood.segments.length
       ? neighborhood.segments[0] : null
 
+    const listingTime = listingTravelTime
+
     const roundedTripTime = Math.round(neighborhood.time / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
+    const roundedListingTime = Math.round(listingTime / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
 
     // lat,lon strings for Google Directions link from neighborhood to current destination
     const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
@@ -370,6 +385,23 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             travelTime={neighborhood.time}
           />}
         </div>
+        {activeListing &&
+          <div className='neighborhood-details__section'>
+          <div className='neighborhood-details__trip'>
+            {listingTime}&nbsp;
+            {message('Units.Mins')}&nbsp;to selected listing
+            <a
+              className='neighborhood-details__directions'
+              href={getGoogleDirectionsLink(
+                activeListing[1] + ',' + activeListing[0],
+                destinationCoordinateString,
+                hasVehicle)}
+              target='_blank'
+            >
+              {message('NeighborhoodDetails.DirectionsLink')}
+            </a>
+          </div>
+        </div>}
         <div className='neighborhood-details__section'>
           <NeighborhoodStats
             neighborhood={neighborhood}

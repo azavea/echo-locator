@@ -12,7 +12,8 @@ export default handleActions(
         showDetails: false,
         showListings: false,
         listingsLoading: false,
-        showFavorites: false
+        showFavorites: false,
+        listingRoute: {}
       }
     },
     'set grid' (state, action) {
@@ -53,6 +54,12 @@ export default handleActions(
         activeNeighborhood: action.payload
       }
     },
+    'set active listing' (state, action) {
+      return {
+        ...state,
+        activeListing: action.payload
+      }
+    },
     'set active network' (state, action) {
       const networks = [...state.networks]
 
@@ -73,6 +80,12 @@ export default handleActions(
       return {
         ...state,
         neighborhoods: action.payload
+      }
+    },
+    'set listing route' (state, action) {
+      return {
+        ...state,
+        listingRoute: action.payload
       }
     },
     'set neighborhood bounds' (state, action) {
@@ -157,7 +170,7 @@ export default handleActions(
     listingsLoading: false,
     userProfile: null,
     dataListings: [],
-    bhaListings: []
-
+    bhaListings: [],
+    listingRoute: {}
   }
 )
