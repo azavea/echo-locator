@@ -92,7 +92,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     this.props.setListingsLoading(true)
 
-    readSheetValues().then(data => {
+    readSheetValues(this.props.neighborhood.properties.zipcode).then(data => {
       this.props.setBHAListings(data)
     })
 
@@ -360,6 +360,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             <PolygonIcon className='neighborhood-details__marker' />
           </header>
         </div>
+        {!activeListing &&
         <div className='neighborhood-details__section'>
           <div className='neighborhood-details__trip'>
             {message('Units.About')}&nbsp;
@@ -384,7 +385,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             routeSegments={neighborhood.segments}
             travelTime={neighborhood.time}
           />}
-        </div>
+        </div>}
         {activeListing &&
           <div className='neighborhood-details__section'>
           <div className='neighborhood-details__trip'>

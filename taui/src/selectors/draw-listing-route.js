@@ -24,9 +24,8 @@ export default createSelector(
     const transitStyle = {...TRANSIT_STYLE, ...applyStyle}
     const stopStyle = {...STOP_STYLE, ...applyStyle}
     const allSegments = get(transitive, 'journeys[0].segments', [])
-    // Remove final walk leg
     const segments = [...allSegments]
-
+    // old code to remove last walking segment (from draw-neighborhood-route)
     // segments.pop()
     return {
       segments: segments.map(s => getSegmentPositions(s, transitive)),

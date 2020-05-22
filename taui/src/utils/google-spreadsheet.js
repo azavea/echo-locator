@@ -9,7 +9,8 @@ const RANGES = 'Sheet1'
 import axios from 'axios'
 //GSHEET_API_KEY
 //reads from BHA Coronvirus google sheets -> returns data from spreadsheet SHEET_ID for RANGES as specified.
-export default function readSheetValues() {
+export default function readSheetValues(zipcode) {
+
   return axios.get(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values:batchGet?ranges=Sheet1&majorDimension=ROWS&key=${process.env.GSHEET_API_KEY}`)
     .then(response => {
       var rows = []
@@ -22,7 +23,15 @@ export default function readSheetValues() {
         for (let j = 0; j < batchRowValues[i].length; j++) {
           rowObject[batchRowValues[0][j]] = batchRowValues[i][j];
         }
-        rows.push(rowObject);
+        if(rowObject['ZIP CODE (xxxxx)'].length == 4) {
+          rowObject['ZIP CODE (xxxxx)'] = '0' + rowObject['ZIP CODE (xxxxx)']
+        } else if (rowObject['ZIP CODE (xxxxx)'].length > 5) {
+          rowObject['ZIP CODE (xxxxx)'] = rowObject['ZIP CODE (xxxxx)'].substring(0,5)
+        }
+
+        if(rowObject['ZIP CODE (xxxxx)'] == zipcode) {
+          rows.push(rowObject)
+        }
       }
       const promises = rows.map((item, key) => {
         return fwdGeocode(item.locAddress)
@@ -32,7 +41,7 @@ export default function readSheetValues() {
         for(var i = 0; i < results.length; i++) {
           rows[i].latLon = results[i]
         }
-
+        console.log(rows)
         return rows
       })
     })
