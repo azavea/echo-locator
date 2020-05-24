@@ -67,15 +67,15 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodStats (props) {
-    const { neighborhood, userProfile } = props
-    const { rooms } = userProfile
+    const { neighborhood, userProfile} = props
+    const { rooms, budget, hasVoucher } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
 
     return (
       <div className='neighborhood-details__stats'>
         <div className='neighborhood-details__rent'>
-          <div className='neighborhood-details__rent-label'>{message('NeighborhoodDetails.MaxRent')}</div>
-          <div className='neighborhood-details__rent-value'>${maxSubsidy}</div>
+          <div className='neighborhood-details__rent-label'>{hasVoucher ? message('NeighborhoodDetails.MaxRent') : 'Budget'}</div>
+          <div className='neighborhood-details__rent-value'>${hasVoucher ? maxSubsidy : budget}</div>
           <div className='neighborhood-details__rent-rooms'>{rooms}br</div>
         </div>
         <NeighborhoodListInfo neighborhood={neighborhood} />
