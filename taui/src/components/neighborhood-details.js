@@ -92,7 +92,9 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     this.props.setListingsLoading(true)
 
-    readSheetValues(this.props.neighborhood.properties.zipcode).then(data => {
+    //param: (zip, budget, rooms)
+    readSheetValues(this.props.neighborhood.properties.zipcode, budget, rooms)
+    .then(data => {
       this.props.setBHAListings(data)
     })
 
