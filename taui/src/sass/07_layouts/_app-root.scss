@@ -9,3 +9,15 @@
     flex: none;
   }
 }
+
+.languageSelect {
+  > button {
+    margin-left: 10px;
+    &:hover {
+      color: blue;
+    }
+  }
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+}

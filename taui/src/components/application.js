@@ -103,7 +103,8 @@ type Props = {
   updateOrigin: any => void,
   updateStart: any => void,
   updateStartPosition: LonLat => void,
-  updateUserProfile: AccountProfile => void
+  updateUserProfile: AccountProfile => void,
+  language: string
 }
 
 type State = {
@@ -115,7 +116,7 @@ type State = {
  */
 export default class Application extends Component<Props, State> {
   state = {
-    componentError: null
+    componentError: null,
   }
 
   /**
@@ -152,6 +153,7 @@ export default class Application extends Component<Props, State> {
    *
    */
   render () {
+    console.log('application ',this.props.language)
     const props = this.props
     const profileLoading = this.props.data.profileLoading === undefined ? true
       : this.props.data.profileLoading
@@ -177,7 +179,7 @@ export default class Application extends Component<Props, State> {
               voucherNumber={props.voucherNumber} />))} />
         <Route path='/profile' render={() => (
           profileLoading || userProfile
-            ? (<EditProfile {...props} />) : (<Redirect to='/search' />))} />
+            ? (<EditProfile {...props}/>) : (<Redirect to='/search' />))} />
         <Route component={NoMatch} />
       </Switch>
     )
