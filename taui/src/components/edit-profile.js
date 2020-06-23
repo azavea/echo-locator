@@ -205,10 +205,7 @@ export default class EditProfile extends PureComponent<Props> {
   // Write profile to S3 as JSON
   saveToS3 (saveAsKey: string, profile: AccountProfile, isCounselor: boolean,
     changeUserProfile: any): Promise<boolean> {
-    var language = ''
-    if (this.props.language != 'English'){
-      language = this.props.language
-    }
+    var language = this.props.language
     return new Promise((resolve, reject) => {
       Storage.put(saveAsKey, JSON.stringify(profile))
         .then(result => {
@@ -246,10 +243,7 @@ export default class EditProfile extends PureComponent<Props> {
     const isAnonymous = this.state.isAnonymous
     const profile: AccountProfile = this.getProfileFromState()
 
-    var language = ''
-    if (this.props.language != 'English'){
-      language = this.props.language
-    }
+    var language = this.props.language
 
     if (!profile || !profile.key || !profile.voucherNumber) {
       console.error('Cannot save profile: missing profile or its voucher number.') // hardcode translation
@@ -317,10 +311,7 @@ export default class EditProfile extends PureComponent<Props> {
 
   // Resolves to 'exists', 'created', or 'failed'
   createClientAccount (key: string): Promise<string> {
-    var language = ''
-    if (this.props.language != 'English'){
-      language = this.props.language
-    }
+    var language = this.props.language
     return new Promise((resolve, reject) => {
       if (!key) {
         console.error('Cannot create client log-in account without key')
@@ -405,10 +396,7 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   deleteProfile (key: string, isCounselor: boolean, event) {
-    var language = ''
-    if (this.props.language != 'English'){
-      language = this.props.language
-    }
+    var language = this.props.language
 
     if (!key) {
       console.error('Cannot delete account without key')
@@ -448,10 +436,7 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   deleteAddress (index: number, event) {
-    var language = ''
-    if (this.props.language != 'English'){
-      language = this.props.language
-    }
+    var language = this.props.language
     const destinations = this.state.destinations.slice()
     const removedDestination = destinations.splice(index, 1)[0]
     // Do not allow deleting the current primary address
@@ -507,11 +492,7 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   tripPurposeOptions (props) {
-    var language = ''
-    if (props.language != 'English'){
-      language = props.language
-    }
-    const { destination, index, editAddress } = props
+    const { destination, index, editAddress, language } = props
     const options = PROFILE_DESTINATION_TYPES.map((key) => {
       // expects each type in constants to have a label in messages
       const messageKey = 'TripPurpose.' + key
@@ -530,11 +511,6 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   destinationsList (props) {
-    var language = ''
-    if (props.language != 'English'){
-      language = props.language
-    }
-
     const {
       addAddress,
       deleteAddress,
@@ -544,7 +520,8 @@ export default class EditProfile extends PureComponent<Props> {
       reverseGeocode,
       setGeocodeLocation,
       setPrimaryAddress,
-      TripPurposeOptions } = props
+      TripPurposeOptions,
+      language } = props
 
     const showAllColumns = destinations.length > 1
 
@@ -635,11 +612,7 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   importanceOptions (props) {
-    var language = ''
-    if (props.language != 'English'){
-      language = props.language
-    }
-    const { changeField, fieldName, importance } = props
+    const { changeField, fieldName, importance, language } = props
     const importanceRange = range(1, MAX_IMPORTANCE + 1)
     const importanceOptions = importanceRange.map((num) => {
       const strVal = num.toString()
@@ -724,12 +697,7 @@ export default class EditProfile extends PureComponent<Props> {
     const deleteProfile = this.deleteProfile
     const save = this.save
 
-    var language = ''
-    if (this.props.language != 'English'){
-      language = this.props.language
-    }
-
-    const { authData, geocode, reverseGeocode } = this.props
+    const { authData, geocode, reverseGeocode, language } = this.props
     const {
       clientAccountConfirmed,
       clientEmail,

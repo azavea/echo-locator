@@ -101,8 +101,8 @@ class LanguageSelect extends React.Component {
     return (
       <div className='languageSelect'> 
         <button onClick={this.handleEnglishClick}> English </button>
-        <button onClick={this.handleSpanishClick}> Spanish </button>
-        <button onClick={this.handleChineseClick}> Chinese </button>
+        <button onClick={this.handleSpanishClick}> Español </button>
+        <button onClick={this.handleChineseClick}> 中文 </button>
       </div>
     )
   }
