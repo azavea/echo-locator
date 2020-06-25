@@ -14,6 +14,7 @@ import downloadJson from '../utils/download-json'
 import Dock from './dock'
 import Form from './form'
 import Map from './map'
+import Amenities from './amenities'
 
 /**
  * Displays map and sidebar.
@@ -147,6 +148,7 @@ export default class MainPage extends React.PureComponent<Props> {
             updateOrigin={p.updateOrigin}
             userProfile={p.userProfile}
           />
+          <Amenities/>
         </Dock>
         <div className='main-map'>
           <svg width='0' height='0' style={{position: 'absolute'}}>

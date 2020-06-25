@@ -297,7 +297,7 @@ export default class EditProfile extends PureComponent<Props> {
     } else {
       // Do not attempt to write anonymous profile to S3
       this.props.changeUserProfile(profile)
-      this.props.history.push('/map')
+      this.props.history.push('/map') // where the save happens for anonymous, doesn't happen on live site
     }
   }
 
