@@ -21,3 +21,13 @@
   justify-content: space-evenly;
   flex-direction: row;
 }
+
+.amenities-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  font-family: 'Open Sans', sans-serif;
+  .amenities-amenity {
+    padding: 2%;
+  }
+}
