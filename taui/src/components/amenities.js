@@ -40,6 +40,7 @@ export default class Amenities extends Component<Props, State> {
     }
 
     render(){
+        console.log(library)
         return (
             <div>
                 <p style={{fontWeight: 'bold'}}>Features</p>

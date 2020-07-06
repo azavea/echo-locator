@@ -2,7 +2,7 @@ import {Component} from 'react'
 
 type Props = {
     name: string,
-    image: string, // image url
+    image: any, // image url
     color: string,
 }
 
