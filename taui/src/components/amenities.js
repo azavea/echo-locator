@@ -2,13 +2,13 @@ import {Component} from 'react'
 
 import Amenity from './amenity'
 
-import childcare from '../img/icons/childcare.png'
-import park from '../img/icons/park.png'
-import grocery from '../img/icons/grocery.png'
-import school from '../img/icons/school.png'
-import playground from '../img/icons/playground.png'
-import medical from '../img/icons/medical.png'
-import library from '../img/icons/library.png'
+const childcare = '../../assets/img/icons/childcare.png'
+const park = '../../assets/img/icons/park.png'
+const grocery = '../../assets/img/icons/grocery.png'
+const school = '../../assets/img/icons/school.png'
+const playground = '../../assets/img/icons/playground.png'
+const medical = '../../assets/img/icons/medical.png'
+const library = '../../assets/img/icons/library.png'
 
 type State = {
     amenities: string[],
@@ -40,7 +40,6 @@ export default class Amenities extends Component<Props, State> {
     }
 
     render(){
-        console.log(library)
         return (
             <div>
                 <p style={{fontWeight: 'bold'}}>Features</p>

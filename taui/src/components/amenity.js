@@ -2,7 +2,7 @@ import {Component} from 'react'
 
 type Props = {
     name: string,
-    image: any, // image url
+    image: string, // image url
     color: string,
 }
 
@@ -43,12 +43,12 @@ export default class Amenity extends Component<Props> {
                 bgColor = this.state.defaultColor;
             }
         }
-        var buttonStyle = {backgroundColor: bgColor, color:'white', padding: '0% 20%', width: '110%', height: '110%', fontSize:'80%'}
+        var buttonStyle = {alignItems: 'baseline', display: 'flex', justifyContent: 'space-evenly', backgroundColor: bgColor, color:'white', padding: '1% 15%', width: '100%', height: '100%', fontSize:'80%'}
 
         return (
             <div className={'amenities-amenity'} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
                 <button style={buttonStyle} onClick={this.handleClick}>
-                    <img src={this.props.image} alt=''></img>
+                    <img className='amenities-icon' src={this.props.image} alt=''></img>
                     {this.props.name}
                 </button>
             </div>

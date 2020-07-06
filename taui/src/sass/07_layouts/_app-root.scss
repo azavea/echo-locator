@@ -25,9 +25,14 @@
 .amenities-box {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
   font-family: 'Open Sans', sans-serif;
   .amenities-amenity {
     padding: 2%;
+    width: 25%;
+    .amenities-icon {
+      width: 25%;
+      position: relative;
+      top: 1px;
+    }
   }
 }
