@@ -1387,7 +1387,7 @@
         
         
         
-      "DeploymentAPIGWecholocatorStagingApi21a89d56": {
+      "DeploymentAPIGWecholocatorStagingApi": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",
@@ -1414,6 +1414,10 @@
         "ApiName": {
           "Description": "API Friendly name",
           "Value": "echolocatorStagingApi"
+        },
+        "ApiId": {
+          "Description": "API ID (prefix of API URL)",
+          "Value": {"Ref": "echolocatorStagingApi"}
         }
     }
   }

@@ -76,9 +76,11 @@ function mapStateToProps (state, ownProps) {
     detailNeighborhood: select.detailNeighborhood(state, ownProps),
     displayPageNeighborhoods: select.displayPageNeighborhoods(state, ownProps),
     drawNeighborhoodRoute: select.drawNeighborhoodRoute(state, ownProps),
+    drawListingRoute: select.drawListingRoute(state, ownProps),
     drawOpportunityDatasets: select.drawOpportunityDatasets(state, ownProps),
     haveAnotherPage: select.haveAnotherPage(state, ownProps),
     isLoading: select.loading(state, ownProps),
+    listingTravelTime: select.listingTravelTime(state, ownProps),
     neighborhoods: get(state, 'data.neighborhoods'),
     neighborhoodBounds: get(state, 'data.neighborhoodBounds'),
     neighborhoodBoundsExtent: select.neighborhoodBoundsExtent(state, ownProps),
@@ -111,6 +113,7 @@ const ConnectedApplication = withRouter(withTracker(connect(mapStateToProps, act
 
 // Create an Application wrapper
 class InitializationWrapper extends React.Component {
+
   constructor (props) {
     super(props)
 
@@ -145,3 +148,4 @@ mount({
   app: InitializationWrapper,
   reducers
 })
+

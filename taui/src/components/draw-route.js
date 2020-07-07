@@ -17,6 +17,8 @@ export default class DrawRoute extends React.PureComponent {
 
   render () {
     const p = this.props
+    // console.log("SEGMENTS")
+    // console.log(p)
     return <FeatureGroup ref='features'>
       {p.segments.map((segment, i) => {
         if (segment.type === 'WALK') {

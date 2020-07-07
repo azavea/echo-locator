@@ -11,6 +11,8 @@ import type {AccountProfile} from '../types'
 import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
 
+import getListings from '../utils/listings'
+
 type Props = {
   activeNeighborhood: string,
   activeNetworkIndex: number,
@@ -26,8 +28,11 @@ type Props = {
   origin: any,
   page: number,
   showDetails: boolean,
+  showListings: boolean,
+  listingsLoading: boolean,
   showFavorites: boolean,
-  userProfile: AccountProfile
+  userProfile: AccountProfile,
+  activeListing: any
 }
 
 /**
@@ -56,7 +61,7 @@ export default class Dock extends PureComponent<Props> {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails) {
+    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails || this.props.showListings !== prevProps.showListings || this.props.listingsLoading !== prevProps.listingsLoading) {
       this.sidebar.current.scrollTop = 0
     }
   }
@@ -64,6 +69,8 @@ export default class Dock extends PureComponent<Props> {
   backFromDetails (e) {
     e.stopPropagation()
     this.props.setShowDetails(false)
+    this.props.setShowListings(false)
+    this.props.setListingsLoading(false)
     this.props.setActiveNeighborhood()
   }
 
@@ -267,8 +274,16 @@ export default class Dock extends PureComponent<Props> {
       origin,
       page,
       showDetails,
+      showListings,
+      listingsLoading,
       showFavorites,
-      userProfile
+      userProfile,
+      setShowListings,
+      setListingsLoading,
+      setDataListings,
+      setBHAListings,
+      activeListing,
+      listingTravelTime
     } = this.props
     const {componentError} = this.state
     const ButtonRow = this.buttonRow
@@ -285,6 +300,7 @@ export default class Dock extends PureComponent<Props> {
           {componentError.info}
         </p>}
       {children}
+
       {!isLoading && !showDetails &&
         <NeighborhoodSection
           {...this.props}
@@ -312,8 +328,16 @@ export default class Dock extends PureComponent<Props> {
         </nav>
         <NeighborhoodDetails
           changeUserProfile={changeUserProfile}
+          activeListing={activeListing}
+          listingTravelTime={listingTravelTime}
           neighborhood={detailNeighborhood}
           origin={origin}
+          setShowListings={setShowListings}
+          setListingsLoading={setListingsLoading}
+          setDataListings={setDataListings}
+          setBHAListings={setBHAListings}
+          showListings={showListings}
+          listingsLoading={listingsLoading}
           setFavorite={setFavorite}
           userProfile={userProfile} />
       </>}
@@ -321,6 +345,7 @@ export default class Dock extends PureComponent<Props> {
         <ButtonRow {...this.props}
           haveAnotherPage={haveAnotherPage} page={page}
         />}
+
       <div className='map-sidebar__footer'>
         <a
           href='https://www.mysurveygizmo.com/s3/5088311/ECHOLocator-Feedback-tool'

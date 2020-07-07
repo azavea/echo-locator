@@ -44,8 +44,8 @@
     "privacy": {
         "auth": 1,
         "unauth": 0,
-        "authRoleName": "amplify-echolocatorstaging-staging-202454-authRole",
-        "unAuthRoleName": "amplify-echolocatorstaging-staging-202454-unauthRole"
+        "authRoleName": "amplify-echolocatorstaging-staging-122738-authRole",
+        "unAuthRoleName": "amplify-echolocatorstaging-staging-122738-unauthRole"
     },
     "dependsOn": [
         {
@@ -78,6 +78,5 @@
                 "Arn"
             ]
         }
-    ],
-    "uuid": "21a89d56"
+    ]
 }

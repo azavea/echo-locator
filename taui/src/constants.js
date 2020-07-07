@@ -74,6 +74,8 @@ export const DEFAULT_CRIME_IMPORTANCE = 1
 // URLS
 export const MAPBOX_GEOCODING_URL =
   'https://api.mapbox.com/geocoding/v5/mapbox.places'
+export const ZILLOW_SEARCH_URL =
+  'http://www.zillow.com/webservice/GetSearchResults.htm'
 
 // Network colors
 export const NETWORK_COLORS = [

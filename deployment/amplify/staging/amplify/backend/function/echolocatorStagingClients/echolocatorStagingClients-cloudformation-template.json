@@ -2,6 +2,11 @@
 	"AWSTemplateFormatVersion": "2010-09-09",
 	"Description": "Lambda resource stack creation using Amplify CLI",
 	"Parameters": {
+		"CloudWatchRule": {
+			"Type": "String",
+			"Default": "NONE",
+			"Description": " Schedule Expression"
+		},
 		"env": {
 			"Type": "String"
 		},
@@ -66,11 +71,11 @@
 						"Arn"
 					]
 				},
-				"Runtime": "nodejs10.x",
+				"Runtime": "nodejs12.x",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "amplify-echolocatorstaging-staging-202454-deployment",
-					"S3Key": "amplify-builds/echolocatorStagingClients-55517375572f494c764e-build.zip"
+					"S3Bucket": "amplify-echolocatorstaging-staging-122738-deployment",
+					"S3Key": "amplify-builds/echolocatorStagingClients-76746b776a636374485a-build.zip"
 				}
 			}
 		},
@@ -80,12 +85,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"echolocatorstagingLambdaRole66432c05",
+						"echolocatorstagingLambdaRolee9a86b2b",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"echolocatorstagingLambdaRole66432c05",
+									"echolocatorstagingLambdaRolee9a86b2b",
 									"-",
 									{
 										"Ref": "env"
@@ -244,7 +249,17 @@
 								"cognito-idp:UpdateGroup",
 								"cognito-idp:AdminUpdateAuthEventFeedback",
 								"cognito-idp:UpdateDeviceStatus",
-								"cognito-idp:UpdateUserPool"
+								"cognito-idp:UpdateUserPool",
+								"cognito-idp:DeleteUserPoolDomain",
+								"cognito-idp:DeleteResourceServer",
+								"cognito-idp:DeleteGroup",
+								"cognito-idp:AdminDeleteUserAttributes",
+								"cognito-idp:DeleteUserPoolClient",
+								"cognito-idp:DeleteUserAttributes",
+								"cognito-idp:DeleteUserPool",
+								"cognito-idp:AdminDeleteUser",
+								"cognito-idp:DeleteIdentityProvider",
+								"cognito-idp:DeleteUser"
 							],
 							"Resource": [
 								{

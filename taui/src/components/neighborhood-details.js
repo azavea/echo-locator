@@ -13,16 +13,29 @@ import getGoSection8SearchLink from '../utils/gosection8-search-link'
 import getHotpadsSearchLink from '../utils/hotpads-search-link'
 import getNeighborhoodImage from '../utils/neighborhood-images'
 import getZillowSearchLink from '../utils/zillow-search-link'
+import getRealtorSearchLink from '../utils/realtor-search-link'
 import PolygonIcon from '../icons/polygon-icon'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
 import RouteSegments from './route-segments'
 
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import Loader from 'react-loader-spinner'
+
+import getListings from '../utils/listings'
+
+// import readSheetValues, {fwdGeocode} from '../utils/google-spreadsheet'
+import getBHAListings from '../utils/bha-data-extraction'
+
 type Props = {
   changeUserProfile: any,
   neighborhood: any,
   setFavorite: any,
-  userProfile: AccountProfile
+  showListings: boolean,
+  listingsLoading: boolean,
+  userProfile: AccountProfile,
+  activeListing: any,
+  listingTravelTime: any
 }
 export default class NeighborhoodDetails extends PureComponent<Props> {
   props: Props
@@ -39,6 +52,11 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     this.neighborhoodImage = this.neighborhoodImage.bind(this)
     this.neighborhoodImages = this.neighborhoodImages.bind(this)
     this.neighborhoodLinks = this.neighborhoodLinks.bind(this)
+
+    this.displayListings = this.displayListings.bind(this)
+    this.hideListings = this.hideListings.bind(this)
+    this.listingsButton = this.listingsButton.bind(this)
+    this.hideListingsButton = this.hideListingsButton.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -50,19 +68,71 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodStats (props) {
-    const { neighborhood, userProfile } = props
-    const { rooms } = userProfile
+    const { neighborhood, userProfile} = props
+    const { rooms, budget, hasVoucher } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
 
     return (
       <div className='neighborhood-details__stats'>
         <div className='neighborhood-details__rent'>
-          <div className='neighborhood-details__rent-label'>{message('NeighborhoodDetails.MaxRent')}</div>
-          <div className='neighborhood-details__rent-value'>${maxSubsidy}</div>
+          <div className='neighborhood-details__rent-label'>{hasVoucher ? message('NeighborhoodDetails.MaxRent') : 'Budget'}</div>
+          <div className='neighborhood-details__rent-value'>${hasVoucher ? maxSubsidy : budget}</div>
           <div className='neighborhood-details__rent-rooms'>{rooms}br</div>
         </div>
         <NeighborhoodListInfo neighborhood={neighborhood} />
       </div>
+    )
+  }
+
+  async displayListings (e) {
+
+
+    const hasVoucher = this.props.userProfile.hasVoucher
+    const budget = this.props.userProfile.budget
+    const rooms = this.props.userProfile.rooms
+    const maxSubsidy = this.props.neighborhood.properties['max_rent_' + rooms + 'br']
+
+    this.props.setListingsLoading(true)
+
+    //param: (zip, budget, rooms)
+    await getBHAListings(this.props.neighborhood.properties.zipcode, budget, rooms).then(data => {
+      this.props.setBHAListings(data)
+
+    })
+
+    await getListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
+      this.props.setDataListings(data.properties)
+    })
+
+    this.props.setShowListings(true)
+    this.props.setListingsLoading(false)
+  }
+
+  hideListings (e) {
+    this.props.setShowListings(false)
+  }
+
+  listingsButton (props) {
+
+    const displayListings = this.displayListings
+
+    return (
+      <button
+        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
+        onClick={displayListings}>Show Listings
+      </button>
+    )
+  }
+
+  hideListingsButton (props) {
+
+    const hideListings = this.hideListings
+
+    return (
+      <button
+        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
+        onClick={hideListings}>Hide Listings
+      </button>
     )
   }
 
@@ -113,13 +183,13 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
   neighborhoodLinks (props) {
     const { neighborhood, userProfile } = props
-    const { rooms } = userProfile
+    const { rooms, budget, hasVoucher } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          Search for {rooms}br with max rent ${maxSubsidy}
+          Search for {rooms}br with a max budget of ${hasVoucher ? maxSubsidy : budget}
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -127,7 +197,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getZillowSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              hasVoucher ? maxSubsidy : budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.ZillowSearchLink')}
@@ -137,7 +207,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getCraigslistSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              hasVoucher ? maxSubsidy : budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.CraigslistSearchLink')}
@@ -147,7 +217,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getHotpadsSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              hasVoucher ? maxSubsidy : budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.HotpadsSearchLink')}
@@ -157,7 +227,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getGoSection8SearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              hasVoucher ? maxSubsidy : budget)}
             target='_blank'
           >
             {message('NeighborhoodDetails.GoSection8SearchLink')}
@@ -234,12 +304,26 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   render () {
-    const { changeUserProfile, neighborhood, origin, setFavorite, userProfile } = this.props
+    const {
+      changeUserProfile,
+      neighborhood,
+      origin,
+      setFavorite,
+      userProfile,
+      showListings,
+      listingsLoading,
+      activeListing,
+      listingTravelTime
+       } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
     const NeighborhoodImages = this.neighborhoodImages
     const NeighborhoodLinks = this.neighborhoodLinks
+    const NeighborhoodSection = this.neighborhoodSection
+
+    const ListingsButton = this.listingsButton
+    const HideListingsButton = this.hideListingsButton
 
     if (!neighborhood || !userProfile) {
       return null
@@ -249,12 +333,17 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
     const { id, town } = neighborhood.properties
+    const { rooms, budget, hasVoucher } = userProfile
     const description = neighborhood.properties['town_website_description']
+    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
     const bestJourney = neighborhood.segments && neighborhood.segments.length
       ? neighborhood.segments[0] : null
 
+    const listingTime = listingTravelTime
+
     const roundedTripTime = Math.round(neighborhood.time / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
+    const roundedListingTime = Math.round(listingTime / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
 
     // lat,lon strings for Google Directions link from neighborhood to current destination
     const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
@@ -276,6 +365,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             <PolygonIcon className='neighborhood-details__marker' />
           </header>
         </div>
+        {!activeListing &&
         <div className='neighborhood-details__section'>
           <div className='neighborhood-details__trip'>
             {message('Units.About')}&nbsp;
@@ -300,12 +390,54 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             routeSegments={neighborhood.segments}
             travelTime={neighborhood.time}
           />}
-        </div>
+        </div>}
+        {activeListing &&
+          <div className='neighborhood-details__section'>
+          <div className='neighborhood-details__trip'>
+            {listingTime}&nbsp;
+            {message('Units.Mins')}&nbsp;to selected listing
+            <a
+              className='neighborhood-details__directions'
+              href={getGoogleDirectionsLink(
+                activeListing[1] + ',' + activeListing[0],
+                destinationCoordinateString,
+                hasVehicle)}
+              target='_blank'
+            >
+              {message('NeighborhoodDetails.DirectionsLink')}
+            </a>
+          </div>
+        </div>}
         <div className='neighborhood-details__section'>
           <NeighborhoodStats
             neighborhood={neighborhood}
             userProfile={userProfile} />
         </div>
+
+        <div className='neighborhood-details__section'>
+          <h6 className='neighborhood-details__link-heading'>
+            {rooms}br listings with a budget of ${ hasVoucher ? maxSubsidy : budget }
+          </h6>
+          {showListings ? <HideListingsButton/> : <ListingsButton/>}
+          <div style={{ display: 'inline-block' }}><Loader
+                 visible={listingsLoading}
+                 type="Oval"
+                 color="#000000"
+                 height={20}
+                 width={20}
+              /></div>
+          <div className='neighborhood-details__desc'>
+            ECHOLocator omits listings without a specific address. There may be more listings at the Realtor.com page <a href={getRealtorSearchLink(
+              neighborhood.properties.id,
+              userProfile.rooms,
+              hasVoucher ? maxSubsidy : budget)}
+              target='_blank'
+              className='neighborhood-details__link'>
+                here
+            </a>.
+          </div>
+        </div>
+
         <div className='neighborhood-details__section'>
           <NeighborhoodLinks
             hasVehicle={hasVehicle}
@@ -313,6 +445,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             origin={origin}
             userProfile={userProfile} />
         </div>
+
         <div className='neighborhood-details__section'>
           <NeighborhoodImages neighborhood={neighborhood} />
           <div className='neighborhood-details__desc'>

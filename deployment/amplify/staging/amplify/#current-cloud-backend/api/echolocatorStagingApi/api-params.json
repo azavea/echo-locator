@@ -1,0 +1,82 @@
+{
+    "paths": [
+        {
+            "name": "/clients",
+            "lambdaFunction": "echolocatorStagingClients",
+            "privacy": {
+                "userPoolGroups": {
+                    "counselors": [
+                        "/POST",
+                        "/GET",
+                        "/PUT",
+                        "/PATCH",
+                        "/DELETE"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "/profiles",
+            "lambdaFunction": "echolocatorStagingProfiles",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
+        }
+    ],
+    "resourceName": "echolocatorStagingApi",
+    "apiName": "echolocatorStagingApi",
+    "authResourceName": "echolocatorStagingAuth",
+    "functionArns": [
+        {
+            "lambdaFunction": "echolocatorStagingClients"
+        },
+        {
+            "lambdaFunction": "echolocatorStagingProfiles"
+        }
+    ],
+    "privacy": {
+        "auth": 1,
+        "unauth": 0,
+        "authRoleName": "amplify-echolocatorstaging-staging-122738-authRole",
+        "unAuthRoleName": "amplify-echolocatorstaging-staging-122738-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "echolocatorStagingClients",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "auth",
+            "resourceName": "echolocatorStagingAuth",
+            "attributes": [
+                "UserPoolId"
+            ]
+        },
+        {
+            "category": "auth",
+            "resourceName": "userPoolGroups",
+            "attributes": [
+                "counselorsGroupRole"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "echolocatorStagingProfiles",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
