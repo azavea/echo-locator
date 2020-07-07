@@ -54,5 +54,13 @@
         border-top: 20px solid $primary;
       }
     }
+
+    &--realtor {
+      background-color: $realtor;
+
+      &::before {
+        border-top: 20px solid $realtor;
+      }
+    }
   }
 }
