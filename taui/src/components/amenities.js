@@ -42,7 +42,7 @@ export default class Amenities extends Component<Props, State> {
     render(){
         return (
             <div>
-                <p style={{fontWeight: 'bold'}}>Features</p>
+                <p style={{fontWeight: 'bold'}}>Amenities</p>
                 <div className={'amenities-box'}>
                     <Amenity
                         name={this.state.amenities[0]} // School

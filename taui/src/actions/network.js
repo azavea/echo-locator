@@ -179,7 +179,7 @@ export const fetchAllTimesAndPathsForIndex = (index: number) => (
   const x = index % n.width
   const y = Math.floor(index / n.width)
   const centerCoordinates = pointToCoordinate(n.west + x, n.north + y, n.zoom)
-
+  // where zoom happens
   dispatch(updateMap({centerCoordinates}))
   dispatch({type: 'set geocoder', payload: {proximity: lonlat.toString(centerCoordinates)}})
   dispatch(updateStartPosition(centerCoordinates))

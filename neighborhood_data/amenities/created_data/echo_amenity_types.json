@@ -1,0 +1,10 @@
+{
+    "school": ["college", "university", "music", "kindergarten"],
+    "convenience": [],
+    "health": ["clinic", "dentist", "doctors", "hospital", "pharmacy", "veterinary"],
+    "community": ["social_facility", "community_centre", "place_of_worship"],
+    "park": ["dog_park", "beach_resort", "common", "garden", "nature_reserve", "picnic_table", "pitch", "playground", "swimming_pool", "track"],
+    "childcare": [],
+    "library": [],
+    "grocery": ["supermarket"]
+}
