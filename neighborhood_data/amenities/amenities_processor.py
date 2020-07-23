@@ -30,6 +30,7 @@ shop_data = shop_data['features']
 
 # data extraction
 amenities_data = {'amenity': amenity_data, 'leisure': leisure_data, 'shop': shop_data}
+amenities = []
 for f in amenities_data:
     temp_data = amenities_data[f]
     for d in temp_data:
@@ -49,18 +50,19 @@ for f in amenities_data:
             _id = int(d["id"][5:])
         except:
             add_to_dataset = False
+
+        # get lat and long
+        try:
+            (longitude, latitude) = d['geometry']['coordinates']
+        except:
+            add_to_dataset = False
     
         # get name
+        name = ''
         try:
             name = d['properties']['name']
         except:
             pass
-
-        # get lat and long
-        try:
-            (latitude, longitude) = d['geometry']['coordinates']
-        except:
-            add_to_dataset = False
 
         # get address
         # addr:postcode, addr: state, addr:city, addr:street, addr:housenumber
@@ -87,24 +89,28 @@ for f in amenities_data:
             pass
         
         # get opening_hours
+        hours = ''
         try:
             hours = d['properties']['opening_hours']
         except:
             pass
 
         # get wheelchair accesibility
+        wheelchair = ''
         try:
             wheelchair = d['properties']['wheelchair']
         except:
             pass
 
         # get website
+        website = ''
         try:
             website = d['properties']['website']
         except:
             pass
 
         # get description
+        description = ''
         try:
             description = d['properties']['description']
         except:
@@ -131,7 +137,12 @@ for f in amenities_data:
                 pass
 
         # insantiating Amenity datastructure
-        # TODO
+        # properties: name, address, description, hours, website, wheelchair, religion, emergency
+        properties = {"name": name, "address": address, "description": description, 
+                    "hours": hours , "website": website, "wheelchair": wheelchair, 
+                    "religion": religion, "emergency": emergency}
+                    
+        ammenities.append(Amenity(_id, (longitude, latitude), properties))
         
 
             
