@@ -1,51 +1,24 @@
 // @flow
 import axios from 'axios'
+const request = require('request')
 
 export default function getListings(zipcode, budget, beds) {
 
-  const test = {
-    url: 'https://realtor.p.rapidapi.com/properties/v2/list-for-rent',
-    method: 'GET',
-    headers: {
-      'x-rapidapi-host': 'realtor.p.rapidapi.com',
-		  'x-rapidapi-key': process.env.REALTOR_API_KEY
-    },
-    params: {
-      postal_code: zipcode,
-      sort: 'freshest',
-      offset: '0',
-      price_max: budget,
-      beds_min: beds
-    }
+  // Posts request to api gateway
+  const url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/get-realtor-listings'
+
+  const json = {
+      "zipcode":zipcode,
+      "budget":budget,
+      "rooms":beds
   }
-
-  return axios(test)
-    .then(response => {
-      var updatedProperties = [...response.data.properties]
-
-      for(var i = response.data.properties.length - 1; i >= 0; i--) {
-
-        // only keep the listings with address lines
-        if (!response.data.properties[i].address.line) {
-          updatedProperties.splice(i,1)
-          continue
-        }
-
-        // get high quality images
-        var link = ''
-        var newLink = ''
-        for(var j = updatedProperties[i].photos.length - 1; j >= 0; j--) {
-          link = updatedProperties[i].photos[j].href
-          newLink = link.substr(0, link.lastIndexOf('.')) + '-w1020_h770_q80' + link.substr(link.lastIndexOf('.'))
-          updatedProperties[i].photos[j].href = newLink
-        }
-      }
-
-      response.data.properties = updatedProperties
-
-      return response.data
+  return new Promise (resolve => {
+      request.post({url:url, json:json}, function(err, res, body) {
+          const listings = JSON.parse(body.body)
+          resolve(listings)
+      })
+    }).then(response => {
+        return response
     })
-    .catch(err => {
-      console.log(err)
-    })
+
 }

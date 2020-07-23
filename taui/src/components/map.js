@@ -182,13 +182,12 @@ export default class Map extends PureComponent<Props, State> {
       this.props.setActiveListing(null)
       this.props.setShowDetails(true)
       this.props.setActiveNeighborhood(feature.properties.id)
-      console.log(this.props)
     } else {
       console.warn('clicked unroutable neighborhood ' + feature.properties.id)
     }
   }
 
-  clickListing = (lat, lon) => {
+  clickListing =  (lat, lon) =>{
     this.props.setActiveListing([lon, lat])
     this.setState({showListingRoute: true})
   }
@@ -273,10 +272,7 @@ export default class Map extends PureComponent<Props, State> {
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
     const listingPopup = this.listingPopup
-    const clickListing = this.clickListing
-
-
-      
+    const clickListing = this.clickListing      
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0

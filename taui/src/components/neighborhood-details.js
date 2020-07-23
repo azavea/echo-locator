@@ -3,6 +3,7 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
+import Popup from '../components/text-alert-popup';  
 
 import {ROUND_TRIP_MINUTES} from '../constants'
 import type {AccountProfile, NeighborhoodImageMetadata} from '../types'
@@ -27,6 +28,8 @@ import getListings from '../utils/listings'
 // import readSheetValues, {fwdGeocode} from '../utils/google-spreadsheet'
 import getBHAListings from '../utils/bha-data-extraction'
 
+const request = require('request')
+
 type Props = {
   changeUserProfile: any,
   neighborhood: any,
@@ -45,7 +48,9 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     this.state = {isFavorite: props.userProfile && props.neighborhood
       ? props.userProfile.favorites.indexOf(props.neighborhood.properties.id) !== -1
-      : false
+      : false,
+      showTextPopup: false,
+      showOptOutMessage:false
     }
 
     this.neighborhoodStats = this.neighborhoodStats.bind(this)
@@ -57,7 +62,13 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     this.hideListings = this.hideListings.bind(this)
     this.listingsButton = this.listingsButton.bind(this)
     this.hideListingsButton = this.hideListingsButton.bind(this)
+    this.starButton = this.starButton.bind(this)
+
+    this.toggleTextPopup = this.toggleTextPopup.bind(this)
+
+    this.setFavoriteAndToggle = this.setFavoriteAndToggle.bind(this)
   }
+
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.userProfile && nextProps.neighborhood) {
@@ -65,6 +76,33 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         nextProps.neighborhood.properties.id) !== -1
       this.setState({isFavorite})
     }
+  }
+
+  // Toggle visibility of text alert popup
+  toggleTextPopup() {
+    if (!this.state.showTextPopup && !this.state.showOptOutMessage) {
+      if (this.state.isFavorite) {
+        this.setState({
+          showOptOutMessage: true
+        })
+      }
+      else {
+        this.setState({
+          showTextPopup: true
+        });
+      }
+    }
+    else {
+      this.setState({
+        showTextPopup: false,
+        showOptOutMessage: false
+      })
+    }
+  }
+
+  setFavoriteAndToggle(id, userProfile, changeUserProfile, setFavorite) {
+    this.toggleTextPopup();
+    setFavorite(id, userProfile, changeUserProfile);
   }
 
   neighborhoodStats (props) {
@@ -101,7 +139,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     })
 
     await getListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
-      this.props.setDataListings(data.properties)
+      this.props.setDataListings(data)
     })
 
     this.props.setShowListings(true)
@@ -132,6 +170,19 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       <button
         className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
         onClick={hideListings}>Hide Listings
+      </button>
+    )
+  }
+
+  starButton (props) {
+    const isFavorite = this.state.isFavorite
+    const toggleTextPopup = this.toggleTextPopup
+
+    return (
+      <button onClick={toggleTextPopup}>
+        <Icon
+            className='neighborhood-details__star'
+            type={isFavorite ? 'star' : 'star-o'} / >
       </button>
     )
   }
@@ -324,6 +375,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     const ListingsButton = this.listingsButton
     const HideListingsButton = this.hideListingsButton
+    const StarButton = this.starButton
 
     if (!neighborhood || !userProfile) {
       return null
@@ -354,17 +406,35 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       <div className='neighborhood-details'>
         <div className='neighborhood-details__section'>
           <header className='neighborhood-details__header'>
-            <Icon
-              className='neighborhood-details__star'
-              type={isFavorite ? 'star' : 'star-o'}
-              onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
-            />
+            <StarButton />
             <div className='neighborhood-details__name'>
               <div className='neighborhood-details__title'>{town} &ndash; {id}</div>
             </div>
             <PolygonIcon className='neighborhood-details__marker' />
           </header>
         </div>
+        {this.state.showTextPopup ?  
+        <Popup  
+            id={id}
+            userProfile={userProfile}
+            closePopup={this.toggleTextPopup.bind(this)}  
+            setFavorite={setFavorite.bind(this, id, userProfile, changeUserProfile)}
+            optIn={true}
+            setFavoriteAndToggle={this.setFavoriteAndToggle.bind(this, id, userProfile, changeUserProfile, setFavorite)}
+        />  
+        : null  
+        } 
+        {this.state.showOptOutMessage ?  
+        <Popup  
+            id={id}
+            userProfile={userProfile}
+            closePopup={this.toggleTextPopup.bind(this)}
+            setFavorite={setFavorite.bind(this, id, userProfile, changeUserProfile)}
+            optIn={false}
+            setFavoriteAndToggle={this.setFavoriteAndToggle.bind(this, id, userProfile, changeUserProfile, setFavorite)}
+        />  
+        : null  
+        } 
         {!activeListing &&
         <div className='neighborhood-details__section'>
           <div className='neighborhood-details__trip'>

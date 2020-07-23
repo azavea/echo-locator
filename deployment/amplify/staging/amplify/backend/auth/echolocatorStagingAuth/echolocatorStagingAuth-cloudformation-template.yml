@@ -166,7 +166,7 @@ Resources:
         -
           Name: voucher
           Required: false
-          Mutable: false
+          Mutable: true
           AttributeDataType: String
           StringAttributeConstraints:
             MinLength: "6"

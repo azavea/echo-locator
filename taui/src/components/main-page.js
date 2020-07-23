@@ -133,6 +133,7 @@ export default class MainPage extends React.PureComponent<Props> {
           setDataListings={p.setDataListings}
           setBHAListings={p.setBHAListings}
           setShowFavorites={p.setShowFavorites}
+          toggleTextAlert={p.toggleTextAlert}
           showDetails={p.data.showDetails}
           showListings={p.data.showListings}
           listingsLoading={p.data.listingsLoading}
