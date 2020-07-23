@@ -29,14 +29,12 @@ with open('./downloaded_data/ma_shop_data.json') as f:
 shop_data = shop_data['features']
 
 # data extraction
-amenities_data = [amenity_data, leisure_data, shop_data]
-osm_sec_feats = ['amenity', 'leisure', 'shop']
-for i in range(3):
-    temp_data = amenities_data[i]
-    osm_feat = osm_sec_feats[i]
+amenities_data = {'amenity': amenity_data, 'leisure': leisure_data, 'shop': shop_data}
+for f in amenities_data:
+    temp_data = amenities_data[f]
     for d in temp_data:
         # get amenity type and subtype
-        tipo = d['properties'][osm_feat]
+        tipo = d['properties'][f]
         sub_tipo = ''
         if not tipo in amenity_types:
             for t in amenity_types:
