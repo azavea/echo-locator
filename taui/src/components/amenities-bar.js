@@ -1,6 +1,6 @@
 import {Component} from 'react'
 
-import Amenity from './amenity'
+import AmenityButton from './amenity-button'
 
 const childcare = '../../assets/img/icons/childcare.png'
 const park = '../../assets/img/icons/park.png'
@@ -11,6 +11,10 @@ const health = '../../assets/img/icons/health.png'
 const library = '../../assets/img/icons/library.png'
 const community = '../../assets/img/icons/community.png'
 const worship = '../../assets/img/icons/worship.png'
+
+type Props = {
+    clickedNeighborhood: any,
+}
 
 type State = {
     amenities: string[],
@@ -29,7 +33,7 @@ const amenityColors = {
 }
 
 // Class that handles Amenity functionality
-export default class Amenities extends Component<Props, State> {
+export default class AmenitiesBar extends Component<Props, State> {
     constructor(props) {
         super(props)
         // Final amenities list: School, Park, Childcare, Library, Health, Grocery, Convenience, Community, Worship
@@ -44,51 +48,54 @@ export default class Amenities extends Component<Props, State> {
     }
 
     render(){
+        if (!this.props.clickedNeighborhood){
+            return null
+        }
         return (
             <div className={'amenities-all'}>
                 <p style={{fontWeight: 'bold'}}>Neighborhood Amenities</p>
                 <div className={'amenities-box'}>
-                    <Amenity
+                    <AmenityButton
                         name={this.state.amenities[0]} // School
                         color={amenityColors['school']}
                         image={school}
                     />
-                    <Amenity
+                    <AmenityButton
                         name={this.state.amenities[1]} // Convenience
                         color={amenityColors['convenience']}
                         image={convenience}
                     />
-                    <Amenity 
+                    <AmenityButton 
                         name={this.state.amenities[2]} // Health
                         color={amenityColors['health']}
                         image={health}
                     />
-                    <Amenity 
+                    <AmenityButton 
                         name={this.state.amenities[3]} // Community
                         color={amenityColors['community']}
                         image={community}
                     />
-                    <Amenity 
+                    <AmenityButton 
                         name={this.state.amenities[4]} // Park
                         color={amenityColors['park']}
                         image={park}
                     />
-                    <Amenity 
+                    <AmenityButton 
                         name={this.state.amenities[5]} // Childcare
                         color={amenityColors['childcare']}
                         image={childcare}
                     />
-                    <Amenity 
+                    <AmenityButton 
                         name={this.state.amenities[6]} // Library
                         color={amenityColors['library']}
                         image={library}
                     />
-                    <Amenity 
+                    <AmenityButton 
                         name={this.state.amenities[7]} // Grocery
                         color={amenityColors['grocery']}
                         image={grocery}
                     />
-                    <Amenity 
+                    <AmenityButton 
                         name={this.state.amenities[8]} // Worship
                         color={amenityColors['worship']}
                         image={worship}

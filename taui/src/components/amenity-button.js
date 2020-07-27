@@ -6,7 +6,7 @@ type Props = {
     color: string,
 }
 
-export default class Amenity extends Component<Props> {
+export default class AmenityButton extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {clicked: false, hovered: false, defaultColor: '#9AA0A6'}

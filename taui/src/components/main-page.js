@@ -14,7 +14,7 @@ import downloadJson from '../utils/download-json'
 import Dock from './dock'
 import Form from './form'
 import Map from './map'
-import Amenities from './amenities'
+import AmenitiesBar from './amenities-bar'
 
 /**
  * Displays map and sidebar.
@@ -157,7 +157,9 @@ export default class MainPage extends React.PureComponent<Props> {
               </filter>
             </defs>
           </svg>
-          <Amenities/>
+          <AmenitiesBar
+            clickedNeighborhood={p.data.showDetails}
+          />
           <Map
             {...p.map}
             activeNeighborhood={p.data.activeNeighborhood}
