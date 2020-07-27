@@ -58,6 +58,7 @@
     "isomorphic-ws": "^4.0.1",
     "jsolines": "~2.1.2",
     "json": "^9.0.6",
+    "leaflet": "^1.6.0",
     "lodash": "^4.17.19",
     "logrocket": "^1.0.10",
     "logrocket-react": "~4.0.1",
