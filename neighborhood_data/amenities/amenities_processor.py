@@ -6,7 +6,19 @@
 
 import json
 import csv
+from datetime import datetime
+from geopy.geocoders import Nominatim
 from amenity import Amenity
+
+GEO_LOCATOR = Nominatim(user_agent="amenities_processor")
+def process_geopy_addr(geopy_addr):
+    # [name, house number, street, area descriptor?, city, state, zip code, country]
+    # sometimes name is not present
+    split_addr = geopy_addr.split(',')
+    # print(split_addr)
+    # print(len(split_addr))
+    return len(split_addr)
+    
 
 # get ECHO definied amenity types
 with open('./created_data/echo_amenity_types.json') as f:
@@ -62,7 +74,7 @@ for f in amenities_data:
         try:
             name = d['properties']['name']
         except:
-            pass
+            add_to_dataset = False
 
         # get address
         # addr:postcode, addr: state, addr:city, addr:street, addr:housenumber
@@ -70,7 +82,7 @@ for f in amenities_data:
         try:
             address['postcode'] = d['properties']['addr:postcode']
         except:
-            pass
+            add_to_dataset = False
         try:
             address['state'] = d['properties']['addr:state']
         except:
@@ -87,6 +99,9 @@ for f in amenities_data:
             address['housenumber'] = d['properties']['addr:housenumber']
         except:
             pass
+        
+        if not add_to_dataset:
+            continue
         
         # get opening_hours
         hours = ''
@@ -141,10 +156,28 @@ for f in amenities_data:
         properties = {"name": name, "address": address, "description": description, 
                     "hours": hours , "website": website, "wheelchair": wheelchair, 
                     "religion": religion, "emergency": emergency}
-                    
-        ammenities.append(Amenity(_id, (longitude, latitude), properties))
-        
 
+        amenities.append(Amenity(_id, (longitude, latitude), properties).to_json())
+
+# group data by zipcode
+zipcode_to_amenity = {}
+for a in amenities[:]:
+    zipcode = a['properties']['address']['postcode']
+    if zipcode in zipcode_to_amenity:
+        zipcode_to_amenity[zipcode].append(a)
+    else:
+        zipcode_to_amenity[zipcode] = [a]
+
+
+# write extracted amenity data to json file and output
+final_data = {
+    "title": "ECHOLocator Amenity Data Set",
+    "date": str(datetime.now()),
+    "data": zipcode_to_amenity
+}
+
+with open('./created_data/amenity_zipcode_dataset.json', 'w') as outfile:
+    json.dump(final_data, outfile)
             
 
 # code for getting count data

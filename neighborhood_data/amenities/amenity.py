@@ -11,6 +11,9 @@ class Amenity(object):
         self.properties = properties.copy()
 
     def to_json(self):
-        # TODO
-        pass
+        return {
+            "id": self.id,
+            "location": self.location,
+            "properties": self.properties
+        }
         
