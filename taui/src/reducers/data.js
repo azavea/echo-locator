@@ -133,7 +133,7 @@ export default handleActions(
       }
     },
     'set listings loading' (state, action) {
-      return{
+      return {
         ...state,
         listingsLoading: !!action.payload
       }

@@ -1,11 +1,9 @@
 import polyline from '@mapbox/polyline'
-import findIndex from 'lodash/findIndex'
 import get from 'lodash/get'
 import {createSelector} from 'reselect'
 
 import {STOP_STYLE, TRANSIT_STYLE, WALK_STYLE} from '../constants'
 
-import selectNeighborhoodRoutes from './network-neighborhood-routes'
 import selectListingRoute from './network-listing-route'
 
 /**

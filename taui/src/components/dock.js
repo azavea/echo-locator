@@ -11,9 +11,8 @@ import type {AccountProfile} from '../types'
 import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
 
-import getListings from '../utils/listings'
-
 type Props = {
+  activeListing: any,
   activeNeighborhood: string,
   activeNetworkIndex: number,
   changeUserProfile: (any) => void,
@@ -22,17 +21,16 @@ type Props = {
   endingOffset: number,
   haveAnotherPage: boolean,
   isLoading: boolean,
+  listingsLoading: boolean,
   neighborhoodCount: number,
   neighborhoodPage: any[],
   neighborhoodRoutes: any,
   origin: any,
   page: number,
   showDetails: boolean,
-  showListings: boolean,
-  listingsLoading: boolean,
   showFavorites: boolean,
-  userProfile: AccountProfile,
-  activeListing: any
+  showListings: boolean,
+  userProfile: AccountProfile
 }
 
 /**
@@ -103,10 +101,9 @@ export default class Dock extends PureComponent<Props> {
     this.props.setShowDetails(true)
   }
 
-
   // save/unsave neighborhood to/from user profile favorites list
   setFavorite (neighborhoodId: string, profile: AccountProfile, changeUserProfile) {
-    console.log("Running set favorite")
+    console.log('Running set favorite')
     const favorites = profile.favorites || []
 
     const isProfileFavorite = favorites.indexOf(neighborhoodId) !== -1
@@ -125,7 +122,7 @@ export default class Dock extends PureComponent<Props> {
       } else {
         remove(favorites, f => f === neighborhoodId)
       }
-    } 
+    }
     profile.favorites = favorites
     const isAnonymous = !profile || profile.key === ANONYMOUS_USERNAME
 

@@ -34,19 +34,19 @@ type Props = {
   actionLog: LogItems,
   activeNeighborhoodBounds: any,
   data: {
+    bhaListings: bhaListings[],
+    dataListings: Listings[],
     grids: string[],
+    listingRoute: any,
+    listingsLoading: boolean,
     neighborhoodBounds: any,
     neighborhoods: any,
     networks: Network[],
     page: number,
     profileLoading: boolean,
     showDetails: boolean,
-    showListings: boolean,
-    listingRoute: any,
-    listingsLoading: boolean,
-    dataListings: Listings[],
-    bhaListings: bhaListings[],
     showFavorites: boolean,
+    showListings: boolean,
     userProfile: AccountProfile
   },
   detailNeighborhood: any,
@@ -78,19 +78,19 @@ type Props = {
   reverseGeocode: (string, Function) => void,
   routableNeighborhoodCount: number,
   routableNeighborhoods: any,
-  setActiveNeighborhood: Function => void,
   setActiveListing: Function => void,
+  setActiveNeighborhood: Function => void,
+  setBHAListings: Function => void,
+  setDataListings: Function => void,
   setDisplayNeighborhoods: Function => void,
   setEnd: any => void,
+  setLoadingListings: Function => void,
   setPage: Function => void,
   setProfile: Function => void,
   setSelectedTimeCutoff: any => void,
   setShowDetails: Function => void,
-  setShowListings: Function => void,
-  setLoadingListings: Function => void,
-  setDataListings: Function => void,
-  setBHAListings: Function => void,
   setShowFavorites: Function => void,
+  setShowListings: Function => void,
   setStart: any => void,
   showComparison: boolean,
   showFavorites: boolean,
@@ -161,6 +161,7 @@ export default class Application extends Component<Props, State> {
     const isAnonymous = userProfile && userProfile.key === ANONYMOUS_USERNAME
     const isCounselor = !!props.authData.counselor && !isAnonymous
     const NoMatch = this.noMatch
+
     return (
       <Switch>
         <Route exact path='/' render={() => (

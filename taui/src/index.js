@@ -113,7 +113,6 @@ const ConnectedApplication = withRouter(withTracker(connect(mapStateToProps, act
 
 // Create an Application wrapper
 class InitializationWrapper extends React.Component {
-
   constructor (props) {
     super(props)
 
@@ -148,4 +147,3 @@ mount({
   app: InitializationWrapper,
   reducers
 })
-
