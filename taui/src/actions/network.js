@@ -125,8 +125,10 @@ export const loadDataset = (
   if (pointsOfInterestUrl) dispatch(loadDataFromJSON(pointsOfInterestUrl, 'set points of interest'))
 
   // Load neighborhood GeoJSON files
+  // TODO: look into loadDataFromJSON
   dispatch(loadDataFromJSON('assets/neighborhoods.json', 'set neighborhoods'))
   dispatch(loadDataFromJSON('assets/neighborhood_bounds.json', 'set neighborhood bounds'))
+  dispatch(loadDataFromJSON('assets/amenity_zipcode_dataset.json', 'set amenity data'))
 
   // Start on first page of neighborhoods
   dispatch(setPage(0))

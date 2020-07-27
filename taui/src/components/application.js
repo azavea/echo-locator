@@ -35,6 +35,7 @@ type Props = {
   activeNeighborhoodBounds: any,
   data: {
     grids: string[],
+    amenities: any,
     neighborhoodBounds: any,
     neighborhoods: any,
     networks: Network[],
@@ -65,6 +66,7 @@ type Props = {
   listingTravelTime: any,
   loadProfile: Function => any,
   map: MapState,
+  amenities: any,
   neighborhoodBounds: any,
   neighborhoodBoundsExtent: any[],
   neighborhoodRoutes: any,
@@ -163,6 +165,8 @@ export default class Application extends Component<Props, State> {
     const isAnonymous = userProfile && userProfile.key === ANONYMOUS_USERNAME
     const isCounselor = !!props.authData.counselor && !isAnonymous
     const NoMatch = this.noMatch
+
+    console.log('amenity data', props.data.amenities)
     return (
       <Switch>
         <Route exact path='/' render={() => (

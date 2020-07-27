@@ -82,6 +82,12 @@ export default handleActions(
         neighborhoods: action.payload
       }
     },
+    'set amenity data' (state, action) {
+      return {
+        ...state,
+        amenities: action.payload
+      }
+    },
     'set listing route' (state, action) {
       return {
         ...state,

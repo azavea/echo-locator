@@ -81,6 +81,7 @@ function mapStateToProps (state, ownProps) {
     haveAnotherPage: select.haveAnotherPage(state, ownProps),
     isLoading: select.loading(state, ownProps),
     listingTravelTime: select.listingTravelTime(state, ownProps),
+    amenities: get(state, 'data.amenities'),
     neighborhoods: get(state, 'data.neighborhoods'),
     neighborhoodBounds: get(state, 'data.neighborhoodBounds'),
     neighborhoodBoundsExtent: select.neighborhoodBoundsExtent(state, ownProps),
