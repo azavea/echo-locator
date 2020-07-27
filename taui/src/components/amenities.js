@@ -6,31 +6,35 @@ const childcare = '../../assets/img/icons/childcare.png'
 const park = '../../assets/img/icons/park.png'
 const grocery = '../../assets/img/icons/grocery.png'
 const school = '../../assets/img/icons/school.png'
-const playground = '../../assets/img/icons/playground.png'
-const medical = '../../assets/img/icons/medical.png'
+const convenience = '../../assets/img/icons/convenience.png'
+const health = '../../assets/img/icons/health.png'
 const library = '../../assets/img/icons/library.png'
+const community = '../../assets/img/icons/community.png'
+const worship = '../../assets/img/icons/worship.png'
 
 type State = {
     amenities: string[],
 }
 
 const amenityColors = {
-    'school': '#FFA000',
-    'medical': '#F27660',
+    'school': '#FFA800',
+    'health': '#F05B5B',
     'childcare': '#E9658D',
     'park': '#48B265',
     'grocery': '#4D97CA',
-    'playground': '#28B3B0',
-    'library': '#7F9DA5',
+    'library': '#BA77BB',
+    'convenience': '#28B3B0',
+    'community': '#864000',
+    'worship': '#515151',
 }
 
 // Class that handles Amenity functionality
 export default class Amenities extends Component<Props, State> {
     constructor(props) {
         super(props)
-        // Final amenities list: School, Park, Playground, Childcare, Library, Medical, Grocery
+        // Final amenities list: School, Park, Childcare, Library, Health, Grocery, Convenience, Community, Worship
         this.state = {
-            amenities: ['School', 'Park', 'Playground', 'Childcare', 'Library', 'Medical', 'Grocery']
+            amenities: ['School', 'Convenience', 'Health', 'Community', 'Park', 'Childcare', 'Library', 'Grocery',  'Worship']
         }
     }
     
@@ -41,8 +45,8 @@ export default class Amenities extends Component<Props, State> {
 
     render(){
         return (
-            <div>
-                <p style={{fontWeight: 'bold'}}>Amenities</p>
+            <div className={'amenities-all'}>
+                <p style={{fontWeight: 'bold'}}>Neighborhood Amenities</p>
                 <div className={'amenities-box'}>
                     <Amenity
                         name={this.state.amenities[0]} // School
@@ -50,34 +54,44 @@ export default class Amenities extends Component<Props, State> {
                         image={school}
                     />
                     <Amenity
-                        name={this.state.amenities[1]} // Park
+                        name={this.state.amenities[1]} // Convenience
+                        color={amenityColors['convenience']}
+                        image={convenience}
+                    />
+                    <Amenity 
+                        name={this.state.amenities[2]} // Health
+                        color={amenityColors['health']}
+                        image={health}
+                    />
+                    <Amenity 
+                        name={this.state.amenities[3]} // Community
+                        color={amenityColors['community']}
+                        image={community}
+                    />
+                    <Amenity 
+                        name={this.state.amenities[4]} // Park
                         color={amenityColors['park']}
                         image={park}
                     />
                     <Amenity 
-                        name={this.state.amenities[2]} // Playground
-                        color={amenityColors['playground']}
-                        image={playground}
-                    />
-                    <Amenity 
-                        name={this.state.amenities[3]} // Childcare
+                        name={this.state.amenities[5]} // Childcare
                         color={amenityColors['childcare']}
                         image={childcare}
                     />
                     <Amenity 
-                        name={this.state.amenities[4]} // Library
+                        name={this.state.amenities[6]} // Library
                         color={amenityColors['library']}
                         image={library}
                     />
                     <Amenity 
-                        name={this.state.amenities[5]} // Medical
-                        color={amenityColors['medical']}
-                        image={medical}
-                    />
-                    <Amenity 
-                        name={this.state.amenities[6]} // Grocery
+                        name={this.state.amenities[7]} // Grocery
                         color={amenityColors['grocery']}
                         image={grocery}
+                    />
+                    <Amenity 
+                        name={this.state.amenities[8]} // Worship
+                        color={amenityColors['worship']}
+                        image={worship}
                     />
                 </div>
             </div>

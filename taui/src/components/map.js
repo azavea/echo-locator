@@ -268,6 +268,10 @@ export default class Map extends PureComponent<Props, State> {
     let zIndex = 0
     const getZIndex = () => zIndex++
 
+
+    console.log('dataListings', p.dataListings)
+    console.log('activeNeighborhood', p.activeNeighborhood)
+
     return (
       p.routableNeighborhoods ? <LeafletMap
         bounds={p.neighborhoodBoundsExtent}
@@ -347,19 +351,23 @@ export default class Map extends PureComponent<Props, State> {
         */}
 
         {
-          p.showListings && p.dataListings.map((item, key) =>
-            <Marker
-              icon={realtorIcon}
-              key={`listings-${this._getKey()}`}
-              position={[item.address.lat,item.address.lon]}
-              zIndex={getZIndex()}
-              onClick={ () => clickListing(item.address.lat, item.address.lon) }>
+          p.showListings && p.dataListings.map((item, key) => {
+            return (
+              <Marker
+                icon={realtorIcon}
+                key={`listings-${this._getKey()}`}
+                position={[item.address.lat,item.address.lon]}
+                zIndex={getZIndex()}
+                onClick={ () => clickListing(item.address.lat, item.address.lon) }>
 
-              <Popup>
-                {listingPopup(item.photos,item.address,item.community,item.price,item.rdc_web_url)}
-              </Popup>
+                <Popup>
+                  {listingPopup(item.photos,item.address,item.community,item.price,item.rdc_web_url)}
+                </Popup>
 
-            </Marker>
+              </Marker>
+            )
+          }
+            
           )
         }
 

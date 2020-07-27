@@ -43,9 +43,9 @@ export default class Amenity extends Component<Props> {
                 bgColor = this.state.defaultColor;
             }
         }
-        var buttonStyle = {display: 'flex', justifyContent: 'space-evenly', alignItems: 'baseline', 
-                            backgroundColor: bgColor, color:'white', padding: '2% 15%', width: '100%',
-                            height: '100%', fontSize:'80%'}
+        var buttonStyle = {display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', 
+                            backgroundColor: bgColor, color:'white', padding: '2% 15%', width: '120%',
+                            height: '100%', fontSize:'70%'}
 
         return (
             <div className={'amenities-amenity'} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>

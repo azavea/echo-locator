@@ -148,7 +148,6 @@ export default class MainPage extends React.PureComponent<Props> {
             updateOrigin={p.updateOrigin}
             userProfile={p.userProfile}
           />
-          <Amenities/>
         </Dock>
         <div className='main-map'>
           <svg width='0' height='0' style={{position: 'absolute'}}>
@@ -158,6 +157,7 @@ export default class MainPage extends React.PureComponent<Props> {
               </filter>
             </defs>
           </svg>
+          <Amenities/>
           <Map
             {...p.map}
             activeNeighborhood={p.data.activeNeighborhood}

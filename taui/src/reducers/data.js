@@ -166,6 +166,7 @@ export default handleActions(
   {
     grids: [],
     networks: [],
+    amenities: {},
     neighborhoods: {},
     neighborhoodBounds: {},
     page: 0,
