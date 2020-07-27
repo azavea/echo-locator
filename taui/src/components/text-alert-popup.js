@@ -62,10 +62,16 @@ class Popup extends React.PureComponent {
     const frequency = this.state.frequency
     const phone = document.getElementsByName('phone')[0].value
     if (this.validatePhone(phone)) {
+      var countryPhone
+      if (phone.charAt(0) === '+') {
+        countryPhone = phone
+      } else {
+        countryPhone = '+1' + phone
+      }
       const json = {
         'userProfile': userProfile.key,
         'neighborhood': neighborhood,
-        'phone': '+1' + phone,
+        'phone': countryPhone,
         'frequency': frequency,
         'budget': userProfile.budget,
         'rooms': userProfile.rooms,
@@ -113,11 +119,13 @@ class Popup extends React.PureComponent {
   render () {
     if (this.props.optIn && this.state.selectedOption === 'yes') {
       let phoneClassName = 'phone-input'
+      let sizeClass = 'popup_inner large'
       if (this.state.error) {
         phoneClassName += ' phone-input-error'
+        sizeClass = 'popup_inner extra-large'
       }
       return (
-        <div className='popup_inner large'>
+        <div className={sizeClass}>
           <h1>Text Alerts</h1>
           <h2>Do you want to be texted about new apartments in {this.props.city} {this.props.id}?</h2>
           <p>You'll only receive alerts for apartments within your budget.</p>

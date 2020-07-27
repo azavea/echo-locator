@@ -95,9 +95,14 @@ export default class EditProfile extends PureComponent<Props> {
     }
     axios.post(url, json)
       .then(response => JSON.parse(response.data.body))
-      .then(result => this.setState({
-        textAlertPreferences: result
-      }))
+      .then(result => {
+        this.setState({
+          textAlertPreferences: {
+            preferences: result.preferences,
+            phone: result.phone.substring(2, result.phone.length)
+          }
+        })
+      })
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -164,13 +169,16 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   validatePhone (number) {
+    console.log(number)
     // If the length is not right
     if (number.length !== 10) {
+      console.log('entered1')
       return false
     }
     // If any character is not a number
     for (var i = 0; i < number.length; i++) {
       if (!(number[i] >= '0' && number[i] <= '9')) {
+        console.log('entered2')
         return false
       }
     }
@@ -762,7 +770,7 @@ export default class EditProfile extends PureComponent<Props> {
           <h3 className='account-profile__label'>Text Alerts</h3>
           <div className='account-profile__text-alerts__phone-wrapper'>
             <h5>Mobile Phone Number</h5>
-            <input className='account-profile__text-alerts__phone-field' type='text' name='phone' defaultValue={info.phone.substring(2, info.phone.length)} onChange={(e) => changeField('textAlertPreferences', e.currentTarget.value, 0, 'phone')} />
+            <input className='account-profile__text-alerts__phone-field' type='text' name='phone' defaultValue={info.phone} onChange={(e) => changeField('textAlertPreferences', e.currentTarget.value, 0, 'phone')} />
             <Checkbox
               label='I want to opt out of all messages'
               handleCheckboxChange={handleCheckboxChange} />
