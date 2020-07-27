@@ -791,7 +791,7 @@ export default class EditProfile extends PureComponent<Props> {
                           <option value='weekly'>Weekly</option>
                         </select>
                       </div>
-                      <button onClick={(e) => removePreference(info.preferences, preference)}>Stop Receiving Alerts</button>
+                      <button onClick={(e) => removePreference(info.preferences, preference)}>Stop Receiving Texts</button>
                     </li>
                   )
                 }

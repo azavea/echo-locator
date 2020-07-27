@@ -128,7 +128,7 @@ class Popup extends React.PureComponent {
         <div className={sizeClass}>
           <h1>Text Alerts</h1>
           <h2>Do you want to be texted about new apartments in {this.props.city} {this.props.id}?</h2>
-          <p>You'll only receive alerts for apartments within your budget.</p>
+          <p>You'll only receive texts for apartments within your budget.</p>
           <label className='radio-btn'>
             <input type='radio' value='yes' checked={this.state.selectedOption === 'yes'} onChange={this.handleOptionChange} /><p>Yes</p>
           </label>
@@ -169,7 +169,7 @@ class Popup extends React.PureComponent {
         <div className='popup_inner small'>
           <h1>Text Alerts</h1>
           <h2>Do you want to be texted about new apartments in {this.props.city} {this.props.id}?</h2>
-          <p>You'll only receive alerts for apartments within your budget.</p>
+          <p>You'll only receive texts for apartments within your budget.</p>
           <label className='radio-btn'>
             <input type='radio' value='yes' checked={this.state.selectedOption === 'yes'} onChange={this.handleOptionChange} /><p>Yes</p>
           </label>
