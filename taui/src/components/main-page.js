@@ -178,12 +178,14 @@ export default class MainPage extends React.PureComponent<Props> {
               </filter>
             </defs>
           </svg>
-          <AmenitiesBar
-            activeNeighborhood={p.data.activeNeighborhood}
-            clickedNeighborhood={p.data.showDetails}
-            amenities={p.data.amenities}
-            updateMapAmenities={this._updateAmenityData}
-          />
+          <div className='amenities-bar'>
+            <AmenitiesBar
+              activeNeighborhood={p.data.activeNeighborhood}
+              clickedNeighborhood={p.data.showDetails}
+              amenities={p.data.amenities}
+              updateMapAmenities={this._updateAmenityData}
+            />
+          </div>
           <Map
             {...p.map}
             activeNeighborhood={p.data.activeNeighborhood}

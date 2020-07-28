@@ -15,6 +15,7 @@
 
   > .main-map {
     flex: auto;
-    overflow: hidden;
+    flex-direction: column;
+    justify-content: space-evenly;
   }
 }
