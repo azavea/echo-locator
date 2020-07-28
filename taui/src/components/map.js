@@ -433,8 +433,6 @@ export default class Map extends PureComponent<Props, State> {
 
         {
           p.showListings && p.dataListings.map((item, key) => {
-            console.log(item.address.lat,item.address.lon)
-            console.log(typeof item.address.lat)
             return (
               <Marker
                 icon={realtorIcon}
@@ -470,10 +468,7 @@ export default class Map extends PureComponent<Props, State> {
 
         {
           p.activeNeighborhood && p.activeAmenities.map((item) => {
-            console.log('a', item)
             const amenityType = item.properties.type
-            console.log('amenityType', amenityType)
-            console.log('amenityIcon', amenityIcons[amenityType])
             const icon = amenityIcons[amenityType]
             const lat = parseFloat(item.location[1])
             const long = parseFloat(item.location[0])

@@ -97,7 +97,7 @@ export default class AmenitiesBar extends Component<Props, State> {
         })
 
         var stateCopy = JSON.parse(JSON.stringify(this.state));
-        stateCopy.visibleAmenities[amenity] = true;
+        stateCopy.visibleAmenities[amenity] = show;
         this.props.updateMapAmenities(this.getVisibleAmenities(stateCopy.visibleAmenities));
     }
 
@@ -115,7 +115,6 @@ export default class AmenitiesBar extends Component<Props, State> {
 
     render(){
         // TODO: when click on map amenities bar goes away bug
-        console.log('amenities-bar render activeNeigh', this.props.activeNeighborhood)
         if (!this.props.clickedNeighborhood) {
             return null
         }
