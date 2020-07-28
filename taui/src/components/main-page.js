@@ -22,7 +22,7 @@ import AmenitiesBar from './amenities-bar'
 export default class MainPage extends React.PureComponent<Props> {
   state = {
     componentError: null,
-    amenityData: [],
+    amenitiesData: [],
   }
 
   componentDidMount () {
@@ -104,8 +104,8 @@ export default class MainPage extends React.PureComponent<Props> {
     return !p.isLoading && useTransit && !!get(p, 'neighborhoodRoutes[0]')
   }
 
-  _updateAmenityData (amenities: any) {
-    this.setState({amenityData: amenities})
+  _updateAmenityData (amenities: object[]) {
+    console.log('main-page _updateAmenityData input', amenities);
   }
 
   /**

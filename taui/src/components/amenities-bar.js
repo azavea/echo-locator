@@ -21,7 +21,7 @@ type Props = {
 
 type State = {
     amenityTypes: string[],
-    amenityData: object[],
+    amenitiesData: object[],
     shownAmenities: object[],
 }
 
@@ -37,18 +37,21 @@ const amenityColors = {
     'worship': '#515151',
 }
 
+
+const amenityTypes = ['school', 'convenience', 'health', 'community', 'park', 'childcare', 'library', 'grocery',  'worship'];
+
 // Class that handles Amenity functionality
 export default class AmenitiesBar extends Component<Props, State> {
     constructor(props) {
-        super(props)
+        super(props);
         // Final amenities list: School, Park, Childcare, Library, Health, Grocery, Convenience, Community, Worship
         this.state = {
-            amenityTypes: ['school', 'convenience', 'health', 'community', 'park', 'childcare', 'library', 'grocery',  'worship'],
             amenitiesData: this.getNeighborhoodAmenities(),
             shownAmenities: {'school': false, 'convenience': false, 'health': false, 'community': false, 
                             'park': false, 'childcare': false, 'library': false, 'grocery': false,  'worship': false},
-        }
-        this.updateShownAmenities = this.updateShownAmenities.bind(this)
+        };
+        this.updateShownAmenities = this.updateShownAmenities.bind(this);
+        this.getShownAmenities = this.getShownAmenities.bind(this);
     }
 
     componentWillReceiveProps (nextProps) {
@@ -78,8 +81,8 @@ export default class AmenitiesBar extends Component<Props, State> {
             }
         }
 
-        for (var a in this.state.amenityTypes) {
-            a = this.state.amenityTypes[a]
+        for (var a in amenityTypes) {
+            a = amenityTypes[a]
             if (a in amenities_for_neigh) {
                 continue;
             }
@@ -92,12 +95,27 @@ export default class AmenitiesBar extends Component<Props, State> {
     updateShownAmenities(amenity: string, show: boolean) {
         this.setState(prevState => {
         let shownAmenities = Object.assign({}, prevState.shownAmenities);
-        shownAmenities[amenity] = show;      
+        shownAmenities[amenity] = show;
         return { shownAmenities };
         })
     }
 
+    getShownAmenities() {
+        var amenityVisibility = this.state.shownAmenities;
+        var shownAmenities = [];
+        for (var a in amenityVisibility) {
+            // if amenity clicked
+            if (this.state.amenitiesData && amenityVisibility[a]) {
+                shownAmenities.push(this.state.amenitiesData[a])
+            }
+        }
+        return shownAmenities;
+    }
+
     render(){
+        // update amenities in map
+        this.props.updateMapAmenities(this.getShownAmenities())
+
         if (!this.props.clickedNeighborhood){
             return null
         }
@@ -106,63 +124,63 @@ export default class AmenitiesBar extends Component<Props, State> {
                 <p style={{fontWeight: 'bold'}}>Neighborhood Amenities</p>
                 <div className={'amenities-box'}>
                     <AmenityButton
-                        name={this.state.amenityTypes[0]} // School
+                        name={amenityTypes[0]} // School
                         color={amenityColors['school']}
                         image={school}
                         data={this.state.amenitiesData['school']}
                         updateAmenityVisibility={this.updateShownAmenities}
                     />
                     <AmenityButton
-                        name={this.state.amenityTypes[1]} // Convenience
+                        name={amenityTypes[1]} // Convenience
                         color={amenityColors['convenience']}
                         image={convenience}
                         data={this.state.amenitiesData['convenience']}
                         updateAmenityVisibility={this.updateShownAmenities}
                     />
                     <AmenityButton 
-                        name={this.state.amenityTypes[2]} // Health
+                        name={amenityTypes[2]} // Health
                         color={amenityColors['health']}
                         image={health}
                         data={this.state.amenitiesData['health']}
                         updateAmenityVisibility={this.updateShownAmenities}
                     />
                     <AmenityButton 
-                        name={this.state.amenityTypes[3]} // Community
+                        name={amenityTypes[3]} // Community
                         color={amenityColors['community']}
                         image={community}
                         data={this.state.amenitiesData['community']}
                         updateAmenityVisibility={this.updateShownAmenities}
                     />
                     <AmenityButton 
-                        name={this.state.amenityTypes[4]} // Park
+                        name={amenityTypes[4]} // Park
                         color={amenityColors['park']}
                         image={park}
                         data={this.state.amenitiesData['park']}
                         updateAmenityVisibility={this.updateShownAmenities}
                     />
                     <AmenityButton 
-                        name={this.state.amenityTypes[5]} // Childcare
+                        name={amenityTypes[5]} // Childcare
                         color={amenityColors['childcare']}
                         image={childcare}
                         data={this.state.amenitiesData['childcare']}
                         updateAmenityVisibility={this.updateShownAmenities}
                     />
                     <AmenityButton 
-                        name={this.state.amenityTypes[6]} // Library
+                        name={amenityTypes[6]} // Library
                         color={amenityColors['library']}
                         image={library}
                         data={this.state.amenitiesData['library']}
                         updateAmenityVisibility={this.updateShownAmenities}
                     />
                     <AmenityButton 
-                        name={this.state.amenityTypes[7]} // Grocery
+                        name={amenityTypes[7]} // Grocery
                         color={amenityColors['grocery']}
                         image={grocery}
                         data={this.state.amenitiesData['grocery']}
                         updateAmenityVisibility={this.updateShownAmenities}
                     />
                     <AmenityButton 
-                        name={this.state.amenityTypes[8]} // Worship
+                        name={amenityTypes[8]} // Worship
                         color={amenityColors['worship']}
                         image={worship}
                         data={this.state.amenitiesData['worship']}
