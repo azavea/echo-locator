@@ -10,7 +10,10 @@ export default handleActions(
         networks: [],
         page: 0,
         showDetails: false,
-        showFavorites: false
+        showListings: false,
+        listingsLoading: false,
+        showFavorites: false,
+        listingRoute: {}
       }
     },
     'set grid' (state, action) {
@@ -51,6 +54,12 @@ export default handleActions(
         activeNeighborhood: action.payload
       }
     },
+    'set active listing' (state, action) {
+      return {
+        ...state,
+        activeListing: action.payload
+      }
+    },
     'set active network' (state, action) {
       const networks = [...state.networks]
 
@@ -71,6 +80,12 @@ export default handleActions(
       return {
         ...state,
         neighborhoods: action.payload
+      }
+    },
+    'set listing route' (state, action) {
+      return {
+        ...state,
+        listingRoute: action.payload
       }
     },
     'set neighborhood bounds' (state, action) {
@@ -111,10 +126,34 @@ export default handleActions(
         showDetails: !!action.payload
       }
     },
+    'set show listings' (state, action) {
+      return {
+        ...state,
+        showListings: !!action.payload
+      }
+    },
+    'set listings loading' (state, action) {
+      return {
+        ...state,
+        listingsLoading: !!action.payload
+      }
+    },
     'set show favorites' (state, action) {
       return {
         ...state,
         showFavorites: !!action.payload
+      }
+    },
+    'set datalistings' (state, action) {
+      return {
+        ...state,
+        dataListings: action.payload
+      }
+    },
+    'set bhaListings' (state, action) {
+      return {
+        ...state,
+        bhaListings: action.payload
       }
     }
   },
@@ -126,7 +165,12 @@ export default handleActions(
     page: 0,
     profileLoading: true,
     showDetails: false,
+    showListings: false,
     showFavorites: false,
-    userProfile: null
+    listingsLoading: false,
+    userProfile: null,
+    dataListings: [],
+    bhaListings: [],
+    listingRoute: {}
   }
 )

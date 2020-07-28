@@ -17,11 +17,15 @@ export default createSelector(
     if (!neighborhoodRoutes) {
       return null
     }
+    // returns the index of a neighborhood (route?)
     const index = findIndex(neighborhoodRoutes, (route) => route.id === activeNeighborhood)
     if (index === -1) {
       return null
     }
+    // gets the route at the current neighborhood
     const transitive = neighborhoodRoutes[index]
+    // console.log(neighborhoodRoutes)
+    // console.log(transitive)
     const applyStyle = {opacity: 1, fillOpacity: 1}
     const walkStyle = {...WALK_STYLE, ...applyStyle}
     const transitStyle = {...TRANSIT_STYLE, ...applyStyle}

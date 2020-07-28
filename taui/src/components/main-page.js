@@ -113,6 +113,8 @@ export default class MainPage extends React.PureComponent<Props> {
       <div className={mapScreenClass}>
         <Dock
           activeNeighborhood={p.data.activeNeighborhood}
+          activeListing={p.data.activeListing}
+          listingTravelTime={p.listingTravelTime}
           changeUserProfile={p.changeUserProfile}
           componentError={this.state.componentError}
           detailNeighborhood={p.detailNeighborhood}
@@ -126,8 +128,15 @@ export default class MainPage extends React.PureComponent<Props> {
           setActiveNeighborhood={p.setActiveNeighborhood}
           setPage={p.setPage}
           setShowDetails={p.setShowDetails}
+          setShowListings={p.setShowListings}
+          setListingsLoading={p.setListingsLoading}
+          setDataListings={p.setDataListings}
+          setBHAListings={p.setBHAListings}
           setShowFavorites={p.setShowFavorites}
+          toggleTextAlert={p.toggleTextAlert}
           showDetails={p.data.showDetails}
+          showListings={p.data.showListings}
+          listingsLoading={p.data.listingsLoading}
           showFavorites={p.data.showFavorites}
           userProfile={p.userProfile}>
           <Form
@@ -151,6 +160,7 @@ export default class MainPage extends React.PureComponent<Props> {
           <Map
             {...p.map}
             activeNeighborhood={p.data.activeNeighborhood}
+            activeListing={p.data.activeListing}
             activeNeighborhoodBounds={p.activeNeighborhoodBounds}
             activeNetworkIndex={p.activeNetworkIndex}
             clearStartAndEnd={this._clearStartAndEnd}
@@ -162,17 +172,24 @@ export default class MainPage extends React.PureComponent<Props> {
             drawIsochrones={p.drawIsochrones}
             drawOpportunityDatasets={p.drawOpportunityDatasets}
             drawRoute={p.drawNeighborhoodRoute}
+            drawListingRoute={p.drawListingRoute}
             neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
             origin={p.data.origin}
             pointsOfInterest={p.pointsOfInterest}
             routableNeighborhoods={p.routableNeighborhoods}
             showRoutes={this._showNeighborhoodRoutes()}
             setActiveNeighborhood={p.setActiveNeighborhood}
+            setActiveListing={p.setActiveListing}
+            setListingRoute={p.setListingRoute}
             setPage={p.setPage}
             setEndPosition={p.updateEndPosition}
             setShowDetails={p.setShowDetails}
+            setShowListings={p.setShowListings}
             setStartPosition={p.updateStartPosition}
             showDetails={p.data.showDetails}
+            showListings={p.data.showListings}
+            dataListings={p.data.dataListings}
+            bhaListings={p.data.bhaListings}
             start={p.geocoder.start}
             updateEnd={p.updateEnd}
             updateMap={p.updateMap}

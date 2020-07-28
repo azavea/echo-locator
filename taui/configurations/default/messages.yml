@@ -42,11 +42,12 @@ Dock:
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
   GoNextPage: Show more
+  ShowListings: Show units
   NoResults: No results
   Recommendations: Your recommendations
   ShowAllButton: All
   ShowSavedButton: Saved
-  SiteBy: site by Azavea
+  SiteBy: site by Azavea and Altruistech
 NeighborhoodDetails:
   AboutNeighborhoodLinksHeading: Learn about this neighborhood
   ApartmentsDotComLink: Apartments.com
@@ -124,6 +125,7 @@ Profile:
   ChooseTravelMode: How will you most often get to the above addresses?
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
+  ChooseVoucher: Do you have a voucher?
   Cancel: Cancel
   ClientEmailLabel: Email address
   ClientEmailError: Please enter a valid email address.
@@ -140,10 +142,15 @@ Profile:
   ImportanceViolentCrime: Public safety
   Primary: Primary
   Purpose: Purpose
-  Rooms: Number of bedrooms on your voucher
+  RoomsVoucher: Number of bedrooms on your voucher
+  RoomsNoVoucher: Desired number of bedrooms
+  Budget: Budget for apartment
+  YesVoucher: Yes
+  NoVoucher: No
   Go: Save profile
   NameRequired: Please enter a name for the head of household.
   SaveError: Failed to save profile. Please try again.
+  InvalidBudget: Invalid budget. Please enter a positive number.
   Title: Profile
   UseCommuterRail: Including commuter rail and express bus
   UseCommuterRailExplanation: Search results will include subway, local bus, commuter rail, and express bus. Commuter rail and express bus will make more communities accessible, but typically cost more than subway and local bus service.

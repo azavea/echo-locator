@@ -5,10 +5,12 @@
             "Type": "String",
             "Default": "authecholocatorStagingAuthUserPoolId"
         },
+        
         "authecholocatorStagingAuthIdentityPoolId": {
             "Type": "String",
             "Default": "authecholocatorStagingAuthIdentityPoolId"
         },
+        
         "authecholocatorStagingAuthAppClientID": {
             "Type": "String",
             "Default": "authecholocatorStagingAuthAppClientID"
@@ -44,17 +46,20 @@
           "Properties" : {
               "GroupName" : "counselors",
               "Precedence" : 1,
+              
               "RoleArn" : {
                 "Fn::GetAtt": [
                     "counselorsGroupRole",
                     "Arn"
                 ]
               },
+              
               "UserPoolId" : {
                 "Ref": "authecholocatorStagingAuthUserPoolId"
               } 
             }
         },
+        
         "counselorsGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -78,12 +83,18 @@
                             "Principal": {
                                 "Federated": "cognito-identity.amazonaws.com"
                             },
-                            "Action": "sts:AssumeRoleWithWebIdentity"
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authecholocatorStagingAuthIdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
                         }
                     ]
                 }
             }
         },
+     
+    
     
         "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
@@ -233,7 +244,7 @@
                     }
                 },
                 "Handler": "index.handler",
-                "Runtime": "nodejs8.10",
+                "Runtime": "nodejs10.x",
                 "Timeout": "300",
                 "Role": {
                     "Fn::GetAtt": [
@@ -279,7 +290,9 @@
             },
             "DependsOn": ["RoleMapFunction"]
         }
+   
     },
+    
     "Outputs": {
       
         "counselorsGroupRole": {
@@ -294,4 +307,5 @@
         
       
     }
+    
 }

@@ -58,10 +58,10 @@ Parameters:
         
   userpoolClientGenerateSecret:
     Type: String
-                
+            
   userpoolClientRefreshTokenValidity:
-    Type: Number
-                  
+    Type: String
+                      
   userpoolClientWriteAttributes:
     Type: CommaDelimitedList
               
@@ -124,7 +124,7 @@ Resources:
   # Created to allow the UserPool SMS Config to publish via the Simple Notification Service during MFA Process
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !If [ShouldNotCreateEnvResources, 'echolo468d423e_sns-role', !Join ['',['echolo468d423e_sns-role', '-', !Ref env]]]
+      RoleName: !If [ShouldNotCreateEnvResources, 'echolo9e709765_sns-role', !Join ['',[ 'sns', 'undefined', !Select [3, !Split ['-', !Ref 'AWS::StackName']], '-', !Ref env]]]
       AssumeRolePolicyDocument: 
         Version: "2012-10-17"
         Statement: 
@@ -136,10 +136,10 @@ Resources:
               - "sts:AssumeRole"
             Condition: 
               StringEquals:
-                sts:ExternalId: echolo468d423e_role_external_id
+                sts:ExternalId: echolo9e709765_role_external_id
       Policies: 
         - 
-          PolicyName: echolo468d423e-sns-policy
+          PolicyName: echolo9e709765-sns-policy
           PolicyDocument: 
             Version: "2012-10-17"
             Statement: 
@@ -166,11 +166,12 @@ Resources:
         -
           Name: voucher
           Required: false
-          Mutable: false
+          Mutable: true
           AttributeDataType: String
           StringAttributeConstraints:
             MinLength: "6"
             MaxLength: "8"
+        
       
       
       
@@ -194,7 +195,7 @@ Resources:
       SmsVerificationMessage: !Ref smsVerificationMessage
       SmsConfiguration: 
         SnsCallerArn: !GetAtt SNSRole.Arn
-        ExternalId: echolo468d423e_role_external_id
+        ExternalId: echolo9e709765_role_external_id
     
   
     
@@ -214,7 +215,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: echolo468d423e_app_clientWeb
+      ClientName: echolo9e709765_app_clientWeb
       
       ReadAttributes: !Ref userpoolClientReadAttributes
       WriteAttributes: !Ref userpoolClientWriteAttributes
@@ -227,7 +228,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: echolo468d423e_app_client
+      ClientName: echolo9e709765_app_client
       
       ReadAttributes: !Ref userpoolClientReadAttributes
       WriteAttributes: !Ref userpoolClientWriteAttributes
@@ -241,7 +242,7 @@ Resources:
   # Created to execute Lambda which gets userpool app client config values
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+      RoleName: !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',['upClientLambdaRole', 'undefined', !Select [3, !Split ['-', !Ref 'AWS::StackName']], '-', !Ref env]]]
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -283,7 +284,7 @@ Resources:
             - ' }'
             - '};'
       Handler: index.handler
-      Runtime: nodejs8.10
+      Runtime: nodejs10.x
       Timeout: '300'
       Role: !GetAtt 
         - UserPoolClientRole
@@ -295,9 +296,9 @@ Resources:
   # Marked as depending on UserPoolClientRole for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: echolo468d423e_userpoolclient_lambda_iam_policy
+      PolicyName: echolo9e709765_userpoolclient_lambda_iam_policy
       Roles: 
-        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+        - !Ref UserPoolClientRole
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -312,9 +313,9 @@ Resources:
   # Marked as depending on UserPoolClientLambdaPolicy for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: echolo468d423e_userpoolclient_lambda_log_policy
+      PolicyName: echolo9e709765_userpoolclient_lambda_log_policy
       Roles: 
-        - !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',[!Ref userpoolClientLambdaRole, '-', !Ref env]]]
+        - !Ref UserPoolClientRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:

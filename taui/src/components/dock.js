@@ -12,6 +12,7 @@ import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
 
 type Props = {
+  activeListing: any,
   activeNeighborhood: string,
   activeNetworkIndex: number,
   changeUserProfile: (any) => void,
@@ -20,6 +21,7 @@ type Props = {
   endingOffset: number,
   haveAnotherPage: boolean,
   isLoading: boolean,
+  listingsLoading: boolean,
   neighborhoodCount: number,
   neighborhoodPage: any[],
   neighborhoodRoutes: any,
@@ -27,6 +29,7 @@ type Props = {
   page: number,
   showDetails: boolean,
   showFavorites: boolean,
+  showListings: boolean,
   userProfile: AccountProfile
 }
 
@@ -51,12 +54,13 @@ export default class Dock extends PureComponent<Props> {
     this.sidebar = createRef()
 
     this.state = {
-      componentError: props.componentError
+      componentError: props.componentError,
+      showTextPopup: false
     }
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails) {
+    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails || this.props.showListings !== prevProps.showListings || this.props.listingsLoading !== prevProps.listingsLoading) {
       this.sidebar.current.scrollTop = 0
     }
   }
@@ -64,6 +68,8 @@ export default class Dock extends PureComponent<Props> {
   backFromDetails (e) {
     e.stopPropagation()
     this.props.setShowDetails(false)
+    this.props.setShowListings(false)
+    this.props.setListingsLoading(false)
     this.props.setActiveNeighborhood()
   }
 
@@ -97,6 +103,7 @@ export default class Dock extends PureComponent<Props> {
 
   // save/unsave neighborhood to/from user profile favorites list
   setFavorite (neighborhoodId: string, profile: AccountProfile, changeUserProfile) {
+    console.log('Running set favorite')
     const favorites = profile.favorites || []
 
     const isProfileFavorite = favorites.indexOf(neighborhoodId) !== -1
@@ -116,7 +123,6 @@ export default class Dock extends PureComponent<Props> {
         remove(favorites, f => f === neighborhoodId)
       }
     }
-
     profile.favorites = favorites
     const isAnonymous = !profile || profile.key === ANONYMOUS_USERNAME
 
@@ -267,8 +273,16 @@ export default class Dock extends PureComponent<Props> {
       origin,
       page,
       showDetails,
+      showListings,
+      listingsLoading,
       showFavorites,
-      userProfile
+      userProfile,
+      setShowListings,
+      setListingsLoading,
+      setDataListings,
+      setBHAListings,
+      activeListing,
+      listingTravelTime
     } = this.props
     const {componentError} = this.state
     const ButtonRow = this.buttonRow
@@ -285,6 +299,7 @@ export default class Dock extends PureComponent<Props> {
           {componentError.info}
         </p>}
       {children}
+
       {!isLoading && !showDetails &&
         <NeighborhoodSection
           {...this.props}
@@ -312,8 +327,16 @@ export default class Dock extends PureComponent<Props> {
         </nav>
         <NeighborhoodDetails
           changeUserProfile={changeUserProfile}
+          activeListing={activeListing}
+          listingTravelTime={listingTravelTime}
           neighborhood={detailNeighborhood}
           origin={origin}
+          setShowListings={setShowListings}
+          setListingsLoading={setListingsLoading}
+          setDataListings={setDataListings}
+          setBHAListings={setBHAListings}
+          showListings={showListings}
+          listingsLoading={listingsLoading}
           setFavorite={setFavorite}
           userProfile={userProfile} />
       </>}
@@ -321,6 +344,7 @@ export default class Dock extends PureComponent<Props> {
         <ButtonRow {...this.props}
           haveAnotherPage={haveAnotherPage} page={page}
         />}
+
       <div className='map-sidebar__footer'>
         <a
           href='https://www.mysurveygizmo.com/s3/5088311/ECHOLocator-Feedback-tool'

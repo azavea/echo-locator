@@ -34,7 +34,11 @@ type Props = {
   actionLog: LogItems,
   activeNeighborhoodBounds: any,
   data: {
+    bhaListings: bhaListings[],
+    dataListings: Listings[],
     grids: string[],
+    listingRoute: any,
+    listingsLoading: boolean,
     neighborhoodBounds: any,
     neighborhoods: any,
     networks: Network[],
@@ -42,13 +46,14 @@ type Props = {
     profileLoading: boolean,
     showDetails: boolean,
     showFavorites: boolean,
+    showListings: boolean,
     userProfile: AccountProfile
   },
   detailNeighborhood: any,
   displayNeighborhoods: any[],
   displayPageNeighborhoods: any[],
   drawIsochrones: Function[],
-  drawNeighborhoodRotues: any[],
+  drawNeighborhoodRoutes: any[],
   drawOpportunityDatasets: any[],
   drawRoutes: any[],
   geocode: (string, Function) => void,
@@ -57,6 +62,7 @@ type Props = {
   isLoading: boolean,
   isochrones: any[],
   listNeighborhoods: any[],
+  listingTravelTime: any,
   loadProfile: Function => any,
   map: MapState,
   neighborhoodBounds: any,
@@ -72,14 +78,19 @@ type Props = {
   reverseGeocode: (string, Function) => void,
   routableNeighborhoodCount: number,
   routableNeighborhoods: any,
+  setActiveListing: Function => void,
   setActiveNeighborhood: Function => void,
+  setBHAListings: Function => void,
+  setDataListings: Function => void,
   setDisplayNeighborhoods: Function => void,
   setEnd: any => void,
+  setLoadingListings: Function => void,
   setPage: Function => void,
   setProfile: Function => void,
   setSelectedTimeCutoff: any => void,
   setShowDetails: Function => void,
   setShowFavorites: Function => void,
+  setShowListings: Function => void,
   setStart: any => void,
   showComparison: boolean,
   showFavorites: boolean,
@@ -150,6 +161,7 @@ export default class Application extends Component<Props, State> {
     const isAnonymous = userProfile && userProfile.key === ANONYMOUS_USERNAME
     const isCounselor = !!props.authData.counselor && !isAnonymous
     const NoMatch = this.noMatch
+
     return (
       <Switch>
         <Route exact path='/' render={() => (

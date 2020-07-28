@@ -1,0 +1,12 @@
+{
+    "permissions": {
+        "auth": {
+            "echolocatorStagingAuth": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}
