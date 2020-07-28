@@ -268,10 +268,6 @@ export default class Map extends PureComponent<Props, State> {
     let zIndex = 0
     const getZIndex = () => zIndex++
 
-
-    console.log('dataListings', p.dataListings)
-    console.log('activeNeighborhood', p.activeNeighborhood)
-
     return (
       p.routableNeighborhoods ? <LeafletMap
         bounds={p.neighborhoodBoundsExtent}

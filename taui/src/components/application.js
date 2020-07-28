@@ -166,7 +166,6 @@ export default class Application extends Component<Props, State> {
     const isCounselor = !!props.authData.counselor && !isAnonymous
     const NoMatch = this.noMatch
 
-    console.log('amenity data', props.data.amenities)
     return (
       <Switch>
         <Route exact path='/' render={() => (

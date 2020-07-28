@@ -22,6 +22,8 @@ export default class AmenityButton extends Component<Props> {
 
     handleClick() {
         this.setState({clicked: !this.state.clicked})
+        // TODO:
+        // get data for zipcode for particular amenity
     }
 
     render() {

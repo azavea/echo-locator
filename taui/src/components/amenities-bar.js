@@ -13,11 +13,13 @@ const community = '../../assets/img/icons/community.png'
 const worship = '../../assets/img/icons/worship.png'
 
 type Props = {
+    activeNeighborhood: any,
     clickedNeighborhood: any,
+    amenities: any,
 }
 
 type State = {
-    amenities: string[],
+    amenityTypes: string[],
 }
 
 const amenityColors = {
@@ -38,7 +40,7 @@ export default class AmenitiesBar extends Component<Props, State> {
         super(props)
         // Final amenities list: School, Park, Childcare, Library, Health, Grocery, Convenience, Community, Worship
         this.state = {
-            amenities: ['School', 'Convenience', 'Health', 'Community', 'Park', 'Childcare', 'Library', 'Grocery',  'Worship']
+            amenityTypes: ['School', 'Convenience', 'Health', 'Community', 'Park', 'Childcare', 'Library', 'Grocery',  'Worship']
         }
     }
     
@@ -48,6 +50,8 @@ export default class AmenitiesBar extends Component<Props, State> {
     }
 
     render(){
+        console.log('activeNeighborhood', this.props.activeNeighborhood)
+        console.log('amenitiesData', this.props.amenities)
         if (!this.props.clickedNeighborhood){
             return null
         }
@@ -56,47 +60,47 @@ export default class AmenitiesBar extends Component<Props, State> {
                 <p style={{fontWeight: 'bold'}}>Neighborhood Amenities</p>
                 <div className={'amenities-box'}>
                     <AmenityButton
-                        name={this.state.amenities[0]} // School
+                        name={this.state.amenityTypes[0]} // School
                         color={amenityColors['school']}
                         image={school}
                     />
                     <AmenityButton
-                        name={this.state.amenities[1]} // Convenience
+                        name={this.state.amenityTypes[1]} // Convenience
                         color={amenityColors['convenience']}
                         image={convenience}
                     />
                     <AmenityButton 
-                        name={this.state.amenities[2]} // Health
+                        name={this.state.amenityTypes[2]} // Health
                         color={amenityColors['health']}
                         image={health}
                     />
                     <AmenityButton 
-                        name={this.state.amenities[3]} // Community
+                        name={this.state.amenityTypes[3]} // Community
                         color={amenityColors['community']}
                         image={community}
                     />
                     <AmenityButton 
-                        name={this.state.amenities[4]} // Park
+                        name={this.state.amenityTypes[4]} // Park
                         color={amenityColors['park']}
                         image={park}
                     />
                     <AmenityButton 
-                        name={this.state.amenities[5]} // Childcare
+                        name={this.state.amenityTypes[5]} // Childcare
                         color={amenityColors['childcare']}
                         image={childcare}
                     />
                     <AmenityButton 
-                        name={this.state.amenities[6]} // Library
+                        name={this.state.amenityTypes[6]} // Library
                         color={amenityColors['library']}
                         image={library}
                     />
                     <AmenityButton 
-                        name={this.state.amenities[7]} // Grocery
+                        name={this.state.amenityTypes[7]} // Grocery
                         color={amenityColors['grocery']}
                         image={grocery}
                     />
                     <AmenityButton 
-                        name={this.state.amenities[8]} // Worship
+                        name={this.state.amenityTypes[8]} // Worship
                         color={amenityColors['worship']}
                         image={worship}
                     />

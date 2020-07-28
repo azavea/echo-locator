@@ -109,7 +109,6 @@ export default class MainPage extends React.PureComponent<Props> {
   render () {
     const p = this.props
     const mapScreenClass = p.isLoading ? 'map-screen isLoading' : 'map-screen'
-
     return (
       <div className={mapScreenClass}>
         <Dock
@@ -158,7 +157,9 @@ export default class MainPage extends React.PureComponent<Props> {
             </defs>
           </svg>
           <AmenitiesBar
+            activeNeighborhood={p.data.activeNeighborhood}
             clickedNeighborhood={p.data.showDetails}
+            amenities={p.data.amenities}
           />
           <Map
             {...p.map}
