@@ -16,13 +16,22 @@ import Form from './form'
 import Map from './map'
 import AmenitiesBar from './amenities-bar'
 
+type State = {
+    componentError: null,
+    amenitiesData: object[],
+}
+
 /**
  * Displays map and sidebar.
  */
 export default class MainPage extends React.PureComponent<Props> {
-  state = {
-    componentError: null,
-    amenitiesData: [],
+  constructor(props) {
+    super(props);
+    this.state = {
+      componentError: null,
+      amenitiesData: [],
+    }
+    this._updateAmenityData = this._updateAmenityData.bind(this)
   }
 
   componentDidMount () {
@@ -105,7 +114,15 @@ export default class MainPage extends React.PureComponent<Props> {
   }
 
   _updateAmenityData (amenities: object[]) {
-    console.log('main-page _updateAmenityData input', amenities);
+    var updatedAmenities = []
+    for (var i in amenities) {
+      var sub_amenities = amenities[i]
+      for (var j in sub_amenities) {
+        updatedAmenities.push(sub_amenities[j])
+
+      }
+    }
+    this.setState({amenitiesData: updatedAmenities})
   }
 
   /**
@@ -205,6 +222,7 @@ export default class MainPage extends React.PureComponent<Props> {
             updateMap={p.updateMap}
             updateOrigin={p.updateOrigin}
             updateStart={p.updateStart}
+            activeAmenities={this.state.amenitiesData}
           />
         </div>
       </div>

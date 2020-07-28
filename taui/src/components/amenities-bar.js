@@ -47,24 +47,21 @@ export default class AmenitiesBar extends Component<Props, State> {
         // Final amenities list: School, Park, Childcare, Library, Health, Grocery, Convenience, Community, Worship
         this.state = {
             amenitiesData: this.getNeighborhoodAmenities(),
-            shownAmenities: {'school': false, 'convenience': false, 'health': false, 'community': false, 
+            visibleAmenities: {'school': false, 'convenience': false, 'health': false, 'community': false, 
                             'park': false, 'childcare': false, 'library': false, 'grocery': false,  'worship': false},
         };
         this.updateShownAmenities = this.updateShownAmenities.bind(this);
-        this.getShownAmenities = this.getShownAmenities.bind(this);
+        this.getVisibleAmenities = this.getVisibleAmenities.bind(this);
     }
 
     componentWillReceiveProps (nextProps) {
-        if (nextProps.clickedNeighborhood) {
+        if (nextProps.activeNeighborhood) {
             this.setState({amenitiesData: this.getNeighborhoodAmenities()});
         }
     }
     
     // get amenity -> [amenities] for zipcode this.props.activeNeighborhood
     getNeighborhoodAmenities() {
-        if (!this.props.clickedNeighborhood) {
-            return {}
-        }
         var neigh_zip = this.props.activeNeighborhood
         var amenities_for_neigh = {}
         if (neigh_zip) {
@@ -94,29 +91,32 @@ export default class AmenitiesBar extends Component<Props, State> {
 
     updateShownAmenities(amenity: string, show: boolean) {
         this.setState(prevState => {
-        let shownAmenities = Object.assign({}, prevState.shownAmenities);
-        shownAmenities[amenity] = show;
-        return { shownAmenities };
+        let visibleAmenities = Object.assign({}, prevState.visibleAmenities);
+        visibleAmenities[amenity] = show;
+        return { visibleAmenities };
         })
+
+        var stateCopy = JSON.parse(JSON.stringify(this.state));
+        stateCopy.visibleAmenities[amenity] = true;
+        this.props.updateMapAmenities(this.getVisibleAmenities(stateCopy.visibleAmenities));
     }
 
-    getShownAmenities() {
-        var amenityVisibility = this.state.shownAmenities;
-        var shownAmenities = [];
-        for (var a in amenityVisibility) {
+    // get dictionary {amenity: [datapoints]} where amenity is visible
+    getVisibleAmenities(visibleAmenities) {
+        var amenities = [];
+        for (var a in visibleAmenities) {
             // if amenity clicked
-            if (this.state.amenitiesData && amenityVisibility[a]) {
-                shownAmenities.push(this.state.amenitiesData[a])
+            if (this.state.amenitiesData && visibleAmenities[a]) {
+                amenities.push(this.state.amenitiesData[a])
             }
         }
-        return shownAmenities;
+        return amenities;
     }
 
     render(){
-        // update amenities in map
-        this.props.updateMapAmenities(this.getShownAmenities())
-
-        if (!this.props.clickedNeighborhood){
+        // TODO: when click on map amenities bar goes away bug
+        console.log('amenities-bar render activeNeigh', this.props.activeNeighborhood)
+        if (!this.props.clickedNeighborhood) {
             return null
         }
         return (
