@@ -155,7 +155,7 @@ for f in amenities_data:
         # properties: name, address, description, hours, website, wheelchair, religion, emergency
         properties = {"name": name, "address": address, "description": description, 
                     "hours": hours , "website": website, "wheelchair": wheelchair, 
-                    "religion": religion, "emergency": emergency}
+                    "religion": religion, "emergency": emergency, "type": tipo, "subtype": sub_tipo}
 
         amenities.append(Amenity(_id, (longitude, latitude), properties).to_json())
 

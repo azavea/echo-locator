@@ -355,7 +355,6 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       const { authState, authData } = this.state
       const { userProfile } = this.props.data
       const signedIn = (authState === 'signedIn')
-      console.log('with-authenticator ',this.state.language)
       if (signedIn) {
         return (
           <Fragment>

@@ -4,6 +4,8 @@ type Props = {
     name: string,
     image: string, // image url
     color: string,
+    data: any,
+    updateAmenityVisibility: (object[]) => void,
 }
 
 export default class AmenityButton extends Component<Props> {
@@ -22,8 +24,7 @@ export default class AmenityButton extends Component<Props> {
 
     handleClick() {
         this.setState({clicked: !this.state.clicked})
-        // TODO:
-        // get data for zipcode for particular amenity
+        this.props.updateAmenityVisibility(this.props.name, !this.state.clicked);
     }
 
     render() {
@@ -47,13 +48,13 @@ export default class AmenityButton extends Component<Props> {
         }
         var buttonStyle = {display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', 
                             backgroundColor: bgColor, color:'white', padding: '2% 15%', width: '120%',
-                            height: '100%', fontSize:'70%'}
-
+                            height: '100%', fontSize:'70%'};
+        var name = this.props.name[0].toUpperCase() + this.props.name.slice(1, this.props.name.length);
         return (
             <div className={'amenities-amenity'} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
                 <button style={buttonStyle} onClick={this.handleClick}>
                     <img className='amenities-icon' src={this.props.image} alt=''></img>
-                    {this.props.name}
+                    {name}
                 </button>
             </div>
         )

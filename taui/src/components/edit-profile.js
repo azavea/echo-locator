@@ -68,8 +68,6 @@ export default class EditProfile extends PureComponent<Props> {
 
     const profile = props.userProfile
     this.state = this.getDefaultState(profile)
-
-    console.log(props.language)
   }
 
   componentWillReceiveProps (nextProps) {

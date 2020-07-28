@@ -155,7 +155,6 @@ export default class Application extends Component<Props, State> {
    *
    */
   render () {
-    console.log('application ',this.props.language)
     const props = this.props
     const profileLoading = this.props.data.profileLoading === undefined ? true
       : this.props.data.profileLoading

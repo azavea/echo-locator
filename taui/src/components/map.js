@@ -346,9 +346,16 @@ export default class Map extends PureComponent<Props, State> {
           )
         */}
 
+      {
+        // amenities
+        // need to pass data to map
+        // then map data to markers
+        // collect data for clicked amenities
+        // send said data to map.js
+      }
+
         {
-          p.showListings && p.dataListings.map((item, key) => {
-            return (
+          p.showListings && p.dataListings.map((item, key) => 
               <Marker
                 icon={realtorIcon}
                 key={`listings-${this._getKey()}`}
@@ -361,9 +368,6 @@ export default class Map extends PureComponent<Props, State> {
                 </Popup>
 
               </Marker>
-            )
-          }
-            
           )
         }
 

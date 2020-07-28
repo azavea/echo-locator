@@ -21,7 +21,8 @@ import AmenitiesBar from './amenities-bar'
  */
 export default class MainPage extends React.PureComponent<Props> {
   state = {
-    componentError: null
+    componentError: null,
+    amenityData: [],
   }
 
   componentDidMount () {
@@ -103,6 +104,10 @@ export default class MainPage extends React.PureComponent<Props> {
     return !p.isLoading && useTransit && !!get(p, 'neighborhoodRoutes[0]')
   }
 
+  _updateAmenityData (amenities: any) {
+    this.setState({amenityData: amenities})
+  }
+
   /**
    *
    */
@@ -160,6 +165,7 @@ export default class MainPage extends React.PureComponent<Props> {
             activeNeighborhood={p.data.activeNeighborhood}
             clickedNeighborhood={p.data.showDetails}
             amenities={p.data.amenities}
+            updateMapAmenities={this._updateAmenityData}
           />
           <Map
             {...p.map}
