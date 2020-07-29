@@ -62,7 +62,7 @@ export default class CustomHeaderBar extends Greetings {
           <span className='app-header__app-name'>{message('Title')}</span>
         </div>
         {userInfo}
-        <LanguageSelect setLanguage={this.props.setLanguage}></LanguageSelect>
+        <LanguageSelect setLanguage={this.props.setLanguage} />
         {!isAnonymous && <div className='app-header__actions'>{this.renderSignOutButton(theme)}</div>}
         {isAnonymous &&
           <div className='app-header__actions'>
@@ -77,29 +77,28 @@ export default class CustomHeaderBar extends Greetings {
 
 // class for language selection, calls the necessary listeners and updates language state
 class LanguageSelect extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleEnglishClick = this.handleEnglishClick.bind(this)
     this.handleSpanishClick = this.handleSpanishClick.bind(this)
     this.handleChineseClick = this.handleChineseClick.bind(this)
   }
 
-  handleEnglishClick(){
+  handleEnglishClick () {
     this.props.setLanguage('English')
-
   }
 
-  handleSpanishClick(){
+  handleSpanishClick () {
     this.props.setLanguage('Spanish')
   }
 
-  handleChineseClick(){
+  handleChineseClick () {
     this.props.setLanguage('Chinese')
   }
 
-  render() {
+  render () {
     return (
-      <div className='languageSelect'> 
+      <div className='languageSelect'>
         <button onClick={this.handleEnglishClick}> English </button>
         <button onClick={this.handleSpanishClick}> Español </button>
         <button onClick={this.handleChineseClick}> 中文 </button>
