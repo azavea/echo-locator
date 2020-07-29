@@ -127,6 +127,7 @@ export const loadDataset = (
   // Load neighborhood GeoJSON files
   dispatch(loadDataFromJSON('assets/neighborhoods.json', 'set neighborhoods'))
   dispatch(loadDataFromJSON('assets/neighborhood_bounds.json', 'set neighborhood bounds'))
+  dispatch(loadDataFromJSON('assets/amenity_zipcode_dataset.json', 'set amenity data'))
 
   // Start on first page of neighborhoods
   dispatch(setPage(0))
@@ -179,7 +180,7 @@ export const fetchAllTimesAndPathsForIndex = (index: number) => (
   const x = index % n.width
   const y = Math.floor(index / n.width)
   const centerCoordinates = pointToCoordinate(n.west + x, n.north + y, n.zoom)
-
+  // where zoom happens
   dispatch(updateMap({centerCoordinates}))
   dispatch({type: 'set geocoder', payload: {proximity: lonlat.toString(centerCoordinates)}})
   dispatch(updateStartPosition(centerCoordinates))

@@ -16,6 +16,24 @@ Website to explore Choice Neighborhoods in the Boston area.
 * node
 * yarn
 
+## Run locally
+
+```
+$ cp taui/configurations/default/env.yml.tmp taui/configurations/default/env.yml
+```
+
+add API keys
+
+```
+$ cp deployment/amplify/staging/src/aws-exports.js taui/src/aws-exports.js
+```
+
+* `cd taui`
+* Install packages: `yarn add package.json`
+* Build and run development server: `yarn start`
+
+
+
 
 ## Development
 
@@ -31,7 +49,7 @@ Next, move the AWS Amplify JavaScript configuration for the staging environment
 into the Taui source code:
 
 ```
-$ cp deployment/amplify/staging/aws-exports.js taui/src/aws-exports.js
+$ cp deployment/amplify/staging/src/aws-exports.js taui/src/aws-exports.js
 ```
 
 ### Optional step for local deployment

@@ -86,7 +86,84 @@ const otherIcon = Leaflet.divIcon({
   iconSize
 })
 
+const childcare = '../../assets/img/mapIcons/Childcare_Pin.png'
+const park = '../../assets/img/mapIcons/Park_Pin.png'
+const grocery = '../../assets/img/mapIcons/Grocery_Pin.png'
+const school = '../../assets/img/mapIcons/School_Pin.png'
+const convenience = '../../assets/img/mapIcons/Convenience_Pin.png'
+const health = '../../assets/img/mapIcons/Health_Pin.png'
+const library = '../../assets/img/mapIcons/Library_Pin.png'
+const community = '../../assets/img/mapIcons/Community_Pin.png'
+const worship = '../../assets/img/mapIcons/Worship_Pin.png'
+
+const childcareIcon = Leaflet.icon({
+  iconUrl: childcare,
+  iconAnchor,
+  iconSize
+})
+
+const parkIcon = Leaflet.icon({
+  iconUrl: park,
+  iconAnchor,
+  iconSize
+})
+
+const groceryIcon = Leaflet.icon({
+  iconUrl: grocery,
+  iconAnchor,
+  iconSize
+})
+
+const schoolIcon = Leaflet.icon({
+  iconUrl: school,
+  iconAnchor,
+  iconSize
+})
+
+const convenienceIcon = Leaflet.icon({
+  iconUrl: convenience,
+  iconAnchor,
+  iconSize
+})
+
+const healthIcon = Leaflet.icon({
+  iconUrl: health,
+  iconAnchor,
+  iconSize
+})
+
+const libraryIcon = Leaflet.icon({
+  iconUrl: library,
+  iconAnchor,
+  iconSize
+})
+
+const communityIcon = Leaflet.icon({
+  iconUrl: community,
+  iconAnchor,
+  iconSize
+})
+
+const worshipIcon = Leaflet.icon({
+  iconUrl: worship,
+  iconAnchor,
+  iconSize
+})
+
+const amenityIcons = {
+  childcare: childcareIcon,
+  park: parkIcon,
+  grocery: groceryIcon,
+  school: schoolIcon,
+  convenience: convenienceIcon,
+  health: healthIcon,
+  library: libraryIcon,
+  community: communityIcon,
+  worship: worshipIcon
+}
+
 type Props = {
+  activeAmenities: object[],
   centerCoordinates: Coordinate,
   clearStartAndEnd: () => void,
   drawIsochrones: Function[],
@@ -94,8 +171,8 @@ type Props = {
   drawOpportunityDatasets: Function[],
   drawRoute: any,
   end: null | Location,
-  isLoading: boolean,
-  pointsOfInterest: void | any, // FeatureCollection
+  isLoading: boolean, // FeatureCollection
+  pointsOfInterest: void | any,
   routableNeighborhoods: any,
   setEndPosition: LonLat => void,
   setStartPosition: LonLat => void,
@@ -104,7 +181,7 @@ type Props = {
   updateMap: any => void,
   updateOrigin: () => void,
   updateStart: () => void,
-  zoom: number
+  zoom: number,
 }
 
 type State = {
@@ -273,6 +350,7 @@ export default class Map extends PureComponent<Props, State> {
     const styleNeighborhood = this.styleNeighborhood
     const listingPopup = this.listingPopup
     const clickListing = this.clickListing
+    console.log(p)
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
@@ -389,6 +467,22 @@ export default class Map extends PureComponent<Props, State> {
 
             </Marker>
           )
+        }
+
+        {
+          p.activeNeighborhood && p.activeAmenities.map((item) => {
+            const amenityType = item.properties.type
+            const icon = amenityIcons[amenityType]
+            const lat = parseFloat(item.location[1])
+            const long = parseFloat(item.location[0])
+            return (
+              <Marker
+                icon={icon}
+                key={`amenities-${this._getKey()}`}
+                position={[lat, long]}
+                zIndex={getZIndex()} />
+            )
+          })
         }
 
         {p.showListings && this.state.showListingRoute && p.drawListingRoute &&

@@ -32,10 +32,12 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       this.fetchAndSetProfile = this.fetchAndSetProfile.bind(this)
       this.goToClientProfile = this.goToClientProfile.bind(this)
       this.handleUserSignIn = this.handleUserSignIn.bind(this)
+      this.setLanguage = this.setLanguage.bind(this)
 
       this.state = {
         authState: props.authState || null,
-        authData: props.authData || null
+        authData: props.authData || null,
+        language: '' // default language
       }
 
       this.authConfig = {}
@@ -54,6 +56,14 @@ export default function withAuthenticator (Comp, includeGreetings = false,
 
       // Load the selected user profile from localStorage, if any
       this.props.loadProfile()
+    }
+
+    // callback for language setting
+    setLanguage (lang: string) {
+      if (lang === 'English') {
+        lang = ''
+      }
+      this.setState({language: ''})
     }
 
     /**
@@ -345,7 +355,6 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       const { authState, authData } = this.state
       const { userProfile } = this.props.data
       const signedIn = (authState === 'signedIn')
-
       if (signedIn) {
         return (
           <Fragment>
@@ -358,6 +367,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
                 onStateChange={this.handleAuthStateChange}
                 theme={theme}
                 userProfile={userProfile}
+                setLanguage={this.setLanguage}
               /> : null
             }
             <Comp
@@ -367,6 +377,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
               changeUserProfile={this.changeUserProfile}
               userProfile={userProfile}
               onStateChange={this.handleAuthStateChange}
+              language={this.state.language}
             />
           </Fragment>
         )

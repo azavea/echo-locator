@@ -33,7 +33,9 @@ type Props = {
   accessibility: number[][],
   actionLog: LogItems,
   activeNeighborhoodBounds: any,
+  amenities: any,
   data: {
+    amenities: any,
     bhaListings: bhaListings[],
     dataListings: Listings[],
     grids: string[],
@@ -61,6 +63,7 @@ type Props = {
   initialize: Function => void,
   isLoading: boolean,
   isochrones: any[],
+  language: string,
   listNeighborhoods: any[],
   listingTravelTime: any,
   loadProfile: Function => any,
@@ -72,8 +75,8 @@ type Props = {
   neighborhoods: any,
   neighborhoodsSortedWithRoutes: any,
   page: number,
-  pageEndingOffset: number,
-  pointsOfInterest: any, // FeatureCollection
+  pageEndingOffset: number, // FeatureCollection
+  pointsOfInterest: any,
   pointsOfInterestOptions: PointsOfInterest,
   reverseGeocode: (string, Function) => void,
   routableNeighborhoodCount: number,

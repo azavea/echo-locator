@@ -8,7 +8,6 @@ export const setActiveNeighborhood = (neighborhood) => (dispatch, getState) => {
 
 export const setActiveListing = (listing) => (dispatch, getState) => {
   addActionLogItem(`Updating currently selected neighborhood to ${listing}`)
-  console.log(listing)
   dispatch({type: 'set active listing', payload: listing})
 }
 

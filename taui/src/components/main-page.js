@@ -14,13 +14,24 @@ import downloadJson from '../utils/download-json'
 import Dock from './dock'
 import Form from './form'
 import Map from './map'
+import AmenitiesBar from './amenities-bar'
+
+type State = {
+    amenitiesData: object[],
+    componentError: null,
+}
 
 /**
  * Displays map and sidebar.
  */
-export default class MainPage extends React.PureComponent<Props> {
-  state = {
-    componentError: null
+export default class MainPage extends React.PureComponent<Props, State> {
+  constructor (props) {
+    super(props)
+    this.state = {
+      componentError: null,
+      amenitiesData: []
+    }
+    this._updateAmenityData = this._updateAmenityData.bind(this)
   }
 
   componentDidMount () {
@@ -102,13 +113,23 @@ export default class MainPage extends React.PureComponent<Props> {
     return !p.isLoading && useTransit && !!get(p, 'neighborhoodRoutes[0]')
   }
 
+  _updateAmenityData (amenities: object[]) {
+    var updatedAmenities = []
+    for (var i in amenities) {
+      var subAmenities = amenities[i]
+      for (var j in subAmenities) {
+        updatedAmenities.push(subAmenities[j])
+      }
+    }
+    this.setState({amenitiesData: updatedAmenities})
+  }
+
   /**
    *
    */
   render () {
     const p = this.props
     const mapScreenClass = p.isLoading ? 'map-screen isLoading' : 'map-screen'
-
     return (
       <div className={mapScreenClass}>
         <Dock
@@ -157,6 +178,14 @@ export default class MainPage extends React.PureComponent<Props> {
               </filter>
             </defs>
           </svg>
+          <div className='amenities-bar'>
+            <AmenitiesBar
+              activeNeighborhood={p.data.activeNeighborhood}
+              clickedNeighborhood={p.data.showDetails}
+              amenities={p.data.amenities}
+              updateMapAmenities={this._updateAmenityData}
+            />
+          </div>
           <Map
             {...p.map}
             activeNeighborhood={p.data.activeNeighborhood}
@@ -195,6 +224,7 @@ export default class MainPage extends React.PureComponent<Props> {
             updateMap={p.updateMap}
             updateOrigin={p.updateOrigin}
             updateStart={p.updateStart}
+            activeAmenities={this.state.amenitiesData}
           />
         </div>
       </div>
