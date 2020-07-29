@@ -357,8 +357,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const NeighborhoodLinks = this.neighborhoodLinks
 
     const ListingsButton = this.listingsButton
-    const HideListingsButton = this.HideListingsButton
-
+    const HideListingsButton = this.hideListingsButton
     const StarButton = this.starButton
 
     if (!neighborhood || !userProfile) {

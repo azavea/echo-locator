@@ -37,7 +37,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       this.state = {
         authState: props.authState || null,
         authData: props.authData || null,
-        language: 'English' // default language
+        language: '' // default language
       }
 
       this.authConfig = {}
@@ -63,7 +63,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
       if (lang === 'English') {
         lang = ''
       }
-      this.setState({language: lang})
+      this.setState({language: ''})
     }
 
     /**

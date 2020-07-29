@@ -11,22 +11,25 @@
 }
 
 .languageSelect {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
   > button {
     margin-left: 10px;
+
     &:hover {
-      color: blue;
+      color: #00f;
     }
   }
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: row;
 }
 
 .amenities-all {
+  z-index: 1000;
   display: flex;
   align-items: center;
   padding: 0% 2%;
-  z-index: 1000;
+
   p {
     font-size: 80%;
     white-space: nowrap;
@@ -36,13 +39,15 @@
 .amenities-box {
   display: flex;
   font-family: 'Open Sans', sans-serif;
+
   .amenities-amenity {
-    padding: 1%;
-    width: 25%;
     align-items: center;
+    width: 25%;
+    padding: 1%;
+
     .amenities-icon {
-      width: 35%;
       top: 1px;
+      width: 35%;
     }
   }
 }

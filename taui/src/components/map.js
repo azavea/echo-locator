@@ -350,6 +350,7 @@ export default class Map extends PureComponent<Props, State> {
     const styleNeighborhood = this.styleNeighborhood
     const listingPopup = this.listingPopup
     const clickListing = this.clickListing
+    console.log(p)
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0

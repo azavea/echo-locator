@@ -97,12 +97,13 @@ class LanguageSelect extends React.Component {
   }
 
   render () {
-    return (
-      <div className='languageSelect'>
-        <button onClick={this.handleEnglishClick}> English </button>
-        <button onClick={this.handleSpanishClick}> Español </button>
-        <button onClick={this.handleChineseClick}> 中文 </button>
-      </div>
-    )
+    // return (
+    //   <div className='languageSelect'>
+    //     <button onClick={this.handleEnglishClick}> English </button>
+    //     <button onClick={this.handleSpanishClick}> Español </button>
+    //     <button onClick={this.handleChineseClick}> 中文 </button>
+    //   </div>
+    // )
+    return null
   }
 }
