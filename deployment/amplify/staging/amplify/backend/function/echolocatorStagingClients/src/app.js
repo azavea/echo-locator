@@ -8,11 +8,9 @@ See the License for the specific language governing permissions and limitations 
 
 
 /* Amplify Params - DO NOT EDIT
-You can access the following resource attributes as environment variables from your Lambda function
-var environment = process.env.ENV
-var region = process.env.REGION
-var authEcholocatorStagingAuthUserPoolId = process.env.AUTH_ECHOLOCATORSTAGINGAUTH_USERPOOLID
-
+	AUTH_ECHOLOCATORSTAGINGAUTH_USERPOOLID
+	ENV
+	REGION
 Amplify Params - DO NOT EDIT */
 
 var AWS = require('aws-sdk')
@@ -27,13 +25,17 @@ app.use(awsServerlessExpressMiddleware.eventContext())
 
 // Enable CORS for all methods
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Credentials", true)
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
 });
 
-app.post('/clients', function(req, res) {
+
+/**********************
+ * Example get method *
+ **********************/
+
+app.get('/clients', function(req, res) {
   AWS.config.update({region: process.env.REGION});
   var cognito = new AWS.CognitoIdentityServiceProvider();
 
@@ -112,6 +114,54 @@ app.post('/clients', function(req, res) {
       }
     }
   });
+  res.json({success: 'get call succeed!', url: req.url});
+});
+
+app.get('/clients/*', function(req, res) {
+  // Add your code here
+  res.json({success: 'get call succeed!', url: req.url});
+});
+
+/****************************
+* Example post method *
+****************************/
+
+app.post('/clients', function(req, res) {
+  // Add your code here
+  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+});
+
+app.post('/clients/*', function(req, res) {
+  // Add your code here
+  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+});
+
+/****************************
+* Example put method *
+****************************/
+
+app.put('/clients', function(req, res) {
+  // Add your code here
+  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+});
+
+app.put('/clients/*', function(req, res) {
+  // Add your code here
+  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+});
+
+/****************************
+* Example delete method *
+****************************/
+
+app.delete('/clients', function(req, res) {
+  // Add your code here
+  res.json({success: 'delete call succeed!', url: req.url});
+});
+
+app.delete('/clients/*', function(req, res) {
+  // Add your code here
+  res.json({success: 'delete call succeed!', url: req.url});
 });
 
 app.listen(3000, function() {

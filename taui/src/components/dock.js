@@ -54,7 +54,8 @@ export default class Dock extends PureComponent<Props> {
     this.sidebar = createRef()
 
     this.state = {
-      componentError: props.componentError
+      componentError: props.componentError,
+      showTextPopup: false
     }
   }
 
@@ -102,6 +103,7 @@ export default class Dock extends PureComponent<Props> {
 
   // save/unsave neighborhood to/from user profile favorites list
   setFavorite (neighborhoodId: string, profile: AccountProfile, changeUserProfile) {
+    console.log('Running set favorite')
     const favorites = profile.favorites || []
 
     const isProfileFavorite = favorites.indexOf(neighborhoodId) !== -1
@@ -121,7 +123,6 @@ export default class Dock extends PureComponent<Props> {
         remove(favorites, f => f === neighborhoodId)
       }
     }
-
     profile.favorites = favorites
     const isAnonymous = !profile || profile.key === ANONYMOUS_USERNAME
 

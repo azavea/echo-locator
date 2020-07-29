@@ -4,7 +4,8 @@
             "echolocatorStagingAuth": [
                 "create",
                 "read",
-                "update"
+                "update",
+                "delete"
             ]
         }
     }

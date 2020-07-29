@@ -3,6 +3,7 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
+import Loader from 'react-loader-spinner'
 
 import {ROUND_TRIP_MINUTES} from '../constants'
 import type {AccountProfile, NeighborhoodImageMetadata} from '../types'
@@ -15,26 +16,23 @@ import getNeighborhoodImage from '../utils/neighborhood-images'
 import getZillowSearchLink from '../utils/zillow-search-link'
 import getRealtorSearchLink from '../utils/realtor-search-link'
 import PolygonIcon from '../icons/polygon-icon'
-
-import NeighborhoodListInfo from './neighborhood-list-info'
-import RouteSegments from './route-segments'
-
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import Loader from 'react-loader-spinner'
-
 import getListings from '../utils/listings'
+import Popup from '../components/text-alert-popup'
+import getBHAListings from '../utils/bha-data-extraction'
 
-import readSheetValues, {fwdGeocode} from '../utils/google-spreadsheet'
+import RouteSegments from './route-segments'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import NeighborhoodListInfo from './neighborhood-list-info'
 
 type Props = {
+  activeListing: any,
   changeUserProfile: any,
+  listingTravelTime: any,
+  listingsLoading: boolean,
   neighborhood: any,
   setFavorite: any,
   showListings: boolean,
-  listingsLoading: boolean,
-  userProfile: AccountProfile,
-  activeListing: any,
-  listingTravelTime: any
+  userProfile: AccountProfile
 }
 export default class NeighborhoodDetails extends PureComponent<Props> {
   props: Props
@@ -44,7 +42,9 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     this.state = {isFavorite: props.userProfile && props.neighborhood
       ? props.userProfile.favorites.indexOf(props.neighborhood.properties.id) !== -1
-      : false
+      : false,
+    showTextPopup: false,
+    showOptOutMessage: false
     }
 
     this.neighborhoodStats = this.neighborhoodStats.bind(this)
@@ -56,6 +56,11 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     this.hideListings = this.hideListings.bind(this)
     this.listingsButton = this.listingsButton.bind(this)
     this.hideListingsButton = this.hideListingsButton.bind(this)
+    this.starButton = this.starButton.bind(this)
+
+    this.toggleTextPopup = this.toggleTextPopup.bind(this)
+
+    this.setFavoriteAndToggle = this.setFavoriteAndToggle.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -66,11 +71,35 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     }
   }
 
+  // Toggle visibility of text alert popup
+  toggleTextPopup () {
+    if (!this.state.showTextPopup && !this.state.showOptOutMessage) {
+      if (this.state.isFavorite) {
+        this.setState({
+          showOptOutMessage: true
+        })
+      } else {
+        this.setState({
+          showTextPopup: true
+        })
+      }
+    } else {
+      this.setState({
+        showTextPopup: false,
+        showOptOutMessage: false
+      })
+    }
+  }
+
+  setFavoriteAndToggle (id, userProfile, changeUserProfile, setFavorite) {
+    this.toggleTextPopup()
+    setFavorite(id, userProfile, changeUserProfile)
+  }
+
   neighborhoodStats (props) {
-    const { neighborhood, userProfile} = props
+    const { neighborhood, userProfile } = props
     const { rooms, budget, hasVoucher } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
-
     return (
       <div className='neighborhood-details__stats'>
         <div className='neighborhood-details__rent'>
@@ -83,8 +112,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     )
   }
 
-  displayListings (e) {
-
+  async displayListings (e) {
     const hasVoucher = this.props.userProfile.hasVoucher
     const budget = this.props.userProfile.budget
     const rooms = this.props.userProfile.rooms
@@ -92,17 +120,17 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     this.props.setListingsLoading(true)
 
-    //param: (zip, budget, rooms)
-    readSheetValues(this.props.neighborhood.properties.zipcode, budget, rooms)
-    .then(data => {
+    // param: (zip, budget, rooms)
+    await getBHAListings(this.props.neighborhood.properties.zipcode, budget, rooms).then(data => {
       this.props.setBHAListings(data)
     })
 
-    getListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
-      this.props.setDataListings(data.properties)
-      this.props.setShowListings(true)
-      this.props.setListingsLoading(false)
+    await getListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
+      this.props.setDataListings(data)
     })
+
+    this.props.setShowListings(true)
+    this.props.setListingsLoading(false)
   }
 
   hideListings (e) {
@@ -110,7 +138,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   listingsButton (props) {
-
     const displayListings = this.displayListings
 
     return (
@@ -122,13 +149,25 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   hideListingsButton (props) {
-
     const hideListings = this.hideListings
 
     return (
       <button
         className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
         onClick={hideListings}>Hide Listings
+      </button>
+    )
+  }
+
+  starButton (props) {
+    const isFavorite = this.state.isFavorite
+    const toggleTextPopup = this.toggleTextPopup
+
+    return (
+      <button onClick={toggleTextPopup}>
+        <Icon
+          className='neighborhood-details__star'
+          type={isFavorite ? 'star' : 'star-o'} />
       </button>
     )
   }
@@ -311,16 +350,16 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       listingsLoading,
       activeListing,
       listingTravelTime
-       } = this.props
-    const isFavorite = this.state.isFavorite
+    } = this.props
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
     const NeighborhoodImages = this.neighborhoodImages
     const NeighborhoodLinks = this.neighborhoodLinks
-    const NeighborhoodSection = this.neighborhoodSection
 
     const ListingsButton = this.listingsButton
-    const HideListingsButton = this.hideListingsButton
+    const HideListingsButton = this.HideListingsButton
+
+    const StarButton = this.starButton
 
     if (!neighborhood || !userProfile) {
       return null
@@ -340,28 +379,52 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const listingTime = listingTravelTime
 
     const roundedTripTime = Math.round(neighborhood.time / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
-    const roundedListingTime = Math.round(listingTime / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
 
     // lat,lon strings for Google Directions link from neighborhood to current destination
     const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
     const originCoordinateString = neighborhood.geometry.coordinates[1] +
       ',' + neighborhood.geometry.coordinates[0]
-
     return (
       <div className='neighborhood-details'>
         <div className='neighborhood-details__section'>
           <header className='neighborhood-details__header'>
-            <Icon
-              className='neighborhood-details__star'
-              type={isFavorite ? 'star' : 'star-o'}
-              onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
-            />
+            <StarButton />
             <div className='neighborhood-details__name'>
               <div className='neighborhood-details__title'>{town} &ndash; {id}</div>
             </div>
             <PolygonIcon className='neighborhood-details__marker' />
           </header>
         </div>
+        {this.state.showTextPopup
+          ? <div className='popup' onClick={(e) => { e.stopPropagation() }}>
+            <Popup
+              id={id}
+              city={town}
+              userProfile={userProfile}
+              closePopup={this.toggleTextPopup.bind(this)}
+              setFavorite={setFavorite.bind(this, id, userProfile, changeUserProfile)}
+              optIn
+              setFavoriteAndToggle={this.setFavoriteAndToggle.bind(this, id, userProfile, changeUserProfile, setFavorite)}
+              activeNeighborhoods={this.state.activeNeighborhoods}
+            />
+          </div>
+          : null
+        }
+        {this.state.showOptOutMessage
+          ? <div className='popup' onClick={(e) => { e.stopPropagation() }}>
+            <Popup
+              id={id}
+              city={town}
+              userProfile={userProfile}
+              closePopup={this.toggleTextPopup.bind(this)}
+              setFavorite={setFavorite.bind(this, id, userProfile, changeUserProfile)}
+              optIn={false}
+              setFavoriteAndToggle={this.setFavoriteAndToggle.bind(this, id, userProfile, changeUserProfile, setFavorite)}
+              activeNeighborhoods={this.state.activeNeighborhoods}
+            />
+          </div>
+          : null
+        }
         {!activeListing &&
         <div className='neighborhood-details__section'>
           <div className='neighborhood-details__trip'>
@@ -390,21 +453,21 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         </div>}
         {activeListing &&
           <div className='neighborhood-details__section'>
-          <div className='neighborhood-details__trip'>
-            {listingTime}&nbsp;
-            {message('Units.Mins')}&nbsp;to selected listing
-            <a
-              className='neighborhood-details__directions'
-              href={getGoogleDirectionsLink(
-                activeListing[1] + ',' + activeListing[0],
-                destinationCoordinateString,
-                hasVehicle)}
-              target='_blank'
-            >
-              {message('NeighborhoodDetails.DirectionsLink')}
-            </a>
-          </div>
-        </div>}
+            <div className='neighborhood-details__trip'>
+              {listingTime}&nbsp;
+              {message('Units.Mins')}&nbsp;to selected listing
+              <a
+                className='neighborhood-details__directions'
+                href={getGoogleDirectionsLink(
+                  activeListing[1] + ',' + activeListing[0],
+                  destinationCoordinateString,
+                  hasVehicle)}
+                target='_blank'
+              >
+                {message('NeighborhoodDetails.DirectionsLink')}
+              </a>
+            </div>
+          </div>}
         <div className='neighborhood-details__section'>
           <NeighborhoodStats
             neighborhood={neighborhood}
@@ -415,19 +478,18 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           <h6 className='neighborhood-details__link-heading'>
             {rooms}br listings with a budget of ${ hasVoucher ? maxSubsidy : budget }
           </h6>
-          {showListings ? <HideListingsButton/> : <ListingsButton/>}
+          {showListings ? <HideListingsButton /> : <ListingsButton />}
           <div style={{ display: 'inline-block' }}><Loader
-                 visible={listingsLoading}
-                 type="Oval"
-                 color="#000000"
-                 height={20}
-                 width={20}
-              /></div>
+            visible={listingsLoading}
+            type='Oval'
+            color='#000000'
+            height={20}
+            width={20}
+          /></div>
           <div className='neighborhood-details__desc'>
-            ECHOLocator omits listings without a specific address. There may be more listings at the Realtor.com page <a href={getRealtorSearchLink(
-              neighborhood.properties.id,
-              userProfile.rooms,
-              hasVoucher ? maxSubsidy : budget)}
+            ECHOLocator omits listings without a specific address. There may be more listings at the Realtor.com page
+            <a
+              href={getRealtorSearchLink(neighborhood.properties.id, userProfile.rooms, hasVoucher ? maxSubsidy : budget)}
               target='_blank'
               className='neighborhood-details__link'>
                 here

@@ -25,6 +25,9 @@ import {
 import type {AccountAddress, AccountProfile} from '../types'
 
 import Geocoder from './geocoder'
+import Checkbox from './checkbox'
+
+const axios = require('axios')
 
 type Props = {
   authData: any,
@@ -65,9 +68,14 @@ export default class EditProfile extends PureComponent<Props> {
     this.setPrimaryAddress = this.setPrimaryAddress.bind(this)
     this.validDestinations = this.validDestinations.bind(this)
     this.validBudget = this.validBudget.bind(this)
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
+    this.removePreference = this.removePreference.bind(this)
+    this.validatePhone = this.validatePhone.bind(this)
 
     const profile = props.userProfile
     this.state = this.getDefaultState(profile)
+    this.state.showTextOptions = true
+    this.state.removedPreferences = []
   }
 
   componentWillReceiveProps (nextProps) {
@@ -79,6 +87,23 @@ export default class EditProfile extends PureComponent<Props> {
       }
       this.setState(nextProps.userProfile)
     }
+  }
+
+  componentDidMount () {
+    const url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/get-all-text-preferences'
+    const json = {
+      'user': this.props.userProfile.key
+    }
+    axios.post(url, json)
+      .then(response => JSON.parse(response.data.body))
+      .then(result => {
+        this.setState({
+          textAlertPreferences: {
+            preferences: result.preferences,
+            phone: result.phone.substring(2, result.phone.length)
+          }
+        })
+      })
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -144,6 +169,57 @@ export default class EditProfile extends PureComponent<Props> {
     }
   }
 
+  validatePhone (number) {
+    console.log(number)
+    // If the length is not right
+    if (number.length !== 10) {
+      console.log('entered1')
+      return false
+    }
+    // If any character is not a number
+    for (var i = 0; i < number.length; i++) {
+      if (!(number[i] >= '0' && number[i] <= '9')) {
+        console.log('entered2')
+        return false
+      }
+    }
+    return true
+  }
+
+  // If the stop receiving text alerts button is clicked
+  removePreference (preferences, preference) {
+    // First, remove it from our preferences
+    const index = preferences.indexOf(preference)
+    preferences.splice(index, 1)
+    const newState = {
+      preferences: preferences,
+      phone: this.state.textAlertPreferences.phone
+    }
+    this.setState({
+      textAlertPreferences: newState
+    })
+    // Then, add it to a removedPreferences array to handle on save
+    var newRemovedPreferences = this.state.removedPreferences
+    newRemovedPreferences.push(preference)
+    this.setState({
+      removedPreferences: newRemovedPreferences
+    })
+  }
+
+  // If the opt out of all text messages box is checked
+  handleCheckboxChange (currentlyChecked) {
+    // Just toggled from checked to not checked
+    if (currentlyChecked) {
+      this.setState({
+        showTextOptions: true
+      })
+    } else {
+      this.setState({
+        showTextOptions: false
+      })
+    }
+  }
+
   cancel (event) {
     // Navigate back to the last page visited, discarding any changes.
     if (this.props.location.state && this.props.location.state.fromApp) {
@@ -154,10 +230,28 @@ export default class EditProfile extends PureComponent<Props> {
     }
   }
 
-  changeField (field, value) {
-    const newState = {errorMessage: ''}
-    newState[field] = value
-    this.setState(newState)
+  changeField (field, value, index = 0, field2 = '') {
+    var newValue
+    // Change subfields if it is textAlertPreferences
+    if (field === 'textAlertPreferences' && field2 === 'frequency') {
+      const newState = {errorMessage: ''}
+      newValue = this.state.textAlertPreferences
+      newValue.preferences[index].frequency = value
+      newState[field] = newValue
+      this.setState(newState)
+    } else if (field === 'textAlertPreferences' && field2 === 'phone') {
+      const newState = {errorMessage: ''}
+      newValue = this.state.textAlertPreferences
+      newValue.phone = value
+      newState[field] = newValue
+      this.setState(newState)
+
+    // Easy change for everything else
+    } else {
+      const newState = {errorMessage: ''}
+      newState[field] = value
+      this.setState(newState)
+    }
   }
 
   getProfileFromState (): AccountProfile {
@@ -256,8 +350,15 @@ export default class EditProfile extends PureComponent<Props> {
     } else if (!this.validBudget(profile.budget, profile.hasVoucher)) {
       this.setState({errorMessage: message(language + 'Profile.InvalidBudget')})
       return
+    } else if (!this.validBudget(profile.budget, profile.hasVoucher)) {
+      this.setState({errorMessage: message('Profile.InvalidBudget')})
+      return
     } else {
       this.setState({errorMessage: ''})
+    }
+
+    if (!this.validatePhone(this.state.textAlertPreferences.phone)) {
+      this.setState({errorMessage: 'Invalid phone number: Use format xxxxxxxxxx'})
     }
 
     if (!isAnonymous) {
@@ -291,6 +392,41 @@ export default class EditProfile extends PureComponent<Props> {
         console.log('Do not need to create client account; it already exists')
         // go save to s3 without attempting to first create a user account
         this.saveToS3(profile.key, profile, isCounselor, this.props.changeUserProfile)
+      }
+      // changing phone number if necessary
+      var url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/set-user-phone'
+      var json = {
+        'user': profile.key,
+        'phone': '+1' + this.state.textAlertPreferences.phone
+      }
+      axios.post(url, json)
+      // Remove all preferences if user checked opt out of all
+      if (!this.state.showTextOptions) {
+        this.state.textAlertPreferences.preferences.forEach(function (preference) {
+          url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/remove-text-preference'
+          json = {
+            'userProfile': profile.key,
+            'neighborhood': preference.zipcode
+          }
+          axios.post(url, json)
+        })
+      } else {
+        url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/set-user-text-preferences'
+        json = {
+          'user': profile.key,
+          'preferences': this.state.textAlertPreferences.preferences
+        }
+        axios.post(url, json)
+
+        // If there are any removed preferences, do this here
+        this.state.removedPreferences.forEach(function (preference) {
+          url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/remove-text-preference'
+          json = {
+            'userProfile': profile.key,
+            'neighborhood': preference.zipcode
+          }
+          axios.post(url, json)
+        })
       }
     } else {
       // Do not attempt to write anonymous profile to S3
@@ -627,6 +763,59 @@ export default class EditProfile extends PureComponent<Props> {
     )
   }
 
+  textOptions (props) {
+    const {info, changeField, handleCheckboxChange, showTextOptions, removePreference} = props
+    if (typeof info === 'undefined' || typeof info.preferences === 'undefined') {
+      return (
+        <div className='account-profile__text-alerts'>
+          <div className='account-profile__text-alerts__wrapper'>
+            <h3 className='account-profile__label'>Text Alerts</h3>
+            <h4>None set yet</h4>
+          </div>
+          <div className='account-profile__text-alerts__text-wrapper'>
+            <p>You can enable text alerts by saving a neighborhood. You'll receive alerts to your phone whenever new apartments appear.</p>
+          </div>
+        </div>
+      )
+    } else {
+      return (
+        <div className='account-profile__text-alerts'>
+          <h3 className='account-profile__label'>Text Alerts</h3>
+          <div className='account-profile__text-alerts__phone-wrapper'>
+            <h5>Mobile Phone Number</h5>
+            <input className='account-profile__text-alerts__phone-field' type='text' name='phone' defaultValue={info.phone} onChange={(e) => changeField('textAlertPreferences', e.currentTarget.value, 0, 'phone')} />
+            <Checkbox
+              label='I want to opt out of all messages'
+              handleCheckboxChange={handleCheckboxChange} />
+          </div>
+          {showTextOptions &&
+            <ul>
+              {info.preferences.map((preference, index) => {
+                if (typeof preference.city !== 'undefined') {
+                  return (
+                    <li key={index}>
+                      <p className='account-profile__text-alerts__city-text'>{preference.city}</p>
+                      <div className='account-profile__text-alerts-frequency-text'>
+                        <p>Current Receiving Alerts</p>
+                        <select
+                          defaultValue={preference.frequency}
+                          onChange={(e) => changeField('textAlertPreferences', e.currentTarget.value, index, 'frequency')}>
+                          <option value='daily'>Daily</option>
+                          <option value='weekly'>Weekly</option>
+                        </select>
+                      </div>
+                      <button onClick={(e) => removePreference(info.preferences, preference)}>Stop Receiving Texts</button>
+                    </li>
+                  )
+                }
+              })}
+            </ul>
+          }
+        </div>
+      )
+    }
+  }
+
   roomOptions (props) {
     const { changeField, rooms } = props
     const roomCountOptions = range(MAX_ROOMS + 1)
@@ -704,15 +893,15 @@ export default class EditProfile extends PureComponent<Props> {
       headOfHousehold,
       importanceAccessibility,
       importanceSchools,
-      importanceViolentCrime,
       errorMessage,
       isAnonymous,
       key,
       rooms,
       budget,
-      useCommuterRail
+      useCommuterRail,
+      textAlertPreferences,
+      showTextOptions
     } = this.state
-
     const isCounselor = !!authData.counselor && !isAnonymous
 
     const DestinationsList = this.destinationsList
@@ -720,6 +909,9 @@ export default class EditProfile extends PureComponent<Props> {
     const RoomOptions = this.roomOptions
     const BudgetOptions = this.budgetOptions
     const TripPurposeOptions = this.tripPurposeOptions
+    const TextOptions = this.textOptions
+    const handleCheckboxChange = this.handleCheckboxChange
+    const removePreference = this.removePreference
 
     return (
       <div className='form-screen'>
@@ -940,17 +1132,15 @@ export default class EditProfile extends PureComponent<Props> {
                   changeField={changeField}
                   language={this.props.language} />
               </div>
-              <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
-                <label
-                  className='account-profile__label account-profile__label--secondary'
-                  htmlFor='importanceViolentCrime'>{message(language + 'Profile.ImportanceViolentCrime')}</label>
-                <ImportanceOptions
-                  fieldName='importanceViolentCrime'
-                  importance={importanceViolentCrime}
-                  changeField={changeField}
-                  language={this.props.language} />
-              </div>
             </div>
+            <TextOptions
+              info={textAlertPreferences}
+              user={key}
+              changeField={changeField}
+              isChecked={this.state.isChecked}
+              handleCheckboxChange={handleCheckboxChange}
+              showTextOptions={showTextOptions}
+              removePreference={removePreference} />
             <div className='account-profile__actions'>
               <button
                 className='account-profile__button account-profile__button--primary'

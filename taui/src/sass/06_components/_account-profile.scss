@@ -163,6 +163,140 @@
     margin-bottom: 4rem;
   }
 
+  &__text-alerts {
+    margin-bottom: 50px;
+
+    &__wrapper {
+      display: flex;
+
+      h3 {
+        display: inline;
+      }
+
+      h4 {
+        display: inline;
+        padding-left: 10px;
+        color: #424242;
+        font-weight: normal;
+        font-size: 15px;
+        font-family: 'Open Sans', serif;
+        font-style: italic;
+        line-height: 148%;
+      }
+    }
+
+    &__text-wrapper {
+      width: 75%;
+    }
+
+    &__phone-wrapper {
+      h5 {
+        display: inline;
+        padding-left: 10px;
+        color: #424242;
+        font-weight: normal;
+        font-size: 15px;
+        font-family: 'Open Sans', serif;
+        font-style: normal;
+        line-height: 148%;
+      }
+    }
+
+    &__phone-field {
+      top: 1179px;
+      left: 588px;
+      display: inline-block;
+      box-sizing: border-box;
+      width: 150px;
+      height: 41px;
+      margin-left: 20px;
+      padding-left: 10px;
+      border: 1px solid #9aa0a6;
+    }
+
+    &__checkbox {
+      display: inline-block;
+      padding-left: 20px;
+
+      p {
+        display: inline;
+        padding-left: 10px;
+        color: #424242;
+        font-weight: normal;
+        font-size: 15px;
+        font-family: 'Open Sans', serif;
+        font-style: normal;
+        line-height: 148%;
+      }
+
+      input {
+        background: #c4c4c4;
+        border-radius: 2px;
+      }
+    }
+
+    &__frequency-text {
+      display: flex;
+      width: 60%;
+      padding-left: 50px;
+
+      p {
+        margin-right: 20px;
+      }
+    }
+
+    ul {
+      margin-top: 20px;
+      list-style-type: none;
+    }
+
+    li {
+      display: flex;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-top: 1px solid #9aa0a6;
+      border-bottom: 1px solid #9aa0a6;
+
+      p {
+        display: inline-block;
+        color: #424242;
+        font-weight: normal;
+        font-size: 15px;
+        font-family: 'Open Sans', serif;
+        font-style: normal;
+        line-height: 148%;
+      }
+
+      button {
+        right: 0%;
+        width: 25%;
+        margin-left: 40px;
+        color: #3b88fd;
+        font-weight: normal;
+        font-size: 15px;
+        font-family: 'Open Sans', serif;
+        font-style: normal;
+        line-height: 148%;
+      }
+    }
+
+    &__city-text {
+      width: 15%;
+    }
+
+    select {
+      display: inline-block;
+      color: #3b88fd;
+      font-weight: normal;
+      font-size: 15px;
+      font-family: 'Open Sans', serif;
+      font-style: normal;
+      line-height: 148%;
+      border: none;
+    }
+  }
+
+
   &__error {
     @include text(400);
     @include font-weight(bold);

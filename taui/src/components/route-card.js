@@ -3,6 +3,7 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import React from 'react'
 
+import Popup from '../components/text-alert-popup'
 import {ROUND_TRIP_MINUTES} from '../constants'
 import type {NeighborhoodImageMetadata} from '../types'
 import {getFirstNeighborhoodImage} from '../utils/neighborhood-images'
@@ -19,7 +20,40 @@ type Props = {
 export default class RouteCard extends React.PureComponent<Props> {
   constructor (props) {
     super(props)
+
+    this.state = {
+      showTextPopup: false,
+      showOptOutMessage: false
+    }
+
     this.summaryImage = this.summaryImage.bind(this)
+
+    this.toggleTextPopup = this.toggleTextPopup.bind(this)
+    this.setFavoriteAndToggle = this.setFavoriteAndToggle.bind(this)
+  }
+
+  toggleTextPopup (isFavorite) {
+    if (!this.state.showTextPopup && !this.state.showOptOutMessage) {
+      if (isFavorite) {
+        this.setState({
+          showOptOutMessage: true
+        })
+      } else {
+        this.setState({
+          showTextPopup: true
+        })
+      }
+    } else {
+      this.setState({
+        showTextPopup: false,
+        showOptOutMessage: false
+      })
+    }
+  }
+
+  setFavoriteAndToggle (id, userProfile, setFavorite) {
+    this.toggleTextPopup()
+    setFavorite(id, userProfile)
   }
 
   summaryImage (props) {
@@ -79,8 +113,10 @@ export default class RouteCard extends React.PureComponent<Props> {
             className='neighborhood-summary__star'
             type={isFavorite ? 'star' : 'star-o'}
             onClick={(e) => {
+              e.preventDefault()
               e.stopPropagation()
-              setFavorite(neighborhood.properties.id, userProfile)
+              e.nativeEvent.stopImmediatePropagation()
+              this.toggleTextPopup(isFavorite)
             }}
           />
           <div className='neighborhood-summary__name'>
@@ -88,6 +124,36 @@ export default class RouteCard extends React.PureComponent<Props> {
           </div>
           <MapMarkerIcon className={markerClass} active={active} />
         </header>
+        {this.state.showTextPopup
+          ? <div className='popup' onClick={(e) => { e.stopPropagation() }}>
+            <Popup
+              userProfile={userProfile}
+              id={neighborhood.properties.id}
+              city={neighborhood.properties.town}
+              closePopup={this.toggleTextPopup.bind(this)}
+              setFavorite={setFavorite.bind(this, neighborhood.properties.id, userProfile)}
+              optIn
+              setFavoriteAndToggle={this.setFavoriteAndToggle.bind(this, neighborhood.properties.id, userProfile, setFavorite)}
+              activeNeighborhoods={this.state.activeNeighborhoods}
+            />
+          </div>
+          : null
+        }
+        {this.state.showOptOutMessage
+          ? <div className='popup' onClick={(e) => { e.stopPropagation() }}>
+            <Popup
+              userProfile={userProfile}
+              id={neighborhood.properties.id}
+              city={neighborhood.properties.town}
+              closePopup={this.toggleTextPopup.bind(this)}
+              setFavorite={setFavorite.bind(this, neighborhood.properties.id, userProfile)}
+              optIn={false}
+              setFavoriteAndToggle={this.setFavoriteAndToggle.bind(this, neighborhood.properties.id, userProfile, setFavorite)}
+              activeNeighborhoods={this.state.activeNeighborhoods}
+            />
+          </div>
+          : null
+        }
         <div className='neighborhood-summary__contents'>
           <div className='neighborhood-summary__descriptive'>
             <SummaryImage nprops={neighborhood.properties} />

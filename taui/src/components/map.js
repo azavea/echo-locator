@@ -26,6 +26,7 @@ import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
 import DrawRoute from './draw-route'
 import VGrid from './vector-grid'
 
+const L = window.L
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
   ? process.env.LEAFLET_RETINA_URL
   : process.env.LEAFLET_TILE_URL
@@ -60,11 +61,22 @@ const startIcon = Leaflet.divIcon({
   iconSize
 })
 
-const realtorIcon = Leaflet.divIcon({
-  className: 'LeafletIcon Other map__marker map__marker--realtor',
-  html: iconHTML,
-  iconAnchor,
-  iconSize
+const bhaIcon = new L.Icon({
+  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+})
+
+const realtorIcon = new L.Icon({
+  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 })
 
 const otherIcon = Leaflet.divIcon({
@@ -423,42 +435,33 @@ export default class Map extends PureComponent<Props, State> {
         */}
 
         {
-        // amenities
-        // need to pass data to map
-        // then map data to markers
-        // collect data for clicked amenities
-        // send said data to map.js
-        }
+          p.showListings && p.dataListings.map((item, key) =>
+            <Marker
+              icon={realtorIcon}
+              key={`listings-${this._getKey()}`}
+              position={[item.address.lat, item.address.lon]}
+              zIndex={getZIndex()}
+              onClick={() => clickListing(item.address.lat, item.address.lon)}>
 
-        {
-          p.showListings && p.dataListings.map((item, key) => {
-            return (
-              <Marker
-                icon={realtorIcon}
-                key={`listings-${this._getKey()}`}
-                position={[item.address.lat, item.address.lon]}
-                zIndex={getZIndex()}
-                onClick={() => clickListing(item.address.lat, item.address.lon)}>
+              <Popup>
+                {listingPopup(item.photos, item.address, item.community, item.price, item.rdc_web_url)}
+              </Popup>
 
-                <Popup>
-                  {listingPopup(item.photos, item.address, item.community, item.price, item.rdc_web_url)}
-                </Popup>
-
-              </Marker>
-            )
-          })
+            </Marker>
+          )
         }
 
         {
           p.showListings && p.bhaListings.map((item, key) =>
             <Marker
+              icon={bhaIcon}
               key={`listings-${this._getKey()}`}
               position={[item.latLon.lat, item.latLon.lng]}
               zIndex={getZIndex()}
               onClick={() => clickListing(item.latLon.lat, item.latLon.lng)}>
 
               <Popup>
-                <span>{item.locAddress}</span>
+                {listingPopup(item.photos, item.address, item.community, item.Rent, item.rdc_web_url)}
               </Popup>
 
             </Marker>

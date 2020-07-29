@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-//Change 'MA' to another state if necessary
+// Change 'MA' to another state if necessary
 
-export default function getGreatSchools(city, state) {
+export default function getGreatSchools (city, state) {
   const test = {
     url: `/schools/${state}/${city}/`,
     method: 'GET',

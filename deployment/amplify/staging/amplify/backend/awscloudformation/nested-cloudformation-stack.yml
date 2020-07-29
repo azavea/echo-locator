@@ -71,7 +71,7 @@
 		"authuserPoolGroups": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/auth/template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-122738-deployment/amplify-cfn-templates/auth/template.json",
 				"Parameters": {
 					"AuthRoleArn": {
 						"Fn::GetAtt": [
@@ -116,28 +116,28 @@
 		"authecholocatorStagingAuth": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/auth/echolocatorStagingAuth-cloudformation-template.yml",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-122738-deployment/amplify-cfn-templates/auth/echolocatorStagingAuth-cloudformation-template.yml",
 				"Parameters": {
 					"identityPoolName": "echolocatorStagingIdentityPool",
 					"allowUnauthenticatedIdentities": false,
-					"resourceNameTruncated": "echolo468d423e",
+					"resourceNameTruncated": "echolo9e709765",
 					"userPoolName": "echolocatorStagingUserPool",
 					"autoVerifiedAttributes": "email",
 					"mfaConfiguration": "OFF",
 					"mfaTypes": "SMS Text Message",
 					"smsAuthenticationMessage": "Your authentication code is {####}",
 					"smsVerificationMessage": "Your verification code is {####}",
-					"emailVerificationSubject": "Your EchoLocator verification code",
-					"emailVerificationMessage": "Your verification code is {####}",
+					"emailVerificationSubject": "\"Your EchoLocator verification code\"",
+					"emailVerificationMessage": "\"Your verification code is {####}\"",
 					"defaultPasswordPolicy": false,
 					"passwordPolicyMinLength": 8,
 					"passwordPolicyCharacters": "",
 					"requiredAttributes": "email",
 					"userpoolClientGenerateSecret": true,
-					"userpoolClientRefreshTokenValidity": 30,
+					"userpoolClientRefreshTokenValidity": "30",
 					"userpoolClientWriteAttributes": "phone_number,email,custom:voucher",
 					"userpoolClientReadAttributes": "email,phone_number,email_verified,phone_number_verified,custom:voucher",
-					"userpoolClientLambdaRole": "echolo468d423e_userpoolclient_lambda_role",
+					"userpoolClientLambdaRole": "echolo9e709765_userpoolclient_lambda_role",
 					"userpoolClientSetAttributes": true,
 					"useDefault": "manual",
 					"authSelections": "identityPoolAndUserPool",
@@ -173,11 +173,11 @@
 		"storageecholocatorStagingStorage": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-122738-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"Parameters": {
 					"bucketName": "echolocator-staging-profiles",
-					"authPolicyName": "s3_amplify_133e40a2",
-					"unauthPolicyName": "s3_amplify_133e40a2",
+					"authPolicyName": "s3_amplify_93240679",
+					"unauthPolicyName": "s3_amplify_93240679",
 					"authRoleName": {
 						"Ref": "AuthRoleName"
 					},
@@ -187,15 +187,15 @@
 					"selectedGuestPermissions": "",
 					"selectedAuthenticatedPermissions": "s3:PutObject,s3:GetObject,s3:DeleteObject",
 					"s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
-					"s3PublicPolicy": "Public_policy_1ff8b244",
+					"s3PublicPolicy": "Public_policy_e13468ae",
 					"s3PermissionsAuthenticatedUploads": "s3:PutObject",
-					"s3UploadsPolicy": "Uploads_policy_1ff8b244",
+					"s3UploadsPolicy": "Uploads_policy_e13468ae",
 					"s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
-					"s3ProtectedPolicy": "Protected_policy_1ff8b244",
+					"s3ProtectedPolicy": "Protected_policy_e13468ae",
 					"s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
-					"s3PrivatePolicy": "Private_policy_1ff8b244",
+					"s3PrivatePolicy": "Private_policy_e13468ae",
 					"AuthenticatedAllowList": "DISALLOW",
-					"s3ReadPolicy": "read_policy_1ff8b244",
+					"s3ReadPolicy": "read_policy_e13468ae",
 					"s3PermissionsGuestPublic": "DISALLOW",
 					"s3PermissionsGuestUploads": "DISALLOW",
 					"GuestAllowList": "DISALLOW",
@@ -219,7 +219,7 @@
 		"functionecholocatorStagingClients": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/function/echolocatorStagingClients-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-122738-deployment/amplify-cfn-templates/function/echolocatorStagingClients-cloudformation-template.json",
 				"Parameters": {
 					"authecholocatorStagingAuthUserPoolId": {
 						"Fn::GetAtt": [
@@ -234,7 +234,7 @@
 		"functionecholocatorStagingProfiles": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/function/echolocatorStagingProfiles-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-122738-deployment/amplify-cfn-templates/function/echolocatorStagingProfiles-cloudformation-template.json",
 				"Parameters": {
 					"authecholocatorStagingAuthUserPoolId": {
 						"Fn::GetAtt": [
@@ -255,7 +255,7 @@
 		"apiecholocatorStagingApi": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-202454-deployment/amplify-cfn-templates/api/echolocatorStagingApi-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-echolocatorstaging-staging-122738-deployment/amplify-cfn-templates/api/echolocatorStagingApi-cloudformation-template.json",
 				"Parameters": {
 					"authRoleName": {
 						"Ref": "AuthRoleName"
@@ -366,7 +366,7 @@
 					}
 				},
 				"Handler": "index.handler",
-				"Runtime": "nodejs8.10",
+				"Runtime": "nodejs10.x",
 				"Timeout": "300",
 				"Role": {
 					"Fn::GetAtt": [
