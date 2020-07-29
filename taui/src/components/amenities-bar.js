@@ -52,6 +52,7 @@ export default class AmenitiesBar extends Component<Props, State> {
         };
         this.updateShownAmenities = this.updateShownAmenities.bind(this);
         this.getVisibleAmenities = this.getVisibleAmenities.bind(this);
+        this.resetVisibleAmenities = this.resetVisibleAmenities.bind(this);
     }
 
     componentWillReceiveProps (nextProps) {
@@ -89,16 +90,30 @@ export default class AmenitiesBar extends Component<Props, State> {
         return amenities_for_neigh
     }
 
-    updateShownAmenities(amenity: string, show: boolean) {
-        this.setState(prevState => {
-        let visibleAmenities = Object.assign({}, prevState.visibleAmenities);
-        visibleAmenities[amenity] = show;
-        return { visibleAmenities };
-        })
+    resetVisibleAmenities() {
+        this.setState({visibleAmenities: {'school': false, 'convenience': false, 'health': false, 'community': false, 
+                            'park': false, 'childcare': false, 'library': false, 'grocery': false,  'worship': false}})
+    }
 
-        var stateCopy = JSON.parse(JSON.stringify(this.state));
-        stateCopy.visibleAmenities[amenity] = show;
-        this.props.updateMapAmenities(this.getVisibleAmenities(stateCopy.visibleAmenities));
+    updateShownAmenities(amenity: string, show: boolean) {
+
+        if (amenity == '') {
+            // different neighborhood clicked
+            this.props.updateMapAmenities([])
+            this.resetVisibleAmenities()
+        }
+        else {
+            // within same active neighborhood
+            this.setState(prevState => {
+            let visibleAmenities = Object.assign({}, prevState.visibleAmenities);
+            visibleAmenities[amenity] = show;
+            return { visibleAmenities };
+            })
+
+            var stateCopy = JSON.parse(JSON.stringify(this.state));
+            stateCopy.visibleAmenities[amenity] = show;
+            this.props.updateMapAmenities(this.getVisibleAmenities(stateCopy.visibleAmenities));
+        }
     }
 
     // get dictionary {amenity: [datapoints]} where amenity is visible
@@ -128,6 +143,7 @@ export default class AmenitiesBar extends Component<Props, State> {
                         image={school}
                         data={this.state.amenitiesData['school']}
                         updateAmenityVisibility={this.updateShownAmenities}
+                        activeNeighborhood={this.props.activeNeighborhood}
                     />
                     <AmenityButton
                         name={amenityTypes[1]} // Convenience
@@ -135,6 +151,7 @@ export default class AmenitiesBar extends Component<Props, State> {
                         image={convenience}
                         data={this.state.amenitiesData['convenience']}
                         updateAmenityVisibility={this.updateShownAmenities}
+                        activeNeighborhood={this.props.activeNeighborhood}
                     />
                     <AmenityButton 
                         name={amenityTypes[2]} // Health
@@ -142,6 +159,7 @@ export default class AmenitiesBar extends Component<Props, State> {
                         image={health}
                         data={this.state.amenitiesData['health']}
                         updateAmenityVisibility={this.updateShownAmenities}
+                        activeNeighborhood={this.props.activeNeighborhood}
                     />
                     <AmenityButton 
                         name={amenityTypes[3]} // Community
@@ -149,6 +167,7 @@ export default class AmenitiesBar extends Component<Props, State> {
                         image={community}
                         data={this.state.amenitiesData['community']}
                         updateAmenityVisibility={this.updateShownAmenities}
+                        activeNeighborhood={this.props.activeNeighborhood}
                     />
                     <AmenityButton 
                         name={amenityTypes[4]} // Park
@@ -156,6 +175,7 @@ export default class AmenitiesBar extends Component<Props, State> {
                         image={park}
                         data={this.state.amenitiesData['park']}
                         updateAmenityVisibility={this.updateShownAmenities}
+                        activeNeighborhood={this.props.activeNeighborhood}
                     />
                     <AmenityButton 
                         name={amenityTypes[5]} // Childcare
@@ -163,6 +183,7 @@ export default class AmenitiesBar extends Component<Props, State> {
                         image={childcare}
                         data={this.state.amenitiesData['childcare']}
                         updateAmenityVisibility={this.updateShownAmenities}
+                        activeNeighborhood={this.props.activeNeighborhood}
                     />
                     <AmenityButton 
                         name={amenityTypes[6]} // Library
@@ -170,6 +191,7 @@ export default class AmenitiesBar extends Component<Props, State> {
                         image={library}
                         data={this.state.amenitiesData['library']}
                         updateAmenityVisibility={this.updateShownAmenities}
+                        activeNeighborhood={this.props.activeNeighborhood}
                     />
                     <AmenityButton 
                         name={amenityTypes[7]} // Grocery
@@ -177,6 +199,7 @@ export default class AmenitiesBar extends Component<Props, State> {
                         image={grocery}
                         data={this.state.amenitiesData['grocery']}
                         updateAmenityVisibility={this.updateShownAmenities}
+                        activeNeighborhood={this.props.activeNeighborhood}
                     />
                     <AmenityButton 
                         name={amenityTypes[8]} // Worship
@@ -184,6 +207,7 @@ export default class AmenitiesBar extends Component<Props, State> {
                         image={worship}
                         data={this.state.amenitiesData['worship']}
                         updateAmenityVisibility={this.updateShownAmenities}
+                        activeNeighborhood={this.props.activeNeighborhood}
                     />
                 </div>
             </div>

@@ -6,6 +6,7 @@ type Props = {
     color: string,
     data: any,
     updateAmenityVisibility: (object[]) => void,
+    activeNeighborhood: string,
 }
 
 export default class AmenityButton extends Component<Props> {
@@ -16,7 +17,12 @@ export default class AmenityButton extends Component<Props> {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    
+    componentWillReceiveProps (nextProps) {
+        if (this.props.activeNeighborhood != nextProps.activeNeighborhood) {
+            this.setState({clicked: false});
+            this.props.updateAmenityVisibility('', false);
+        }
+    }
 
     handleHover() {
         this.setState({hovered: !this.state.hovered})
