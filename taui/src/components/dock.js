@@ -11,9 +11,8 @@ import type {AccountProfile} from '../types'
 import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
 
-import getListings from '../utils/listings'
-
 type Props = {
+  activeListing: any,
   activeNeighborhood: string,
   activeNetworkIndex: number,
   changeUserProfile: (any) => void,
@@ -22,17 +21,16 @@ type Props = {
   endingOffset: number,
   haveAnotherPage: boolean,
   isLoading: boolean,
+  listingsLoading: boolean,
   neighborhoodCount: number,
   neighborhoodPage: any[],
   neighborhoodRoutes: any,
   origin: any,
   page: number,
   showDetails: boolean,
-  showListings: boolean,
-  listingsLoading: boolean,
   showFavorites: boolean,
-  userProfile: AccountProfile,
-  activeListing: any
+  showListings: boolean,
+  userProfile: AccountProfile
 }
 
 /**

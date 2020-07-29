@@ -17,19 +17,19 @@ import Map from './map'
 import AmenitiesBar from './amenities-bar'
 
 type State = {
-    componentError: null,
     amenitiesData: object[],
+    componentError: null,
 }
 
 /**
  * Displays map and sidebar.
  */
-export default class MainPage extends React.PureComponent<Props> {
-  constructor(props) {
-    super(props);
+export default class MainPage extends React.PureComponent<Props, State> {
+  constructor (props) {
+    super(props)
     this.state = {
       componentError: null,
-      amenitiesData: [],
+      amenitiesData: []
     }
     this._updateAmenityData = this._updateAmenityData.bind(this)
   }
@@ -116,10 +116,9 @@ export default class MainPage extends React.PureComponent<Props> {
   _updateAmenityData (amenities: object[]) {
     var updatedAmenities = []
     for (var i in amenities) {
-      var sub_amenities = amenities[i]
-      for (var j in sub_amenities) {
-        updatedAmenities.push(sub_amenities[j])
-
+      var subAmenities = amenities[i]
+      for (var j in subAmenities) {
+        updatedAmenities.push(subAmenities[j])
       }
     }
     this.setState({amenitiesData: updatedAmenities})
