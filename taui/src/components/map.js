@@ -4,9 +4,8 @@ import Leaflet from 'leaflet'
 import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import React, {PureComponent} from 'react'
-import "react-responsive-carousel/lib/styles/carousel.min.css"
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
-
 import {
   Map as LeafletMap,
   Marker,
@@ -89,55 +88,55 @@ const childcareIcon = Leaflet.icon({
   iconUrl: childcare,
   iconAnchor,
   iconSize
-});
+})
 
 const parkIcon = Leaflet.icon({
   iconUrl: park,
   iconAnchor,
   iconSize
-});
+})
 
 const groceryIcon = Leaflet.icon({
   iconUrl: grocery,
   iconAnchor,
   iconSize
-});
+})
 
 const schoolIcon = Leaflet.icon({
   iconUrl: school,
   iconAnchor,
   iconSize
-});
+})
 
 const convenienceIcon = Leaflet.icon({
   iconUrl: convenience,
   iconAnchor,
   iconSize
-});
+})
 
 const healthIcon = Leaflet.icon({
   iconUrl: health,
   iconAnchor,
   iconSize
-});
+})
 
 const libraryIcon = Leaflet.icon({
   iconUrl: library,
   iconAnchor,
   iconSize
-});
+})
 
 const communityIcon = Leaflet.icon({
   iconUrl: community,
   iconAnchor,
   iconSize
-});
+})
 
 const worshipIcon = Leaflet.icon({
   iconUrl: worship,
   iconAnchor,
   iconSize
-});
+})
 
 const amenityIcons = {
   childcare: childcareIcon,
@@ -148,19 +147,20 @@ const amenityIcons = {
   health: healthIcon,
   library: libraryIcon,
   community: communityIcon,
-  worship: worshipIcon,
+  worship: worshipIcon
 }
 
 type Props = {
+  activeAmenities: object[],
   centerCoordinates: Coordinate,
   clearStartAndEnd: () => void,
   drawIsochrones: Function[],
+  drawListingRoute: any,
   drawOpportunityDatasets: Function[],
   drawRoute: any,
-  drawListingRoute: any,
   end: null | Location,
-  isLoading: boolean,
-  pointsOfInterest: void | any, // FeatureCollection
+  isLoading: boolean, // FeatureCollection
+  pointsOfInterest: void | any,
   routableNeighborhoods: any,
   setEndPosition: LonLat => void,
   setStartPosition: LonLat => void,
@@ -170,7 +170,6 @@ type Props = {
   updateOrigin: () => void,
   updateStart: () => void,
   zoom: number,
-  activeAmenities: object[],
 }
 
 type State = {
@@ -223,12 +222,12 @@ export default class Map extends PureComponent<Props, State> {
   */
 
   listingPopup (photos, address, community, price, url) {
-    return(
+    return (
       <div>
-        <Carousel showIndicators={false} dynamicHeight={true}>
+        <Carousel showIndicators={false} dynamicHeight>
           {photos.map((item, key) =>
             <div key={`listings-image-${this._getKey()}`}>
-              <img src={item.href}/> <br />
+              <img src={item.href} /> <br />
             </div>
           )}
         </Carousel>
@@ -423,13 +422,13 @@ export default class Map extends PureComponent<Props, State> {
           )
         */}
 
-      {
+        {
         // amenities
         // need to pass data to map
         // then map data to markers
         // collect data for clicked amenities
         // send said data to map.js
-      }
+        }
 
         {
           p.showListings && p.dataListings.map((item, key) => {
@@ -437,16 +436,16 @@ export default class Map extends PureComponent<Props, State> {
               <Marker
                 icon={realtorIcon}
                 key={`listings-${this._getKey()}`}
-                position={[item.address.lat,item.address.lon]}
+                position={[item.address.lat, item.address.lon]}
                 zIndex={getZIndex()}
-                onClick={ () => clickListing(item.address.lat, item.address.lon) }>
+                onClick={() => clickListing(item.address.lat, item.address.lon)}>
 
                 <Popup>
-                  {listingPopup(item.photos,item.address,item.community,item.price,item.rdc_web_url)}
+                  {listingPopup(item.photos, item.address, item.community, item.price, item.rdc_web_url)}
                 </Popup>
 
               </Marker>
-            ) 
+            )
           })
         }
 
@@ -454,9 +453,9 @@ export default class Map extends PureComponent<Props, State> {
           p.showListings && p.bhaListings.map((item, key) =>
             <Marker
               key={`listings-${this._getKey()}`}
-              position={[item.latLon.lat,item.latLon.lng]}
+              position={[item.latLon.lat, item.latLon.lng]}
               zIndex={getZIndex()}
-              onClick={ () => clickListing(item.latLon.lat, item.latLon.lng) }>
+              onClick={() => clickListing(item.latLon.lat, item.latLon.lng)}>
 
               <Popup>
                 <span>{item.locAddress}</span>
@@ -477,8 +476,7 @@ export default class Map extends PureComponent<Props, State> {
                 icon={icon}
                 key={`amenities-${this._getKey()}`}
                 position={[lat, long]}
-                zIndex={getZIndex()}>
-              </Marker>
+                zIndex={getZIndex()} />
             )
           })
         }
@@ -492,7 +490,6 @@ export default class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />}
 
-
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
           p.displayNeighborhoods.map((n) =>
             <Marker
@@ -503,7 +500,7 @@ export default class Map extends PureComponent<Props, State> {
               position={lonlat.toLeaflet(n.geometry.coordinates)}
               zIndex={getZIndex()}
             />)
-          }
+        }
       </LeafletMap> : null
     )
   }
