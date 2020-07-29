@@ -27,9 +27,10 @@ type Props = {
   neighborhoodRoutes: any,
   origin: any,
   page: number,
+  showBHAListings: boolean,
   showDetails: boolean,
   showFavorites: boolean,
-  showListings: boolean,
+  showRealtorListings: boolean,
   userProfile: AccountProfile
 }
 
@@ -60,7 +61,7 @@ export default class Dock extends PureComponent<Props> {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails || this.props.showListings !== prevProps.showListings || this.props.listingsLoading !== prevProps.listingsLoading) {
+    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails || this.props.showBHAListings !== prevProps.showBHAListings || this.props.showRealtorListings !== prevProps.showRealtorListings || this.props.listingsLoading !== prevProps.listingsLoading) {
       this.sidebar.current.scrollTop = 0
     }
   }
@@ -68,7 +69,8 @@ export default class Dock extends PureComponent<Props> {
   backFromDetails (e) {
     e.stopPropagation()
     this.props.setShowDetails(false)
-    this.props.setShowListings(false)
+    this.props.setShowBHAListings(false)
+    this.props.setShowRealtorListings(false)
     this.props.setListingsLoading(false)
     this.props.setActiveNeighborhood()
   }
@@ -273,11 +275,13 @@ export default class Dock extends PureComponent<Props> {
       origin,
       page,
       showDetails,
-      showListings,
+      showBHAListings,
+      showRealtorListings,
       listingsLoading,
       showFavorites,
       userProfile,
-      setShowListings,
+      setShowBHAListings,
+      setShowRealtorListings,
       setListingsLoading,
       setDataListings,
       setBHAListings,
@@ -331,11 +335,13 @@ export default class Dock extends PureComponent<Props> {
           listingTravelTime={listingTravelTime}
           neighborhood={detailNeighborhood}
           origin={origin}
-          setShowListings={setShowListings}
+          setShowBHAListings={setShowBHAListings}
+          setShowRealtorListings={setShowRealtorListings}
           setListingsLoading={setListingsLoading}
           setDataListings={setDataListings}
           setBHAListings={setBHAListings}
-          showListings={showListings}
+          showBHAListings={showBHAListings}
+          showRealtorListings={showRealtorListings}
           listingsLoading={listingsLoading}
           setFavorite={setFavorite}
           userProfile={userProfile} />

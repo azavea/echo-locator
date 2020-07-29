@@ -357,7 +357,7 @@ export default class EditProfile extends PureComponent<Props> {
       this.setState({errorMessage: ''})
     }
 
-    if (!this.validatePhone(this.state.textAlertPreferences.phone)) {
+    if (this.state.textAlertPreferences && !this.validatePhone(this.state.textAlertPreferences.phone)) {
       this.setState({errorMessage: 'Invalid phone number: Use format xxxxxxxxxx'})
     }
 
@@ -893,6 +893,7 @@ export default class EditProfile extends PureComponent<Props> {
       headOfHousehold,
       importanceAccessibility,
       importanceSchools,
+      importanceViolentCrime,
       errorMessage,
       isAnonymous,
       key,
@@ -902,6 +903,7 @@ export default class EditProfile extends PureComponent<Props> {
       textAlertPreferences,
       showTextOptions
     } = this.state
+
     const isCounselor = !!authData.counselor && !isAnonymous
 
     const DestinationsList = this.destinationsList
@@ -912,7 +914,6 @@ export default class EditProfile extends PureComponent<Props> {
     const TextOptions = this.textOptions
     const handleCheckboxChange = this.handleCheckboxChange
     const removePreference = this.removePreference
-
     return (
       <div className='form-screen'>
         <h2 className='form-screen__heading'>{message(language + 'Profile.Title')}</h2>
@@ -1129,6 +1130,16 @@ export default class EditProfile extends PureComponent<Props> {
                 <ImportanceOptions
                   fieldName='importanceSchools'
                   importance={importanceSchools}
+                  changeField={changeField}
+                  language={this.props.language} />
+              </div>
+              <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
+                <label
+                  className='account-profile__label account-profile__label--secondary'
+                  htmlFor='importanceViolentCrime'>{message('Profile.ImportanceViolentCrime')}</label>
+                <ImportanceOptions
+                  fieldName='importanceViolentCrime'
+                  importance={importanceViolentCrime}
                   changeField={changeField}
                   language={this.props.language} />
               </div>

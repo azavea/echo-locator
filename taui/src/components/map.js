@@ -61,16 +61,7 @@ const startIcon = Leaflet.divIcon({
   iconSize
 })
 
-const bhaIcon = new L.Icon({
-  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-})
-
-const realtorIcon = new L.Icon({
+const listingIcon = new L.Icon({
   iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
   iconSize: [25, 41],
@@ -254,7 +245,8 @@ export default class Map extends PureComponent<Props, State> {
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
-      this.props.setShowListings(false)
+      this.props.setShowBHAListings(false)
+      this.props.setShowRealtorListings(false)
       this.setState({showListingRoute: false})
       this.props.setActiveListing(null)
       this.props.setShowDetails(true)
@@ -436,9 +428,9 @@ export default class Map extends PureComponent<Props, State> {
         */}
 
         {
-          p.showListings && p.dataListings.map((item, key) =>
+          p.showRealtorListings && p.dataListings.map((item, key) =>
             <Marker
-              icon={realtorIcon}
+              icon={listingIcon}
               key={`listings-${this._getKey()}`}
               position={[item.address.lat, item.address.lon]}
               zIndex={getZIndex()}
@@ -453,9 +445,9 @@ export default class Map extends PureComponent<Props, State> {
         }
 
         {
-          p.showListings && p.bhaListings.map((item, key) =>
+          p.showBHAListings && p.bhaListings.map((item, key) =>
             <Marker
-              icon={bhaIcon}
+              icon={listingIcon}
               key={`listings-${this._getKey()}`}
               position={[item.latLon.lat, item.latLon.lng]}
               zIndex={getZIndex()}
@@ -485,7 +477,7 @@ export default class Map extends PureComponent<Props, State> {
           })
         }
 
-        {p.showListings && this.state.showListingRoute && p.drawListingRoute &&
+        {(p.showBHAListings || p.showRealtorListings) && this.state.showListingRoute && p.drawListingRoute &&
           <DrawRoute
             {...p.drawListingRoute}
             activeNeighborhood={p.activeNeighborhood}

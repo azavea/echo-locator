@@ -31,7 +31,8 @@ type Props = {
   listingsLoading: boolean,
   neighborhood: any,
   setFavorite: any,
-  showListings: boolean,
+  showBHAListings: boolean,
+  showRealtorListings: boolean,
   userProfile: AccountProfile
 }
 export default class NeighborhoodDetails extends PureComponent<Props> {
@@ -52,8 +53,10 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     this.neighborhoodImages = this.neighborhoodImages.bind(this)
     this.neighborhoodLinks = this.neighborhoodLinks.bind(this)
 
-    this.displayListings = this.displayListings.bind(this)
-    this.hideListings = this.hideListings.bind(this)
+    this.displayBHAListings = this.displayBHAListings.bind(this)
+    this.displayRealtorListings = this.displayRealtorListings.bind(this)
+    this.hideBHAListings = this.hideBHAListings.bind(this)
+    this.hideRealtorListings = this.hideRealtorListings.bind(this)
     this.listingsButton = this.listingsButton.bind(this)
     this.hideListingsButton = this.hideListingsButton.bind(this)
     this.starButton = this.starButton.bind(this)
@@ -112,7 +115,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     )
   }
 
-  async displayListings (e) {
+  async displayBHAListings (e) {
     const hasVoucher = this.props.userProfile.hasVoucher
     const budget = this.props.userProfile.budget
     const rooms = this.props.userProfile.rooms
@@ -121,40 +124,55 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     this.props.setListingsLoading(true)
 
     // param: (zip, budget, rooms)
-    await getBHAListings(this.props.neighborhood.properties.zipcode, budget, rooms).then(data => {
+    await getBHAListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
       this.props.setBHAListings(data)
     })
+    this.props.setShowBHAListings(true)
+    this.props.setListingsLoading(false)
+  }
+
+  async displayRealtorListings (e) {
+    const hasVoucher = this.props.userProfile.hasVoucher
+    const budget = this.props.userProfile.budget
+    const rooms = this.props.userProfile.rooms
+    const maxSubsidy = this.props.neighborhood.properties['max_rent_' + rooms + 'br']
+
+    this.props.setListingsLoading(true)
 
     await getListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
       this.props.setDataListings(data)
     })
 
-    this.props.setShowListings(true)
+    this.props.setShowRealtorListings(true)
     this.props.setListingsLoading(false)
   }
 
-  hideListings (e) {
-    this.props.setShowListings(false)
+  hideBHAListings (e) {
+    this.props.setShowBHAListings(false)
+  }
+
+  hideRealtorListings (e) {
+    this.props.setShowRealtorListings(false)
   }
 
   listingsButton (props) {
-    const displayListings = this.displayListings
+    const { message, handleClick } = props
 
     return (
       <button
         className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
-        onClick={displayListings}>Show Listings
+        onClick={handleClick}>{ message }
       </button>
     )
   }
 
   hideListingsButton (props) {
-    const hideListings = this.hideListings
+    const { message, handleClick } = props
 
     return (
       <button
         className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
-        onClick={hideListings}>Hide Listings
+        onClick={handleClick}> { message }
       </button>
     )
   }
@@ -346,7 +364,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       origin,
       setFavorite,
       userProfile,
-      showListings,
+      showBHAListings,
+      showRealtorListings,
       listingsLoading,
       activeListing,
       listingTravelTime
@@ -477,7 +496,20 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           <h6 className='neighborhood-details__link-heading'>
             {rooms}br listings with a budget of ${ hasVoucher ? maxSubsidy : budget }
           </h6>
-          {showListings ? <HideListingsButton /> : <ListingsButton />}
+          {showBHAListings
+            ? <HideListingsButton
+              message={'Hide BHA Listings'}
+              handleClick={this.hideBHAListings} />
+            : <ListingsButton
+              message={'Show BHA Listings'}
+              handleClick={this.displayBHAListings} />}
+          {showRealtorListings
+            ? <HideListingsButton
+              message={'Hide Realtor Listings'}
+              handleClick={this.hideRealtorListings} />
+            : <ListingsButton
+              message={'Show Realtor Listings'}
+              handleClick={this.displayRealtorListings} />}
           <div style={{ display: 'inline-block' }}><Loader
             visible={listingsLoading}
             type='Oval'

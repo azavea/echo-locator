@@ -31,9 +31,15 @@ export const setShowDetails = (show) => (dispatch, getState) => {
   dispatch({type: 'set show details', payload: !!show})
 }
 
-export const setShowListings = (show) => (dispatch, getState) => {
+export const setShowBHAListings = (show) => (dispatch, getState) => {
+  console.log('here')
   addActionLogItem(`Set show listings to ${show}`)
-  dispatch({type: 'set show listings', payload: !!show})
+  dispatch({type: 'set showBHAListings', payload: !!show})
+}
+
+export const setShowRealtorListings = (show) => (dispatch, getState) => {
+  addActionLogItem(`Set show listings to ${show}`)
+  dispatch({type: 'set showRealtorListings', payload: !!show})
 }
 
 export const setListingsLoading = (show) => (dispatch, getState) => {
