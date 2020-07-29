@@ -60,7 +60,7 @@ export default function withAuthenticator (Comp, includeGreetings = false,
 
     // callback for language setting
     setLanguage (lang: string) {
-      if (lang == 'English') {
+      if (lang === 'English') {
         lang = ''
       }
       this.setState({language: lang})

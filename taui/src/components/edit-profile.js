@@ -29,8 +29,8 @@ import Geocoder from './geocoder'
 type Props = {
   authData: any,
   geocode: (string, Function) => void,
-  reverseGeocode: (string, Function) => void,
-  language: string
+  language: string,
+  reverseGeocode: (string, Function) => void
 }
 
 const firstAddress: AccountAddress = {
@@ -255,7 +255,7 @@ export default class EditProfile extends PureComponent<Props> {
       return
     } else if (!this.validBudget(profile.budget, profile.hasVoucher)) {
       this.setState({errorMessage: message(language + 'Profile.InvalidBudget')})
-     return
+      return
     } else {
       this.setState({errorMessage: ''})
     }
@@ -655,35 +655,33 @@ export default class EditProfile extends PureComponent<Props> {
         defaultValue={budget}
         placeholder='0' // placeholder hard coded
         type='number'
-        onChange={(e) => changeField('budget', e.currentTarget.value)}>
-      </input>
+        onChange={(e) => changeField('budget', e.currentTarget.value)} />
     )
   }
 
   validBudget (budget, hasVoucher): boolean {
     // check if budget is actually a number
-    /*if (isNaN(budget)) {
+    /* if (isNaN(budget)) {
       return false
     }
     // check if budget is negative
     if(parseInt(budget) < 0) {
       console.log('false')
       return false;
-    }*/
-    
-    if(hasVoucher || (!hasVoucher && budget > 0)) {
+    } */
+
+    if (hasVoucher || (!hasVoucher && budget > 0)) {
       console.log('true')
       return true
     }
     return false
   }
 
-
   /* eslint-disable complexity */
   // Final render
   // TODO: refactor out yet more sub-components
   render () {
-    console.log('edit-profile ',this.props.language)
+    console.log('edit-profile ', this.props.language)
     const addAddress = this.addAddress // function
     const deleteAddress = this.deleteAddress // function
     const editAddress = this.editAddress

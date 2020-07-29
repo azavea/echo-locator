@@ -33,21 +33,22 @@ type Props = {
   accessibility: number[][],
   actionLog: LogItems,
   activeNeighborhoodBounds: any,
+  amenities: any,
   data: {
-    grids: string[],
     amenities: any,
+    bhaListings: bhaListings[],
+    dataListings: Listings[],
+    grids: string[],
+    listingRoute: any,
+    listingsLoading: boolean,
     neighborhoodBounds: any,
     neighborhoods: any,
     networks: Network[],
     page: number,
     profileLoading: boolean,
     showDetails: boolean,
-    showListings: boolean,
-    listingRoute: any,
-    listingsLoading: boolean,
-    dataListings: Listings[],
-    bhaListings: bhaListings[],
     showFavorites: boolean,
+    showListings: boolean,
     userProfile: AccountProfile
   },
   detailNeighborhood: any,
@@ -62,11 +63,11 @@ type Props = {
   initialize: Function => void,
   isLoading: boolean,
   isochrones: any[],
+  language: string,
   listNeighborhoods: any[],
   listingTravelTime: any,
   loadProfile: Function => any,
   map: MapState,
-  amenities: any,
   neighborhoodBounds: any,
   neighborhoodBoundsExtent: any[],
   neighborhoodRoutes: any,
@@ -74,25 +75,25 @@ type Props = {
   neighborhoods: any,
   neighborhoodsSortedWithRoutes: any,
   page: number,
-  pageEndingOffset: number,
-  pointsOfInterest: any, // FeatureCollection
+  pageEndingOffset: number, // FeatureCollection
+  pointsOfInterest: any,
   pointsOfInterestOptions: PointsOfInterest,
   reverseGeocode: (string, Function) => void,
   routableNeighborhoodCount: number,
   routableNeighborhoods: any,
-  setActiveNeighborhood: Function => void,
   setActiveListing: Function => void,
+  setActiveNeighborhood: Function => void,
+  setBHAListings: Function => void,
+  setDataListings: Function => void,
   setDisplayNeighborhoods: Function => void,
   setEnd: any => void,
+  setLoadingListings: Function => void,
   setPage: Function => void,
   setProfile: Function => void,
   setSelectedTimeCutoff: any => void,
   setShowDetails: Function => void,
-  setShowListings: Function => void,
-  setLoadingListings: Function => void,
-  setDataListings: Function => void,
-  setBHAListings: Function => void,
   setShowFavorites: Function => void,
+  setShowListings: Function => void,
   setStart: any => void,
   showComparison: boolean,
   showFavorites: boolean,
@@ -105,8 +106,7 @@ type Props = {
   updateOrigin: any => void,
   updateStart: any => void,
   updateStartPosition: LonLat => void,
-  updateUserProfile: AccountProfile => void,
-  language: string
+  updateUserProfile: AccountProfile => void
 }
 
 type State = {
@@ -118,7 +118,7 @@ type State = {
  */
 export default class Application extends Component<Props, State> {
   state = {
-    componentError: null,
+    componentError: null
   }
 
   /**
@@ -181,7 +181,7 @@ export default class Application extends Component<Props, State> {
               voucherNumber={props.voucherNumber} />))} />
         <Route path='/profile' render={() => (
           profileLoading || userProfile
-            ? (<EditProfile {...props}/>) : (<Redirect to='/search' />))} />
+            ? (<EditProfile {...props} />) : (<Redirect to='/search' />))} />
         <Route component={NoMatch} />
       </Switch>
     )
