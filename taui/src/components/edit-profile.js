@@ -171,16 +171,13 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   validatePhone (number) {
-    console.log(number)
     // If the length is not right
     if (number.length !== 10) {
-      console.log('entered1')
       return false
     }
     // If any character is not a number
     for (var i = 0; i < number.length; i++) {
       if (!(number[i] >= '0' && number[i] <= '9')) {
-        console.log('entered2')
         return false
       }
     }

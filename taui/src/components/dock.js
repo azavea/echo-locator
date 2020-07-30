@@ -105,7 +105,6 @@ export default class Dock extends PureComponent<Props> {
 
   // save/unsave neighborhood to/from user profile favorites list
   setFavorite (neighborhoodId: string, profile: AccountProfile, changeUserProfile) {
-    console.log('Running set favorite')
     const favorites = profile.favorites || []
 
     const isProfileFavorite = favorites.indexOf(neighborhoodId) !== -1
