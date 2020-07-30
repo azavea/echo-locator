@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 // @flow
 import API from '@aws-amplify/api'
 import Storage from '@aws-amplify/storage'

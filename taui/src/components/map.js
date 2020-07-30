@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 // @flow
 import lonlat from '@conveyal/lonlat'
 import Leaflet from 'leaflet'
@@ -191,6 +192,9 @@ export default class Map extends PureComponent<Props, State> {
     this.listingPopup = this.listingPopup.bind(this)
     this.clickNeighborhood = this.clickNeighborhood.bind(this)
     this.hoverNeighborhood = this.hoverNeighborhood.bind(this)
+    this.amenityPopup = this.amenityPopup.bind(this)
+    this.extractAmenityAddress = this.extractAmenityAddress.bind(this)
+    this.handleAmenityTypeText = this.handleAmenityTypeText.bind(this)
   }
 
   state = {
@@ -223,6 +227,72 @@ export default class Map extends PureComponent<Props, State> {
       </Marker>
     )
   */
+
+  extractAmenityAddress (address) {
+    var strAddress = ''
+
+    if (address['housenumber'] !== undefined) {
+      strAddress += address['housenumber'] + ' '
+    }
+    if (address['street'] !== undefined) {
+      strAddress += address['street'] + ', '
+    }
+    if (address['state'] !== undefined) {
+      strAddress += address['state'] + ' '
+    }
+    if (address['postcode'] !== undefined) {
+      strAddress += address['postcode'] + ' '
+    }
+
+    return strAddress
+  }
+
+  handleAmenityTypeText (tipo, subtipo, religion) {
+    var result = ''
+    if (subtipo === '') {
+      return tipo.charAt(0).toUpperCase() + tipo.slice(1)
+    }
+
+    if (tipo === 'worship') {
+      const d = religion['denomination']
+      const r = religion['religion']
+      if (d !== undefined) {
+        result += d.charAt(0).toUpperCase() + d.slice(1)
+      }
+      if (r !== undefined) {
+        result += ' ' + r.charAt(0).toUpperCase() + r.slice(1)
+      }
+      return result
+    }
+
+    if (subtipo.includes('_')) {
+      const words = subtipo.split('_')
+      for (var i in words) {
+        var w = words[i]
+        result += w.charAt(0).toUpperCase() + w.slice(1) + ' '
+      }
+      return result
+    }
+
+    result = subtipo.charAt(0).toUpperCase() + subtipo.slice(1)
+    return result
+  }
+
+  amenityPopup (amenity) {
+    amenity = amenity['properties']
+
+    // might have _ in it (up to 2)
+    const tipo = this.handleAmenityTypeText(amenity['type'], amenity['subtype'], amenity['religion'])
+    const name = amenity['name']
+    const address = this.extractAmenityAddress(amenity['address'])
+    return (
+      <div>
+        {tipo} <br />
+        {name} <br />
+        {address} <br />
+      </div>
+    )
+  }
 
   listingPopup (photos, address, community, price, url) {
     return (
@@ -342,7 +412,6 @@ export default class Map extends PureComponent<Props, State> {
     const styleNeighborhood = this.styleNeighborhood
     const listingPopup = this.listingPopup
     const clickListing = this.clickListing
-    console.log(p)
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
@@ -472,7 +541,11 @@ export default class Map extends PureComponent<Props, State> {
                 icon={icon}
                 key={`amenities-${this._getKey()}`}
                 position={[lat, long]}
-                zIndex={getZIndex()} />
+                zIndex={getZIndex()}>
+                <Popup>
+                  {this.amenityPopup(item)}
+                </Popup>
+              </Marker>
             )
           })
         }
