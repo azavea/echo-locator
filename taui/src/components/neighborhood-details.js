@@ -171,7 +171,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
     return (
       <button
-        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
+        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong map-sidebar__pagination-button--highlighted'
         onClick={handleClick}> { message }
       </button>
     )
