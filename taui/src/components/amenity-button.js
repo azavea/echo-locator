@@ -38,17 +38,9 @@ export default class AmenityButton extends Component<Props> {
     // setting up styles for button
     var bgColor = ''
     if (this.state.clicked) {
-      if (this.state.hovered) {
-        bgColor = this.state.defaultColor
-      } else {
-        bgColor = this.props.color
-      }
+      bgColor = this.props.color
     } else {
-      if (this.state.hovered) {
-        bgColor = this.props.color
-      } else {
-        bgColor = this.state.defaultColor
-      }
+      bgColor = this.state.defaultColor
     }
     var buttonStyle = {display: 'flex',
       justifyContent: 'space-evenly',
