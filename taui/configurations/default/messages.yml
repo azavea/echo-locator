@@ -51,6 +51,10 @@ Dock:
   ShowSavedButton: Saved
   SiteBy: site by Azavea and Altruistech
 NeighborhoodDetails:
+  ShowBHAApartments: Show BHA Apartments
+  HideBHAApartments: Hide BHA Apartments
+  ShowRealtorApartments: Show Realtor Apartments
+  HideRealtorApartments: Hide Realtor Apartments
   AboutNeighborhoodLinksHeading: Learn about this neighborhood
   ApartmentsDotComLink: Apartments.com
   BHAApartmentsLink: Boston Housing Authority

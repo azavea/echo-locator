@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
@@ -172,7 +173,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <button
         className='map-sidebar__pagination-button map-sidebar__pagination-button--strong map-sidebar__pagination-button--highlighted'
-        onClick={handleClick}> { message }
+        onClick={handleClick}> { message('NeighborhoodDetails.HideBHAApartments') }
       </button>
     )
   }
@@ -498,10 +499,10 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           </h6>
           {showBHAListings
             ? <HideListingsButton
-              message={'Hide BHA Listings'}
+              message={message('NeighborhoodDetails.HideBHAApartments')}
               handleClick={this.hideBHAListings} />
             : <ListingsButton
-              message={'Show BHA Listings'}
+              message={message('NeighborhoodDetails.ShowBHAApartments')}
               handleClick={this.displayBHAListings} />}
           {showRealtorListings
             ? <HideListingsButton
