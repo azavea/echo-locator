@@ -50,7 +50,7 @@ export default class AmenityButton extends Component<Props> {
       padding: '2% 15%',
       width: '120%',
       height: '100%',
-      fontSize: '70%'}
+      fontSize: '67.5%'}
     var name = this.props.name[0].toUpperCase() + this.props.name.slice(1, this.props.name.length)
     return (
       <div className={'amenities-amenity'} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
