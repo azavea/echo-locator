@@ -108,8 +108,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       <div className='neighborhood-details__stats'>
         <div className='neighborhood-details__rent'>
           <div className='neighborhood-details__rent-label'>{hasVoucher ? message('NeighborhoodDetails.MaxRent') : 'Budget'}</div>
-          <div className='neighborhood-details__rent-value'>${hasVoucher ? maxSubsidy : budget}</div>
-          <div className='neighborhood-details__rent-rooms'>{rooms}br</div>
+          <div className='neighborhood-details__rent-value'>${hasVoucher ? maxSubsidy : budget}/month</div>
+          <div className='neighborhood-details__rent-rooms'>to rent a {rooms}BR apartment</div>
         </div>
         <NeighborhoodListInfo neighborhood={neighborhood} />
       </div>
@@ -494,9 +494,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         </div>
 
         <div className='neighborhood-details__section'>
-          <h6 className='neighborhood-details__link-heading'>
-            {rooms}br apartments with a budget of ${ hasVoucher ? maxSubsidy : budget }
-          </h6>
           {showBHAListings
             ? <HideListingsButton
               message={message('NeighborhoodDetails.HideBHAApartments')}

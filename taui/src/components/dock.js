@@ -190,22 +190,27 @@ export default class Dock extends PureComponent<Props> {
     }
 
     return (
-      neighborhoods.map((neighborhood, index) =>
-        <RouteCard
-          activeNeighborhood={activeNeighborhood}
-          goToDetails={(e) => goToDetails(e, neighborhood)}
-          index={index}
-          isFavorite={userProfile.favorites &&
+      neighborhoods.map((neighborhood, index) => {
+        var town = neighborhood.properties.town.split(' ')
+        var split = town.length === 1
+        town = split ? town[0] : town[0] + ' (' + town[2] + ')'
+        return (
+          <RouteCard
+            activeNeighborhood={activeNeighborhood}
+            goToDetails={(e) => goToDetails(e, neighborhood)}
+            index={index}
+            isFavorite={userProfile.favorites &&
             userProfile.favorites.indexOf(neighborhood.properties.id) !== -1}
-          key={`${index}-route-card`}
-          neighborhood={neighborhood}
-          origin={origin}
-          setActiveNeighborhood={setActiveNeighborhood}
-          setFavorite={(e) => setFavorite(neighborhood.properties.id,
-            userProfile, changeUserProfile)}
-          title={neighborhood.properties.town + ': ' + neighborhood.properties.id}
-          userProfile={userProfile} />
-      )
+            key={`${index}-route-card`}
+            neighborhood={neighborhood}
+            origin={origin}
+            setActiveNeighborhood={setActiveNeighborhood}
+            setFavorite={(e) => setFavorite(neighborhood.properties.id,
+              userProfile, changeUserProfile)}
+            title={town + ', ' + neighborhood.properties.id}
+            userProfile={userProfile} />
+        )
+      })
     )
   }
 

@@ -1110,6 +1110,8 @@ export default class EditProfile extends PureComponent<Props> {
             <div className='account-profile__importance-options'>
               <h3 className='account-profile__label'>
                 {message(language + 'Profile.ImportanceHeadingPtOne')}
+              </h3>
+              <h3 className='account-profile__label'>
                 {message(language + 'Profile.ImportanceHeadingPtTwo')}
               </h3>
               <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
