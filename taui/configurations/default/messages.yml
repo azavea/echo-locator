@@ -39,7 +39,7 @@ Dock:
   LocationLabel: from
   NetworkLabel: when
   Favorites: Saved recommendations
-  FeedbackLink: ECHOLocator needs your feedback
+  FeedbackLink: ECHO needs your feedback
   GoBackToRecommendations: Back to your recommendations
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
@@ -96,7 +96,7 @@ Strings:
   HighlightAreaAccessibleWithin: Show the area accessible within
   Welcome: Search for your address above or click on the map to get started.
 Slower: slower
-Title: ECHOLocator
+Title: ECHO
 Units:
   About: About
   Minutes: minutes
@@ -246,7 +246,7 @@ Dock:
   LocationLabel: from
   NetworkLabel: when
   Favorites: Saved recommendations
-  FeedbackLink: ECHOLocator needs your feedback
+  FeedbackLink: ECHO needs your feedback
   GoBackToRecommendations: Back to your recommendations
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
@@ -299,7 +299,7 @@ Strings:
   HighlightAreaAccessibleWithin: Show the area accessible within
   Welcome: Search for your address above or click on the map to get started.
 Slower: slower
-Title: ECHOLocator
+Title: ECHO
 Units:
   About: About
   Minutes: minutes
@@ -449,7 +449,7 @@ Dock:
   LocationLabel: from
   NetworkLabel: when
   Favorites: Saved recommendations
-  FeedbackLink: ECHOLocator needs your feedback
+  FeedbackLink: ECHO needs your feedback
   GoBackToRecommendations: Back to your recommendations
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
@@ -502,7 +502,7 @@ Strings:
   HighlightAreaAccessibleWithin: Show the area accessible within
   Welcome: Search for your address above or click on the map to get started.
 Slower: slower
-Title: ECHOLocator
+Title: ECHO
 Units:
   About: About
   Minutes: minutes

@@ -173,7 +173,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <button
         className='map-sidebar__pagination-button map-sidebar__pagination-button--strong map-sidebar__pagination-button--highlighted'
-        onClick={handleClick}> { message('NeighborhoodDetails.HideBHAApartments') }
+        onClick={handleClick}> { message }
       </button>
     )
   }
@@ -495,7 +495,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
         <div className='neighborhood-details__section'>
           <h6 className='neighborhood-details__link-heading'>
-            {rooms}br listings with a budget of ${ hasVoucher ? maxSubsidy : budget }
+            {rooms}br apartments with a budget of ${ hasVoucher ? maxSubsidy : budget }
           </h6>
           {showBHAListings
             ? <HideListingsButton
@@ -506,10 +506,10 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               handleClick={this.displayBHAListings} />}
           {showRealtorListings
             ? <HideListingsButton
-              message={'Hide Realtor Listings'}
+              message={message('NeighborhoodDetails.ShowRealtorApartments')}
               handleClick={this.hideRealtorListings} />
             : <ListingsButton
-              message={'Show Realtor Listings'}
+              message={message('NeighborhoodDetails.ShowRealtorApartments')}
               handleClick={this.displayRealtorListings} />}
           <div style={{ display: 'inline-block' }}><Loader
             visible={listingsLoading}
@@ -519,12 +519,12 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             width={20}
           /></div>
           <div className='neighborhood-details__desc'>
-            ECHOLocator omits listings without a specific address. There may be more listings at the Realtor.com page
+            ECHO omits apartments without a specific address. There may be more apartments at the Realtor.com page
             <a
               href={getRealtorSearchLink(neighborhood.properties.id, userProfile.rooms, hasVoucher ? maxSubsidy : budget)}
               target='_blank'
               className='neighborhood-details__link'>
-                here
+                 here
             </a>.
           </div>
         </div>
