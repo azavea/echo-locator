@@ -771,7 +771,7 @@ export default class EditProfile extends PureComponent<Props> {
             <h4>None set yet</h4>
           </div>
           <div className='account-profile__text-alerts__text-wrapper'>
-            <p>You can enable text alerts by saving a neighborhood. You'll receive alerts to your phone whenever new apartments appear.</p>
+            <p>You can receive texts about new apartments by saving individual neighborhoods. After saving a neighborhood by clicking the ☆ icon, you will receive texts about new apartments in that area.</p>
           </div>
         </div>
       )
@@ -1104,12 +1104,13 @@ export default class EditProfile extends PureComponent<Props> {
               </div>
               {!hasVehicle && <div className='account-profile__field-description'>
                 {useCommuterRail ? message(language + 'Profile.UseCommuterRailExplanation')
-                  : message(language + 'Profile.ByTransitExplanation')}
+                  : ''}
               </div>}
             </div>
             <div className='account-profile__importance-options'>
               <h3 className='account-profile__label'>
-                {message(language + 'Profile.ImportanceHeading')}
+                {message(language + 'Profile.ImportanceHeadingPtOne')}
+                {message(language + 'Profile.ImportanceHeadingPtTwo')}
               </h3>
               <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
                 <label

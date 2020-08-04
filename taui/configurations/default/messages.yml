@@ -126,9 +126,9 @@ Profile:
   Address: Address
   AddressMissing: All destinations should have an address. Please set or remove any empty destinations.
   ByCar: Car
-  ByTransit: Transit
+  ByTransit: Bus and/or train
   ByTransitExplanation: Search results will include subway and local bus.
-  ChooseTravelMode: How will you most often get to the above addresses?
+  ChooseTravelMode: How do you usually travel to these places?
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
   ChooseVoucher: Do you have a voucher?
@@ -141,9 +141,10 @@ Profile:
   DeleteDestination: Delete this destination
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
-  Destinations: Where do you go most frequently (besides your home)?
+  Destinations: What places do you visit often (besides your home)?
   ImportanceAccessibility: Commute time
-  ImportanceHeading: How important are the factors below when choosing a place to live?
+  ImportanceHeadingPtOne: How important are the factors below,
+  ImportanceHeadingPtTwo: when choosing a place to live?
   ImportanceSchools: School quality
   ImportanceViolentCrime: Public safety
   Primary: Primary
@@ -158,8 +159,8 @@ Profile:
   SaveError: Failed to save profile. Please try again.
   InvalidBudget: Invalid budget. Please enter a positive number.
   Title: Profile
-  UseCommuterRail: Including commuter rail and express bus
-  UseCommuterRailExplanation: Search results will include subway, local bus, commuter rail, and express bus. Commuter rail and express bus will make more communities accessible, but typically cost more than subway and local bus service.
+  UseCommuterRail: I’m willing to take the express bus or commuter rail
+  UseCommuterRailExplanation: The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus.
 Tooltips:
   AboveAverage: above average
   Average: about average
@@ -532,9 +533,9 @@ Profile:
   Address: Address
   AddressMissing: All destinations should have an address. Please set or remove any empty destinations.
   ByCar: Car
-  ByTransit: Transit
+  ByTransit: Bus and/or train
   ByTransitExplanation: Search results will include subway and local bus.
-  ChooseTravelMode: How will you most often get to the above addresses?
+  ChooseTravelMode: How do you usually travel to these places?
   DeleteAddress: Delete this address
   DeletePrimaryAddressError: Cannot delete primary destination. Set another as the primary first.
   ChooseVoucher: Do you have a voucher?
@@ -547,9 +548,10 @@ Profile:
   DeleteDestination: Delete this destination
   DeleteProfile: Delete profile
   DeleteProfileError: Failed to delete profile. Please try again.
-  Destinations: Where do you go most frequently (besides your home)?
+  Destinations: What places do you visit often (besides your home)?
   ImportanceAccessibility: Commute time
-  ImportanceHeading: How important are the factors below when choosing a place to live?
+  ImportanceHeadingPtOne: How important are the factors below,
+  ImportanceHeadingPtTwo: when choosing a place to live?
   ImportanceSchools: School quality
   ImportanceViolentCrime: Public safety
   Primary: Primary
@@ -564,8 +566,8 @@ Profile:
   SaveError: Failed to save profile. Please try again.
   InvalidBudget: Invalid budget. Please enter a positive number.
   Title: Profile
-  UseCommuterRail: Including commuter rail and express bus
-  UseCommuterRailExplanation: Search results will include subway, local bus, commuter rail, and express bus. Commuter rail and express bus will make more communities accessible, but typically cost more than subway and local bus service.
+  UseCommuterRail: I’m willing to take the express bus or commuter rail
+  UseCommuterRailExplanation: The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus.
 Tooltips:
   AboveAverage: above average
   Average: about average
