@@ -108,8 +108,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       <div className='neighborhood-details__stats'>
         <div className='neighborhood-details__rent'>
           <div className='neighborhood-details__rent-label'>{hasVoucher ? message('NeighborhoodDetails.MaxRent') : 'Budget'}</div>
-          <div className='neighborhood-details__rent-value'>${hasVoucher ? maxSubsidy : budget}/month</div>
-          <div className='neighborhood-details__rent-rooms'>to rent a {rooms}BR apartment</div>
+          <div className='neighborhood-details__rent-value'>${hasVoucher ? maxSubsidy : budget}</div>
+          <div className='neighborhood-details__rent-rooms'>{rooms}BR</div>
         </div>
         <NeighborhoodListInfo neighborhood={neighborhood} />
       </div>
