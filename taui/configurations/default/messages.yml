@@ -44,7 +44,7 @@ Dock:
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
   GoNextPage: Show more
-  ShowListings: Show units
+  ShowListings: Show apartments
   NoResults: No results
   Recommendations: Your recommendations
   ShowAllButton: All
@@ -83,7 +83,7 @@ NeighborhoodInfo:
   EducationCategory: Schools
   ExpandedChoice: An Expanded Choice Community
   Population: Population
-  RentalUnits: Rental units
+  RentalUnits: Apartment rentals
   Score: Overall score
   ViolentCrime: Public safety
 PageNotFound: Oops! There is no page at
@@ -168,7 +168,7 @@ Tooltips:
   ExpandedChoice: "<p>Expanded Choice communities are TK</p>"
   ViolentCrime: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://www.fbi.gov/services/cjis/ucr\" target=\"_blank\">FBI Uniform Crime Reporting violent crime data</a>)</p>"
   ViolentCrimeBoston: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://data.boston.gov/\" target=\"_blank\">Boston Police Department Incident Reports</a>)</p>"
-  RentalUnits: "<p><strong>%(town)</strong> has an <strong>%(averageRelation)</strong> number of rental units for the state. From 2017-2018 there were <strong>%(totalMapc)</strong> units listed on Craigslist. (Source: <a href=\"https://www.mapc.org/\" target=\"_blank\">MAPC</a>)</p>"
+  RentalUnits: "<p><strong>%(town)</strong> has an <strong>%(averageRelation)</strong> number of apartment rentals for the state. From 2017-2018 there were <strong>%(totalMapc)</strong> units listed on Craigslist. (Source: <a href=\"https://www.mapc.org/\" target=\"_blank\">MAPC</a>)</p>"
 ImportanceLabels:
   1: Not important
   2: Somewhat important
@@ -251,7 +251,7 @@ Dock:
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
   GoNextPage: Show more
-  ShowListings: Show units
+  ShowListings: Show apartments
   NoResults: No results
   Recommendations: Your recommendations
   ShowAllButton: All
@@ -286,7 +286,7 @@ NeighborhoodInfo:
   EducationCategory: Schools
   ExpandedChoice: An Expanded Choice Community
   Population: Population
-  RentalUnits: Rental units
+  RentalUnits: Apartment rentals
   Score: Overall score
   ViolentCrime: Public safety
 PageNotFound: Oops! There is no page at
@@ -371,7 +371,7 @@ Tooltips:
   ExpandedChoice: "<p>Expanded Choice communities are TK</p>"
   ViolentCrime: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://www.fbi.gov/services/cjis/ucr\" target=\"_blank\">FBI Uniform Crime Reporting violent crime data</a>)</p>"
   ViolentCrimeBoston: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://data.boston.gov/\" target=\"_blank\">Boston Police Department Incident Reports</a>)</p>"
-  RentalUnits: "<p><strong>%(town)</strong> has an <strong>%(averageRelation)</strong> number of rental units for the state. From 2017-2018 there were <strong>%(totalMapc)</strong> units listed on Craigslist. (Source: <a href=\"https://www.mapc.org/\" target=\"_blank\">MAPC</a>)</p>"
+  RentalUnits: "<p><strong>%(town)</strong> has an <strong>%(averageRelation)</strong> number of apartment rentals for the state. From 2017-2018 there were <strong>%(totalMapc)</strong> units listed on Craigslist. (Source: <a href=\"https://www.mapc.org/\" target=\"_blank\">MAPC</a>)</p>"
 SpanishImportanceLabels:
   1: No importante
   2: Algo importante
@@ -454,7 +454,7 @@ Dock:
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
   GoNextPage: Show more
-  ShowListings: Show units
+  ShowListings: Show apartments
   NoResults: No results
   Recommendations: Your recommendations
   ShowAllButton: All
@@ -489,7 +489,7 @@ NeighborhoodInfo:
   EducationCategory: Schools
   ExpandedChoice: An Expanded Choice Community
   Population: Population
-  RentalUnits: Rental units
+  RentalUnits: Apartment rentals
   Score: Overall score
   ViolentCrime: Public safety
 PageNotFound: Oops! There is no page at
@@ -574,7 +574,7 @@ Tooltips:
   ExpandedChoice: "<p>Expanded Choice communities are TK</p>"
   ViolentCrime: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://www.fbi.gov/services/cjis/ucr\" target=\"_blank\">FBI Uniform Crime Reporting violent crime data</a>)</p>"
   ViolentCrimeBoston: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://data.boston.gov/\" target=\"_blank\">Boston Police Department Incident Reports</a>)</p>"
-  RentalUnits: "<p><strong>%(town)</strong> has an <strong>%(averageRelation)</strong> number of rental units for the state. From 2017-2018 there were <strong>%(totalMapc)</strong> units listed on Craigslist. (Source: <a href=\"https://www.mapc.org/\" target=\"_blank\">MAPC</a>)</p>"
+  RentalUnits: "<p><strong>%(town)</strong> has an <strong>%(averageRelation)</strong> number of apartment rentals for the state. From 2017-2018 there were <strong>%(totalMapc)</strong> units listed on Craigslist. (Source: <a href=\"https://www.mapc.org/\" target=\"_blank\">MAPC</a>)</p>"
 ImportanceLabels:
   1: Not important
   2: Somewhat important

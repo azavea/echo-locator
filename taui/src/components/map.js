@@ -307,7 +307,7 @@ export default class Map extends PureComponent<Props, State> {
         Address: {address.line} <br />
         {community && <div>Price: ${community.price_min} - ${community.price_max}/month</div>}
         {price && <div>Price: ${price}/month</div>}
-        <a href={url} target='_blank'>Click for Listing</a>
+        <a href={url} target='_blank'>Click for Apartment</a>
       </div>
     )
   }
