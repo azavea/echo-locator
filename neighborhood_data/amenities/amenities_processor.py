@@ -43,6 +43,12 @@ shop_data = shop_data['features']
 # data extraction
 amenities_data = {'amenity': amenity_data, 'leisure': leisure_data, 'shop': shop_data}
 amenities = []
+loc_addr_lengths = {}
+
+total = 0
+for f in amenities_data:
+    total += len(amenities_data[f])
+i = 0
 for f in amenities_data:
     temp_data = amenities_data[f]
     for d in temp_data:
@@ -82,6 +88,15 @@ for f in amenities_data:
         try:
             address['postcode'] = d['properties']['addr:postcode']
         except:
+            try:
+                location = GEO_LOCATOR.reverse(str(latitude) + ', ' + str(longitude))
+                addr_len = process_geopy_addr(location.address)
+                if addr_len in loc_addr_lengths:
+                    loc_addr_lengths[addr_len].append(location.address)
+                else:
+                    loc_addr_lengths[addr_len] = [location.address]
+            except:
+                pass
             add_to_dataset = False
         try:
             address['state'] = d['properties']['addr:state']
@@ -158,6 +173,10 @@ for f in amenities_data:
                     "religion": religion, "emergency": emergency, "type": tipo, "subtype": sub_tipo}
 
         amenities.append(Amenity(_id, (longitude, latitude), properties).to_json())
+        i += 1
+        if i % 100 == 0:
+            print(i,'/', total)
+            print(loc_addr_lengths)
 
 # group data by zipcode
 zipcode_to_amenity = {}
@@ -176,8 +195,10 @@ final_data = {
     "data": zipcode_to_amenity
 }
 
-with open('./created_data/amenity_zipcode_dataset.json', 'w') as outfile:
-    json.dump(final_data, outfile)
+print(loc_addr_lengths)
+
+# with open('./created_data/amenity_zipcode_dataset.json', 'w') as outfile:
+#     json.dump(final_data, outfile)
             
 
 # code for getting count data

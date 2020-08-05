@@ -83,7 +83,7 @@ NeighborhoodInfo:
   EducationCategory: School quality
   ExpandedChoice: An Expanded Choice Community
   Population: Population
-  RentalUnits: Apartment availability
+  RentalUnits: Apartment rentals
   Score: Overall score
   ViolentCrime: Public safety
 PageNotFound: Oops! There is no page at
@@ -287,7 +287,7 @@ NeighborhoodInfo:
   EducationCategory: School quality
   ExpandedChoice: An Expanded Choice Community
   Population: Population
-  RentalUnits: Apartment availability
+  RentalUnits: Apartment rentals
   Score: Overall score
   ViolentCrime: Public safety
 PageNotFound: Oops! There is no page at
@@ -490,7 +490,7 @@ NeighborhoodInfo:
   EducationCategory: School quality
   ExpandedChoice: An Expanded Choice Community
   Population: Population
-  RentalUnits: Apartment availability
+  RentalUnits: Apartment rentals
   Score: Overall score
   ViolentCrime: Public safety
 PageNotFound: Oops! There is no page at
