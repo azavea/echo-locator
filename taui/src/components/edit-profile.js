@@ -398,16 +398,14 @@ export default class EditProfile extends PureComponent<Props> {
         'phone': '+1' + this.state.textAlertPreferences.phone
       }
       axios.post(url, json)
+
       // Remove all preferences if user checked opt out of all
       if (!this.state.showTextOptions) {
-        this.state.textAlertPreferences.preferences.forEach(function (preference) {
-          url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/remove-text-preference'
-          json = {
-            'userProfile': profile.key,
-            'neighborhood': preference.zipcode
-          }
-          axios.post(url, json)
-        })
+        url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/remove-all-preferences'
+        json = {
+          'user': profile.key
+        }
+        axios.post(url, json)
       } else {
         url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/set-user-text-preferences'
         json = {
