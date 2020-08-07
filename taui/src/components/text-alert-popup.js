@@ -13,6 +13,7 @@ class Popup extends React.PureComponent {
     this.handleOptionChange = this.handleOptionChange.bind(this)
     this.handleFrequencyChange = this.handleFrequencyChange.bind(this)
     this.validatePhone = this.validatePhone.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
     this.state = {
       selectedOption: 'no',
       frequency: 'daily',
@@ -36,6 +37,11 @@ class Popup extends React.PureComponent {
           phoneNumber: undefined
         })
       })
+  }
+
+  onSubmit (event) {
+    event.preventDefault()
+    event.stopPropagation()
   }
 
   handleClickOutside = () => {
@@ -135,14 +141,14 @@ class Popup extends React.PureComponent {
           <label className='radio-btn'>
             <input type='radio' value='no' checked={this.state.selectedOption === 'no'} onChange={this.handleOptionChange} /><p>No</p>
           </label>
-          <form>
+          <form onSubmit={this.addUserPreference}>
             <label>
               <h2>Please enter your phone number:</h2>
               {this.state.phoneNumber &&
-                <input type='text' name='phone' className='phone-input-read-only' value={this.state.phoneNumber.substring(2, this.state.phoneNumber.length)} readOnly />
+                <input type='text' name='phone' className='phone-input-read-only' onKeyUp={this.onKeyUp} value={this.state.phoneNumber.substring(2, this.state.phoneNumber.length)} readOnly />
               }
               {!this.state.phoneNumber &&
-                <input type='text' name='phone' className={phoneClassName} />
+                <input type='text' name='phone' className={phoneClassName} onKeyPress={this.onKeyUp} />
               }
               {this.state.error &&
                 <p className='error-message'>Enter as xxxxxxxxxx</p>
@@ -152,10 +158,10 @@ class Popup extends React.PureComponent {
               <h2>How often would you like to receive texts about new apartments?</h2>
             </label>
             <label className='radio-btn'>
-              <input type='radio' value='daily' checked={this.state.frequency === 'daily'} onChange={this.handleFrequencyChange} /><p>Once a day</p>
+              <input type='radio' value='daily' checked={this.state.frequency === 'daily'} onChange={this.handleFrequencyChange} onKeyUp={this.onKeyUp} /><p>Once a day</p>
             </label>
             <label className='radio-btn'>
-              <input type='radio' value='weekly' checked={this.state.frequency === 'weekly'} onChange={this.handleFrequencyChange} /><p>Once a week</p>
+              <input type='radio' value='weekly' checked={this.state.frequency === 'weekly'} onChange={this.handleFrequencyChange} onKeyUp={this.onKeyUp} /><p>Once a week</p>
             </label>
           </form>
           <p>You can edit your text preferences at any time within <a href='/profile' className='link'>your profile</a>.</p>
