@@ -497,37 +497,63 @@ export default class Map extends PureComponent<Props, State> {
         */}
 
         {
-          p.showRealtorListings && p.dataListings.map((item, key) =>
-            <Marker
-              icon={listingIcon}
-              key={`listings-${this._getKey()}`}
-              position={[item.address.lat, item.address.lon]}
-              zIndex={getZIndex()}
-              onClick={() => clickListing(item.address.lat, item.address.lon)}>
+          p.showRealtorListings && p.dataListings.map((item, key) => {
+            var apartmentMarker =
+              <Marker
+                icon={listingIcon}
+                key={`listings-${this._getKey()}`}
+                position={[item.address.lat, item.address.lon]}
+                zIndex={getZIndex()}
+                onClick={(e) => {
+                  clickListing(item.address.lat, item.address.lon)
+                  e.target.openPopup()
+                }}
+                onMouseOver={(e) => {
+                  e.target.openPopup()
+                }}
+                onMouseOut={(e) => {
+                  if (!this.state.showListingRoute) {
+                    e.target.closePopup()
+                  }
+                }}>
 
-              <Popup>
-                {listingPopup(item.photos, item.address, item.community, item.price, item.rdc_web_url)}
-              </Popup>
+                <Popup>
+                  {listingPopup(item.photos, item.address, item.community, item.price, item.rdc_web_url)}
+                </Popup>
 
-            </Marker>
-          )
+              </Marker>
+            return apartmentMarker
+          })
         }
 
         {
-          p.showBHAListings && p.bhaListings.map((item, key) =>
-            <Marker
-              icon={listingIcon}
-              key={`listings-${this._getKey()}`}
-              position={[item.latLon.lat, item.latLon.lng]}
-              zIndex={getZIndex()}
-              onClick={() => clickListing(item.latLon.lat, item.latLon.lng)}>
+          p.showBHAListings && p.bhaListings.map((item, key) => {
+            var apartmentMarker =
+              <Marker
+                icon={listingIcon}
+                key={`listings-${this._getKey()}`}
+                position={[item.latLon.lat, item.latLon.lng]}
+                zIndex={getZIndex()}
+                onClick={(e) => {
+                  clickListing(item.address.lat, item.address.lon)
+                  e.target.openPopup()
+                }}
+                onMouseOver={(e) => {
+                  e.target.openPopup()
+                }}
+                onMouseOut={(e) => {
+                  if (!this.state.showListingRoute) {
+                    e.target.closePopup()
+                  }
+                }}>
 
-              <Popup>
-                {listingPopup(item.photos, item.address, item.community, item.Rent, item.rdc_web_url)}
-              </Popup>
+                <Popup>
+                  {listingPopup(item.photos, item.address, item.community, item.Rent, item.rdc_web_url)}
+                </Popup>
 
-            </Marker>
-          )
+              </Marker>
+            return apartmentMarker
+          })
         }
 
         {
