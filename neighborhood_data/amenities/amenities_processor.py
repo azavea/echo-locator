@@ -12,12 +12,32 @@ from amenity import Amenity
 
 GEO_LOCATOR = Nominatim(user_agent="amenities_processor")
 def process_geopy_addr(geopy_addr):
+    # 8
+    # '110, Union Street, Springfield Hill, Westfield, Hampden County, Massachusetts, 01085-3899, United States of America',
+    # 'Taunton State Hospital, 60, Hodges Avenue, Taunton, Bristol County, Massachusetts, 02780, United States of America', 
+    # 9
+    # 'School of Medicine, 111, Cedar Street, Downtown, New Haven, New Haven County, Connecticut, 06519, United States of America',
+    # 'Tewksbury Hospital, 365, East Street, Tewksbury Junction, Tewksbury, Middlesex County, Massachusetts, 01876-0841, United States of America',
+    # 10
+    # 'New England School of Law Library, 154, Stuart Street, Chinatown, Beacon Hill, Boston, Suffolk County, Massachusetts, 02111, United States of America', 
+    # 'Treadwell Library, 55, Fruit Street, Charles River Square, Beacon Hill, Boston, Suffolk County, Massachusetts, 02114, United States of America',
     # [name, house number, street, area descriptor?, city, state, zip code, country]
     # sometimes name is not present
     split_addr = geopy_addr.split(',')
-    # print(split_addr)
-    # print(len(split_addr))
-    return len(split_addr)
+    flag = False
+    zipcode = ''
+    for sec in split_addr:
+        sec = sec.strip(' ')
+        if sec == 'Massachusetts' or sec == 'Connecticut':
+            flag = True
+            continue
+        if flag and sec != 'United States of America':
+            zipcode = sec
+            break
+    
+    if len(zipcode) > 5:
+        zipcode = zipcode[:5]
+    return zipcode
     
 
 # get ECHO definied amenity types
@@ -88,16 +108,16 @@ for f in amenities_data:
         try:
             address['postcode'] = d['properties']['addr:postcode']
         except:
+            # print('data point missing postcode tag, trying to find postcode with geopy...')
             try:
                 location = GEO_LOCATOR.reverse(str(latitude) + ', ' + str(longitude))
-                addr_len = process_geopy_addr(location.address)
-                if addr_len in loc_addr_lengths:
-                    loc_addr_lengths[addr_len].append(location.address)
+                postcode = process_geopy_addr(location.address)
+                if len(postcode) > 0:
+                    address['postcode'] = postcode
                 else:
-                    loc_addr_lengths[addr_len] = [location.address]
+                    add_to_dataset = False
             except:
                 pass
-            add_to_dataset = False
         try:
             address['state'] = d['properties']['addr:state']
         except:
@@ -115,77 +135,79 @@ for f in amenities_data:
         except:
             pass
         
-        if not add_to_dataset:
-            continue
-        
-        # get opening_hours
-        hours = ''
-        try:
-            hours = d['properties']['opening_hours']
-        except:
-            pass
-
-        # get wheelchair accesibility
-        wheelchair = ''
-        try:
-            wheelchair = d['properties']['wheelchair']
-        except:
-            pass
-
-        # get website
-        website = ''
-        try:
-            website = d['properties']['website']
-        except:
-            pass
-
-        # get description
-        description = ''
-        try:
-            description = d['properties']['description']
-        except:
-            pass
-
-        # get denomination -> religion for place_of_worship
-        religion = {}
-        if sub_tipo == "place_of_worship":
+        if  add_to_dataset:
+            # get opening_hours
+            hours = ''
             try:
-                religion['denomination'] = d['properties']['denomination']
-            except:
-                pass
-            try:
-                religion['religion'] = d['properties']['religion']
+                hours = d['properties']['opening_hours']
             except:
                 pass
 
-        # get yes / no emergency for hospital
-        emergency = ''
-        if sub_tipo == "hospital":
+            # get wheelchair accesibility
+            wheelchair = ''
             try:
-                emergency = d['properties']['emergency']
+                wheelchair = d['properties']['wheelchair']
             except:
                 pass
 
-        # insantiating Amenity datastructure
-        # properties: name, address, description, hours, website, wheelchair, religion, emergency
-        properties = {"name": name, "address": address, "description": description, 
-                    "hours": hours , "website": website, "wheelchair": wheelchair, 
-                    "religion": religion, "emergency": emergency, "type": tipo, "subtype": sub_tipo}
+            # get website
+            website = ''
+            try:
+                website = d['properties']['website']
+            except:
+                pass
 
-        amenities.append(Amenity(_id, (longitude, latitude), properties).to_json())
+            # get description
+            description = ''
+            try:
+                description = d['properties']['description']
+            except:
+                pass
+
+            # get denomination -> religion for place_of_worship
+            religion = {}
+            if sub_tipo == "place_of_worship":
+                try:
+                    religion['denomination'] = d['properties']['denomination']
+                except:
+                    pass
+                try:
+                    religion['religion'] = d['properties']['religion']
+                except:
+                    pass
+
+            # get yes / no emergency for hospital
+            emergency = ''
+            if sub_tipo == "hospital":
+                try:
+                    emergency = d['properties']['emergency']
+                except:
+                    pass
+
+            # insantiating Amenity datastructure
+            # properties: name, address, description, hours, website, wheelchair, religion, emergency
+            properties = {"name": name, "address": address, "description": description, 
+                        "hours": hours , "website": website, "wheelchair": wheelchair, 
+                        "religion": religion, "emergency": emergency, "type": tipo, "subtype": sub_tipo}
+
+            amenities.append(Amenity(_id, (longitude, latitude), properties).to_json())
         i += 1
         if i % 100 == 0:
             print(i,'/', total)
-            print(loc_addr_lengths)
 
 # group data by zipcode
 zipcode_to_amenity = {}
 for a in amenities[:]:
-    zipcode = a['properties']['address']['postcode']
-    if zipcode in zipcode_to_amenity:
-        zipcode_to_amenity[zipcode].append(a)
-    else:
-        zipcode_to_amenity[zipcode] = [a]
+    zipcode = ''
+    try:
+        zipcode = a['properties']['address']['postcode']
+    except:
+        print('KeyError with amenity:', a)
+    if zipcode != '':
+        if zipcode in zipcode_to_amenity:
+            zipcode_to_amenity[zipcode].append(a)
+        else:
+            zipcode_to_amenity[zipcode] = [a]
 
 
 # write extracted amenity data to json file and output
@@ -195,13 +217,12 @@ final_data = {
     "data": zipcode_to_amenity
 }
 
-print(loc_addr_lengths)
-
-# with open('./created_data/amenity_zipcode_dataset.json', 'w') as outfile:
-#     json.dump(final_data, outfile)
+with open('./created_data/amenity_zipcode_dataset_fixed.json', 'w') as outfile:
+    json.dump(final_data, outfile)
             
 
 # code for getting count data
+#
 # amenities = {}
 # for f in amenity_data:
 #     amenity = f['properties']['amenity']
