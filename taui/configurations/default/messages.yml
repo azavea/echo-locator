@@ -35,11 +35,11 @@ Map:
     ClearMarkers: Clear markers
   Unreachable: Unreachable by transit
 Dock:
-  FormHeading: Travel times …
+  FormHeading: Travel Times
   LocationLabel: from
   NetworkLabel: when
   Favorites: Saved recommendations
-  FeedbackLink: We would like your feedback
+  FeedbackLink: ECHO needs your feedback
   GoBackToRecommendations: Back to your recommendations
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
@@ -79,7 +79,7 @@ NeighborhoodDetails:
   WikipediaLink: Wikipedia
   ZillowSearchLink: Zillow
 NeighborhoodInfo:
-  SchoolChoice: School choice options »
+  SchoolChoice: School choice options
   EducationCategory: School quality
   ExpandedChoice: An Expanded Choice Community
   Population: Population
@@ -275,9 +275,12 @@ NeighborhoodDetails:
   MaxRent: Est. max rent
   ModeSummary: via
   MoreSearchToolsLinksHeading: More search tools
+  ReadLessLink: Read Less
+  ReadMoreLink: Read More
   RentEstimatorLink: Rent Estimator
   Section8Link: Section 8
   TransitMode: transit
+  TransitTitle: Transit Directions
   WebsiteLink: Website
   WikipediaAttribution: via Wikimedia Commons
   WikipediaLink: Wikipedia
