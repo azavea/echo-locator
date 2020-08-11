@@ -17,9 +17,7 @@ import getNeighborhoodImage from '../utils/neighborhood-images'
 import getZillowSearchLink from '../utils/zillow-search-link'
 import getRealtorSearchLink from '../utils/realtor-search-link'
 import PolygonIcon from '../icons/polygon-icon'
-import getListings from '../utils/listings'
 import Popup from '../components/text-alert-popup'
-import getBHAListings from '../utils/bha-data-extraction'
 import {getFirstNeighborhoodImage} from '../utils/neighborhood-images'
 
 
@@ -58,12 +56,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     this.summaryImage = this.summaryImage.bind(this)
     this.neighborhoodLinks = this.neighborhoodLinks.bind(this)
 
-    this.displayBHAListings = this.displayBHAListings.bind(this)
-    this.displayRealtorListings = this.displayRealtorListings.bind(this)
-    this.hideBHAListings = this.hideBHAListings.bind(this)
-    this.hideRealtorListings = this.hideRealtorListings.bind(this)
-    this.listingsButton = this.listingsButton.bind(this)
-    this.hideListingsButton = this.hideListingsButton.bind(this)
     this.starButton = this.starButton.bind(this)
 
     this.toggleTextPopup = this.toggleTextPopup.bind(this)
@@ -119,68 +111,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       <div className='neighborhood-details__stats'>
         <NeighborhoodListInfo neighborhood={neighborhood} />
       </div>
-    )
-  }
-
-  async displayBHAListings (e) {
-    const hasVoucher = this.props.userProfile.hasVoucher
-    const budget = this.props.userProfile.budget
-    const rooms = this.props.userProfile.rooms
-    const maxSubsidy = this.props.neighborhood.properties['max_rent_' + rooms + 'br']
-
-    this.props.setListingsLoading(true)
-
-    // param: (zip, budget, rooms)
-    await getBHAListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
-      this.props.setBHAListings(data)
-    })
-    this.props.setShowBHAListings(true)
-    this.props.setListingsLoading(false)
-  }
-
-  async displayRealtorListings (e) {
-    const hasVoucher = this.props.userProfile.hasVoucher
-    const budget = this.props.userProfile.budget
-    const rooms = this.props.userProfile.rooms
-    const maxSubsidy = this.props.neighborhood.properties['max_rent_' + rooms + 'br']
-
-    this.props.setListingsLoading(true)
-
-    await getListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
-      this.props.setDataListings(data)
-    })
-
-    this.props.setShowRealtorListings(true)
-    this.props.setListingsLoading(false)
-  }
-
-  hideBHAListings (e) {
-    this.props.setShowBHAListings(false)
-  }
-
-  hideRealtorListings (e) {
-    this.props.setShowRealtorListings(false)
-  }
-
-  listingsButton (props) {
-    const { message, handleClick } = props
-
-    return (
-      <button
-        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
-        onClick={handleClick}>{ message }
-      </button>
-    )
-  }
-
-  hideListingsButton (props) {
-    const { message, handleClick } = props
-
-    return (
-      <button
-        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong map-sidebar__pagination-button--highlighted'
-        onClick={handleClick}> { message }
-      </button>
     )
   }
 
@@ -461,7 +391,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             <div className='neighborhood-details__desc'>
               {description.substring(0, 80)}...&nbsp; 
               <button className='neighborhood-details__button' onClick={this.toggleDescription}>
-                {message('NeighborhoodDetails.ReadMoreLink')}
+                Read More
               </button>
             </div>
           }
@@ -469,7 +399,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             <div className='neighborhood-details__desc'>
               {description} &nbsp; 
               <button className='neighborhood-details__button' onClick={this.toggleDescription}>
-                {message('NeighborhoodDetails.ReadLessLink')}
+                Read Less
               </button>
             </div>
           }
@@ -517,7 +447,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         {!activeListing &&
         <div className='neighborhood-details__section'>
           <div className='neighborhood-details__title'>
-            {message('NeighborhoodDetails.TransitTitle')}
+            Transit Directions
           </div>
           <div className='neighborhood-details__trip'>
             <div>
@@ -571,39 +501,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             </div>
           </div>
         }
-        <div className='neighborhood-details__section'>
-          {showBHAListings
-            ? <HideListingsButton
-              message={message('NeighborhoodDetails.HideBHAApartments')}
-              handleClick={this.hideBHAListings} />
-            : <ListingsButton
-              message={message('NeighborhoodDetails.ShowBHAApartments')}
-              handleClick={this.displayBHAListings} />}
-          {showRealtorListings
-            ? <HideListingsButton
-              message={message('NeighborhoodDetails.HideRealtorApartments')}
-              handleClick={this.hideRealtorListings} />
-            : <ListingsButton
-              message={message('NeighborhoodDetails.ShowRealtorApartments')}
-              handleClick={this.displayRealtorListings} />}
-          <div style={{ display: 'inline-block' }}><Loader
-            visible={listingsLoading}
-            type='Oval'
-            color='#000000'
-            height={20}
-            width={20}
-          /></div>
-          <div className='neighborhood-details__desc'>
-            ECHO omits apartments without a specific address. There may be more apartments at the Realtor.com page
-            <a
-              href={getRealtorSearchLink(neighborhood.properties.id, userProfile.rooms, hasVoucher ? maxSubsidy : budget)}
-              target='_blank'
-              className='neighborhood-details__link'>
-                 here
-            </a>.
-          </div>
-        </div>
-
         <div className='neighborhood-details__section'>
           <NeighborhoodLinks
             hasVehicle={hasVehicle}

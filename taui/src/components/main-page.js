@@ -14,7 +14,7 @@ import downloadJson from '../utils/download-json'
 import Dock from './dock'
 import Form from './form'
 import Map from './map'
-import AmenitiesBar from './amenities-bar'
+import TopBar from './top-bar'
 
 type State = {
     amenitiesData: object[],
@@ -180,14 +180,22 @@ export default class MainPage extends React.PureComponent<Props, State> {
               </filter>
             </defs>
           </svg>
-          <div className='amenities-bar'>
-            <AmenitiesBar
-              activeNeighborhood={p.data.activeNeighborhood}
-              clickedNeighborhood={p.data.showDetails}
-              amenities={p.data.amenities}
-              updateMapAmenities={this._updateAmenityData}
-            />
-          </div>
+          <TopBar
+            activeNeighborhood={p.data.activeNeighborhood}
+            clickedNeighborhood={p.data.showDetails}
+            amenities={p.data.amenities}
+            updateMapAmenities={this._updateAmenityData}
+            userProfile={p.userProfile}
+            neighborhood={p.detailNeighborhood}
+            setListingsLoading={p.setListingsLoading}
+            setDataListings={p.setDataListings}
+            setBHAListings={p.setBHAListings}
+            showBHAListings={p.data.showBHAListings}
+            showRealtorListings={p.data.showRealtorListings}
+            setShowBHAListings={p.setShowBHAListings}
+            setShowRealtorListings={p.setShowRealtorListings}
+            listingsLoading={p.data.listingsLoading}
+          />
           <Map
             {...p.map}
             activeNeighborhood={p.data.activeNeighborhood}

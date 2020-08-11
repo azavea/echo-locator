@@ -51,10 +51,10 @@ Dock:
   ShowSavedButton: Saved
   SiteBy: site by Azavea and Altruistech
 NeighborhoodDetails:
-  ShowBHAApartments: Show BHA Apartments
-  HideBHAApartments: Hide BHA Apartments
-  ShowRealtorApartments: Show Realtor Apartments
-  HideRealtorApartments: Hide Realtor Apartments
+  ShowBHAApartments: Show BHA
+  HideBHAApartments: Hide BHA
+  ShowRealtorApartments: Show Realtor.com
+  HideRealtorApartments: Hide Realtor.com
   AboutNeighborhoodLinksHeading: Learn about this neighborhood
   ApartmentsDotComLink: Apartments.com
   BHAApartmentsLink: Boston Housing Authority
@@ -243,7 +243,7 @@ Map:
     ClearMarkers: Clear markers
   Unreachable: Unreachable by transit
 Dock:
-  FormHeading: Travel times …
+  FormHeading: Travel Times
   LocationLabel: from
   NetworkLabel: when
   Favorites: Saved recommendations

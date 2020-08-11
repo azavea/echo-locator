@@ -42,23 +42,12 @@ export default class AmenityButton extends Component<Props> {
     } else {
       bgColor = this.state.defaultColor
     }
-    var buttonStyle = {display: 'flex',
-      justifyContent: 'space-evenly',
-      alignItems: 'center',
-      backgroundColor: bgColor,
-      color: 'white',
-      padding: '2% 15%',
-      width: '120%',
-      height: '100%',
-      fontSize: '67.5%'}
     var name = this.props.name[0].toUpperCase() + this.props.name.slice(1, this.props.name.length)
     return (
-      <div className={'amenities-amenity'} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
-        <button style={buttonStyle} onClick={this.handleClick}>
-          <img className='amenities-icon' src={this.props.image} alt='' />
-          {name}
-        </button>
-      </div>
+      <button className='top-bar__button-amenities' style={{backgroundColor:bgColor}} onClick={this.handleClick} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
+        <img className='top-bar__icon' src={this.props.image} alt='' />
+        {name}
+      </button>
     )
   }
 }
