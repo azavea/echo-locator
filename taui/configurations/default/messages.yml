@@ -449,7 +449,7 @@ Map:
     ClearMarkers: Clear markers
   Unreachable: Unreachable by transit
 Dock:
-  FormHeading: Travel times …
+  FormHeading: Travel Times
   LocationLabel: from
   NetworkLabel: when
   Favorites: Saved recommendations
@@ -465,7 +465,7 @@ Dock:
   ShowSavedButton: Saved
   SiteBy: site by Azavea and Altruistech
 NeighborhoodDetails:
-  AboutNeighborhoodLinksHeading: Learn about this neighborhood
+  AboutNeighborhoodLinksHeading: Learn more about this neighborhood
   ApartmentsDotComLink: Apartments.com
   BHAApartmentsLink: Boston Housing Authority
   ChildCareSearchLink: Child Care Search

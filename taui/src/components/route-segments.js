@@ -52,7 +52,10 @@ const Segment = ({segment}) => (
     style={{
       backgroundColor: segment.backgroundColor || 'inherit',
       color: segment.color || 'inherit',
-      textShadow: `0 0 1px ${segment.color === '#fff' ? '#333' : '#fff'}`
+      textShadow: `0 0 1px ${segment.color === '#fff' ? '#333' : '#fff'}`,
+      lineHeight:'2.5rem',
+      fontSize:'1.2rem',
+      margin: `0 0.4rem 0 0.2rem`
     }}
     title={segment.name}
   >

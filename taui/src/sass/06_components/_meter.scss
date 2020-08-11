@@ -27,6 +27,7 @@
   }
 
   &__percentage {
+    @include font-weight(normal);
     margin-left: 0.8rem;
   }
 }
