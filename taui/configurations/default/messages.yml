@@ -35,11 +35,11 @@ Map:
     ClearMarkers: Clear markers
   Unreachable: Unreachable by transit
 Dock:
-  FormHeading: Travel times …
+  FormHeading: Travel Times
   LocationLabel: from
   NetworkLabel: when
   Favorites: Saved recommendations
-  FeedbackLink: We would like your feedback
+  FeedbackLink: ECHO needs your feedback
   GoBackToRecommendations: Back to your recommendations
   GoBackToFavorites: Back to saved recommendations
   GoPreviousPage: Go back
@@ -51,10 +51,10 @@ Dock:
   ShowSavedButton: Saved
   SiteBy: site by Azavea and Altruistech
 NeighborhoodDetails:
-  ShowBHAApartments: Show BHA Apartments
-  HideBHAApartments: Hide BHA Apartments
-  ShowRealtorApartments: Show Realtor Apartments
-  HideRealtorApartments: Hide Realtor Apartments
+  ShowBHAApartments: Show BHA
+  HideBHAApartments: Hide BHA
+  ShowRealtorApartments: Show Realtor.com
+  HideRealtorApartments: Hide Realtor.com
   AboutNeighborhoodLinksHeading: Learn about this neighborhood
   ApartmentsDotComLink: Apartments.com
   BHAApartmentsLink: Boston Housing Authority
@@ -79,7 +79,7 @@ NeighborhoodDetails:
   WikipediaLink: Wikipedia
   ZillowSearchLink: Zillow
 NeighborhoodInfo:
-  SchoolChoice: School choice options »
+  SchoolChoice: School choice options
   EducationCategory: School quality
   ExpandedChoice: An Expanded Choice Community
   Population: Population
@@ -243,7 +243,7 @@ Map:
     ClearMarkers: Clear markers
   Unreachable: Unreachable by transit
 Dock:
-  FormHeading: Travel times …
+  FormHeading: Travel Times
   LocationLabel: from
   NetworkLabel: when
   Favorites: Saved recommendations
@@ -275,9 +275,12 @@ NeighborhoodDetails:
   MaxRent: Est. max rent
   ModeSummary: via
   MoreSearchToolsLinksHeading: More search tools
+  ReadLessLink: Read Less
+  ReadMoreLink: Read More
   RentEstimatorLink: Rent Estimator
   Section8Link: Section 8
   TransitMode: transit
+  TransitTitle: Transit Directions
   WebsiteLink: Website
   WikipediaAttribution: via Wikimedia Commons
   WikipediaLink: Wikipedia
@@ -446,7 +449,7 @@ Map:
     ClearMarkers: Clear markers
   Unreachable: Unreachable by transit
 Dock:
-  FormHeading: Travel times …
+  FormHeading: Travel Times
   LocationLabel: from
   NetworkLabel: when
   Favorites: Saved recommendations
@@ -462,7 +465,7 @@ Dock:
   ShowSavedButton: Saved
   SiteBy: site by Azavea and Altruistech
 NeighborhoodDetails:
-  AboutNeighborhoodLinksHeading: Learn about this neighborhood
+  AboutNeighborhoodLinksHeading: Learn more about this neighborhood
   ApartmentsDotComLink: Apartments.com
   BHAApartmentsLink: Boston Housing Authority
   ChildCareSearchLink: Child Care Search

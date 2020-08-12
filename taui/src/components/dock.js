@@ -327,7 +327,7 @@ export default class Dock extends PureComponent<Props> {
             className='map-sidebar__navigation-button'
             onClick={backFromDetails}
           >
-            <Icon type='chevron-circle-left' />
+            <Icon type='chevron-circle-left' className='map-sidebar__navigation-chevron-button'/>
             {showFavorites
               ? message('Dock.GoBackToFavorites')
               : message('Dock.GoBackToRecommendations')}
@@ -361,7 +361,6 @@ export default class Dock extends PureComponent<Props> {
           target='_blank'
           className='map-sidebar__feedback'
         >
-          <Icon type='comment-o' className='map-sidebar__feedback-icon' />
           {message('Dock.FeedbackLink')}
         </a>
         <a

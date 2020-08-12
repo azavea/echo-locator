@@ -109,9 +109,11 @@ export default class RouteCard extends React.PureComponent<Props> {
         onMouseOver={(e) => setActiveNeighborhood(neighborhood.properties.id)}
       >
         <header className='neighborhood-summary__header'>
+          <SummaryImage nprops={neighborhood.properties} />
           <Icon
             className='neighborhood-summary__star'
-            type={isFavorite ? 'star' : 'star-o'}
+            type={isFavorite ? 'heart' : 'heart-o'}
+            style={{color:"white"}}
             onClick={(e) => {
               e.preventDefault()
               e.stopPropagation()
@@ -119,10 +121,6 @@ export default class RouteCard extends React.PureComponent<Props> {
               this.toggleTextPopup(isFavorite)
             }}
           />
-          <div className='neighborhood-summary__name'>
-            <div className='neighborhood-summary__title'>{title}</div>
-          </div>
-          <MapMarkerIcon className={markerClass} active={active} />
         </header>
         {this.state.showTextPopup
           ? <div className='popup' onClick={(e) => { e.stopPropagation() }}>
@@ -154,29 +152,28 @@ export default class RouteCard extends React.PureComponent<Props> {
           </div>
           : null
         }
+        <div className='neighborhood-summary__name'>
+            <div className='neighborhood-summary__title'>{title}</div>
+          </div>
         <div className='neighborhood-summary__contents'>
           <div className='neighborhood-summary__descriptive'>
-            <SummaryImage nprops={neighborhood.properties} />
             <div className='neighborhood-summary__trip'>
               <div className='neighborhood-summary__duration'>
-                {message('Units.About')} {roundedTripTime} {message('Units.Mins')}
-              </div>
-              <div className='neighborhood-summary__trajectory'>
-                <span className='neighborhood-summary__mode'>
-                  {message(modeKey)}
+                {message('Units.About')} {roundedTripTime} {message('Units.Mins')} {message(modeKey)} 
                   &nbsp;
+                <span className='neighborhood-summary__mode'>
                   {message('NeighborhoodDetails.FromOrigin')}
                 </span>
                 &nbsp;
                 <span className='neighborhood-summary__location'>
-                  {currentDestination && currentDestination.purpose.toLowerCase()}
+                  {currentDestination && currentDestination.purpose}
                 </span>
               </div>
             </div>
+            <NeighborhoodListInfo
+              neighborhood={neighborhood}
+            />
           </div>
-          <NeighborhoodListInfo
-            neighborhood={neighborhood}
-          />
         </div>
       </div>
     )

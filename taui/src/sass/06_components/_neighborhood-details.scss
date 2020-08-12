@@ -7,28 +7,38 @@
     background-color: $white;
   }
 
+  &__header-section {
+    margin-bottom: 0.8rem;
+    background-color: $white;
+    padding-bottom: 0.8rem;
+  }
+
   &__header {
     display: flex;
     flex-flow: row nowrap;
     align-items: flex-start;
-    justify-content: flex-start;
-    margin: auto -0.4rem;
+    justify-content: flex-end;
   }
 
   &__star {
-    flex: none;
-    margin-right: 0.8rem;
-    font-size: 1.8rem !important;
+    position: absolute;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    font-size: 2.5rem !important;
   }
 
   &__name {
-    @include heading(400);
-    @include font-weight(bold);
     display: flex;
     flex: auto;
     flex-flow: column nowrap;
     align-items: flex-start;
     margin-right: 0.8rem;
+    padding-left: 1.6rem;
+  }
+
+  &__title {
+    @include heading(450);
+    padding: 0.8rem 0;
   }
 
   &__ecc {
@@ -51,7 +61,6 @@
 
   &__trip {
     @include text(300);
-    @include font-weight(bold);
     display: flex;
     flex-flow: row nowrap;
     align-items: flex-start;
@@ -62,11 +71,15 @@
     @include link-states() {
       color: $primary;
     }
+
+    &:hover {
+      text-decoration: underline;
+    }
     margin-left: 1.6rem;
   }
 
   .route-segments {
-    @include text(200);
+    @include text(300);
     margin-top: 0.6rem;
     line-height: 2.4;
   }
@@ -77,24 +90,24 @@
     align-items: stretch;
     justify-content: space-between;
     width: 100%;
+    margin: 0.8rem 1.6rem
   }
 
   &__rent {
     flex: none;
-    margin-right: 0.8rem;
+    margin: 0.8rem 1.6rem;
     padding-top: 0.4rem;
     padding-right: 1.6rem;
-    text-align: center;
-    border-right: 4px solid $bg-gray;
   }
 
   &__rent-label {
     @include text(300);
+    @include font-weight(bold);
     margin-bottom: 0.8rem;
   }
 
   &__rent-value {
-    @include text(500);
+    @include text(450);
     @include font-weight(bold);
     margin-bottom: 0.8rem;
   }
@@ -129,6 +142,7 @@
   &__desc {
     @include text(300);
     color: $gray-800;
+    padding: 0.8rem 1.6rem;
   }
 
   &__link-heading {
@@ -159,5 +173,26 @@
     &:not(:last-child) {
       margin-right: 1.6rem;
     }
+    &:hover {
+      text-decoration: underline;
+    }
   }
+
+  &__button {
+    color: $primary;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__line {
+    margin: 0.8rem 0;
+    border: 1px solid #c4c4c4;
+  }
+
+  &__header-line {
+    margin: 0.8rem 1.6rem;
+    border: 1px solid #c4c4c4;
+  }  
 }

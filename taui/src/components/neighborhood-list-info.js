@@ -47,7 +47,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
       <table className='neighborhood-facts'>
         <tbody>
           <tr>
-            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.EducationCategory')}</td>
+            <td className='neighborhood-facts__cell' style={{fontWeight:"bold"}}>{message('NeighborhoodInfo.EducationCategory')}</td>
             {!isSchoolChoice && <td className='neighborhood-facts__cell'>
               <Meter
                 category='school'
@@ -62,7 +62,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
             </td>}
           </tr>
           {crime >= 0 && <tr>
-            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ViolentCrime')}</td>
+            <td className='neighborhood-facts__cell' style={{fontWeight:"bold"}}>{message('NeighborhoodInfo.ViolentCrime')}</td>
             <td className='neighborhood-facts__cell'>
               <Meter
                 category='crime'
@@ -72,7 +72,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
             </td>
           </tr>}
           <tr>
-            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.RentalUnits')}</td>
+            <td className='neighborhood-facts__cell' style={{fontWeight:"bold"}}>{message('NeighborhoodInfo.RentalUnits')}</td>
             <td className='neighborhood-facts__cell'>
               <RentalUnitsMeter value={houses} totalMapc={totalMapc} id={zipcode} town={town} />
             </td>

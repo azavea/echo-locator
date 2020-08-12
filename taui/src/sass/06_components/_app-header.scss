@@ -42,6 +42,7 @@
 
   &__user-name {
     margin-right: 1.6rem;
+    @include font-weight(bold)
   }
 
   &__voucher-number {

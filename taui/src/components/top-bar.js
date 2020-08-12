@@ -1,7 +1,11 @@
 // @flow
 import {Component} from 'react'
+import message from '@conveyal/woonerf/message'
+import Loader from 'react-loader-spinner'
 
 import AmenityButton from './amenity-button'
+import getBHAListings from '../utils/bha-data-extraction'
+import getListings from '../utils/listings'
 
 const childcare = '../../assets/img/icons/childcare.png'
 const park = '../../assets/img/icons/park.png'
@@ -18,6 +22,11 @@ type Props = {
     amenities: any,
     clickedNeighborhood: any,
     updateMapAmenities: any => void,
+    listingsLoading: boolean,
+    showBHAListings: boolean,
+    showRealtorListings: boolean,
+    userProfile: AccountProfile,
+    neighborhood: any
 }
 
 type State = {
@@ -41,7 +50,7 @@ const amenityColors = {
 const amenityTypes = ['school', 'convenience', 'health', 'community', 'park', 'childcare', 'library', 'grocery', 'worship']
 
 // Class that handles Amenity functionality
-export default class AmenitiesBar extends Component<Props, State> {
+export default class TopBar extends Component<Props, State> {
   constructor (props) {
     super(props)
     // Final amenities list: School, Park, Childcare, Library, Health, Grocery, Convenience, Community, Worship
@@ -56,11 +65,19 @@ export default class AmenitiesBar extends Component<Props, State> {
         'childcare': false,
         'library': false,
         'grocery': false,
-        'worship': false}
+        'worship': false},
+      listingsLoading: false
     }
     this.updateShownAmenities = this.updateShownAmenities.bind(this)
     this.getVisibleAmenities = this.getVisibleAmenities.bind(this)
     this.resetVisibleAmenities = this.resetVisibleAmenities.bind(this)
+
+    this.displayBHAListings = this.displayBHAListings.bind(this)
+    this.displayRealtorListings = this.displayRealtorListings.bind(this)
+    this.hideBHAListings = this.hideBHAListings.bind(this)
+    this.hideRealtorListings = this.hideRealtorListings.bind(this)
+    this.listingsButton = this.listingsButton.bind(this)
+    this.hideListingsButton = this.hideListingsButton.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -68,6 +85,69 @@ export default class AmenitiesBar extends Component<Props, State> {
       this.setState({amenitiesData: this.getNeighborhoodAmenities()})
     }
   }
+
+  async displayBHAListings (e) {
+    const hasVoucher = this.props.userProfile.hasVoucher
+    const budget = this.props.userProfile.budget
+    const rooms = this.props.userProfile.rooms
+    const maxSubsidy = this.props.neighborhood.properties['max_rent_' + rooms + 'br']
+
+    this.props.setListingsLoading(true)
+
+    // param: (zip, budget, rooms)
+    await getBHAListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
+      this.props.setBHAListings(data)
+    })
+    this.props.setShowBHAListings(true)
+    this.props.setListingsLoading(false)
+  }
+
+  async displayRealtorListings (e) {
+    const hasVoucher = this.props.userProfile.hasVoucher
+    const budget = this.props.userProfile.budget
+    const rooms = this.props.userProfile.rooms
+    const maxSubsidy = this.props.neighborhood.properties['max_rent_' + rooms + 'br']
+
+    this.props.setListingsLoading(true)
+
+    await getListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
+      this.props.setDataListings(data)
+    })
+
+    this.props.setShowRealtorListings(true)
+    this.props.setListingsLoading(false)
+  }
+
+  hideBHAListings (e) {
+    this.props.setShowBHAListings(false)
+  }
+
+  hideRealtorListings (e) {
+    this.props.setShowRealtorListings(false)
+  }
+
+  listingsButton (props) {
+    const { message, handleClick } = props
+
+    return (
+      <button
+        className='top-bar__button'
+        onClick={handleClick}>{ message }
+      </button>
+    )
+  }
+
+  hideListingsButton (props) {
+    const { message, handleClick } = props
+
+    return (
+      <button
+        className='top-bar__button-highlighted'
+        onClick={handleClick}> { message }
+      </button>
+    )
+  }
+
 
   // get amenity -> [amenities] for zipcode this.props.activeNeighborhood
   getNeighborhoodAmenities () {
@@ -143,14 +223,49 @@ export default class AmenitiesBar extends Component<Props, State> {
   }
 
   render () {
+    const {
+      listingsLoading,
+      showBHAListings,
+      showRealtorListings,
+      userProfile,
+      neighborhood
+    } = this.props
+    const ListingsButton = this.listingsButton
+    const HideListingsButton = this.hideListingsButton
     // TODO: when click on map amenities bar goes away bug
     if (!this.props.clickedNeighborhood) {
       return null
     }
     return (
-      <div className={'amenities-all'}>
-        <p style={{fontWeight: 'bold'}}>Neighborhood Amenities</p>
-        <div className={'amenities-box'}>
+      <div className='top-bar'>
+        <div className='top-bar__bar'>
+          <div className='top-bar__heading'>Apartments: </div>
+          {showBHAListings
+            ? <HideListingsButton
+              message={message('NeighborhoodDetails.HideBHAApartments')}
+              handleClick={this.hideBHAListings} />
+            : <ListingsButton
+              message={message('NeighborhoodDetails.ShowBHAApartments')}
+              handleClick={this.displayBHAListings} />}
+          {showRealtorListings
+            ? <HideListingsButton
+              message={message('NeighborhoodDetails.HideRealtorApartments')}
+              handleClick={this.hideRealtorListings} />
+            : <ListingsButton
+              message={message('NeighborhoodDetails.ShowRealtorApartments')}
+              handleClick={this.displayRealtorListings} />}
+          <div style={{ display: 'inline-block' }}>
+            <Loader
+              visible={listingsLoading}
+              type='Oval'
+              color='#000000'
+              height={20}
+              width={20}
+            />
+          </div>
+        </div>
+        <div className={'top-bar__bar'}>
+          <div className='top-bar__heading'>Neighborhood Amenities: </div>
           <AmenityButton
             name={amenityTypes[0]} // School
             color={amenityColors['school']}
