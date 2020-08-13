@@ -61,7 +61,7 @@ with open('./downloaded_data/ma_shop_data.json') as f:
 shop_data = shop_data['features']
 
 # data extraction
-amenities_data = {'amenity': amenity_data, 'leisure': leisure_data, 'shop': shop_data}
+amenities_data = {'amenity': amenity_data[:300], 'leisure': leisure_data[:300], 'shop': shop_data[:300]}
 amenities = []
 loc_addr_lengths = {}
 
@@ -69,6 +69,7 @@ total = 0
 for f in amenities_data:
     total += len(amenities_data[f])
 i = 0
+skipped_amenities = []
 for f in amenities_data:
     temp_data = amenities_data[f]
     for d in temp_data:
@@ -115,6 +116,7 @@ for f in amenities_data:
                 if len(postcode) > 0:
                     address['postcode'] = postcode
                 else:
+                    skipped_amenities.append({'point': d, 'geopy addr': location.address})
                     add_to_dataset = False
             except:
                 pass
@@ -217,8 +219,15 @@ final_data = {
     "data": zipcode_to_amenity
 }
 
-with open('./created_data/amenity_zipcode_dataset_fixed.json', 'w') as outfile:
-    json.dump(final_data, outfile)
+skipepd_data = {
+    'data': skipped_amenities
+}
+
+# with open('./created_data/amenity_zipcode_dataset_fixed.json', 'w') as outfile:
+#     json.dump(final_data, outfile)
+
+with open('./created_data/amenity_zipcode_skipped_data.json', 'w') as outfile:
+    json.dump(skipped_amenities, outfile)
             
 
 # code for getting count data
