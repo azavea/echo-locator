@@ -7,7 +7,6 @@ import Popup from '../components/text-alert-popup'
 import {ROUND_TRIP_MINUTES} from '../constants'
 import type {NeighborhoodImageMetadata} from '../types'
 import {getFirstNeighborhoodImage} from '../utils/neighborhood-images'
-import MapMarkerIcon from '../icons/map-marker-icon'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
 
@@ -76,7 +75,6 @@ export default class RouteCard extends React.PureComponent<Props> {
 
   render () {
     const {
-      activeNeighborhood,
       isFavorite,
       goToDetails,
       neighborhood,
@@ -87,8 +85,6 @@ export default class RouteCard extends React.PureComponent<Props> {
       userProfile
     } = this.props
 
-    const active = activeNeighborhood === neighborhood.properties.id
-    const markerClass = `neighborhood-summary__marker ${active ? 'neighborhood-summary__marker--on' : ''}`
     const { time } = neighborhood
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
@@ -112,8 +108,8 @@ export default class RouteCard extends React.PureComponent<Props> {
           <SummaryImage nprops={neighborhood.properties} />
           <Icon
             className='neighborhood-summary__star'
-            type={isFavorite ? 'heart' : 'heart-o'}
-            style={{color:"white"}}
+            type={'heart'}
+            style={isFavorite ? {color: '#02b3cd'} : {color: '#fff'}}
             onClick={(e) => {
               e.preventDefault()
               e.stopPropagation()
@@ -153,13 +149,13 @@ export default class RouteCard extends React.PureComponent<Props> {
           : null
         }
         <div className='neighborhood-summary__name'>
-            <div className='neighborhood-summary__title'>{title}</div>
-          </div>
+          <div className='neighborhood-summary__title'>{title}</div>
+        </div>
         <div className='neighborhood-summary__contents'>
           <div className='neighborhood-summary__descriptive'>
             <div className='neighborhood-summary__trip'>
               <div className='neighborhood-summary__duration'>
-                {message('Units.About')} {roundedTripTime} {message('Units.Mins')} {message(modeKey)} 
+                {message('Units.About')} {roundedTripTime} {message('Units.Mins')} {message(modeKey)}
                   &nbsp;
                 <span className='neighborhood-summary__mode'>
                   {message('NeighborhoodDetails.FromOrigin')}

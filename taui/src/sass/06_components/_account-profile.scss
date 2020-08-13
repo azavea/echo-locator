@@ -80,6 +80,11 @@
     &--radio {
       width: 1.6rem;
       height: 1.6rem;
+
+      &:checked {
+        background-color: $primary !important;
+        border-color: $primary !important;
+      }
     }
 
     &:disabled {
@@ -174,31 +179,24 @@
       }
 
       h4 {
+        @include text(300);
         display: inline;
         padding-left: 10px;
-        color: #424242;
-        font-weight: normal;
-        font-size: 15px;
-        font-family: 'Open Sans', serif;
         font-style: italic;
         line-height: 148%;
       }
     }
 
     &__text-wrapper {
+      @include text(300);
       width: 75%;
     }
 
     &__phone-wrapper {
       h5 {
+        @include text(400);
         display: inline;
         padding-left: 10px;
-        color: #424242;
-        font-weight: normal;
-        font-size: 15px;
-        font-family: 'Open Sans', serif;
-        font-style: normal;
-        line-height: 148%;
       }
     }
 
@@ -219,14 +217,9 @@
       padding-left: 20px;
 
       p {
+        @include text(300);
         display: inline;
         padding-left: 10px;
-        color: #424242;
-        font-weight: normal;
-        font-size: 15px;
-        font-family: 'Open Sans', serif;
-        font-style: normal;
-        line-height: 148%;
       }
 
       input {
@@ -241,6 +234,7 @@
       padding-left: 50px;
 
       p {
+        @include text(350);
         margin-right: 20px;
       }
     }
@@ -258,25 +252,16 @@
       border-bottom: 1px solid #9aa0a6;
 
       p {
+        @include text(350)
         display: inline-block;
-        color: #424242;
-        font-weight: normal;
-        font-size: 15px;
-        font-family: 'Open Sans', serif;
-        font-style: normal;
-        line-height: 148%;
       }
 
       button {
+        @include text(350)
         right: 0%;
         width: 25%;
         margin-left: 40px;
-        color: #3b88fd;
-        font-weight: normal;
-        font-size: 15px;
-        font-family: 'Open Sans', serif;
-        font-style: normal;
-        line-height: 148%;
+        color: $primary !important;
       }
     }
 
@@ -285,13 +270,9 @@
     }
 
     select {
+      @include text(350)
       display: inline-block;
-      color: #3b88fd;
-      font-weight: normal;
-      font-size: 15px;
-      font-family: 'Open Sans', serif;
-      font-style: normal;
-      line-height: 148%;
+      color: $primary !important;
       border: none;
     }
   }

@@ -2,15 +2,13 @@
   @include text(300);
   flex: none;
   table-layout: fixed;
-  // margin-left: 3rem;
 
   &__cell {
+    @include font-weight(bold)
     padding-top: 0.6rem;
     padding-bottom: 0.5rem;
     white-space: nowrap;
     vertical-align: middle;
-
-    @include font-weight(bold)
 
     &:first-child {
       padding-right: 0.8rem;
@@ -27,9 +25,9 @@
   }
 
   &__school-choice {
-    font-style: normal;
     color: #02b3cd !important;
     font-size: 1.5rem;
+    font-style: normal;
 
     &:hover {
       text-decoration: underline;
