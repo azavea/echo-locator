@@ -3,9 +3,10 @@ import {Component} from 'react'
 import message from '@conveyal/woonerf/message'
 import Loader from 'react-loader-spinner'
 
-import AmenityButton from './amenity-button'
 import getBHAListings from '../utils/bha-data-extraction'
 import getListings from '../utils/listings'
+
+import AmenityButton from './amenity-button'
 
 const childcare = '../../assets/img/icons/childcare.png'
 const park = '../../assets/img/icons/park.png'
@@ -21,12 +22,12 @@ type Props = {
     activeNeighborhood: any,
     amenities: any,
     clickedNeighborhood: any,
-    updateMapAmenities: any => void,
     listingsLoading: boolean,
+    neighborhood: any,
     showBHAListings: boolean,
     showRealtorListings: boolean,
-    userProfile: AccountProfile,
-    neighborhood: any
+    updateMapAmenities: any => void,
+    userProfile: AccountProfile
 }
 
 type State = {
@@ -148,7 +149,6 @@ export default class TopBar extends Component<Props, State> {
     )
   }
 
-
   // get amenity -> [amenities] for zipcode this.props.activeNeighborhood
   getNeighborhoodAmenities () {
     var neighZip = this.props.activeNeighborhood
@@ -226,9 +226,7 @@ export default class TopBar extends Component<Props, State> {
     const {
       listingsLoading,
       showBHAListings,
-      showRealtorListings,
-      userProfile,
-      neighborhood
+      showRealtorListings
     } = this.props
     const ListingsButton = this.listingsButton
     const HideListingsButton = this.hideListingsButton

@@ -4,6 +4,7 @@ import API from '@aws-amplify/api'
 import Storage from '@aws-amplify/storage'
 import lonlat from '@conveyal/lonlat'
 import message from '@conveyal/woonerf/message'
+import ReactTooltip from 'react-tooltip'
 import find from 'lodash/find'
 import range from 'lodash/range'
 import {PureComponent} from 'react'
@@ -706,6 +707,8 @@ export default class EditProfile extends PureComponent<Props> {
     return (
       <div className='account-profile__destinations'>
         <h3 className='account-profile__label'>{message(language + 'Profile.Destinations')}</h3>
+        <p data-tip={message('Tooltips.ProfileImpLoc')}>Why are we asking you this?</p>
+        <ReactTooltip />
         <div className='account-profile__destination-list-header'>
           <div className='account-profile__destination_field account-profile__destination_field--wide'>
             <span className='account-profile__destination-list-heading'>
@@ -866,7 +869,6 @@ export default class EditProfile extends PureComponent<Props> {
   // Final render
   // TODO: refactor out yet more sub-components
   render () {
-    console.log('edit-profile ', this.props.language)
     const addAddress = this.addAddress // function
     const deleteAddress = this.deleteAddress // function
     const editAddress = this.editAddress

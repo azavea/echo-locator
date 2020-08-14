@@ -44,7 +44,7 @@ export default class AmenityButton extends Component<Props> {
     }
     var name = this.props.name[0].toUpperCase() + this.props.name.slice(1, this.props.name.length)
     return (
-      <button className='top-bar__button-amenities' style={{backgroundColor:bgColor}} onClick={this.handleClick} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
+      <button className='top-bar__button-amenities' style={{backgroundColor: bgColor}} onClick={this.handleClick} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
         <img className='top-bar__icon' src={this.props.image} alt='' />
         {name}
       </button>

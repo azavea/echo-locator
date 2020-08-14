@@ -9,6 +9,7 @@ class Amenity(object):
         self.id = int(id)
         self.location = location
         self.properties = properties.copy()
+        # TODO: Insert assert functions
 
     def to_json(self):
         return {
