@@ -704,10 +704,13 @@ export default class EditProfile extends PureComponent<Props> {
       </li>
     })
 
+    const impLocationToolTip = message('Tooltips.ProfileImpLoc')
+    console.log('loc tool tip', impLocationToolTip)
+
     return (
       <div className='account-profile__destinations'>
         <h3 className='account-profile__label'>{message(language + 'Profile.Destinations')}</h3>
-        <p data-tip={message('Tooltips.ProfileImpLoc')}>Why are we asking you this?</p>
+        <p data-tip={impLocationToolTip}>Why are we asking you this?</p>
         <ReactTooltip />
         <div className='account-profile__destination-list-header'>
           <div className='account-profile__destination_field account-profile__destination_field--wide'>
