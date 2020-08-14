@@ -327,7 +327,7 @@ export default class Dock extends PureComponent<Props> {
             className='map-sidebar__navigation-button'
             onClick={backFromDetails}
           >
-            <Icon type='chevron-circle-left' className='map-sidebar__navigation-chevron-button'/>
+            <Icon type='chevron-circle-left' className='map-sidebar__navigation-chevron-button' />
             {showFavorites
               ? message('Dock.GoBackToFavorites')
               : message('Dock.GoBackToRecommendations')}

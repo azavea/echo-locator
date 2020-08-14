@@ -1,8 +1,8 @@
 .top-bar {
 	justify-content: space-between;
 	width: 100%;
-	white-space: nowrap;
 	margin-bottom: 2rem;
+	white-space: nowrap;
 
 	&__bar {
 		display: inline-block;
@@ -90,7 +90,7 @@
 	&__button-amenities {
 		display: inline-block;
 	    margin: 0 0.25rem;
-	    padding: 0 0.5rem 0.5rem 0.5rem;
+	    padding: 0 0.5rem 0.5rem;
 	    color: $white;
 	    text-align: center;
 	    text-transform: none;
@@ -124,29 +124,20 @@
 	}
 
 	&__amenities-all {
-	  z-index: 1000;
-	  display: inline-block;
-	  white-space: no-wrap;
-	  align-items: center;
-	  padding: 0% 2%;
 	  @include text(200);
 	  @include font-weight(bold);
+	  z-index: 1000;
+	  display: inline-block;
+	  align-items: center;
+	  padding: 0% 2%;
+	  white-space: no-wrap;
 	}
-
-	// &__amenities-button {
-	// 	@include button($color: $white, $background: $gray-550);
-	// 	margin: 0 0.1rem;
-	// 	display: table-cell;
-	// 	align-items: center;
-	// }
-
 
 	&__icon {
 	  position: relative;
-	  display: inline-block;
 	  top: 0.5rem;
-	  width: 2rem;
 	  z-index: 99;
+	  display: inline-block;
+	  width: 2rem;
 	}
-
 }

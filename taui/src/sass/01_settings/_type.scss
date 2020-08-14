@@ -15,6 +15,7 @@ $font-sizes: (
     100: 1rem,
     200: 1.2rem,
     300: 1.4rem,
+    350: 1.5rem,
     400: 1.6rem,
     450: 1.8rem,
     500: 2rem,
@@ -40,6 +41,12 @@ $text-settings: (
         color: map-get($font-colors, normal),
         font-weight: map-get($font-weights, normal),
         font-size: map-get($font-sizes, 300),
+        line-height: 1.5,
+    ),
+    350: (
+        color: map-get($font-colors, normal),
+        font-weight: map-get($font-weights, normal),
+        font-size: map-get($font-sizes, 350),
         line-height: 1.5,
     ),
     400: (

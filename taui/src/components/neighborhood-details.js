@@ -4,25 +4,18 @@ import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
-import Loader from 'react-loader-spinner'
 
 import {ROUND_TRIP_MINUTES} from '../constants'
 import type {AccountProfile, NeighborhoodImageMetadata} from '../types'
 import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
-import getGoogleSearchLink from '../utils/google-search-link'
 import getGoSection8SearchLink from '../utils/gosection8-search-link'
 import getHotpadsSearchLink from '../utils/hotpads-search-link'
-import getNeighborhoodImage from '../utils/neighborhood-images'
 import getZillowSearchLink from '../utils/zillow-search-link'
-import getRealtorSearchLink from '../utils/realtor-search-link'
-import PolygonIcon from '../icons/polygon-icon'
+import {getFirstNeighborhoodImage, getNeighborhoodImage} from '../utils/neighborhood-images'
 import Popup from '../components/text-alert-popup'
-import {getFirstNeighborhoodImage} from '../utils/neighborhood-images'
-
 
 import RouteSegments from './route-segments'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import NeighborhoodListInfo from './neighborhood-list-info'
 
 type Props = {
@@ -45,9 +38,9 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     this.state = {isFavorite: props.userProfile && props.neighborhood
       ? props.userProfile.favorites.indexOf(props.neighborhood.properties.id) !== -1
       : false,
-      showTextPopup: false,
-      showOptOutMessage: false,
-      showFullDescription: false
+    showTextPopup: false,
+    showOptOutMessage: false,
+    showFullDescription: false
     }
 
     this.neighborhoodStats = this.neighborhoodStats.bind(this)
@@ -104,9 +97,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodStats (props) {
-    const { neighborhood, userProfile } = props
-    const { rooms, budget, hasVoucher } = userProfile
-    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
+    const { neighborhood } = props
     return (
       <div className='neighborhood-details__stats'>
         <NeighborhoodListInfo neighborhood={neighborhood} />
@@ -121,8 +112,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <button className='neighborhood-details__star'>
         <Icon
-          type={isFavorite ? 'heart' : 'heart-o'}
-          style={{color:"#fff"}} 
+          type={'heart'}
+          style={isFavorite ? {color: '#02b3cd'} : {color: '#fff'}}
           onClick={(e) => {
             toggleTextPopup(isFavorite)
           }} />
@@ -149,36 +140,20 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   summaryImage (props) {
-    const showStreet = !props.open_space_or_landmark_thumbnail || !nprops.school_thumbnail || !nprops.town_square_thumbnail
-    const NeighborhoodImage = this.neighborhoodImage
-    if (typeof props.neighborhood.open_space_or_landmark_thumbnail !== "undefined") {
-      return (
-        <NeighborhoodImage
-        imageField='open_space_or_landmark'
-        nprops={props} />
-      ) 
+    const image: NeighborhoodImageMetadata = getFirstNeighborhoodImage(props.neighborhood)
+    if (!image) {
+      return null
     }
-    else if (typeof props.neighborhood.school_thumbnail !== "undefined") {
-      return (
-        <NeighborhoodImage
-          imageField='school'
-          nprops={props} />
-      )
-    }
-    else if (typeof props.neighborhood.town_square_thumbnail !== "undefined") {
-      return (
-        <NeighborhoodImage
-          imageField='town_square'
-          nprops={props} />
-      )
-    }
-    else {
-      return (
-        <NeighborhoodImage
-          imageField='street'
-          nprops={props} />
-      )
-    }
+
+    return (
+      <div
+        className='neighborhood-summary__image'
+        title={image.attribution}>
+        <img
+          alt={image.description}
+          src={image.thumbnail} />
+      </div>
+    )
   }
 
   neighborhoodImages (props) {
@@ -273,20 +248,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           </a>
           <a
             className='neighborhood-details__link'
-            href='https://www.bostonhousing.org/en/Apartment-Listing.aspx?btype=8,7,6,5,4,3,2,1'
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.BHAApartmentsLink')}
-          </a>
-          <a
-            className='neighborhood-details__link'
-            href='https://www.apartments.com/'
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.ApartmentsDotComLink')}
-          </a>
-          <a
-            className='neighborhood-details__link'
             href='https://eeclead.force.com/EEC_ChildCareSearch'
             target='_blank'
           >
@@ -300,33 +261,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             {message('NeighborhoodDetails.RentEstimatorLink')}
           </a>
         </div>
-        <div className='neighborhood-details__line' />
-        <h6 className='neighborhood-details__link-heading'>
-          {message('NeighborhoodDetails.AboutNeighborhoodLinksHeading')}
-        </h6>
-        <div className='neighborhood-details__links'>
-          {neighborhood.properties.town_link && <a
-            className='neighborhood-details__link'
-            href={neighborhood.properties.town_link}
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.WebsiteLink')}
-          </a>}
-          {neighborhood.properties.wikipedia_link && <a
-            className='neighborhood-details__link'
-            href={neighborhood.properties.wikipedia_link}
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.WikipediaLink')}
-          </a>}
-          <a
-            className='neighborhood-details__link'
-            href={getGoogleSearchLink(neighborhood.properties.id)}
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.GoogleSearchLink')}
-          </a>
-        </div>
       </>
     )
   }
@@ -337,21 +271,15 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       neighborhood,
       origin,
       setFavorite,
-      userProfile,
-      showBHAListings,
-      showRealtorListings,
-      listingsLoading,
       activeListing,
-      listingTravelTime
+      listingTravelTime,
+      userProfile
     } = this.props
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
-    const NeighborhoodImages = this.neighborhoodImages
     const SummaryImage = this.summaryImage
     const NeighborhoodLinks = this.neighborhoodLinks
 
-    const ListingsButton = this.listingsButton
-    const HideListingsButton = this.hideListingsButton
     const StarButton = this.starButton
 
     if (!neighborhood || !userProfile) {
@@ -387,20 +315,39 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           <div className='neighborhood-details__name'>
             <div className='neighborhood-details__title'>{town} &ndash; {id}</div>
           </div>
-          {!this.state.showFullDescription && 
+          {!this.state.showFullDescription &&
             <div className='neighborhood-details__desc'>
-              {description.substring(0, 80)}...&nbsp; 
+              {description.substring(0, 80)}...&nbsp;
               <button className='neighborhood-details__button' onClick={this.toggleDescription}>
                 Read More
               </button>
             </div>
           }
-          {this.state.showFullDescription && 
+          {this.state.showFullDescription &&
             <div className='neighborhood-details__desc'>
-              {description} &nbsp; 
+              {description} &nbsp;
               <button className='neighborhood-details__button' onClick={this.toggleDescription}>
                 Read Less
               </button>
+              <h6 className='neighborhood-details__link-heading' style={{marginTop: '1rem'}}>
+                {message('NeighborhoodDetails.AboutNeighborhoodLinksHeading')}
+              </h6>
+              <div className='neighborhood-details__links'>
+                {neighborhood.properties.town_link && <a
+                  className='neighborhood-details__link'
+                  href={neighborhood.properties.town_link}
+                  target='_blank'
+                >
+                  {message('NeighborhoodDetails.WebsiteLink')}
+                </a>}
+                {neighborhood.properties.wikipedia_link && <a
+                  className='neighborhood-details__link'
+                  href={neighborhood.properties.wikipedia_link}
+                  target='_blank'
+                >
+                  {message('NeighborhoodDetails.WikipediaLink')}
+                </a>}
+              </div>
             </div>
           }
           <div className='neighborhood-details__header-line' />
@@ -456,7 +403,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               {message('Units.Mins')}&nbsp;
               <ModesList segments={bestJourney} />&nbsp;
               {message('NeighborhoodDetails.FromOrigin')}&nbsp;
-              <span style={{fontWeight:"bold"}}>{currentDestination && currentDestination.purpose.toLowerCase()}</span>
+              <span style={{fontWeight: 'bold'}}>{currentDestination && currentDestination.purpose.toLowerCase()}</span>
             </div>
             <a
               className='neighborhood-details__directions'
@@ -469,7 +416,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               {message('NeighborhoodDetails.DirectionsLink')}
             </a>
           </div>
-          {!hasVehicle && 
+          {!hasVehicle &&
             <div>
               <div className='neighborhood-details__line' />
               <RouteSegments

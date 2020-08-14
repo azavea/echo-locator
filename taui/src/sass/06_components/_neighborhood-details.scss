@@ -9,8 +9,8 @@
 
   &__header-section {
     margin-bottom: 0.8rem;
-    background-color: $white;
     padding-bottom: 0.8rem;
+    background-color: $white;
   }
 
   &__header {
@@ -22,8 +22,8 @@
 
   &__star {
     position: absolute;
-    margin-right: 1rem;
     margin-top: 1rem;
+    margin-right: 1rem;
     font-size: 2.5rem !important;
   }
 
@@ -72,10 +72,11 @@
       color: $primary;
     }
 
+    margin-left: 1.6rem;
+
     &:hover {
       text-decoration: underline;
     }
-    margin-left: 1.6rem;
   }
 
   .route-segments {
@@ -90,7 +91,7 @@
     align-items: stretch;
     justify-content: space-between;
     width: 100%;
-    margin: 0.8rem 1.6rem
+    margin: 0.8rem 1.6rem;
   }
 
   &__rent {
@@ -141,8 +142,8 @@
 
   &__desc {
     @include text(300);
-    color: $gray-800;
     padding: 0.8rem 1.6rem;
+    color: $gray-800;
   }
 
   &__link-heading {
@@ -173,6 +174,7 @@
     &:not(:last-child) {
       margin-right: 1.6rem;
     }
+
     &:hover {
       text-decoration: underline;
     }
@@ -194,5 +196,5 @@
   &__header-line {
     margin: 0.8rem 1.6rem;
     border: 1px solid #c4c4c4;
-  }  
+  }
 }
