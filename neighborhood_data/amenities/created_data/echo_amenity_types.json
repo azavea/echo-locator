@@ -1,5 +1,5 @@
 {
-    "school": ["college", "university", "music", "kindergarten"],
+    "school": ["college", "university", "music_school", "kindergarten"],
     "convenience": [],
     "health": ["clinic", "dentist", "doctors", "hospital", "pharmacy", "veterinary"],
     "community": ["social_facility", "community_centre"],

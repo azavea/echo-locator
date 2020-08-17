@@ -171,6 +171,10 @@ Tooltips:
   ViolentCrimeBoston: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://data.boston.gov/\" target=\"_blank\">Boston Police Department Incident Reports</a>)</p>"
   RentalUnits: "<p><strong>%(town)</strong> has an <strong>%(averageRelation)</strong> number of apartment rentals for the state. From 2017-2018 there were <strong>%(totalMapc)</strong> units listed on Craigslist. (Source: <a href=\"https://www.mapc.org/\" target=\"_blank\">MAPC</a>)</p>"
   ProfileImpLoc: "Knowing the places you visit often helps us recommend neighborhoods to you. Entering the address of your work or school allows us to recommend neighborhoods that are easy to reach by public transportation."
+  PublicSafety: "ECHO’s public safety measures reflect violent crime rates as reported by the Federal Bureau of Investigations (FBI) as well as the Boston and Cambridge Police Departments in 2019. The percentile scores indicate how each neighborhood compares relative to all other ZIP Codes in Massachusetts."
+  SchoolQuality: "ECHO’s information on school quality comes from the Massachusetts Department of Elementary and Secondary Education. Our metric balances both an overall measure of school quality across each ZIP Code, as well as the Department’s 2018-2019 Accountability Metrics and “Economically Disadvantaged” Growth Metrics, which gauge school-wide achievement and academic growth among disadvantaged students, respectively. These data include public schools, but not private, charter, vocational, technical, or virtual institutions."
+  CommuteTime: "ECHO recommends neighborhoods based on the travel time to the address(es) you entered previously. We take public transit times, rush hour, and other commute metrics into account for our recommendations."
+  VoucherNumber: "You can find your voucher number at the *insert location* on your voucher."
   ImportanceLabels:
   1: Not important
   2: Somewhat important
@@ -207,6 +211,7 @@ Booleans:
   Yes: Yes
   No: No
 UnknownValue: Unknown
+
 #Spanish
 Spanish: Spanish
 Systems:
@@ -413,6 +418,7 @@ Booleans:
   Yes: Yes
   No: No
 UnknownValue: Unknown
+
 #Chinese
 Chinese: Chinese
 Systems:

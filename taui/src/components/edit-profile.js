@@ -29,6 +29,8 @@ import type {AccountAddress, AccountProfile} from '../types'
 import Geocoder from './geocoder'
 import Checkbox from './checkbox'
 
+const toolTipImg = '../../assets/tooltip_icon.png'
+
 const axios = require('axios')
 
 type Props = {
@@ -710,8 +712,10 @@ export default class EditProfile extends PureComponent<Props> {
     return (
       <div className='account-profile__destinations'>
         <h3 className='account-profile__label'>{message(language + 'Profile.Destinations')}</h3>
-        <p data-tip={impLocationToolTip}>Why are we asking you this?</p>
-        <ReactTooltip />
+        <p style={{color: '#02B3CD', display: 'inline-block'}} data-tip={impLocationToolTip}>Why are we asking you this?</p>
+        <ReactTooltip
+          className='map-sidebar__tooltip'
+        />
         <div className='account-profile__destination-list-header'>
           <div className='account-profile__destination_field account-profile__destination_field--wide'>
             <span className='account-profile__destination-list-heading'>
@@ -915,6 +919,7 @@ export default class EditProfile extends PureComponent<Props> {
     const TextOptions = this.textOptions
     const handleCheckboxChange = this.handleCheckboxChange
     const removePreference = this.removePreference
+    const voucherTooltip = message('Tooltips.VoucherNumber')
     return (
       <div className='form-screen'>
         <h2 className='form-screen__heading'>{message(language + 'Profile.Title')}</h2>
@@ -987,6 +992,10 @@ export default class EditProfile extends PureComponent<Props> {
               <div
                 className='account-profile__label'
                 htmlFor='rooms'>{message(language + 'Profile.ChooseVoucher')}</div>
+              <p style={{color: '#02B3CD', display: 'inline-block'}} data-tip={voucherTooltip}>Where can I find my voucher number?</p>
+              <ReactTooltip
+                className='map-sidebar__tooltip'
+              />
               <div className='account-profile__field-row'>
                 <div className='account-profile__field account-profile__field--inline'>
                   <input
@@ -1121,6 +1130,10 @@ export default class EditProfile extends PureComponent<Props> {
                 <label
                   className='account-profile__label account-profile__label--secondary'
                   htmlFor='importanceAccessibility'>{message(language + 'Profile.ImportanceAccessibility')}</label>
+                <img src={toolTipImg} data-tip={'kfabfkdahbfkjadbfkjda'} style={{width: '4%'}} />
+                <ReactTooltip
+                  className='map-sidebar__tooltip'
+                />
                 <ImportanceOptions
                   fieldName='importanceAccessibility'
                   importance={importanceAccessibility}
@@ -1131,6 +1144,10 @@ export default class EditProfile extends PureComponent<Props> {
                 <label
                   className='account-profile__label account-profile__label--secondary'
                   htmlFor='importanceSchools'>{message(language + 'Profile.ImportanceSchools')}</label>
+                <img src={toolTipImg} data-tip={'kfabfkdahbfkjadbfkjda'} style={{width: '4%'}} />
+                <ReactTooltip
+                  className='map-sidebar__tooltip'
+                />
                 <ImportanceOptions
                   fieldName='importanceSchools'
                   importance={importanceSchools}
@@ -1141,6 +1158,10 @@ export default class EditProfile extends PureComponent<Props> {
                 <label
                   className='account-profile__label account-profile__label--secondary'
                   htmlFor='importanceViolentCrime'>{message('Profile.ImportanceViolentCrime')}</label>
+                <img src={toolTipImg} data-tip={'kfabfkdahbfkjadbfkjda'} style={{width: '4%'}} />
+                <ReactTooltip
+                  className='map-sidebar__tooltip'
+                />
                 <ImportanceOptions
                   fieldName='importanceViolentCrime'
                   importance={importanceViolentCrime}
