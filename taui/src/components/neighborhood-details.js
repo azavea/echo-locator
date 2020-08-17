@@ -112,8 +112,8 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <button className='neighborhood-details__star'>
         <Icon
-          type={'heart'}
-          style={isFavorite ? {color: '#02b3cd'} : {color: '#fff'}}
+          type={isFavorite ? 'heart' : 'heart-o'}
+          style={{color: '#02b3cd'}}
           onClick={(e) => {
             toggleTextPopup(isFavorite)
           }} />
@@ -309,11 +309,11 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       <div className='neighborhood-details'>
         <div className='neighborhood-details__header-section'>
           <header className='neighborhood-details__header'>
-            <StarButton />
             <SummaryImage neighborhood={neighborhood.properties} />
           </header>
           <div className='neighborhood-details__name'>
             <div className='neighborhood-details__title'>{town} &ndash; {id}</div>
+            <StarButton />
           </div>
           {!this.state.showFullDescription &&
             <div className='neighborhood-details__desc'>
