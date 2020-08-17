@@ -3,6 +3,7 @@ import Storage from '@aws-amplify/storage'
 import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import remove from 'lodash/remove'
+import ReactTooltip from 'react-tooltip'
 import {PureComponent, createRef} from 'react'
 
 import {ANONYMOUS_USERNAME, SIDEBAR_PAGE_SIZE} from '../constants'
@@ -10,6 +11,8 @@ import type {AccountProfile} from '../types'
 
 import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
+
+const toolTipImg = '../../assets/tooltip_icon.png'
 
 type Props = {
   activeListing: any,
@@ -227,6 +230,7 @@ export default class Dock extends PureComponent<Props> {
     const NeighborhoodsList = this.neighborhoodsList
     const showAllClass = `map-sidebar__neighborhoods-action ${!showFavorites ? 'map-sidebar__neighborhoods-action--on' : ''}`
     const showSavedClass = `map-sidebar__neighborhoods-action ${showFavorites ? 'map-sidebar__neighborhoods-action--on' : ''}`
+    const whyNeighborhoodTooltip = message('Tooltips.WhyNeighborhoods')
 
     return (
       <>
@@ -243,6 +247,10 @@ export default class Dock extends PureComponent<Props> {
               {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
             </>}
           </h2>
+          <img src={toolTipImg} data-tip={whyNeighborhoodTooltip} style={{width: '4%'}} />
+          <ReactTooltip
+            className='map-sidebar__tooltip'
+          />
           <div className='map-sidebar__neighborhoods-actions'>
             <button
               onClick={(e) => setShowFavorites(false)}

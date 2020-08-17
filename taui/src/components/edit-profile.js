@@ -920,6 +920,9 @@ export default class EditProfile extends PureComponent<Props> {
     const handleCheckboxChange = this.handleCheckboxChange
     const removePreference = this.removePreference
     const voucherTooltip = message('Tooltips.VoucherNumber')
+    const commuteTooltip = message('Tooltips.CommuteTime')
+    const schoolTooltip = message('Tooltips.SchoolQuality')
+    const safetyTooltip = message('Tooltips.PublicSafety')
     return (
       <div className='form-screen'>
         <h2 className='form-screen__heading'>{message(language + 'Profile.Title')}</h2>
@@ -1130,7 +1133,7 @@ export default class EditProfile extends PureComponent<Props> {
                 <label
                   className='account-profile__label account-profile__label--secondary'
                   htmlFor='importanceAccessibility'>{message(language + 'Profile.ImportanceAccessibility')}</label>
-                <img src={toolTipImg} data-tip={'kfabfkdahbfkjadbfkjda'} style={{width: '4%'}} />
+                <img src={toolTipImg} data-tip={commuteTooltip} style={{width: '4%'}} />
                 <ReactTooltip
                   className='map-sidebar__tooltip'
                 />
@@ -1144,7 +1147,7 @@ export default class EditProfile extends PureComponent<Props> {
                 <label
                   className='account-profile__label account-profile__label--secondary'
                   htmlFor='importanceSchools'>{message(language + 'Profile.ImportanceSchools')}</label>
-                <img src={toolTipImg} data-tip={'kfabfkdahbfkjadbfkjda'} style={{width: '4%'}} />
+                <img src={toolTipImg} data-tip={schoolTooltip} style={{width: '4%'}} />
                 <ReactTooltip
                   className='map-sidebar__tooltip'
                 />
@@ -1158,7 +1161,7 @@ export default class EditProfile extends PureComponent<Props> {
                 <label
                   className='account-profile__label account-profile__label--secondary'
                   htmlFor='importanceViolentCrime'>{message('Profile.ImportanceViolentCrime')}</label>
-                <img src={toolTipImg} data-tip={'kfabfkdahbfkjadbfkjda'} style={{width: '4%'}} />
+                <img src={toolTipImg} data-tip={safetyTooltip} style={{width: '4%'}} />
                 <ReactTooltip
                   className='map-sidebar__tooltip'
                 />
