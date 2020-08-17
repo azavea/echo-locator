@@ -919,7 +919,6 @@ export default class EditProfile extends PureComponent<Props> {
     const TextOptions = this.textOptions
     const handleCheckboxChange = this.handleCheckboxChange
     const removePreference = this.removePreference
-    const voucherTooltip = message('Tooltips.VoucherNumber')
     const commuteTooltip = message('Tooltips.CommuteTime')
     const schoolTooltip = message('Tooltips.SchoolQuality')
     const safetyTooltip = message('Tooltips.PublicSafety')
@@ -995,10 +994,6 @@ export default class EditProfile extends PureComponent<Props> {
               <div
                 className='account-profile__label'
                 htmlFor='rooms'>{message(language + 'Profile.ChooseVoucher')}</div>
-              <p style={{color: '#02B3CD', display: 'inline-block'}} data-tip={voucherTooltip}>Where can I find my voucher number?</p>
-              <ReactTooltip
-                className='map-sidebar__tooltip'
-              />
               <div className='account-profile__field-row'>
                 <div className='account-profile__field account-profile__field--inline'>
                   <input

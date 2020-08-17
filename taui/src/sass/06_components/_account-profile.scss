@@ -252,12 +252,12 @@
       border-bottom: 1px solid #9aa0a6;
 
       p {
-        @include text(350)
+        @include text(350);
         display: inline-block;
       }
 
       button {
-        @include text(350)
+        @include text(350);
         right: 0%;
         width: 25%;
         margin-left: 40px;
@@ -270,7 +270,7 @@
     }
 
     select {
-      @include text(350)
+      @include text(350);
       display: inline-block;
       color: $primary !important;
       border: none;
