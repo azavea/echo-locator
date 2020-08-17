@@ -175,6 +175,7 @@ Tooltips:
   SchoolQuality: "ECHO’s information on school quality comes from the Massachusetts Department of Elementary and Secondary Education. Our metric balances both an overall measure of school quality across each ZIP Code, as well as the Department’s 2018-2019 Accountability Metrics and “Economically Disadvantaged” Growth Metrics, which gauge school-wide achievement and academic growth among disadvantaged students, respectively. These data include public schools, but not private, charter, vocational, technical, or virtual institutions."
   CommuteTime: "ECHO recommends neighborhoods based on the travel time to the address(es) you entered previously. We take public transit times, rush hour, and other commute metrics into account for our recommendations."
   VoucherNumber: "You can find your voucher number at the *insert location* on your voucher."
+  WhyNeighborhoods: "We recommend neighborhoods based on the preferences you set in your profile. We weigh each factor based on how important it is to you. We use this information to recommend neighborhoods that fit your preferences the best."
   ImportanceLabels:
   1: Not important
   2: Somewhat important
