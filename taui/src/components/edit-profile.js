@@ -779,7 +779,7 @@ export default class EditProfile extends PureComponent<Props> {
             <h4>None set yet</h4>
           </div>
           <div className='account-profile__text-alerts__text-wrapper'>
-            <p>You can receive texts about new apartments by saving individual neighborhoods. After saving a neighborhood by clicking the ☆ icon, you will receive texts about new apartments in that area.</p>
+            <p>You can receive texts about new apartments by saving individual neighborhoods. After saving a neighborhood by clicking the heart icon, you will receive texts about new apartments in that area.</p>
           </div>
         </div>
       )
