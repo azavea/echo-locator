@@ -3,6 +3,7 @@ import {Component} from 'react'
 
 type Props = {
     activeNeighborhood: string,
+    clickedNeighborhood: any,
     color: string,
     data: any,
     image: string, // image url
@@ -38,35 +39,16 @@ export default class AmenityButton extends Component<Props> {
     // setting up styles for button
     var bgColor = ''
     if (this.state.clicked) {
-      if (this.state.hovered) {
-        bgColor = this.state.defaultColor
-      } else {
-        bgColor = this.props.color
-      }
+      bgColor = this.props.color
     } else {
-      if (this.state.hovered) {
-        bgColor = this.props.color
-      } else {
-        bgColor = this.state.defaultColor
-      }
+      bgColor = this.state.defaultColor
     }
-    var buttonStyle = {display: 'flex',
-      justifyContent: 'space-evenly',
-      alignItems: 'center',
-      backgroundColor: bgColor,
-      color: 'white',
-      padding: '2% 15%',
-      width: '120%',
-      height: '100%',
-      fontSize: '70%'}
     var name = this.props.name[0].toUpperCase() + this.props.name.slice(1, this.props.name.length)
     return (
-      <div className={'amenities-amenity'} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
-        <button style={buttonStyle} onClick={this.handleClick}>
-          <img className='amenities-icon' src={this.props.image} alt='' />
-          {name}
-        </button>
-      </div>
+      <button className='top-bar__button-amenities' style={{backgroundColor: bgColor}} onClick={this.handleClick} onMouseEnter={this.handleHover} onMouseLeave={this.handleHover}>
+        <img className='top-bar__icon' src={this.props.image} alt='' />
+        {name}
+      </button>
     )
   }
 }

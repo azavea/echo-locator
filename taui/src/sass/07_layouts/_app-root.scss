@@ -23,31 +23,3 @@
     }
   }
 }
-
-.amenities-all {
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  padding: 0% 2%;
-
-  p {
-    font-size: 80%;
-    white-space: nowrap;
-  }
-}
-
-.amenities-box {
-  display: flex;
-  font-family: 'Open Sans', sans-serif;
-
-  .amenities-amenity {
-    align-items: center;
-    width: 25%;
-    padding: 1%;
-
-    .amenities-icon {
-      top: 1px;
-      width: 35%;
-    }
-  }
-}

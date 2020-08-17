@@ -1,27 +1,21 @@
+/* eslint-disable complexity */
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
-import Loader from 'react-loader-spinner'
 
 import {ROUND_TRIP_MINUTES} from '../constants'
 import type {AccountProfile, NeighborhoodImageMetadata} from '../types'
 import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
-import getGoogleSearchLink from '../utils/google-search-link'
 import getGoSection8SearchLink from '../utils/gosection8-search-link'
 import getHotpadsSearchLink from '../utils/hotpads-search-link'
-import getNeighborhoodImage from '../utils/neighborhood-images'
 import getZillowSearchLink from '../utils/zillow-search-link'
-import getRealtorSearchLink from '../utils/realtor-search-link'
-import PolygonIcon from '../icons/polygon-icon'
-import getListings from '../utils/listings'
+import {getFirstNeighborhoodImage, getNeighborhoodImage} from '../utils/neighborhood-images'
 import Popup from '../components/text-alert-popup'
-import getBHAListings from '../utils/bha-data-extraction'
 
 import RouteSegments from './route-segments'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import NeighborhoodListInfo from './neighborhood-list-info'
 
 type Props = {
@@ -31,7 +25,8 @@ type Props = {
   listingsLoading: boolean,
   neighborhood: any,
   setFavorite: any,
-  showListings: boolean,
+  showBHAListings: boolean,
+  showRealtorListings: boolean,
   userProfile: AccountProfile
 }
 export default class NeighborhoodDetails extends PureComponent<Props> {
@@ -44,21 +39,20 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       ? props.userProfile.favorites.indexOf(props.neighborhood.properties.id) !== -1
       : false,
     showTextPopup: false,
-    showOptOutMessage: false
+    showOptOutMessage: false,
+    showFullDescription: false
     }
 
     this.neighborhoodStats = this.neighborhoodStats.bind(this)
     this.neighborhoodImage = this.neighborhoodImage.bind(this)
     this.neighborhoodImages = this.neighborhoodImages.bind(this)
+    this.summaryImage = this.summaryImage.bind(this)
     this.neighborhoodLinks = this.neighborhoodLinks.bind(this)
 
-    this.displayListings = this.displayListings.bind(this)
-    this.hideListings = this.hideListings.bind(this)
-    this.listingsButton = this.listingsButton.bind(this)
-    this.hideListingsButton = this.hideListingsButton.bind(this)
     this.starButton = this.starButton.bind(this)
 
     this.toggleTextPopup = this.toggleTextPopup.bind(this)
+    this.toggleDescription = this.toggleDescription.bind(this)
 
     this.setFavoriteAndToggle = this.setFavoriteAndToggle.bind(this)
   }
@@ -91,71 +85,23 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     }
   }
 
+  toggleDescription () {
+    this.setState({
+      showFullDescription: !this.state.showFullDescription
+    })
+  }
+
   setFavoriteAndToggle (id, userProfile, changeUserProfile, setFavorite) {
     this.toggleTextPopup()
     setFavorite(id, userProfile, changeUserProfile)
   }
 
   neighborhoodStats (props) {
-    const { neighborhood, userProfile } = props
-    const { rooms, budget, hasVoucher } = userProfile
-    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
+    const { neighborhood } = props
     return (
       <div className='neighborhood-details__stats'>
-        <div className='neighborhood-details__rent'>
-          <div className='neighborhood-details__rent-label'>{hasVoucher ? message('NeighborhoodDetails.MaxRent') : 'Budget'}</div>
-          <div className='neighborhood-details__rent-value'>${hasVoucher ? maxSubsidy : budget}</div>
-          <div className='neighborhood-details__rent-rooms'>{rooms}br</div>
-        </div>
         <NeighborhoodListInfo neighborhood={neighborhood} />
       </div>
-    )
-  }
-
-  async displayListings (e) {
-    const hasVoucher = this.props.userProfile.hasVoucher
-    const budget = this.props.userProfile.budget
-    const rooms = this.props.userProfile.rooms
-    const maxSubsidy = this.props.neighborhood.properties['max_rent_' + rooms + 'br']
-
-    this.props.setListingsLoading(true)
-
-    // param: (zip, budget, rooms)
-    await getBHAListings(this.props.neighborhood.properties.zipcode, budget, rooms).then(data => {
-      this.props.setBHAListings(data)
-    })
-
-    await getListings(this.props.neighborhood.properties.zipcode, hasVoucher ? maxSubsidy : budget, this.props.userProfile.rooms).then(data => {
-      this.props.setDataListings(data)
-    })
-
-    this.props.setShowListings(true)
-    this.props.setListingsLoading(false)
-  }
-
-  hideListings (e) {
-    this.props.setShowListings(false)
-  }
-
-  listingsButton (props) {
-    const displayListings = this.displayListings
-
-    return (
-      <button
-        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
-        onClick={displayListings}>Show Listings
-      </button>
-    )
-  }
-
-  hideListingsButton (props) {
-    const hideListings = this.hideListings
-
-    return (
-      <button
-        className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
-        onClick={hideListings}>Hide Listings
-      </button>
     )
   }
 
@@ -164,30 +110,49 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     const toggleTextPopup = this.toggleTextPopup
 
     return (
-      <button onClick={toggleTextPopup}>
+      <button className='neighborhood-details__star'>
         <Icon
-          className='neighborhood-details__star'
-          type={isFavorite ? 'star' : 'star-o'} />
+          type={isFavorite ? 'heart' : 'heart-o'}
+          style={{color: '#02b3cd'}}
+          onClick={(e) => {
+            toggleTextPopup(isFavorite)
+          }} />
       </button>
     )
   }
 
   neighborhoodImage (props) {
-    const image: NeighborhoodImageMetadata = getNeighborhoodImage(props.nprops, props.imageField)
+    const image: NeighborhoodImageMetadata = getNeighborhoodImage(props.nprops.neighborhood, props.imageField)
     if (!image) {
       return null
     }
 
     return (
-      <a
-        className='neighborhood-details__image'
-        target='_blank'
+      <div
+        className='neighborhood-summary__image'
         title={image.attribution}
         href={image.imageLink}>
         <img
           alt={image.description}
           src={image.thumbnail} />
-      </a>
+      </div>
+    )
+  }
+
+  summaryImage (props) {
+    const image: NeighborhoodImageMetadata = getFirstNeighborhoodImage(props.neighborhood)
+    if (!image) {
+      return null
+    }
+
+    return (
+      <div
+        className='neighborhood-summary__image'
+        title={image.attribution}>
+        <img
+          alt={image.description}
+          src={image.thumbnail} />
+      </div>
     )
   }
 
@@ -225,7 +190,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          Search for {rooms}br with a max budget of ${hasVoucher ? maxSubsidy : budget}
+          Search for {rooms}BR with a max rent of ${hasVoucher ? maxSubsidy : budget}
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -269,6 +234,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             {message('NeighborhoodDetails.GoSection8SearchLink')}
           </a>
         </div>
+        <div className='neighborhood-details__line' />
         <h6 className='neighborhood-details__link-heading'>
           {message('NeighborhoodDetails.MoreSearchToolsLinksHeading')}
         </h6>
@@ -279,20 +245,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             target='_blank'
           >
             {message('NeighborhoodDetails.MetroHousingLink')}
-          </a>
-          <a
-            className='neighborhood-details__link'
-            href='https://www.bostonhousing.org/en/Apartment-Listing.aspx?btype=8,7,6,5,4,3,2,1'
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.BHAApartmentsLink')}
-          </a>
-          <a
-            className='neighborhood-details__link'
-            href='https://www.apartments.com/'
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.ApartmentsDotComLink')}
           </a>
           <a
             className='neighborhood-details__link'
@@ -309,32 +261,6 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             {message('NeighborhoodDetails.RentEstimatorLink')}
           </a>
         </div>
-        <h6 className='neighborhood-details__link-heading'>
-          {message('NeighborhoodDetails.AboutNeighborhoodLinksHeading')}
-        </h6>
-        <div className='neighborhood-details__links'>
-          {neighborhood.properties.town_link && <a
-            className='neighborhood-details__link'
-            href={neighborhood.properties.town_link}
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.WebsiteLink')}
-          </a>}
-          {neighborhood.properties.wikipedia_link && <a
-            className='neighborhood-details__link'
-            href={neighborhood.properties.wikipedia_link}
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.WikipediaLink')}
-          </a>}
-          <a
-            className='neighborhood-details__link'
-            href={getGoogleSearchLink(neighborhood.properties.id)}
-            target='_blank'
-          >
-            {message('NeighborhoodDetails.GoogleSearchLink')}
-          </a>
-        </div>
       </>
     )
   }
@@ -345,19 +271,15 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       neighborhood,
       origin,
       setFavorite,
-      userProfile,
-      showListings,
-      listingsLoading,
       activeListing,
-      listingTravelTime
+      listingTravelTime,
+      userProfile
     } = this.props
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
-    const NeighborhoodImages = this.neighborhoodImages
+    const SummaryImage = this.summaryImage
     const NeighborhoodLinks = this.neighborhoodLinks
 
-    const ListingsButton = this.listingsButton
-    const HideListingsButton = this.hideListingsButton
     const StarButton = this.starButton
 
     if (!neighborhood || !userProfile) {
@@ -385,14 +307,59 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       ',' + neighborhood.geometry.coordinates[0]
     return (
       <div className='neighborhood-details'>
-        <div className='neighborhood-details__section'>
+        <div className='neighborhood-details__header-section'>
           <header className='neighborhood-details__header'>
-            <StarButton />
-            <div className='neighborhood-details__name'>
-              <div className='neighborhood-details__title'>{town} &ndash; {id}</div>
-            </div>
-            <PolygonIcon className='neighborhood-details__marker' />
+            <SummaryImage neighborhood={neighborhood.properties} />
           </header>
+          <div className='neighborhood-details__name'>
+            <div className='neighborhood-details__title'>{town} &ndash; {id}</div>
+            <StarButton />
+          </div>
+          {!this.state.showFullDescription &&
+            <div className='neighborhood-details__desc'>
+              {description.substring(0, 80)}...&nbsp;
+              <button className='neighborhood-details__button' onClick={this.toggleDescription}>
+                Read More
+              </button>
+            </div>
+          }
+          {this.state.showFullDescription &&
+            <div className='neighborhood-details__desc'>
+              {description} &nbsp;
+              <button className='neighborhood-details__button' onClick={this.toggleDescription}>
+                Read Less
+              </button>
+              <h6 className='neighborhood-details__link-heading' style={{marginTop: '1rem'}}>
+                {message('NeighborhoodDetails.AboutNeighborhoodLinksHeading')}
+              </h6>
+              <div className='neighborhood-details__links'>
+                {neighborhood.properties.town_link && <a
+                  className='neighborhood-details__link'
+                  href={neighborhood.properties.town_link}
+                  target='_blank'
+                >
+                  {message('NeighborhoodDetails.WebsiteLink')}
+                </a>}
+                {neighborhood.properties.wikipedia_link && <a
+                  className='neighborhood-details__link'
+                  href={neighborhood.properties.wikipedia_link}
+                  target='_blank'
+                >
+                  {message('NeighborhoodDetails.WikipediaLink')}
+                </a>}
+              </div>
+            </div>
+          }
+          <div className='neighborhood-details__header-line' />
+          <NeighborhoodStats
+            neighborhood={neighborhood}
+            userProfile={userProfile} />
+          <div className='neighborhood-details__header-line' />
+          <div className='neighborhood-details__rent'>
+            <span className='neighborhood-details__rent-label'>{hasVoucher ? message('NeighborhoodDetails.MaxRent') : 'Budget'} </span>
+            <span className='neighborhood-details__rent-value'>${hasVoucher ? maxSubsidy : budget} </span>
+            <span className='neighborhood-details__rent-rooms'>{rooms}BR</span>
+          </div>
         </div>
         {this.state.showTextPopup
           ? <div className='popup' onClick={(e) => { e.stopPropagation() }}>
@@ -426,13 +393,18 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         }
         {!activeListing &&
         <div className='neighborhood-details__section'>
+          <div className='neighborhood-details__title'>
+            Transit Directions
+          </div>
           <div className='neighborhood-details__trip'>
-            {message('Units.About')}&nbsp;
-            {roundedTripTime}&nbsp;
-            {message('Units.Mins')}&nbsp;
-            <ModesList segments={bestJourney} />&nbsp;
-            {message('NeighborhoodDetails.FromOrigin')}&nbsp;
-            {currentDestination && currentDestination.purpose.toLowerCase()}
+            <div>
+              {message('Units.About')}&nbsp;
+              {roundedTripTime}&nbsp;
+              {message('Units.Mins')}&nbsp;
+              <ModesList segments={bestJourney} />&nbsp;
+              {message('NeighborhoodDetails.FromOrigin')}&nbsp;
+              <span style={{fontWeight: 'bold'}}>{currentDestination && currentDestination.purpose.toLowerCase()}</span>
+            </div>
             <a
               className='neighborhood-details__directions'
               href={getGoogleDirectionsLink(
@@ -444,14 +416,22 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               {message('NeighborhoodDetails.DirectionsLink')}
             </a>
           </div>
-          {!hasVehicle && <RouteSegments
-            hasVehicle={hasVehicle}
-            routeSegments={neighborhood.segments}
-            travelTime={neighborhood.time}
-          />}
+          {!hasVehicle &&
+            <div>
+              <div className='neighborhood-details__line' />
+              <RouteSegments
+                hasVehicle={hasVehicle}
+                routeSegments={neighborhood.segments}
+                travelTime={neighborhood.time}
+              />
+            </div>
+          }
         </div>}
         {activeListing &&
           <div className='neighborhood-details__section'>
+            <div className='neighborhood-details__title'>
+              {message('NeighborhoodDetails.Section8Link')}
+            </div>
             <div className='neighborhood-details__trip'>
               {listingTime}&nbsp;
               {message('Units.Mins')}&nbsp;to selected listing
@@ -466,49 +446,14 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
                 {message('NeighborhoodDetails.DirectionsLink')}
               </a>
             </div>
-          </div>}
-        <div className='neighborhood-details__section'>
-          <NeighborhoodStats
-            neighborhood={neighborhood}
-            userProfile={userProfile} />
-        </div>
-
-        <div className='neighborhood-details__section'>
-          <h6 className='neighborhood-details__link-heading'>
-            {rooms}br listings with a budget of ${ hasVoucher ? maxSubsidy : budget }
-          </h6>
-          {showListings ? <HideListingsButton /> : <ListingsButton />}
-          <div style={{ display: 'inline-block' }}><Loader
-            visible={listingsLoading}
-            type='Oval'
-            color='#000000'
-            height={20}
-            width={20}
-          /></div>
-          <div className='neighborhood-details__desc'>
-            ECHOLocator omits listings without a specific address. There may be more listings at the Realtor.com page
-            <a
-              href={getRealtorSearchLink(neighborhood.properties.id, userProfile.rooms, hasVoucher ? maxSubsidy : budget)}
-              target='_blank'
-              className='neighborhood-details__link'>
-                here
-            </a>.
           </div>
-        </div>
-
+        }
         <div className='neighborhood-details__section'>
           <NeighborhoodLinks
             hasVehicle={hasVehicle}
             neighborhood={neighborhood}
             origin={origin}
             userProfile={userProfile} />
-        </div>
-
-        <div className='neighborhood-details__section'>
-          <NeighborhoodImages neighborhood={neighborhood} />
-          <div className='neighborhood-details__desc'>
-            {description}
-          </div>
         </div>
       </div>
     )

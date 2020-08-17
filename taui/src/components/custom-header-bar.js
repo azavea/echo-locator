@@ -85,25 +85,24 @@ class LanguageSelect extends React.Component {
   }
 
   handleEnglishClick () {
-    this.props.setLanguage('English')
+    // this.props.setLanguage('English')
   }
 
   handleSpanishClick () {
-    this.props.setLanguage('Spanish')
+    // this.props.setLanguage('Spanish')
   }
 
   handleChineseClick () {
-    this.props.setLanguage('Chinese')
+    // this.props.setLanguage('Chinese')
   }
 
   render () {
-    // return (
-    //   <div className='languageSelect'>
-    //     <button onClick={this.handleEnglishClick}> English </button>
-    //     <button onClick={this.handleSpanishClick}> Español </button>
-    //     <button onClick={this.handleChineseClick}> 中文 </button>
-    //   </div>
-    // )
-    return null
+    return (
+      <div className='languageSelect'>
+        <button onClick={this.handleEnglishClick}> English </button>
+        <button onClick={this.handleSpanishClick}> Español </button>
+        <button onClick={this.handleChineseClick}> 中文 </button>
+      </div>
+    )
   }
 }

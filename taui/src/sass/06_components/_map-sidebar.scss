@@ -54,11 +54,16 @@
 
   &__navigation-button {
     @include heading(300);
-    color: $primary;
+    color: $black;
 
     > *:first-child {
       margin-right: 0.6rem;
     }
+  }
+
+  &__navigation-chevron-button {
+    color: #02b3cd;
+    font-size: 1.5rem;
   }
 
   &__neighborhoods-header {
@@ -108,6 +113,10 @@
     a {
       text-decoration: underline;
     }
+
+    p {
+      color: #fff;
+    }
   }
 
   &__pagination {
@@ -129,6 +138,11 @@
 
     &--strong {
       @include font-weight(bold);
+    }
+
+    &--highlighted {
+      color: #fff;
+      background: #3259a4;
     }
   }
 

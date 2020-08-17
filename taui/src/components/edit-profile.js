@@ -1,8 +1,10 @@
+/* eslint-disable complexity */
 // @flow
 import API from '@aws-amplify/api'
 import Storage from '@aws-amplify/storage'
 import lonlat from '@conveyal/lonlat'
 import message from '@conveyal/woonerf/message'
+import ReactTooltip from 'react-tooltip'
 import find from 'lodash/find'
 import range from 'lodash/range'
 import {PureComponent} from 'react'
@@ -26,6 +28,8 @@ import type {AccountAddress, AccountProfile} from '../types'
 
 import Geocoder from './geocoder'
 import Checkbox from './checkbox'
+
+const toolTipImg = '../../assets/tooltip_icon.png'
 
 const axios = require('axios')
 
@@ -170,16 +174,13 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   validatePhone (number) {
-    console.log(number)
     // If the length is not right
     if (number.length !== 10) {
-      console.log('entered1')
       return false
     }
     // If any character is not a number
     for (var i = 0; i < number.length; i++) {
       if (!(number[i] >= '0' && number[i] <= '9')) {
-        console.log('entered2')
         return false
       }
     }
@@ -357,7 +358,7 @@ export default class EditProfile extends PureComponent<Props> {
       this.setState({errorMessage: ''})
     }
 
-    if (!this.validatePhone(this.state.textAlertPreferences.phone)) {
+    if (this.state.textAlertPreferences && !this.validatePhone(this.state.textAlertPreferences.phone)) {
       this.setState({errorMessage: 'Invalid phone number: Use format xxxxxxxxxx'})
     }
 
@@ -400,16 +401,14 @@ export default class EditProfile extends PureComponent<Props> {
         'phone': '+1' + this.state.textAlertPreferences.phone
       }
       axios.post(url, json)
+
       // Remove all preferences if user checked opt out of all
       if (!this.state.showTextOptions) {
-        this.state.textAlertPreferences.preferences.forEach(function (preference) {
-          url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/remove-text-preference'
-          json = {
-            'userProfile': profile.key,
-            'neighborhood': preference.zipcode
-          }
-          axios.post(url, json)
-        })
+        url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/remove-all-preferences'
+        json = {
+          'user': profile.key
+        }
+        axios.post(url, json)
       } else {
         url = 'https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/set-user-text-preferences'
         json = {
@@ -707,9 +706,16 @@ export default class EditProfile extends PureComponent<Props> {
       </li>
     })
 
+    const impLocationToolTip = message('Tooltips.ProfileImpLoc')
+    console.log('loc tool tip', impLocationToolTip)
+
     return (
       <div className='account-profile__destinations'>
         <h3 className='account-profile__label'>{message(language + 'Profile.Destinations')}</h3>
+        <p style={{color: '#02B3CD', display: 'inline-block'}} data-tip={impLocationToolTip}>Why are we asking you this?</p>
+        <ReactTooltip
+          className='map-sidebar__tooltip'
+        />
         <div className='account-profile__destination-list-header'>
           <div className='account-profile__destination_field account-profile__destination_field--wide'>
             <span className='account-profile__destination-list-heading'>
@@ -773,7 +779,7 @@ export default class EditProfile extends PureComponent<Props> {
             <h4>None set yet</h4>
           </div>
           <div className='account-profile__text-alerts__text-wrapper'>
-            <p>You can enable text alerts by saving a neighborhood. You'll receive alerts to your phone whenever new apartments appear.</p>
+            <p>You can receive texts about new apartments by saving individual neighborhoods. After saving a neighborhood by clicking the heart icon, you will receive texts about new apartments in that area.</p>
           </div>
         </div>
       )
@@ -870,7 +876,6 @@ export default class EditProfile extends PureComponent<Props> {
   // Final render
   // TODO: refactor out yet more sub-components
   render () {
-    console.log('edit-profile ', this.props.language)
     const addAddress = this.addAddress // function
     const deleteAddress = this.deleteAddress // function
     const editAddress = this.editAddress
@@ -893,6 +898,7 @@ export default class EditProfile extends PureComponent<Props> {
       headOfHousehold,
       importanceAccessibility,
       importanceSchools,
+      importanceViolentCrime,
       errorMessage,
       isAnonymous,
       key,
@@ -902,6 +908,7 @@ export default class EditProfile extends PureComponent<Props> {
       textAlertPreferences,
       showTextOptions
     } = this.state
+
     const isCounselor = !!authData.counselor && !isAnonymous
 
     const DestinationsList = this.destinationsList
@@ -912,7 +919,9 @@ export default class EditProfile extends PureComponent<Props> {
     const TextOptions = this.textOptions
     const handleCheckboxChange = this.handleCheckboxChange
     const removePreference = this.removePreference
-
+    const commuteTooltip = message('Tooltips.CommuteTime')
+    const schoolTooltip = message('Tooltips.SchoolQuality')
+    const safetyTooltip = message('Tooltips.PublicSafety')
     return (
       <div className='form-screen'>
         <h2 className='form-screen__heading'>{message(language + 'Profile.Title')}</h2>
@@ -1105,17 +1114,24 @@ export default class EditProfile extends PureComponent<Props> {
               </div>
               {!hasVehicle && <div className='account-profile__field-description'>
                 {useCommuterRail ? message(language + 'Profile.UseCommuterRailExplanation')
-                  : message(language + 'Profile.ByTransitExplanation')}
+                  : ''}
               </div>}
             </div>
             <div className='account-profile__importance-options'>
               <h3 className='account-profile__label'>
-                {message(language + 'Profile.ImportanceHeading')}
+                {message(language + 'Profile.ImportanceHeadingPtOne')}
+              </h3>
+              <h3 className='account-profile__label'>
+                {message(language + 'Profile.ImportanceHeadingPtTwo')}
               </h3>
               <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
                 <label
                   className='account-profile__label account-profile__label--secondary'
                   htmlFor='importanceAccessibility'>{message(language + 'Profile.ImportanceAccessibility')}</label>
+                <img src={toolTipImg} data-tip={commuteTooltip} style={{width: '4%'}} />
+                <ReactTooltip
+                  className='map-sidebar__tooltip'
+                />
                 <ImportanceOptions
                   fieldName='importanceAccessibility'
                   importance={importanceAccessibility}
@@ -1126,9 +1142,27 @@ export default class EditProfile extends PureComponent<Props> {
                 <label
                   className='account-profile__label account-profile__label--secondary'
                   htmlFor='importanceSchools'>{message(language + 'Profile.ImportanceSchools')}</label>
+                <img src={toolTipImg} data-tip={schoolTooltip} style={{width: '4%'}} />
+                <ReactTooltip
+                  className='map-sidebar__tooltip'
+                />
                 <ImportanceOptions
                   fieldName='importanceSchools'
                   importance={importanceSchools}
+                  changeField={changeField}
+                  language={this.props.language} />
+              </div>
+              <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
+                <label
+                  className='account-profile__label account-profile__label--secondary'
+                  htmlFor='importanceViolentCrime'>{message('Profile.ImportanceViolentCrime')}</label>
+                <img src={toolTipImg} data-tip={safetyTooltip} style={{width: '4%'}} />
+                <ReactTooltip
+                  className='map-sidebar__tooltip'
+                />
+                <ImportanceOptions
+                  fieldName='importanceViolentCrime'
+                  importance={importanceViolentCrime}
                   changeField={changeField}
                   language={this.props.language} />
               </div>

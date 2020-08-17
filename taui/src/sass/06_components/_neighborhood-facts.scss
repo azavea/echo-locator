@@ -1,11 +1,12 @@
 .neighborhood-facts {
-  @include text(200);
+  @include text(300);
   flex: none;
   table-layout: fixed;
 
   &__cell {
+    @include font-weight(bold)
     padding-top: 0.6rem;
-    padding-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
     white-space: nowrap;
     vertical-align: middle;
 
@@ -18,13 +19,15 @@
   &__text {
     padding-top: 0.6rem;
     padding-right: 0.8rem;
-    padding-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
     text-align: left;
     vertical-align: middle;
   }
 
   &__school-choice {
-    font-style: italic;
+    color: #02b3cd !important;
+    font-size: 1.5rem;
+    font-style: normal;
 
     &:hover {
       text-decoration: underline;

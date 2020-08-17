@@ -1,6 +1,6 @@
 $font-url: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600';
 
-$font-family: 'Open Sans', sans-serif;
+$font-family: 'Euclid Circular A', sans-serif;
 
 $font-weights: (
     light: 300,
@@ -15,7 +15,9 @@ $font-sizes: (
     100: 1rem,
     200: 1.2rem,
     300: 1.4rem,
+    350: 1.5rem,
     400: 1.6rem,
+    450: 1.8rem,
     500: 2rem,
     600: 2.4rem,
     700: 3.6rem,
@@ -41,10 +43,22 @@ $text-settings: (
         font-size: map-get($font-sizes, 300),
         line-height: 1.5,
     ),
+    350: (
+        color: map-get($font-colors, normal),
+        font-weight: map-get($font-weights, normal),
+        font-size: map-get($font-sizes, 350),
+        line-height: 1.5,
+    ),
     400: (
         color: map-get($font-colors, normal),
         font-weight: map-get($font-weights, normal),
         font-size: map-get($font-sizes, 400),
+        line-height: 1.5,
+    ),
+    450: (
+        color: map-get($font-colors, normal),
+        font-weight: map-get($font-weights, normal),
+        font-size: map-get($font-sizes, 450),
         line-height: 1.5,
     ),
     500: (
@@ -79,6 +93,12 @@ $heading-settings: (
         color: map-get($font-colors, normal),
         font-weight: map-get($font-weights, bold),
         font-size: map-get($font-sizes, 400),
+        line-height: 1.2,
+    ),
+    450: (
+        color: map-get($font-colors, normal),
+        font-weight: map-get($font-weights, bold),
+        font-size: map-get($font-sizes, 450),
         line-height: 1.2,
     ),
     500: (

@@ -41,6 +41,7 @@
   }
 
   &__user-name {
+    @include font-weight(bold);
     margin-right: 1.6rem;
   }
 

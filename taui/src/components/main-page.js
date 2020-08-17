@@ -14,7 +14,7 @@ import downloadJson from '../utils/download-json'
 import Dock from './dock'
 import Form from './form'
 import Map from './map'
-import AmenitiesBar from './amenities-bar'
+import TopBar from './top-bar'
 
 type State = {
     amenitiesData: object[],
@@ -149,14 +149,16 @@ export default class MainPage extends React.PureComponent<Props, State> {
           setActiveNeighborhood={p.setActiveNeighborhood}
           setPage={p.setPage}
           setShowDetails={p.setShowDetails}
-          setShowListings={p.setShowListings}
+          setShowBHAListings={p.setShowBHAListings}
+          setShowRealtorListings={p.setShowRealtorListings}
           setListingsLoading={p.setListingsLoading}
           setDataListings={p.setDataListings}
           setBHAListings={p.setBHAListings}
           setShowFavorites={p.setShowFavorites}
           toggleTextAlert={p.toggleTextAlert}
           showDetails={p.data.showDetails}
-          showListings={p.data.showListings}
+          showBHAListings={p.data.showBHAListings}
+          showRealtorListings={p.data.showRealtorListings}
           listingsLoading={p.data.listingsLoading}
           showFavorites={p.data.showFavorites}
           userProfile={p.userProfile}>
@@ -178,14 +180,22 @@ export default class MainPage extends React.PureComponent<Props, State> {
               </filter>
             </defs>
           </svg>
-          <div className='amenities-bar'>
-            <AmenitiesBar
-              activeNeighborhood={p.data.activeNeighborhood}
-              clickedNeighborhood={p.data.showDetails}
-              amenities={p.data.amenities}
-              updateMapAmenities={this._updateAmenityData}
-            />
-          </div>
+          <TopBar
+            activeNeighborhood={p.data.activeNeighborhood}
+            clickedNeighborhood={p.data.showDetails}
+            amenities={p.data.amenities}
+            updateMapAmenities={this._updateAmenityData}
+            userProfile={p.userProfile}
+            neighborhood={p.detailNeighborhood}
+            setListingsLoading={p.setListingsLoading}
+            setDataListings={p.setDataListings}
+            setBHAListings={p.setBHAListings}
+            showBHAListings={p.data.showBHAListings}
+            showRealtorListings={p.data.showRealtorListings}
+            setShowBHAListings={p.setShowBHAListings}
+            setShowRealtorListings={p.setShowRealtorListings}
+            listingsLoading={p.data.listingsLoading}
+          />
           <Map
             {...p.map}
             activeNeighborhood={p.data.activeNeighborhood}
@@ -213,10 +223,12 @@ export default class MainPage extends React.PureComponent<Props, State> {
             setPage={p.setPage}
             setEndPosition={p.updateEndPosition}
             setShowDetails={p.setShowDetails}
-            setShowListings={p.setShowListings}
+            setShowBHAListings={p.setShowBHAListings}
+            setShowRealtorListings={p.setShowRealtorListings}
             setStartPosition={p.updateStartPosition}
             showDetails={p.data.showDetails}
-            showListings={p.data.showListings}
+            showBHAListings={p.data.showBHAListings}
+            showRealtorListings={p.data.showRealtorListings}
             dataListings={p.data.dataListings}
             bhaListings={p.data.bhaListings}
             start={p.geocoder.start}

@@ -13,20 +13,20 @@
 
 .popup_inner {
   position: absolute;
-  top: 25%;
+  top: 10%;
   right: 25%;
   left: 25%;
   z-index: 10000;
   width: 423px;
   margin: auto;
   padding: 40px;
-  background: #fff;
+  background: $white;
 
   a {
-    color: #00e;
+    color: $primary;
 
     &:hover {
-      border-bottom: 1px solid #00e;
+      text-decoration: underline;
     }
   }
 }
@@ -44,14 +44,10 @@
 }
 
 p {
+  @include text(300);
   margin-top: 10px;
   margin-bottom: 10px;
   color: #000;
-  font-weight: normal;
-  font-size: 14px;
-  font-family: 'Open Sans', serif;
-  font-style: normal;
-  line-height: 148%;
 }
 
 .radio-btn {
@@ -76,19 +72,16 @@ p {
 }
 
 .btn {
+  @include text(300);
+  @include font-weight(bold);
   z-index: 10001;
   margin-top: 10px;
   margin-right: 5px;
   margin-bottom: 10px;
   margin-left: 5px;
   padding: 10px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  font-family: 'Open Sans', serif;
-  font-style: normal;
-  line-height: 148%;
-  background: #3259a4;
+  color: $white !important;
+  background: $primary;
 }
 
 .phone-input-read-only {
@@ -108,25 +101,16 @@ p {
 }
 
 h1 {
+  @include heading(450);
   margin-top: 10px;
   margin-bottom: 10px;
-  color: #000;
-  font-weight: bold;
-  font-size: 18px;
-  font-family: 'Open Sans', serif;
-  font-style: normal;
-  line-height: 148%;
+  color: $black;
 }
 
 h2 {
+  @include heading(300);
   margin-top: 10px;
   margin-bottom: 10px;
-  color: #000;
-  font-weight: 600;
-  font-size: 14px;
-  font-family: 'Open Sans', serif;
-  font-style: normal;
-  line-height: 148%;
 }
 
 .error-message {

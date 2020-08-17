@@ -7,7 +7,6 @@ import Popup from '../components/text-alert-popup'
 import {ROUND_TRIP_MINUTES} from '../constants'
 import type {NeighborhoodImageMetadata} from '../types'
 import {getFirstNeighborhoodImage} from '../utils/neighborhood-images'
-import MapMarkerIcon from '../icons/map-marker-icon'
 
 import NeighborhoodListInfo from './neighborhood-list-info'
 
@@ -76,7 +75,6 @@ export default class RouteCard extends React.PureComponent<Props> {
 
   render () {
     const {
-      activeNeighborhood,
       isFavorite,
       goToDetails,
       neighborhood,
@@ -87,8 +85,6 @@ export default class RouteCard extends React.PureComponent<Props> {
       userProfile
     } = this.props
 
-    const active = activeNeighborhood === neighborhood.properties.id
-    const markerClass = `neighborhood-summary__marker ${active ? 'neighborhood-summary__marker--on' : ''}`
     const { time } = neighborhood
     const originLabel = origin ? origin.label || '' : ''
     const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
@@ -109,20 +105,7 @@ export default class RouteCard extends React.PureComponent<Props> {
         onMouseOver={(e) => setActiveNeighborhood(neighborhood.properties.id)}
       >
         <header className='neighborhood-summary__header'>
-          <Icon
-            className='neighborhood-summary__star'
-            type={isFavorite ? 'star' : 'star-o'}
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              e.nativeEvent.stopImmediatePropagation()
-              this.toggleTextPopup(isFavorite)
-            }}
-          />
-          <div className='neighborhood-summary__name'>
-            <div className='neighborhood-summary__title'>{title}</div>
-          </div>
-          <MapMarkerIcon className={markerClass} active={active} />
+          <SummaryImage nprops={neighborhood.properties} />
         </header>
         {this.state.showTextPopup
           ? <div className='popup' onClick={(e) => { e.stopPropagation() }}>
@@ -154,29 +137,39 @@ export default class RouteCard extends React.PureComponent<Props> {
           </div>
           : null
         }
+        <div className='neighborhood-summary__name'>
+          <div className='neighborhood-summary__title'>{title}</div>
+          <Icon
+            className='neighborhood-summary__star'
+            type={isFavorite ? 'heart' : 'heart-o'}
+            style={{color: '#02b3cd'}}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              e.nativeEvent.stopImmediatePropagation()
+              this.toggleTextPopup(isFavorite)
+            }}
+          />
+        </div>
         <div className='neighborhood-summary__contents'>
           <div className='neighborhood-summary__descriptive'>
-            <SummaryImage nprops={neighborhood.properties} />
             <div className='neighborhood-summary__trip'>
               <div className='neighborhood-summary__duration'>
-                {message('Units.About')} {roundedTripTime} {message('Units.Mins')}
-              </div>
-              <div className='neighborhood-summary__trajectory'>
-                <span className='neighborhood-summary__mode'>
-                  {message(modeKey)}
+                {message('Units.About')} {roundedTripTime} {message('Units.Mins')} {message(modeKey)}
                   &nbsp;
+                <span className='neighborhood-summary__mode'>
                   {message('NeighborhoodDetails.FromOrigin')}
                 </span>
                 &nbsp;
                 <span className='neighborhood-summary__location'>
-                  {currentDestination && currentDestination.purpose.toLowerCase()}
+                  {currentDestination && currentDestination.purpose}
                 </span>
               </div>
             </div>
+            <NeighborhoodListInfo
+              neighborhood={neighborhood}
+            />
           </div>
-          <NeighborhoodListInfo
-            neighborhood={neighborhood}
-          />
         </div>
       </div>
     )

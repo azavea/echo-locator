@@ -5,8 +5,8 @@ export default function Meter ({
   value,
   max = 100,
   average = 50,
-  width = 100,
-  height = 10,
+  width = 150,
+  height = 15,
   tooltip,
   category,
   id

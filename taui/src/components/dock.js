@@ -3,6 +3,7 @@ import Storage from '@aws-amplify/storage'
 import Icon from '@conveyal/woonerf/components/icon'
 import message from '@conveyal/woonerf/message'
 import remove from 'lodash/remove'
+import ReactTooltip from 'react-tooltip'
 import {PureComponent, createRef} from 'react'
 
 import {ANONYMOUS_USERNAME, SIDEBAR_PAGE_SIZE} from '../constants'
@@ -10,6 +11,8 @@ import type {AccountProfile} from '../types'
 
 import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
+
+const toolTipImg = '../../assets/tooltip_icon.png'
 
 type Props = {
   activeListing: any,
@@ -27,9 +30,10 @@ type Props = {
   neighborhoodRoutes: any,
   origin: any,
   page: number,
+  showBHAListings: boolean,
   showDetails: boolean,
   showFavorites: boolean,
-  showListings: boolean,
+  showRealtorListings: boolean,
   userProfile: AccountProfile
 }
 
@@ -60,7 +64,7 @@ export default class Dock extends PureComponent<Props> {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails || this.props.showListings !== prevProps.showListings || this.props.listingsLoading !== prevProps.listingsLoading) {
+    if (this.props.page !== prevProps.page || this.props.showDetails !== prevProps.showDetails || this.props.showBHAListings !== prevProps.showBHAListings || this.props.showRealtorListings !== prevProps.showRealtorListings || this.props.listingsLoading !== prevProps.listingsLoading) {
       this.sidebar.current.scrollTop = 0
     }
   }
@@ -68,7 +72,8 @@ export default class Dock extends PureComponent<Props> {
   backFromDetails (e) {
     e.stopPropagation()
     this.props.setShowDetails(false)
-    this.props.setShowListings(false)
+    this.props.setShowBHAListings(false)
+    this.props.setShowRealtorListings(false)
     this.props.setListingsLoading(false)
     this.props.setActiveNeighborhood()
   }
@@ -103,7 +108,6 @@ export default class Dock extends PureComponent<Props> {
 
   // save/unsave neighborhood to/from user profile favorites list
   setFavorite (neighborhoodId: string, profile: AccountProfile, changeUserProfile) {
-    console.log('Running set favorite')
     const favorites = profile.favorites || []
 
     const isProfileFavorite = favorites.indexOf(neighborhoodId) !== -1
@@ -189,22 +193,27 @@ export default class Dock extends PureComponent<Props> {
     }
 
     return (
-      neighborhoods.map((neighborhood, index) =>
-        <RouteCard
-          activeNeighborhood={activeNeighborhood}
-          goToDetails={(e) => goToDetails(e, neighborhood)}
-          index={index}
-          isFavorite={userProfile.favorites &&
+      neighborhoods.map((neighborhood, index) => {
+        var town = neighborhood.properties.town.split(' ')
+        var split = town.length === 1
+        town = split ? town[0] : town[0] + ' (' + town[2] + ')'
+        return (
+          <RouteCard
+            activeNeighborhood={activeNeighborhood}
+            goToDetails={(e) => goToDetails(e, neighborhood)}
+            index={index}
+            isFavorite={userProfile.favorites &&
             userProfile.favorites.indexOf(neighborhood.properties.id) !== -1}
-          key={`${index}-route-card`}
-          neighborhood={neighborhood}
-          origin={origin}
-          setActiveNeighborhood={setActiveNeighborhood}
-          setFavorite={(e) => setFavorite(neighborhood.properties.id,
-            userProfile, changeUserProfile)}
-          title={neighborhood.properties.town + ': ' + neighborhood.properties.id}
-          userProfile={userProfile} />
-      )
+            key={`${index}-route-card`}
+            neighborhood={neighborhood}
+            origin={origin}
+            setActiveNeighborhood={setActiveNeighborhood}
+            setFavorite={(e) => setFavorite(neighborhood.properties.id,
+              userProfile, changeUserProfile)}
+            title={town + ', ' + neighborhood.properties.id}
+            userProfile={userProfile} />
+        )
+      })
     )
   }
 
@@ -221,6 +230,7 @@ export default class Dock extends PureComponent<Props> {
     const NeighborhoodsList = this.neighborhoodsList
     const showAllClass = `map-sidebar__neighborhoods-action ${!showFavorites ? 'map-sidebar__neighborhoods-action--on' : ''}`
     const showSavedClass = `map-sidebar__neighborhoods-action ${showFavorites ? 'map-sidebar__neighborhoods-action--on' : ''}`
+    const whyNeighborhoodTooltip = message('Tooltips.WhyNeighborhoods')
 
     return (
       <>
@@ -237,6 +247,10 @@ export default class Dock extends PureComponent<Props> {
               {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
             </>}
           </h2>
+          <img src={toolTipImg} data-tip={whyNeighborhoodTooltip} style={{width: '4%'}} />
+          <ReactTooltip
+            className='map-sidebar__tooltip'
+          />
           <div className='map-sidebar__neighborhoods-actions'>
             <button
               onClick={(e) => setShowFavorites(false)}
@@ -273,11 +287,13 @@ export default class Dock extends PureComponent<Props> {
       origin,
       page,
       showDetails,
-      showListings,
+      showBHAListings,
+      showRealtorListings,
       listingsLoading,
       showFavorites,
       userProfile,
-      setShowListings,
+      setShowBHAListings,
+      setShowRealtorListings,
       setListingsLoading,
       setDataListings,
       setBHAListings,
@@ -319,7 +335,7 @@ export default class Dock extends PureComponent<Props> {
             className='map-sidebar__navigation-button'
             onClick={backFromDetails}
           >
-            <Icon type='chevron-circle-left' />
+            <Icon type='chevron-circle-left' className='map-sidebar__navigation-chevron-button' />
             {showFavorites
               ? message('Dock.GoBackToFavorites')
               : message('Dock.GoBackToRecommendations')}
@@ -331,11 +347,13 @@ export default class Dock extends PureComponent<Props> {
           listingTravelTime={listingTravelTime}
           neighborhood={detailNeighborhood}
           origin={origin}
-          setShowListings={setShowListings}
+          setShowBHAListings={setShowBHAListings}
+          setShowRealtorListings={setShowRealtorListings}
           setListingsLoading={setListingsLoading}
           setDataListings={setDataListings}
           setBHAListings={setBHAListings}
-          showListings={showListings}
+          showBHAListings={showBHAListings}
+          showRealtorListings={showRealtorListings}
           listingsLoading={listingsLoading}
           setFavorite={setFavorite}
           userProfile={userProfile} />
@@ -351,7 +369,6 @@ export default class Dock extends PureComponent<Props> {
           target='_blank'
           className='map-sidebar__feedback'
         >
-          <Icon type='comment-o' className='map-sidebar__feedback-icon' />
           {message('Dock.FeedbackLink')}
         </a>
         <a

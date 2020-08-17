@@ -132,10 +132,16 @@ export default handleActions(
         showDetails: !!action.payload
       }
     },
-    'set show listings' (state, action) {
+    'set showBHAListings' (state, action) {
       return {
         ...state,
-        showListings: !!action.payload
+        showBHAListings: !!action.payload
+      }
+    },
+    'set showRealtorListings' (state, action) {
+      return {
+        ...state,
+        showRealtorListings: !!action.payload
       }
     },
     'set listings loading' (state, action) {
@@ -172,7 +178,8 @@ export default handleActions(
     page: 0,
     profileLoading: true,
     showDetails: false,
-    showListings: false,
+    showBHAListings: false,
+    showRealtorListings: false,
     showFavorites: false,
     listingsLoading: false,
     userProfile: null,
