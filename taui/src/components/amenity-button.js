@@ -3,6 +3,7 @@ import {Component} from 'react'
 
 type Props = {
     activeNeighborhood: string,
+    clickedNeighborhood: any,
     color: string,
     data: any,
     image: string, // image url

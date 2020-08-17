@@ -85,6 +85,10 @@ export default class TopBar extends Component<Props, State> {
     if (nextProps.activeNeighborhood) {
       this.setState({amenitiesData: this.getNeighborhoodAmenities()})
     }
+
+    if (this.props.clickedNeighborhood !== nextProps.clickedNeighborhood) {
+      this.updateShownAmenities('', false)
+    }
   }
 
   async displayBHAListings (e) {
@@ -230,7 +234,6 @@ export default class TopBar extends Component<Props, State> {
     } = this.props
     const ListingsButton = this.listingsButton
     const HideListingsButton = this.hideListingsButton
-    // TODO: when click on map amenities bar goes away bug
     if (!this.props.clickedNeighborhood) {
       return null
     }

@@ -38,6 +38,13 @@ export default class MainPage extends React.PureComponent<Props, State> {
     this.props.initialize()
   }
 
+  // componentWillReceiveProps (nextProps) {
+  //   console.log(this.props.activeNeighborhood, nextProps.activeNeighborhood)
+  //   if (this.props.activeNeighborhood !== nextProps.activeNeighborhood) {
+  //     this.setState({amenitiesData: []})
+  //   }
+  // }
+
   _saveRefToConfig = (ref) => {
     this._refToConfig = ref
   }

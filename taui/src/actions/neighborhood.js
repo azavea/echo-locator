@@ -32,7 +32,6 @@ export const setShowDetails = (show) => (dispatch, getState) => {
 }
 
 export const setShowBHAListings = (show) => (dispatch, getState) => {
-  console.log('here')
   addActionLogItem(`Set show listings to ${show}`)
   dispatch({type: 'set showBHAListings', payload: !!show})
 }
