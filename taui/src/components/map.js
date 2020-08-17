@@ -286,28 +286,35 @@ export default class Map extends PureComponent<Props, State> {
     const name = amenity['name']
     const address = this.extractAmenityAddress(amenity['address'])
     return (
-      <div>
-        {tipo} <br />
-        {name} <br />
-        {address} <br />
+      <div className='map__amenity-popup'>
+        <p>{tipo} <br />
+          {name} <br />
+          {address} <br />
+        </p>
       </div>
     )
   }
 
-  listingPopup (photos, address, community, price, url) {
+  listingPopup (photos, address, community, price, url, beds) {
     return (
-      <div>
-        <Carousel showIndicators={false} dynamicHeight>
+      <div className='map__popup'>
+        <Carousel showIndicators={false} dynamicHeight showThumbs={false} showArrows>
           {photos.map((item, key) =>
             <div key={`listings-image-${this._getKey()}`}>
               <img src={item.href} /> <br />
             </div>
           )}
         </Carousel>
-        Address: {address.line} <br />
-        {community && <div>Price: ${community.price_min} - ${community.price_max}/month</div>}
-        {price && <div>Price: ${price}/month</div>}
-        <a href={url} target='_blank'>Click for Apartment</a>
+        <div className='map__popup-contents'>
+          <h1>{community && <div>Price: ${community.price_min} - ${community.price_max}/month</div>}</h1>
+          <h1>{price && <div>Price: ${price}/month</div>}</h1>
+          <h2>{beds && <div>${beds} Bed</div>}</h2>
+          <div className='map__popup__line' />
+          <p>{address.line} <br /></p>
+          <div className='map__popup__url-wrapper'>
+            <a className='map__popup__url' href={url} target='_blank'>Go to Apartment</a>
+          </div>
+        </div>
       </div>
     )
   }
@@ -498,6 +505,7 @@ export default class Map extends PureComponent<Props, State> {
 
         {
           p.showRealtorListings && p.dataListings.map((item, key) => {
+            console.log(item)
             var apartmentMarker =
               <Marker
                 icon={listingIcon}
@@ -518,7 +526,7 @@ export default class Map extends PureComponent<Props, State> {
                 }}>
 
                 <Popup>
-                  {listingPopup(item.photos, item.address, item.community, item.price, item.rdc_web_url)}
+                  {listingPopup(item.photos, item.address, item.community, item.price, item.rdc_web_url, item.beds)}
                 </Popup>
 
               </Marker>
@@ -548,7 +556,7 @@ export default class Map extends PureComponent<Props, State> {
                 }}>
 
                 <Popup>
-                  {listingPopup(item.photos, item.address, item.community, item.Rent, item.rdc_web_url)}
+                  {listingPopup(item.photos, item.address, item.community, item.Rent, item.rdc_web_url, item.beds)}
                 </Popup>
 
               </Marker>
