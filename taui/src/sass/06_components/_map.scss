@@ -63,4 +63,81 @@
       }
     }
   }
+
+  &__popup {
+
+    background-color: $white;
+
+    h1 {
+      @include heading(400);
+    }
+
+    h2 {
+      @include text(200);
+      @include font-weight(light);
+      color: #cacaca !important;
+    }
+
+    p {
+      @include text(200);
+      @include font-weight(bold);
+    }
+
+    &__url-wrapper {
+      width: 75%;
+      height: 3rem;
+      margin: auto;
+      margin-bottom: 1.5rem;
+      padding-top: 0.5rem;
+      text-align: center;
+      background: $primary;
+    }
+
+    &__url {
+      @include text(300);
+      height: 100%;
+      margin: auto;
+      color: $white !important;
+    }
+
+    &__line {
+      margin-bottom: 1rem;
+      border: 1px solid #e9eaec;
+    }
+  }
+
+  &__popup-contents {
+    margin: 0 1rem;
+  }
+
+  &__amenity-poup {
+    margin: 1rem !important;
+
+    p {
+      @include text(100);
+      font-size: 1rem !important;
+    }
+  }
+}
+
+.leaflet-popup-content {
+  padding: 0 !important;
+  background-color: $white;
+}
+
+.leaflet-popup-close-button {
+  display: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: $white !important;
+}
+
+.leaflet-popup-tip {
+  color: $white !important;
+  border-top-color: $white !important;
+}
+
+.carousel-status {
+  display: none !important;
 }

@@ -106,17 +106,6 @@ export default class RouteCard extends React.PureComponent<Props> {
       >
         <header className='neighborhood-summary__header'>
           <SummaryImage nprops={neighborhood.properties} />
-          <Icon
-            className='neighborhood-summary__star'
-            type={'heart'}
-            style={isFavorite ? {color: '#02b3cd'} : {color: '#fff'}}
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              e.nativeEvent.stopImmediatePropagation()
-              this.toggleTextPopup(isFavorite)
-            }}
-          />
         </header>
         {this.state.showTextPopup
           ? <div className='popup' onClick={(e) => { e.stopPropagation() }}>
@@ -150,6 +139,17 @@ export default class RouteCard extends React.PureComponent<Props> {
         }
         <div className='neighborhood-summary__name'>
           <div className='neighborhood-summary__title'>{title}</div>
+          <Icon
+            className='neighborhood-summary__star'
+            type={isFavorite ? 'heart' : 'heart-o'}
+            style={{color: '#02b3cd'}}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              e.nativeEvent.stopImmediatePropagation()
+              this.toggleTextPopup(isFavorite)
+            }}
+          />
         </div>
         <div className='neighborhood-summary__contents'>
           <div className='neighborhood-summary__descriptive'>
