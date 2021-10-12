@@ -4,6 +4,7 @@
 * [Terraform](#terraform)
 * [Taui](#taui)
 * [Amplify](#amplify)
+* [Demo site](#demo-site)
 
 ## AWS Credentials
 
@@ -100,3 +101,14 @@ $ cp deployment/amplify/staging/aws-exports.js taui/src/aws-exports.js
 
 (Note that CI will properly bundle the appropriate Amplify configuration file
 during deployment depending on the environment.)
+
+## Demo site
+There is a demo site deployed to demo.echosearch.org.
+
+Its infrastructure was created using the Terraform and Amplify methods
+described above, but it is not connected to CI; the functionality of the site
+was copied over from the staging site before returning to active CI use.
+
+It uses the same Cognito assets as the staging site, so this infrastructure
+should be left in place even after the staging and production sites are shifted
+to a Django authentication backend.
