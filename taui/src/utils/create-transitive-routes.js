@@ -46,12 +46,8 @@ export default function createTransitiveRoutesForNetwork (
       place_name: end.label,
       place_lon: end.position.lon,
       place_lat: end.position.lat
-      // 42.406556 -71.148434
     }
   ]
-
-  // console.log(places)
-  // console.log(end)
 
   // Get the targetPathIndexes
   const baseIndex = network.pathsPerTarget * coordinateToIndex(end.position, network)

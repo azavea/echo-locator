@@ -58,7 +58,7 @@ export default createSelector(
       ) {
         const end = {
           label: neighborhood.properties.town,
-          position: lonlat(neighborhood.geometry.coordinates) // neighborhood.geometry.coordinates
+          position: lonlat(neighborhood.geometry.coordinates)
         }
         // journeys, places, routeSegments in result;
         // also repeated for all results: patterns, routes, stops

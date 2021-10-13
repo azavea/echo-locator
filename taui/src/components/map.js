@@ -4,9 +4,6 @@ import Leaflet from 'leaflet'
 import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import React, {PureComponent} from 'react'
-import "react-responsive-carousel/lib/styles/carousel.min.css"
-import { Carousel } from 'react-responsive-carousel'
-
 import {
   Map as LeafletMap,
   Marker,
@@ -61,24 +58,6 @@ const startIcon = Leaflet.divIcon({
   iconSize
 })
 
-const bhaIcon = new L.Icon({
-  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
-
-const realtorIcon = new L.Icon({
-  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
-
 const otherIcon = Leaflet.divIcon({
   className: 'LeafletIcon Other map__marker map__marker--other',
   html: iconHTML,
@@ -92,7 +71,6 @@ type Props = {
   drawIsochrones: Function[],
   drawOpportunityDatasets: Function[],
   drawRoute: any,
-  drawListingRoute: any,
   end: null | Location,
   isLoading: boolean,
   pointsOfInterest: void | any, // FeatureCollection
@@ -110,7 +88,7 @@ type Props = {
 type State = {
   lastClickedLabel: null | string,
   lastClickedPosition: null | Coordinate,
-  showSelectStartOrEnd: boolean,
+  showSelectStartOrEnd: boolean
 }
 
 /**
@@ -119,8 +97,6 @@ type State = {
 export default class Map extends PureComponent<Props, State> {
   constructor (props) {
     super(props)
-
-    this.listingPopup = this.listingPopup.bind(this)
     this.clickNeighborhood = this.clickNeighborhood.bind(this)
     this.hoverNeighborhood = this.hoverNeighborhood.bind(this)
   }
@@ -128,8 +104,7 @@ export default class Map extends PureComponent<Props, State> {
   state = {
     lastClickedLabel: null,
     lastClickedPosition: null,
-    showSelectStartOrEnd: false,
-    showListingRoute: false
+    showSelectStartOrEnd: false
   }
 
   componentDidCatch (error) {
@@ -145,52 +120,15 @@ export default class Map extends PureComponent<Props, State> {
     }
   }
 
-  /*
-    this.state.data.map((item, key) =>
-      <Marker
-        icon={otherIcon}
-        key={`listings-${this._getKey()}`}
-        position={[item.lat,item.lon]}
-        zIndex={getZIndex()}>
-      </Marker>
-    )
-  */
-
-  listingPopup (photos, address, community, price, url) {
-    return(
-      <div>
-        <Carousel showIndicators={false} dynamicHeight={true}>
-          {photos.map((item, key) =>
-            <div key={'listings-image-${this._getKey()}'}>
-              <img src={item.href}/> <br />
-            </div>
-          )}
-        </Carousel>
-        Address: {address.line} <br />
-        {community && <div>Price: ${community.price_min} - ${community.price_max}/month</div>}
-        {price && <div>Price: ${price}/month</div>}
-        <a href={url} target='_blank'>Click for Listing</a>
-      </div>
-    )
-  }
   // Click on map marker for a neighborhood
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
-      this.props.setShowListings(false)
-      this.setState({showListingRoute: false})
-      this.props.setActiveListing(null)
       this.props.setShowDetails(true)
       this.props.setActiveNeighborhood(feature.properties.id)
-      console.log(this.props)
     } else {
       console.warn('clicked unroutable neighborhood ' + feature.properties.id)
     }
-  }
-
-  clickListing = (lat, lon) => {
-    this.props.setActiveListing([lon, lat])
-    this.setState({showListingRoute: true})
   }
 
   // Debounced version of setActiveNeighborhood used on hover
@@ -211,8 +149,7 @@ export default class Map extends PureComponent<Props, State> {
     this.setState({
       lastClickedLabel: null,
       lastClickedPosition: null,
-      showSelectStartOrEnd: false,
-      showListingRoute: false
+      showSelectStartOrEnd: false
     })
   }
 
@@ -272,18 +209,11 @@ export default class Map extends PureComponent<Props, State> {
     const clickNeighborhood = this.clickNeighborhood
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
-    const listingPopup = this.listingPopup
-    const clickListing = this.clickListing
-
-
-      
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
     let zIndex = 0
     const getZIndex = () => zIndex++
-
-
 
     return (
       p.routableNeighborhoods ? <LeafletMap
@@ -311,7 +241,7 @@ export default class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />}
 
-        {p.showRoutes && p.drawRoute && !this.state.showListingRoute &&
+        {p.showRoutes && p.drawRoute &&
           <DrawRoute
             {...p.drawRoute}
             activeNeighborhood={p.activeNeighborhood}
@@ -352,61 +282,6 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {/*
-          this.state.data.map((item, key) =>
-            <Marker
-              icon={otherIcon}
-              key={`listings-${this._getKey()}`}
-              position={[item.lat,item.lon]}
-              zIndex={getZIndex()}>
-            </Marker>
-          )
-        */}
-
-        {
-          p.showListings && p.dataListings.map((item, key) =>
-            <Marker
-              icon={realtorIcon}
-              key={`listings-${this._getKey()}`}
-              position={[item.address.lat,item.address.lon]}
-              zIndex={getZIndex()}
-              onClick={ () => clickListing(item.address.lat, item.address.lon) }>
-
-              <Popup>
-                {listingPopup(item.photos,item.address,item.community,item.price,item.rdc_web_url)}
-              </Popup>
-
-            </Marker>
-          )
-        }
-
-        {
-          p.showListings && p.bhaListings.map((item, key) =>
-            <Marker
-              icon={bhaIcon}
-              key={`listings-${this._getKey()}`}
-              position={[item.latLon.lat,item.latLon.lng]}
-              zIndex={getZIndex()}
-              onClick={ () => clickListing(item.latLon.lat, item.latLon.lng) }>
-
-              <Popup>
-                {listingPopup(item.photos,item.address,item.community,item.Rent,item.rdc_web_url)}
-              </Popup>
-
-            </Marker>
-          )
-        }
-
-        {p.showListings && this.state.showListingRoute && p.drawListingRoute &&
-          <DrawRoute
-            {...p.drawListingRoute}
-            activeNeighborhood={p.activeNeighborhood}
-            key={`draw-routes-${p.drawRoute.id}-${this._getKey()}`}
-            showDetails={p.showDetails}
-            zIndex={getZIndex()}
-          />}
-
-
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
           p.displayNeighborhoods.map((n) =>
             <Marker
@@ -416,8 +291,7 @@ export default class Map extends PureComponent<Props, State> {
               onHover={(e) => hoverNeighborhood(n)}
               position={lonlat.toLeaflet(n.geometry.coordinates)}
               zIndex={getZIndex()}
-            />)
-          }
+            />)}
       </LeafletMap> : null
     )
   }
