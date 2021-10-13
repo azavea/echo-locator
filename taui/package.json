@@ -88,7 +88,7 @@
     "redux-mock-store": "1.5.4",
     "reselect": "~4.0.0",
     "superagent": "^5.2.2",
-    "ws": "^7.3.0"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "core-js": "~2.6.10",
