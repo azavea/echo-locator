@@ -99,6 +99,8 @@ SignIn:
   Anonymous: Continue without an account
   AnonymousExplanation: Don't have an account?
   Greeting: Improving Housing Search for Voucher Families
+  UserNotFound: Could not find that username as entered. Usernames are case-sensitive.
+  BadUsernameOrPassword: Username or password was incorrect. Both usernames and passwords are case-sensitive.
 Header:
   New: New search
   Edit: Edit profile
@@ -151,11 +153,11 @@ Tooltips:
   AboveAverage: above average
   Average: about average
   BelowAverage: below average
-  Education: "<p><strong>%(town)</strong> schools are <strong>%(averageRelation)</strong> for the state and rank higher than <strong>%(edPercentile)%</strong> of other school districts when considering overall school quality and performance of low-income students. (Source: <a href=\"http://profiles.doe.mass.edu/\" target=\"_blank\">MA DOE</a>)</p>"
-  ExpandedChoice: "<p>Expanded Choice communities are TK</p>"
-  ViolentCrime: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://www.fbi.gov/services/cjis/ucr\" target=\"_blank\">FBI Uniform Crime Reporting violent crime data</a>)</p>"
-  ViolentCrimeBoston: "<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href=\"https://data.boston.gov/\" target=\"_blank\">Boston Police Department Incident Reports</a>)</p>"
-  RentalUnits: "<p><strong>%(town)</strong> has an <strong>%(averageRelation)</strong> number of rental units for the state. From 2017-2018 there were <strong>%(totalMapc)</strong> units listed on Craigslist. (Source: <a href=\"https://www.mapc.org/\" target=\"_blank\">MAPC</a>)</p>"
+  Education: '<p><strong>%(town)</strong> schools are <strong>%(averageRelation)</strong> for the state and rank higher than <strong>%(edPercentile)%</strong> of other school districts when considering overall school quality and performance of low-income students. (Source: <a href="http://profiles.doe.mass.edu/" target="_blank">MA DOE</a>)</p>'
+  ExpandedChoice: '<p>Expanded Choice communities are TK</p>'
+  ViolentCrime: '<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href="https://www.fbi.gov/services/cjis/ucr" target="_blank">FBI Uniform Crime Reporting violent crime data</a>)</p>'
+  ViolentCrimeBoston: '<p><strong>%(town)</strong> has <strong>%(averageRelation)</strong> public safety, safer than <strong>%(crimePercentile)%</strong> of other zipcodes in the state. (Source: <a href="https://data.boston.gov/" target="_blank">Boston Police Department Incident Reports</a>)</p>'
+  RentalUnits: '<p><strong>%(town)</strong> has an <strong>%(averageRelation)</strong> number of rental units for the state. From 2017-2018 there were <strong>%(totalMapc)</strong> units listed on Craigslist. (Source: <a href="https://www.mapc.org/" target="_blank">MAPC</a>)</p>'
 ImportanceLabels:
   1: Not important
   2: Somewhat important
