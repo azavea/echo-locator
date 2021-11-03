@@ -14,6 +14,7 @@ import downloadJson from '../utils/download-json'
 import Dock from './dock'
 import Form from './form'
 import Map from './map'
+import TopBar from './top-bar'
 
 /**
  * Displays map and sidebar.
@@ -124,7 +125,9 @@ export default class MainPage extends React.PureComponent<Props> {
           origin={p.data.origin}
           page={p.data.page}
           setActiveNeighborhood={p.setActiveNeighborhood}
+          setBHAListings={p.setBHAListings}
           setPage={p.setPage}
+          setRealtorListings={p.setRealtorListings}
           setShowDetails={p.setShowDetails}
           setShowFavorites={p.setShowFavorites}
           showDetails={p.data.showDetails}
@@ -148,6 +151,19 @@ export default class MainPage extends React.PureComponent<Props> {
               </filter>
             </defs>
           </svg>
+          <TopBar
+            bhaListings={p.bhaListings}
+            clickedNeighborhood={p.data.showDetails}
+            neighborhood={p.detailNeighborhood}
+            realtorListings={p.realtorListings}
+            setBHAListings={p.setBHAListings}
+            setRealtorListings={p.setRealtorListings}
+            setShowBHAListings={p.setShowBHAListings}
+            setShowRealtorListings={p.setShowRealtorListings}
+            showBHAListings={p.data.showBHAListings}
+            showRealtorListings={p.data.showRealtorListings}
+            userProfile={p.userProfile}
+          />
           <Map
             {...p.map}
             activeNeighborhood={p.data.activeNeighborhood}
@@ -172,7 +188,9 @@ export default class MainPage extends React.PureComponent<Props> {
             setEndPosition={p.updateEndPosition}
             setShowDetails={p.setShowDetails}
             setStartPosition={p.updateStartPosition}
+            showBHAListings={p.data.showBHAListings}
             showDetails={p.data.showDetails}
+            showRealtorListings={p.data.showRealtorListings}
             start={p.geocoder.start}
             updateEnd={p.updateEnd}
             updateMap={p.updateMap}

@@ -25,6 +25,8 @@ type Props = {
   neighborhoodRoutes: any,
   origin: any,
   page: number,
+  setBHAListings: Function => void,
+  setRealtorListings: Function => void,
   showDetails: boolean,
   showFavorites: boolean,
   userProfile: AccountProfile
@@ -65,6 +67,8 @@ class Dock extends PureComponent<Props> {
     e.stopPropagation()
     this.props.setShowDetails(false)
     this.props.setActiveNeighborhood()
+    this.props.setBHAListings({'data': []})
+    this.props.setRealtorListings({'data': []})
   }
 
   goPreviousPage (e) {

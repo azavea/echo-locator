@@ -289,3 +289,32 @@ export type MapEvent = {
     _zoom: number
   }
 }
+
+export type Listing = { pending: true } | { data: Array } | { error: String }
+
+/**
+ * Woonerf increment/decrement fetch action event
+ */
+export interface FetchState {
+  'allowChangeConfig': Boolean,
+  'fetches': Number,
+  'showLink': Boolean,
+  'showLog': Boolean
+}
+
+export interface InnerPayload {
+  'id': Number,
+  'options': Object,
+  'type': "__FETCH__",
+  'url': String
+}
+
+export interface IncrementPayload {
+  payload: InnerPayload,
+  type: 'increment outstanding fetches'
+}
+
+export interface DecrementPayload {
+  payload: InnerPayload,
+  type: 'decrement outstanding fetches'
+}

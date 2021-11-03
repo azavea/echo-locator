@@ -16,6 +16,11 @@ export const setPage = (page) => (dispatch, getState) => {
   dispatch({type: 'set page', payload: page})
 }
 
+export const setShowBHAListings = (show) => (dispatch, getState) => {
+  addActionLogItem(`Set show BHA listing to ${show}`)
+  dispatch({type: 'set show BHA listing', payload: show})
+}
+
 export const setShowDetails = (show) => (dispatch, getState) => {
   addActionLogItem(`Set show neighborhood details to ${show}`)
   dispatch({type: 'set show details', payload: !!show})
@@ -24,4 +29,9 @@ export const setShowDetails = (show) => (dispatch, getState) => {
 export const setShowFavorites = (show) => (dispatch, getState) => {
   addActionLogItem(`Set show favorites to ${show}`)
   dispatch({type: 'set show favorites', payload: !!show})
+}
+
+export const setShowRealtorListings = (show) => (dispatch, getState) => {
+  addActionLogItem(`set show Realtor listing to ${show}`)
+  dispatch({type: 'set show Realtor listing', payload: show})
 }
