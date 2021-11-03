@@ -31,7 +31,7 @@ Next, move the AWS Amplify JavaScript configuration for the staging environment
 into the Taui source code:
 
 ```
-$ cp deployment/amplify/staging/aws-exports.js taui/src/aws-exports.js
+$ cp deployment/amplify/staging/src/aws-exports.js taui/src/aws-exports.js
 ```
 
 ### Optional step for local deployment
