@@ -53,11 +53,17 @@ $ ./scripts/server
 ### Running directly
 
 * `cd taui`
-* Install packages: `yarn add`
+* Install packages: `yarn install`
 * Build and run development server: `yarn start`
 
 
 Navigate to http://localhost:9966 to view the development environment.
+
+
+### Logging In
+
+Once it is running, log in using staging credentials. From there, you can make a Client ID by
+entering and searching for a random 6-8 digit number, then making a new profile.
 
 ## Data
 
