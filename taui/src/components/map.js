@@ -17,7 +17,8 @@ import type {
   Coordinate,
   Location,
   LonLat,
-  MapEvent
+  MapEvent,
+  Listing
 } from '../types'
 
 import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
@@ -58,6 +59,13 @@ const startIcon = Leaflet.divIcon({
   iconSize
 })
 
+const listingIcon = Leaflet.divIcon({
+  className: 'LeafletIcon Listing map__marker map__marker--listing',
+  html: iconHTML,
+  iconSize: iconSize,
+  iconAnchor: iconAnchor
+})
+
 const otherIcon = Leaflet.divIcon({
   className: 'LeafletIcon Other map__marker map__marker--other',
   html: iconHTML,
@@ -66,6 +74,7 @@ const otherIcon = Leaflet.divIcon({
 })
 
 type Props = {
+  bhaListings: Listing,
   centerCoordinates: Coordinate,
   clearStartAndEnd: () => void,
   drawIsochrones: Function[],
@@ -74,8 +83,11 @@ type Props = {
   end: null | Location,
   isLoading: boolean,
   pointsOfInterest: void | any, // FeatureCollection
+  realtorListings: Listing,
   routableNeighborhoods: any,
   setEndPosition: LonLat => void,
+  setShowBHAListings: Function => void,
+  setShowRealtorListings: Function => void,
   setStartPosition: LonLat => void,
   start: null | Location,
   updateEnd: () => void,
@@ -124,6 +136,8 @@ export default class Map extends PureComponent<Props, State> {
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
+      this.props.setShowBHAListings(false)
+      this.props.setShowRealtorListings(false)
       this.props.setShowDetails(true)
       this.props.setActiveNeighborhood(feature.properties.id)
     } else {
@@ -281,6 +295,24 @@ export default class Map extends PureComponent<Props, State> {
               <span>{p.origin.label}</span>
             </Popup>
           </Marker>}
+
+        {p.showRealtorListings && p.realtorListings.data && p.realtorListings.data.map((item, key) =>
+          <Marker
+            icon={listingIcon}
+            key={`listings-${this._getKey()}`}
+            position={[item.address.lat, item.address.lon]}
+            zIndex={getZIndex()}
+          />)
+        }
+
+        {p.showBHAListings && p.bhaListings.data && p.bhaListings.data.map((item, key) =>
+          <Marker
+            icon={listingIcon}
+            key={`listings-${this._getKey()}`}
+            position={[item.lat, item.lon]}
+            zIndex={getZIndex()}
+          />)
+        }
 
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
           p.displayNeighborhoods.map((n) =>

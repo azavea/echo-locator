@@ -47,6 +47,14 @@
       }
     }
 
+    &--listing {
+      background-color: $listing;
+
+      &::before {
+        border-top: 20px solid $listing;
+      }
+    }
+
     &--other {
       background-color: $primary;
 
