@@ -69,6 +69,7 @@ export default {
     HideBHAApartments: 'Hide BHA',
     HideRealtorApartments: 'Hide Realtor.com',
     HotpadsSearchLink: 'Hotpads',
+    ListingsFetchError: 'There was an error fetching your listings',
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'Est. max rent',
     ModeSummary: 'via',

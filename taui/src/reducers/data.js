@@ -149,7 +149,6 @@ export default handleActions(
     neighborhoodBounds: {},
     page: 0,
     profileLoading: true,
-    realtorListings: {data: []},
     showBHAListings: false,
     showDetails: false,
     showFavorites: false,

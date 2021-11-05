@@ -1,7 +1,8 @@
 // @flow
 import { PureComponent } from 'react'
-import message from '@conveyal/woonerf/message'
+import { withTranslation } from 'react-i18next'
 import Icon from '@conveyal/woonerf/components/icon'
+import Loader from 'react-loader-spinner'
 
 import Listing from '../types'
 
@@ -19,14 +20,12 @@ type Props = {
   userProfile: AccountProfile
 };
 
-export default class TopBar extends PureComponent<Props, State> {
+class TopBar extends PureComponent<Props, State> {
   props: Props;
 
   constructor (props) {
     super(props)
-    this.showListingsButton = this.showListingsButton.bind(this)
-    this.hideListingsButton = this.hideListingsButton.bind(this)
-    this.errorMessage = this.errorMessage.bind(this)
+    this.error = this.error.bind(this)
   }
 
   componentDidUpdate (prevProps) {
@@ -83,33 +82,44 @@ export default class TopBar extends PureComponent<Props, State> {
     }
   }
 
-  showListingsButton (props) {
-    const { message, handleClick } = props
-
-    return (
-      <button
-        className='top-bar__button'
-        onClick={handleClick}>{ message }
+  toggleListingsButton = (props) => {
+    const {
+      hide,
+      onShow,
+      onHide,
+      pending,
+      show,
+      visible
+    } = props
+    return pending ? (
+      <button className='top-bar__button-loading'>
+        <Loader
+          className='top-bar__button-spinner'
+          type='Oval'
+          color='white'
+          height={15}
+          width={15}
+        />
+        { show }
       </button>
-    )
-  }
-
-  hideListingsButton (props) {
-    const { message, handleClick } = props
-
-    return (
+    ) : (visible ? (
       <button
         className='top-bar__button-highlighted'
-        onClick={handleClick}> { message }
+        onClick={onHide}> { hide }
       </button>
-    )
+    ) : (
+      <button
+        className='top-bar__button'
+        onClick={onShow}>{ show }
+      </button>
+    ))
   }
 
-  errorMessage () {
+  error ({message}) {
     return (
       <div style={{ display: 'inline-block', position: 'relative' }}>
         <Icon type='exclamation-triangle' />
-        There was an error fetching your listings
+        {message}
       </div>
     )
   }
@@ -118,11 +128,13 @@ export default class TopBar extends PureComponent<Props, State> {
     const p = this.props
     const {
       showBHAListings,
-      showRealtorListings
+      showRealtorListings,
+      bhaListings,
+      realtorListings,
+      t
     } = p
-    const ShowListingsButton = this.showListingsButton
-    const HideListingsButton = this.hideListingsButton
-    const ErrorMessage = this.errorMessage
+    const Error = this.error
+    const ToggleListingsButton = this.toggleListingsButton
 
     if (!this.props.clickedNeighborhood) {
       return null
@@ -131,31 +143,28 @@ export default class TopBar extends PureComponent<Props, State> {
       <div className='top-bar'>
         <div className='top-bar__bar'>
           <div className='top-bar__heading'>Apartments: </div>
-          {showBHAListings ? (
-            <HideListingsButton
-              message={message('NeighborhoodDetails.HideBHAApartments')}
-              handleClick={this.handleHideListings.bind(this, 'BHA')}
-            />
-          ) : (
-            <ShowListingsButton
-              message={message('NeighborhoodDetails.ShowBHAApartments')}
-              handleClick={this.handleShowListings.bind(this, 'BHA')}
-            />
-          )}
-          {showRealtorListings ? (
-            <HideListingsButton
-              message={message('NeighborhoodDetails.HideRealtorApartments')}
-              handleClick={this.handleHideListings.bind(this, 'Realtor')}
-            />
-          ) : (
-            <ShowListingsButton
-              message={message('NeighborhoodDetails.ShowRealtorApartments')}
-              handleClick={this.handleShowListings.bind(this, 'Realtor')}
-            />
-          )}
-          { (this.props.bhaListings.error || this.props.realtorListings.error) && <ErrorMessage />}
+          {<ToggleListingsButton
+            hide={t('NeighborhoodDetails.HideBHAApartments')}
+            onShow={this.handleShowListings.bind(this, 'BHA')}
+            onHide={this.handleHideListings.bind(this, 'BHA')}
+            pending={bhaListings.pending}
+            show={t('NeighborhoodDetails.ShowBHAApartments')}
+            visible={showBHAListings}
+          />}
+          {<ToggleListingsButton
+            hide={t('NeighborhoodDetails.HideRealtorApartments')}
+            onShow={this.handleShowListings.bind(this, 'Realtor')}
+            onHide={this.handleHideListings.bind(this, 'Realtor')}
+            pending={realtorListings.pending}
+            show={t('NeighborhoodDetails.ShowRealtorApartments')}
+            visible={showRealtorListings}
+          />}
+          { (bhaListings.error || realtorListings.error) &&
+          <Error message={t('NeighborhoodDetails.ListingsFetchError')} />}
         </div>
       </div>
     )
   }
 }
+
+export default withTranslation()(TopBar)

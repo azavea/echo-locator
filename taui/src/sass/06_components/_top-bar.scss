@@ -86,4 +86,20 @@
       filter: saturate(12%);
     }
   }
+
+  &__button-loading {
+    position: relative;
+    display: inline-block;
+    margin: 0 0.25rem;
+    padding: 0.5rem;
+    color: rgba(0, 0, 0, 0);
+    background: $gray-600;
+    transition: background 250ms ease-in-out, transform 150ms ease;
+  }
+
+  &__button-spinner {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
