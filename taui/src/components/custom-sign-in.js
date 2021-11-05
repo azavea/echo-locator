@@ -26,7 +26,7 @@ class SignInHeader extends React.Component {
     return (
       <header className='auth-screen__header auth-header'>
         <h2 className='auth-header__agency'>
-          <img className='auth-header__logo' src='assets/echo_combined_logo_STACKED_fullcolor.svg' alt='' />
+          <img className='auth-header__logo' src='assets/echo_combined_logo_STACKED_fullcolor.svg' alt='ECHO Logo' />
           {message('Agency')}
         </h2>
         <h1 className='auth-header__app-name' >{message('Title')}</h1>

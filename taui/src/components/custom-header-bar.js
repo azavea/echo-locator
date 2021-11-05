@@ -58,7 +58,7 @@ export default class CustomHeaderBar extends Greetings {
     return (
       <header className='app-header'>
         <div className='app-header__brand'>
-          <img className='app-header__logo' src='assets/echo_combined_logo_fullcolor.svg' alt='' />
+          <img className='app-header__logo' src='assets/echo_combined_logo_fullcolor.svg' alt='ECHO Logo' />
           <span className='app-header__app-name'>{message('Title')}</span>
         </div>
         {userInfo}
