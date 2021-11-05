@@ -6,6 +6,9 @@ Website to explore Choice Neighborhoods in the Boston area.
 
 ## Requirements
 
+While Docker is the preferred development environment, steps for running directly on host
+are available for Mac users as a result of issue [#49](https://github.com/azavea/echo-locator/issues/49).
+
 ### To run within a Docker container:
 
 * Docker Engine 17.06+
@@ -13,8 +16,8 @@ Website to explore Choice Neighborhoods in the Boston area.
 
 ### To run directly:
 
-* node
-* yarn
+* [nvm](https://github.com/creationix/nvm) to manage Node versions on your machine
+* [yvm](https://yvm.js.org/docs/overview) to manage Yarn versions for package management
 
 
 ## Development
@@ -52,7 +55,9 @@ $ ./scripts/server
 
 ### Running directly
 
+* Make sure you have `nvm` and `yarn` installed (see links in Requirements)
 * `cd taui`
+* Specify Yarn and Node versions: Run `nvm use` and `yvm use`
 * Install packages: `yarn install`
 * Build and run development server: `yarn start`
 
