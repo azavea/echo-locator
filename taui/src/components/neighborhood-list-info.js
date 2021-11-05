@@ -1,5 +1,5 @@
 // @flow
-import message from '@conveyal/woonerf/message'
+import { useTranslation } from 'react-i18next'
 import ReactTooltip from 'react-tooltip'
 
 import {TOOLTIP_HIDE_DELAY_MS,
@@ -16,6 +16,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
     return null
   }
 
+  const {t} = useTranslation()
   const props = neighborhood.properties
   const zipcode = props['id']
   const crime = props['crime_percentile']
@@ -28,14 +29,14 @@ export default function NeighborhoodListInfo ({neighborhood}) {
   const isBoston = townArea && townArea === BOSTON_TOWN_AREA
 
   const crimeMessage = isBoston ? 'Tooltips.ViolentCrimeBoston' : 'Tooltips.ViolentCrime'
-  const crimeTooltip = message(crimeMessage, {
-    averageRelation: getAverageRelationPercentage(crime),
+  const crimeTooltip = t(crimeMessage, {
+    averageRelation: getAverageRelationPercentage(crime, t),
     crimePercentile: crime,
     town: town
   })
 
-  const edTooltip = message('Tooltips.Education', {
-    averageRelation: getAverageRelationPercentage(edPercentile),
+  const edTooltip = t('Tooltips.Education', {
+    averageRelation: getAverageRelationPercentage(edPercentile, t),
     edPercentile: edPercentile,
     town: town
   })
@@ -47,7 +48,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
       <table className='neighborhood-facts'>
         <tbody>
           <tr>
-            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.EducationCategory')}</td>
+            <td className='neighborhood-facts__cell'>{t('NeighborhoodInfo.EducationCategory')}</td>
             {!isSchoolChoice && <td className='neighborhood-facts__cell'>
               <Meter
                 category='school'
@@ -57,12 +58,12 @@ export default function NeighborhoodListInfo ({neighborhood}) {
             </td>}
             {isSchoolChoice && <td className='neighborhood-facts__text'>
               <a href={schoolChoiceLink} target='_blank' className='neighborhood-facts__school-choice'>
-                {message('NeighborhoodInfo.SchoolChoice')}
+                {t('NeighborhoodInfo.SchoolChoice')}
               </a>
             </td>}
           </tr>
           {crime >= 0 && <tr>
-            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.ViolentCrime')}</td>
+            <td className='neighborhood-facts__cell'>{t('NeighborhoodInfo.ViolentCrime')}</td>
             <td className='neighborhood-facts__cell'>
               <Meter
                 category='crime'
@@ -72,7 +73,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
             </td>
           </tr>}
           <tr>
-            <td className='neighborhood-facts__cell'>{message('NeighborhoodInfo.RentalUnits')}</td>
+            <td className='neighborhood-facts__cell'>{t('NeighborhoodInfo.RentalUnits')}</td>
             <td className='neighborhood-facts__cell'>
               <RentalUnitsMeter value={houses} totalMapc={totalMapc} id={zipcode} town={town} />
             </td>
@@ -95,8 +96,8 @@ export default function NeighborhoodListInfo ({neighborhood}) {
 
 // Fetch the UI string for percentage meter tooltips to say above/about/below average
 const AVERAGE_PERCENTAGE = 50
-const getAverageRelationPercentage = (val) => {
+const getAverageRelationPercentage = (val, t) => {
   return val > AVERAGE_PERCENTAGE
-    ? message('Tooltips.AboveAverage')
-    : (val < AVERAGE_PERCENTAGE ? message('Tooltips.BelowAverage') : message('Tooltips.Average'))
+    ? t('Tooltips.AboveAverage')
+    : (val < AVERAGE_PERCENTAGE ? t('Tooltips.BelowAverage') : t('Tooltips.Average'))
 }

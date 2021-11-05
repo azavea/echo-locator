@@ -1,6 +1,6 @@
 // @flow
+import { useTranslation, withTranslation } from 'react-i18next'
 import Icon from '@conveyal/woonerf/components/icon'
-import message from '@conveyal/woonerf/message'
 import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
@@ -24,7 +24,7 @@ type Props = {
   setFavorite: any,
   userProfile: AccountProfile
 }
-export default class NeighborhoodDetails extends PureComponent<Props> {
+class NeighborhoodDetails extends PureComponent<Props> {
   props: Props
 
   constructor (props) {
@@ -51,13 +51,14 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
   neighborhoodStats (props) {
     const { neighborhood, userProfile } = props
+    const {t} = useTranslation()
     const { rooms } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
 
     return (
       <div className='neighborhood-details__stats'>
         <div className='neighborhood-details__rent'>
-          <div className='neighborhood-details__rent-label'>{message('NeighborhoodDetails.MaxRent')}</div>
+          <div className='neighborhood-details__rent-label'>{t('NeighborhoodDetails.MaxRent')}</div>
           <div className='neighborhood-details__rent-value'>${maxSubsidy}</div>
           <div className='neighborhood-details__rent-rooms'>{rooms}br</div>
         </div>
@@ -113,6 +114,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
 
   neighborhoodLinks (props) {
     const { neighborhood, userProfile } = props
+    const {t} = useTranslation()
     const { rooms } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
@@ -130,7 +132,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               maxSubsidy)}
             target='_blank'
           >
-            {message('NeighborhoodDetails.ZillowSearchLink')}
+            {t('NeighborhoodDetails.ZillowSearchLink')}
           </a>
           <a
             className='neighborhood-details__link'
@@ -140,7 +142,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               maxSubsidy)}
             target='_blank'
           >
-            {message('NeighborhoodDetails.CraigslistSearchLink')}
+            {t('NeighborhoodDetails.CraigslistSearchLink')}
           </a>
           <a
             className='neighborhood-details__link'
@@ -150,7 +152,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               maxSubsidy)}
             target='_blank'
           >
-            {message('NeighborhoodDetails.HotpadsSearchLink')}
+            {t('NeighborhoodDetails.HotpadsSearchLink')}
           </a>
           <a
             className='neighborhood-details__link'
@@ -160,11 +162,11 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
               maxSubsidy)}
             target='_blank'
           >
-            {message('NeighborhoodDetails.GoSection8SearchLink')}
+            {t('NeighborhoodDetails.GoSection8SearchLink')}
           </a>
         </div>
         <h6 className='neighborhood-details__link-heading'>
-          {message('NeighborhoodDetails.MoreSearchToolsLinksHeading')}
+          {t('NeighborhoodDetails.MoreSearchToolsLinksHeading')}
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -172,39 +174,39 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href='https://www.metrohousingboston.org/apartment-listings/'
             target='_blank'
           >
-            {message('NeighborhoodDetails.MetroHousingLink')}
+            {t('NeighborhoodDetails.MetroHousingLink')}
           </a>
           <a
             className='neighborhood-details__link'
             href='https://www.bostonhousing.org/en/Apartment-Listing.aspx?btype=8,7,6,5,4,3,2,1'
             target='_blank'
           >
-            {message('NeighborhoodDetails.BHAApartmentsLink')}
+            {t('NeighborhoodDetails.BHAApartmentsLink')}
           </a>
           <a
             className='neighborhood-details__link'
             href='https://www.apartments.com/'
             target='_blank'
           >
-            {message('NeighborhoodDetails.ApartmentsDotComLink')}
+            {t('NeighborhoodDetails.ApartmentsDotComLink')}
           </a>
           <a
             className='neighborhood-details__link'
             href='https://eeclead.force.com/EEC_ChildCareSearch'
             target='_blank'
           >
-            {message('NeighborhoodDetails.ChildCareSearchLink')}
+            {t('NeighborhoodDetails.ChildCareSearchLink')}
           </a>
           <a
             className='neighborhood-details__link'
             href='http://bha.cvrapps.com/'
             target='_blank'
           >
-            {message('NeighborhoodDetails.RentEstimatorLink')}
+            {t('NeighborhoodDetails.RentEstimatorLink')}
           </a>
         </div>
         <h6 className='neighborhood-details__link-heading'>
-          {message('NeighborhoodDetails.AboutNeighborhoodLinksHeading')}
+          {t('NeighborhoodDetails.AboutNeighborhoodLinksHeading')}
         </h6>
         <div className='neighborhood-details__links'>
           {neighborhood.properties.town_link && <a
@@ -212,21 +214,21 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={neighborhood.properties.town_link}
             target='_blank'
           >
-            {message('NeighborhoodDetails.WebsiteLink')}
+            {t('NeighborhoodDetails.WebsiteLink')}
           </a>}
           {neighborhood.properties.wikipedia_link && <a
             className='neighborhood-details__link'
             href={neighborhood.properties.wikipedia_link}
             target='_blank'
           >
-            {message('NeighborhoodDetails.WikipediaLink')}
+            {t('NeighborhoodDetails.WikipediaLink')}
           </a>}
           <a
             className='neighborhood-details__link'
             href={getGoogleSearchLink(neighborhood.properties.id)}
             target='_blank'
           >
-            {message('NeighborhoodDetails.GoogleSearchLink')}
+            {t('NeighborhoodDetails.GoogleSearchLink')}
           </a>
         </div>
       </>
@@ -234,7 +236,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   render () {
-    const { changeUserProfile, neighborhood, origin, setFavorite, userProfile } = this.props
+    const { changeUserProfile, neighborhood, origin, setFavorite, userProfile, t } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
@@ -278,11 +280,11 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         </div>
         <div className='neighborhood-details__section'>
           <div className='neighborhood-details__trip'>
-            {message('Units.About')}&nbsp;
+            {t('Units.About')}&nbsp;
             {roundedTripTime}&nbsp;
-            {message('Units.Mins')}&nbsp;
+            {t('Units.Mins')}&nbsp;
             <ModesList segments={bestJourney} />&nbsp;
-            {message('NeighborhoodDetails.FromOrigin')}&nbsp;
+            {t('NeighborhoodDetails.FromOrigin')}&nbsp;
             {currentDestination && currentDestination.purpose.toLowerCase()}
             <a
               className='neighborhood-details__directions'
@@ -292,7 +294,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
                 hasVehicle)}
               target='_blank'
             >
-              {message('NeighborhoodDetails.DirectionsLink')}
+              {t('NeighborhoodDetails.DirectionsLink')}
             </a>
           </div>
           {!hasVehicle && <RouteSegments
@@ -304,14 +306,16 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
         <div className='neighborhood-details__section'>
           <NeighborhoodStats
             neighborhood={neighborhood}
-            userProfile={userProfile} />
+            userProfile={userProfile}
+          />
         </div>
         <div className='neighborhood-details__section'>
           <NeighborhoodLinks
             hasVehicle={hasVehicle}
             neighborhood={neighborhood}
             origin={origin}
-            userProfile={userProfile} />
+            userProfile={userProfile}
+          />
         </div>
         <div className='neighborhood-details__section'>
           <NeighborhoodImages neighborhood={neighborhood} />
@@ -324,10 +328,16 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 }
 
+export default withTranslation()(NeighborhoodDetails)
+
 // Builds list of unqiue transit modes used in a trip
-const ModesList = ({segments}) => segments && segments.length ? (
-  <>
-    {message('NeighborhoodDetails.ModeSummary')}&nbsp;
-    {uniq(segments.map(s => s.type)).join('/')}
-  </>
-) : message('NeighborhoodDetails.DriveMode')
+const ModesList = ({segments}) => {
+  const {t} = useTranslation()
+
+  return segments && segments.length ? (
+    <>
+      {t('NeighborhoodDetails.ModeSummary')}&nbsp;
+      {uniq(segments.map(s => s.type)).join('/')}
+    </>
+  ) : t('NeighborhoodDetails.DriveMode')
+}

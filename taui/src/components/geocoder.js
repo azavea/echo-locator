@@ -1,5 +1,5 @@
 // @flow
-import message from '@conveyal/woonerf/message'
+import { withTranslation } from 'react-i18next'
 import isEqual from 'lodash/isEqual'
 import throttle from 'lodash/throttle'
 import React, {Component} from 'react'
@@ -30,7 +30,7 @@ type Props = {
 /**
  *
  */
-export default class Geocoder extends Component<Props> {
+class Geocoder extends Component<Props> {
   autocompleteCache = {}
   options = {}
 
@@ -60,9 +60,10 @@ export default class Geocoder extends Component<Props> {
 
   defaultOptions () {
     const p = this.props
+    const { t } = this.props
     const geolocateOptions = p.geolocate && 'geolocation' in navigator
       ? [{
-        label: message('Geocoding.UseCurrentLocation'),
+        label: t('Geocoding.UseCurrentLocation'),
         value: GEOLOCATE_VALUE
       }]
       : []
@@ -104,11 +105,11 @@ export default class Geocoder extends Component<Props> {
   }, RATE_LIMIT)
 
   _onChange = (value?: ReactSelectOption) => {
-    const {onChange, reverseGeocode} = this.props
+    const {onChange, reverseGeocode, t} = this.props
     if (value && value.value === GEOLOCATE_VALUE) {
       this.setState({
         value: {
-          label: message('Geocoding.FindingLocation')
+          label: t('Geocoding.FindingLocation')
         }
       })
       window.navigator.geolocation.getCurrentPosition(position => {
@@ -135,6 +136,7 @@ export default class Geocoder extends Component<Props> {
   }
 
   render () {
+    const {t} = this.props
     return (
       <Select.Async
         arrowRenderer={null}
@@ -151,7 +153,7 @@ export default class Geocoder extends Component<Props> {
         onChange={this._onChange}
         options={this.state.options}
         placeholder={this.props.placeholder}
-        searchPromptText={message('Geocoding.PromptText')}
+        searchPromptText={t('Geocoding.PromptText')}
         style={SELECT_STYLE}
         wrapperStyle={SELECT_WRAPPER_STYLE}
         value={this.state.value}
@@ -159,3 +161,5 @@ export default class Geocoder extends Component<Props> {
     )
   }
 }
+
+export default withTranslation()(Geocoder)

@@ -1,7 +1,7 @@
 // @flow
 import Storage from '@aws-amplify/storage'
 import Icon from '@conveyal/woonerf/components/icon'
-import message from '@conveyal/woonerf/message'
+import { withTranslation } from 'react-i18next'
 import remove from 'lodash/remove'
 import {PureComponent, createRef} from 'react'
 
@@ -33,7 +33,7 @@ type Props = {
 /**
  * Sidebar content.
  */
-export default class Dock extends PureComponent<Props> {
+class Dock extends PureComponent<Props> {
   props: Props
 
   constructor (props) {
@@ -146,7 +146,8 @@ export default class Dock extends PureComponent<Props> {
   buttonRow (props) {
     const {
       haveAnotherPage,
-      page
+      page,
+      t // buttonRow is being passed the parent component props, so we already have t available
     } = props
 
     const goPreviousPage = this.goPreviousPage
@@ -156,11 +157,11 @@ export default class Dock extends PureComponent<Props> {
       <nav className='map-sidebar__pagination'>
         {page > 0 && <button
           className='map-sidebar__pagination-button'
-          onClick={goPreviousPage}>{message('Dock.GoPreviousPage')}
+          onClick={goPreviousPage}>{t('Dock.GoPreviousPage')}
         </button>}
         {haveAnotherPage && <button
           className='map-sidebar__pagination-button map-sidebar__pagination-button--strong'
-          onClick={goNextPage}>{message('Dock.GoNextPage')}
+          onClick={goNextPage}>{t('Dock.GoNextPage')}
         </button>}
       </nav>)
   }
@@ -174,12 +175,13 @@ export default class Dock extends PureComponent<Props> {
       setActiveNeighborhood,
       origin,
       setFavorite,
-      userProfile
+      userProfile,
+      t
     } = props
     const goToDetails = this.goToDetails
 
     if (!neighborhoods || !neighborhoods.length) {
-      return <div className='map-sidebar__no-results'>{message('Dock.NoResults')}</div>
+      return <div className='map-sidebar__no-results'>{t('Dock.NoResults')}</div>
     }
 
     return (
@@ -209,7 +211,8 @@ export default class Dock extends PureComponent<Props> {
       totalNeighborhoodCount,
       origin,
       startingOffset,
-      showFavorites
+      showFavorites,
+      t // This is passed the parent component props so we have it already
     } = props
     const setShowFavorites = this.setShowFavorites
     const NeighborhoodsList = this.neighborhoodsList
@@ -221,12 +224,12 @@ export default class Dock extends PureComponent<Props> {
         <header className='map-sidebar__neighborhoods-header'>
           <h2 className='map-sidebar__neighborhoods-heading'>
             {showFavorites && <>
-              {message('Dock.Favorites')}
+              {t('Dock.Favorites')}
               &nbsp;
               {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
             </>}
             {!showFavorites && <>
-              {message('Dock.Recommendations')}
+              {t('Dock.Recommendations')}
               &nbsp;
               {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
             </>}
@@ -236,14 +239,14 @@ export default class Dock extends PureComponent<Props> {
               onClick={(e) => setShowFavorites(false)}
               disabled={!showFavorites}
               className={showAllClass}>
-              {message('Dock.ShowAllButton')}
+              {t('Dock.ShowAllButton')}
             </button>
             &nbsp;|&nbsp;
             <button
               className={showSavedClass}
               disabled={showFavorites}
               onClick={(e) => setShowFavorites(true)}>
-              {message('Dock.ShowSavedButton')}
+              {t('Dock.ShowSavedButton')}
             </button>
           </div>
         </header>
@@ -268,7 +271,8 @@ export default class Dock extends PureComponent<Props> {
       page,
       showDetails,
       showFavorites,
-      userProfile
+      userProfile,
+      t
     } = this.props
     const {componentError} = this.state
     const ButtonRow = this.buttonRow
@@ -306,8 +310,8 @@ export default class Dock extends PureComponent<Props> {
           >
             <Icon type='chevron-circle-left' />
             {showFavorites
-              ? message('Dock.GoBackToFavorites')
-              : message('Dock.GoBackToRecommendations')}
+              ? t('Dock.GoBackToFavorites')
+              : t('Dock.GoBackToRecommendations')}
           </button>
         </nav>
         <NeighborhoodDetails
@@ -328,16 +332,18 @@ export default class Dock extends PureComponent<Props> {
           className='map-sidebar__feedback'
         >
           <Icon type='comment-o' className='map-sidebar__feedback-icon' />
-          {message('Dock.FeedbackLink')}
+          {t('Dock.FeedbackLink')}
         </a>
         <a
           href='https://www.azavea.com'
           target='_blank'
           className='map-sidebar__attribution'
         >
-          {message('Dock.SiteBy')}
+          {t('Dock.SiteBy')}
         </a>
       </div>
     </div>
   }
 }
+
+export default withTranslation()(Dock)

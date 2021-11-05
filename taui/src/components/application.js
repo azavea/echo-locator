@@ -1,5 +1,5 @@
 // @flow
-import message from '@conveyal/woonerf/message'
+import { withTranslation } from 'react-i18next'
 import React, {Component} from 'react'
 import { Switch, Redirect, Route } from 'react-router-dom'
 
@@ -102,7 +102,7 @@ type State = {
 /**
  *
  */
-export default class Application extends Component<Props, State> {
+class Application extends Component<Props, State> {
   state = {
     componentError: null
   }
@@ -128,10 +128,11 @@ export default class Application extends Component<Props, State> {
   }
 
   noMatch ({location}) {
+    const {t} = this.props
     return (
       <div>
         <h1>
-          {message('PageNotFound')} <code>{location.pathname}</code>
+          {t('PageNotFound')} <code>{location.pathname}</code>
         </h1>
       </div>
     )
@@ -172,3 +173,4 @@ export default class Application extends Component<Props, State> {
     )
   }
 }
+export default withTranslation()(Application)
