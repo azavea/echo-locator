@@ -55,9 +55,11 @@ $ ./scripts/server
 
 ### Running directly
 
-* Make sure you have `nvm` and `yarn` installed (see links in Requirements)
+* Make sure you have `nvm` and `yvm` installed (see links in Requirements)
 * `cd taui`
-* Specify Yarn and Node versions: Run `nvm use` and `yvm use`
+* Specify Yarn and Node versions: Run `nvm use` and `yvm use`(you may need to run 
+`nvm install` or `yvm install` first if you see error messages that the appropriate 
+versions are not installed).
 * Install packages: `yarn install`
 * Build and run development server: `yarn start`
 
