@@ -64,9 +64,9 @@ class CustomHeaderBar extends Greetings {
         </div>
         {userInfo}
         <div className='app-header__languageSelect'>
-          <button onClick={() => i18n.changeLanguage('en-US')}>English</button>
-          <button onClick={() => i18n.changeLanguage('es')}>Español</button>
-          <button onClick={() => i18n.changeLanguage('zh')}>中文</button>
+          <button className={`app-header__button ${i18n.language === 'en' ? 'app-header__button--on' : ''}`} onClick={() => i18n.changeLanguage('en')}>English</button>
+          <button className={`app-header__button ${i18n.language === 'es' ? 'app-header__button--on' : ''}`} onClick={() => i18n.changeLanguage('es')}>Español</button>
+          <button className={`app-header__button ${i18n.language === 'zh' ? 'app-header__button--on' : ''}`} onClick={() => i18n.changeLanguage('zh')}>中文</button>
         </div>
         {!isAnonymous && <div className='app-header__actions'>{this.renderSignOutButton(theme)}</div>}
         {isAnonymous &&
