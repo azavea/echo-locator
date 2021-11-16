@@ -1,21 +1,23 @@
 // @flow
-import message from '@conveyal/woonerf/message'
+import { useTranslation } from 'react-i18next'
 import toSpaceCase from 'lodash/lowerCase'
 import get from 'lodash/get'
 
 import Alert from './tr-alert'
 
 export default function RouteAccess (props) {
+  const {t} = useTranslation()
+
   if (props.grids.length === 0) {
-    return <Alert>{message('Systems.NoGrids')}</Alert>
+    return <Alert>{t('Systems.NoGrids')}</Alert>
   }
 
   if (!props.hasStart) {
-    return <Alert>{message('Systems.SelectStart')}</Alert>
+    return <Alert>{t('Systems.SelectStart')}</Alert>
   }
 
   if (get(props, 'accessibility[0]') === -1) {
-    return <Alert>{message('Systems.NoAccess')}</Alert>
+    return <Alert>{t('Systems.NoAccess')}</Alert>
   }
 
   return <ShowAccess {...props} />

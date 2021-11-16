@@ -1,6 +1,6 @@
 // @flow
+import { withTranslation } from 'react-i18next'
 import lonlat from '@conveyal/lonlat'
-import message from '@conveyal/woonerf/message'
 import find from 'lodash/find'
 import filter from 'lodash/filter'
 import memoize from 'lodash/memoize'
@@ -32,7 +32,7 @@ const createNetworksFilter = memoize(o => createFilterOptions({
   options: o
 }))
 
-export default class Form extends React.PureComponent<Props> {
+class Form extends React.PureComponent<Props> {
   props: Props
 
   constructor (props) {
@@ -132,7 +132,7 @@ export default class Form extends React.PureComponent<Props> {
   }
 
   render () {
-    const {userProfile} = this.props
+    const {t, userProfile} = this.props
     const {destination, network} = this.state
     const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
     const locations = destinations.map(d => {
@@ -151,9 +151,9 @@ export default class Form extends React.PureComponent<Props> {
 
     return (
       <div className='map-sidebar__travel-form'>
-        <h2 className='map-sidebar__travel-form-heading'>{message('Dock.FormHeading')}</h2>
+        <h2 className='map-sidebar__travel-form-heading'>{t('Dock.FormHeading')}</h2>
         <div className='map-sidebar__field'>
-          <label className='map-sidebar__label'>{message('Dock.LocationLabel')}</label>
+          <label className='map-sidebar__label'>{t('Dock.LocationLabel')}</label>
           <Select
             className='map-sidebar__select'
             clearable={false}
@@ -161,14 +161,14 @@ export default class Form extends React.PureComponent<Props> {
             options={locations}
             optionHeight={SELECT_OPTION_HEIGHT}
             onChange={this.selectDestination}
-            placeholder={message('Geocoding.StartPlaceholder')}
+            placeholder={t('Geocoding.StartPlaceholder')}
             style={SELECT_STYLE}
             wrapperStyle={SELECT_WRAPPER_STYLE}
             value={destination}
           />
         </div>
         {!userProfile.hasVehicle && <div className='map-sidebar__field'>
-          <label className='map-sidebar__label'>{message('Dock.NetworkLabel')}</label>
+          <label className='map-sidebar__label'>{t('Dock.NetworkLabel')}</label>
           <Select
             className='map-sidebar__select'
             clearable={false}
@@ -176,7 +176,7 @@ export default class Form extends React.PureComponent<Props> {
             options={networks}
             optionHeight={SELECT_OPTION_HEIGHT}
             onChange={(e) => setNetwork(e)}
-            placeholder={message('Map.SelectNetwork')}
+            placeholder={t('Map.SelectNetwork')}
             style={SELECT_STYLE}
             wrapperStyle={SELECT_WRAPPER_STYLE}
             value={network}
@@ -186,3 +186,5 @@ export default class Form extends React.PureComponent<Props> {
     )
   }
 }
+
+export default withTranslation()(Form)

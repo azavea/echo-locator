@@ -20,7 +20,12 @@ import {
   TOTPSetup,
   VerifyContact
 } from 'aws-amplify-react/dist/Auth'
+import { initReactI18next } from 'react-i18next'
+import i18n from 'i18next'
 
+import englishTranslations from './locales/en/translations'
+import spanishTranslations from './locales/es/translations'
+import chineseTranslations from './locales/zh/translations'
 import actions from './actions'
 import awsmobile from './aws-exports'
 import { CustomAuthenticatorTheme } from './amplify-theme'
@@ -42,6 +47,24 @@ document.title = message('Title')
 API.configure({endpoints: awsmobile['aws_cloud_logic_custom']})
 Auth.configure(awsmobile)
 Storage.configure(awsmobile)
+
+i18n.use(initReactI18next).init({
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false
+  },
+  resources: {
+    en: {
+      translation: englishTranslations
+    },
+    es: {
+      translation: spanishTranslations
+    },
+    zh: {
+      translation: chineseTranslations
+    }
+  }
+})
 
 // configure LogRocket for error, activity tracking
 if (process.env.LOGROCKET_APP_ID) {

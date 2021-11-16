@@ -18,25 +18,28 @@ import {
   SectionFooterPrimaryContent,
   SectionFooterSecondaryContent
 } from 'aws-amplify-react/dist/Amplify-UI/Amplify-UI-Components-React'
-import message from '@conveyal/woonerf/message'
 import React from 'react'
+import { withTranslation } from 'react-i18next'
 
 class SignInHeader extends React.Component {
   render () {
+    const {t} = this.props
     return (
       <header className='auth-screen__header auth-header'>
         <h2 className='auth-header__agency'>
           <img className='auth-header__logo' src='assets/echo_combined_logo_STACKED_fullcolor.svg' alt='ECHO Logo' />
-          {message('Agency')}
+          {t('Agency')}
         </h2>
-        <h1 className='auth-header__app-name' >{message('Title')}</h1>
-        <p className='auth-header__greeting'>{message('SignIn.Greeting')}</p>
+        <h1 className='auth-header__app-name' >{t('Title')}</h1>
+        <p className='auth-header__greeting'>{t('SignIn.Greeting')}</p>
       </header>
     )
   }
 }
 
-export default class CustomSignIn extends SignIn {
+const SignInHeaderTranslated = withTranslation()(SignInHeader)
+
+class CustomSignIn extends SignIn {
   submitOnEnter = (e) => {
     if (e.key === 'Enter') {
       this.signIn(e)
@@ -47,13 +50,13 @@ export default class CustomSignIn extends SignIn {
   // Based on source:
   // https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Auth/SignIn.jsx#L120
   showComponent (theme) {
-    const { authState, hide = [], federated, onStateChange, onAuthEvent, override = [] } = this.props
+    const { authState, hide = [], federated, onStateChange, onAuthEvent, override = [], t } = this.props
     const hideForgotPassword = !override.includes('ForgotPassword') &&
       hide.some(component => component === ForgotPassword)
 
     return (
       <div className='auth-screen'>
-        <SignInHeader />
+        <SignInHeaderTranslated />
         <FormSection theme={theme}>
           <SectionBody theme={theme}>
             <FederatedButtons
@@ -103,9 +106,9 @@ export default class CustomSignIn extends SignIn {
               </Button>
             </SectionFooterPrimaryContent>
             {process.env.ALLOW_ANONYMOUS && <SectionFooterSecondaryContent theme={theme}>
-              {message('SignIn.AnonymousExplanation') + ' '}
+              {t('SignIn.AnonymousExplanation') + ' '}
               <Link theme={theme} onClick={() => this.changeState('useAnonymous')}>
-                {message('SignIn.Anonymous')}
+                {t('SignIn.Anonymous')}
               </Link>
             </SectionFooterSecondaryContent>}
           </SectionFooter>
@@ -114,3 +117,5 @@ export default class CustomSignIn extends SignIn {
     )
   }
 }
+
+export default withTranslation()(CustomSignIn)

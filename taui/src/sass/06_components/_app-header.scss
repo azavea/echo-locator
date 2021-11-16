@@ -23,6 +23,10 @@
     &--new {
       margin-left: 6.4rem;
     }
+
+    &--on {
+      color: $black;
+    }
   }
 
   &__logo {
@@ -38,6 +42,7 @@
 
   &__user-info {
     @include text(400);
+    margin-right: 4rem;
   }
 
   &__user-name {

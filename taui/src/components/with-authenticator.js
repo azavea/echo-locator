@@ -18,6 +18,7 @@ import storeDefaultProfile from '../utils/store-default-profile'
 
 import CustomHeaderBar from './custom-header-bar'
 
+// TODO: Translations
 // Override the default error messages with ones that we've defined.
 function customAuthErrorMessageMap (error) {
   const customMessages = {

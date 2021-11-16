@@ -1,6 +1,6 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
-import message from '@conveyal/woonerf/message'
+import { useTranslation } from 'react-i18next'
 
 import {getTier} from '../utils/scaling'
 
@@ -12,6 +12,7 @@ export default function RentalUnitsMeter ({
 }) {
   const NUM_ICONS = 5
   const AVERAGE_VALUE = 3
+  const { t } = useTranslation()
 
   if (value > NUM_ICONS || value < 0) {
     console.warn('Rental unit meter count out of range')
@@ -50,12 +51,12 @@ export default function RentalUnitsMeter ({
   }
 
   const averageRelation = value > AVERAGE_VALUE
-    ? message('Tooltips.AboveAverage')
-    : (value < AVERAGE_VALUE ? message('Tooltips.BelowAverage') : message('Tooltips.Average'))
-  const tooltip = message('Tooltips.RentalUnits', {
+    ? t('Tooltips.AboveAverage')
+    : (value < AVERAGE_VALUE ? t('Tooltips.BelowAverage') : t('Tooltips.Average'))
+  const tooltip = t('Tooltips.RentalUnits', {
     averageRelation: averageRelation,
     town: town,
-    totalMapc: totalMapc ? (totalMapc).toLocaleString() : message('UnknownValue')
+    totalMapc: totalMapc ? (totalMapc).toLocaleString() : t('UnknownValue')
   })
 
   return (

@@ -1,12 +1,14 @@
 // @flow
-import message from '@conveyal/woonerf/message'
+import { useTranslation } from 'react-i18next'
 
 import Alert from './tr-alert'
 
 export default function RouteSegments ({hasVehicle, routeSegments, travelTime}) {
+  const {t} = useTranslation()
+
   if (routeSegments.length === 0) {
     if (!hasVehicle) {
-      return <Alert>{message('Systems.TripsEmpty')}</Alert>
+      return <Alert>{t('Systems.TripsEmpty')}</Alert>
     } else {
       return null
     }
@@ -23,15 +25,15 @@ export default function RouteSegments ({hasVehicle, routeSegments, travelTime}) 
         ))}
         {travelTime > 120 ? (
           <span className='decrease'>
-            {message('System.InaccessibleWithin')} 120 {message('Units.Mins')}
+            {t('System.InaccessibleWithin')} 120 {t('Units.Mins')}
           </span>
         ) : (
-          <span>in <strong>{travelTime}</strong> {message('Units.Mins')}</span>
+          <span>in <strong>{travelTime}</strong> {t('Units.Mins')}</span>
         )}
       </div>
       {routeSegments.length > 1 &&
         <div className='route-segments__alt-trips'>
-          {message('Systems.AlternateTripsTitle')}&nbsp;
+          {t('Systems.AlternateTripsTitle')}&nbsp;
           {alternateJourneys.map((segments, jindex) => (
             <span key={jindex}>
               {segments.map((segment, index) => (

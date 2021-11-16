@@ -1,14 +1,14 @@
 // @flow
+import { withTranslation } from 'react-i18next'
 import { Greetings } from 'aws-amplify-react/dist/Auth'
 import { NavButton } from 'aws-amplify-react/dist/Amplify-UI/Amplify-UI-Components-React'
-import message from '@conveyal/woonerf/message'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
 import {ANONYMOUS_USERNAME} from '../constants'
 import type {AccountProfile} from '../types'
 
-export default class CustomHeaderBar extends Greetings {
+class CustomHeaderBar extends Greetings {
   constructor (props) {
     super(props)
     this.signIn = this.signIn.bind(this)
@@ -33,6 +33,7 @@ export default class CustomHeaderBar extends Greetings {
   // based on:
   // https://github.com/aws-amplify/amplify-js/blob/master/packages/aws-amplify-react/src/Auth/Greetings.jsx#L131
   render () {
+    const {t, i18n} = this.props
     const authState = this.props.authState || this.state.authState
     const signedIn = (authState === 'signedIn')
     if (!signedIn) { return null }
@@ -47,10 +48,10 @@ export default class CustomHeaderBar extends Greetings {
         {!isAnonymous && <span className='app-header__user-name'>{userProfile.headOfHousehold}</span>}
         {!isAnonymous && <span className='app-header__voucher-number'># {userProfile.voucherNumber}</span>}
         <span className='app-header__button'>
-          <Link to={{pathname: '/profile', state: {fromApp: true}}}>{message('Header.Edit')}</Link>
+          <Link to={{pathname: '/profile', state: {fromApp: true}}}>{t('Header.Edit')}</Link>
         </span>
         {isCounselor && <span className='app-header__button app-header__button--new'>
-          <Link to='/search'>{message('Header.New')}</Link>
+          <Link to='/search'>{t('Header.New')}</Link>
         </span>}
       </div>
     ) : null
@@ -59,17 +60,24 @@ export default class CustomHeaderBar extends Greetings {
       <header className='app-header'>
         <div className='app-header__brand'>
           <img className='app-header__logo' src='assets/echo_combined_logo_fullcolor.svg' alt='ECHO Logo' />
-          <span className='app-header__app-name'>{message('Title')}</span>
+          <span className='app-header__app-name'>{t('Title')}</span>
         </div>
         {userInfo}
+        <div className='app-header__languageSelect'>
+          <button className={`app-header__button ${i18n.language === 'en' ? 'app-header__button--on' : ''}`} onClick={() => i18n.changeLanguage('en')}>English</button>
+          <button className={`app-header__button ${i18n.language === 'es' ? 'app-header__button--on' : ''}`} onClick={() => i18n.changeLanguage('es')}>Español</button>
+          <button className={`app-header__button ${i18n.language === 'zh' ? 'app-header__button--on' : ''}`} onClick={() => i18n.changeLanguage('zh')}>中文</button>
+        </div>
         {!isAnonymous && <div className='app-header__actions'>{this.renderSignOutButton(theme)}</div>}
         {isAnonymous &&
-          <div className='app-header__actions'>
-            <NavButton theme={theme} onClick={(e) => signIn(e)}>
-              {message('Header.SignIn')}
-            </NavButton>
-          </div>}
+        <div className='app-header__actions'>
+          <NavButton theme={theme} onClick={(e) => signIn(e)}>
+            {t('Header.SignIn')}
+          </NavButton>
+        </div>}
       </header>
     )
   }
 }
+
+export default withTranslation()(CustomHeaderBar)
