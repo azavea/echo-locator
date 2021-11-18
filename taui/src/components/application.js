@@ -11,7 +11,8 @@ import type {
   LogItems,
   LonLat,
   PointsOfInterest,
-  UIStore
+  UIStore,
+  Listing
 } from '../types'
 
 import EditProfile from './edit-profile'
@@ -33,6 +34,7 @@ type Props = {
   accessibility: number[][],
   actionLog: LogItems,
   activeNeighborhoodBounds: any,
+  bhaListings: Listing,
   data: {
     grids: string[],
     neighborhoodBounds: any,
@@ -69,17 +71,22 @@ type Props = {
   pageEndingOffset: number,
   pointsOfInterest: any, // FeatureCollection
   pointsOfInterestOptions: PointsOfInterest,
+  realtorListings: Listing,
   reverseGeocode: (string, Function) => void,
   routableNeighborhoodCount: number,
   routableNeighborhoods: any,
   setActiveNeighborhood: Function => void,
+  setBHAListings: Function => void,
   setDisplayNeighborhoods: Function => void,
   setEnd: any => void,
   setPage: Function => void,
   setProfile: Function => void,
+  setRealtorListings: Function => void,
   setSelectedTimeCutoff: any => void,
+  setShowBHAListings: Function => void,
   setShowDetails: Function => void,
   setShowFavorites: Function => void,
+  setShowRealtorListings: Function => void,
   setStart: any => void,
   showComparison: boolean,
   showFavorites: boolean,

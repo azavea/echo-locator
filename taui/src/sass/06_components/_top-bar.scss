@@ -1,0 +1,105 @@
+.top-bar {
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 2rem;
+  white-space: nowrap;
+
+  &__bar {
+    display: inline-block;
+  }
+
+  &__heading {
+    @include text(200);
+    @include font-weight(bold);
+    display: inline-block;
+    margin: 0 0.25rem 0 0.5rem;
+  }
+
+  &__button {
+    display: inline-block;
+    margin: 0 0.25rem;
+    padding: 0.5rem;
+    color: $white;
+    text-align: center;
+    text-transform: none;
+    text-decoration: none;
+    background: $gray-600;
+    border-radius: 1px;
+    outline: none;
+    transition: background 250ms ease-in-out, transform 150ms ease;
+
+    &::-moz-focus-inner {
+      border: none;
+    }
+
+    &:focus {
+      outline: 1px solid $white;
+      outline-offset: -3px;
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+
+    &:hover:not(:active):not([disabled]) {
+      transform: scale(1.04);
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+      filter: saturate(12%);
+    }
+  }
+
+  &__button-highlighted {
+    display: inline-block;
+    margin: 0 0.25rem;
+    padding: 0.5rem;
+    color: $white;
+    text-align: center;
+    text-transform: none;
+    text-decoration: none;
+    background: $primary;
+    border-radius: 1px;
+    outline: none;
+    transition: background 250ms ease-in-out, transform 150ms ease;
+
+    &::-moz-focus-inner {
+      border: none;
+    }
+
+    &:focus {
+      outline: 1px solid $white;
+      outline-offset: -3px;
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+
+    &:hover:not(:active):not([disabled]) {
+      transform: scale(1.04);
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+      filter: saturate(12%);
+    }
+  }
+
+  &__button-loading {
+    position: relative;
+    display: inline-block;
+    margin: 0 0.25rem;
+    padding: 0.5rem;
+    color: rgba(0, 0, 0, 0);
+    background: $gray-600;
+    transition: background 250ms ease-in-out, transform 150ms ease;
+  }
+
+  &__button-spinner {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
