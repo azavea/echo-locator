@@ -21,6 +21,7 @@ import type {
   MapEvent,
   Listing
 } from '../types'
+import standardizeData from '../utils/standardize-listings-data'
 
 import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
 import DrawRoute from './draw-route'
@@ -159,29 +160,6 @@ export default class Map extends PureComponent<Props, State> {
     }
   }
 
-  listingsDetailPopup = ({photos, rent, beds, address, url}) => {
-    return <div className='map__popup'>
-      <Carousel heightMode='current' defaultControlsConfig={{
-        nextButtonText: '>',
-        prevButtonText: '<'
-      }}
-      >
-        {photos.map((item, key) =>
-          <img className='map__popup__image' src={item.href} key={`listings-image-${this._getKey()}`} />
-        )}
-      </Carousel>
-      <div className='map__popup-contents'>
-        <h1>{`Price: $${rent}/month`}</h1>
-        <h2>{beds}</h2>
-        <div className='map__popup__line' />
-        <p>{address}</p>
-        <div className='map__popup__url-wrapper'>
-          <a className='map__popup__url' href={url} target='_blank'>Go to Apartment</a>
-        </div>
-      </div>
-    </div>
-  }
-
   /**
    * Reset state
    */
@@ -249,12 +227,59 @@ export default class Map extends PureComponent<Props, State> {
     const clickNeighborhood = this.clickNeighborhood
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
-    const listingsDetailPopup = this.listingsDetailPopup
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
     let zIndex = 0
     const getZIndex = () => zIndex++
+
+    /* Create Markers and Popups for BHA and Realtor Listings */
+    const listingsDetailPopup = (photos, rent, beds, address, url) => {
+      return <div className='map__popup'>
+        {photos.length !== 0 && <Carousel heightMode='current' defaultControlsConfig={{
+          nextButtonText: '>',
+          prevButtonText: '<'
+        }}
+        >
+          {photos.map((item, key) =>
+            <img className='map__popup__image' src={item.href} key={`listings-image-${this._getKey()}`} />
+          )}
+        </Carousel>}
+        <div className='map__popup-contents'>
+          {rent && <h1>{`Price: $${rent}/month`}</h1>}
+          {beds && <h2>{beds}</h2>}
+          <div className='map__popup__line' />
+          {address && <p>{address}</p>}
+          {url && <div className='map__popup__url-wrapper'>
+            <a className='map__popup__url' href={url} target='_blank'>Go to Apartment</a>
+          </div>}
+        </div>
+      </div>
+    }
+
+    const listingsMarker = (data) => {
+      const {
+        photos,
+        rent,
+        beds,
+        address,
+        url,
+        lat,
+        lon
+      } = data
+      return <Marker
+        icon={listingIcon}
+        key={`listings-${this._getKey()}`}
+        position={[lat, lon]}
+        zIndex={getZIndex()}
+        onClick={(e) => e.target.openPopup()}
+        onmouseover={(e) => e.target.openPopup()}
+      >
+        <Popup className='listing-detail-popup'>{listingsDetailPopup(photos, rent, beds, address, url)}</Popup>
+      </Marker>
+    }
+
+    const createMarkerWithStandardizedData = standardizeData(listingsMarker)
 
     return (
       p.routableNeighborhoods ? <LeafletMap
@@ -323,47 +348,9 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {p.showRealtorListings && p.realtorListings.data && p.realtorListings.data.map((item, key) => {
-          const details = {
-            photos: item.photos,
-            rent: item.price,
-            beds: `${item.beds} Bed`,
-            address: item.address.line,
-            url: item.rdc_web_url
-          }
-          return <Marker
-            icon={listingIcon}
-            key={`listings-${this._getKey()}`}
-            position={[item.address.lat, item.address.lon]}
-            zIndex={getZIndex()}
-            onClick={(e) => e.target.openPopup()}
-            onmouseover={(e) => e.target.openPopup()}
-          >
-            <Popup className='listing-detail-popup'>{listingsDetailPopup(details)}</Popup>
-          </Marker>
-        })
-        }
+        {p.showRealtorListings && p.realtorListings.data && p.realtorListings.data.map((item, key) => createMarkerWithStandardizedData(item, 'Realtor'))}
 
-        {p.showBHAListings && p.bhaListings.data && p.bhaListings.data.map((item, key) => {
-          const details = {
-            photos: item.photos,
-            rent: item.Rent,
-            beds: item['Bedroom Type'] === 'Studio' ? item['Bedroom Type'] : `${item['Bedroom Type']} Bed`,
-            address: item['Apartment Number'] ? `${item.address.line} #${item['Apartment Number']}` : item.address,
-            url: item.rdc_web_url
-          }
-          return <Marker
-            icon={listingIcon}
-            key={`listings-${this._getKey()}`}
-            position={[item.lat, item.lon]}
-            zIndex={getZIndex()}
-            onClick={(e) => e.target.openPopup()}
-            onmouseover={(e) => e.target.openPopup()}
-          >
-            <Popup className='listing-detail-popup'>{listingsDetailPopup(details)}</Popup>
-          </Marker>
-        })
-        }
+        {p.showBHAListings && p.bhaListings.data && p.bhaListings.data.map((item, key) => createMarkerWithStandardizedData(item, 'BHA'))}
 
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
           p.displayNeighborhoods.map((n) =>
