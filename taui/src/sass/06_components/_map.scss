@@ -63,4 +63,55 @@
       }
     }
   }
+
+  &__popup {
+
+    background-color: $white;
+
+    h1 {
+      @include heading(400);
+    }
+
+    h2 {
+      @include text(200);
+      @include font-weight(light);
+      color: #cacaca;
+    }
+
+    p {
+      @include text(200);
+      @include font-weight(bold);
+    }
+
+    &__url-wrapper {
+      width: 75%;
+      height: 3rem;
+      margin: auto;
+      padding: 0.5rem;
+      overflow-x: hidden;
+      white-space: nowrap;
+      text-align: center;
+      text-overflow: ellipsis;
+      background: $primary;
+    }
+
+    &__url {
+      @include text(300);
+      height: 100%;
+      margin: auto;
+      overflow: hidden;
+      color: $white !important;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    &__line {
+      margin-bottom: 1rem;
+      border: 1px solid #e9eaec;
+    }
+  }
+
+  &__popup-contents {
+    margin: 1rem;
+  }
 }

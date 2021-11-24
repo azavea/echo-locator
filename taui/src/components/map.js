@@ -11,6 +11,7 @@ import {
   TileLayer,
   ZoomControl
 } from 'react-leaflet'
+import Carousel from 'nuka-carousel'
 
 import {NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE} from '../constants'
 import type {
@@ -43,6 +44,7 @@ const iconWidth = 20
 const iconHeight = 20
 const iconSize = [iconWidth, iconHeight]
 const iconAnchor = [iconWidth / 2, iconHeight + 13] // height plus the pointer size
+const popupAnchor = [-1, (-iconHeight) - 12] // height minus ~the pointer size
 const iconHTML = '' // <div className="innerMarker"></div>'
 
 const endIcon = Leaflet.divIcon({
@@ -63,7 +65,8 @@ const listingIcon = Leaflet.divIcon({
   className: 'LeafletIcon Listing map__marker map__marker--listing',
   html: iconHTML,
   iconSize: iconSize,
-  iconAnchor: iconAnchor
+  iconAnchor: iconAnchor,
+  popupAnchor: popupAnchor
 })
 
 const otherIcon = Leaflet.divIcon({
@@ -156,6 +159,29 @@ export default class Map extends PureComponent<Props, State> {
     }
   }
 
+  listingsDetailPopup = ({photos, rent, beds, address, url}) => {
+    return <div className='map__popup'>
+      <Carousel heightMode='current' defaultControlsConfig={{
+        nextButtonText: '>',
+        prevButtonText: '<'
+      }}
+      >
+        {photos.map((item, key) =>
+          <img className='map__popup__image' src={item.href} key={`listings-image-${this._getKey()}`} />
+        )}
+      </Carousel>
+      <div className='map__popup-contents'>
+        <h1>{`Price: $${rent}/month`}</h1>
+        <h2>{beds}</h2>
+        <div className='map__popup__line' />
+        <p>{address}</p>
+        <div className='map__popup__url-wrapper'>
+          <a className='map__popup__url' href={url} target='_blank'>Go to Apartment</a>
+        </div>
+      </div>
+    </div>
+  }
+
   /**
    * Reset state
    */
@@ -223,6 +249,7 @@ export default class Map extends PureComponent<Props, State> {
     const clickNeighborhood = this.clickNeighborhood
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
+    const listingsDetailPopup = this.listingsDetailPopup
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
@@ -296,22 +323,46 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {p.showRealtorListings && p.realtorListings.data && p.realtorListings.data.map((item, key) =>
-          <Marker
+        {p.showRealtorListings && p.realtorListings.data && p.realtorListings.data.map((item, key) => {
+          const details = {
+            photos: item.photos,
+            rent: item.price,
+            beds: `${item.beds} Bed`,
+            address: item.address.line,
+            url: item.rdc_web_url
+          }
+          return <Marker
             icon={listingIcon}
             key={`listings-${this._getKey()}`}
             position={[item.address.lat, item.address.lon]}
             zIndex={getZIndex()}
-          />)
+            onClick={(e) => e.target.openPopup()}
+            onmouseover={(e) => e.target.openPopup()}
+          >
+            <Popup className='listing-detail-popup'>{listingsDetailPopup(details)}</Popup>
+          </Marker>
+        })
         }
 
-        {p.showBHAListings && p.bhaListings.data && p.bhaListings.data.map((item, key) =>
-          <Marker
+        {p.showBHAListings && p.bhaListings.data && p.bhaListings.data.map((item, key) => {
+          const details = {
+            photos: item.photos,
+            rent: item.Rent,
+            beds: item['Bedroom Type'] === 'Studio' ? item['Bedroom Type'] : `${item['Bedroom Type']} Bed`,
+            address: item['Apartment Number'] ? `${item.address.line} #${item['Apartment Number']}` : item.address,
+            url: item.rdc_web_url
+          }
+          return <Marker
             icon={listingIcon}
             key={`listings-${this._getKey()}`}
             position={[item.lat, item.lon]}
             zIndex={getZIndex()}
-          />)
+            onClick={(e) => e.target.openPopup()}
+            onmouseover={(e) => e.target.openPopup()}
+          >
+            <Popup className='listing-detail-popup'>{listingsDetailPopup(details)}</Popup>
+          </Marker>
+        })
         }
 
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
