@@ -120,7 +120,8 @@ export default class Map extends PureComponent<Props, State> {
   state = {
     lastClickedLabel: null,
     lastClickedPosition: null,
-    showSelectStartOrEnd: false
+    showSelectStartOrEnd: false,
+    clickCheck: false
   }
 
   componentDidCatch (error) {
@@ -158,6 +159,29 @@ export default class Map extends PureComponent<Props, State> {
     if (feature.properties.routable) {
       this.debouncedSetActive(feature.properties.id)
     }
+  }
+
+  /*
+  Allow listing Popup display on hover and click
+  When Marker is clicked, do not show other Popups on hover until removed
+  */
+  bindListingsMarker = (ref) => {
+    ref && ref.leafletElement.on('click', (...args) => {
+      const [event] = args
+      this.setState({ clickCheck: true })
+      !event.target.getPopup().isOpen() && event.target.openPopup()
+    })
+    ref && ref.leafletElement.on('mouseover', (...args) => {
+      const [event] = args
+      !this.state.clickCheck && event.target.openPopup()
+    })
+    ref && ref.leafletElement.on('mouseout', (...args) => {
+      const [event] = args
+      !this.state.clickCheck && event.target.closePopup()
+    })
+    ref && ref.leafletElement.getPopup().on('remove', () => {
+      this.setState({ clickCheck: false })
+    })
   }
 
   /**
@@ -227,6 +251,7 @@ export default class Map extends PureComponent<Props, State> {
     const clickNeighborhood = this.clickNeighborhood
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
+    const bindListingsMarker = this.bindListingsMarker
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
@@ -272,10 +297,10 @@ export default class Map extends PureComponent<Props, State> {
         key={`listings-${this._getKey()}`}
         position={[lat, lon]}
         zIndex={getZIndex()}
+        ref={bindListingsMarker}
         onClick={(e) => e.target.openPopup()}
-        onmouseover={(e) => e.target.openPopup()}
       >
-        <Popup className='listing-detail-popup'>{listingsDetailPopup(photos, rent, beds, address, url)}</Popup>
+        <Popup autoPan={false} className='listing-detail-popup'>{listingsDetailPopup(photos, rent, beds, address, url)}</Popup>
       </Marker>
     }
 
