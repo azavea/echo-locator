@@ -229,15 +229,20 @@ table.CardContent td:first-of-type {
 
 .listing-detail-popup > .leaflet-popup-content-wrapper {
   background-color: #fff;
+  padding: 0;
 }
 
 .listing-detail-popup .leaflet-popup-content {
   margin: 0;
   padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .listing-detail-popup .leaflet-popup-content p {
   margin: 0 0 1rem;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 .Popup button {

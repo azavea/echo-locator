@@ -260,17 +260,35 @@ export default class Map extends PureComponent<Props, State> {
 
     /* Create Markers and Popups for BHA and Realtor Listings */
     const listingsDetailPopup = (photos, rent, beds, address, url) => {
-      return <div className='map__popup'>
-        {photos.length !== 0 && <Carousel heightMode='current' defaultControlsConfig={{
+      // Popup height 320px - 40px and width 240px - 10px to account for margin/padding
+      const popupHeight = 280
+      const popupWidth = 230
+      // Popup height 160px - 40px
+      const popupHeightNoPhotos = 120
+      const calcHeight = photos && photos.length > 0 ? popupHeight : popupHeightNoPhotos
+      return <div className='map__popup' style={{ width: popupWidth, height: calcHeight }}>
+        {photos && photos.length > 1 && <Carousel initialSlideHeight={popupHeight / 2} heightMode='current' defaultControlsConfig={{
           nextButtonText: '>',
-          prevButtonText: '<'
+          prevButtonText: '<',
+          pagingDotsStyle: {
+            display: 'none'
+          }
         }}
         >
           {photos.map((item, key) =>
-            <img className='map__popup__image' src={item.href} key={`listings-image-${this._getKey()}`} />
+            <img className='map__popup__image' style={{ maxHeight: popupHeight / 2, maxWidth: popupWidth, objectFit: 'cover' }} src={item.href} key={`listings-image-${this._getKey()}`} />
           )}
         </Carousel>}
-        <div className='map__popup-contents'>
+        {photos && photos.length === 1 &&
+          <img className='map__popup__image' style={{
+            maxHeight: popupHeight / 2,
+            maxWidth: popupWidth,
+            objectFit: 'cover',
+            display: 'block',
+            margin: 'auto' }} src={photos[0].href} key={`listings-image-${this._getKey()}`}
+          />
+        }
+        <div className={photos && photos.length > 0 ? 'map__popup-contents' : 'map__popup-no-photo-contents'}>
           {rent && <h1>{`Price: $${rent}/month`}</h1>}
           {beds && <h2>{beds}</h2>}
           <div className='map__popup__line' />
