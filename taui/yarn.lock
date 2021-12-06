@@ -3741,11 +3741,6 @@ cssstyle@^1.0.0:
   dependencies:
     cssom "0.3.x"
 
-csstype@^2.6.6:
-  version "2.6.19"
-  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.19.tgz#feeb5aae89020bb389e1f63669a5ed490e391caa"
-  integrity sha512-ZVxXaNy28/k3kJg0Fou5MiYpp88j7H9hLZp8PDC3jV0WFjfH5E9xHb56L0W59cPbKbcHXeP4qyT8PrHp8t6LcQ==
-
 csstype@^2.6.7:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.9.tgz#05141d0cd557a56b8891394c1911c40c8a98d098"
@@ -3788,11 +3783,6 @@ d3-color@1, d3-color@^1.0.3:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-1.4.0.tgz#89c45a995ed773b13314f06460df26d60ba0ecaf"
   integrity sha512-TzNPeJy2+iEepfiL92LAAB7fvnp/dV2YwANPVHdDWmYMm23qIJBYww3qT8I8C1wXrmrg4UWs7BKc2tKIgyjzHg==
-
-d3-ease@^1.0.3:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/d3-ease/-/d3-ease-1.0.7.tgz#9a834890ef8b8ae8c558b2fe55bd57f5993b85e2"
-  integrity sha512-lx14ZPYkhNx0s/2HX5sLFUI3mbasHjSSpwO/KaaNACweVwxUruKyWVcb293wMv1RqTPZyZ8kSZ2NogUZNcLOFQ==
 
 d3-format@1:
   version "1.4.3"
@@ -3842,11 +3832,6 @@ d3-time@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/d3-time/-/d3-time-1.1.0.tgz#b1e19d307dae9c900b7e5b25ffc5dcc249a8a0f1"
   integrity sha512-Xh0isrZ5rPYYdqhAVk8VLnMEidhz5aP7htAADH6MfzgmmicPkTo8LhkLxci61/lCB7n7UmE3bN0leRt+qvkLxA==
-
-d3-timer@^1.0.9:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/d3-timer/-/d3-timer-1.0.10.tgz#dfe76b8a91748831b13b6d9c793ffbd508dd9de5"
-  integrity sha512-B1JDm0XDaQC+uvo4DT79H0XmBskgS3l6Ve+1SBCfxgmtIb1AVrPIoqd+nPSv+loMX8szQ0sVUhGngL7D5QPiXw==
 
 damerau-levenshtein@^1.0.4:
   version "1.0.6"
@@ -4771,11 +4756,6 @@ execall@^2.0.0:
   integrity sha512-0FU2hZ5Hh6iQnarpRtQurM/aAvp3RIbfvgLHrcqJYzhXyV2KFruhuChf9NC6waAhiUR7FFtlugkI4p7f2Fqlow==
   dependencies:
     clone-regexp "^2.1.0"
-
-exenv@^1.2.0:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
-  integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
 
 exit@^0.1.2:
   version "0.1.2"
@@ -7276,13 +7256,6 @@ just-curry-it@^3.1.0:
   resolved "https://registry.yarnpkg.com/just-curry-it/-/just-curry-it-3.1.0.tgz#ab59daed308a58b847ada166edd0a2d40766fbc5"
   integrity sha512-mjzgSOFzlrurlURaHVjnQodyPNvrHrf1TbQP2XU9NSqBtHQPuHZ+Eb6TAJP7ASeJN9h9K0KXoRTs8u6ouHBKvg==
 
-kapellmeister@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/kapellmeister/-/kapellmeister-3.0.1.tgz#419b715cd221acda3db79892caedf63e1c9f7d25"
-  integrity sha512-S7+gYcziMREv8RxG46138mb1O4Xf9II/bCxEJPYkhlZ7PgGWTlicgsyNad/DGc5oEAlWGLXE5ExLbTDVvJmgDA==
-  dependencies:
-    d3-timer "^1.0.9"
-
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -8897,18 +8870,6 @@ nth-check@^1.0.2:
   integrity sha512-WeBOdju8SnzPN5vTUJYxYUxLeXpCaVP5i5e0LF8fg7WORF2Wd7wFX/pk0tYZk7s8T+J7VLy0Da6J1+wCT0AtHg==
   dependencies:
     boolbase "~1.0.0"
-
-nuka-carousel@^4.8.3:
-  version "4.8.3"
-  resolved "https://registry.yarnpkg.com/nuka-carousel/-/nuka-carousel-4.8.3.tgz#98840e7a6eb205ea7733e56c9f429081ee1e2d0d"
-  integrity sha512-wamnVMYu7bbsYc+w3XJ0zaJ6koGKsg98uMTl7mW8lXaSr29bNvMTpouA0iSoFauRbhjKp+75VEdnhTWS2tFEVg==
-  dependencies:
-    csstype "^2.6.6"
-    d3-ease "^1.0.3"
-    exenv "^1.2.0"
-    prop-types "^15.6.0"
-    react-move "^6.5.0"
-    wicg-inert "^3.1.0"
 
 num2fraction@^1.2.2:
   version "1.2.2"
@@ -10752,15 +10713,6 @@ react-loader-spinner@^4.0.0:
   resolved "https://registry.yarnpkg.com/react-loader-spinner/-/react-loader-spinner-4.0.0.tgz#43d9e71b0574219f64216933c28ef5faa12262f6"
   integrity sha512-RU2vpEej6G4ECei0h3q6bgLU10of9Lw5O+4AwF/mtkrX5oY20Sh/AxoPJ7etbrs/7Q3u4jN5qwCwGLRKCHpk6g==
   dependencies:
-    prop-types "^15.7.2"
-
-react-move@^6.5.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/react-move/-/react-move-6.5.0.tgz#4b337d75987f9266426193f80e982604d49e97ff"
-  integrity sha512-tl8zwCqtXXWfmrUJGnkyPMNhx8DUTy1NugEuPW/JTMp2TGSEC819aMXGYMG8FWFzV9I6jy4kbgoZJnBpmZRktA==
-  dependencies:
-    "@babel/runtime" "^7.14.5"
-    kapellmeister "^3.0.1"
     prop-types "^15.7.2"
 
 react-redux@^5.0.7, react-redux@~5.1.2:
@@ -13719,11 +13671,6 @@ which@^2.0.1, which@^2.0.2:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
-
-wicg-inert@^3.1.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/wicg-inert/-/wicg-inert-3.1.1.tgz#b033fd4fbfb9e3fd709e5d84becbdf2e06e5c229"
-  integrity sha512-PhBaNh8ur9Xm4Ggy4umelwNIP6pPP1bv3EaWaKqfb/QNme2rdLjm7wIInvV4WhxVHhzA4Spgw9qNSqWtB/ca2A==
 
 wide-align@^1.1.0:
   version "1.1.3"

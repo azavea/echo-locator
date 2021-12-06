@@ -11,7 +11,6 @@ import {
   TileLayer,
   ZoomControl
 } from 'react-leaflet'
-import Carousel from 'nuka-carousel'
 
 import {NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE} from '../constants'
 import type {
@@ -120,8 +119,7 @@ export default class Map extends PureComponent<Props, State> {
   state = {
     lastClickedLabel: null,
     lastClickedPosition: null,
-    showSelectStartOrEnd: false,
-    clickCheck: false
+    showSelectStartOrEnd: false
   }
 
   componentDidCatch (error) {
@@ -162,26 +160,40 @@ export default class Map extends PureComponent<Props, State> {
   }
 
   /*
-  Allow listing Popup display on hover and click
-  When Marker is clicked, do not show other Popups on hover until removed
+  Create Popups:
+  popupDetailOnHover on hover and open url link on click
   */
-  bindListingsMarker = (ref) => {
-    ref && ref.leafletElement.on('click', (...args) => {
-      const [event] = args
-      this.setState({ clickCheck: true })
-      !event.target.getPopup().isOpen() && event.target.openPopup()
-    })
-    ref && ref.leafletElement.on('mouseover', (...args) => {
-      const [event] = args
-      !this.state.clickCheck && event.target.openPopup()
-    })
-    ref && ref.leafletElement.on('mouseout', (...args) => {
-      const [event] = args
-      !this.state.clickCheck && event.target.closePopup()
-    })
-    ref && ref.leafletElement.getPopup().on('remove', () => {
-      this.setState({ clickCheck: false })
-    })
+  popupDetailOnHover = (data) => {
+    const {
+      photos,
+      rent,
+      beds,
+      address
+    } = data
+    // Popup height 320px - 40px (padding/margins) with photos
+    // Height 160px - 40px without photos
+    // Width 240px - 10px
+    const popupHeight = 280
+    const popupWidth = 230
+    const popupHeightNoPhotos = 120
+    const calcHeight = photos && photos.length > 0 ? popupHeight : popupHeightNoPhotos
+    return <div className='map__popup' style={{ width: popupWidth, height: calcHeight, paddingTop: photos && photos.length > 0 ? 20 : 0 }}>
+      {photos && photos.length > 0 &&
+        <img className='map__popup__image' style={{
+          maxHeight: popupHeight / 2,
+          maxWidth: popupWidth,
+          objectFit: 'cover',
+          display: 'block',
+          margin: 'auto' }} src={photos[0].href} key={`listings-image-${this._getKey()}`}
+        />
+      }
+      <div className='map__popup-no-photo-contents' style={{paddingTop: 20}}>
+        {rent && <h1>{`Price: $${rent}/month`}</h1>}
+        {beds && <h2>{beds}</h2>}
+        <div className='map__popup__line' />
+        {address && <p>{address}</p>}
+      </div>
+    </div>
   }
 
   /**
@@ -251,7 +263,7 @@ export default class Map extends PureComponent<Props, State> {
     const clickNeighborhood = this.clickNeighborhood
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
-    const bindListingsMarker = this.bindListingsMarker
+    const popupDetailOnHover = this.popupDetailOnHover
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
@@ -259,53 +271,8 @@ export default class Map extends PureComponent<Props, State> {
     const getZIndex = () => zIndex++
 
     /* Create Markers and Popups for BHA and Realtor Listings */
-    const listingsDetailPopup = (photos, rent, beds, address, url) => {
-      // Popup height 320px - 40px and width 240px - 10px to account for margin/padding
-      const popupHeight = 280
-      const popupWidth = 230
-      // Popup height 160px - 40px
-      const popupHeightNoPhotos = 120
-      const calcHeight = photos && photos.length > 0 ? popupHeight : popupHeightNoPhotos
-      return <div className='map__popup' style={{ width: popupWidth, height: calcHeight }}>
-        {photos && photos.length > 1 && <Carousel initialSlideHeight={popupHeight / 2} heightMode='current' defaultControlsConfig={{
-          nextButtonText: '>',
-          prevButtonText: '<',
-          pagingDotsStyle: {
-            display: 'none'
-          }
-        }}
-        >
-          {photos.map((item, key) =>
-            <img className='map__popup__image' style={{ maxHeight: popupHeight / 2, maxWidth: popupWidth, objectFit: 'cover' }} src={item.href} key={`listings-image-${this._getKey()}`} />
-          )}
-        </Carousel>}
-        {photos && photos.length === 1 &&
-          <img className='map__popup__image' style={{
-            maxHeight: popupHeight / 2,
-            maxWidth: popupWidth,
-            objectFit: 'cover',
-            display: 'block',
-            margin: 'auto' }} src={photos[0].href} key={`listings-image-${this._getKey()}`}
-          />
-        }
-        <div className={photos && photos.length > 0 ? 'map__popup-contents' : 'map__popup-no-photo-contents'}>
-          {rent && <h1>{`Price: $${rent}/month`}</h1>}
-          {beds && <h2>{beds}</h2>}
-          <div className='map__popup__line' />
-          {address && <p>{address}</p>}
-          {url && <div className='map__popup__url-wrapper'>
-            <a className='map__popup__url' href={url} target='_blank'>Go to Apartment</a>
-          </div>}
-        </div>
-      </div>
-    }
-
     const listingsMarker = (data) => {
       const {
-        photos,
-        rent,
-        beds,
-        address,
         url,
         lat,
         lon
@@ -315,10 +282,13 @@ export default class Map extends PureComponent<Props, State> {
         key={`listings-${this._getKey()}`}
         position={[lat, lon]}
         zIndex={getZIndex()}
-        ref={bindListingsMarker}
-        onClick={(e) => e.target.openPopup()}
+        onClick={(): (() => void) => {
+          window.open(url, '_blank', 'noopener,noreferrer')
+        }}
+        onmouseover={(e) => e.target.openPopup()}
+        onmouseout={(e) => e.target.closePopup()}
       >
-        <Popup autoPan={false} className='listing-detail-popup'>{listingsDetailPopup(photos, rent, beds, address, url)}</Popup>
+        <Popup autoPan={false} className='listing-detail-popup'>{popupDetailOnHover(data)}</Popup>
       </Marker>
     }
 
