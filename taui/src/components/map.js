@@ -20,6 +20,7 @@ import type {
   MapEvent,
   Listing
 } from '../types'
+import standardizeData from '../utils/standardize-listings-data'
 
 import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
 import DrawRoute from './draw-route'
@@ -43,6 +44,7 @@ const iconWidth = 20
 const iconHeight = 20
 const iconSize = [iconWidth, iconHeight]
 const iconAnchor = [iconWidth / 2, iconHeight + 13] // height plus the pointer size
+const popupAnchor = [-1, (-iconHeight) - 12] // height minus ~the pointer size
 const iconHTML = '' // <div className="innerMarker"></div>'
 
 const endIcon = Leaflet.divIcon({
@@ -63,7 +65,8 @@ const listingIcon = Leaflet.divIcon({
   className: 'LeafletIcon Listing map__marker map__marker--listing',
   html: iconHTML,
   iconSize: iconSize,
-  iconAnchor: iconAnchor
+  iconAnchor: iconAnchor,
+  popupAnchor: popupAnchor
 })
 
 const otherIcon = Leaflet.divIcon({
@@ -156,6 +159,40 @@ export default class Map extends PureComponent<Props, State> {
     }
   }
 
+  /*
+  Create Popups:
+  popupDetailOnHover on hover and open url link on click
+  */
+  popupDetailOnHover = (data) => {
+    const {
+      photos,
+      rent,
+      beds,
+      address
+    } = data
+    const popupHeight = 320
+    const popupWidth = 240
+    const popupHeightNoPhotos = 160
+    const calcHeight = photos && photos.length > 0 ? popupHeight : popupHeightNoPhotos
+    return <div className='map__popup' style={{ width: popupWidth, height: calcHeight }}>
+      {photos && photos.length > 0 &&
+        <img className='map__popup__image' style={{
+          width: '100%',
+          height: 160,
+          objectFit: 'cover',
+          display: 'block'}} src={photos[0].href} key={`listings-image-${this._getKey()}`}
+        />
+      }
+      <div className='map__popup-contents' style={{paddingTop: 20}}>
+        {rent && <h1>{`Price: $${rent}/month`}</h1>}
+        {beds && <h2>{beds}</h2>}
+        <div className='map__popup__line' />
+        {address && <h1>{address}</h1>}
+        <p>Click marker for details</p>
+      </div>
+    </div>
+  }
+
   /**
    * Reset state
    */
@@ -223,11 +260,36 @@ export default class Map extends PureComponent<Props, State> {
     const clickNeighborhood = this.clickNeighborhood
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
+    const popupDetailOnHover = this.popupDetailOnHover
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
     let zIndex = 0
     const getZIndex = () => zIndex++
+
+    /* Create Markers and Popups for BHA and Realtor Listings */
+    const listingsMarker = (data) => {
+      const {
+        url,
+        lat,
+        lon
+      } = data
+      return <Marker
+        icon={listingIcon}
+        key={`listings-${this._getKey()}`}
+        position={[lat, lon]}
+        zIndex={getZIndex()}
+        onClick={(): (() => void) => {
+          window.open(url, '_blank', 'noopener,noreferrer')
+        }}
+        onmouseover={(e) => e.target.openPopup()}
+        onmouseout={(e) => e.target.closePopup()}
+      >
+        <Popup autoPan={false} closeButton={false} className='listing-detail-popup'>{popupDetailOnHover(data)}</Popup>
+      </Marker>
+    }
+
+    const createMarkerWithStandardizedData = standardizeData(listingsMarker)
 
     return (
       p.routableNeighborhoods ? <LeafletMap
@@ -296,23 +358,9 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
-        {p.showRealtorListings && p.realtorListings.data && p.realtorListings.data.map((item, key) =>
-          <Marker
-            icon={listingIcon}
-            key={`listings-${this._getKey()}`}
-            position={[item.address.lat, item.address.lon]}
-            zIndex={getZIndex()}
-          />)
-        }
+        {p.showRealtorListings && p.realtorListings.data && p.realtorListings.data.map((item, key) => createMarkerWithStandardizedData(item, 'Realtor'))}
 
-        {p.showBHAListings && p.bhaListings.data && p.bhaListings.data.map((item, key) =>
-          <Marker
-            icon={listingIcon}
-            key={`listings-${this._getKey()}`}
-            position={[item.lat, item.lon]}
-            zIndex={getZIndex()}
-          />)
-        }
+        {p.showBHAListings && p.bhaListings.data && p.bhaListings.data.map((item, key) => createMarkerWithStandardizedData(item, 'BHA'))}
 
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
           p.displayNeighborhoods.map((n) =>

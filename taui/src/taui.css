@@ -227,6 +227,16 @@ table.CardContent td:first-of-type {
   padding: 0.5rem;
 }
 
+.listing-detail-popup > .leaflet-popup-content-wrapper {
+  background-color: #fff;
+  padding: 0;
+}
+
+.listing-detail-popup .leaflet-popup-content {
+  margin: 0;
+  padding: 0;
+}
+
 .Popup button {
   display: block;
   font-size: 1rem;
@@ -251,6 +261,10 @@ table.CardContent td:first-of-type {
 
 .leaflet-popup-tip {
   border-top-color: var(--dark-blue);
+}
+
+.listing-detail-popup .leaflet-popup-tip {
+  border-top-color: #fff;
 }
 
 /* Leaflet Markers */

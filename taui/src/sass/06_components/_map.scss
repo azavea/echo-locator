@@ -63,4 +63,32 @@
       }
     }
   }
+
+  &__popup {
+
+    background-color: $white;
+
+    h1 {
+      @include heading(400);
+    }
+
+    h2 {
+      @include text(200);
+      @include font-weight(light);
+    }
+
+    p {
+      color: #cacaca;
+    }
+
+    &__line {
+      margin-bottom: 1rem;
+      border: 1px solid #e9eaec;
+    }
+  }
+
+  &__popup-contents {
+    width: 100%;
+    padding: 20px 10px 0;
+  }
 }
