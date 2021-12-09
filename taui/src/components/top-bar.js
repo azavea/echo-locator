@@ -142,7 +142,7 @@ class TopBar extends PureComponent<Props, State> {
     return (
       <div className='top-bar'>
         <div className='top-bar__bar'>
-          <div className='top-bar__heading'>Apartments: </div>
+          <div className='top-bar__heading'>{t('Header.Apartments')}: </div>
           {<ToggleListingsButton
             hide={t('NeighborhoodDetails.HideBHAApartments')}
             onShow={this.handleShowListings.bind(this, 'BHA')}

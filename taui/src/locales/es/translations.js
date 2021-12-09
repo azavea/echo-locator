@@ -12,10 +12,10 @@ export default {
     TripsTitle: 'Example trips',
     TripsEmpty: 'No trips found!',
     BestTripTitle: 'Fastest trip',
-    AlternateTripsTitle: 'Alternatively use',
+    AlternateTripsTitle: 'Alternativamente use',
     Waiting: 'waiting included',
     NoAccess: 'No data from this point...',
-    Take: 'Take',
+    Take: 'Tome',
     InaccessibleWithin: 'inaccessible within'
   },
   Faster: 'faster',
@@ -37,51 +37,51 @@ export default {
       SetEnd: 'Set end',
       ClearMarkers: 'Clear markers'
     },
-    Unreachable: 'Unreachable by transit'
+    Unreachable: 'Inalcanzable por tránsito'
   },
   Dock: {
-    FormHeading: 'Travel Times',
-    LocationLabel: 'from',
-    NetworkLabel: 'when',
-    Favorites: 'Saved recommendations',
-    FeedbackLink: 'We would like your feedback',
-    GoBackToRecommendations: 'Back to your recommendations',
+    FormHeading: 'Mostrar horarios de viaje',
+    LocationLabel: 'de',
+    NetworkLabel: 'cuando',
+    Favorites: 'Recomendaciones guardadas',
+    FeedbackLink: 'ECHO necesita su opinion',
+    GoBackToRecommendations: 'Regresar a sus recomendaciones',
     GoBackToFavorites: 'Back to saved recommendations',
-    GoPreviousPage: 'Go back',
-    GoNextPage: 'Show more',
-    ShowListings: 'Show apartments',
-    NoResults: 'No results',
-    Recommendations: 'Your recommendations',
-    ShowAllButton: 'All',
-    ShowSavedButton: 'Saved',
-    SiteBy: 'site by Azavea and Altruistech'
+    GoPreviousPage: 'Regresar',
+    GoNextPage: 'Muestra mas',
+    ShowListings: 'Muestre la lista',
+    NoResults: 'Ningun resultado',
+    Recommendations: 'Sus recomendaciones',
+    ShowAllButton: 'Todo',
+    ShowSavedButton: 'Guardado',
+    SiteBy: 'site by Azavea'
   },
   NeighborhoodDetails: {
-    AboutNeighborhoodLinksHeading: 'Learn about this neighborhood',
+    AboutNeighborhoodLinksHeading: 'Aprenda sobre este vecindario',
     ApartmentsDotComLink: 'Apartments.com',
-    BHAApartmentsLink: 'Boston Housing Authority',
+    BHAApartmentsLink: 'Autorida de Vivienda de Boston',
     ChildCareSearchLink: 'Child Care Search',
     CraigslistSearchLink: 'Craigslist',
     DirectionsLink: 'Directions',
     DriveMode: 'drive',
-    FromOrigin: 'from',
+    FromOrigin: 'de',
     GoogleSearchLink: 'Google',
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
-    HideBHAApartments: 'Hide BHA',
-    HideRealtorApartments: 'Hide Realtor.com',
+    HideBHAApartments: 'Esconda BHA',
+    HideRealtorApartments: 'Esconda Realtor.com',
     HotpadsSearchLink: 'Hotpads',
     ListingsFetchError: 'There was an error fetching your listings',
     MetroHousingLink: 'Metro Housing',
-    MaxRent: 'Est. max rent',
+    MaxRent: 'El alquiler estimado máximo',
     ModeSummary: 'via',
-    MoreSearchToolsLinksHeading: 'More search tools',
+    MoreSearchToolsLinksHeading: 'Más herramientas de búsqueda',
     ReadLessLink: 'Read Less',
     ReadMoreLink: 'Read More',
     RentEstimatorLink: 'Rent Estimator',
     Section8Link: 'Section 8',
-    ShowBHAApartments: 'Show BHA',
-    ShowRealtorApartments: 'Show Realtor.com',
+    ShowBHAApartments: 'Muestre BHA',
+    ShowRealtorApartments: 'Muestre Realtor.com',
     TransitMode: 'transit',
     TransitTitle: 'Transit Directions',
     WebsiteLink: 'Website',
@@ -90,13 +90,13 @@ export default {
     ZillowSearchLink: 'Zillow'
   },
   NeighborhoodInfo: {
-    SchoolChoice: 'School choice options »',
-    EducationCategory: 'School quality',
+    SchoolChoice: 'Opciones escolares »',
+    EducationCategory: 'Escuelas',
     ExpandedChoice: 'An Expanded Choice Community',
     Population: 'Population',
-    RentalUnits: 'Apartment rentals',
+    RentalUnits: 'Unidades de alquiler',
     Score: 'Overall score',
-    ViolentCrime: 'Public safety'
+    ViolentCrime: 'Seguridad publica'
   },
   PageNotFound: 'Oops! There is no page at',
   RouteCard: {
@@ -112,20 +112,20 @@ export default {
   Slower: 'slower',
   Title: 'ECHO',
   Units: {
-    About: 'About',
+    About: 'Sobre',
     Minutes: 'minutes',
     Mins: 'min'
   },
-  Agency: 'Boston Housing Authority',
+  Agency: 'Autorida de Vivienda de Boston',
   SignIn: {
     Anonymous: 'Continue without an account',
     AnonymousExplanation: "Don't have an account?",
-    Greeting: 'Improving Housing Search for Voucher Families'
+    Greeting: 'Mejorando la busqueda de vivienda para familias con Vales de vivienda'
   },
   Header: {
     New: 'New search',
-    Edit: 'Edit profile',
-    SignIn: 'Sign in'
+    Edit: 'Editar perfil',
+    SignIn: 'Ingresar'
   },
   Accounts: {
     Create: 'Create new profile',
@@ -166,7 +166,7 @@ export default {
     ImportanceViolentCrime: 'Seguridad pública',
     Primary: 'Primario',
     Purpose: 'Propósito',
-    RoomsVoucher: 'Número de habitaciones en su cúpon',
+    Rooms: 'Número de habitaciones en su cúpon',
     RoomsNoVoucher: 'Número deseado de habitaciones',
     Budget: 'Presupuesto para apartamento',
     YesVoucher: 'Si',
@@ -228,7 +228,7 @@ export default {
     Work: 'Trabajo'
   },
   Booleans: {
-    Yes: 'Yes',
+    Yes: 'Si',
     No: 'No'
   },
   UnknownValue: 'Unknown'
