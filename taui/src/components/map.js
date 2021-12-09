@@ -170,28 +170,25 @@ export default class Map extends PureComponent<Props, State> {
       beds,
       address
     } = data
-    // Popup height 320px - 40px (padding/margins) with photos
-    // Height 160px - 40px without photos
-    // Width 240px - 10px
-    const popupHeight = 280
-    const popupWidth = 230
-    const popupHeightNoPhotos = 120
+    const popupHeight = 320
+    const popupWidth = 240
+    const popupHeightNoPhotos = 160
     const calcHeight = photos && photos.length > 0 ? popupHeight : popupHeightNoPhotos
-    return <div className='map__popup' style={{ width: popupWidth, height: calcHeight, paddingTop: photos && photos.length > 0 ? 20 : 0 }}>
+    return <div className='map__popup' style={{ width: popupWidth, height: calcHeight }}>
       {photos && photos.length > 0 &&
         <img className='map__popup__image' style={{
-          maxHeight: popupHeight / 2,
-          maxWidth: popupWidth,
+          width: '100%',
+          height: 160,
           objectFit: 'cover',
-          display: 'block',
-          margin: 'auto' }} src={photos[0].href} key={`listings-image-${this._getKey()}`}
+          display: 'block'}} src={photos[0].href} key={`listings-image-${this._getKey()}`}
         />
       }
-      <div className='map__popup-no-photo-contents' style={{paddingTop: 20}}>
+      <div className='map__popup-contents' style={{paddingTop: 20}}>
         {rent && <h1>{`Price: $${rent}/month`}</h1>}
         {beds && <h2>{beds}</h2>}
         <div className='map__popup__line' />
-        {address && <p>{address}</p>}
+        {address && <h1>{address}</h1>}
+        <p>Click marker for details</p>
       </div>
     </div>
   }
@@ -288,7 +285,7 @@ export default class Map extends PureComponent<Props, State> {
         onmouseover={(e) => e.target.openPopup()}
         onmouseout={(e) => e.target.closePopup()}
       >
-        <Popup autoPan={false} className='listing-detail-popup'>{popupDetailOnHover(data)}</Popup>
+        <Popup autoPan={false} closeButton={false} className='listing-detail-popup'>{popupDetailOnHover(data)}</Popup>
       </Marker>
     }
 

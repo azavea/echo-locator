@@ -68,10 +68,6 @@
 
     background-color: $white;
 
-    .slider {
-      height: 140px !important;
-    }
-
     h1 {
       @include heading(400);
     }
@@ -79,34 +75,10 @@
     h2 {
       @include text(200);
       @include font-weight(light);
-      color: #cacaca;
     }
 
     p {
-      @include text(200);
-      @include font-weight(bold);
-    }
-
-    &__url-wrapper {
-      width: 75%;
-      height: 3rem;
-      margin: auto;
-      padding: 0.5rem;
-      overflow-x: hidden;
-      white-space: nowrap;
-      text-align: center;
-      text-overflow: ellipsis;
-      background: $primary;
-    }
-
-    &__url {
-      @include text(300);
-      height: 100%;
-      margin: auto;
-      overflow: hidden;
-      color: $white !important;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      color: #cacaca;
     }
 
     &__line {
@@ -116,17 +88,7 @@
   }
 
   &__popup-contents {
-    height: 140px;
-    padding: 10px 10px 0;
-  }
-
-  &__popup-no-photo-contents {
-    height: 120px;
-    padding: 0 10px;
-
-    h1, h2, p {
-      margin: 0 0 10px !important;
-      line-height: 15px !important;
-    }
+    width: 100%;
+    padding: 20px 10px 0;
   }
 }
