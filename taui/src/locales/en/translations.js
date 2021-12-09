@@ -72,7 +72,9 @@ export default {
     ListingsFetchError: 'There was an error fetching your listings',
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'Est. max rent',
+    BedroomAbbr: 'br',
     ModeSummary: 'via',
+    MainSearchToolsLinksHeading: 'Search for {{rooms}}br with max rent $ {{maxSubsidy}}',
     MoreSearchToolsLinksHeading: 'More search tools',
     RentEstimatorLink: 'Rent Estimator',
     Section8Link: 'Section 8',
@@ -109,7 +111,8 @@ export default {
   Units: {
     About: 'About',
     Minutes: 'minutes',
-    Mins: 'min'
+    Mins: 'min',
+    In: 'in'
   },
   Agency: 'Boston Housing Authority',
   SignIn: {
@@ -122,7 +125,8 @@ export default {
   Header: {
     New: 'New search',
     Edit: 'Edit profile',
-    SignIn: 'Sign in'
+    SignIn: 'Sign in',
+    Apartments: 'Apartments'
   },
   Accounts: {
     Create: 'Create new profile',

@@ -49,7 +49,6 @@ export default {
     GoBackToFavorites: 'Back to saved recommendations',
     GoPreviousPage: 'Regresar',
     GoNextPage: 'Muestra mas',
-    ShowListings: 'Muestre la lista',
     NoResults: 'Ningun resultado',
     Recommendations: 'Sus recomendaciones',
     ShowAllButton: 'Todo',
@@ -59,11 +58,11 @@ export default {
   NeighborhoodDetails: {
     AboutNeighborhoodLinksHeading: 'Aprenda sobre este vecindario',
     ApartmentsDotComLink: 'Apartments.com',
-    BHAApartmentsLink: 'Autorida de Vivienda de Boston',
+    BHAApartmentsLink: 'Boston Housing Authority',
     ChildCareSearchLink: 'Child Care Search',
     CraigslistSearchLink: 'Craigslist',
-    DirectionsLink: 'Directions',
-    DriveMode: 'drive',
+    DirectionsLink: 'Direcciones',
+    DriveMode: 'en coche',
     FromOrigin: 'de',
     GoogleSearchLink: 'Google',
     GoogleMapsLink: 'Google Maps',
@@ -74,7 +73,9 @@ export default {
     ListingsFetchError: 'There was an error fetching your listings',
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'El alquiler estimado máximo',
+    BedroomAbbr: 'dor.',
     ModeSummary: 'via',
+    MainSearchToolsLinksHeading: 'Busque por {{rooms}}dor. con alquiler máximo $ {{maxSubsidy}}',
     MoreSearchToolsLinksHeading: 'Más herramientas de búsqueda',
     ReadLessLink: 'Read Less',
     ReadMoreLink: 'Read More',
@@ -114,7 +115,8 @@ export default {
   Units: {
     About: 'Sobre',
     Minutes: 'minutes',
-    Mins: 'min'
+    Mins: 'min',
+    In: 'en'
   },
   Agency: 'Autorida de Vivienda de Boston',
   SignIn: {
@@ -123,9 +125,10 @@ export default {
     Greeting: 'Mejorando la busqueda de vivienda para familias con Vales de vivienda'
   },
   Header: {
-    New: 'New search',
+    New: 'Nueva búsqueda',
     Edit: 'Editar perfil',
-    SignIn: 'Ingresar'
+    SignIn: 'Ingresar',
+    Apartments: 'Apartamentos'
   },
   Accounts: {
     Create: 'Create new profile',
@@ -180,14 +183,14 @@ export default {
     UseCommuterRailExplanation: 'Los resultados de búsqueda incluirán metro, autobús local, tren de cercanías y autobús expreso. El tren de cercanías y el autobús expreso harán que más comunidades sean accesibles, pero generalmente cuestan más que el servicio de metro y autobús local.'
   },
   Tooltips: {
-    AboveAverage: 'above average',
-    Average: 'about average',
-    BelowAverage: 'below average',
-    Education: '<p><strong>{{town}}</strong> schools are <strong>{{averageRelation}}</strong> for the state and rank higher than <strong>{{edPercentile}}</strong> of other school districts when considering overall school quality and performance of low-income students. (Source: <a href="http://profiles.doe.mass.edu/" target="_blank">MA DOE</a>)</p>',
-    ExpandedChoice: '<p>Expanded Choice communities are TK</p>',
-    ViolentCrime: '<p><strong>{{town}}</strong> has <strong>{{averageRelation}}</strong> public safety, safer than <strong>{{crimePercentile}}</strong> of other zipcodes in the state. (Source: <a href="https://www.fbi.gov/services/cjis/ucr" target="_blank">FBI Uniform Crime Reporting violent crime data</a>)</p>',
-    ViolentCrimeBoston: '<p><strong>{{town}}</strong> has <strong>{{averageRelation}}</strong> public safety, safer than <strong>{{crimePercentile}}</strong> of other zipcodes in the state. (Source: <a href="https://data.boston.gov/" target="_blank">Boston Police Department Incident Reports</a>)</p>',
-    RentalUnits: '<p><strong>{{town}}</strong> has an <strong>{{averageRelation}}</strong> number of rental units for the state. From 2017-2018 there were <strong>{{totalMapc}}</strong> units listed on Craigslist. (Source: <a href="https://www.mapc.org/" target="_blank">MAPC</a>)</p>'
+    AboveAverage: 'por encima del promedio',
+    Average: 'el promedio',
+    BelowAverage: 'por debajo del promedio',
+    Education: '<p>Las escuelas de <strong>{{town}}</strong> son cualificadas como <strong>{{averageRelation}}</strong> en el estado y tienen una clasificación por encima del <strong>{{edPercentile}}</strong> de otros distritos escolares cuando se considera la calidad general de la escuela y el desempeño de los estudiantes de bajos ingresos, donde los datos sobre el desempeño de los estudiantes de bajos ingresos están disponibles.(Fuente: <a href="http://profiles.doe.mass.edu/" target="_blank">MA DOE</a>)</p>',
+    ExpandedChoice: '<p>Las comunidades de Expanded Choice son TK</p>',
+    ViolentCrime: '<p><strong>{{town}}</strong> tiene <strong>{{averageRelation}}</strong> seguridad pública, más seguro que <strong>{{crimePercentile}}</strong> de otros códigos postales en el estado. (Fuente: <a href="https://www.fbi.gov/services/cjis/ucr" target="_blank">Reporte Uniforme de Delitos del FBI (UCR, por sus siglas en inglés) datos sobre delitos violentos</a>)</p>',
+    ViolentCrimeBoston: '<p><strong>{{town}}</strong> tiene <strong>{{averageRelation}}</strong> seguridad pública, más segura que <strong>{{crimePercentile}}</strong> de otros códigos postales en el estado. (Fuente: <a href="https://data.boston.gov/" target="_blank"> Informes de incidentes del Departamento de Policía de Boston</a>)</p>',
+    RentalUnits: '<p><strong>{{town}}</strong> tiene un <strong>{{averageRelation}}</strong> número de alquileres de apartamentos para el estado. Desde 2017-2018 hubo <strong>{{totalMapc}}</strong> unidades listadas en Craigslist. (Fuente: <a href="https://www.mapc.org/" target="_blank">MAPC</a>)</p>'
   },
   ImportanceLabels: {
     1: 'No importante',
@@ -228,7 +231,7 @@ export default {
     Work: 'Trabajo'
   },
   Booleans: {
-    Yes: 'Si',
+    Yes: 'Sí',
     No: 'No'
   },
   UnknownValue: 'Unknown'

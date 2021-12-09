@@ -19,7 +19,7 @@ export default function RouteSegments ({hasVehicle, routeSegments, travelTime}) 
   return (
     <div className='route-segments'>
       <div className='route-segments__best-trip'>
-        Take&nbsp;
+        {t('Systems.Take')}&nbsp;
         {bestJourney.map((segment, index) => (
           <Segment key={index} segment={segment} />
         ))}
@@ -28,7 +28,7 @@ export default function RouteSegments ({hasVehicle, routeSegments, travelTime}) 
             {t('System.InaccessibleWithin')} 120 {t('Units.Mins')}
           </span>
         ) : (
-          <span>in <strong>{travelTime}</strong> {t('Units.Mins')}</span>
+          <span>{t('Units.In')} <strong>{travelTime}</strong> {t('Units.Mins')}</span>
         )}
       </div>
       {routeSegments.length > 1 &&
