@@ -179,14 +179,14 @@ export default {
     UseCommuterRailExplanation: '搜尋結果將包括地鐵、本地巴士、通勤火車和特快巴士。通勤火車和特快巴士將可到達更多的社區，但其費用通常比地鐵和本地巴士服務要高。'
   },
   Tooltips: {
-    AboveAverage: 'above average',
-    Average: 'about average',
-    BelowAverage: 'below average',
-    Education: '<p><strong>{{town}}</strong> schools are <strong>{{averageRelation}}</strong> for the state and rank higher than <strong>{{edPercentile}}</strong> of other school districts when considering overall school quality and performance of low-income students. (Source: <a href="http://profiles.doe.mass.edu/" target="_blank">MA DOE</a>)</p>',
-    ExpandedChoice: '<p>Expanded Choice communities are TK</p>',
-    ViolentCrime: '<p><strong>{{town}}</strong> has <strong>{{averageRelation}}</strong> public safety, safer than <strong>{{crimePercentile}}</strong> of other zipcodes in the state. (Source: <a href="https://www.fbi.gov/services/cjis/ucr" target="_blank">FBI Uniform Crime Reporting violent crime data</a>)</p>',
-    ViolentCrimeBoston: '<p><strong>{{town}}</strong> has <strong>{{averageRelation}}</strong> public safety, safer than <strong>{{crimePercentile}}</strong> of other zipcodes in the state. (Source: <a href="https://data.boston.gov/" target="_blank">Boston Police Department Incident Reports</a>)</p>',
-    RentalUnits: '<p><strong>{{town}}</strong> has an <strong>{{averageRelation}}</strong> number of rental units for the state. From 2017-2018 there were <strong>{{totalMapc}}</strong> units listed on Craigslist. (Source: <a href="https://www.mapc.org/" target="_blank">MAPC</a>)</p>'
+    AboveAverage: '高於平均水平',
+    Average: '相對平均水平',
+    BelowAverage: '低於平均水平',
+    Education: '<p>在參考過學校的整體質量和低收入家庭學生的表現，（如有低收入家庭學生表現的數據可使用），<strong>{{town}}</strong> 的學校在本州 <strong>{{averageRelation}}</strong> ，其排名高於[ ]的其他學區 <strong>{{edPercentile}}</strong> (資料來源: <a href="http://profiles.doe.mass.edu/" target="_blank">馬薩諸塞州中小學教育部 MA DESE</a>)</p>',
+    ExpandedChoice: '<p>擴大了的選擇社區是TK</p>',
+    ViolentCrime: '<p><strong>{{town}}</strong> 具有 <strong>{{averageRelation}}</strong> 的公共安全，較本州 <strong>{{crimePercentile}}</strong> 的其他郵編更安全 (資料來源: <a href="https://www.fbi.gov/services/cjis/ucr" target="_blank">聯邦調查局統一罪案報告暴力罪案數據FBI Uniform Crime Reporting violent crime data</a>)</p>',
+    ViolentCrimeBoston: '<p><strong>{{town}}</strong> 具有 <strong>{{averageRelation}}</strong> 的公共安全，較本州 <strong>{{crimePercentile}}</strong> 的其他郵編更安全 (資料來源: <a href="https://data.boston.gov/" target="_blank">波士頓警察局案件報告Boston Police Department Incident Reports</a>)</p>',
+    RentalUnits: '<p><strong>{{town}}</strong> 在本州具有 <strong>{{averageRelation}}</strong> 的出租公寓數量。從2017年至2018年，Craigslist上列出了 <strong>{{totalMapc}}</strong> 個單位。 (資料來源: <a href="https://www.mapc.org/" target="_blank">都會區規劃委員會MAPC</a>)</p>'
   },
   ImportanceLabels: {
     1: '不重要',
@@ -227,8 +227,8 @@ export default {
     Work: '工作 '
   },
   Booleans: {
-    Yes: 'Yes',
-    No: 'No'
+    Yes: '是',
+    No: '否'
   },
   UnknownValue: 'Unknown'
 }
