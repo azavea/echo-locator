@@ -37,7 +37,11 @@ export default {
       SetEnd: 'Set end',
       ClearMarkers: 'Clear markers'
     },
-    Unreachable: '公共交通工具無法到達'
+    Unreachable: '公共交通工具無法到達',
+    PopupDetails: {
+      RentAmount: '價錢: $ {{rent}}/月',
+      ClickForDetails: '點擊查看清單'
+    }
   },
   Dock: {
     FormHeading: '顯示行程時間',

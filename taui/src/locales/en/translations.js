@@ -36,7 +36,11 @@ export default {
       SetEnd: 'Set end',
       ClearMarkers: 'Clear markers'
     },
-    Unreachable: 'Unreachable by transit'
+    Unreachable: 'Unreachable by transit',
+    PopupDetails: {
+      RentAmount: 'Price: $ {{rent}}/month',
+      ClickForDetails: 'Click marker for details'
+    }
   },
   Dock: {
     FormHeading: 'Show travel times …',

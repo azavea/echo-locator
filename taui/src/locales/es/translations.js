@@ -37,7 +37,11 @@ export default {
       SetEnd: 'Set end',
       ClearMarkers: 'Clear markers'
     },
-    Unreachable: 'Inalcanzable por tránsito'
+    Unreachable: 'Inalcanzable por tránsito',
+    PopupDetails: {
+      RentAmount: 'Precio: $ {{rent}}/mes',
+      ClickForDetails: 'Haga clic para ver el listado'
+    }
   },
   Dock: {
     FormHeading: 'Mostrar horarios de viaje',

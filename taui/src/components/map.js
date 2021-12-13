@@ -4,6 +4,7 @@ import Leaflet from 'leaflet'
 import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import React, {PureComponent} from 'react'
+import { withTranslation } from 'react-i18next'
 import {
   Map as LeafletMap,
   Marker,
@@ -109,7 +110,7 @@ type State = {
 /**
  *
  */
-export default class Map extends PureComponent<Props, State> {
+class Map extends PureComponent<Props, State> {
   constructor (props) {
     super(props)
     this.clickNeighborhood = this.clickNeighborhood.bind(this)
@@ -170,6 +171,7 @@ export default class Map extends PureComponent<Props, State> {
       beds,
       address
     } = data
+    const {t} = this.props
     const popupHeight = 320
     const popupWidth = 240
     const popupHeightNoPhotos = 160
@@ -184,11 +186,11 @@ export default class Map extends PureComponent<Props, State> {
         />
       }
       <div className='map__popup-contents' style={{paddingTop: 20}}>
-        {rent && <h1>{`Price: $${rent}/month`}</h1>}
-        {beds && <h2>{beds}</h2>}
+        {rent && <h1>{t('Map.PopupDetails.RentAmount', { rent: rent })}</h1>}
+        {beds && <h2>{beds.split(' ')[0] + ' ' + t('NeighborhoodDetails.BedroomAbbr')}</h2>}
         <div className='map__popup__line' />
         {address && <h1>{address}</h1>}
-        <p>Click marker for details</p>
+        <p>{t('Map.PopupDetails.ClickForDetails')}</p>
       </div>
     </div>
   }
@@ -377,3 +379,5 @@ export default class Map extends PureComponent<Props, State> {
   }
   /* eslint complexity: 1 */
 }
+
+export default withTranslation()(Map)
