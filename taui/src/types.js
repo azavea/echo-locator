@@ -292,6 +292,12 @@ export type MapEvent = {
 
 export type Listing = { pending: true } | { data: Array } | { error: String }
 
+export interface ActiveListingDetail {
+  'id': String,
+  'lat': Number,
+  'lon': Number
+}
+
 /**
  * Woonerf increment/decrement fetch action event
  */

@@ -82,8 +82,9 @@ type Props = {
   centerCoordinates: Coordinate,
   clearStartAndEnd: () => void,
   drawIsochrones: Function[],
+  drawListingRoute: {},
+  drawNeighborhoodRoute: any,
   drawOpportunityDatasets: Function[],
-  drawRoute: any,
   end: null | Location,
   isLoading: boolean,
   pointsOfInterest: void | any, // FeatureCollection
@@ -91,8 +92,10 @@ type Props = {
   routableNeighborhoods: any,
   setEndPosition: LonLat => void,
   setShowBHAListings: Function => void,
+  setShowListingRoute: Function => void,
   setShowRealtorListings: Function => void,
   setStartPosition: LonLat => void,
+  showListingRoute: Boolean,
   start: null | Location,
   updateEnd: () => void,
   updateMap: any => void,
@@ -141,8 +144,10 @@ class Map extends PureComponent<Props, State> {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
       this.props.setShowBHAListings(false)
+      this.props.setShowListingRoute(false)
       this.props.setShowRealtorListings(false)
       this.props.setShowDetails(true)
+      this.props.setActiveListing({pending: false})
       this.props.setActiveNeighborhood(feature.properties.id)
     } else {
       console.warn('clicked unroutable neighborhood ' + feature.properties.id)
@@ -160,6 +165,25 @@ class Map extends PureComponent<Props, State> {
     }
   }
 
+  handleSetActiveListing = (event, detail) => {
+    if (detail) {
+      const listingDetail = {
+        id: detail.id,
+        lat: detail.lat,
+        lon: detail.lon
+      }
+      if (event.type === 'mouseover') {
+        setTimeout(() => this.props.setActiveListing(listingDetail), 500)
+        this.props.setShowListingRoute(true)
+      } else if (event.type === 'click') {
+        this.props.setActiveListing(listingDetail)
+        this.props.setShowListingRoute(true)
+      }
+    } else {
+      this.props.setActiveListing({pending: false})
+      this.props.setShowListingRoute(false)
+    }
+  }
   /*
   Create Popups:
   popupDetailOnHover on hover and open url link on click
@@ -260,6 +284,7 @@ class Map extends PureComponent<Props, State> {
   render () {
     const p = this.props
     const clickNeighborhood = this.clickNeighborhood
+    const handleSetActiveListing = this.handleSetActiveListing
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
     const popupDetailOnHover = this.popupDetailOnHover
@@ -281,11 +306,18 @@ class Map extends PureComponent<Props, State> {
         key={`listings-${this._getKey()}`}
         position={[lat, lon]}
         zIndex={getZIndex()}
-        onClick={(): (() => void) => {
+        onClick={(e): ((e) => void) => {
+          handleSetActiveListing(e, data)
           window.open(url, '_blank', 'noopener,noreferrer')
         }}
-        onmouseover={(e) => e.target.openPopup()}
-        onmouseout={(e) => e.target.closePopup()}
+        onmouseover={(e): ((e) => void) => {
+          handleSetActiveListing(e, data)
+          e.target.openPopup()
+        }}
+        onmouseout={(e): ((e) => void) => {
+          handleSetActiveListing(e)
+          e.target.closePopup()
+        }}
       >
         <Popup autoPan={false} closeButton={false} className='listing-detail-popup'>{popupDetailOnHover(data)}</Popup>
       </Marker>
@@ -319,11 +351,11 @@ class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />}
 
-        {p.showRoutes && p.drawRoute &&
+        {p.showRoutes && p.drawNeighborhoodRoute && !p.showListingRoute &&
           <DrawRoute
-            {...p.drawRoute}
+            {...p.drawNeighborhoodRoute}
             activeNeighborhood={p.activeNeighborhood}
-            key={`draw-routes-${p.drawRoute.id}-${this._getKey()}`}
+            key={`draw-routes-${p.drawNeighborhoodRoute.id}-${this._getKey()}`}
             showDetails={p.showDetails}
             zIndex={getZIndex()}
           />}
@@ -363,6 +395,15 @@ class Map extends PureComponent<Props, State> {
         {p.showRealtorListings && p.realtorListings.data && p.realtorListings.data.map((item, key) => createMarkerWithStandardizedData(item, 'Realtor'))}
 
         {p.showBHAListings && p.bhaListings.data && p.bhaListings.data.map((item, key) => createMarkerWithStandardizedData(item, 'BHA'))}
+
+        {p.showListingRoute && p.drawListingRoute &&
+          <DrawRoute
+            {...p.drawListingRoute}
+            activeNeighborhood={p.activeNeighborhood}
+            key={`draw-routes-${p.drawListingRoute.id}-${this._getKey()}`}
+            showDetails={p.showDetails}
+            zIndex={getZIndex()}
+          />}
 
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
           p.displayNeighborhoods.map((n) =>

@@ -6,6 +6,7 @@ export default function standardizeListingsData (fn: Function): Function {
     switch (type) {
       case 'BHA':
         return fn({
+          id: data.ItemID,
           photos: data.photos,
           rent: data.Rent,
           beds: data['Bedroom Type'] === 'Studio' ? data['Bedroom Type'] : `${data['Bedroom Type']} Bed`,
@@ -16,6 +17,7 @@ export default function standardizeListingsData (fn: Function): Function {
         })
       case 'Realtor':
         return fn({
+          id: data.ItemID,
           photos: data.photos,
           rent: data.price,
           beds: `${data.beds} Bed`,
