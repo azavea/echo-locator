@@ -3,7 +3,7 @@ import fetch from '@conveyal/woonerf/fetch'
 
 import {fwdGeocodeBatch} from '../utils/fwd-geocode'
 import {REALTOR_BASE_URL, BHA_BASE_URL} from '../constants'
-import { ActiveListingDetail, Listing } from '../types'
+import { ActiveListing, Listing } from '../types'
 
 import {addActionLogItem} from './log'
 
@@ -82,7 +82,7 @@ export const setBHAListings = (payload: Listing) => (dispatch: Dispatch, getStat
   }
 }
 
-export const setActiveListing = (listing: ActiveListingDetail) => (dispatch: Dispatch, getState: any) => {
+export const setActiveListing = (listing: ActiveListing) => (dispatch: Dispatch, getState: any) => {
   addActionLogItem(`Updating active listing to ${listing}`)
   dispatch({type: 'set active listing', payload: listing})
 }

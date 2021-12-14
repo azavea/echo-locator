@@ -116,6 +116,7 @@ export default class MainPage extends React.PureComponent<Props> {
           activeNeighborhood={p.data.activeNeighborhood}
           changeUserProfile={p.changeUserProfile}
           componentError={this.state.componentError}
+          detailListing={p.detailListing}
           detailNeighborhood={p.detailNeighborhood}
           endingOffset={p.pageEndingOffset}
           haveAnotherPage={p.haveAnotherPage}

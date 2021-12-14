@@ -147,7 +147,7 @@ class Map extends PureComponent<Props, State> {
       this.props.setShowListingRoute(false)
       this.props.setShowRealtorListings(false)
       this.props.setShowDetails(true)
-      this.props.setActiveListing({pending: false})
+      this.props.setActiveListing({})
       this.props.setActiveNeighborhood(feature.properties.id)
     } else {
       console.warn('clicked unroutable neighborhood ' + feature.properties.id)
@@ -180,7 +180,7 @@ class Map extends PureComponent<Props, State> {
         this.props.setShowListingRoute(true)
       }
     } else {
-      this.props.setActiveListing({pending: false})
+      this.props.setActiveListing({})
       this.props.setShowListingRoute(false)
     }
   }
@@ -324,7 +324,6 @@ class Map extends PureComponent<Props, State> {
     }
 
     const createMarkerWithStandardizedData = standardizeData(listingsMarker)
-
     return (
       p.routableNeighborhoods ? <LeafletMap
         bounds={p.neighborhoodBoundsExtent}

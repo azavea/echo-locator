@@ -6,6 +6,7 @@ import { Switch, Redirect, Route } from 'react-router-dom'
 import {ANONYMOUS_USERNAME} from '../constants'
 import type {
   AccountProfile,
+  ActiveListingDetail,
   Coordinate,
   GeocoderStore,
   LogItems,
@@ -46,6 +47,7 @@ type Props = {
     showFavorites: boolean,
     userProfile: AccountProfile
   },
+  detailListing: ActiveListingDetail,
   detailNeighborhood: any,
   displayNeighborhoods: any[],
   displayPageNeighborhoods: any[],
