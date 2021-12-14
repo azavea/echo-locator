@@ -6,6 +6,7 @@ import { Switch, Redirect, Route } from 'react-router-dom'
 import {ANONYMOUS_USERNAME} from '../constants'
 import type {
   AccountProfile,
+  ActiveListing,
   ActiveListingDetail,
   Coordinate,
   GeocoderStore,
@@ -34,6 +35,7 @@ type MapState = {
 type Props = {
   accessibility: number[][],
   actionLog: LogItems,
+  activeListing: ActiveListing,
   activeNeighborhoodBounds: any,
   bhaListings: Listing,
   data: {
@@ -91,7 +93,6 @@ type Props = {
   setShowBHAListings: Function => void,
   setShowDetails: Function => void,
   setShowFavorites: Function => void,
-  setShowListingRoute: Function => void,
   setShowRealtorListings: Function => void,
   setStart: any => void,
   showComparison: boolean,

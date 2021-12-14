@@ -167,6 +167,7 @@ export default class MainPage extends React.PureComponent<Props> {
           />
           <Map
             {...p.map}
+            activeListing={p.activeListing}
             activeNeighborhood={p.data.activeNeighborhood}
             activeNeighborhoodBounds={p.activeNeighborhoodBounds}
             activeNetworkIndex={p.activeNetworkIndex}
@@ -187,7 +188,6 @@ export default class MainPage extends React.PureComponent<Props> {
             realtorListings={p.realtorListings}
             routableNeighborhoods={p.routableNeighborhoods}
             showBHAListings={p.data.showBHAListings}
-            showListingRoute={p.data.showListingRoute}
             showRealtorListings={p.data.showRealtorListings}
             showRoutes={this._showNeighborhoodRoutes()}
             setActiveListing={p.setActiveListing}
@@ -196,7 +196,6 @@ export default class MainPage extends React.PureComponent<Props> {
             setEndPosition={p.updateEndPosition}
             setShowBHAListings={p.setShowBHAListings}
             setShowDetails={p.setShowDetails}
-            setShowListingRoute={p.setShowListingRoute}
             setShowRealtorListings={p.setShowRealtorListings}
             setStartPosition={p.updateStartPosition}
             showDetails={p.data.showDetails}

@@ -296,7 +296,7 @@ export type ActiveListing = {
   'id': String,
   'lat': Number,
   'lon': Number
-} | {}
+} | null
 
 export type ActiveListingDetail = {
   'id': String,

@@ -15,6 +15,7 @@ import {
 
 import {NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE} from '../constants'
 import type {
+  ActiveListing,
   Coordinate,
   Location,
   LonLat,
@@ -24,7 +25,7 @@ import type {
 import standardizeData from '../utils/standardize-listings-data'
 
 import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
-import DrawRoute from './draw-route'
+import DisplayRouteLayers from './display-route-layers'
 import VGrid from './vector-grid'
 
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
@@ -78,6 +79,7 @@ const otherIcon = Leaflet.divIcon({
 })
 
 type Props = {
+  activeListing: ActiveListing,
   bhaListings: Listing,
   centerCoordinates: Coordinate,
   clearStartAndEnd: () => void,
@@ -92,10 +94,8 @@ type Props = {
   routableNeighborhoods: any,
   setEndPosition: LonLat => void,
   setShowBHAListings: Function => void,
-  setShowListingRoute: Function => void,
   setShowRealtorListings: Function => void,
   setStartPosition: LonLat => void,
-  showListingRoute: Boolean,
   start: null | Location,
   updateEnd: () => void,
   updateMap: any => void,
@@ -144,10 +144,9 @@ class Map extends PureComponent<Props, State> {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
       this.props.setShowBHAListings(false)
-      this.props.setShowListingRoute(false)
       this.props.setShowRealtorListings(false)
       this.props.setShowDetails(true)
-      this.props.setActiveListing({})
+      this.props.setActiveListing(null)
       this.props.setActiveNeighborhood(feature.properties.id)
     } else {
       console.warn('clicked unroutable neighborhood ' + feature.properties.id)
@@ -174,14 +173,11 @@ class Map extends PureComponent<Props, State> {
       }
       if (event.type === 'mouseover') {
         setTimeout(() => this.props.setActiveListing(listingDetail), 500)
-        this.props.setShowListingRoute(true)
       } else if (event.type === 'click') {
         this.props.setActiveListing(listingDetail)
-        this.props.setShowListingRoute(true)
       }
     } else {
-      this.props.setActiveListing({})
-      this.props.setShowListingRoute(false)
+      this.props.setActiveListing(null)
     }
   }
   /*
@@ -350,20 +346,23 @@ class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />}
 
-        {p.showRoutes && p.drawNeighborhoodRoute && !p.showListingRoute &&
-          <DrawRoute
-            {...p.drawNeighborhoodRoute}
-            activeNeighborhood={p.activeNeighborhood}
-            key={`draw-routes-${p.drawNeighborhoodRoute.id}-${this._getKey()}`}
-            showDetails={p.showDetails}
-            zIndex={getZIndex()}
-          />}
+        <DisplayRouteLayers
+          activeListing={p.activeListing}
+          drawListingRoute={p.drawListingRoute}
+          drawNeighborhoodRoute={p.drawNeighborhoodRoute}
+          getKey={this._getKey()}
+          getZIndex={getZIndex()}
+          neighborhood={p.activeNeighborhood}
+          showDetails={p.showDetails}
+          showRoutes={p.showRoutes}
+        />
 
         {!p.isLoading && p.routableNeighborhoods &&
           <DrawNeighborhoodBounds
             key={`start-${this._getKey()}`}
             clickNeighborhood={clickNeighborhood}
             hoverNeighborhood={hoverNeighborhood}
+            isLoading={p.isLoading}
             neighborhoods={p.routableNeighborhoods}
             styleNeighborhood={styleNeighborhood}
             zIndex={getZIndex()}
@@ -394,15 +393,6 @@ class Map extends PureComponent<Props, State> {
         {p.showRealtorListings && p.realtorListings.data && p.realtorListings.data.map((item, key) => createMarkerWithStandardizedData(item, 'Realtor'))}
 
         {p.showBHAListings && p.bhaListings.data && p.bhaListings.data.map((item, key) => createMarkerWithStandardizedData(item, 'BHA'))}
-
-        {p.showListingRoute && p.drawListingRoute &&
-          <DrawRoute
-            {...p.drawListingRoute}
-            activeNeighborhood={p.activeNeighborhood}
-            key={`draw-routes-${p.drawListingRoute.id}-${this._getKey()}`}
-            showDetails={p.showDetails}
-            zIndex={getZIndex()}
-          />}
 
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
           p.displayNeighborhoods.map((n) =>

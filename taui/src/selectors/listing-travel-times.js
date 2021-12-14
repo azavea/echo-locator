@@ -1,7 +1,6 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
 import get from 'lodash/get'
-import { isEmpty } from 'lodash'
 import {createSelector} from 'reselect'
 
 import {coordinateToIndex} from '../utils/coordinate-to-point'
@@ -18,7 +17,7 @@ export default createSelector(
   (activeNetworkIndex, surfaces, networks, listing, origin) => {
     const network = networks[activeNetworkIndex]
     const surface = surfaces[activeNetworkIndex]
-    if (!network || !network.ready || !listing || isEmpty(listing) || !surface || !origin) {
+    if (!network || !network.ready || !listing || !surface || !origin) {
       return []
     }
     const idx = coordinateToIndex(lonlat([listing.lon, listing.lat]), network)

@@ -94,6 +94,7 @@ function mapStateToProps (state, ownProps) {
   return {
     ...state,
     accessibility: select.accessibility(state, ownProps),
+    activeListing: get(state, 'data.activeListing'),
     activeNetworkIndex: select.activeNetworkIndex(state, ownProps),
     activeNeighborhoodBounds: select.activeNeighborhoodBounds(state, ownProps),
     bhaListings: select.bhaListings(state, ownProps),

@@ -1,7 +1,6 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
 import get from 'lodash/get'
-import { isEmpty } from 'lodash'
 import {createSelector} from 'reselect'
 
 // import {NeighborhoodProperties} from '../types'
@@ -22,7 +21,7 @@ export default createSelector(
   state => get(state, 'data.origin'),
   state => get(state, 'data.userProfile'),
   (ListingRoute, travelTime, listing, origin, profile) => {
-    if (!listing || isEmpty(listing) || !profile || !ListingRoute) {
+    if (!listing || !profile || !ListingRoute) {
       return null
     }
     const useTransit = !profile || !profile.hasVehicle

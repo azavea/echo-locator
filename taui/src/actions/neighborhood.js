@@ -31,11 +31,6 @@ export const setShowFavorites = (show) => (dispatch, getState) => {
   dispatch({type: 'set show favorites', payload: !!show})
 }
 
-export const setShowListingRoute = (show) => (dispatch, getState) => {
-  addActionLogItem(`Set show listing route to ${show}`)
-  dispatch({type: 'set show listing route', payload: show})
-}
-
 export const setShowRealtorListings = (show) => (dispatch, getState) => {
   addActionLogItem(`set show Realtor listing to ${show}`)
   dispatch({type: 'set show Realtor listing', payload: show})

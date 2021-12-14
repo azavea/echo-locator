@@ -20,8 +20,7 @@ export default createSelector(
     const walkStyle = {...WALK_STYLE, ...applyStyle}
     const transitStyle = {...TRANSIT_STYLE, ...applyStyle}
     const stopStyle = {...STOP_STYLE, ...applyStyle}
-    const allSegments = get(listingRoute, 'journeys[0].segments', [])
-    const segments = [...allSegments]
+    const segments = get(listingRoute, 'journeys[0].segments', [])
     return {
       id: listingRoute.id,
       label: listingRoute.label,

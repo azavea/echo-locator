@@ -146,12 +146,6 @@ export default handleActions(
         ...state,
         showRealtorListings: !!action.payload
       }
-    },
-    'set show listing route' (state, action) {
-      return {
-        ...state,
-        showListingRoute: !!action.payload
-      }
     }
   },
   {
@@ -164,7 +158,6 @@ export default handleActions(
     showBHAListings: false,
     showDetails: false,
     showFavorites: false,
-    showListingRoute: false,
     showRealtorListings: false,
     userProfile: null
   }
