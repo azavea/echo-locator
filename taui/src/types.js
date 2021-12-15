@@ -295,7 +295,8 @@ export type Listing = { pending: true } | { data: Array } | { error: String }
 export type ActiveListing = {
   'id': String,
   'lat': Number,
-  'lon': Number
+  'lon': Number,
+  'type': String
 } | null
 
 export type ActiveListingDetail = {

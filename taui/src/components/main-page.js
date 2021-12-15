@@ -153,10 +153,12 @@ export default class MainPage extends React.PureComponent<Props> {
             </defs>
           </svg>
           <TopBar
+            activeListing={p.activeListing}
             bhaListings={p.bhaListings}
             clickedNeighborhood={p.data.showDetails}
             neighborhood={p.detailNeighborhood}
             realtorListings={p.realtorListings}
+            setActiveListing={p.setActiveListing}
             setBHAListings={p.setBHAListings}
             setRealtorListings={p.setRealtorListings}
             setShowBHAListings={p.setShowBHAListings}

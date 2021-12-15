@@ -169,7 +169,8 @@ class Map extends PureComponent<Props, State> {
       const listingDetail = {
         id: detail.id,
         lat: detail.lat,
-        lon: detail.lon
+        lon: detail.lon,
+        type: detail.type
       }
       if (event.type === 'mouseover') {
         setTimeout(() => this.props.setActiveListing(listingDetail), 500)
@@ -311,7 +312,6 @@ class Map extends PureComponent<Props, State> {
           e.target.openPopup()
         }}
         onmouseout={(e): ((e) => void) => {
-          handleSetActiveListing(e)
           e.target.closePopup()
         }}
       >

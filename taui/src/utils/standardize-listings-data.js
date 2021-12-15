@@ -13,7 +13,8 @@ export default function standardizeListingsData (fn: Function): Function {
           address: data['Apartment Number'] ? `${data.address.line} #${data['Apartment Number']}` : data.address,
           url: data.rdc_web_url,
           lat: data.lat,
-          lon: data.lon
+          lon: data.lon,
+          type: type
         })
       case 'Realtor':
         return fn({
@@ -24,7 +25,8 @@ export default function standardizeListingsData (fn: Function): Function {
           address: data.address.line,
           url: data.rdc_web_url,
           lat: data.address.lat,
-          lon: data.address.lon
+          lon: data.address.lon,
+          type: type
         })
     }
   }
