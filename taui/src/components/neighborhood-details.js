@@ -60,7 +60,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
         <div className='neighborhood-details__rent'>
           <div className='neighborhood-details__rent-label'>{t('NeighborhoodDetails.MaxRent')}</div>
           <div className='neighborhood-details__rent-value'>${maxSubsidy}</div>
-          <div className='neighborhood-details__rent-rooms'>{rooms}br</div>
+          <div className='neighborhood-details__rent-rooms'>{rooms}{t('NeighborhoodDetails.BedroomAbbr')}</div>
         </div>
         <NeighborhoodListInfo neighborhood={neighborhood} />
       </div>
@@ -121,7 +121,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          Search for {rooms}br with max rent ${maxSubsidy}
+          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: maxSubsidy})}
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -285,7 +285,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
             {t('Units.Mins')}&nbsp;
             <ModesList segments={bestJourney} />&nbsp;
             {t('NeighborhoodDetails.FromOrigin')}&nbsp;
-            {currentDestination && currentDestination.purpose.toLowerCase()}
+            {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}
             <a
               className='neighborhood-details__directions'
               href={getGoogleDirectionsLink(

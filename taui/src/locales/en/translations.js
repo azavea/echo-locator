@@ -36,7 +36,11 @@ export default {
       SetEnd: 'Set end',
       ClearMarkers: 'Clear markers'
     },
-    Unreachable: 'Unreachable by transit'
+    Unreachable: 'Unreachable by transit',
+    PopupDetails: {
+      RentAmount: 'Price: $ {{rent}}/month',
+      ClickForDetails: 'Click marker for details'
+    }
   },
   Dock: {
     FormHeading: 'Show travel times …',
@@ -72,7 +76,9 @@ export default {
     ListingsFetchError: 'There was an error fetching your listings',
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'Est. max rent',
+    BedroomAbbr: 'br',
     ModeSummary: 'via',
+    MainSearchToolsLinksHeading: 'Search for {{rooms}}br with max rent $ {{maxSubsidy}}',
     MoreSearchToolsLinksHeading: 'More search tools',
     RentEstimatorLink: 'Rent Estimator',
     Section8Link: 'Section 8',
@@ -109,7 +115,8 @@ export default {
   Units: {
     About: 'About',
     Minutes: 'minutes',
-    Mins: 'min'
+    Mins: 'min',
+    In: 'in'
   },
   Agency: 'Boston Housing Authority',
   SignIn: {
@@ -122,7 +129,8 @@ export default {
   Header: {
     New: 'New search',
     Edit: 'Edit profile',
-    SignIn: 'Sign in'
+    SignIn: 'Sign in',
+    Apartments: 'Apartments'
   },
   Accounts: {
     Create: 'Create new profile',
@@ -174,7 +182,7 @@ export default {
     AboveAverage: 'above average',
     Average: 'about average',
     BelowAverage: 'below average',
-    Education: '<p><strong>{{town}}</strong> schools are <strong>{{averageRelation}}</strong> for the state and rank higher than <strong>{{edPercentile}}</strong> of other school districts when considering overall school quality and performance of low-income students. (Source: <a href="http://profiles.doe.mass.edu/" target="_blank">MA DOE</a>)</p>',
+    Education: '<p><strong>{{town}}</strong> schools are <strong>{{averageRelation}}</strong> for the state and rank higher than <strong>{{edPercentile}}</strong> of other school districts when considering overall school quality and performance of low-income students. (Source: <a href="http://profiles.doe.mass.edu/" target="_blank">MA DESE</a>)</p>',
     ExpandedChoice: '<p>Expanded Choice communities are TK</p>',
     ViolentCrime: '<p><strong>{{town}}</strong> has <strong>{{averageRelation}}</strong> public safety, safer than <strong>{{crimePercentile}}</strong> of other zipcodes in the state. (Source: <a href="https://www.fbi.gov/services/cjis/ucr" target="_blank">FBI Uniform Crime Reporting violent crime data</a>)</p>',
     ViolentCrimeBoston: '<p><strong>{{town}}</strong> has <strong>{{averageRelation}}</strong> public safety, safer than <strong>{{crimePercentile}}</strong> of other zipcodes in the state. (Source: <a href="https://data.boston.gov/" target="_blank">Boston Police Department Incident Reports</a>)</p>',
