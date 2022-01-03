@@ -22,9 +22,11 @@ export const setRealtorListings = (payload: Listing) => (dispatch: Dispatch, get
     dispatch({type: REALTOR_ACTION_TYPE, payload: payload})
   } else {
     const current = getState()
+    // currently no current.data.userProfile.budget
+    // and undefined value breaks API request
     const query = {
       'zipcode': current.data.activeNeighborhood,
-      'budget': current.data.userProfile.budget,
+      'budget': '10000',
       'rooms': current.data.userProfile.rooms
     }
     addActionLogItem(`Set Realtor listings`)
