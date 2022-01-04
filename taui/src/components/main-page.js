@@ -99,8 +99,7 @@ export default class MainPage extends React.PureComponent<Props> {
 
   _showNeighborhoodRoutes () {
     const p = this.props
-    const useTransit = !p.userProfile || !p.userProfile.hasVehicle
-    return !p.isLoading && useTransit && !!get(p, 'neighborhoodRoutes[0]')
+    return !p.isLoading && !!get(p, 'neighborhoodRoutes[0]')
   }
 
   /**
@@ -109,7 +108,6 @@ export default class MainPage extends React.PureComponent<Props> {
   render () {
     const p = this.props
     const mapScreenClass = p.isLoading ? 'map-screen isLoading' : 'map-screen'
-
     return (
       <div className={mapScreenClass}>
         <Dock
@@ -178,6 +176,7 @@ export default class MainPage extends React.PureComponent<Props> {
             detailNeighborhood={p.detailNeighborhood}
             displayNeighborhoods={p.displayPageNeighborhoods}
             end={p.geocoder.end}
+            hasVehicle={p.userProfile.hasVehicle}
             isLoading={p.isLoading}
             isochrones={p.isochrones}
             drawIsochrones={p.drawIsochrones}

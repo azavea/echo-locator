@@ -5,6 +5,7 @@ import memoize from 'lodash/memoize'
 import {createSelector} from 'reselect'
 
 import createTransitiveRoutes from '../utils/create-transitive-routes'
+import createDirectRoutes from '../utils/create-direct-routes'
 
 import selectActiveNetworkIndex from './active-network-index'
 
@@ -12,9 +13,9 @@ import selectActiveNetworkIndex from './active-network-index'
  * This assumes loaded query, paths, and targets.
  */
 const memoizedTransitiveRoutes = memoize(
-  (n, i, s, e) => createTransitiveRoutes(n, s, e),
-  (n, i, s, e) =>
-    `${n.name}-${i}-${n.originPoint.x}-${n.originPoint.y}-${lonlat.toString(e.position)}`
+  (n, i, s, e, car) => (car ? createDirectRoutes(n, s, e) : createTransitiveRoutes(n, s, e)),
+  (n, i, s, e, car) =>
+    `${n.name}-${i}-${n.originPoint.x}-${n.originPoint.y}-${lonlat.toString(e.position)}-car-${car}`
 )
 
 const routeToString = s =>
@@ -37,7 +38,8 @@ export default createSelector(
   state => get(state, 'data.networks'),
   state => get(state, 'data.origin'),
   state => get(state, 'data.neighborhoods'),
-  (activeNetworkIndex, networks, start, neighborhoods) => {
+  state => get(state, 'data.userProfile'),
+  (activeNetworkIndex, networks, start, neighborhoods, profile) => {
     const network = networks[activeNetworkIndex]
     if (!neighborhoods || !neighborhoods.features || !neighborhoods.features.length || !network) {
       return []
@@ -62,7 +64,7 @@ export default createSelector(
         }
         // journeys, places, routeSegments in result;
         // also repeated for all results: patterns, routes, stops
-        const result = memoizedTransitiveRoutes(network, neighborhoodIndex, start, end)
+        const result = memoizedTransitiveRoutes(network, neighborhoodIndex, start, end, profile.hasVehicle)
         routes.push({
           id: neighborhood.properties.id,
           label: neighborhood.properties.town, // not unique

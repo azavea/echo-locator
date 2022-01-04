@@ -11,6 +11,7 @@ type Props = {
   drawNeighborhoodRoute: any,
   getKey: any,
   getZIndex: any,
+  hasVehicle: Boolean,
   neighborhood: String,
   showDetails: Boolean,
   showRoutes: Function => void
@@ -22,7 +23,6 @@ export default class DisplayRouteLayers extends PureComponent<Props, State> {
   props: Props
   render () {
     const p = this.props
-
     return p.activeListing ? (
       p.drawListingRoute &&
         <DrawRoute
@@ -36,6 +36,7 @@ export default class DisplayRouteLayers extends PureComponent<Props, State> {
         <DrawRoute
           {...p.drawNeighborhoodRoute}
           activeNeighborhood={p.neighborhood}
+          hasVehicle={p.hasVehicle}
           key={`draw-routes-${p.drawNeighborhoodRoute.id}-${p.getKey}`}
           showDetails={p.showDetails}
           zIndex={p.getZIndex}

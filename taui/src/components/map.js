@@ -88,6 +88,7 @@ type Props = {
   drawNeighborhoodRoute: any,
   drawOpportunityDatasets: Function[],
   end: null | Location,
+  hasVehicle: Boolean,
   isLoading: boolean,
   pointsOfInterest: void | any, // FeatureCollection
   realtorListings: Listing,
@@ -363,6 +364,7 @@ class Map extends PureComponent<Props, State> {
           drawNeighborhoodRoute={p.drawNeighborhoodRoute}
           getKey={this._getKey()}
           getZIndex={getZIndex()}
+          hasVehicle={p.hasVehicle}
           neighborhood={p.activeNeighborhood}
           showDetails={p.showDetails}
           showRoutes={p.showRoutes}

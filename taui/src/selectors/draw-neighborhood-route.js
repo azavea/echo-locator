@@ -12,8 +12,9 @@ import selectNeighborhoodRoutes from './network-neighborhood-routes'
  */
 export default createSelector(
   state => get(state, 'data.activeNeighborhood'),
+  state => get(state, 'data.userProfile'),
   selectNeighborhoodRoutes,
-  (activeNeighborhood, neighborhoodRoutes = []) => {
+  (activeNeighborhood, profile, neighborhoodRoutes = []) => {
     if (!neighborhoodRoutes) {
       return null
     }
@@ -29,7 +30,7 @@ export default createSelector(
     const allSegments = get(transitive, 'journeys[0].segments', [])
     // Remove final walk leg
     const segments = [...allSegments]
-    segments.pop()
+    profile && !profile.hasVehicle && segments.pop()
     return {
       index,
       id: transitive.id,
@@ -50,11 +51,11 @@ export default createSelector(
 )
 
 function getSegmentPositions (segment, transitive) {
-  if (segment.type === 'WALK') return getWalkPositions(segment, transitive)
+  if (segment.type === 'WALK' || segment.type === 'CAR') return getDirectLinePositions(segment, transitive)
   return getTransitPositions(segment, transitive)
 }
 
-function getWalkPositions (segment, transitive) {
+function getDirectLinePositions (segment, transitive) {
   function ll (l) {
     if (l.place_id) {
       const p = transitive.places.find(p => p.place_id === l.place_id)
@@ -64,7 +65,7 @@ function getWalkPositions (segment, transitive) {
     return [s.stop_lat, s.stop_lon]
   }
   return {
-    type: 'WALK',
+    type: segment.type,
     positions: [ll(segment.from), ll(segment.to)]
   }
 }
