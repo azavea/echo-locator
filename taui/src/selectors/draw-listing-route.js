@@ -10,8 +10,9 @@ import selectListingRoute from './network-listing-route'
  * NB: All positions are [latitude, longitude] as they go directly to Leaflet
  */
 export default createSelector(
+  state => get(state, 'data.userProfile'),
   selectListingRoute,
-  (listingRoute = {}) => {
+  (profile, listingRoute = {}) => {
     if (!listingRoute) {
       return null
     }
@@ -41,11 +42,11 @@ export default createSelector(
 
 // SAME FN AS DRAW-NEIGHBORHOOD-ROUTES
 function getSegmentPositions (segment, transitive) {
-  if (segment.type === 'WALK') return getWalkPositions(segment, transitive)
+  if (segment.type === 'WALK' || segment.type === 'CAR') return getDirectLinePositions(segment, transitive)
   return getTransitPositions(segment, transitive)
 }
 
-function getWalkPositions (segment, transitive) {
+function getDirectLinePositions (segment, transitive) {
   function ll (l) {
     if (l.place_id) {
       const p = transitive.places.find(p => p.place_id === l.place_id)
@@ -55,7 +56,7 @@ function getWalkPositions (segment, transitive) {
     return [s.stop_lat, s.stop_lon]
   }
   return {
-    type: 'WALK',
+    type: segment.type,
     positions: [ll(segment.from), ll(segment.to)]
   }
 }

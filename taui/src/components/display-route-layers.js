@@ -28,6 +28,7 @@ export default class DisplayRouteLayers extends PureComponent<Props, State> {
         <DrawRoute
           {...p.drawListingRoute}
           activeNeighborhood={p.neighborhood}
+          hasVehicle={p.hasVehicle}
           key={`draw-routes-${p.drawListingRoute.id}-${p.getKey}`}
           showDetails={p.showDetails}
           zIndex={p.getZIndex} />
