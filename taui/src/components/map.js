@@ -107,7 +107,8 @@ type Props = {
 type State = {
   lastClickedLabel: null | string,
   lastClickedPosition: null | Coordinate,
-  showSelectStartOrEnd: boolean
+  listingRouteDelay: null | setTimeout,
+  showSelectStartOrEnd: boolean,
 }
 
 /**
@@ -123,6 +124,7 @@ class Map extends PureComponent<Props, State> {
   state = {
     lastClickedLabel: null,
     lastClickedPosition: null,
+    listingRouteDelay: null,
     showSelectStartOrEnd: false
   }
 
@@ -164,6 +166,8 @@ class Map extends PureComponent<Props, State> {
     }
   }
 
+  /* Display listing routing on hover with 500ms delay, cancel on mouseout.
+  On click, route immediately and do not cancel on mouseout */
   handleSetActiveListing = (event, detail) => {
     if (detail) {
       const listingDetail = {
@@ -173,8 +177,12 @@ class Map extends PureComponent<Props, State> {
         type: detail.type
       }
       if (event.type === 'mouseover') {
-        setTimeout(() => this.props.setActiveListing(listingDetail), 500)
+        this.setState({listingRouteDelay: setTimeout(() => this.props.setActiveListing(listingDetail), 500)})
+      } else if (event.type === 'mouseout') {
+        clearTimeout(this.state.listingRouteDelay)
+        this.setState({listingRouteDelay: null})
       } else if (event.type === 'click') {
+        clearTimeout(this.state.listingRouteDelay)
         this.props.setActiveListing(listingDetail)
       }
     } else {
@@ -220,9 +228,11 @@ class Map extends PureComponent<Props, State> {
    * Reset state
    */
   _clearState () {
+    clearTimeout(this.state.listingRouteDelay)
     this.setState({
       lastClickedLabel: null,
       lastClickedPosition: null,
+      listingRouteDelay: null,
       showSelectStartOrEnd: false
     })
   }
@@ -312,6 +322,7 @@ class Map extends PureComponent<Props, State> {
           e.target.openPopup()
         }}
         onmouseout={(e): ((e) => void) => {
+          handleSetActiveListing(e, data)
           e.target.closePopup()
         }}
       >
