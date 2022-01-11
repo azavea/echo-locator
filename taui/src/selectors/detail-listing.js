@@ -3,7 +3,6 @@ import lonlat from '@conveyal/lonlat'
 import get from 'lodash/get'
 import {createSelector} from 'reselect'
 
-// import {NeighborhoodProperties} from '../types'
 import scale from '../utils/scaling'
 
 import selectListingRoute from './network-listing-route'
@@ -28,15 +27,10 @@ export default createSelector(
 
     const segments = useTransit ? ListingRoute.routeSegments : []
     const time = useTransit ? travelTime : distanceTime(origin, listing)
-    // Lisitings called from within routable neighborhoods filtered within max travel time window,
-    // so it's assumed listings also within max travel time window.
-    // Smaller travel time is better; larger timeWeight is better (reverse range).
-    const timeWeight = time < MAX_TRAVEL_TIME ? scale(time, 0, MAX_TRAVEL_TIME, 1, 0) : 1
 
     return Object.assign({
       segments,
-      time,
-      timeWeight
+      time
     }, listing)
   }
 )
