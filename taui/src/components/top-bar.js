@@ -4,13 +4,15 @@ import { withTranslation } from 'react-i18next'
 import Icon from '@conveyal/woonerf/components/icon'
 import Loader from 'react-loader-spinner'
 
-import Listing from '../types'
+import {ActiveListing, Listing} from '../types'
 
 type Props = {
+  activeListing: ActiveListing,
   bhaListings: Listing,
   clickedNeighborhood: any,
   neighborhood: any,
   realtorListings: Listing,
+  setActiveListing: Function => void,
   setBHAListings: Function => void,
   setRealtorListings: Function => void,
   setShowBHAListings: Function => void,
@@ -54,6 +56,10 @@ class TopBar extends PureComponent<Props, State> {
   }
 
   handleHideListings = (type, e) => {
+    // reset listing route
+    if (this.props.activeListing && this.props.activeListing.type === type) {
+      this.props.setActiveListing(null)
+    }
     // dispatch action to hide listings here
     switch (type) {
       case 'BHA':

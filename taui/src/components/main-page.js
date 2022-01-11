@@ -99,8 +99,7 @@ export default class MainPage extends React.PureComponent<Props> {
 
   _showNeighborhoodRoutes () {
     const p = this.props
-    const useTransit = !p.userProfile || !p.userProfile.hasVehicle
-    return !p.isLoading && useTransit && !!get(p, 'neighborhoodRoutes[0]')
+    return !p.isLoading && !!get(p, 'neighborhoodRoutes[0]')
   }
 
   /**
@@ -109,13 +108,13 @@ export default class MainPage extends React.PureComponent<Props> {
   render () {
     const p = this.props
     const mapScreenClass = p.isLoading ? 'map-screen isLoading' : 'map-screen'
-
     return (
       <div className={mapScreenClass}>
         <Dock
           activeNeighborhood={p.data.activeNeighborhood}
           changeUserProfile={p.changeUserProfile}
           componentError={this.state.componentError}
+          detailListing={p.detailListing}
           detailNeighborhood={p.detailNeighborhood}
           endingOffset={p.pageEndingOffset}
           haveAnotherPage={p.haveAnotherPage}
@@ -152,10 +151,12 @@ export default class MainPage extends React.PureComponent<Props> {
             </defs>
           </svg>
           <TopBar
+            activeListing={p.activeListing}
             bhaListings={p.bhaListings}
             clickedNeighborhood={p.data.showDetails}
             neighborhood={p.detailNeighborhood}
             realtorListings={p.realtorListings}
+            setActiveListing={p.setActiveListing}
             setBHAListings={p.setBHAListings}
             setRealtorListings={p.setRealtorListings}
             setShowBHAListings={p.setShowBHAListings}
@@ -166,6 +167,7 @@ export default class MainPage extends React.PureComponent<Props> {
           />
           <Map
             {...p.map}
+            activeListing={p.activeListing}
             activeNeighborhood={p.data.activeNeighborhood}
             activeNeighborhoodBounds={p.activeNeighborhoodBounds}
             activeNetworkIndex={p.activeNetworkIndex}
@@ -174,11 +176,13 @@ export default class MainPage extends React.PureComponent<Props> {
             detailNeighborhood={p.detailNeighborhood}
             displayNeighborhoods={p.displayPageNeighborhoods}
             end={p.geocoder.end}
+            hasVehicle={p.userProfile.hasVehicle}
             isLoading={p.isLoading}
             isochrones={p.isochrones}
             drawIsochrones={p.drawIsochrones}
+            drawListingRoute={p.drawListingRoute}
             drawOpportunityDatasets={p.drawOpportunityDatasets}
-            drawRoute={p.drawNeighborhoodRoute}
+            drawNeighborhoodRoute={p.drawNeighborhoodRoute}
             neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
             origin={p.data.origin}
             pointsOfInterest={p.pointsOfInterest}
@@ -187,6 +191,7 @@ export default class MainPage extends React.PureComponent<Props> {
             showBHAListings={p.data.showBHAListings}
             showRealtorListings={p.data.showRealtorListings}
             showRoutes={this._showNeighborhoodRoutes()}
+            setActiveListing={p.setActiveListing}
             setActiveNeighborhood={p.setActiveNeighborhood}
             setPage={p.setPage}
             setEndPosition={p.updateEndPosition}

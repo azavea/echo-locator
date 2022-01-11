@@ -45,6 +45,12 @@ export default handleActions(
         networks
       }
     },
+    'set active listing' (state, action) {
+      return {
+        ...state,
+        activeListing: action.payload
+      }
+    },
     'set active neighborhood' (state, action) {
       return {
         ...state,

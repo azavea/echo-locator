@@ -32,7 +32,7 @@ export default class DrawRoute extends React.PureComponent {
             key={`transit-segment-${i}`}
             {...p.transitStyle}
             positions={segment.positions}
-            color={this.props.showDetails ? segment.color : p.transitStyle.color}
+            color={!this.props.hasVehicle && this.props.showDetails ? segment.color : p.transitStyle.color}
           />
         }
       })}

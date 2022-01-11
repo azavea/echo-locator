@@ -6,6 +6,8 @@ import { Switch, Redirect, Route } from 'react-router-dom'
 import {ANONYMOUS_USERNAME} from '../constants'
 import type {
   AccountProfile,
+  ActiveListing,
+  ActiveListingDetail,
   Coordinate,
   GeocoderStore,
   LogItems,
@@ -33,6 +35,7 @@ type MapState = {
 type Props = {
   accessibility: number[][],
   actionLog: LogItems,
+  activeListing: ActiveListing,
   activeNeighborhoodBounds: any,
   bhaListings: Listing,
   data: {
@@ -46,10 +49,12 @@ type Props = {
     showFavorites: boolean,
     userProfile: AccountProfile
   },
+  detailListing: ActiveListingDetail,
   detailNeighborhood: any,
   displayNeighborhoods: any[],
   displayPageNeighborhoods: any[],
   drawIsochrones: Function[],
+  drawListingRoute: {},
   drawNeighborhoodRotues: any[],
   drawOpportunityDatasets: any[],
   drawRoutes: any[],
@@ -59,6 +64,7 @@ type Props = {
   isLoading: boolean,
   isochrones: any[],
   listNeighborhoods: any[],
+  listingRoute: {},
   loadProfile: Function => any,
   map: MapState,
   neighborhoodBounds: any,
@@ -75,6 +81,7 @@ type Props = {
   reverseGeocode: (string, Function) => void,
   routableNeighborhoodCount: number,
   routableNeighborhoods: any,
+  setActiveListing: Function => void,
   setActiveNeighborhood: Function => void,
   setBHAListings: Function => void,
   setDisplayNeighborhoods: Function => void,

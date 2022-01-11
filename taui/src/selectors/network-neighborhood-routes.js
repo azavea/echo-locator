@@ -1,43 +1,20 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
 import get from 'lodash/get'
-import memoize from 'lodash/memoize'
 import {createSelector} from 'reselect'
 
-import createTransitiveRoutes from '../utils/create-transitive-routes'
+import {memoizedTransitiveRoutes} from '../utils/memoize-routes'
+import uniqueSegments from '../utils/make-unique-segments'
 
 import selectActiveNetworkIndex from './active-network-index'
-
-/**
- * This assumes loaded query, paths, and targets.
- */
-const memoizedTransitiveRoutes = memoize(
-  (n, i, s, e) => createTransitiveRoutes(n, s, e),
-  (n, i, s, e) =>
-    `${n.name}-${i}-${n.originPoint.x}-${n.originPoint.y}-${lonlat.toString(e.position)}`
-)
-
-const routeToString = s =>
-  s.map(s => `${s.name}-${s.backgroundColor}-${s.type}`).join('-')
-
-const uniqueSegments = routeSegments => {
-  const foundKeys = {}
-  return (routeSegments || []).reduce((uniqueRoutes, route) => {
-    const key = routeToString(route)
-    if (!foundKeys[key]) {
-      foundKeys[key] = true
-      return [...uniqueRoutes, route]
-    }
-    return uniqueRoutes
-  }, [])
-}
 
 export default createSelector(
   selectActiveNetworkIndex,
   state => get(state, 'data.networks'),
   state => get(state, 'data.origin'),
   state => get(state, 'data.neighborhoods'),
-  (activeNetworkIndex, networks, start, neighborhoods) => {
+  state => get(state, 'data.userProfile'),
+  (activeNetworkIndex, networks, start, neighborhoods, profile) => {
     const network = networks[activeNetworkIndex]
     if (!neighborhoods || !neighborhoods.features || !neighborhoods.features.length || !network) {
       return []
@@ -62,7 +39,7 @@ export default createSelector(
         }
         // journeys, places, routeSegments in result;
         // also repeated for all results: patterns, routes, stops
-        const result = memoizedTransitiveRoutes(network, neighborhoodIndex, start, end)
+        const result = memoizedTransitiveRoutes(network, neighborhoodIndex, start, end, profile.hasVehicle)
         routes.push({
           id: neighborhood.properties.id,
           label: neighborhood.properties.town, // not unique

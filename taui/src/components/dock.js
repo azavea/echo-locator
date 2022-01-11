@@ -6,7 +6,7 @@ import remove from 'lodash/remove'
 import {PureComponent, createRef} from 'react'
 
 import {ANONYMOUS_USERNAME, SIDEBAR_PAGE_SIZE} from '../constants'
-import type {AccountProfile} from '../types'
+import type {AccountProfile, ActiveListingDetail} from '../types'
 
 import NeighborhoodDetails from './neighborhood-details'
 import RouteCard from './route-card'
@@ -16,6 +16,7 @@ type Props = {
   activeNetworkIndex: number,
   changeUserProfile: (any) => void,
   children: any,
+  detailListing: ActiveListingDetail,
   detailNeighborhood: any,
   endingOffset: number,
   haveAnotherPage: boolean,
@@ -265,6 +266,7 @@ class Dock extends PureComponent<Props> {
     const {
       changeUserProfile,
       children,
+      detailListing,
       detailNeighborhood,
       endingOffset,
       haveAnotherPage,
@@ -320,6 +322,7 @@ class Dock extends PureComponent<Props> {
         </nav>
         <NeighborhoodDetails
           changeUserProfile={changeUserProfile}
+          listing={detailListing}
           neighborhood={detailNeighborhood}
           origin={origin}
           setFavorite={setFavorite}

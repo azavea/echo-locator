@@ -15,6 +15,7 @@ import {
 
 import {NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE} from '../constants'
 import type {
+  ActiveListing,
   Coordinate,
   Location,
   LonLat,
@@ -24,7 +25,7 @@ import type {
 import standardizeData from '../utils/standardize-listings-data'
 
 import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
-import DrawRoute from './draw-route'
+import DisplayRouteLayers from './display-route-layers'
 import VGrid from './vector-grid'
 
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
@@ -78,13 +79,16 @@ const otherIcon = Leaflet.divIcon({
 })
 
 type Props = {
+  activeListing: ActiveListing,
   bhaListings: Listing,
   centerCoordinates: Coordinate,
   clearStartAndEnd: () => void,
   drawIsochrones: Function[],
+  drawListingRoute: {},
+  drawNeighborhoodRoute: any,
   drawOpportunityDatasets: Function[],
-  drawRoute: any,
   end: null | Location,
+  hasVehicle: Boolean,
   isLoading: boolean,
   pointsOfInterest: void | any, // FeatureCollection
   realtorListings: Listing,
@@ -104,7 +108,8 @@ type Props = {
 type State = {
   lastClickedLabel: null | string,
   lastClickedPosition: null | Coordinate,
-  showSelectStartOrEnd: boolean
+  listingRouteDelay: null | setTimeout,
+  showSelectStartOrEnd: boolean,
 }
 
 /**
@@ -120,6 +125,7 @@ class Map extends PureComponent<Props, State> {
   state = {
     lastClickedLabel: null,
     lastClickedPosition: null,
+    listingRouteDelay: null,
     showSelectStartOrEnd: false
   }
 
@@ -143,6 +149,7 @@ class Map extends PureComponent<Props, State> {
       this.props.setShowBHAListings(false)
       this.props.setShowRealtorListings(false)
       this.props.setShowDetails(true)
+      this.props.setActiveListing(null)
       this.props.setActiveNeighborhood(feature.properties.id)
     } else {
       console.warn('clicked unroutable neighborhood ' + feature.properties.id)
@@ -160,6 +167,29 @@ class Map extends PureComponent<Props, State> {
     }
   }
 
+  /* Display listing routing on hover with 500ms delay, cancel on mouseout.
+  On click, route immediately and do not cancel on mouseout */
+  handleSetActiveListing = (event, detail) => {
+    if (detail) {
+      const listingDetail = {
+        id: detail.id,
+        lat: detail.lat,
+        lon: detail.lon,
+        type: detail.type
+      }
+      if (event.type === 'mouseover') {
+        this.setState({listingRouteDelay: setTimeout(() => this.props.setActiveListing(listingDetail), 500)})
+      } else if (event.type === 'mouseout') {
+        clearTimeout(this.state.listingRouteDelay)
+        this.setState({listingRouteDelay: null})
+      } else if (event.type === 'click') {
+        clearTimeout(this.state.listingRouteDelay)
+        this.props.setActiveListing(listingDetail)
+      }
+    } else {
+      this.props.setActiveListing(null)
+    }
+  }
   /*
   Create Popups:
   popupDetailOnHover on hover and open url link on click
@@ -199,9 +229,11 @@ class Map extends PureComponent<Props, State> {
    * Reset state
    */
   _clearState () {
+    clearTimeout(this.state.listingRouteDelay)
     this.setState({
       lastClickedLabel: null,
       lastClickedPosition: null,
+      listingRouteDelay: null,
       showSelectStartOrEnd: false
     })
   }
@@ -260,6 +292,7 @@ class Map extends PureComponent<Props, State> {
   render () {
     const p = this.props
     const clickNeighborhood = this.clickNeighborhood
+    const handleSetActiveListing = this.handleSetActiveListing
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
     const popupDetailOnHover = this.popupDetailOnHover
@@ -281,18 +314,24 @@ class Map extends PureComponent<Props, State> {
         key={`listings-${this._getKey()}`}
         position={[lat, lon]}
         zIndex={getZIndex()}
-        onClick={(): (() => void) => {
+        onClick={(e): ((e) => void) => {
+          handleSetActiveListing(e, data)
           window.open(url, '_blank', 'noopener,noreferrer')
         }}
-        onmouseover={(e) => e.target.openPopup()}
-        onmouseout={(e) => e.target.closePopup()}
+        onmouseover={(e): ((e) => void) => {
+          handleSetActiveListing(e, data)
+          e.target.openPopup()
+        }}
+        onmouseout={(e): ((e) => void) => {
+          handleSetActiveListing(e, data)
+          e.target.closePopup()
+        }}
       >
         <Popup autoPan={false} closeButton={false} className='listing-detail-popup'>{popupDetailOnHover(data)}</Popup>
       </Marker>
     }
 
     const createMarkerWithStandardizedData = standardizeData(listingsMarker)
-
     return (
       p.routableNeighborhoods ? <LeafletMap
         bounds={p.neighborhoodBoundsExtent}
@@ -319,20 +358,24 @@ class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />}
 
-        {p.showRoutes && p.drawRoute &&
-          <DrawRoute
-            {...p.drawRoute}
-            activeNeighborhood={p.activeNeighborhood}
-            key={`draw-routes-${p.drawRoute.id}-${this._getKey()}`}
-            showDetails={p.showDetails}
-            zIndex={getZIndex()}
-          />}
+        <DisplayRouteLayers
+          activeListing={p.activeListing}
+          drawListingRoute={p.drawListingRoute}
+          drawNeighborhoodRoute={p.drawNeighborhoodRoute}
+          getKey={this._getKey()}
+          getZIndex={getZIndex()}
+          hasVehicle={p.hasVehicle}
+          neighborhood={p.activeNeighborhood}
+          showDetails={p.showDetails}
+          showRoutes={p.showRoutes}
+        />
 
         {!p.isLoading && p.routableNeighborhoods &&
           <DrawNeighborhoodBounds
             key={`start-${this._getKey()}`}
             clickNeighborhood={clickNeighborhood}
             hoverNeighborhood={hoverNeighborhood}
+            isLoading={p.isLoading}
             neighborhoods={p.routableNeighborhoods}
             styleNeighborhood={styleNeighborhood}
             zIndex={getZIndex()}

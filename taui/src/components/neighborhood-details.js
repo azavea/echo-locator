@@ -5,7 +5,7 @@ import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
 import {ROUND_TRIP_MINUTES} from '../constants'
-import type {AccountProfile, NeighborhoodImageMetadata} from '../types'
+import type {AccountProfile, ActiveListingDetail, NeighborhoodImageMetadata} from '../types'
 import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getGoogleSearchLink from '../utils/google-search-link'
@@ -20,6 +20,7 @@ import RouteSegments from './route-segments'
 
 type Props = {
   changeUserProfile: any,
+  listing: ActiveListingDetail,
   neighborhood: any,
   setFavorite: any,
   userProfile: AccountProfile
@@ -35,6 +36,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
       : false
     }
 
+    this.neighborhoodTrip = this.neighborhoodTrip.bind(this)
     this.neighborhoodStats = this.neighborhoodStats.bind(this)
     this.neighborhoodImage = this.neighborhoodImage.bind(this)
     this.neighborhoodImages = this.neighborhoodImages.bind(this)
@@ -47,6 +49,47 @@ class NeighborhoodDetails extends PureComponent<Props> {
         nextProps.neighborhood.properties.id) !== -1
       this.setState({isFavorite})
     }
+  }
+
+  neighborhoodTrip (props) {
+    const { hasVehicle, listing, neighborhood, origin, userProfile, t } = props
+    // Look up the currently selected user profile destination from the origin
+    const originLabel = origin ? origin.label || '' : ''
+    const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
+    const bestJourney = listing ? (
+      listing.segments && listing.segments.length ? listing.segments[0] : null
+    ) : (
+      neighborhood.segments && neighborhood.segments.length ? neighborhood.segments[0] : null
+    )
+    const roundedTripTime = Math.round((listing ? listing.time : neighborhood.time) / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
+
+    // lat,lon strings for Google Directions link from neighborhood to current destination
+    const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
+    const originCoordinateString = listing ? (listing.lat +
+      ',' + listing.lon) : (neighborhood.geometry.coordinates[1] +
+      ',' + neighborhood.geometry.coordinates[0])
+
+    return (
+      <div className='neighborhood-details__trip'>
+        {bestJourney && <span>{t('Units.About')}&nbsp;
+          {roundedTripTime}&nbsp;
+          {t('Units.Mins')}&nbsp;
+          <ModesList segments={bestJourney} />&nbsp;
+          {t('NeighborhoodDetails.FromOrigin')}&nbsp;
+          {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}
+        </span>}
+        <a
+          className='neighborhood-details__directions'
+          href={getGoogleDirectionsLink(
+            originCoordinateString,
+            destinationCoordinateString,
+            hasVehicle)}
+          target='_blank'
+        >
+          {t('NeighborhoodDetails.DirectionsLink')}
+        </a>
+      </div>
+    )
   }
 
   neighborhoodStats (props) {
@@ -236,32 +279,21 @@ class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   render () {
-    const { changeUserProfile, neighborhood, origin, setFavorite, userProfile, t } = this.props
+    const { changeUserProfile, listing, neighborhood, origin, setFavorite, userProfile, t } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
     const NeighborhoodImages = this.neighborhoodImages
     const NeighborhoodLinks = this.neighborhoodLinks
+    const NeighborhoodTrip = this.neighborhoodTrip
 
     if (!neighborhood || !userProfile) {
       return null
     }
 
     // Look up the currently selected user profile destination from the origin
-    const originLabel = origin ? origin.label || '' : ''
-    const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
     const { id, town } = neighborhood.properties
     const description = neighborhood.properties['town_website_description']
-
-    const bestJourney = neighborhood.segments && neighborhood.segments.length
-      ? neighborhood.segments[0] : null
-
-    const roundedTripTime = Math.round(neighborhood.time / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
-
-    // lat,lon strings for Google Directions link from neighborhood to current destination
-    const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
-    const originCoordinateString = neighborhood.geometry.coordinates[1] +
-      ',' + neighborhood.geometry.coordinates[0]
 
     return (
       <div className='neighborhood-details'>
@@ -279,28 +311,17 @@ class NeighborhoodDetails extends PureComponent<Props> {
           </header>
         </div>
         <div className='neighborhood-details__section'>
-          <div className='neighborhood-details__trip'>
-            {t('Units.About')}&nbsp;
-            {roundedTripTime}&nbsp;
-            {t('Units.Mins')}&nbsp;
-            <ModesList segments={bestJourney} />&nbsp;
-            {t('NeighborhoodDetails.FromOrigin')}&nbsp;
-            {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}
-            <a
-              className='neighborhood-details__directions'
-              href={getGoogleDirectionsLink(
-                originCoordinateString,
-                destinationCoordinateString,
-                hasVehicle)}
-              target='_blank'
-            >
-              {t('NeighborhoodDetails.DirectionsLink')}
-            </a>
-          </div>
+          <NeighborhoodTrip
+            hasVehicle={hasVehicle}
+            listing={listing}
+            neighborhood={neighborhood}
+            origin={origin}
+            t={t}
+            userProfile={userProfile} />
           {!hasVehicle && <RouteSegments
             hasVehicle={hasVehicle}
-            routeSegments={neighborhood.segments}
-            travelTime={neighborhood.time}
+            routeSegments={listing ? listing.segments : neighborhood.segments}
+            travelTime={listing ? listing.time : neighborhood.time}
           />}
         </div>
         <div className='neighborhood-details__section'>

@@ -3,7 +3,7 @@ import fetch from '@conveyal/woonerf/fetch'
 
 import {fwdGeocodeBatch} from '../utils/fwd-geocode'
 import {REALTOR_BASE_URL, BHA_BASE_URL} from '../constants'
-import { Listing } from '../types'
+import { ActiveListing, Listing } from '../types'
 
 import {addActionLogItem} from './log'
 
@@ -22,9 +22,11 @@ export const setRealtorListings = (payload: Listing) => (dispatch: Dispatch, get
     dispatch({type: REALTOR_ACTION_TYPE, payload: payload})
   } else {
     const current = getState()
+    // currently no current.data.userProfile.budget
+    // and undefined value breaks API request
     const query = {
       'zipcode': current.data.activeNeighborhood,
-      'budget': current.data.userProfile.budget,
+      'budget': '10000',
       'rooms': current.data.userProfile.rooms
     }
     addActionLogItem(`Set Realtor listings`)
@@ -80,4 +82,9 @@ export const setBHAListings = (payload: Listing) => (dispatch: Dispatch, getStat
       }
     }))
   }
+}
+
+export const setActiveListing = (listing: ActiveListing) => (dispatch: Dispatch, getState: any) => {
+  addActionLogItem(`Updating active listing to ${listing}`)
+  dispatch({type: 'set active listing', payload: listing})
 }
