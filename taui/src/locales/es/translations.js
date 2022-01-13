@@ -79,7 +79,7 @@ export default {
     MaxRent: 'El alquiler estimado máximo',
     BedroomAbbr: 'dor.',
     ModeSummary: 'via',
-    MainSearchToolsLinksHeading: 'Busque por {{rooms}}dor. con alquiler máximo $ {{maxSubsidy}}',
+    MainSearchToolsLinksHeading: 'Busque por {{rooms}}dor. con alquiler máximo ${{maxSubsidy}}',
     MoreSearchToolsLinksHeading: 'Más herramientas de búsqueda',
     ReadLessLink: 'Read Less',
     ReadMoreLink: 'Read More',

@@ -80,7 +80,7 @@ export default {
     MaxRent: '估計最高租金',
     BedroomAbbr: '臥房',
     ModeSummary: 'via',
-    MainSearchToolsLinksHeading: 'Search for {{rooms}}br with max rent $ {{maxSubsidy}}',
+    MainSearchToolsLinksHeading: 'Search for {{rooms}}br with max rent ${{maxSubsidy}}',
     MoreSearchToolsLinksHeading: '更多搜索工具',
     RentEstimatorLink: 'Rent Estimator',
     Section8Link: 'Section 8',

@@ -78,7 +78,7 @@ export default {
     MaxRent: 'Est. max rent',
     BedroomAbbr: 'br',
     ModeSummary: 'via',
-    MainSearchToolsLinksHeading: 'Search for {{rooms}}br with max rent $ {{maxSubsidy}}',
+    MainSearchToolsLinksHeading: 'Search for {{rooms}}br with max rent ${{maxSubsidy}}',
     MoreSearchToolsLinksHeading: 'More search tools',
     RentEstimatorLink: 'Rent Estimator',
     Section8Link: 'Section 8',

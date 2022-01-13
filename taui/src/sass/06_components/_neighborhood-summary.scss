@@ -88,4 +88,8 @@
   &__location {
     @include font-weight(bold);
   }
+
+  & .neighborhood-facts {
+    @include text(200);
+  }
 }

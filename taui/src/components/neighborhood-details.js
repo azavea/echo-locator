@@ -99,13 +99,12 @@ class NeighborhoodDetails extends PureComponent<Props> {
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
 
     return (
-      <div className='neighborhood-details__stats'>
-        <div className='neighborhood-details__rent'>
+      <div className='neighborhood-details__rent'>
+        <div>
           <div className='neighborhood-details__rent-label'>{t('NeighborhoodDetails.MaxRent')}</div>
-          <div className='neighborhood-details__rent-value'>${maxSubsidy}</div>
           <div className='neighborhood-details__rent-rooms'>{rooms}{t('NeighborhoodDetails.BedroomAbbr')}</div>
         </div>
-        <NeighborhoodListInfo neighborhood={neighborhood} />
+        <div className='neighborhood-details__rent-value'>${maxSubsidy.toLocaleString("en-US")}</div>
       </div>
     )
   }
@@ -164,7 +163,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: maxSubsidy})}
+          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: maxSubsidy.toLocaleString("en-US")})}
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -329,6 +328,9 @@ class NeighborhoodDetails extends PureComponent<Props> {
             neighborhood={neighborhood}
             userProfile={userProfile}
           />
+        </div>
+        <div className='neighborhood-details__section'>
+          <NeighborhoodListInfo neighborhood={neighborhood} width={140} />
         </div>
         <div className='neighborhood-details__section'>
           <NeighborhoodLinks
