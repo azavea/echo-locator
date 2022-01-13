@@ -102,7 +102,7 @@ class RouteCard extends React.PureComponent<Props> {
                   &nbsp;
                   {t('NeighborhoodDetails.FromOrigin')}
                 </span>
-                &nbsp;
+                {' '}
                 <span className='neighborhood-summary__location'>
                   {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}
                 </span>
