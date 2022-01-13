@@ -26,11 +26,14 @@ class SignInHeader extends React.Component {
     const {t} = this.props
     return (
       <header className='auth-screen__header auth-header'>
-        <h2 className='auth-header__agency'>
-          <img className='auth-header__logo' src='assets/echo_combined_logo_STACKED_fullcolor.svg' alt='ECHO Logo' />
-          {t('Agency')}
-        </h2>
-        <h1 className='auth-header__app-name' >{t('Title')}</h1>
+        <h2 className='auth-header__agency'>{t('Agency')}</h2>
+        <h1 className='auth-header__app-name'>
+          <img
+            className='auth-header__logo'
+            src='assets/echo_combined_logo_STACKED_fullcolor.svg'
+            alt={t('Title')}
+          />
+        </h1>
         <p className='auth-header__greeting'>{t('SignIn.Greeting')}</p>
       </header>
     )
