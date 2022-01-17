@@ -62,7 +62,9 @@ export default {
   NeighborhoodDetails: {
     AboutNeighborhoodLinksHeading: 'Aprenda sobre este vecindario',
     ApartmentsDotComLink: 'Apartments.com',
+    ApartmentsToggles: 'Apartamentos',
     BHAApartmentsLink: 'Boston Housing Authority',
+    BHAApartmentsToggle: 'BHA',
     ChildCareSearchLink: 'Child Care Search',
     CraigslistSearchLink: 'Craigslist',
     DirectionsLink: 'Direcciones',
@@ -71,8 +73,6 @@ export default {
     GoogleSearchLink: 'Google',
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
-    HideBHAApartments: 'Esconda BHA',
-    HideRealtorApartments: 'Esconda Realtor.com',
     HotpadsSearchLink: 'Hotpads',
     ListingsFetchError: 'There was an error fetching your listings',
     MetroHousingLink: 'Metro Housing',
@@ -83,10 +83,9 @@ export default {
     MoreSearchToolsLinksHeading: 'Más herramientas de búsqueda',
     ReadLessLink: 'Read Less',
     ReadMoreLink: 'Read More',
+    RealtorApartmentsToggle: 'Realtor.com',
     RentEstimatorLink: 'Rent Estimator',
     Section8Link: 'Section 8',
-    ShowBHAApartments: 'Muestre BHA',
-    ShowRealtorApartments: 'Muestre Realtor.com',
     TransitMode: 'transit',
     TransitTitle: 'Transit Directions',
     WebsiteLink: 'Website',
@@ -132,7 +131,6 @@ export default {
     New: 'Nueva búsqueda',
     Edit: 'Editar perfil',
     SignIn: 'Ingresar',
-    Apartments: 'Apartamentos'
   },
   Accounts: {
     Create: 'Create new profile',
