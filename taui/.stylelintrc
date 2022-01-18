@@ -8,6 +8,12 @@
       "src/components/log/*"
   ],
   "rules": {
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": ["aspect-ratio", "accent-color"]
+      }
+    ],
     "at-rule-empty-line-before": null,
     "declaration-empty-line-before": null,
     "indentation": null,
