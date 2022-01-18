@@ -71,13 +71,14 @@ class NeighborhoodDetails extends PureComponent<Props> {
 
     return (
       <div className='neighborhood-details__trip'>
-        {bestJourney && <span>{t('Units.About')}&nbsp;
+        {bestJourney && <span className='neighborhood-details__route'>{t('Units.About')}&nbsp;
           {roundedTripTime}&nbsp;
           {t('Units.Mins')}&nbsp;
           <ModesList segments={bestJourney} />&nbsp;
           {t('NeighborhoodDetails.FromOrigin')}&nbsp;
           {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}
         </span>}
+        {!bestJourney && !hasVehicle && <span className='neighborhood-details__route'>{t('Systems.TripsEmpty')}</span>}
         <a
           className='neighborhood-details__directions'
           href={getGoogleDirectionsLink(

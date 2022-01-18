@@ -58,11 +58,14 @@
     justify-content: space-between;
   }
 
+  &__route {
+    margin-right: 1.6rem;
+  }
+
   &__directions {
     @include link-states() {
       color: $primary;
     }
-    margin-left: 1.6rem;
   }
 
   .route-segments {

@@ -10,7 +10,7 @@ export default {
     BaseTitle: 'Proposed Transit',
     ComparisonTitle: 'Current Transit',
     TripsTitle: 'Example trips',
-    TripsEmpty: 'No trips found!',
+    TripsEmpty: 'No routes found to that destination',
     BestTripTitle: 'Fastest trip',
     AlternateTripsTitle: 'Alternativamente use',
     Waiting: 'waiting included',
