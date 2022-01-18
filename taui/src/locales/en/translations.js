@@ -73,7 +73,7 @@ export default {
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
     HotpadsSearchLink: 'Hotpads',
-    ListingsFetchError: 'There was an error fetching your listings',
+    ListingsFetchError: 'Could not fetch listings',
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'Est. max rent',
     BedroomAbbr: 'br',
