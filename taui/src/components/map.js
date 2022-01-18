@@ -209,7 +209,7 @@ class Map extends PureComponent<Props, State> {
       }
       <div className='map__popup-details'>
         {address && <div className='map__popup-address'>{address}</div>}
-        {rent && <div className='map__popup-rent'>{t('Map.PopupDetails.RentAmount', { rent: rent.toLocaleString("en-US") })}</div>}
+        {rent && <div className='map__popup-rent'>{t('Map.PopupDetails.RentAmount', { rent: rent.toLocaleString('en-US') })}</div>}
         {beds && <div className='map__popup-beds'>{beds.split(' ')[0] + ' ' + t('NeighborhoodDetails.BedroomAbbr')}</div>}
         <div className='map__popup-tip'>{t('Map.PopupDetails.ClickForDetails')}</div>
       </div>

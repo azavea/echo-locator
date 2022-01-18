@@ -89,7 +89,7 @@ class TopBar extends PureComponent<Props, State> {
   }
 
   toggleListingsButton = props => {
-    const { onShow, onHide, pending, visible, label } = props;
+    const { onShow, onHide, pending, visible, label } = props
     return (
       <label className={`top-bar__label ${visible ? 'top-bar__label--on' : ''}`}>
         {pending ? (

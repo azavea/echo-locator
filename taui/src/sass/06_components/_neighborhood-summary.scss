@@ -89,7 +89,7 @@
     @include font-weight(bold);
   }
 
-  & .neighborhood-facts {
+  .neighborhood-facts {
     @include text(200);
   }
 }

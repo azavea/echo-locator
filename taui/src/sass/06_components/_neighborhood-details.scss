@@ -75,8 +75,8 @@
   }
 
   &__rent {
-    flex: none;
     display: flex;
+    flex: none;
     flex-flow: row nowrap;
     align-items: center;
     justify-content: space-between;

@@ -105,7 +105,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
           <div className='neighborhood-details__rent-label'>{t('NeighborhoodDetails.MaxRent')}</div>
           <div className='neighborhood-details__rent-rooms'>{rooms}{t('NeighborhoodDetails.BedroomAbbr')}</div>
         </div>
-        <div className='neighborhood-details__rent-value'>${maxSubsidy.toLocaleString("en-US")}</div>
+        <div className='neighborhood-details__rent-value'>${maxSubsidy.toLocaleString('en-US')}</div>
       </div>
     )
   }
@@ -164,7 +164,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: maxSubsidy.toLocaleString("en-US")})}
+          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: maxSubsidy.toLocaleString('en-US')})}
         </h6>
         <div className='neighborhood-details__links'>
           <a
