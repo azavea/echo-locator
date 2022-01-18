@@ -38,7 +38,7 @@ export default {
     },
     Unreachable: 'Unreachable by transit',
     PopupDetails: {
-      RentAmount: 'Price: $ {{rent}}/month',
+      RentAmount: 'Price: ${{rent}}/month',
       ClickForDetails: 'Click marker for details'
     }
   },

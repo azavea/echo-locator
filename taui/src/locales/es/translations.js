@@ -39,7 +39,7 @@ export default {
     },
     Unreachable: 'Inalcanzable por tránsito',
     PopupDetails: {
-      RentAmount: 'Precio: $ {{rent}}/mes',
+      RentAmount: 'Precio: ${{rent}}/mes',
       ClickForDetails: 'Haga clic para ver el listado'
     }
   },

@@ -39,7 +39,7 @@ export default {
     },
     Unreachable: '公共交通工具無法到達',
     PopupDetails: {
-      RentAmount: '價錢: $ {{rent}}/月',
+      RentAmount: '價錢: ${{rent}}/月',
       ClickForDetails: '點擊查看清單'
     }
   },
