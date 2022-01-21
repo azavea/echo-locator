@@ -85,8 +85,6 @@ export default {
     RealtorApartmentsToggle: 'Realtor.com',
     RentEstimatorLink: 'Rent Estimator',
     Section8Link: 'Section 8',
-    // ShowBHAApartments: '顯示 BHA',
-    // ShowRealtorApartments: '顯示 Realtor.com',
     TransitMode: '公共交通工具',
     WebsiteLink: 'Website',
     WikipediaAttribution: 'via Wikimedia Commons',

@@ -95,7 +95,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
 
   neighborhoodStats (props) {
     const { neighborhood, userProfile } = props
-    const {t} = useTranslation()
+    const {t, i18n} = useTranslation()
     const { rooms } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
 
@@ -105,7 +105,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
           <div className='neighborhood-details__rent-label'>{t('NeighborhoodDetails.MaxRent')}</div>
           <div className='neighborhood-details__rent-rooms'>{rooms}{t('NeighborhoodDetails.BedroomAbbr')}</div>
         </div>
-        <div className='neighborhood-details__rent-value'>${maxSubsidy.toLocaleString('en-US')}</div>
+        <div className='neighborhood-details__rent-value'>${maxSubsidy.toLocaleString(i18n.language)}</div>
       </div>
     )
   }
@@ -157,14 +157,14 @@ class NeighborhoodDetails extends PureComponent<Props> {
 
   neighborhoodLinks (props) {
     const { neighborhood, userProfile } = props
-    const {t} = useTranslation()
+    const {t, i18n} = useTranslation()
     const { rooms } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: maxSubsidy.toLocaleString('en-US')})}
+          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: maxSubsidy.toLocaleString(i18n.language)})}
         </h6>
         <div className='neighborhood-details__links'>
           <a
