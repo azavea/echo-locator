@@ -58,11 +58,14 @@
     justify-content: space-between;
   }
 
+  &__route {
+    margin-right: 1.6rem;
+  }
+
   &__directions {
     @include link-states() {
       color: $primary;
     }
-    margin-left: 1.6rem;
   }
 
   .route-segments {
@@ -71,37 +74,27 @@
     line-height: 2.4;
   }
 
-  &__stats {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: stretch;
-    justify-content: space-between;
-    width: 100%;
-  }
-
   &__rent {
+    display: flex;
     flex: none;
-    margin-right: 0.8rem;
-    padding-top: 0.4rem;
-    padding-right: 1.6rem;
-    text-align: center;
-    border-right: 4px solid $bg-gray;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
   }
 
   &__rent-label {
     @include text(300);
-    margin-bottom: 0.8rem;
+  }
+
+  &__rent-rooms {
+    @include text(400);
+    @include font-weight(bold);
   }
 
   &__rent-value {
     @include text(500);
     @include font-weight(bold);
-    margin-bottom: 0.8rem;
-  }
-
-  &__rent-rooms {
-    @include text(300);
-    @include font-weight(bold);
+    text-align: right;
   }
 
   &__images {

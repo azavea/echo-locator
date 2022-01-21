@@ -71,13 +71,14 @@ class NeighborhoodDetails extends PureComponent<Props> {
 
     return (
       <div className='neighborhood-details__trip'>
-        {bestJourney && <span>{t('Units.About')}&nbsp;
+        {bestJourney && <span className='neighborhood-details__route'>{t('Units.About')}&nbsp;
           {roundedTripTime}&nbsp;
           {t('Units.Mins')}&nbsp;
           <ModesList segments={bestJourney} />&nbsp;
           {t('NeighborhoodDetails.FromOrigin')}&nbsp;
           {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}
         </span>}
+        {!bestJourney && !hasVehicle && <span className='neighborhood-details__route'>{t('Systems.TripsEmpty')}</span>}
         <a
           className='neighborhood-details__directions'
           href={getGoogleDirectionsLink(
@@ -94,18 +95,17 @@ class NeighborhoodDetails extends PureComponent<Props> {
 
   neighborhoodStats (props) {
     const { neighborhood, userProfile } = props
-    const {t} = useTranslation()
+    const {t, i18n} = useTranslation()
     const { rooms } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
 
     return (
-      <div className='neighborhood-details__stats'>
-        <div className='neighborhood-details__rent'>
+      <div className='neighborhood-details__rent'>
+        <div>
           <div className='neighborhood-details__rent-label'>{t('NeighborhoodDetails.MaxRent')}</div>
-          <div className='neighborhood-details__rent-value'>${maxSubsidy}</div>
           <div className='neighborhood-details__rent-rooms'>{rooms}{t('NeighborhoodDetails.BedroomAbbr')}</div>
         </div>
-        <NeighborhoodListInfo neighborhood={neighborhood} />
+        <div className='neighborhood-details__rent-value'>${maxSubsidy.toLocaleString(i18n.language)}</div>
       </div>
     )
   }
@@ -157,14 +157,14 @@ class NeighborhoodDetails extends PureComponent<Props> {
 
   neighborhoodLinks (props) {
     const { neighborhood, userProfile } = props
-    const {t} = useTranslation()
+    const {t, i18n} = useTranslation()
     const { rooms } = userProfile
     const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: maxSubsidy})}
+          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: maxSubsidy.toLocaleString(i18n.language)})}
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -329,6 +329,9 @@ class NeighborhoodDetails extends PureComponent<Props> {
             neighborhood={neighborhood}
             userProfile={userProfile}
           />
+        </div>
+        <div className='neighborhood-details__section'>
+          <NeighborhoodListInfo neighborhood={neighborhood} width={140} />
         </div>
         <div className='neighborhood-details__section'>
           <NeighborhoodLinks

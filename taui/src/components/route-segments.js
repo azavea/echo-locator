@@ -1,17 +1,11 @@
 // @flow
 import { useTranslation } from 'react-i18next'
 
-import Alert from './tr-alert'
-
 export default function RouteSegments ({hasVehicle, routeSegments, travelTime}) {
   const {t} = useTranslation()
 
   if (routeSegments.length === 0) {
-    if (!hasVehicle) {
-      return <Alert>{t('Systems.TripsEmpty')}</Alert>
-    } else {
-      return null
-    }
+    return null
   }
 
   const [bestJourney, ...alternateJourneys] = routeSegments

@@ -11,7 +11,7 @@ import {TOOLTIP_HIDE_DELAY_MS,
 import Meter from './meter'
 import RentalUnitsMeter from './rental-units-meter'
 
-export default function NeighborhoodListInfo ({neighborhood}) {
+export default function NeighborhoodListInfo ({neighborhood, width}) {
   if (!neighborhood || !neighborhood.properties) {
     return null
   }
@@ -51,6 +51,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
             <td className='neighborhood-facts__cell'>{t('NeighborhoodInfo.EducationCategory')}</td>
             {!isSchoolChoice && <td className='neighborhood-facts__cell'>
               <Meter
+                width={width}
                 category='school'
                 value={edPercentile}
                 id={zipcode}
@@ -66,6 +67,7 @@ export default function NeighborhoodListInfo ({neighborhood}) {
             <td className='neighborhood-facts__cell'>{t('NeighborhoodInfo.ViolentCrime')}</td>
             <td className='neighborhood-facts__cell'>
               <Meter
+                width={width}
                 category='crime'
                 value={crime}
                 id={zipcode}

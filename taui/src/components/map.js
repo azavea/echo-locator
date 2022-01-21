@@ -201,26 +201,17 @@ class Map extends PureComponent<Props, State> {
       beds,
       address
     } = data
-    const {t} = this.props
-    const popupHeight = 320
+    const {t, i18n} = this.props
     const popupWidth = 240
-    const popupHeightNoPhotos = 160
-    const calcHeight = photos && photos.length > 0 ? popupHeight : popupHeightNoPhotos
-    return <div className='map__popup' style={{ width: popupWidth, height: calcHeight }}>
+    return <div className='map__popup' style={{ width: popupWidth }}>
       {photos && photos.length > 0 &&
-        <img className='map__popup__image' style={{
-          width: '100%',
-          height: 160,
-          objectFit: 'cover',
-          display: 'block'}} src={photos[0].href} key={`listings-image-${this._getKey()}`}
-        />
+        <img className='map__popup-image' src={photos[0].href} key={`listings-image-${this._getKey()}`} />
       }
-      <div className='map__popup-contents' style={{paddingTop: 20}}>
-        {rent && <h1>{t('Map.PopupDetails.RentAmount', { rent: rent })}</h1>}
-        {beds && <h2>{beds.split(' ')[0] + ' ' + t('NeighborhoodDetails.BedroomAbbr')}</h2>}
-        <div className='map__popup__line' />
-        {address && <h1>{address}</h1>}
-        <p>{t('Map.PopupDetails.ClickForDetails')}</p>
+      <div className='map__popup-details'>
+        {address && <div className='map__popup-address'>{address}</div>}
+        {rent && <div className='map__popup-rent'>{t('Map.PopupDetails.RentAmount', { rent: rent.toLocaleString(i18n.language) })}</div>}
+        {beds && <div className='map__popup-beds'>{beds.split(' ')[0] + ' ' + t('NeighborhoodDetails.BedroomAbbr')}</div>}
+        <div className='map__popup-tip'>{t('Map.PopupDetails.ClickForDetails')}</div>
       </div>
     </div>
   }

@@ -9,7 +9,7 @@ export default {
     BaseTitle: 'Proposed Transit',
     ComparisonTitle: 'Current Transit',
     TripsTitle: 'Example trips',
-    TripsEmpty: 'No trips found!',
+    TripsEmpty: 'No routes found to that destination',
     BestTripTitle: 'Fastest trip',
     AlternateTripsTitle: 'Alternatively use',
     Waiting: 'waiting included',
@@ -38,7 +38,7 @@ export default {
     },
     Unreachable: 'Unreachable by transit',
     PopupDetails: {
-      RentAmount: 'Price: $ {{rent}}/month',
+      RentAmount: 'Price: ${{rent}}/month',
       ClickForDetails: 'Click marker for details'
     }
   },
@@ -61,7 +61,9 @@ export default {
   NeighborhoodDetails: {
     AboutNeighborhoodLinksHeading: 'Learn about this neighborhood',
     ApartmentsDotComLink: 'Apartments.com',
+    ApartmentsToggles: 'Show apartments from',
     BHAApartmentsLink: 'Boston Housing Authority',
+    BHAApartmentsToggle: 'BHA',
     ChildCareSearchLink: 'Child Care Search',
     CraigslistSearchLink: 'Craigslist',
     DirectionsLink: 'Directions',
@@ -70,20 +72,17 @@ export default {
     GoogleSearchLink: 'Google',
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
-    HideBHAApartments: 'Hide BHA',
-    HideRealtorApartments: 'Hide Realtor.com',
     HotpadsSearchLink: 'Hotpads',
-    ListingsFetchError: 'There was an error fetching your listings',
+    ListingsFetchError: 'Could not fetch listings',
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'Est. max rent',
     BedroomAbbr: 'br',
     ModeSummary: 'via',
-    MainSearchToolsLinksHeading: 'Search for {{rooms}}br with max rent $ {{maxSubsidy}}',
+    MainSearchToolsLinksHeading: 'Search for {{rooms}}br with max rent ${{maxSubsidy}}',
     MoreSearchToolsLinksHeading: 'More search tools',
+    RealtorApartmentsToggle: 'Realtor.com',
     RentEstimatorLink: 'Rent Estimator',
     Section8Link: 'Section 8',
-    ShowBHAApartments: 'Show BHA',
-    ShowRealtorApartments: 'Show Realtor.com',
     TransitMode: 'transit',
     WebsiteLink: 'Website',
     WikipediaAttribution: 'via Wikimedia Commons',
@@ -129,8 +128,7 @@ export default {
   Header: {
     New: 'New search',
     Edit: 'Edit profile',
-    SignIn: 'Sign in',
-    Apartments: 'Apartments'
+    SignIn: 'Sign in'
   },
   Accounts: {
     Create: 'Create new profile',

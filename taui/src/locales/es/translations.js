@@ -10,7 +10,7 @@ export default {
     BaseTitle: 'Proposed Transit',
     ComparisonTitle: 'Current Transit',
     TripsTitle: 'Example trips',
-    TripsEmpty: 'No trips found!',
+    TripsEmpty: 'No routes found to that destination',
     BestTripTitle: 'Fastest trip',
     AlternateTripsTitle: 'Alternativamente use',
     Waiting: 'waiting included',
@@ -39,7 +39,7 @@ export default {
     },
     Unreachable: 'Inalcanzable por tránsito',
     PopupDetails: {
-      RentAmount: 'Precio: $ {{rent}}/mes',
+      RentAmount: 'Precio: ${{rent}}/mes',
       ClickForDetails: 'Haga clic para ver el listado'
     }
   },
@@ -62,7 +62,9 @@ export default {
   NeighborhoodDetails: {
     AboutNeighborhoodLinksHeading: 'Aprenda sobre este vecindario',
     ApartmentsDotComLink: 'Apartments.com',
+    ApartmentsToggles: 'Apartamentos',
     BHAApartmentsLink: 'Boston Housing Authority',
+    BHAApartmentsToggle: 'BHA',
     ChildCareSearchLink: 'Child Care Search',
     CraigslistSearchLink: 'Craigslist',
     DirectionsLink: 'Direcciones',
@@ -71,22 +73,19 @@ export default {
     GoogleSearchLink: 'Google',
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
-    HideBHAApartments: 'Esconda BHA',
-    HideRealtorApartments: 'Esconda Realtor.com',
     HotpadsSearchLink: 'Hotpads',
-    ListingsFetchError: 'There was an error fetching your listings',
+    ListingsFetchError: 'Could not fetch listings',
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'El alquiler estimado máximo',
     BedroomAbbr: 'dor.',
     ModeSummary: 'via',
-    MainSearchToolsLinksHeading: 'Busque por {{rooms}}dor. con alquiler máximo $ {{maxSubsidy}}',
+    MainSearchToolsLinksHeading: 'Busque por {{rooms}}dor. con alquiler máximo ${{maxSubsidy}}',
     MoreSearchToolsLinksHeading: 'Más herramientas de búsqueda',
     ReadLessLink: 'Read Less',
     ReadMoreLink: 'Read More',
+    RealtorApartmentsToggle: 'Realtor.com',
     RentEstimatorLink: 'Rent Estimator',
     Section8Link: 'Section 8',
-    ShowBHAApartments: 'Muestre BHA',
-    ShowRealtorApartments: 'Muestre Realtor.com',
     TransitMode: 'transit',
     TransitTitle: 'Transit Directions',
     WebsiteLink: 'Website',
@@ -131,8 +130,7 @@ export default {
   Header: {
     New: 'Nueva búsqueda',
     Edit: 'Editar perfil',
-    SignIn: 'Ingresar',
-    Apartments: 'Apartamentos'
+    SignIn: 'Ingresar'
   },
   Accounts: {
     Create: 'Create new profile',

@@ -65,30 +65,47 @@
   }
 
   &__popup {
-
+    display: flex;
+    flex-flow: column nowrap;
     background-color: $white;
-
-    h1 {
-      @include heading(400);
-    }
-
-    h2 {
-      @include text(200);
-      @include font-weight(light);
-    }
-
-    p {
-      color: #cacaca;
-    }
-
-    &__line {
-      margin-bottom: 1rem;
-      border: 1px solid #e9eaec;
-    }
   }
 
-  &__popup-contents {
+  &__popup-image {
+    display: block;
+    flex: none;
     width: 100%;
-    padding: 20px 10px 0;
+    height: 160px;
+    object-fit: cover;
+  }
+
+  &__popup-details {
+    @include text(300);
+    display: flex;
+    flex: auto;
+    flex-flow: column nowrap;
+    padding: 0.8rem 1.2rem;
+  }
+
+  &__popup-address {
+    @include text(300);
+    @include font-weight(bold);
+    margin-bottom: 0.8rem;
+  }
+
+  &__popup-rent {
+    @include text(300);
+    @include font-weight(bold);
+    margin-bottom: 0.8rem;
+  }
+
+  &__popup-beds {
+    @include text(300);
+    margin-bottom: 1.6rem;
+  }
+
+  &__popup-tip {
+    @include text(200);
+    margin-top: auto;
+    color: $gray-700;
   }
 }

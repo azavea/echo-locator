@@ -35,11 +35,6 @@
     margin-right: 0.8rem;
   }
 
-  &__app-name {
-    @include heading(500);
-    flex: none;
-  }
-
   &__user-info {
     @include text(400);
     margin-right: 4rem;

@@ -88,37 +88,29 @@ class TopBar extends PureComponent<Props, State> {
     }
   }
 
-  toggleListingsButton = (props) => {
-    const {
-      hide,
-      onShow,
-      onHide,
-      pending,
-      show,
-      visible
-    } = props
-    return pending ? (
-      <button className='top-bar__button-loading'>
-        <Loader
-          className='top-bar__button-spinner'
-          type='Oval'
-          color='white'
-          height={15}
-          width={15}
-        />
-        { show }
-      </button>
-    ) : (visible ? (
-      <button
-        className='top-bar__button-highlighted'
-        onClick={onHide}> { hide }
-      </button>
-    ) : (
-      <button
-        className='top-bar__button'
-        onClick={onShow}>{ show }
-      </button>
-    ))
+  toggleListingsButton = props => {
+    const { onShow, onHide, pending, visible, label } = props
+    return (
+      <label className={`top-bar__label ${visible ? 'top-bar__label--on' : ''}`}>
+        {pending ? (
+          <Loader
+            className='top-bar__spinner'
+            type='Oval'
+            color='#15379d'
+            height='1.6rem'
+            width='1.6rem'
+          />
+        ) : (
+          <input
+            className='top-bar__checkbox'
+            type='checkbox'
+            onChange={() => (visible ? onHide() : onShow())}
+            checked={visible}
+          />
+        )}
+        {label}
+      </label>
+    )
   }
 
   error ({message}) {
@@ -147,27 +139,23 @@ class TopBar extends PureComponent<Props, State> {
     }
     return (
       <div className='top-bar'>
-        <div className='top-bar__bar'>
-          <div className='top-bar__heading'>{t('Header.Apartments')}: </div>
-          {<ToggleListingsButton
-            hide={t('NeighborhoodDetails.HideBHAApartments')}
-            onShow={this.handleShowListings.bind(this, 'BHA')}
-            onHide={this.handleHideListings.bind(this, 'BHA')}
-            pending={bhaListings.pending}
-            show={t('NeighborhoodDetails.ShowBHAApartments')}
-            visible={showBHAListings}
-          />}
-          {<ToggleListingsButton
-            hide={t('NeighborhoodDetails.HideRealtorApartments')}
-            onShow={this.handleShowListings.bind(this, 'Realtor')}
-            onHide={this.handleHideListings.bind(this, 'Realtor')}
-            pending={realtorListings.pending}
-            show={t('NeighborhoodDetails.ShowRealtorApartments')}
-            visible={showRealtorListings}
-          />}
-          { (bhaListings.error || realtorListings.error) &&
-          <Error message={t('NeighborhoodDetails.ListingsFetchError')} />}
-        </div>
+        <div className='top-bar__heading'>{t('NeighborhoodDetails.ApartmentsToggles')}: </div>
+        {<ToggleListingsButton
+          onShow={this.handleShowListings.bind(this, 'BHA')}
+          onHide={this.handleHideListings.bind(this, 'BHA')}
+          pending={bhaListings.pending}
+          visible={showBHAListings}
+          label={t('NeighborhoodDetails.BHAApartmentsToggle')}
+        />}
+        {<ToggleListingsButton
+          onShow={this.handleShowListings.bind(this, 'Realtor')}
+          onHide={this.handleHideListings.bind(this, 'Realtor')}
+          pending={realtorListings.pending}
+          visible={showRealtorListings}
+          label={t('NeighborhoodDetails.RealtorApartmentsToggle')}
+        />}
+        { (bhaListings.error || realtorListings.error) &&
+        <Error message={t('NeighborhoodDetails.ListingsFetchError')} />}
       </div>
     )
   }
