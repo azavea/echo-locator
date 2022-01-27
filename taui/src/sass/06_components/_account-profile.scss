@@ -74,6 +74,7 @@
 
     &--wide-select {
       width: 24rem;
+      margin-left: auto;
     }
 
     &--checkbox,
@@ -161,6 +162,11 @@
 
   &__importance-options {
     margin-bottom: 4rem;
+  }
+
+  &__tooltip-icon {
+    color: $gray-500;
+    font-size: 1.8rem !important;
   }
 
   &__error {
