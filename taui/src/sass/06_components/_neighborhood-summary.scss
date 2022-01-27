@@ -65,6 +65,8 @@
     img {
       width: 100%;
       max-width: 120px;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
     }
   }
 
