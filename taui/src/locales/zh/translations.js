@@ -190,9 +190,9 @@ export default {
     ViolentCrime: '<p><strong>{{town}}</strong> 具有 <strong>{{averageRelation}}</strong> 的公共安全，較本州 <strong>{{crimePercentile}}</strong> 的其他郵編更安全 (資料來源: <a href="https://www.fbi.gov/services/cjis/ucr" target="_blank">聯邦調查局統一罪案報告暴力罪案數據FBI Uniform Crime Reporting violent crime data</a>)</p>',
     ViolentCrimeBoston: '<p><strong>{{town}}</strong> 具有 <strong>{{averageRelation}}</strong> 的公共安全，較本州 <strong>{{crimePercentile}}</strong> 的其他郵編更安全 (資料來源: <a href="https://data.boston.gov/" target="_blank">波士頓警察局案件報告Boston Police Department Incident Reports</a>)</p>',
     RentalUnits: '<p><strong>{{town}}</strong> 在本州具有 <strong>{{averageRelation}}</strong> 的出租公寓數量。從2017年至2018年，Craigslist上列出了 <strong>{{totalMapc}}</strong> 個單位。 (資料來源: <a href="https://www.mapc.org/" target="_blank">都會區規劃委員會MAPC</a>)</p>',
-    ImportanceAccessibility: 'ECHO recommends neighborhoods based on the travel time to the address(es) you entered previously. We take public transit times, rush hour, and other commute metrics into account for our recommendations.',
-    ImportanceSchools: 'ECHO’s information on school quality comes from the Massachusetts Department of Elementary and Secondary Education. Our metric balances both an overall measure of school quality across each ZIP Code, as well as the Department’s 2018-2019 Accountability Metrics and “Economically Disadvantaged” Growth Metrics, which gauge school-wide achievement and academic growth among disadvantaged students, respectively. These data include public schools, but not private, charter, vocational, technical, or virtual institutions.',
-    ImportanceViolentCrime: 'ECHO’s public safety measures reflect violent crime rates as reported by the Federal Bureau of Investigations (FBI) as well as the Boston and Cambridge Police Departments in 2019. The percentile scores indicate how each neighborhood compares relative to all other ZIP Codes in Massachusetts.'
+    ImportanceAccessibility: 'ECHO根據您之前輸入的地址的行程時間來向您推薦社區。我們將公共交通時間、高峰時間和其他通勤指標納入我們的建議中。',
+    ImportanceSchools: 'ECHO有關學校質量的信息來自於馬薩諸塞州中小學教育部。我們的指標平衡了郵編地區的整體學校質量指標、和教育部的2018至2019年度問責制指標、以及“經濟弱勢”增長指標，這些指標分別衡量了全校成績和弱勢學生的學習成績增長。這些數據包括公立學校，但不包括私立、特許、職業、技術或線上的教育機構。',
+    ImportanceViolentCrime: 'ECHO的公共安全指標反映了聯邦調查局（FBI）以及波士頓和劍橋（Cambridge）警察局2019年報告的暴力罪案率。百分位顯示了每個社區相對於馬薩諸塞州（Massachusetts）所有其他郵編地區的比較。'
   },
   ImportanceLabels: {
     1: '不重要',
