@@ -7,6 +7,7 @@ import find from 'lodash/find'
 import range from 'lodash/range'
 import {PureComponent} from 'react'
 import Icon from '@conveyal/woonerf/components/icon'
+import ReactTooltip from 'react-tooltip'
 
 import {
   AMPLIFY_API_NAME,
@@ -20,7 +21,8 @@ import {
   MAX_ADDRESSES,
   MAX_IMPORTANCE,
   MAX_ROOMS,
-  PROFILE_DESTINATION_TYPES
+  PROFILE_DESTINATION_TYPES,
+  TOOLTIP_HIDE_DELAY_MS
 } from '../constants'
 import type {AccountAddress, AccountProfile} from '../types'
 
@@ -594,6 +596,31 @@ class EditProfile extends PureComponent<Props> {
     )
   }
 
+  importanceTooltip (props) {
+    const { fieldName } = props
+    const {t} = useTranslation()
+    const tooltip = t(`Tooltips.${fieldName}`)
+    return (
+      <span>
+        <Icon type='question-circle'
+          className='account-profile__tooltip-icon'
+          data-tip={tooltip}
+          data-for={`tooltip-${fieldName}`}
+        />
+        <ReactTooltip
+          clickable
+          html
+          effect='solid'
+          place='right'
+          isCapture
+          delayHide={TOOLTIP_HIDE_DELAY_MS}
+          className='map-sidebar__tooltip'
+          id={`tooltip-${fieldName}`}
+        />
+      </span>
+    )
+  }
+
   importanceOptions (props) {
     const { changeField, fieldName, importance } = props
     const {t} = useTranslation()
@@ -666,6 +693,7 @@ class EditProfile extends PureComponent<Props> {
     const isCounselor = !!authData.counselor && !isAnonymous
 
     const DestinationsList = this.destinationsList
+    const ImportanceTooltip = this.importanceTooltip
     const ImportanceOptions = this.importanceOptions
     const RoomOptions = this.roomOptions
     const TripPurposeOptions = this.tripPurposeOptions
@@ -828,7 +856,9 @@ class EditProfile extends PureComponent<Props> {
                   fieldName='importanceAccessibility'
                   importance={importanceAccessibility}
                   changeField={changeField}
-
+                />
+                <ImportanceTooltip
+                  fieldName='ImportanceAccessibility'
                 />
               </div>
               <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
@@ -840,6 +870,9 @@ class EditProfile extends PureComponent<Props> {
                   importance={importanceSchools}
                   changeField={changeField}
                 />
+                <ImportanceTooltip
+                  fieldName='ImportanceSchools'
+                />
               </div>
               <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
                 <label
@@ -849,6 +882,9 @@ class EditProfile extends PureComponent<Props> {
                   fieldName='importanceViolentCrime'
                   importance={importanceViolentCrime}
                   changeField={changeField}
+                />
+                <ImportanceTooltip
+                  fieldName='ImportanceViolentCrime'
                 />
               </div>
             </div>

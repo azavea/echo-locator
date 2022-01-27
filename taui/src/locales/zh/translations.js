@@ -189,7 +189,10 @@ export default {
     ExpandedChoice: '<p>擴大了的選擇社區是TK</p>',
     ViolentCrime: '<p><strong>{{town}}</strong> 具有 <strong>{{averageRelation}}</strong> 的公共安全，較本州 <strong>{{crimePercentile}}</strong> 的其他郵編更安全 (資料來源: <a href="https://www.fbi.gov/services/cjis/ucr" target="_blank">聯邦調查局統一罪案報告暴力罪案數據FBI Uniform Crime Reporting violent crime data</a>)</p>',
     ViolentCrimeBoston: '<p><strong>{{town}}</strong> 具有 <strong>{{averageRelation}}</strong> 的公共安全，較本州 <strong>{{crimePercentile}}</strong> 的其他郵編更安全 (資料來源: <a href="https://data.boston.gov/" target="_blank">波士頓警察局案件報告Boston Police Department Incident Reports</a>)</p>',
-    RentalUnits: '<p><strong>{{town}}</strong> 在本州具有 <strong>{{averageRelation}}</strong> 的出租公寓數量。從2017年至2018年，Craigslist上列出了 <strong>{{totalMapc}}</strong> 個單位。 (資料來源: <a href="https://www.mapc.org/" target="_blank">都會區規劃委員會MAPC</a>)</p>'
+    RentalUnits: '<p><strong>{{town}}</strong> 在本州具有 <strong>{{averageRelation}}</strong> 的出租公寓數量。從2017年至2018年，Craigslist上列出了 <strong>{{totalMapc}}</strong> 個單位。 (資料來源: <a href="https://www.mapc.org/" target="_blank">都會區規劃委員會MAPC</a>)</p>',
+    ImportanceAccessibility: 'ECHO recommends neighborhoods based on the travel time to the address(es) you entered previously. We take public transit times, rush hour, and other commute metrics into account for our recommendations.',
+    ImportanceSchools: 'ECHO’s information on school quality comes from the Massachusetts Department of Elementary and Secondary Education. Our metric balances both an overall measure of school quality across each ZIP Code, as well as the Department’s 2018-2019 Accountability Metrics and “Economically Disadvantaged” Growth Metrics, which gauge school-wide achievement and academic growth among disadvantaged students, respectively. These data include public schools, but not private, charter, vocational, technical, or virtual institutions.',
+    ImportanceViolentCrime: 'ECHO’s public safety measures reflect violent crime rates as reported by the Federal Bureau of Investigations (FBI) as well as the Boston and Cambridge Police Departments in 2019. The percentile scores indicate how each neighborhood compares relative to all other ZIP Codes in Massachusetts.'
   },
   ImportanceLabels: {
     1: '不重要',
