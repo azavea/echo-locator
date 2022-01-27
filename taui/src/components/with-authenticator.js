@@ -6,7 +6,7 @@ import { Component, Fragment } from 'react'
 import { Authenticator } from 'aws-amplify-react/dist/Auth'
 import LogRocket from 'logrocket'
 import AmplifyMessageMap from 'aws-amplify-react/dist/AmplifyMessageMap.js'
-import message from '@conveyal/woonerf/message'
+import { Translation } from 'react-i18next'
 
 import {clearLocalStorage, storeConfig} from '../config'
 import {AMPLIFY_API_NAME,
@@ -27,7 +27,7 @@ function customAuthErrorMessageMap (error) {
   }
 
   if (customMessages.hasOwnProperty(error)) {
-    return message(customMessages[error])
+    return <Translation>{(t) => t(customMessages[error])}</Translation>
   }
   // Fall back to the default messages if we can't find a custom one.
   return AmplifyMessageMap(error)
