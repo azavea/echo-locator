@@ -100,9 +100,9 @@ class Form extends React.PureComponent<Props> {
     }
     const position = destination.location.position
     return (position.lat !== 0 && position.lon !== 0) ? {
-      label: destination.purpose + ': ' + destination.location.label,
+      label: destination.location.label,
       position: position,
-      value: position
+      value: destination.purpose
     } : null
   }
 
@@ -116,9 +116,9 @@ class Form extends React.PureComponent<Props> {
 
   selectDestination = (option?: ReactSelectOption) => {
     const destinationObj = option ? {
-      label: option.label,
+      label: option.label.split(':')[1],
       position: lonlat(option.position),
-      value: option.position
+      value: option.value
     } : null
     this.setState({destination: destinationObj})
     this.props.updateOrigin(destinationObj)
@@ -137,12 +137,15 @@ class Form extends React.PureComponent<Props> {
     const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
     const locations = destinations.map(d => {
       return {
-        label: d.purpose + ': ' + d.location.label,
+        label: d.location.label,
         position: d.location.position,
-        value: d.location.position
+        value: d.purpose
       }
     })
-    const destinationFilterOptions = createDestinationsFilter(locations)
+    const locationsWithLabels = locations.map(loc => {
+      return {...loc, label: t(loc.value) + ': ' + loc.label}
+    })
+    const destinationFilterOptions = createDestinationsFilter(locationsWithLabels)
     const useNetworks = this.getProfileNetworks(this.props.networks, userProfile)
     const networks = useNetworks.map(n => ({label: n.name, value: n.url}))
     const networkFilterOptions = createNetworksFilter(networks)
@@ -158,13 +161,13 @@ class Form extends React.PureComponent<Props> {
             className='map-sidebar__select'
             clearable={false}
             filterOptions={destinationFilterOptions}
-            options={locations}
+            options={locationsWithLabels}
             optionHeight={SELECT_OPTION_HEIGHT}
             onChange={this.selectDestination}
             placeholder={t('Geocoding.StartPlaceholder')}
             style={SELECT_STYLE}
             wrapperStyle={SELECT_WRAPPER_STYLE}
-            value={destination}
+            value={{...destination, label: t(destination.value) + ': ' + destination.label}}
           />
         </div>
         {!userProfile.hasVehicle && <div className='map-sidebar__field'>

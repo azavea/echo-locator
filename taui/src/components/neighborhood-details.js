@@ -76,7 +76,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
           {t('Units.Mins')}&nbsp;
           <ModesList segments={bestJourney} />&nbsp;
           {t('NeighborhoodDetails.FromOrigin')}&nbsp;
-          {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}
+          {currentDestination && t(currentDestination.purpose).toLowerCase()}
         </span>}
         {!bestJourney && !hasVehicle && <span className='neighborhood-details__route'>{t('Systems.TripsEmpty')}</span>}
         <a
