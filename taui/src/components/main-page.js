@@ -154,6 +154,7 @@ export default class MainPage extends React.PureComponent<Props> {
             activeListing={p.activeListing}
             bhaListings={p.bhaListings}
             clickedNeighborhood={p.data.showDetails}
+            estMaxRent={p.estMaxRent}
             neighborhood={p.detailNeighborhood}
             realtorListings={p.realtorListings}
             setActiveListing={p.setActiveListing}

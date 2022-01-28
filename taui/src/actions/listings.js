@@ -3,7 +3,7 @@ import fetch from '@conveyal/woonerf/fetch'
 
 import {fwdGeocodeBatch} from '../utils/fwd-geocode'
 import {REALTOR_BASE_URL, BHA_BASE_URL} from '../constants'
-import { ActiveListing, Listing } from '../types'
+import { ActiveListing, Listing, ListingQuery } from '../types'
 
 import {addActionLogItem} from './log'
 
@@ -16,26 +16,18 @@ const handleError = (error, name, actionType) => {
   return {type: actionType, payload: {error: error}}
 }
 
-export const setRealtorListings = (payload: Listing) => (dispatch: Dispatch, getState: any) => {
-  // payload used to reset listings state after error and on clicked neighborhood change
-  if (payload) {
+export const setRealtorListings = (payload: Listing | ListingQuery) => (dispatch: Dispatch, getState: any) => {
+  // reset listings state to empty after error and on clicked neighborhood change
+  if (payload.data && !payload.data.length) {
     dispatch({type: REALTOR_ACTION_TYPE, payload: payload})
   } else {
-    const current = getState()
-    // currently no current.data.userProfile.budget
-    // and undefined value breaks API request
-    const query = {
-      'zipcode': current.data.activeNeighborhood,
-      'budget': '10000',
-      'rooms': current.data.userProfile.rooms
-    }
     addActionLogItem(`Set Realtor listings`)
     dispatch({type: REALTOR_ACTION_TYPE, payload: {pending: true}})
     dispatch(fetch({
       url: REALTOR_BASE_URL,
       options: {
         method: 'post',
-        body: query
+        body: payload.query
       },
       next: (error, response) => {
         // handle error here instead of automatically dispatching fetch's fetchError
@@ -53,15 +45,14 @@ export const setRealtorListings = (payload: Listing) => (dispatch: Dispatch, get
   }
 }
 
-export const setBHAListings = (payload: Listing) => (dispatch: Dispatch, getState: any) => {
-  // payload used to reset listings state after error and on clicked neighborhood change
-  if (payload) {
+export const setBHAListings = (payload: Listing | ListingQuery) => (dispatch: Dispatch, getState: any) => {
+  // reset listings state to empty after error and on clicked neighborhood change
+  if (payload.data && !payload.data.length) {
     dispatch({type: BHA_ACTION_TYPE, payload: payload})
   } else {
-    const current = getState()
-    const zipcode = current.data.activeNeighborhood
-    const budget = current.data.userProfile.budget
-    const rooms = current.data.userProfile.rooms
+    const zipcode = payload.query.zipcode
+    const rooms = payload.query.rooms
+    const budget = payload.query.budget
     const urlWithQuery = `${BHA_BASE_URL}zipcode=${zipcode}&rooms=${rooms}&budget=${budget}`
 
     addActionLogItem(`Set BHA listings`)

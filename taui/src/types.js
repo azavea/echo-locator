@@ -292,6 +292,8 @@ export type MapEvent = {
 
 export type Listing = { pending: true } | { data: Array } | { error: String }
 
+export type ListingQuery = { budget: Number, rooms: string | Number, zipcode: Number | string }
+
 export type ActiveListing = {
   'id': String,
   'lat': Number,
