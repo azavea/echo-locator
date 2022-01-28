@@ -20,6 +20,7 @@ import RouteSegments from './route-segments'
 
 type Props = {
   changeUserProfile: any,
+  estMaxRent: Number,
   listing: ActiveListingDetail,
   neighborhood: any,
   setFavorite: any,
@@ -94,10 +95,10 @@ class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodStats (props) {
-    const { neighborhood, userProfile } = props
+    const { userProfile, estMaxRent } = props
     const {t, i18n} = useTranslation()
     const { rooms } = userProfile
-    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
+    const maxSubsidy = estMaxRent || '–––'
 
     return (
       <div className='neighborhood-details__rent'>
@@ -156,15 +157,14 @@ class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodLinks (props) {
-    const { neighborhood, userProfile } = props
+    const { neighborhood, userProfile, estMaxRent } = props
     const {t, i18n} = useTranslation()
     const { rooms } = userProfile
-    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: maxSubsidy.toLocaleString(i18n.language)})}
+          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: estMaxRent.toLocaleString(i18n.language)})}
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -172,7 +172,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
             href={getZillowSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              estMaxRent)}
             target='_blank'
           >
             {t('NeighborhoodDetails.ZillowSearchLink')}
@@ -182,7 +182,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
             href={getCraigslistSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              estMaxRent)}
             target='_blank'
           >
             {t('NeighborhoodDetails.CraigslistSearchLink')}
@@ -192,7 +192,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
             href={getHotpadsSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              estMaxRent)}
             target='_blank'
           >
             {t('NeighborhoodDetails.HotpadsSearchLink')}
@@ -202,7 +202,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
             href={getGoSection8SearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              estMaxRent)}
             target='_blank'
           >
             {t('NeighborhoodDetails.GoSection8SearchLink')}
@@ -279,7 +279,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   render () {
-    const { changeUserProfile, listing, neighborhood, origin, setFavorite, userProfile, t } = this.props
+    const { changeUserProfile, estMaxRent, listing, neighborhood, origin, setFavorite, userProfile, t } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
@@ -326,7 +326,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
         </div>
         <div className='neighborhood-details__section'>
           <NeighborhoodStats
-            neighborhood={neighborhood}
+            estMaxRent={estMaxRent}
             userProfile={userProfile}
           />
         </div>
@@ -335,6 +335,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
         </div>
         <div className='neighborhood-details__section'>
           <NeighborhoodLinks
+            estMaxRent={estMaxRent}
             hasVehicle={hasVehicle}
             neighborhood={neighborhood}
             origin={origin}
