@@ -32,6 +32,12 @@ export default {
   },
   Map: {
     SelectNetwork: 'Set time of day',
+    NetworkOptions: {
+      Peak: '什麼時候高峰期',
+      OffPeak: '非高峰',
+      PeakNoExpress: 'Peak No Express',
+      OffPeakNoExpress: 'Off Peak No Express'
+    },
     SetLocationPopup: {
       SetStart: 'Set start',
       SetEnd: 'Set end',

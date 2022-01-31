@@ -51,7 +51,7 @@ class Form extends React.PureComponent<Props> {
     this.state = {
       destination,
       network: useNetworks ? {
-        label: useNetworks[0].name, value: useNetworks[0].url
+        label: useNetworks[0].name, value: useNetworks[0].url, networkName: useNetworks[0].name
       } : null
     }
 
@@ -109,9 +109,9 @@ class Form extends React.PureComponent<Props> {
   setStateNetwork = (networks, userProfile) => {
     const useNetworks = this.getProfileNetworks(networks, userProfile)
     const first = useNetworks[0]
-    const network = {label: first.name, value: first.url}
+    const network = {label: first.name, value: first.url, networkName: first.name}
     this.setState({network})
-    this.props.setActiveNetwork(network.label)
+    this.props.setActiveNetwork(network.name)
   }
 
   selectDestination = (option?: ReactSelectOption) => {
@@ -127,7 +127,7 @@ class Form extends React.PureComponent<Props> {
   setNetwork = (option?: ReactSelectOption) => {
     this.setState({network: option})
     if (option) {
-      this.props.setActiveNetwork(option.label)
+      this.props.setActiveNetwork(option.networkName)
     }
   }
 
@@ -147,7 +147,7 @@ class Form extends React.PureComponent<Props> {
     })
     const destinationFilterOptions = createDestinationsFilter(locationsWithLabels)
     const useNetworks = this.getProfileNetworks(this.props.networks, userProfile)
-    const networks = useNetworks.map(n => ({label: n.name, value: n.url}))
+    const networks = useNetworks.map(n => ({label: t('Map.NetworkOptions.' + n.name.split(' ').join('')), value: n.url, networkName: n.name}))
     const networkFilterOptions = createNetworksFilter(networks)
 
     const setNetwork = this.setNetwork
@@ -182,7 +182,7 @@ class Form extends React.PureComponent<Props> {
             placeholder={t('Map.SelectNetwork')}
             style={SELECT_STYLE}
             wrapperStyle={SELECT_WRAPPER_STYLE}
-            value={network}
+            value={{...network, label: t('Map.NetworkOptions.' + network.networkName.split(' ').join(''))}}
           />
         </div>}
       </div>
