@@ -99,10 +99,13 @@ class Form extends React.PureComponent<Props> {
       return
     }
     const position = destination.location.position
+    const translatablePurpose = destination.purpose.startsWith('TripPurpose')
+      ? destination.purpose
+      : 'TripPurpose.' + destination.purpose
     return (position.lat !== 0 && position.lon !== 0) ? {
       label: destination.location.label,
       position: position,
-      value: destination.purpose
+      value: translatablePurpose
     } : null
   }
 
@@ -136,10 +139,13 @@ class Form extends React.PureComponent<Props> {
     const {destination, network} = this.state
     const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
     const locations = destinations.map(d => {
+      const translatablePurpose = d.purpose.startsWith('TripPurpose')
+        ? d.purpose
+        : 'TripPurpose.' + d.purpose
       return {
         label: d.location.label,
         position: d.location.position,
-        value: d.purpose
+        value: translatablePurpose
       }
     })
     const locationsWithLabels = locations.map(loc => {
