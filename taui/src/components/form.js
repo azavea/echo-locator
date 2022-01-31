@@ -99,6 +99,8 @@ class Form extends React.PureComponent<Props> {
       return
     }
     const position = destination.location.position
+    // check for older profiles that contain destination purposes not saved with
+    // the 'TripPurpose.' prefix required by react-i18next
     const translatablePurpose = destination.purpose.startsWith('TripPurpose')
       ? destination.purpose
       : 'TripPurpose.' + destination.purpose
@@ -119,6 +121,8 @@ class Form extends React.PureComponent<Props> {
 
   selectDestination = (option?: ReactSelectOption) => {
     const destinationObj = option ? {
+      // restore the label to contain only the address and remove translated
+      // destination name for re-generation
       label: option.label.split(':')[1],
       position: lonlat(option.position),
       value: option.value
@@ -139,6 +143,8 @@ class Form extends React.PureComponent<Props> {
     const {destination, network} = this.state
     const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
     const locations = destinations.map(d => {
+      // check for older profiles that contain destination purposes not saved with
+      // the 'TripPurpose.' prefix required by react-i18next
       const translatablePurpose = d.purpose.startsWith('TripPurpose')
         ? d.purpose
         : 'TripPurpose.' + d.purpose
@@ -149,10 +155,12 @@ class Form extends React.PureComponent<Props> {
       }
     })
     const locationsWithLabels = locations.map(loc => {
+      // generate temporary, translated destination labels menu options
       return {...loc, label: t(loc.value) + ': ' + loc.label}
     })
     const destinationFilterOptions = createDestinationsFilter(locationsWithLabels)
     const useNetworks = this.getProfileNetworks(this.props.networks, userProfile)
+    // generate temporary, translated network labels for menu options
     const networks = useNetworks.map(n => ({label: t('Map.NetworkOptions.' + n.name.split(' ').join('')), value: n.url, networkName: n.name}))
     const networkFilterOptions = createNetworksFilter(networks)
 
@@ -188,6 +196,7 @@ class Form extends React.PureComponent<Props> {
             placeholder={t('Map.SelectNetwork')}
             style={SELECT_STYLE}
             wrapperStyle={SELECT_WRAPPER_STYLE}
+            // convert network name to match react-i18next's reference phrase and translate
             value={{...network, label: t('Map.NetworkOptions.' + network.networkName.split(' ').join(''))}}
           />
         </div>}
