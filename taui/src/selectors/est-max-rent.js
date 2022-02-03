@@ -8,9 +8,9 @@ export default createSelector(
   state => get(state, 'data.userProfile'),
   detailNeighborhood,
   (userProfile, neighborhood) => {
-    if (!userProfile || !neighborhood) {
+    if (!userProfile || !userProfile.rooms || !neighborhood || !neighborhood.properties || !neighborhood.properties['max_rent_' + userProfile.rooms + 'br']) {
       return 0
     }
-    return neighborhood && userProfile && neighborhood.properties['max_rent_' + userProfile.rooms + 'br']
+    return neighborhood.properties['max_rent_' + userProfile.rooms + 'br']
   }
 )
