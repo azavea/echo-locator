@@ -19,6 +19,7 @@ type Props = {
   detailListing: ActiveListingDetail,
   detailNeighborhood: any,
   endingOffset: number,
+  estMaxRent: number,
   haveAnotherPage: boolean,
   isLoading: boolean,
   neighborhoodCount: number,
@@ -269,6 +270,7 @@ class Dock extends PureComponent<Props> {
       detailListing,
       detailNeighborhood,
       endingOffset,
+      estMaxRent,
       haveAnotherPage,
       isLoading,
       neighborhoodCount,
@@ -323,6 +325,7 @@ class Dock extends PureComponent<Props> {
         <NeighborhoodDetails
           changeUserProfile={changeUserProfile}
           listing={detailListing}
+          estMaxRent={estMaxRent}
           neighborhood={detailNeighborhood}
           origin={origin}
           setFavorite={setFavorite}

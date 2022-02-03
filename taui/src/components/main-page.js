@@ -117,6 +117,7 @@ export default class MainPage extends React.PureComponent<Props> {
           detailListing={p.detailListing}
           detailNeighborhood={p.detailNeighborhood}
           endingOffset={p.pageEndingOffset}
+          estMaxRent={p.estMaxRent}
           haveAnotherPage={p.haveAnotherPage}
           isLoading={p.isLoading}
           neighborhoodCount={p.routableNeighborhoodCount}
@@ -154,6 +155,7 @@ export default class MainPage extends React.PureComponent<Props> {
             activeListing={p.activeListing}
             bhaListings={p.bhaListings}
             clickedNeighborhood={p.data.showDetails}
+            estMaxRent={p.estMaxRent}
             neighborhood={p.detailNeighborhood}
             realtorListings={p.realtorListings}
             setActiveListing={p.setActiveListing}

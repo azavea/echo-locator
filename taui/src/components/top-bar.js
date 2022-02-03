@@ -10,6 +10,7 @@ type Props = {
   activeListing: ActiveListing,
   bhaListings: Listing,
   clickedNeighborhood: any,
+  estMaxRent: Number,
   neighborhood: any,
   realtorListings: Listing,
   setActiveListing: Function => void,
@@ -43,13 +44,18 @@ class TopBar extends PureComponent<Props, State> {
 
   handleShowListings = (type, e) => {
     // dispatch action to get and show BHA or realtor listings here
+    const query = {
+      'zipcode': this.props.neighborhood.properties.id,
+      'budget': this.props.estMaxRent,
+      'rooms': this.props.userProfile.rooms
+    }
     switch (type) {
       case 'BHA':
-        this.props.setBHAListings()
+        this.props.setBHAListings({'query': query})
         this.props.setShowBHAListings(true)
         break
       case 'Realtor':
-        this.props.setRealtorListings()
+        this.props.setRealtorListings({'query': query})
         this.props.setShowRealtorListings(true)
         break
     }

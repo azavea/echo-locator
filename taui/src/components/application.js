@@ -58,6 +58,7 @@ type Props = {
   drawNeighborhoodRotues: any[],
   drawOpportunityDatasets: any[],
   drawRoutes: any[],
+  estMaxRent: Number,
   geocode: (string, Function) => void,
   geocoder: GeocoderStore,
   initialize: Function => void,

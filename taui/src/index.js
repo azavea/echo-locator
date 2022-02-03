@@ -104,6 +104,7 @@ function mapStateToProps (state, ownProps) {
     drawListingRoute: select.drawListingRoute(state, ownProps),
     drawNeighborhoodRoute: select.drawNeighborhoodRoute(state, ownProps),
     drawOpportunityDatasets: select.drawOpportunityDatasets(state, ownProps),
+    estMaxRent: select.estMaxRent(state, ownProps),
     haveAnotherPage: select.haveAnotherPage(state, ownProps),
     isLoading: select.loading(state, ownProps),
     listingRoute: select.listingRoute(state, ownProps),
