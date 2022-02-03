@@ -48,6 +48,9 @@ class Form extends React.PureComponent<Props> {
 
     const useNetworks = this.getProfileNetworks(networks, userProfile)
 
+    // TODO: Add networkKey for react-18next's use to the networks as they
+    // come into the app in store.yml and config.json, rather than adding this
+    // 3rd networkName value here (https://github.com/azavea/echo-locator/issues/411)
     this.state = {
       destination,
       network: useNetworks ? {
@@ -99,15 +102,10 @@ class Form extends React.PureComponent<Props> {
       return
     }
     const position = destination.location.position
-    // check for older profiles that contain destination purposes not saved with
-    // the 'TripPurpose.' prefix required by react-i18next
-    const translatablePurpose = destination.purpose.startsWith('TripPurpose')
-      ? destination.purpose
-      : 'TripPurpose.' + destination.purpose
     return (position.lat !== 0 && position.lon !== 0) ? {
       label: destination.location.label,
       position: position,
-      value: translatablePurpose
+      value: destination.purpose
     } : null
   }
 
@@ -116,14 +114,12 @@ class Form extends React.PureComponent<Props> {
     const first = useNetworks[0]
     const network = {label: first.name, value: first.url, networkName: first.name}
     this.setState({network})
-    this.props.setActiveNetwork(network.name)
+    this.props.setActiveNetwork(network.label)
   }
 
   selectDestination = (option?: ReactSelectOption) => {
     const destinationObj = option ? {
-      // restore the label to contain only the address and remove translated
-      // destination name for re-generation
-      label: option.label.split(':')[1],
+      label: option.label,
       position: lonlat(option.position),
       value: option.value
     } : null
@@ -143,20 +139,15 @@ class Form extends React.PureComponent<Props> {
     const {destination, network} = this.state
     const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
     const locations = destinations.map(d => {
-      // check for older profiles that contain destination purposes not saved with
-      // the 'TripPurpose.' prefix required by react-i18next
-      const translatablePurpose = d.purpose.startsWith('TripPurpose')
-        ? d.purpose
-        : 'TripPurpose.' + d.purpose
       return {
         label: d.location.label,
         position: d.location.position,
-        value: translatablePurpose
+        value: d.purpose
       }
     })
     const locationsWithLabels = locations.map(loc => {
       // generate temporary, translated destination labels menu options
-      return {...loc, label: t(loc.value) + ': ' + loc.label}
+      return {...loc, label: t(`TripPurpose.${loc.value}`) + ': ' + loc.label}
     })
     const destinationFilterOptions = createDestinationsFilter(locationsWithLabels)
     const useNetworks = this.getProfileNetworks(this.props.networks, userProfile)
@@ -181,7 +172,7 @@ class Form extends React.PureComponent<Props> {
             placeholder={t('Geocoding.StartPlaceholder')}
             style={SELECT_STYLE}
             wrapperStyle={SELECT_WRAPPER_STYLE}
-            value={{...destination, label: t(destination.value) + ': ' + destination.label}}
+            value={destination.value}
           />
         </div>
         {!userProfile.hasVehicle && <div className='map-sidebar__field'>
@@ -196,7 +187,6 @@ class Form extends React.PureComponent<Props> {
             placeholder={t('Map.SelectNetwork')}
             style={SELECT_STYLE}
             wrapperStyle={SELECT_WRAPPER_STYLE}
-            // convert network name to match react-i18next's reference phrase and translate
             value={{...network, label: t('Map.NetworkOptions.' + network.networkName.split(' ').join(''))}}
           />
         </div>}
