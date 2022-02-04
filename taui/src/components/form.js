@@ -48,10 +48,13 @@ class Form extends React.PureComponent<Props> {
 
     const useNetworks = this.getProfileNetworks(networks, userProfile)
 
+    // TODO: Add networkKey for react-18next's use to the networks as they
+    // come into the app in store.yml and config.json, rather than adding this
+    // 3rd networkName value here (https://github.com/azavea/echo-locator/issues/411)
     this.state = {
       destination,
       network: useNetworks ? {
-        label: useNetworks[0].name, value: useNetworks[0].url
+        label: useNetworks[0].name, value: useNetworks[0].url, networkName: useNetworks[0].name
       } : null
     }
 
@@ -100,16 +103,16 @@ class Form extends React.PureComponent<Props> {
     }
     const position = destination.location.position
     return (position.lat !== 0 && position.lon !== 0) ? {
-      label: destination.purpose + ': ' + destination.location.label,
+      label: destination.location.label,
       position: position,
-      value: position
+      value: destination.purpose
     } : null
   }
 
   setStateNetwork = (networks, userProfile) => {
     const useNetworks = this.getProfileNetworks(networks, userProfile)
     const first = useNetworks[0]
-    const network = {label: first.name, value: first.url}
+    const network = {label: first.name, value: first.url, networkName: first.name}
     this.setState({network})
     this.props.setActiveNetwork(network.label)
   }
@@ -118,7 +121,7 @@ class Form extends React.PureComponent<Props> {
     const destinationObj = option ? {
       label: option.label,
       position: lonlat(option.position),
-      value: option.position
+      value: option.value
     } : null
     this.setState({destination: destinationObj})
     this.props.updateOrigin(destinationObj)
@@ -127,7 +130,7 @@ class Form extends React.PureComponent<Props> {
   setNetwork = (option?: ReactSelectOption) => {
     this.setState({network: option})
     if (option) {
-      this.props.setActiveNetwork(option.label)
+      this.props.setActiveNetwork(option.networkName)
     }
   }
 
@@ -137,14 +140,19 @@ class Form extends React.PureComponent<Props> {
     const destinations: Array<AccountAddress> = userProfile ? userProfile.destinations : []
     const locations = destinations.map(d => {
       return {
-        label: d.purpose + ': ' + d.location.label,
+        label: d.location.label,
         position: d.location.position,
-        value: d.location.position
+        value: d.purpose
       }
     })
-    const destinationFilterOptions = createDestinationsFilter(locations)
+    const locationsWithLabels = locations.map(loc => {
+      // generate temporary, translated destination labels menu options
+      return {...loc, label: t(`TripPurpose.${loc.value}`) + ': ' + loc.label}
+    })
+    const destinationFilterOptions = createDestinationsFilter(locationsWithLabels)
     const useNetworks = this.getProfileNetworks(this.props.networks, userProfile)
-    const networks = useNetworks.map(n => ({label: n.name, value: n.url}))
+    // generate temporary, translated network labels for menu options
+    const networks = useNetworks.map(n => ({label: t('Map.NetworkOptions.' + n.name.split(' ').join('')), value: n.url, networkName: n.name}))
     const networkFilterOptions = createNetworksFilter(networks)
 
     const setNetwork = this.setNetwork
@@ -158,13 +166,13 @@ class Form extends React.PureComponent<Props> {
             className='map-sidebar__select'
             clearable={false}
             filterOptions={destinationFilterOptions}
-            options={locations}
+            options={locationsWithLabels}
             optionHeight={SELECT_OPTION_HEIGHT}
             onChange={this.selectDestination}
             placeholder={t('Geocoding.StartPlaceholder')}
             style={SELECT_STYLE}
             wrapperStyle={SELECT_WRAPPER_STYLE}
-            value={destination}
+            value={destination.value}
           />
         </div>
         {!userProfile.hasVehicle && <div className='map-sidebar__field'>
@@ -179,7 +187,7 @@ class Form extends React.PureComponent<Props> {
             placeholder={t('Map.SelectNetwork')}
             style={SELECT_STYLE}
             wrapperStyle={SELECT_WRAPPER_STYLE}
-            value={network}
+            value={{...network, label: t('Map.NetworkOptions.' + network.networkName.split(' ').join(''))}}
           />
         </div>}
       </div>

@@ -482,7 +482,7 @@ class EditProfile extends PureComponent<Props> {
     const options = PROFILE_DESTINATION_TYPES.map((key) => {
       // expects each type in constants to have a label in messages
       const messageKey = 'TripPurpose.' + key
-      return <option key={key}>{t(messageKey)}</option>
+      return <option key={key} value={key}>{t(messageKey)}</option>
     })
 
     return (
