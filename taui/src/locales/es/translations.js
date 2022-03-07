@@ -12,10 +12,10 @@ export default {
     TripsTitle: 'Example trips',
     TripsEmpty: 'No routes found to that destination',
     BestTripTitle: 'Fastest trip',
-    AlternateTripsTitle: 'Alternativamente use',
+    AlternateTripsTitle: 'Alternativa',
     Waiting: 'waiting included',
     NoAccess: 'No data from this point...',
-    Take: 'Tome',
+    Route: 'Ruta',
     InaccessibleWithin: 'inaccessible within'
   },
   Faster: 'faster',
@@ -75,7 +75,8 @@ export default {
     CraigslistSearchLink: 'Craigslist',
     DirectionsLink: 'Direcciones',
     DriveMode: 'en coche',
-    FromOrigin: 'de',
+    FromOrigin: 'Origen',
+    TravelTime: 'Tiempo de Viaje',
     GoogleSearchLink: 'Google',
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
@@ -83,9 +84,12 @@ export default {
     ListingsFetchError: 'Could not fetch listings',
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'El alquiler estimado máximo',
+    MaxRentSearch: 'el alquiler máximo',
     BedroomAbbr: 'dor.',
-    ModeSummary: 'via',
-    MainSearchToolsLinksHeading: 'Busque por {{rooms}}dor. con alquiler máximo ${{maxSubsidy}}',
+    ModeSummary: 'Modo',
+    Or: 'o',
+    MainSearchToolsLinksHeading: 'Búsqueda de una unidad de {{rooms}}dor. con un alquiler máximo de ${{maxSubsidy}}',
+    MainSearchToolsSearch: 'Búsqueda de apartmentos',
     MoreSearchToolsLinksHeading: 'Más herramientas de búsqueda',
     ReadLessLink: 'Read Less',
     ReadMoreLink: 'Read More',
@@ -124,8 +128,7 @@ export default {
   Units: {
     About: 'Sobre',
     Minutes: 'minutes',
-    Mins: 'min',
-    In: 'en'
+    Mins: 'min'
   },
   Agency: 'Autorida de Vivienda de Boston',
   SignIn: {
@@ -245,5 +248,10 @@ export default {
     Yes: 'Sí',
     No: 'No'
   },
-  UnknownValue: 'Unknown'
+  UnknownValue: 'Unknown',
+  TransportationMethod: {
+    subway: 'tren',
+    bus: 'autobús',
+    train: 'tren'
+  }
 }

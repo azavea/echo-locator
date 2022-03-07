@@ -12,10 +12,10 @@ export default {
     TripsTitle: 'Example trips',
     TripsEmpty: 'No routes found to that destination',
     BestTripTitle: 'Fastest trip',
-    AlternateTripsTitle: '您亦可使用',
+    AlternateTripsTitle: '其他線路',
     Waiting: 'waiting included',
     NoAccess: 'No data from this point...',
-    Take: 'Take',
+    Route: '線路',
     InaccessibleWithin: 'inaccessible within'
   },
   Faster: 'faster',
@@ -75,8 +75,9 @@ export default {
     ChildCareSearchLink: 'Child Care Search',
     CraigslistSearchLink: 'Craigslist',
     DirectionsLink: '路線',
-    DriveMode: '駕駛',
-    FromOrigin: '從',
+    DriveMode: '汽車',
+    FromOrigin: '起點',
+    TravelTime: '旅行時長',
     GoogleSearchLink: 'Google',
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
@@ -84,9 +85,11 @@ export default {
     ListingsFetchError: 'Could not fetch listings',
     MetroHousingLink: 'Metro Housing',
     MaxRent: '估計最高租金',
+    MaxRentSearch: '最大月租',
     BedroomAbbr: '臥房',
-    ModeSummary: 'via',
-    MainSearchToolsLinksHeading: 'Search for {{rooms}}br with max rent ${{maxSubsidy}}',
+    ModeSummary: ' 交通方式',
+    Or: '或',
+    MainSearchToolsSearch: '搜索公寓',
     MoreSearchToolsLinksHeading: '更多搜索工具',
     RealtorApartmentsToggle: 'Realtor.com',
     RentEstimatorLink: 'Rent Estimator',
@@ -242,5 +245,10 @@ export default {
     Yes: '是',
     No: '否'
   },
-  UnknownValue: 'Unknown'
+  UnknownValue: 'Unknown',
+  TransportationMethod: {
+    subway: '地鐡',
+    bus: '巴士',
+    train: '火車'
+  }
 }

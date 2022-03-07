@@ -232,12 +232,12 @@ class Dock extends PureComponent<Props> {
             {showFavorites && <>
               {t('Dock.Favorites')}
               &nbsp;
-              {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
+              {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} / ${totalNeighborhoodCount})`}
             </>}
             {!showFavorites && <>
               {t('Dock.Recommendations')}
               &nbsp;
-              {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} of ${totalNeighborhoodCount})`}
+              {endingOffset > 0 && `(${startingOffset + 1}–${endingOffset} / ${totalNeighborhoodCount})`}
             </>}
           </h2>
           <div className='map-sidebar__neighborhoods-actions'>

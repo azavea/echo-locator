@@ -98,12 +98,9 @@ class RouteCard extends React.PureComponent<Props> {
               </div>
               <div className='neighborhood-summary__trajectory'>
                 <span className='neighborhood-summary__mode'>
-                  {t(modeKey)}
-                  &nbsp;
-                  {t('NeighborhoodDetails.FromOrigin')}
-                </span>
-                {' '}
-                <span className='neighborhood-summary__location'>
+                  <strong>{`${t('NeighborhoodDetails.ModeSummary').toLowerCase()}: `}</strong>
+                  {t(modeKey)}<br />
+                  <strong>{`${t('NeighborhoodDetails.FromOrigin').toLowerCase()}: `}</strong>
                   {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}
                 </span>
               </div>
