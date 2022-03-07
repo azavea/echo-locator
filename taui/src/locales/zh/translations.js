@@ -10,7 +10,7 @@ export default {
     BaseTitle: 'Proposed Transit',
     ComparisonTitle: 'Current Transit',
     TripsTitle: 'Example trips',
-    TripsEmpty: 'No routes found to that destination',
+    TripsEmpty: '未能找到前往該目的地的路綫',
     BestTripTitle: 'Fastest trip',
     AlternateTripsTitle: '其他線路',
     Waiting: 'waiting included',
@@ -33,10 +33,10 @@ export default {
   Map: {
     SelectNetwork: 'Set time of day',
     NetworkOptions: {
-      Peak: '什麼時候高峰期',
-      OffPeak: '非高峰',
-      PeakNoExpress: 'Peak No Express',
-      OffPeakNoExpress: 'Off Peak No Express'
+      Peak: '繁忙',
+      OffPeak: '非繁忙',
+      PeakNoExpress: '繁忙時段沒有快車',
+      OffPeakNoExpress: '非繁忙時段沒有快車'
     },
     SetLocationPopup: {
       SetStart: 'Set start',
@@ -52,11 +52,12 @@ export default {
   Dock: {
     FormHeading: '顯示行程時間',
     LocationLabel: '起點',
-    NetworkLabel: 'when',
+    NetworkLabel: '何時',
     Favorites: '保存建議',
     FeedbackLink: 'ECHO 需要您的回饋',
     GoBackToRecommendations: '返回到您的建議',
     GoBackToFavorites: 'Back to saved recommendations',
+    RecommendationsCount: '的',
     GoPreviousPage: '返回',
     GoNextPage: '顯示更多',
     ShowListings: 'Show apartments',
@@ -64,12 +65,12 @@ export default {
     Recommendations: '您的建議',
     ShowAllButton: '全部',
     ShowSavedButton: '保存的',
-    SiteBy: 'Azavea 網站'
+    SiteBy: '由 Azavea 網站'
   },
   NeighborhoodDetails: {
     AboutNeighborhoodLinksHeading: '了解該社區',
     ApartmentsDotComLink: 'Apartments.com',
-    ApartmentsToggles: 'Show apartments from',
+    ApartmentsToggles: '顯示公寓',
     BHAApartmentsLink: 'Boston Housing Authority',
     BHAApartmentsToggle: 'BHA',
     ChildCareSearchLink: 'Child Care Search',
@@ -82,7 +83,7 @@ export default {
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
     HotpadsSearchLink: 'Hotpads',
-    ListingsFetchError: 'Could not fetch listings',
+    ListingsFetchError: '無法取得列表',
     MetroHousingLink: 'Metro Housing',
     MaxRent: '估計最高租金',
     MaxRentSearch: '最大月租',
@@ -134,7 +135,7 @@ export default {
     Greeting: '家庭類租賃券專用的改善住房搜索'
   },
   Header: {
-    New: 'New search',
+    New: '新搜尋',
     Edit: '編輯文檔',
     SignIn: '登錄'
   },
@@ -156,7 +157,7 @@ export default {
     AddressMissing: 'All destinations should have an address. Please set or remove any empty destinations.',
     ByCar: '汽車',
     ByTransit: '公共交通工具',
-    ByTransitExplanation: 'Search results will include subway and local bus.',
+    ByTransitExplanation: '搜尋結果將包括地鐵和地區巴士。',
     ChooseTravelMode: '您通常如何到達上述地址?',
     DeleteAddress: 'Delete this address',
     DeletePrimaryAddressError: 'Cannot delete primary destination. Set another as the primary first.',
@@ -166,7 +167,7 @@ export default {
     ClientEmailError: 'Please enter a valid email address.',
     CreateClientAccountError: 'Failed to create client login account. Please try again.',
     CreateClientAccountExistsError: 'A client login account already exists for that email with voucher number %(voucher).',
-    RecreateClientAccount: 'Resend invitation email',
+    RecreateClientAccount: '重發邀請電郵',
     DeleteDestination: 'Delete this destination',
     DeleteProfile: '刪除文檔',
     DeleteProfileError: 'Failed to delete profile. Please try again.',
@@ -175,7 +176,7 @@ export default {
     ImportanceHeading: '選擇住處的時候以下因素有多重要？',
     ImportanceSchools: '學校質量',
     ImportanceViolentCrime: '公共安全',
-    Primary: 'Primary',
+    Primary: '主要的',
     Purpose: '目的',
     Rooms: '租賃券上的臥房數目',
     RoomsNoVoucher: 'Desired number of bedrooms',

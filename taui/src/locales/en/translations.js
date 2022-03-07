@@ -56,6 +56,7 @@ export default {
     FeedbackLink: 'ECHO needs your feedback',
     GoBackToRecommendations: 'Back to your recommendations',
     GoBackToFavorites: 'Back to saved recommendations',
+    RecommendationsCount: 'of',
     GoPreviousPage: 'Go back',
     GoNextPage: 'Show more',
     NoResults: 'No results',

@@ -10,7 +10,7 @@ export default {
     BaseTitle: 'Proposed Transit',
     ComparisonTitle: 'Current Transit',
     TripsTitle: 'Example trips',
-    TripsEmpty: 'No routes found to that destination',
+    TripsEmpty: 'No se han encontrado rutas hacia ese destino',
     BestTripTitle: 'Fastest trip',
     AlternateTripsTitle: 'Alternativa',
     Waiting: 'waiting included',
@@ -33,10 +33,10 @@ export default {
   Map: {
     SelectNetwork: 'Set time of day',
     NetworkOptions: {
-      Peak: 'Peak',
-      OffPeak: 'Off Peak',
-      PeakNoExpress: 'Peak No Express',
-      OffPeakNoExpress: 'Off Peak No Express'
+      Peak: 'Hora con tráfico',
+      OffPeak: 'Hora con poco tráfico',
+      PeakNoExpress: 'Hora con tráfico que no es express',
+      OffPeakNoExpress: 'Hora de poco tráfico que no es express'
     },
     SetLocationPopup: {
       SetStart: 'Set start',
@@ -57,18 +57,19 @@ export default {
     FeedbackLink: 'ECHO necesita su opinion',
     GoBackToRecommendations: 'Regresar a sus recomendaciones',
     GoBackToFavorites: 'Back to saved recommendations',
+    RecommendationsCount: 'de',
     GoPreviousPage: 'Regresar',
     GoNextPage: 'Muestra mas',
     NoResults: 'Ningun resultado',
     Recommendations: 'Sus recomendaciones',
     ShowAllButton: 'Todo',
     ShowSavedButton: 'Guardado',
-    SiteBy: 'site by Azavea'
+    SiteBy: 'Página Web hecha por de Azavea'
   },
   NeighborhoodDetails: {
     AboutNeighborhoodLinksHeading: 'Aprenda sobre este vecindario',
     ApartmentsDotComLink: 'Apartments.com',
-    ApartmentsToggles: 'Apartamentos',
+    ApartmentsToggles: 'Mostrar apartamentos desde',
     BHAApartmentsLink: 'Boston Housing Authority',
     BHAApartmentsToggle: 'BHA',
     ChildCareSearchLink: 'Child Care Search',
@@ -81,7 +82,7 @@ export default {
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
     HotpadsSearchLink: 'Hotpads',
-    ListingsFetchError: 'Could not fetch listings',
+    ListingsFetchError: 'No se han podido descargar los listados',
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'El alquiler estimado máximo',
     MaxRentSearch: 'el alquiler máximo',
