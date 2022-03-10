@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 services:
   taui:
     build: ./taui
@@ -10,3 +10,52 @@ services:
       - "9966:9966"
     entrypoint: yarn
     command: start
+
+  django:
+    image: echolocator
+    environment:
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=echolocator
+      - POSTGRES_PASSWORD=echolocator
+      - POSTGRES_DB=echolocator
+      - DJANGO_ENV=Development
+      - DJANGO_SECRET_KEY=secret
+      - DJANGO_LOG_LEVEL=INFO
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./src/backend:/usr/local/src/backend
+      - $HOME/.aws:/root/.aws:ro
+    working_dir: /usr/local/src/backend
+    depends_on:
+      database:
+        condition: service_healthy
+    command:
+      - "-b :8085"
+      - "--reload"
+      - "--timeout=90"
+      - "--access-logfile=-"
+      - "--error-logfile=-"
+      - "--log-level=debug"
+      - "echo.wsgi"
+    ports:
+      - "8085:8085"
+    cpus: 2
+
+  database:
+    image: postgis/postgis:13-3.1
+    expose:
+      - "5432"
+    environment:
+      - POSTGRES_USER=echolocator
+      - POSTGRES_PASSWORD=echolocator
+      - POSTGRES_DB=echolocator
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "echolocator" ]
+      interval: 3s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    command: postgres -c log_statement=all

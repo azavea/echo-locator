@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -e
+
+if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
+    set -x
+fi
+
+function usage() {
+    echo -n \
+        "Usage: $(basename "$0")
+Build container images and execute database migrations.
+"
+}
+
+function cleanup() {
+    docker-compose stop
+}
+
+trap cleanup ERR
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    if [ "${1:-}" = "--help" ]; then
+        usage
+    else
+        # Ensure container images are current
+        docker-compose build
+
+        # Bring up PostgreSQL and Django in a way that respects
+        # configured service health checks.
+        docker-compose up -d database django
+
+        # Apply any outstanding Django migrations
+        ./scripts/manage migrate
+
+        # Collect Django static files
+        ./scripts/manage collectstatic --no-input
+        
+        docker-compose stop
+    fi
+fi
