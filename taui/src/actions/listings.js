@@ -51,9 +51,10 @@ export const setBHAListings = (payload: Listing | ListingQuery) => (dispatch: Di
     dispatch({type: BHA_ACTION_TYPE, payload: payload})
   } else {
     const zipcode = payload.query.zipcode
-    const rooms = payload.query.rooms
     const budget = payload.query.budget
-    const urlWithQuery = `${BHA_BASE_URL}zipcode=${zipcode}&rooms=${rooms}&budget=${budget}`
+    // The BHA API is not currently filtering by rooms correctly
+    // As a temporary fix, we took out the bedrooms query parameter so no listings are accidentally hidden
+    const urlWithQuery = `${BHA_BASE_URL}zipcode=${zipcode}&budget=${budget}`
 
     addActionLogItem(`Set BHA listings`)
     dispatch({type: BHA_ACTION_TYPE, payload: {pending: true}})
