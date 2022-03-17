@@ -13,14 +13,14 @@ export default function RouteSegments ({hasVehicle, routeSegments, travelTime}) 
   return (
     <div className='route-segments'>
       <div className='route-segments__best-trip'>
-        <strong>{`${t('Systems.Route')}: `}</strong>
+        <strong>{t('Systems.Route')}: </strong>
         {bestJourney.map((segment, index) => (
           <Segment key={index} segment={segment} />
         ))}
       </div>
       {routeSegments.length > 1 &&
         <div className='route-segments__alt-trips'>
-          <strong>{`${t('Systems.AlternateTripsTitle')}: `}</strong>
+          <strong>{t('Systems.AlternateTripsTitle')}: </strong>
           {alternateJourneys.map((segments, jindex) => (
             <span key={jindex}>
               {segments.map((segment, index) => (

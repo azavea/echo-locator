@@ -72,11 +72,11 @@ class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <div className='neighborhood-details__trip'>
         {bestJourney && <span className='neighborhood-details__route'>
-          <strong>{`${t('NeighborhoodDetails.TravelTime')}: `}</strong>
-          {`${tripTime} ${t('Units.Mins')}`}<br />
-          <strong>{`${t('NeighborhoodDetails.FromOrigin')}: `}</strong>
+          <strong>{t('NeighborhoodDetails.TravelTime')}: </strong>
+          {tripTime} {t('Units.Mins')}<br />
+          <strong>{t('NeighborhoodDetails.FromOrigin')}: </strong>
           {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}<br />
-          <strong>{`${t('NeighborhoodDetails.ModeSummary')}: `}</strong>
+          <strong>{t('NeighborhoodDetails.ModeSummary')}: </strong>
           <ModesList segments={bestJourney} /></span>}
         {!bestJourney && !hasVehicle && <span className='neighborhood-details__route'>{t('Systems.TripsEmpty')}</span>}
         <a
@@ -163,7 +163,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          {`${t('NeighborhoodDetails.MainSearchToolsSearch')}: ${rooms} ${t('NeighborhoodDetails.BedroomAbbr')} ($${estMaxRent.toLocaleString(i18n.language)} ${t('NeighborhoodDetails.MaxRentSearch')})`}
+          {t('NeighborhoodDetails.MainSearchToolsSearch')}: {rooms} {t('NeighborhoodDetails.BedroomAbbr')} (${estMaxRent.toLocaleString(i18n.language)} {t('NeighborhoodDetails.MaxRentSearch')})
         </h6>
         <div className='neighborhood-details__links'>
           <a
