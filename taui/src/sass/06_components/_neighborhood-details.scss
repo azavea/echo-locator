@@ -51,7 +51,6 @@
 
   &__trip {
     @include text(300);
-    @include font-weight(bold);
     display: flex;
     flex-flow: row nowrap;
     align-items: flex-start;
@@ -69,9 +68,7 @@
   }
 
   .route-segments {
-    @include text(200);
-    margin-top: 0.6rem;
-    line-height: 2.4;
+    line-height: 2;
   }
 
   &__rent {

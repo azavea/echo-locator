@@ -13,27 +13,20 @@ export default function RouteSegments ({hasVehicle, routeSegments, travelTime}) 
   return (
     <div className='route-segments'>
       <div className='route-segments__best-trip'>
-        {t('Systems.Take')}&nbsp;
+        <strong>{t('Systems.Route')}: </strong>
         {bestJourney.map((segment, index) => (
           <Segment key={index} segment={segment} />
         ))}
-        {travelTime > 120 ? (
-          <span className='decrease'>
-            {t('System.InaccessibleWithin')} 120 {t('Units.Mins')}
-          </span>
-        ) : (
-          <span>{t('Units.In')} <strong>{travelTime}</strong> {t('Units.Mins')}</span>
-        )}
       </div>
       {routeSegments.length > 1 &&
         <div className='route-segments__alt-trips'>
-          {t('Systems.AlternateTripsTitle')}&nbsp;
+          <strong>{t('Systems.AlternateTripsTitle')}: </strong>
           {alternateJourneys.map((segments, jindex) => (
             <span key={jindex}>
               {segments.map((segment, index) => (
                 <Segment key={index} segment={segment} />
               ))}
-              {jindex < alternateJourneys.length - 1 && 'or '}
+              {jindex < alternateJourneys.length - 1 && `${t('NeighborhoodDetails.Or')} `}
             </span>
           ))}
         </div>

@@ -11,10 +11,10 @@ export default {
     TripsTitle: 'Example trips',
     TripsEmpty: 'No routes found to that destination',
     BestTripTitle: 'Fastest trip',
-    AlternateTripsTitle: 'Alternatively use',
+    AlternateTripsTitle: 'Alternative',
     Waiting: 'waiting included',
     NoAccess: 'No data from this point...',
-    Take: 'Take',
+    Route: 'Route',
     InaccessibleWithin: 'inaccessible within'
   },
   Faster: 'faster',
@@ -56,6 +56,7 @@ export default {
     FeedbackLink: 'ECHO needs your feedback',
     GoBackToRecommendations: 'Back to your recommendations',
     GoBackToFavorites: 'Back to saved recommendations',
+    RecommendationsCount: 'of',
     GoPreviousPage: 'Go back',
     GoNextPage: 'Show more',
     NoResults: 'No results',
@@ -73,8 +74,9 @@ export default {
     ChildCareSearchLink: 'Child Care Search',
     CraigslistSearchLink: 'Craigslist',
     DirectionsLink: 'Directions',
-    DriveMode: 'drive',
-    FromOrigin: 'from',
+    DriveMode: 'car',
+    FromOrigin: 'Origin',
+    TravelTime: 'Travel Time',
     GoogleSearchLink: 'Google',
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
@@ -82,9 +84,11 @@ export default {
     ListingsFetchError: 'Could not fetch listings',
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'Est. max rent',
+    MaxRentSearch: 'max rent',
     BedroomAbbr: 'br',
-    ModeSummary: 'via',
-    MainSearchToolsLinksHeading: 'Search for {{rooms}}br with max rent ${{maxSubsidy}}',
+    ModeSummary: 'Mode',
+    Or: 'or',
+    MainSearchToolsSearch: 'Search for apartments',
     MoreSearchToolsLinksHeading: 'More search tools',
     RealtorApartmentsToggle: 'Realtor.com',
     RentEstimatorLink: 'Rent Estimator',
@@ -120,8 +124,7 @@ export default {
   Units: {
     About: 'About',
     Minutes: 'minutes',
-    Mins: 'min',
-    In: 'in'
+    Mins: 'min'
   },
   Agency: 'Boston Housing Authority',
   SignIn: {
@@ -237,5 +240,10 @@ export default {
     Yes: 'Yes',
     No: 'No'
   },
-  UnknownValue: 'Unknown'
+  UnknownValue: 'Unknown',
+  TransportationMethod: {
+    subway: 'subway',
+    bus: 'bus',
+    train: 'train'
+  }
 }

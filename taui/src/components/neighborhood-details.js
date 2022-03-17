@@ -4,7 +4,6 @@ import Icon from '@conveyal/woonerf/components/icon'
 import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
-import {ROUND_TRIP_MINUTES} from '../constants'
 import type {AccountProfile, ActiveListingDetail, NeighborhoodImageMetadata} from '../types'
 import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
@@ -62,7 +61,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
     ) : (
       neighborhood.segments && neighborhood.segments.length ? neighborhood.segments[0] : null
     )
-    const roundedTripTime = Math.round((listing ? listing.time : neighborhood.time) / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
+    const tripTime = listing ? listing.time : neighborhood.time
 
     // lat,lon strings for Google Directions link from neighborhood to current destination
     const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
@@ -72,13 +71,13 @@ class NeighborhoodDetails extends PureComponent<Props> {
 
     return (
       <div className='neighborhood-details__trip'>
-        {bestJourney && <span className='neighborhood-details__route'>{t('Units.About')}&nbsp;
-          {roundedTripTime}&nbsp;
-          {t('Units.Mins')}&nbsp;
-          <ModesList segments={bestJourney} />&nbsp;
-          {t('NeighborhoodDetails.FromOrigin')}&nbsp;
-          {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}
-        </span>}
+        {bestJourney && <span className='neighborhood-details__route'>
+          <strong>{t('NeighborhoodDetails.TravelTime')}: </strong>
+          {tripTime} {t('Units.Mins')}<br />
+          <strong>{t('NeighborhoodDetails.FromOrigin')}: </strong>
+          {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}<br />
+          <strong>{t('NeighborhoodDetails.ModeSummary')}: </strong>
+          <ModesList segments={bestJourney} /></span>}
         {!bestJourney && !hasVehicle && <span className='neighborhood-details__route'>{t('Systems.TripsEmpty')}</span>}
         <a
           className='neighborhood-details__directions'
@@ -164,7 +163,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          {t('NeighborhoodDetails.MainSearchToolsLinksHeading', {rooms: rooms, maxSubsidy: estMaxRent.toLocaleString(i18n.language)})}
+          {t('NeighborhoodDetails.MainSearchToolsSearch')}: {rooms} {t('NeighborhoodDetails.BedroomAbbr')} (${estMaxRent.toLocaleString(i18n.language)} {t('NeighborhoodDetails.MaxRentSearch')})
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -361,8 +360,7 @@ const ModesList = ({segments}) => {
 
   return segments && segments.length ? (
     <>
-      {t('NeighborhoodDetails.ModeSummary')}&nbsp;
-      {uniq(segments.map(s => s.type)).join('/')}
+      {uniq(segments.map(s => t(`TransportationMethod.${s.type}`))).join('/')}
     </>
   ) : t('NeighborhoodDetails.DriveMode')
 }

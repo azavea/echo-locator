@@ -13,6 +13,7 @@ $default-font-size-heading: 500;
 
 $font-sizes: (
     100: 1rem,
+    150: 1.1rem,
     200: 1.2rem,
     300: 1.4rem,
     400: 1.6rem,
@@ -27,6 +28,12 @@ $text-settings: (
         color: map-get($font-colors, dark),
         font-weight: map-get($font-weights, normal),
         font-size: map-get($font-sizes, 100),
+        line-height: 1.5,
+    ),
+    150: (
+        color: map-get($font-colors, dark),
+        font-weight: map-get($font-weights, normal),
+        font-size: map-get($font-sizes, 150),
         line-height: 1.5,
     ),
     200: (

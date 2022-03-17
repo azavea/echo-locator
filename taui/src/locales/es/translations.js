@@ -10,12 +10,12 @@ export default {
     BaseTitle: 'Proposed Transit',
     ComparisonTitle: 'Current Transit',
     TripsTitle: 'Example trips',
-    TripsEmpty: 'No routes found to that destination',
+    TripsEmpty: 'No se han encontrado rutas hacia ese destino',
     BestTripTitle: 'Fastest trip',
-    AlternateTripsTitle: 'Alternativamente use',
+    AlternateTripsTitle: 'Alternativa',
     Waiting: 'waiting included',
     NoAccess: 'No data from this point...',
-    Take: 'Tome',
+    Route: 'Ruta',
     InaccessibleWithin: 'inaccessible within'
   },
   Faster: 'faster',
@@ -33,10 +33,10 @@ export default {
   Map: {
     SelectNetwork: 'Set time of day',
     NetworkOptions: {
-      Peak: 'Peak',
-      OffPeak: 'Off Peak',
-      PeakNoExpress: 'Peak No Express',
-      OffPeakNoExpress: 'Off Peak No Express'
+      Peak: 'Hora con tráfico',
+      OffPeak: 'Hora con poco tráfico',
+      PeakNoExpress: 'Hora con tráfico que no es express',
+      OffPeakNoExpress: 'Hora de poco tráfico que no es express'
     },
     SetLocationPopup: {
       SetStart: 'Set start',
@@ -57,35 +57,40 @@ export default {
     FeedbackLink: 'ECHO necesita su opinion',
     GoBackToRecommendations: 'Regresar a sus recomendaciones',
     GoBackToFavorites: 'Back to saved recommendations',
+    RecommendationsCount: 'de',
     GoPreviousPage: 'Regresar',
     GoNextPage: 'Muestra mas',
     NoResults: 'Ningun resultado',
     Recommendations: 'Sus recomendaciones',
     ShowAllButton: 'Todo',
     ShowSavedButton: 'Guardado',
-    SiteBy: 'site by Azavea'
+    SiteBy: 'Página Web hecha por de Azavea'
   },
   NeighborhoodDetails: {
     AboutNeighborhoodLinksHeading: 'Aprenda sobre este vecindario',
     ApartmentsDotComLink: 'Apartments.com',
-    ApartmentsToggles: 'Apartamentos',
+    ApartmentsToggles: 'Mostrar apartamentos desde',
     BHAApartmentsLink: 'Boston Housing Authority',
     BHAApartmentsToggle: 'BHA',
     ChildCareSearchLink: 'Child Care Search',
     CraigslistSearchLink: 'Craigslist',
     DirectionsLink: 'Direcciones',
     DriveMode: 'en coche',
-    FromOrigin: 'de',
+    FromOrigin: 'Origen',
+    TravelTime: 'Tiempo de Viaje',
     GoogleSearchLink: 'Google',
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
     HotpadsSearchLink: 'Hotpads',
-    ListingsFetchError: 'Could not fetch listings',
+    ListingsFetchError: 'No se han podido descargar los listados',
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'El alquiler estimado máximo',
+    MaxRentSearch: 'el alquiler máximo',
     BedroomAbbr: 'dor.',
-    ModeSummary: 'via',
-    MainSearchToolsLinksHeading: 'Busque por {{rooms}}dor. con alquiler máximo ${{maxSubsidy}}',
+    ModeSummary: 'Modo',
+    Or: 'o',
+    MainSearchToolsLinksHeading: 'Búsqueda de una unidad de {{rooms}}dor. con un alquiler máximo de ${{maxSubsidy}}',
+    MainSearchToolsSearch: 'Búsqueda de apartmentos',
     MoreSearchToolsLinksHeading: 'Más herramientas de búsqueda',
     ReadLessLink: 'Read Less',
     ReadMoreLink: 'Read More',
@@ -124,8 +129,7 @@ export default {
   Units: {
     About: 'Sobre',
     Minutes: 'minutes',
-    Mins: 'min',
-    In: 'en'
+    Mins: 'min'
   },
   Agency: 'Autorida de Vivienda de Boston',
   SignIn: {
@@ -245,5 +249,10 @@ export default {
     Yes: 'Sí',
     No: 'No'
   },
-  UnknownValue: 'Unknown'
+  UnknownValue: 'Unknown',
+  TransportationMethod: {
+    subway: 'tren',
+    bus: 'autobús',
+    train: 'tren'
+  }
 }
