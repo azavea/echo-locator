@@ -74,3 +74,9 @@ typings/
 
 # Amplify configs for the frontend app
 taui/src/aws-exports.js
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+src/backend/static

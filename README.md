@@ -67,6 +67,21 @@ versions are not installed).
 Navigate to http://localhost:9966 to view the development environment.
 
 
+### STRTA
+
+This project uses [`scripts-to-rule-them-all`](https://github.com/azavea/architecture/blob/master/doc/arch/adr-0000-scripts-to-rule-them-all.md) to bootstrap, test, and maintain projects consistently across all teams. Below is a quick explanation for the specific usage of each script.
+
+| Script      | Use                                                        |
+| ----------- | ---------------------------------------------------------- |
+| `bootstrap` | Pull down secrets from S3                                  |
+| `infra`     | Execute Terraform subcommands with remote state management |
+| `manage`    | Issue Django management commands                           |
+| `server`    | Start the frontend and backend services                    |
+| `setup`     | Setup the project development environment                  |
+| `test`      | Run linters and tests                                      |
+| `update`    | Update project, assemble, run migrations                   |
+
+
 ### Logging In
 
 Once it is running, log in using staging credentials. From there, you can make a Client ID by
