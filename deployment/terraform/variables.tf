@@ -10,4 +10,6 @@ variable "aws_region" {
   default = "us-east-1"
 }
 
-variable "r53_public_hosted_zone_name" {}
+variable "r53_public_hosted_zone_name" {
+}
+

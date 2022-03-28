@@ -12,7 +12,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   retain_on_delete    = true
 
   price_class = "PriceClass_100"
-  aliases     = ["${var.r53_public_hosted_zone_name}"]
+  aliases     = [var.r53_public_hosted_zone_name]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
@@ -69,13 +69,15 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = "${module.cert.arn}"
+    #acm_certificate_arn      = aws_acm_certificate.cert.arn
+    acm_certificate_arn = aws_acm_certificate_validation.cert.certificate_arn
     minimum_protocol_version = "TLSv1.2_2018"
     ssl_support_method       = "sni-only"
   }
 
-  tags {
-    Project     = "${var.project}"
-    Environment = "${var.environment}"
+  tags = {
+    Project     = var.project
+    Environment = var.environment
   }
 }
+
