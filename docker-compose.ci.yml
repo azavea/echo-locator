@@ -6,7 +6,7 @@ services:
       - AWS_SECRET_ACCESS_KEY
 
   terraform:
-    image: quay.io/azavea/terraform:0.13.5
+    image: quay.io/azavea/terraform:1.0.0
     volumes:
       - ./:/usr/local/src
       - $HOME/.aws:/root/.aws:ro
