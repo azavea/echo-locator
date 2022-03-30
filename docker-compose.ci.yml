@@ -12,6 +12,8 @@ services:
       - $HOME/.aws:/root/.aws:ro
     environment:
       - AWS_PROFILE=echo-locator
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
       - GIT_COMMIT=${GIT_COMMIT:-latest}
       - ECHOLOCATOR_DEBUG=1
       - ECHOLOCATOR_SETTINGS_BUCKET=${ECHOLOCATOR_SETTINGS_BUCKET:-echo-locator-staging-config-us-east-1}

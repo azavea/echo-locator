@@ -55,9 +55,6 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
                 terraform apply "${ECHOLOCATOR_SETTINGS_BUCKET}.tfplan"
                 ;;
 
-            upgrade)
-                terraform 0.12checklist
-                ;;
             *)
                 echo "ERROR: I don't have support for that Terraform subcommand!"
                 exit 1
