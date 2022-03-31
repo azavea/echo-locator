@@ -189,9 +189,11 @@ export default {
     InvalidBudget: 'Invalid budget. Please enter a positive number.',
     Title: '文檔',
     UseCommuterRail: '包括通勤火車和特快巴士',
-    UseCommuterRailExplanation: '搜尋結果將包括地鐵、本地巴士、通勤火車和特快巴士。通勤火車和特快巴士將可到達更多的社區，但其費用通常比地鐵和本地巴士服務要高。'
+    UseCommuterRailExplanation: '搜尋結果將包括地鐵、本地巴士、通勤火車和特快巴士。通勤火車和特快巴士將可到達更多的社區，但其費用通常比地鐵和本地巴士服務要高。',
+    WhyAddresses: '我們為何詢問你這個問題？'
   },
   Tooltips: {
+    ProfileAddresses: '得悉您常去的地點有助於我們向您推薦社區。輸入您工作或學校地址，我們就可以向您推薦乘坐公共交通容易到達的社區。',
     AboveAverage: '高於平均水平',
     Average: '相對平均水平',
     BelowAverage: '低於平均水平',

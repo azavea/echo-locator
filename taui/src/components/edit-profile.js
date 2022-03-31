@@ -561,6 +561,23 @@ class EditProfile extends PureComponent<Props> {
     return (
       <div className='account-profile__destinations'>
         <h3 className='account-profile__label'>{t('Profile.Destinations')}</h3>
+        <span>
+          <div className='account-profile__button account-profile__button--tertiary account-profile__button--iconLeft'
+            data-tip={t('Tooltips.ProfileAddresses')}
+            data-for={`tooltip-profile-addresses`}>
+            {t('Profile.WhyAddresses')}
+          </div>
+          <ReactTooltip
+            clickable
+            html
+            effect='solid'
+            place='top'
+            isCapture
+            delayHide={TOOLTIP_HIDE_DELAY_MS}
+            className='map-sidebar__tooltip'
+            id={`tooltip-profile-addresses`}
+          />
+        </span>
         <div className='account-profile__destination-list-header'>
           <div className='account-profile__destination_field account-profile__destination_field--wide'>
             <span className='account-profile__destination-list-heading'>
