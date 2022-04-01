@@ -5,8 +5,8 @@ resource "aws_db_instance" "default" {
   engine                       = "postgres"
   engine_version               = "13"
   identifier                   = lower("${var.project}-${var.environment}")
-  name                         = lower("$var.project")
-  username                     = lower("$var.project")
+  name                         = lower("${var.project}")
+  username                     = lower("${var.project}")
   password                     = var.rds_database_password
   skip_final_snapshot          = false
   performance_insights_enabled = true

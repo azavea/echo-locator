@@ -13,3 +13,7 @@ module "origin" {
   environment = var.environment
 }
 
+//ECR
+resource "aws_ecr_repository" "default" {
+  name = local.short
+}

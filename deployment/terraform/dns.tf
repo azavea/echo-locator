@@ -31,3 +31,36 @@ resource "aws_route53_record" "site_ipv6" {
   }
 }
 
+
+
+# Switch to Django / RDS
+
+
+
+#
+# Private DNS resources
+#
+
+resource "aws_route53_zone" "internal" {
+  name = local.short
+
+  vpc {
+    vpc_id     = aws_vpc.default.id
+    vpc_region = var.aws_region
+  }
+
+  tags = {
+    Project     = var.project
+    Environment = var.environment
+  }
+}
+
+resource "aws_route53_record" "database" {
+  zone_id = aws_route53_zone.internal.zone_id
+  name    = "database.service.${local.short}"
+  type    = "CNAME"
+  ttl     = "10"
+  records = [aws_db_instance.default.address]
+}
+
+

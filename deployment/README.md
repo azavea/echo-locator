@@ -21,6 +21,26 @@ Default output format [None]:
 
 You will be prompted to enter your AWS credentials, along with a default region. These credentials will be used to authenticate calls to the AWS API when using Terraform and the AWS CLI.
 
+## Publish Container Images
+
+Before we can deploy this project's core infrastructure, we will need to build a container image and publish it somewhere accessible to Amazon's services.
+
+AWS Elastic Container Registry (ECR) is a good candidate because ECR authentication with AWS Elastic Container Service (ECS) is handled transparently.
+
+To do this, we can use the `cibuild` and `cipublish` scripts:
+
+```bash
+$ ./scripts/cibuild
+...
+Successfully built cc2b35ef78c4
+Successfully tagged echolocator:latest
+
+export ECHOLOCATOR_ENVIRONMENT="staging"
+$ ./scripts/cipublish
+...
+```
+
+
 ## Terraform
 
 To deploy this project's core infrastructure, use the `infra` wrapper script to lookup the remote state of the infrastructure and assemble a plan for work to be done:
@@ -112,3 +132,6 @@ was copied over from the staging site before returning to active CI use.
 It uses the same Cognito assets as the staging site, so this infrastructure
 should be left in place even after the staging and production sites are shifted
 to a Django authentication backend.
+
+
+## Images
