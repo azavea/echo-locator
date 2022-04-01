@@ -192,9 +192,11 @@ export default {
     InvalidBudget: 'Presupuesto no válido Por favor ingrese un número positivo.',
     Title: 'Perfil',
     UseCommuterRail: 'Incluye tren de cercanías y autobús expreso',
-    UseCommuterRailExplanation: 'Los resultados de búsqueda incluirán metro, autobús local, tren de cercanías y autobús expreso. El tren de cercanías y el autobús expreso harán que más comunidades sean accesibles, pero generalmente cuestan más que el servicio de metro y autobús local.'
+    UseCommuterRailExplanation: 'Los resultados de búsqueda incluirán metro, autobús local, tren de cercanías y autobús expreso. El tren de cercanías y el autobús expreso harán que más comunidades sean accesibles, pero generalmente cuestan más que el servicio de metro y autobús local.',
+    WhyAddresses: '¿Por qué me pregunta eso?'
   },
   Tooltips: {
+    ProfileAddresses: 'Si sabemos los lugares que usted visita frecuentemente, nons ayuda a recomendarle vecindarios. Ingrese la dirección de su trabajo o escuela y nos permitirá recomendarle vecindarios que son accesibles vía transportación pública.',
     AboveAverage: 'por encima del promedio',
     Average: 'el promedio',
     BelowAverage: 'por debajo del promedio',
