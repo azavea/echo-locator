@@ -183,9 +183,11 @@ export default {
     SaveError: 'Failed to save profile. Please try again.',
     Title: 'Profile',
     UseCommuterRail: 'I’m willing to take the express bus or commuter rail',
-    UseCommuterRailExplanation: 'The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus.'
+    UseCommuterRailExplanation: 'The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus.',
+    WhyAddresses: 'Why are we asking you this?'
   },
   Tooltips: {
+    ProfileAddresses: 'Knowing the places you visit often helps us recommend neighborhoods to you. Entering the address of your work or school allows us to recommend neighborhoods that are easy to reach by public transportation.',
     AboveAverage: 'above average',
     Average: 'about average',
     BelowAverage: 'below average',
