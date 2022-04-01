@@ -572,6 +572,7 @@ class EditProfile extends PureComponent<Props> {
             html
             effect='solid'
             place='top'
+            offset='{"top": -10}'
             isCapture
             delayHide={TOOLTIP_HIDE_DELAY_MS}
             className='map-sidebar__tooltip'
