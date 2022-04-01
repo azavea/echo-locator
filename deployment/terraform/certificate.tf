@@ -12,6 +12,7 @@ resource "aws_acm_certificate" "cert" {
   }
 }
 
+// From https://registry.terraform.io/providers/hashicorp/aws/latestadocs/resources/acm_certificate_validation
 resource "aws_route53_record" "cert" {
   for_each = {
     for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
@@ -26,7 +27,7 @@ resource "aws_route53_record" "cert" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = aws_route53_zone.external.id 
+  zone_id         = aws_route53_zone.external.id
 }
 
 
