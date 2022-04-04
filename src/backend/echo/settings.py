@@ -37,11 +37,15 @@ LOGLEVEL = os.getenv('DJANGO_LOG_LEVEL', 'INFO')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (ENVIRONMENT == 'Development')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "stg.echosearch.org",
+    ".stg.echosearch.org",
+]
 
 if ENVIRONMENT == 'Development':
     ALLOWED_HOSTS.append('localhost')
     ALLOWED_HOSTS.append('django')
+    ALLOWED_HOSTS.append('127.0.0.1')
 
 # Application definition
 

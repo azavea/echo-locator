@@ -26,7 +26,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
     if [ "${1:-}" = "--help" ]; then
         usage
     else
-        TERRAFORM_DIR="${DIR}/../deployment/terraform"
+        TERRAFORM_DIR="${DIR}/../deployment/terraform-django"
         echo
         echo "Attempting to deploy application version [${GIT_COMMIT}]..."
         echo "-----------------------------------------------------"

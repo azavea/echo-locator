@@ -1,20 +1,17 @@
 version: '2.1'
 services:
-  taui:
-    environment:
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-
   terraform:
-    image: quay.io/azavea/terraform:0.11.11
+    image: quay.io/azavea/terraform:1.0.0
     volumes:
       - ./:/usr/local/src
       - $HOME/.aws:/root/.aws:ro
     environment:
       - AWS_PROFILE=echo-locator
       - GIT_COMMIT=${GIT_COMMIT:-latest}
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
       - ECHOLOCATOR_DEBUG=1
-      - ECHOLOCATOR_SETTINGS_BUCKET=${ECHOLOCATOR_SETTINGS_BUCKET:-echo-locator-staging-config-us-east-1}
+      - ECHOLOCATOR_SETTINGS_BUCKET=${ECHOLOCATOR_SETTINGS_BUCKET:-echo-locator-stgdjango-config-us-east-1}
       - ECHOLOCATOR_SITE_BUCKET=${ECHOLOCATOR_SITE_BUCKET:-echo-locator-staging-site-us-east-1}
     working_dir: /usr/local/src
     entrypoint: bash
