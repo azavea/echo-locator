@@ -81,11 +81,27 @@ This project uses [`scripts-to-rule-them-all`](https://github.com/azavea/archite
 | `test`      | Run linters and tests                                      |
 | `update`    | Update project, assemble, run migrations                   |
 
+#### Creating a staff user account
+
+From the project directory, run:
+```
+./scripts/manage createsuperuser
+```
+Fill out the prompts for a username, email, and password.
 
 ### Logging In
 
-Once it is running, log in using staging credentials. From there, you can make a Client ID by
+Run: 
+```
+./scripts/server
+```
+
+#### Site
+Navigate to http://localhost:9966 and log in using staging credentials. From there, you can make a Client ID by
 entering and searching for a random 6-8 digit number, then making a new profile.
+
+#### Admin
+Navigate to http://localhost:8085/admin and login with your credentials created through the `createsuperuser` command above.
 
 ## Data
 
