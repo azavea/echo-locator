@@ -30,14 +30,16 @@ class CustomSignIn extends React.Component {
     return (
       <div className='auth-screen'>
         <SignInHeaderTranslated />
-        <div>
-          {t('SignIn.AnonymousExplanation') + ' '}
-          <Link to='/profile' onClick={() => {
-            this.props.handleAuthChange()
-            this.props.history.push('/profile')
-          }}>
-            {t('SignIn.Anonymous')}
-          </Link>
+        <div className='auth-screen__main auth-main'>
+          <div className='auth-main__anonymous-login'>
+            {t('SignIn.AnonymousExplanation') + ' '}
+            <Link to='/profile' onClick={() => {
+              this.props.handleAuthChange()
+              this.props.history.push('/profile')
+            }}>
+              {t('SignIn.Anonymous')}
+            </Link>
+          </div>
         </div>
       </div>
     )

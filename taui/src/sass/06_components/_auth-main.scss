@@ -1,0 +1,17 @@
+.auth-main {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+
+  &__anonymous-login {
+  padding: 0;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  text-align: center;
+
+    a {
+        color: $primary;
+    }
+  }
+}
