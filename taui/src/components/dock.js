@@ -1,11 +1,10 @@
 // @flow
-import Storage from '@aws-amplify/storage'
 import Icon from '@conveyal/woonerf/components/icon'
 import { withTranslation } from 'react-i18next'
 import remove from 'lodash/remove'
 import {PureComponent, createRef} from 'react'
 
-import {ANONYMOUS_USERNAME, SIDEBAR_PAGE_SIZE} from '../constants'
+import {SIDEBAR_PAGE_SIZE} from '../constants'
 import type {AccountProfile, ActiveListingDetail} from '../types'
 
 import NeighborhoodDetails from './neighborhood-details'
@@ -14,12 +13,12 @@ import RouteCard from './route-card'
 type Props = {
   activeNeighborhood: string,
   activeNetworkIndex: number,
-  changeUserProfile: (any) => void,
   children: any,
   detailListing: ActiveListingDetail,
   detailNeighborhood: any,
   endingOffset: number,
   estMaxRent: number,
+  handleProfileChange: (any) => void,
   haveAnotherPage: boolean,
   isLoading: boolean,
   neighborhoodCount: number,
@@ -102,7 +101,7 @@ class Dock extends PureComponent<Props> {
   }
 
   // save/unsave neighborhood to/from user profile favorites list
-  setFavorite (neighborhoodId: string, profile: AccountProfile, changeUserProfile) {
+  setFavorite (neighborhoodId: string, profile: AccountProfile, handleProfileChange) {
     const favorites = profile.favorites || []
 
     const isProfileFavorite = favorites.indexOf(neighborhoodId) !== -1
@@ -124,20 +123,7 @@ class Dock extends PureComponent<Props> {
     }
 
     profile.favorites = favorites
-    const isAnonymous = !profile || profile.key === ANONYMOUS_USERNAME
-
-    if (!isAnonymous) {
-      Storage.put(profile.key, JSON.stringify(profile))
-        .then(result => {
-          changeUserProfile(profile)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    } else {
-      // Do not attempt to write anonymous profile to S3
-      changeUserProfile(profile)
-    }
+    handleProfileChange(profile)
   }
 
   // Toggle between showing all and showing favorites, if not already in the new state
@@ -176,7 +162,7 @@ class Dock extends PureComponent<Props> {
   neighborhoodsList (props) {
     const {
       activeNeighborhood,
-      changeUserProfile,
+      handleProfileChange,
       neighborhoods,
       setActiveNeighborhood,
       origin,
@@ -203,7 +189,7 @@ class Dock extends PureComponent<Props> {
           origin={origin}
           setActiveNeighborhood={setActiveNeighborhood}
           setFavorite={(e) => setFavorite(neighborhood.properties.id,
-            userProfile, changeUserProfile)}
+            userProfile, handleProfileChange)}
           title={neighborhood.properties.town + ': ' + neighborhood.properties.id}
           userProfile={userProfile} />
       )
@@ -265,7 +251,7 @@ class Dock extends PureComponent<Props> {
 
   render () {
     const {
-      changeUserProfile,
+      handleProfileChange,
       children,
       detailListing,
       detailNeighborhood,
@@ -300,7 +286,7 @@ class Dock extends PureComponent<Props> {
       {!isLoading && !showDetails &&
         <NeighborhoodSection
           {...this.props}
-          changeUserProfile={changeUserProfile}
+          handleProfileChange={handleProfileChange}
           neighborhoods={neighborhoodPage}
           totalNeighborhoodCount={neighborhoodCount}
           endingOffset={endingOffset}
@@ -323,7 +309,7 @@ class Dock extends PureComponent<Props> {
           </button>
         </nav>
         <NeighborhoodDetails
-          changeUserProfile={changeUserProfile}
+          handleProfileChange={handleProfileChange}
           listing={detailListing}
           estMaxRent={estMaxRent}
           neighborhood={detailNeighborhood}

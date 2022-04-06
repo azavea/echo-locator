@@ -112,12 +112,12 @@ export default class MainPage extends React.PureComponent<Props> {
       <div className={mapScreenClass}>
         <Dock
           activeNeighborhood={p.data.activeNeighborhood}
-          changeUserProfile={p.changeUserProfile}
           componentError={this.state.componentError}
           detailListing={p.detailListing}
           detailNeighborhood={p.detailNeighborhood}
           endingOffset={p.pageEndingOffset}
           estMaxRent={p.estMaxRent}
+          handleProfileChange={p.handleProfileChange}
           haveAnotherPage={p.haveAnotherPage}
           isLoading={p.isLoading}
           neighborhoodCount={p.routableNeighborhoodCount}

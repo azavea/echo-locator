@@ -18,8 +18,8 @@ import NeighborhoodListInfo from './neighborhood-list-info'
 import RouteSegments from './route-segments'
 
 type Props = {
-  changeUserProfile: any,
   estMaxRent: Number,
+  handleProfileChange: any,
   listing: ActiveListingDetail,
   neighborhood: any,
   setFavorite: any,
@@ -278,7 +278,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   render () {
-    const { changeUserProfile, estMaxRent, listing, neighborhood, origin, setFavorite, userProfile, t } = this.props
+    const { handleProfileChange, estMaxRent, listing, neighborhood, origin, setFavorite, userProfile, t } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
@@ -301,7 +301,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
             <Icon
               className='neighborhood-details__star'
               type={isFavorite ? 'star' : 'star-o'}
-              onClick={(e) => setFavorite(id, userProfile, changeUserProfile)}
+              onClick={(e) => setFavorite(id, userProfile, handleProfileChange)}
             />
             <div className='neighborhood-details__name'>
               <div className='neighborhood-details__title'>{town} &ndash; {id}</div>
