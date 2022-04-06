@@ -15,6 +15,9 @@ export default function anonymousAuthenticator (Comp) {
 
       this.handleAnonymousLogin = this.handleAnonymousLogin.bind(this)
       this.handleProfileChange = this.handleProfileChange.bind(this)
+
+      // Load the selected user profile from localStorage, if any
+      this.props.loadProfile()
     }
 
     handleProfileChange (profile: AccountProfile) {
