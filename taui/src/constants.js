@@ -1,12 +1,8 @@
 // @flow
-import awsmobile from './aws-exports'
-
 export const ACCESSIBILITY_IS_EMPTY = 'accessibility-is-empty'
 export const ACCESSIBILITY_IS_LOADING = 'accessibility-is-loading'
 
 export const ANONYMOUS_USERNAME = 'ANONYMOUS'
-
-export const AMPLIFY_API_NAME = awsmobile['aws_cloud_logic_custom'][0].name
 
 // https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
 // eslint-disable-next-line no-useless-escape
