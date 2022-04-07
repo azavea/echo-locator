@@ -166,13 +166,13 @@ class Application extends Component<Props, State> {
       <Switch>
         <Route exact path='/' render={() => (
           profileLoading || canViewMap
-            ? (<Redirect to='/map' />) : (<Redirect to='/search' />))} />
+            ? (<Redirect to='/map' />) : (<Redirect to='/profile' />))} />
         <Route path='/map' render={() => (
           profileLoading || canViewMap
-            ? (<MainPage {...props} />) : (<Redirect to='/search' />))} />
+            ? (<MainPage {...props} />) : (<Redirect to='/profile' />))} />
         <Route path='/profile' render={() => (
           profileLoading || userProfile
-            ? (<EditProfile {...props} />) : (<Redirect to='/search' />))} />
+            ? (<EditProfile {...props} />) : (<Redirect to='/profile' />))} />
         <Route component={NoMatch} />
       </Switch>
     )
