@@ -43,6 +43,8 @@ if ENVIRONMENT == 'Development':
     ALLOWED_HOSTS.append('localhost')
     ALLOWED_HOSTS.append('django')
 
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Application definition
 
 INSTALLED_APPS = [
