@@ -7,6 +7,7 @@ import {PureComponent} from 'react'
 import Icon from '@conveyal/woonerf/components/icon'
 import ReactTooltip from 'react-tooltip'
 
+import {clearLocalStorage} from '../config'
 import {
   ANONYMOUS_USERNAME,
   CUSTOM_VOUCHER_KEY,
@@ -131,6 +132,7 @@ class EditProfile extends PureComponent<Props> {
       this.props.history.goBack()
     } else {
       // User navigated to this page directly
+      clearLocalStorage()
       window.location.reload()
     }
   }

@@ -172,7 +172,7 @@ class Application extends Component<Props, State> {
             ? (<MainPage {...props} />) : (<Redirect to='/profile' />))} />
         <Route path='/profile' render={() => (
           profileLoading || userProfile
-            ? (<EditProfile {...props} />) : (<Redirect to='/profile' />))} />
+            ? (<EditProfile {...props} />) : (<Redirect to='/' />))} />
         <Route component={NoMatch} />
       </Switch>
     )
