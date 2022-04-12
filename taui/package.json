@@ -36,7 +36,7 @@
     "@conveyal/lonlat": "~1.4.0",
     "@conveyal/woonerf": "~4.2.1",
     "@mapbox/polyline": "~1.1.0",
-    "axios": "0.21.1",
+    "axios": "0.21.2",
     "babel-plugin-css-modules-transform": "~1.6.2",
     "d3-scale": "~2.2.2",
     "date-fns": "~1.30.1",
