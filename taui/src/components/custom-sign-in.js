@@ -32,7 +32,7 @@ class CustomSignIn extends React.Component {
         <SignInHeaderTranslated />
         <div className='auth-screen__main auth-main'>
           <div className='auth-main__anonymous-login'>
-            {t('SignIn.AnonymousExplanation') + ' '}
+            {`${t('SignIn.AnonymousExplanation')} `}
             <Link to='/profile' onClick={() => {
               this.props.handleAuthChange()
               this.props.history.push('/profile')

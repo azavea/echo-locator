@@ -117,7 +117,7 @@ export default class MainPage extends React.PureComponent<Props> {
           detailNeighborhood={p.detailNeighborhood}
           endingOffset={p.pageEndingOffset}
           estMaxRent={p.estMaxRent}
-          handleProfileChange={p.handleProfileChange}
+          handleAuthChange={p.handleAuthChange}
           haveAnotherPage={p.haveAnotherPage}
           isLoading={p.isLoading}
           neighborhoodCount={p.routableNeighborhoodCount}

@@ -2,8 +2,7 @@
 import { Component, Fragment } from 'react'
 import LogRocket from 'logrocket'
 
-import {ANONYMOUS_USERNAME, PROFILE_CONFIG_KEY} from '../constants'
-import {storeConfig} from '../config'
+import {ANONYMOUS_USERNAME} from '../constants'
 
 import CustomSignIn from './custom-sign-in'
 import CustomHeaderBar from './custom-header-bar'
@@ -13,29 +12,26 @@ export default function anonymousAuthenticator (Comp) {
     constructor (props) {
       super(props)
 
-      this.handleAnonymousLogin = this.handleAnonymousLogin.bind(this)
-      this.handleProfileChange = this.handleProfileChange.bind(this)
+      this.handleAuthChange = this.handleAuthChange.bind(this)
 
       // Load the selected user profile from localStorage, if any
       this.props.loadProfile()
     }
 
-    handleProfileChange (profile: AccountProfile) {
-      storeConfig(PROFILE_CONFIG_KEY, profile)
-      this.props.store.dispatch({type: 'set profile', payload: profile})
-    }
-
-    handleAnonymousLogin () {
-      const anonymousProfile: AccountProfile = {
-        destinations: [],
-        hasVehicle: false,
-        headOfHousehold: ANONYMOUS_USERNAME,
-        key: ANONYMOUS_USERNAME,
-        rooms: 0,
-        voucherNumber: ANONYMOUS_USERNAME
+    handleAuthChange (profile: AccountProfile) {
+      const userProfile = this.props.data.userProfile
+      if (!userProfile) {
+        profile = {
+          destinations: [],
+          hasVehicle: false,
+          headOfHousehold: ANONYMOUS_USERNAME,
+          key: ANONYMOUS_USERNAME,
+          rooms: 0,
+          voucherNumber: ANONYMOUS_USERNAME
+        }
+        LogRocket.identify()
       }
-      LogRocket.identify()
-      this.handleProfileChange(anonymousProfile)
+      this.props.setProfile(profile)
     }
 
     render () {
@@ -47,15 +43,13 @@ export default function anonymousAuthenticator (Comp) {
             {
               <CustomHeaderBar
                 userProfile={userProfile}
-                handleAuthChange={this.handleAnonymousLogin}
-                handleProfileChange={this.handleProfileChange}
+                handleAuthChange={this.handleAuthChange}
               />
             }
             <Comp
               {...this.props}
               userProfile={userProfile}
-              handleAuthChange={this.handleAnonymousLogin}
-              handleProfileChange={this.handleProfileChange}
+              handleAuthChange={this.handleAuthChange}
             />
           </Fragment>
         )
@@ -64,7 +58,7 @@ export default function anonymousAuthenticator (Comp) {
       return (
         <CustomSignIn
           {...this.props}
-          handleAuthChange={this.handleAnonymousLogin}
+          handleAuthChange={this.handleAuthChange}
         />
       )
     }

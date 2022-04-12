@@ -6,11 +6,6 @@ import { Link } from 'react-router-dom'
 import type {AccountProfile} from '../types'
 
 class CustomHeaderBar extends React.Component {
-  componentDidMount () {
-    this.setState({
-      userProfile: this.props.userProfile
-    })
-  }
   render () {
     const {t, i18n} = this.props
     const userProfile: AccountProfile = this.props.userProfile || this.state.userProfile

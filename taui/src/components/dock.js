@@ -18,7 +18,7 @@ type Props = {
   detailNeighborhood: any,
   endingOffset: number,
   estMaxRent: number,
-  handleProfileChange: (any) => void,
+  handleAuthChange: (any) => void,
   haveAnotherPage: boolean,
   isLoading: boolean,
   neighborhoodCount: number,
@@ -101,7 +101,7 @@ class Dock extends PureComponent<Props> {
   }
 
   // save/unsave neighborhood to/from user profile favorites list
-  setFavorite (neighborhoodId: string, profile: AccountProfile, handleProfileChange) {
+  setFavorite (neighborhoodId: string, profile: AccountProfile, handleAuthChange) {
     const favorites = profile.favorites || []
 
     const isProfileFavorite = favorites.indexOf(neighborhoodId) !== -1
@@ -123,7 +123,7 @@ class Dock extends PureComponent<Props> {
     }
 
     profile.favorites = favorites
-    handleProfileChange(profile)
+    handleAuthChange(profile)
   }
 
   // Toggle between showing all and showing favorites, if not already in the new state
@@ -162,7 +162,7 @@ class Dock extends PureComponent<Props> {
   neighborhoodsList (props) {
     const {
       activeNeighborhood,
-      handleProfileChange,
+      handleAuthChange,
       neighborhoods,
       setActiveNeighborhood,
       origin,
@@ -189,7 +189,7 @@ class Dock extends PureComponent<Props> {
           origin={origin}
           setActiveNeighborhood={setActiveNeighborhood}
           setFavorite={(e) => setFavorite(neighborhood.properties.id,
-            userProfile, handleProfileChange)}
+            userProfile, handleAuthChange)}
           title={neighborhood.properties.town + ': ' + neighborhood.properties.id}
           userProfile={userProfile} />
       )
@@ -251,7 +251,7 @@ class Dock extends PureComponent<Props> {
 
   render () {
     const {
-      handleProfileChange,
+      handleAuthChange,
       children,
       detailListing,
       detailNeighborhood,
@@ -286,7 +286,7 @@ class Dock extends PureComponent<Props> {
       {!isLoading && !showDetails &&
         <NeighborhoodSection
           {...this.props}
-          handleProfileChange={handleProfileChange}
+          handleAuthChange={handleAuthChange}
           neighborhoods={neighborhoodPage}
           totalNeighborhoodCount={neighborhoodCount}
           endingOffset={endingOffset}
@@ -309,7 +309,7 @@ class Dock extends PureComponent<Props> {
           </button>
         </nav>
         <NeighborhoodDetails
-          handleProfileChange={handleProfileChange}
+          handleAuthChange={handleAuthChange}
           listing={detailListing}
           estMaxRent={estMaxRent}
           neighborhood={detailNeighborhood}

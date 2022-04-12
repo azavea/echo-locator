@@ -1,7 +1,6 @@
 // @flow
 import lonlat from '@conveyal/lonlat'
 import { useTranslation, withTranslation } from 'react-i18next'
-import find from 'lodash/find'
 import range from 'lodash/range'
 import {PureComponent} from 'react'
 import Icon from '@conveyal/woonerf/components/icon'
@@ -10,7 +9,6 @@ import ReactTooltip from 'react-tooltip'
 import {clearLocalStorage} from '../config'
 import {
   ANONYMOUS_USERNAME,
-  CUSTOM_VOUCHER_KEY,
   DEFAULT_ACCESSIBILITY_IMPORTANCE,
   DEFAULT_CRIME_IMPORTANCE,
   DEFAULT_PROFILE_DESTINATION_TYPE,
@@ -191,16 +189,8 @@ class EditProfile extends PureComponent<Props> {
       this.setState({errorMessage: ''})
     }
 
-    this.props.handleProfileChange(profile)
+    this.props.handleAuthChange(profile)
     this.props.history.push('/map')
-  }
-
-  getUserDataVoucherNumber (userData: any): string {
-    if (!userData || !userData.UserAttributes) {
-      return ''
-    }
-    const found = find(userData.UserAttributes, userAttr => userAttr.Name === CUSTOM_VOUCHER_KEY)
-    return found ? found.Value : ''
   }
 
   addAddress () {
