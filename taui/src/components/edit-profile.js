@@ -1,23 +1,18 @@
 // @flow
-import API from '@aws-amplify/api'
-import Storage from '@aws-amplify/storage'
 import lonlat from '@conveyal/lonlat'
 import { useTranslation, withTranslation } from 'react-i18next'
-import find from 'lodash/find'
 import range from 'lodash/range'
 import {PureComponent} from 'react'
 import Icon from '@conveyal/woonerf/components/icon'
 import ReactTooltip from 'react-tooltip'
 
+import {clearLocalStorage} from '../config'
 import {
-  AMPLIFY_API_NAME,
   ANONYMOUS_USERNAME,
-  CUSTOM_VOUCHER_KEY,
   DEFAULT_ACCESSIBILITY_IMPORTANCE,
   DEFAULT_CRIME_IMPORTANCE,
   DEFAULT_PROFILE_DESTINATION_TYPE,
   DEFAULT_SCHOOLS_IMPORTANCE,
-  EMAIL_REGEX,
   MAX_ADDRESSES,
   MAX_IMPORTANCE,
   MAX_ROOMS,
@@ -29,7 +24,6 @@ import type {AccountAddress, AccountProfile} from '../types'
 import Geocoder from './geocoder'
 
 type Props = {
-  authData: any,
   geocode: (string, Function) => void,
   reverseGeocode: (string, Function) => void
 }
@@ -53,15 +47,12 @@ class EditProfile extends PureComponent<Props> {
     super(props)
 
     this.addAddress = this.addAddress.bind(this)
-    this.createClientAccount = this.createClientAccount.bind(this)
     this.deleteAddress = this.deleteAddress.bind(this)
-    this.deleteProfile = this.deleteProfile.bind(this)
     this.editAddress = this.editAddress.bind(this)
     this.cancel = this.cancel.bind(this)
     this.changeField = this.changeField.bind(this)
     this.getProfileFromState = this.getProfileFromState.bind(this)
     this.save = this.save.bind(this)
-    this.saveToS3 = this.saveToS3.bind(this)
     this.setGeocodeLocation = this.setGeocodeLocation.bind(this)
     this.setPrimaryAddress = this.setPrimaryAddress.bind(this)
     this.validDestinations = this.validDestinations.bind(this)
@@ -91,10 +82,6 @@ class EditProfile extends PureComponent<Props> {
     if (profile) {
       // Read profile into an object for initial component state
       return {
-        clientAccountConfirmed: profile.clientAccountConfirmed || (profile.key
-          ? profile.key.indexOf('_') > -1 : false),
-        clientEmail: profile.clientEmail ? profile.clientEmail : '',
-        clientInviteSent: profile.clientInviteSent ? profile.clientInviteSent : false,
         destinations: profile && profile.destinations.length
           ? profile.destinations : [Object.assign({}, firstAddress)],
         favorites: profile.favorites,
@@ -119,9 +106,6 @@ class EditProfile extends PureComponent<Props> {
     } else {
       // Use defaults for new profile
       return {
-        clientAccountConfirmed: false,
-        clientEmail: '',
-        clientInviteSent: false,
         destinations: [Object.assign({}, firstAddress)],
         favorites: [],
         hasVehicle: false,
@@ -146,6 +130,7 @@ class EditProfile extends PureComponent<Props> {
       this.props.history.goBack()
     } else {
       // User navigated to this page directly
+      clearLocalStorage()
       window.location.reload()
     }
   }
@@ -158,9 +143,6 @@ class EditProfile extends PureComponent<Props> {
 
   getProfileFromState (): AccountProfile {
     const {
-      clientAccountConfirmed,
-      clientEmail,
-      clientInviteSent,
       destinations,
       hasVehicle,
       headOfHousehold,
@@ -175,9 +157,6 @@ class EditProfile extends PureComponent<Props> {
     const useCommuterRail = !this.state.hasVehicle && this.state.useCommuterRail
 
     return {
-      clientAccountConfirmed,
-      clientEmail,
-      clientInviteSent,
       destinations,
       favorites,
       hasVehicle,
@@ -192,46 +171,8 @@ class EditProfile extends PureComponent<Props> {
     }
   }
 
-  // Write profile to S3 as JSON
-  saveToS3 (saveAsKey: string, profile: AccountProfile, isCounselor: boolean,
-    changeUserProfile: any): Promise<boolean> {
+  save (event: any) {
     const {t} = this.props
-    return new Promise((resolve, reject) => {
-      Storage.put(saveAsKey, JSON.stringify(profile))
-        .then(result => {
-          changeUserProfile(profile).then(res => {
-            if (res && profile && isCounselor && !this.state.errorMessage) {
-              this.props.history.push('/map')
-              resolve(true)
-            } else if (res && this.state.errorMessage) {
-              console.warn('profile saved, but have an error')
-              resolve(false)
-            } else if (res && !isCounselor && profile) {
-              this.setState({errorMessage: ''})
-              this.props.history.push('/map')
-              resolve(true)
-            } else {
-              console.error('Could not change user profile after edit')
-              console.error('Profile save did not succeed', res)
-              this.setState({errorMessage: t('Profile.SaveError')})
-              resolve(false)
-            }
-          }).catch(changeError => {
-            console.error('Failed to change user profile after edit', changeError)
-            this.setState({errorMessage: t('Profile.SaveError')})
-            reject(changeError)
-          })
-        })
-        .catch(err => {
-          console.error(err)
-          reject(err)
-        })
-    })
-  }
-
-  save (isCounselor: boolean, event: any) {
-    const {t} = this.props
-    const isAnonymous = this.state.isAnonymous
     const profile: AccountProfile = this.getProfileFromState()
 
     if (!profile || !profile.key || !profile.voucherNumber) {
@@ -248,163 +189,8 @@ class EditProfile extends PureComponent<Props> {
       this.setState({errorMessage: ''})
     }
 
-    if (!isAnonymous) {
-      // Create user login account if new email set
-      if (profile.key.indexOf('_') < 0 && profile.clientEmail && !profile.clientInviteSent) {
-        console.log('go create user account')
-
-        // verify it first
-        if (profile.clientEmail && EMAIL_REGEX.test(profile.clientEmail)) {
-          this.createClientAccount(profile.key).then(createResponse => {
-            if (createResponse === 'created') {
-              console.log('user account has been created (or already exists)')
-              profile.clientInviteSent = true
-              // Save to S3 once user account creation succeeded
-              this.saveToS3(profile.key, profile, isCounselor, this.props.changeUserProfile)
-            } else if (createResponse === 'exists') {
-              console.log('user account already confirmed for voucher number; save new profile')
-              profile.clientInviteSent = true
-              profile.clientAccountConfirmed = true
-              this.saveToS3(profile.key, profile, isCounselor, this.props.changeUserProfile)
-            } else {
-              console.error('Failed to create user account')
-              // Do not save to S3 so counselor can see the error and stay on profile page
-            }
-          })
-        } else {
-          console.warn('does not look like an email', profile.clientEmail)
-          this.setState({errorMessage: t('Profile.ClientEmailError')})
-        }
-      } else {
-        console.log('Do not need to create client account; it already exists')
-        // go save to s3 without attempting to first create a user account
-        this.saveToS3(profile.key, profile, isCounselor, this.props.changeUserProfile)
-      }
-    } else {
-      // Do not attempt to write anonymous profile to S3
-      this.props.changeUserProfile(profile)
-      this.props.history.push('/map')
-    }
-  }
-
-  getUserDataVoucherNumber (userData: any): string {
-    if (!userData || !userData.UserAttributes) {
-      return ''
-    }
-    const found = find(userData.UserAttributes, userAttr => userAttr.Name === CUSTOM_VOUCHER_KEY)
-    return found ? found.Value : ''
-  }
-
-  // Resolves to 'exists', 'created', or 'failed'
-  createClientAccount (key: string): Promise<string> {
-    const {t} = this.props
-    return new Promise((resolve, reject) => {
-      if (!key) {
-        console.error('Cannot create client log-in account without key')
-        this.setState({errorMessage: t('Profile.CreateClientAccountError')})
-        resolve('failed')
-      } else if (key.indexOf('_') > -1) {
-        // warn counselor instead of going to map page
-        console.error('Cannot create client log-in account. It looks like it already exists')
-        this.setState({errorMessage: t('Profile.CreateClientAccountError')})
-        resolve('')
-      }
-      const clientEmail = this.state.clientEmail
-      if (!clientEmail || !EMAIL_REGEX.test(clientEmail)) {
-        console.warn('does not look like an email', clientEmail)
-        this.setState({errorMessage: t('Profile.ClientEmailError')})
-        resolve('failed')
-      }
-
-      console.log('Create client user Cognito account for ' + clientEmail)
-      // Also set `response: true` in addition to `body` to get full response,
-      // instead of just data (AWS library uses Axios).
-      API.post(AMPLIFY_API_NAME, '/clients', {
-        body: {
-          email: clientEmail,
-          voucher: key
-        }
-      }).then(response => {
-        if (response.error) {
-          console.error('Failed to create user')
-          console.error(response)
-          if (response.result === 'userExists') {
-            console.warn('Account already exists')
-            console.warn(response.user)
-            // Find the voucher number for the existing user account
-            const existingVoucherNumber = this.getUserDataVoucherNumber(response.user)
-            if (existingVoucherNumber) {
-              if (existingVoucherNumber === key) {
-                // Search should have found the existing profile, if there was any
-                // so assume this is newly created.
-                console.warn('Client account already exists with matching voucher number')
-                // Update state to show client account for matching email and voucher number
-                // has already been confirmed.
-                this.setState({clientAccountConfirmed: true})
-                resolve('exists')
-              } else {
-                console.error('Existing client account is for a different voucher number')
-                // Let counselor know that there is already a Cognito account for that e-mail
-                this.setState({errorMessage: t('Profile.CreateClientAccountExistsError', {
-                  voucher: existingVoucherNumber
-                })})
-                resolve('failed')
-              }
-            } else {
-              // No voucher number on existing user account. Is it the email of a counselor?
-              console.warn('No voucher number on existing profile. Is that a counselor email?')
-              this.setState({errorMessage: t('Profile.CreateClientAccountError')})
-            }
-          } else if (response.result === 'inviteNotResentVoucherMismatch') {
-            this.setState({errorMessage: t('Profile.CreateClientAccountExistsError', {
-              voucher: this.getUserDataVoucherNumber(response.user)
-            })})
-          } else {
-            console.error('Unrecognized error attempting to create user')
-            this.setState({errorMessage: t('Profile.CreateClientAccountError')})
-          }
-          resolve('failed')
-        } else {
-          console.log('User created (or invite resent)')
-          // TODO: show different message if invite resent?
-          // if (response.result && response.result === 'resendingInvite') {
-          this.setState({errorMessage: '', clientInviteSent: true})
-          resolve('created')
-        }
-      }).catch(error => {
-        // A 403 (as when user is not a counselor) will only return "Network Error"
-        console.error('API call to create user failed')
-        console.error(error)
-        this.setState({errorMessage: t('Profile.CreateClientAccountError')})
-        reject(error)
-      })
-    })
-  }
-
-  deleteProfile (key: string, isCounselor: boolean, event) {
-    const {t} = this.props
-    if (!key) {
-      console.error('Cannot delete account without key')
-      this.setState({errorMessage: t('Profile.SaveError')})
-      return
-    }
-
-    Storage.remove(key)
-      .then(result => {
-        this.props.changeUserProfile(null)
-        console.log('profile deleted from s3')
-        // If a client deleted their profile, they will be logged out.
-        // Logging in again will create them a blank profile.
-        if (isCounselor) {
-          this.props.history.push('/search')
-        } else {
-          console.warn('client deleted their own profile')
-        }
-      })
-      .catch(err => {
-        console.error(err)
-        this.setState({errorMessage: t('Profile.SaveError')})
-      })
+    this.props.handleAuthChange(profile)
+    this.props.history.push('/map')
   }
 
   addAddress () {
@@ -686,15 +472,10 @@ class EditProfile extends PureComponent<Props> {
     const setPrimaryAddress = this.setPrimaryAddress
     const cancel = this.cancel
     const changeField = this.changeField
-    const createClientAccount = this.createClientAccount
-    const deleteProfile = this.deleteProfile
     const save = this.save
 
-    const { authData, geocode, reverseGeocode, t } = this.props
+    const { geocode, reverseGeocode, t } = this.props
     const {
-      clientAccountConfirmed,
-      clientEmail,
-      clientInviteSent,
       destinations,
       hasVehicle,
       headOfHousehold,
@@ -707,8 +488,6 @@ class EditProfile extends PureComponent<Props> {
       rooms,
       useCommuterRail
     } = this.state
-
-    const isCounselor = !!authData.counselor && !isAnonymous
 
     const DestinationsList = this.destinationsList
     const ImportanceTooltip = this.importanceTooltip
@@ -740,50 +519,6 @@ class EditProfile extends PureComponent<Props> {
                 autoComplete='off'
               />
             </div>}
-
-            {key && isCounselor &&
-              <div className='account-profile__field'>
-                <label
-                  className='account-profile__label'
-                  htmlFor='clientEmail'>
-                  {t('Profile.ClientEmailLabel')}
-                </label>
-                <div className='account-profile__field-row'>
-                  <input
-                    data-private
-                    className='account-profile__input account-profile__input--text'
-                    id='clientEmail'
-                    type='email'
-                    autoComplete='off'
-                    disabled={clientInviteSent}
-                    onChange={(e) => changeField('clientEmail', e.currentTarget.value)}
-                    defaultValue={clientEmail || ''}
-                  />
-                  {clientInviteSent && !clientAccountConfirmed && <button
-                    className='account-profile__button account-profile__button--secondary'
-                    onClick={(e) => createClientAccount(key, e)}
-                  >
-                    {t('Profile.RecreateClientAccount')}
-                  </button>}
-                </div>
-              </div>}
-            {!isCounselor && key && clientEmail && clientInviteSent && <div className='account-profile__field'>
-              <label
-                className='account-profile__label'
-                htmlFor='clientEmail'>
-                {t('Profile.ClientEmailLabel')}
-              </label>
-              <input
-                data-private
-                className='account-profile__input'
-                id='clientEmail'
-                type='email'
-                autoComplete='off'
-                disabled
-                defaultValue={clientEmail || ''}
-              />
-            </div>}
-
             <div className='account-profile__field'>
               <label
                 className='account-profile__label'
@@ -909,17 +644,10 @@ class EditProfile extends PureComponent<Props> {
             <div className='account-profile__actions'>
               <button
                 className='account-profile__button account-profile__button--primary'
-                onClick={(e) => save(isCounselor, e)}>{t('Profile.Go')}</button>
+                onClick={(e) => save(e)}>{t('Profile.Go')}</button>
               <button
                 className='account-profile__button account-profile__button--secondary'
                 onClick={cancel}>{t('Profile.Cancel')}</button>
-              {!isAnonymous && <button
-                className='account-profile__button account-profile__button--tertiary account-profile__button--iconLeft'
-                onClick={(e) => deleteProfile(key, isCounselor, e)}
-              >
-                <Icon type='trash' />
-                {t('Profile.DeleteProfile')}
-              </button>}
             </div>
           </div>}
         </div>

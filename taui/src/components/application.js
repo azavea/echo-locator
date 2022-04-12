@@ -3,7 +3,6 @@ import { withTranslation } from 'react-i18next'
 import React, {Component} from 'react'
 import { Switch, Redirect, Route } from 'react-router-dom'
 
-import {ANONYMOUS_USERNAME} from '../constants'
 import type {
   AccountProfile,
   ActiveListing,
@@ -19,7 +18,6 @@ import type {
 
 import EditProfile from './edit-profile'
 import MainPage from './main-page'
-import SelectAccount from './select-account'
 
 type Network = {
   active: boolean,
@@ -163,26 +161,18 @@ class Application extends Component<Props, State> {
     const userProfile = this.props.data.userProfile
     // Can navigate to map once at least one destination set on the profile.
     const canViewMap = userProfile && userProfile.destinations && userProfile.destinations.length
-    const isAnonymous = userProfile && userProfile.key === ANONYMOUS_USERNAME
-    const isCounselor = !!props.authData.counselor && !isAnonymous
     const NoMatch = this.noMatch
     return (
       <Switch>
         <Route exact path='/' render={() => (
           profileLoading || canViewMap
-            ? (<Redirect to='/map' />) : (<Redirect to='/search' />))} />
+            ? (<Redirect to='/map' />) : (<Redirect to='/profile' />))} />
         <Route path='/map' render={() => (
           profileLoading || canViewMap
-            ? (<MainPage {...props} />) : (<Redirect to='/search' />))} />
-        <Route path='/search' render={() => (
-          !isCounselor ? (userProfile ? (<Redirect to='/profile' />) : (console.warn('logout'))) : (
-            <SelectAccount
-              {...props}
-              headOfHousehold={props.headOfHousehold}
-              voucherNumber={props.voucherNumber} />))} />
+            ? (<MainPage {...props} />) : (<Redirect to='/profile' />))} />
         <Route path='/profile' render={() => (
           profileLoading || userProfile
-            ? (<EditProfile {...props} />) : (<Redirect to='/search' />))} />
+            ? (<EditProfile {...props} />) : (<Redirect to='/' />))} />
         <Route component={NoMatch} />
       </Switch>
     )

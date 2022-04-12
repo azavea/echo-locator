@@ -1,7 +1,4 @@
 // @flow
-import API from '@aws-amplify/api'
-import Auth from '@aws-amplify/auth'
-import Storage from '@aws-amplify/storage'
 import message from '@conveyal/woonerf/message'
 import mount from '@conveyal/woonerf/mount'
 import get from 'lodash/get'
@@ -10,16 +7,6 @@ import React from 'react'
 import ReactGA from 'react-ga'
 import { connect } from 'react-redux'
 import { BrowserRouter, withRouter } from 'react-router-dom'
-import {
-  ConfirmSignIn,
-  ConfirmSignUp,
-  ForgotPassword,
-  Loading,
-  RequireNewPassword,
-  SignIn,
-  TOTPSetup,
-  VerifyContact
-} from 'aws-amplify-react/dist/Auth'
 import { initReactI18next } from 'react-i18next'
 import i18n from 'i18next'
 
@@ -27,11 +14,8 @@ import englishTranslations from './locales/en/translations'
 import spanishTranslations from './locales/es/translations'
 import chineseTranslations from './locales/zh/translations'
 import actions from './actions'
-import awsmobile from './aws-exports'
-import { CustomAuthenticatorTheme } from './amplify-theme'
 import Application from './components/application'
-import CustomSignIn from './components/custom-sign-in'
-import withAuthenticator from './components/with-authenticator'
+import anonymousAuthenticator from './components/anonymous-authenticator'
 import withTracker from './components/with-tracker'
 import reducers from './reducers'
 import * as select from './selectors'
@@ -42,11 +26,6 @@ import './taui.css'
 
 // Set the title
 document.title = message('Title')
-
-// configure Amplify resources (API, Cognito authentication, and S3 storage)
-API.configure({endpoints: awsmobile['aws_cloud_logic_custom']})
-Auth.configure(awsmobile)
-Storage.configure(awsmobile)
 
 i18n.use(initReactI18next).init({
   fallbackLng: 'en',
@@ -129,16 +108,7 @@ function mapStateToProps (state, ownProps) {
 }
 
 const ConnectedApplication = withRouter(withTracker(connect(mapStateToProps, actions)(
-  withAuthenticator(Application, true, [
-    <CustomSignIn override={SignIn} />,
-    <ConfirmSignIn />,
-    <ConfirmSignUp />,
-    <ForgotPassword />,
-    <Loading />,
-    <RequireNewPassword />,
-    <TOTPSetup />,
-    <VerifyContact />
-  ], null, CustomAuthenticatorTheme))))
+  anonymousAuthenticator(Application))))
 
 // Create an Application wrapper
 class InitializationWrapper extends React.Component {
