@@ -35,6 +35,9 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
 
         # Collect Django static files
         ./scripts/manage collectstatic --no-input
+
+        # Add group permissions
+        ./scripts/manage loaddata users/fixtures/group_permissions
         
         docker-compose stop
     fi
