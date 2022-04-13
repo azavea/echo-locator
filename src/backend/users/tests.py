@@ -1,13 +1,13 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User, Group
-from django.core.management import call_command
 
 class AdminSiteTest(TestCase):
     """Check for the correct content by group permissions on admin site."""
+    fixtures = ['group_permissions']
+    
     @classmethod
-    def setUpClass(cls):
+    def setUpTestData(cls):
         cls.counselor, cls.houseseeker = Client(), Client()
-        call_command("create_groups")
 
         cls.counselor_username = 'counselor'
         cls.houseseeker_username = 'houseseeker'
@@ -24,7 +24,7 @@ class AdminSiteTest(TestCase):
         cls.counselor_user.save()
         cls.houseseeker_user.groups.add(cls.test_houseseeker_group)
         cls.houseseeker_user.save()
-        super(AdminSiteTest, cls).setUpClass()
+        super(AdminSiteTest, cls).setUpTestData()
 
     def setUp(self):
         # Login

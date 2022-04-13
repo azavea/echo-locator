@@ -1,0 +1,18 @@
+[
+    {
+        "model": "auth.group",
+        "pk": 1,
+        "fields": {
+            "name": "Counselor",
+            "permissions": [14, 16, 26, 28]
+        }
+    },
+    {
+        "model": "auth.group",
+        "pk": 2,
+        "fields": {
+            "name": "HouseSeeker",
+            "permissions": []
+        }
+    }
+]
