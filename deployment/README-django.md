@@ -3,15 +3,13 @@
 - [AWS Credentials](#aws-credentials)
 - [Publish Container Images](#publish-container-images)
 - [Terraform](#terraform)
-- [Bastion](#bastion)
-  - [PostgreSQL Client](#postgresql-client)
 
 ## AWS Credentials
 
 ```bash
 $ aws configure --profile echo-locator
-AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
-AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+AWS Access Key ID [None]: <your aws key>
+AWS Secret Access Key [None]: <your aws secret>
 Default region name [None]: us-east-1
 Default output format [None]:
 ```
@@ -31,13 +29,12 @@ $ ./scripts/cibuild
 ...
 Successfully built cc2b35ef78c4
 Successfully tagged echolocator:latest
-export AWS_PROFILE=echo-locator
+$ export AWS_PROFILE=echo-locator
 $ ./scripts/cipublish
 ...
 ```
 
 It defaults to push to export ECHOLOCATOR_ENVIRONMENT="stgdjango".
-
 
 ## Terraform
 

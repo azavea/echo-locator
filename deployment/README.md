@@ -1,10 +1,12 @@
 # Deployment
 
-* [AWS Credentials](#aws-credentials)
-* [Terraform](#terraform)
-* [Taui](#taui)
-* [Amplify](#amplify)
-* [Demo site](#demo-site)
+- [AWS Credentials](#aws-credentials)
+- [Terraform](#terraform)
+- [Taui](#taui)
+- [Amplify](#amplify)
+- [Demo site](#demo-site)
+
+Note: This is being replaced and will be removed once we are sure we are not needing to do it again (See #448).
 
 ## AWS Credentials
 
@@ -45,7 +47,7 @@ This will attempt to apply the plan assembled in the previous step using Amazon'
 
 The Taui frontend is deployed separately from core Terraform infrastructure, but
 it relies on S3 and CloudFront resources to have already been deployed by Terraform.
-If you're trying to wire up a new instance of Taui, or if you've created a 
+If you're trying to wire up a new instance of Taui, or if you've created a
 new S3 bucket or CloudFront distribution that you want to use for the app,
 you'll need to point Taui to your new resources.
 
@@ -103,6 +105,7 @@ $ cp deployment/amplify/staging/aws-exports.js taui/src/aws-exports.js
 during deployment depending on the environment.)
 
 ## Demo site
+
 There is a demo site deployed to demo.echosearch.org.
 
 Its infrastructure was created using the Terraform and Amplify methods

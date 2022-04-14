@@ -37,4 +37,3 @@ jobs:
         if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/test/')
         env:
           ECHOLOCATOR_SETTINGS_BUCKET: echo-locator-stgdjango-config-us-east-1
-

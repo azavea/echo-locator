@@ -13,7 +13,7 @@ resource "aws_db_subnet_group" "default" {
   }
 }
 
-resource "aws_db_instance" "postgresql"{
+resource "aws_db_instance" "postgresql" {
   allocated_storage          = var.rds_allocated_storage
   engine_version             = var.rds_engine_version
   instance_class             = var.rds_instance_type
@@ -46,7 +46,7 @@ resource "aws_db_instance" "postgresql"{
 # Security group resources
 #
 resource "aws_security_group" "postgresql" {
-vpc_id = module.vpc.id
+  vpc_id = module.vpc.id
 
   tags = {
     Name        = "sgDatabaseServer",
