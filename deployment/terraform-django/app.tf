@@ -40,10 +40,10 @@ resource "aws_lb" "app" {
 
 resource "aws_lb_target_group" "app" {
   name = "tg${local.short}App"
-
   health_check {
     healthy_threshold   = "3"
     interval            = "30"
+    # TODO GH #441: Set this to 200 after we add a health check
     matcher             = "400"
     protocol            = "HTTP"
     timeout             = "3"
@@ -146,8 +146,8 @@ resource "aws_ecs_service" "app" {
   deployment_minimum_healthy_percent = var.fargate_app_deployment_min_percent
   deployment_maximum_percent         = var.fargate_app_deployment_max_percent
 
-  launch_type      = "FARGATE"
-  platform_version = var.fargate_platform_version
+  launch_type          = "FARGATE"
+  platform_version     = var.fargate_platform_version
   force_new_deployment = true
 
   network_configuration {
