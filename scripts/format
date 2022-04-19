@@ -10,7 +10,7 @@ function usage() {
     echo -n \
          "Usage: $(basename "$0")
 
-Run linters and tests.
+Run formatters.
 "
 }
 
@@ -20,12 +20,9 @@ then
     then
         usage
     else
-        echo "Checking Django formatting..."
+        echo "Formatting Django application source code"
+        # migrations and manage.py excluded through pyproject.toml
         docker-compose \
-            run --rm --no-deps --entrypoint black django \
-            --check .
-
-        echo "Running Taui tests..."
-        docker-compose run --rm taui test
+            run --rm --no-deps --entrypoint black django .
     fi
 fi
