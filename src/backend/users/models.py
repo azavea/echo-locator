@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.admin import TabularInline
 
 class UserProfile(models.Model):
     class TravelMode(models.TextChoices):
@@ -27,7 +28,7 @@ class UserProfile(models.Model):
     public_safety_priority = models.CharField(choices=Priorities.choices, max_length=18, default=Priorities.SOMEWHATIMPORTANT)
 
     def __str__(self):
-        return self.full_name
+        return self.username
 
 class Destination(models.Model):
     class TripPurpose(models.TextChoices):
@@ -44,4 +45,8 @@ class Destination(models.Model):
     primary_destination = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.profile.user + ' - ' + self.address
+        return self.profile.username + ' - ' + self.address
+
+class DestinationInline(TabularInline):
+    model = Destination
+    min_num = 1

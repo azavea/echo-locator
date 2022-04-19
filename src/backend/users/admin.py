@@ -4,7 +4,7 @@ from django.core.validators import validate_email
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile, Destination
+from .models import UserProfile, Destination, DestinationInline
 
 # Validates that the username is a valid email on save
 class CreateUserAdminForm(UserCreationForm):
@@ -45,7 +45,18 @@ class UserAdmin(BaseUserAdmin):
         houseSeekers = Group.objects.get(name='HouseSeeker')
         return qs.filter(groups=houseSeekers)
 
-admin.site.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    inlines = [
+        DestinationInline
+    ]
+    list_display = ('username', 'full_name')
+    fieldsets = (
+        (None, {'fields': ('user', 'username', 'full_name', 'has_voucher', 'voucher_number',
+        'voucher_bedrooms', 'rent_budget', 'desired_bedrooms', 'travel_mode', 'commute_priority',
+        'school_quality_priority', 'public_safety_priority')}),
+    )
+
+admin.site.register(UserProfile, UserProfileAdmin)
 # Re-register UserAdmin
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
