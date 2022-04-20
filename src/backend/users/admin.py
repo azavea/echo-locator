@@ -44,6 +44,7 @@ class DestinationInline(admin.TabularInline):
     formset = DestinationAdminForm
 
 
+
 # Define a new UserAdmin that filters Counselor group view
 # This admin also changes the username field to be referred to as "email"
 class UserAdmin(BaseUserAdmin):
