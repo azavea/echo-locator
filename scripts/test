@@ -20,10 +20,18 @@ then
     then
         usage
     else
-        echo "Checking Django formatting..."
-        docker-compose \
-            run --rm --no-deps --entrypoint black django \
-            --check .
+        echo "Checking Django formatting and linting using GH Super-Linter..."
+        docker run --rm \
+            -e RUN_LOCAL=true \
+            -e VALIDATE_ALL_CODEBASE=false \
+            -e IGNORE_GITIGNORED_FILES=true \
+            -e FILTER_REGEX_INCLUDE="src/backend/" \
+            -e FILTER_REGEX_EXCLUDE=".*(migrations/*|manage.py).*" \
+            -e LINTER_RULES_PATH="/" \
+            -e PYTHON_BLACK_CONFIG_FILE="src/backend/pyproject.toml" \
+            -e PYTHON_FLAKE8_CONFIG_FILE="src/backend/setup.cfg" \
+            -e VALIDATE_PYTHON_ISORT=false \
+            -v $PWD:/tmp/lint github/super-linter:slim-latest
 
         echo "Running Taui tests..."
         docker-compose run --rm taui test
