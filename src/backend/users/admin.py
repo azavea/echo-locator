@@ -80,6 +80,11 @@ class UserProfileAdmin(admin.ModelAdmin):
         'school_quality_priority', 'public_safety_priority')}),
     )
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields['username'].label = 'Email:'
+        return form
+
 admin.site.register(UserProfile, UserProfileAdmin)
 # Re-register UserAdmin
 admin.site.unregister(User)
