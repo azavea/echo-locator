@@ -20,8 +20,11 @@ then
     then
         usage
     else
-        echo "Running Taui tests..."
-        docker-compose run --rm taui test
+        echo "Running frontend app tests..."
+        docker-compose  \
+            -f docker-compose.yml \
+            run --rm app \
+            yarn run test
 
         if [ "$(whoami)" == "runner" ]; then
             echo "Running Django tests..."

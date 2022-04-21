@@ -10,9 +10,9 @@ python3 generate_neighborhood_json.py
 # optimize downloaded images
 optimize-images ./images/
 
-cp neighborhoods.json neighborhood_bounds.json ../taui/
+cp neighborhoods.json neighborhood_bounds.json ../src/frontend/src/data/
 
-mkdir -p ../taui/assets/neighborhoods/
-cp images/* ../taui/assets/neighborhoods/
+mkdir -p ../src/frontend/public/neighborhoods/
+cp images/* ../src/frontend/public/neighborhoods/
 
 echo 'All done updating app data! Use scripts/imagepublish to publish the downloaded images.'

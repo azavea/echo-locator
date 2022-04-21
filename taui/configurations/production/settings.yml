@@ -1,9 +1,0 @@
-cloudfront: E22HN48FLR2YMR
-entries:
-  - src/index.js:assets/index.js
-  - config.json:assets/config.json
-  - neighborhoods.json:assets/neighborhoods.json
-  - neighborhood_bounds.json:assets/neighborhood_bounds.json
-env: production
-flyle: true
-s3bucket: echo-locator-production-site-us-east-1

@@ -1,15 +1,18 @@
 version: '2.1'
 services:
-  taui:
-    build: ./taui
+  app:
+    image: echolocator-app
+    env_file: .env
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
     volumes:
-      - ./taui:/usr/local/src
+      - ./src/frontend:/usr/local/src
       - $HOME/.aws:/root/.aws:ro
     working_dir: /usr/local/src
     ports:
       - "9966:9966"
-    entrypoint: yarn
-    command: start
+    command: yarn run start
 
   django:
     image: echolocator
@@ -27,6 +30,7 @@ services:
       dockerfile: ./src/backend/Dockerfile
     volumes:
       - ./src/backend:/usr/local/src/backend
+      - ./src/frontend/build:/usr/local/src/backend/static/
       - $HOME/.aws:/root/.aws:ro
       - type: bind
         source: ./taui/index.html
