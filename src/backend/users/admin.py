@@ -4,8 +4,11 @@ from django.forms.models import BaseInlineFormSet
 from django.core.validators import validate_email
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User, Group
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import UserProfile, Destination
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(label='Email')
 
 # Validates that the username is a valid email on save
 class CreateUserAdminForm(UserCreationForm):
