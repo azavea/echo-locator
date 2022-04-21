@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.admin import TabularInline
 
 class UserProfile(models.Model):
     class TravelMode(models.TextChoices):
@@ -46,7 +45,3 @@ class Destination(models.Model):
 
     def __str__(self):
         return self.profile.username + ' - ' + self.address
-
-class DestinationInline(TabularInline):
-    model = Destination
-    min_num = 1

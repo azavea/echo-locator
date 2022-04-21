@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django import forms
+from django.forms.models import BaseInlineFormSet
 from django.core.validators import validate_email
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile, Destination, DestinationInline
+from .models import UserProfile, Destination
 
 # Validates that the username is a valid email on save
 class CreateUserAdminForm(UserCreationForm):
@@ -19,6 +20,26 @@ class CreateUserAdminForm(UserCreationForm):
             return cleaned_data
         except:
             raise forms.ValidationError('Please enter a valid email address')
+
+class DestinationAdminForm(BaseInlineFormSet):
+    class Meta:
+        model = Destination
+        fields = '__all__'
+
+    def clean(self):
+        if self.is_valid():
+            count_primary_destinations = 0
+            for i in self.cleaned_data:
+                if i.get('primary_destination'):
+                    count_primary_destinations += 1
+            if count_primary_destinations != 1:
+                raise forms.ValidationError('Please select one primary address')
+
+class DestinationInline(admin.TabularInline):
+    model = Destination
+    min_num = 1
+    formset = DestinationAdminForm
+
 
 # Define a new UserAdmin that filters Counselor group view
 # This admin also changes the username field to be referred to as "email"
@@ -60,4 +81,3 @@ admin.site.register(UserProfile, UserProfileAdmin)
 # Re-register UserAdmin
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(Destination)
