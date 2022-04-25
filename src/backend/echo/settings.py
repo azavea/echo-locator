@@ -48,6 +48,10 @@ if ENVIRONMENT == "Development":
     ALLOWED_HOSTS.append("127.0.0.1")
 
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_BACKEND = "django_amazon_ses.EmailBackend"
+
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "noreply@stg.echosearch.org")
 
 # Application definition
 
