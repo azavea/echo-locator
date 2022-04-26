@@ -18,11 +18,8 @@ class CreateUserAdminForm(UserCreationForm):
 
     def clean(self):
         cleaned_data = super(CreateUserAdminForm, self).clean()
-        try:
-            validate_email(cleaned_data['username'])
-            return cleaned_data
-        except:
-            raise forms.ValidationError('Please enter a valid email address')
+        validate_email(cleaned_data['username'])
+        return cleaned_data
 
 class DestinationAdminForm(BaseInlineFormSet):
     class Meta:
@@ -31,12 +28,11 @@ class DestinationAdminForm(BaseInlineFormSet):
 
     def clean(self):
         if self.is_valid():
-            count_primary_destinations = 0
-            for i in self.cleaned_data:
-                if i.get('primary_destination'):
-                    count_primary_destinations += 1
-            if count_primary_destinations != 1:
-                raise forms.ValidationError('Please select one primary address')
+            primary_destinations= [
+                dest for dest in self.cleaned_data if dest.get("primary_destination")
+            ]
+            if len(primary_destinations) != 1:
+                raise forms.ValidationError('Please select exactly one primary address')
 
 class DestinationInline(admin.TabularInline):
     model = Destination
