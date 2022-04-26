@@ -17,6 +17,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
+from users import views as user_views
+
 from echo import settings
 from users.admin import LoginForm
 
@@ -42,6 +44,11 @@ urlpatterns = [
         "reset/done/",
         auth_views.PasswordResetCompleteView.as_view(),
         name="password_reset_complete",
+    ),
+    path(
+        "api/login/",
+        user_views.LoginPage.as_view(),
+        name="login"
     ),
     path("admin/", admin.site.urls),
     path("health-check/", include("watchman.urls")),
