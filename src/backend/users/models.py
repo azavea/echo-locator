@@ -4,30 +4,29 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     class TravelMode(models.TextChoices):
         CAR = "CAR", "car"
-        BUSTRAIN = "BT", "bus/train"
-        BUSTRAINEXPRESS = "BTE", "bus/train/express"
+        BUS_TRAIN = "BT", "bus/train"
+        BUS_TRAIN_EXPRESS = "BTE", "bus/train/express"
 
     class Priorities(models.TextChoices):
-        NOTIMPORTANT = "NI", "Not important"
-        SOMEWHATIMPORTANT = "SI", "Somewhat important"
+        NOT_IMPORTANT = "NI", "Not important"
+        SOMEWHAT_IMPORTANT = "SI", "Somewhat important"
         IMPORTANT = "I", "Important"
-        VERYIMPORTANT = "VI", "Very important"
+        VERY_IMPORTANT = "VI", "Very important"
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    username = models.EmailField(unique=True)
-    full_name = models.CharField(blank=True, max_length=60)
+    full_name = models.CharField(blank=True, max_length=200) # This is used in place of Django's auto first name and last name fields; they're still present in User but unused
     has_voucher = models.BooleanField(default=False)
     voucher_number = models.CharField(blank=True, max_length=10)
     voucher_bedrooms = models.IntegerField(blank=True, null=True)
     rent_budget = models.IntegerField(blank=True, null=True)
     desired_bedrooms = models.IntegerField(blank=True, null=True)
-    travel_mode = models.CharField(choices=TravelMode.choices, max_length=40, default=TravelMode.BUSTRAIN)
-    commute_priority = models.CharField(choices=Priorities.choices, max_length=18, default=Priorities.NOTIMPORTANT)
-    school_quality_priority = models.CharField(choices=Priorities.choices, max_length=18, default=Priorities.NOTIMPORTANT)
-    public_safety_priority = models.CharField(choices=Priorities.choices, max_length=18, default=Priorities.SOMEWHATIMPORTANT)
+    travel_mode = models.CharField(choices=TravelMode.choices, max_length=3, default=TravelMode.BUS_TRAIN)
+    commute_priority = models.CharField(choices=Priorities.choices, max_length=2, default=Priorities.NOT_IMPORTANT)
+    school_quality_priority = models.CharField(choices=Priorities.choices, max_length=2, default=Priorities.NOT_IMPORTANT)
+    public_safety_priority = models.CharField(choices=Priorities.choices, max_length=2, default=Priorities.SOMEWHAT_IMPORTANT)
 
     def __str__(self):
-        return self.username
+        return self.full_name
 
 class Destination(models.Model):
     class TripPurpose(models.TextChoices):
@@ -39,9 +38,9 @@ class Destination(models.Model):
         DOCTOR = "DR", "Doctor"
         OTHER = "OT", "Other"
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    address = models.CharField(max_length=100)
-    purpose = models.CharField(choices=TripPurpose.choices, max_length=8, default=TripPurpose.WORK)
+    address = models.CharField(max_length=200)
+    purpose = models.CharField(choices=TripPurpose.choices, max_length=2, default=TripPurpose.WORK)
     primary_destination = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.profile.username + ' - ' + self.address
+        return self.profile.full_name + self.address

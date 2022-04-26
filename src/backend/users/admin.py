@@ -44,9 +44,9 @@ class DestinationInline(admin.TabularInline):
 # This admin also changes the username field to be referred to as "email"
 class UserAdmin(BaseUserAdmin):
     add_form = CreateUserAdminForm
-    list_display = ('username', 'first_name', 'last_name')
+    list_display = ('username',)
     fieldsets = (
-        (None, {'fields': ('username', 'password', 'first_name', 'last_name')}),
+        (None, {'fields': ('username', 'password')}),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
@@ -69,17 +69,12 @@ class UserProfileAdmin(admin.ModelAdmin):
     inlines = [
         DestinationInline
     ]
-    list_display = ('username', 'full_name')
+    list_display = ('user', 'full_name')
     fieldsets = (
-        (None, {'fields': ('user', 'username', 'full_name', 'has_voucher', 'voucher_number',
+        (None, {'fields': ('user', 'full_name', 'has_voucher', 'voucher_number',
         'voucher_bedrooms', 'rent_budget', 'desired_bedrooms', 'travel_mode', 'commute_priority',
         'school_quality_priority', 'public_safety_priority')}),
     )
-
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        form.base_fields['username'].label = 'Email:'
-        return form
 
 admin.site.register(UserProfile, UserProfileAdmin)
 # Re-register UserAdmin
