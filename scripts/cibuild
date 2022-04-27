@@ -32,5 +32,12 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
             -f docker-compose.ci.yml \
             build django
 
+        # Bring up PostgreSQL for Django tests
+        docker-compose \
+            -f docker-compose.yml \
+            up -d database
+
+        GIT_COMMIT="${GIT_COMMIT}" \
+            ./scripts/test
     fi
 fi

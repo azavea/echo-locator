@@ -22,5 +22,38 @@ then
     else
         echo "Running Taui tests..."
         docker-compose run --rm taui test
+
+        if [ "$(whoami)" == "runner" ]; then
+            echo "Running Django tests..."
+            GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                -f docker-compose.yml \
+                -f docker-compose.ci.yml \
+                run --rm --no-deps --entrypoint python \
+                django \
+                manage.py test
+        else
+            # Pylint has overlap with flake8,
+            # if causing trouble just turn off in linter and CI linter
+            # see PR 455
+            echo "Checking Django formatting and linting using GH Super-Linter..."
+            docker run --rm \
+                -e RUN_LOCAL=true \
+                -e VALIDATE_ALL_CODEBASE=false \
+                -e IGNORE_GITIGNORED_FILES=true \
+                -e FILTER_REGEX_INCLUDE="src/backend/" \
+                -e FILTER_REGEX_EXCLUDE=".*(migrations/*|manage.py).*" \
+                -e LINTER_RULES_PATH="/" \
+                -e PYTHON_BLACK_CONFIG_FILE="src/backend/pyproject.toml" \
+                -e PYTHON_FLAKE8_CONFIG_FILE="src/backend/setup.cfg" \
+                -e VALIDATE_GITLEAKS=false \
+                -e VALIDATE_JSCPD=false \
+                -e VALIDATE_PYTHON_MYPY=false \
+                -e VALIDATE_DOCKERFILE_HADOLINT=false \
+                -e VALIDATE_JSON=false \
+                -v $PWD:/tmp/lint github/super-linter:v4
+
+            echo "Running Django tests..."
+            ./scripts/manage test
+        fi
     fi
 fi

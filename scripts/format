@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
+    set -x
+fi
+
+function usage() {
+    echo -n \
+         "Usage: $(basename "$0")
+
+Run formatters.
+"
+}
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]
+then
+    if [ "${1:-}" = "--help" ]
+    then
+        usage
+    else
+        echo "Formatting Django application source code"
+        # migrations and manage.py excluded through pyproject.toml
+        docker-compose \
+            run --rm --no-deps --entrypoint black django .
+    fi
+fi

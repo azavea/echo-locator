@@ -25,6 +25,27 @@ jobs:
 
       - run: ./scripts/cibuild
 
+      ################################
+      # Run GH Super-Linter against code base #
+      ################################
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IGNORE_GITIGNORED_FILES: true
+          FILTER_REGEX_INCLUDE: src/backend/
+          FILTER_REGEX_EXCLUDE: .*(migrations/*|manage.py).*
+          LINTER_RULES_PATH: /
+          PYTHON_BLACK_CONFIG_FILE: src/backend/pyproject.toml
+          PYTHON_FLAKE8_CONFIG_FILE: src/backend/setup.cfg
+          VALIDATE_GITLEAKS: false
+          VALIDATE_JSCPD: false
+          VALIDATE_PYTHON_MYPY: false
+          VALIDATE_DOCKERFILE_HADOLINT: false
+          VALIDATE_JSON: false
+
       - run: ./scripts/cipublish
         if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/test/')
 
