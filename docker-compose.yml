@@ -28,6 +28,8 @@ services:
     volumes:
       - ./src/backend:/usr/local/src/backend
       - $HOME/.aws:/root/.aws:ro
+      - ./taui/assets:/usr/local/src/backend/static/assets
+      - ./taui/index.html:/usr/local/src/backend/static/index.html
     working_dir: /usr/local/src/backend
     depends_on:
       database:
