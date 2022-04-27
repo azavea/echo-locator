@@ -1,6 +1,6 @@
+from django.contrib.auth.models import Group, User
 from django.db import models
 from django.dispatch import receiver
-from django.contrib.auth.models import User, Group
 
 
 # Use a signal handler to update is_staff when User added to Counselor group

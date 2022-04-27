@@ -1,5 +1,5 @@
-from django.test import TestCase, Client
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group, User
+from django.test import Client, TestCase
 
 
 class AdminSiteTest(TestCase):

@@ -1,11 +1,12 @@
-from django.contrib import admin
 from django import forms
-from django.forms.models import BaseInlineFormSet
-from django.core.validators import validate_email
+from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import UserProfile, Destination
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.models import Group, User
+from django.core.validators import validate_email
+from django.forms.models import BaseInlineFormSet
+
+from .models import Destination, UserProfile
 
 
 class LoginForm(AuthenticationForm):
