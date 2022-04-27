@@ -17,8 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from users.admin import LoginForm
 
 from echo import settings
+
+admin.site.login_form = LoginForm
 
 urlpatterns = [
     path(
