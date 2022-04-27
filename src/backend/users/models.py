@@ -26,7 +26,7 @@ class UserProfile(models.Model):
     public_safety_priority = models.CharField(choices=Priorities.choices, max_length=2, default=Priorities.SOMEWHAT_IMPORTANT)
 
     def __str__(self):
-        return self.full_name
+        return self.user.email
 
 class Destination(models.Model):
     class TripPurpose(models.TextChoices):
