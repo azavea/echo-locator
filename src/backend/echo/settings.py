@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_gis",
     "watchman",
+    "rest_framework.authtoken",
     "api",
     "users",
 ]
@@ -97,7 +98,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'sesame.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -160,11 +160,15 @@ AUTHENTICATION_BACKENDS = [
     "sesame.backends.ModelBackend",
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication', 
+    ],
+}
+
 # set magic link expire time to 1 hour
 SESAME_MAX_AGE = 60 * 60
 SESAME_TOKEN_NAME = "echo_auth"
-
-LOGIN_URL = '/login/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

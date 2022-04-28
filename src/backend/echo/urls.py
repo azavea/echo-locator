@@ -50,6 +50,11 @@ urlpatterns = [
         user_views.LoginPage.as_view(),
         name="login"
     ),
+    path(
+        "api/auth/login/",
+        user_views.ObtainToken.as_view(),
+        name="obtain_token"
+    ),
     path("admin/", admin.site.urls),
     path("health-check/", include("watchman.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from sesame import utils
 from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
 
 
 class LoginPage(APIView):
@@ -13,7 +14,7 @@ class LoginPage(APIView):
         try:
             user = User.objects.get(username=email)
             login_token = utils.get_query_string(user)
-            login_link = "http://localhost:9966/auth/{}".format(login_token)
+            login_link = "http://localhost:8085/api/auth/login/{}".format(login_token)
 
             html_message = """
             <p>Hi there,</p>
@@ -32,3 +33,16 @@ class LoginPage(APIView):
             return Response (content_type="application/json")
         except:
             return Response (content_type="application/json")
+
+class ObtainToken(APIView):
+    def get(self, request, **kwargs):
+        user = utils.get_user(request)
+        token, created = Token.objects.get_or_create(user=user)
+        content = {
+            'token' : token.key,
+            'user_id' : user.pk
+        }
+        response = HttpResponseRedirect('/')
+        response.set_cookie('auth_token', token.key, max_age=60*60*24*30)
+        return response
+        
