@@ -2,18 +2,6 @@
   {
     "name": "${name}",
     "image": "${image}",
-    "cpu": 0,
-    "command": [
-      "-b :8085",
-      "--workers=${gunicorn_workers}",
-      "--timeout=60",
-      "--access-logfile=-",
-      "--access-logformat=%({X-Forwarded-For}i)s %(h)s %(l)s %(u)s %(t)s \"%(r)s\" %(s)s %(b)s \"%(f)s\" \"%(a)s\"",
-      "--error-logfile=-",
-      "--log-level=info",
-      "--capture-output",
-      "echo.wsgi"
-    ],
     "essential": true,
     "environment": [
       {

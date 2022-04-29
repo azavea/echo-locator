@@ -36,6 +36,7 @@ LOGLEVEL = os.getenv("DJANGO_LOG_LEVEL", "INFO")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ENVIRONMENT == "Development"
+DEBUG=True
 
 ALLOWED_HOSTS = [
     "stg.echosearch.org",
