@@ -43,8 +43,7 @@ resource "aws_lb_target_group" "app" {
   health_check {
     healthy_threshold   = "3"
     interval            = "30"
-    # TODO GH #441: Set this to 200 after we add a health check
-    matcher             = "400"
+    matcher             = "200"
     protocol            = "HTTP"
     timeout             = "3"
     path                = "/health-check/"

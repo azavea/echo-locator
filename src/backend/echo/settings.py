@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "rest_framework_gis",
+    "watchman",
     "api",
     "users",
 ]
@@ -170,4 +171,4 @@ STATICFILES_STORAGE = "spa.storage.SPAStaticFilesStorage"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 WATCHMAN_ERROR_CODE = 503
-WATCHMAN_CHECKS = ("watchman.checks.databases", "api.checks.gazetteercache")
+WATCHMAN_CHECKS = ("watchman.checks.databases",)
