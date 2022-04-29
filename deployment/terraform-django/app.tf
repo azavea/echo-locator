@@ -148,6 +148,7 @@ resource "aws_ecs_service" "app" {
 
   launch_type          = "FARGATE"
   platform_version     = var.fargate_platform_version
+  enable_execute_command = true
   force_new_deployment = true
 
   network_configuration {
