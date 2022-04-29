@@ -50,7 +50,7 @@ export default {
     }
   },
   Dock: {
-    FormHeading: 'Mostrar horarios de viaje',
+    FormHeading: 'Mostrar duración de viaje',
     LocationLabel: 'de',
     NetworkLabel: 'cuando',
     Favorites: 'Recomendaciones guardadas',
@@ -60,7 +60,7 @@ export default {
     RecommendationsCount: 'de',
     GoPreviousPage: 'Regresar',
     GoNextPage: 'Mostrar más',
-    NoResults: 'Ningun resultado',
+    NoResults: 'Ningún resultado',
     Recommendations: 'Recomendaciones para usted',
     ShowAllButton: 'Todos',
     ShowSavedButton: 'Guardado',
@@ -77,7 +77,7 @@ export default {
     DirectionsLink: 'Direcciones',
     DriveMode: 'en coche',
     FromOrigin: 'Origen',
-    TravelTime: 'Tiempo de Viaje',
+    TravelTime: 'Duración de viaje',
     GoogleSearchLink: 'Google',
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
@@ -111,7 +111,7 @@ export default {
     Population: 'Population',
     RentalUnits: 'Unidades de alquiler',
     Score: 'Overall score',
-    ViolentCrime: 'Seguridad publica'
+    ViolentCrime: 'Seguridad pública'
   },
   PageNotFound: 'Oops! There is no page at',
   RouteCard: {
@@ -127,7 +127,7 @@ export default {
   Slower: 'slower',
   Title: 'ECHO',
   Units: {
-    About: 'Aproximadamente',
+    About: 'Aprox.',
     Minutes: 'minutos',
     Mins: 'min'
   },
@@ -135,19 +135,20 @@ export default {
   SignIn: {
     Anonymous: 'Continue without an account',
     AnonymousExplanation: "Don't have an account?",
-    Greeting: 'Mejorando la busqueda de vivienda para familias con Vales de vivienda'
+    Greeting: 'Mejorando la búsqueda de vivienda para familias con Vales de vivienda'
   },
   Header: {
     New: 'Nueva búsqueda',
     Edit: 'Editar perfil',
-    SignIn: 'Ingresar'
+    SignIn: 'Ingresar',
+    SignOut: 'Salir'
   },
   Accounts: {
     Create: 'Create new profile',
     CreateError: 'Failed to create profile. Please try again.',
     InvalidVoucherNumber: 'Client ID should be six to eight digits or letters.',
     MissingVoucherNumber: 'Enter a client ID to create a profile.',
-    Name: 'Tu nombre entero',
+    Name: 'Su nombre completo',
     Search: 'Search',
     SelectError: 'Failed to set profile. Please try again.',
     NoResults: 'Profile not found. Create one now?',
@@ -166,13 +167,13 @@ export default {
     DeletePrimaryAddressError: 'No se puede eliminar el destino principal. Establecer otro como el principal primero.',
     ChooseVoucher: '¿Tienes un cupón?',
     Cancel: 'Cancelar',
-    ClientEmailLabel: 'Dirección de correo electrónico',
+    ClientEmailLabel: 'Correo electrónico',
     ClientEmailError: 'Por favor, introduce una dirección de correo electrónico válida.',
     CreateClientAccountError: 'Error al crear la cuenta de inicio de sesión del cliente. Inténtalo de nuevo.',
     CreateClientAccountExistsError: 'Ya existe una cuenta de inicio de sesión del cliente para ese correo electrónico con número de comprobante %(voucher).',
     RecreateClientAccount: 'Reenviar correo electrónico de invitación',
     DeleteDestination: 'Eliminar este destino',
-    DeleteProfile: 'Borrar perfil',
+    DeleteProfile: 'Borrar mi perfil',
     DeleteProfileError: 'No se pudo eliminar el perfil. Inténtalo de nuevo.',
     Destinations: '¿A dónde va con más frecuencia (aparte de su casa)?',
     ImportanceAccessibility: 'Duración de viaje',
@@ -186,7 +187,7 @@ export default {
     Budget: 'Presupuesto para apartamento',
     YesVoucher: 'Si',
     NoVoucher: 'No',
-    Go: 'Guardar perfil',
+    Go: 'Guardar mi perfil',
     NameRequired: 'Por favor, introduzca un nombre para el jefe de familia.',
     SaveError: 'No se pudo guardar el perfil. Inténtalo de nuevo.',
     InvalidBudget: 'Presupuesto no válido Por favor ingrese un número positivo.',
@@ -210,10 +211,10 @@ export default {
     ImportanceViolentCrime: 'Las medidas de seguridad pública de ECHO reflejan las tasas de criminalidad violenta según lo reportado por la Oficina Federal de Investigaciones (FBI), así como los Departamentos de Policía de Boston y Cambridge en el 2019. Las puntuaciones de percentiles indican cómo se compara cada vecindad en relación con todos los demás códigos postales en Massachusetts.'
   },
   ImportanceLabels: {
-    1: 'No importante',
+    1: 'No es importante',
     2: 'Algo importante',
     3: 'Importante',
-    4: 'Muy Importante'
+    4: 'Muy importante'
   },
   QuintileLabels: {
     Affordability: {
