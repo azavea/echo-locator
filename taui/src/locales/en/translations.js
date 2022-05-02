@@ -137,7 +137,8 @@ export default {
   Header: {
     New: 'New search',
     Edit: 'Edit profile',
-    SignIn: 'Sign in'
+    SignIn: 'Sign in',
+    SignOut: 'Sign out'
   },
   Accounts: {
     Create: 'Create new profile',

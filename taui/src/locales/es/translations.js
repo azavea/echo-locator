@@ -50,7 +50,7 @@ export default {
     }
   },
   Dock: {
-    FormHeading: 'Mostrar horarios de viaje',
+    FormHeading: 'Mostrar duración de viaje',
     LocationLabel: 'de',
     NetworkLabel: 'cuando',
     Favorites: 'Recomendaciones guardadas',
@@ -59,10 +59,10 @@ export default {
     GoBackToFavorites: 'Back to saved recommendations',
     RecommendationsCount: 'de',
     GoPreviousPage: 'Regresar',
-    GoNextPage: 'Muestra mas',
-    NoResults: 'Ningun resultado',
-    Recommendations: 'Sus recomendaciones',
-    ShowAllButton: 'Todo',
+    GoNextPage: 'Mostrar más',
+    NoResults: 'Ningún resultado',
+    Recommendations: 'Recomendaciones para usted',
+    ShowAllButton: 'Todos',
     ShowSavedButton: 'Guardado',
     SiteBy: 'Página Web hecha por de Azavea'
   },
@@ -77,7 +77,7 @@ export default {
     DirectionsLink: 'Direcciones',
     DriveMode: 'en coche',
     FromOrigin: 'Origen',
-    TravelTime: 'Tiempo de Viaje',
+    TravelTime: 'Duración de viaje',
     GoogleSearchLink: 'Google',
     GoogleMapsLink: 'Google Maps',
     GoSection8SearchLink: 'GoSection8',
@@ -86,7 +86,7 @@ export default {
     MetroHousingLink: 'Metro Housing',
     MaxRent: 'El alquiler estimado máximo',
     MaxRentSearch: 'el alquiler máximo',
-    BedroomAbbr: 'dor.',
+    BedroomAbbr: 'dormitorio(s)',
     ModeSummary: 'Modo',
     Or: 'o',
     MainSearchToolsLinksHeading: 'Búsqueda de una unidad de {{rooms}}dor. con un alquiler máximo de ${{maxSubsidy}}',
@@ -97,7 +97,7 @@ export default {
     RealtorApartmentsToggle: 'Realtor.com',
     RentEstimatorLink: 'Rent Estimator',
     Section8Link: 'Section 8',
-    TransitMode: 'transit',
+    TransitMode: 'tránsito',
     TransitTitle: 'Transit Directions',
     WebsiteLink: 'Website',
     WikipediaAttribution: 'via Wikimedia Commons',
@@ -111,7 +111,7 @@ export default {
     Population: 'Population',
     RentalUnits: 'Unidades de alquiler',
     Score: 'Overall score',
-    ViolentCrime: 'Seguridad publica'
+    ViolentCrime: 'Seguridad pública'
   },
   PageNotFound: 'Oops! There is no page at',
   RouteCard: {
@@ -127,27 +127,28 @@ export default {
   Slower: 'slower',
   Title: 'ECHO',
   Units: {
-    About: 'Sobre',
-    Minutes: 'minutes',
+    About: 'Aprox.',
+    Minutes: 'minutos',
     Mins: 'min'
   },
   Agency: 'Autorida de Vivienda de Boston',
   SignIn: {
     Anonymous: 'Continue without an account',
     AnonymousExplanation: "Don't have an account?",
-    Greeting: 'Mejorando la busqueda de vivienda para familias con Vales de vivienda'
+    Greeting: 'Mejorando la búsqueda de vivienda para familias con Vales de vivienda'
   },
   Header: {
     New: 'Nueva búsqueda',
     Edit: 'Editar perfil',
-    SignIn: 'Ingresar'
+    SignIn: 'Ingresar',
+    SignOut: 'Salir'
   },
   Accounts: {
     Create: 'Create new profile',
     CreateError: 'Failed to create profile. Please try again.',
     InvalidVoucherNumber: 'Client ID should be six to eight digits or letters.',
     MissingVoucherNumber: 'Enter a client ID to create a profile.',
-    Name: 'Tu nombre entero',
+    Name: 'Su nombre completo',
     Search: 'Search',
     SelectError: 'Failed to set profile. Please try again.',
     NoResults: 'Profile not found. Create one now?',
@@ -158,45 +159,45 @@ export default {
     AddAddress: 'Agregar otro destino',
     Address: 'Dirección',
     AddressMissing: 'Todos los destinos deben tener una dirección. Establezca o elimine cualquier destino vacío.',
-    ByCar: 'Coche',
-    ByTransit: 'Tránsito',
+    ByCar: 'Carro',
+    ByTransit: 'Autobús y/o tren',
     ByTransitExplanation: 'Los resultados de la búsqueda incluirán el metro y el autobús local.',
-    ChooseTravelMode: '¿Cómo va a llegar con mayor frecuencia a las direcciones anteriores?',
+    ChooseTravelMode: '¿De qué manera usted viaja a estos lugares?',
     DeleteAddress: 'Eliminar esta dirección',
     DeletePrimaryAddressError: 'No se puede eliminar el destino principal. Establecer otro como el principal primero.',
     ChooseVoucher: '¿Tienes un cupón?',
     Cancel: 'Cancelar',
-    ClientEmailLabel: 'Dirección de correo electrónico',
+    ClientEmailLabel: 'Correo electrónico',
     ClientEmailError: 'Por favor, introduce una dirección de correo electrónico válida.',
     CreateClientAccountError: 'Error al crear la cuenta de inicio de sesión del cliente. Inténtalo de nuevo.',
     CreateClientAccountExistsError: 'Ya existe una cuenta de inicio de sesión del cliente para ese correo electrónico con número de comprobante %(voucher).',
     RecreateClientAccount: 'Reenviar correo electrónico de invitación',
     DeleteDestination: 'Eliminar este destino',
-    DeleteProfile: 'Borrar perfil',
+    DeleteProfile: 'Borrar mi perfil',
     DeleteProfileError: 'No se pudo eliminar el perfil. Inténtalo de nuevo.',
-    Destinations: '¿A dónde vas con más frecuencia (además de tu casa)?',
-    ImportanceAccessibility: 'Tiempo de viaje',
+    Destinations: '¿A dónde va con más frecuencia (aparte de su casa)?',
+    ImportanceAccessibility: 'Duración de viaje',
     ImportanceHeading: '¿Qué importancia tienen los siguientes factores al elegir un lugar para vivir?',
-    ImportanceSchools: 'Calidad escolar',
+    ImportanceSchools: 'Calidad de las escuelas',
     ImportanceViolentCrime: 'Seguridad pública',
     Primary: 'Primario',
     Purpose: 'Propósito',
-    Rooms: 'Número de habitaciones en su cúpon',
+    Rooms: 'Número de dormitorios en su vale de vivienda',
     RoomsNoVoucher: 'Número deseado de habitaciones',
     Budget: 'Presupuesto para apartamento',
     YesVoucher: 'Si',
     NoVoucher: 'No',
-    Go: 'Guardar perfil',
+    Go: 'Guardar mi perfil',
     NameRequired: 'Por favor, introduzca un nombre para el jefe de familia.',
     SaveError: 'No se pudo guardar el perfil. Inténtalo de nuevo.',
     InvalidBudget: 'Presupuesto no válido Por favor ingrese un número positivo.',
     Title: 'Perfil',
-    UseCommuterRail: 'Incluye tren de cercanías y autobús expreso',
-    UseCommuterRailExplanation: 'Los resultados de búsqueda incluirán metro, autobús local, tren de cercanías y autobús expreso. El tren de cercanías y el autobús expreso harán que más comunidades sean accesibles, pero generalmente cuestan más que el servicio de metro y autobús local.',
-    WhyAddresses: '¿Por qué me pregunta eso?'
+    UseCommuterRail: 'Estoy dispuesto(a) a tomar el autobus express o el tren (commuter rail)',
+    UseCommuterRailExplanation: 'El tren o el autobús exprés nos permite recomendar más vecindarios, pero es usualmente más caro que el tren subterráneo (subway) o el autobús local. ',
+    WhyAddresses: '¿Por qué le preguntamos eso?'
   },
   Tooltips: {
-    ProfileAddresses: 'Si sabemos los lugares que usted visita frecuentemente, nons ayuda a recomendarle vecindarios. Ingrese la dirección de su trabajo o escuela y nos permitirá recomendarle vecindarios que son accesibles vía transportación pública.',
+    ProfileAddresses: 'Si sabemos los lugares que usted visita frecuentemente eso nos ayuda a recomendarle vecindarios. Si usted ingresa la dirección de su trabajo o escuela nos permite recomendarle vecindarios que son fáciles de llegar con transportación pública.',
     AboveAverage: 'por encima del promedio',
     Average: 'el promedio',
     BelowAverage: 'por debajo del promedio',
@@ -205,15 +206,15 @@ export default {
     ViolentCrime: '<p><strong>{{town}}</strong> tiene <strong>{{averageRelation}}</strong> seguridad pública, más seguro que <strong>{{crimePercentile}}</strong> de otros códigos postales en el estado. (Fuente: <a href="https://www.fbi.gov/services/cjis/ucr" target="_blank">Reporte Uniforme de Delitos del FBI (UCR, por sus siglas en inglés) datos sobre delitos violentos</a>)</p>',
     ViolentCrimeBoston: '<p><strong>{{town}}</strong> tiene <strong>{{averageRelation}}</strong> seguridad pública, más segura que <strong>{{crimePercentile}}</strong> de otros códigos postales en el estado. (Fuente: <a href="https://data.boston.gov/" target="_blank"> Informes de incidentes del Departamento de Policía de Boston</a>)</p>',
     RentalUnits: '<p><strong>{{town}}</strong> tiene un <strong>{{averageRelation}}</strong> número de alquileres de apartamentos para el estado. Desde 2017-2018 hubo <strong>{{totalMapc}}</strong> unidades listadas en Craigslist. (Fuente: <a href="https://www.mapc.org/" target="_blank">MAPC</a>)</p>',
-    ImportanceAccessibility: 'ECHO recomienda vecindarios según el tiempo de viaje a las direcciones que ingresó anteriormente. Tomamos en cuenta los tiempos de transporte público, las horas pico y otras métricas de viaje para nuestras recomendaciones.',
+    ImportanceAccessibility: 'ECHO recomienda vecindarios basados en la duración del viaje a las direcciones usted ingresó previamente. Nosotros consideramos duración en transportación pública, hora con tráfico, y otras medidas de duración de viaje cuando hacemos nuestras recomendaciones.',
     ImportanceSchools: 'La información de ECHO sobre la calidad escolar proviene del Departamento de Educación Primaria y Secundaria de Massachusetts. Nuestra métrica equilibra una medida general de la calidad de la escuela en cada código postal, así como las métricas de responsabilidad 2018-2019 del Departamento y las métricas de crecimiento "económicamente desfavorecidas", que miden el rendimiento escolar y el crecimiento académico entre los estudiantes desfavorecidos, respectivamente. Estos datos incluyen escuelas públicas, pero no instituciones privadas, autónomas, vocacionales, técnicas o virtuales.',
     ImportanceViolentCrime: 'Las medidas de seguridad pública de ECHO reflejan las tasas de criminalidad violenta según lo reportado por la Oficina Federal de Investigaciones (FBI), así como los Departamentos de Policía de Boston y Cambridge en el 2019. Las puntuaciones de percentiles indican cómo se compara cada vecindad en relación con todos los demás códigos postales en Massachusetts.'
   },
   ImportanceLabels: {
-    1: 'No importante',
+    1: 'No es importante',
     2: 'Algo importante',
     3: 'Importante',
-    4: 'Muy Importante'
+    4: 'Muy importante'
   },
   QuintileLabels: {
     Affordability: {
@@ -239,12 +240,12 @@ export default {
     }
   },
   TripPurpose: {
-    Daycare: 'Guardería Infantil',
+    Daycare: 'Guardería infantil',
     Doctor: 'Doctor',
     Family: 'Familia',
-    Friends: 'Amigos',
+    Friends: 'Amistades',
     Other: 'Otro',
-    Worship: 'Adoración',
+    Worship: 'Lugares de culto',
     Work: 'Trabajo'
   },
   Booleans: {

@@ -70,11 +70,11 @@
   }
 
   &__neighborhoods-heading {
-    @include heading(300);
+    @include heading(250);
   }
 
   &__neighborhoods-actions {
-    @include text(300);
+    @include text(250);
     color: $gray-600;
   }
 
