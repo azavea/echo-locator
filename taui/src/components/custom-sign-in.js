@@ -28,7 +28,10 @@ const SignInHeaderTranslated = withTranslation()(SignInHeader)
 class CustomSignIn extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {value: ''}
+    this.state = {
+      value: '',
+      successMessage: ''
+    }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -40,7 +43,7 @@ class CustomSignIn extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault()
-
+    this.setState({successMessage: 'Thank you! Please check your email for a link to sign into ECHO.'})
     return axios.post('/api/login/', {email: this.state.value}
     )
   }
@@ -58,7 +61,10 @@ class CustomSignIn extends React.Component {
                 <input name='email' value={this.state.value} onChange={this.handleChange} />
               </label>
             </fieldset>
-            <button type='submit'>Sign In</button>
+            <button type='submit' className='auth-main__button auth-main__button--primary'>SIGN IN</button>
+            <div className='auth-main__success-message'>
+              {this.state.successMessage}
+            </div>
           </form>
           <div className='auth-main__anonymous-login'>
             {`${t('SignIn.AnonymousExplanation')} `}
