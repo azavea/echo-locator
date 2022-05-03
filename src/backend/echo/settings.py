@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+import requests
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -53,6 +54,22 @@ else:
 
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "noreply@stg.echosearch.org")
 
+if ENVIRONMENT in ["Production", "Staging"]:
+    # The Elastic Load Balancer HTTP health check will use the target
+    # instance's private IP address for the Host header.
+    #
+    # The following steps look up the current instance's private IP address
+    # (via the ECS container metadata URI) and add it to the Django
+    # ALLOWED_HOSTS configuration so that health checks pass.
+    response = requests.get(os.getenv("ECS_CONTAINER_METADATA_URI"))
+    if response.ok:
+        container = response.json()
+        for network in container["Networks"]:
+            for addr in network["IPv4Addresses"]:
+                ALLOWED_HOSTS.append(addr)
+    else:
+        raise ImproperlyConfigured("Unable to fetch instance metadata")
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -67,6 +84,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "rest_framework_gis",
+    "watchman",
     "api",
     "users",
 ]
@@ -167,4 +185,4 @@ STATICFILES_STORAGE = "spa.storage.SPAStaticFilesStorage"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 WATCHMAN_ERROR_CODE = 503
-WATCHMAN_CHECKS = ("watchman.checks.databases", "api.checks.gazetteercache")
+WATCHMAN_CHECKS = ("watchman.checks.databases",)

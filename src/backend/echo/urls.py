@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import include, path
 from echo import settings
 from users.admin import LoginForm
 
@@ -44,4 +44,5 @@ urlpatterns = [
         name="password_reset_complete",
     ),
     path("admin/", admin.site.urls),
+    path("health-check/", include("watchman.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
