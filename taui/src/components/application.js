@@ -35,6 +35,7 @@ type Props = {
   actionLog: LogItems,
   activeListing: ActiveListing,
   activeNeighborhoodBounds: any,
+  authToken: any,
   bhaListings: Listing,
   data: {
     grids: string[],
@@ -162,6 +163,7 @@ class Application extends Component<Props, State> {
     // Can navigate to map once at least one destination set on the profile.
     const canViewMap = userProfile && userProfile.destinations && userProfile.destinations.length
     const NoMatch = this.noMatch
+
     return (
       <Switch>
         <Route exact path='/' render={() => (

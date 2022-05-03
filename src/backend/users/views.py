@@ -1,11 +1,13 @@
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from .models import UserProfile
+from .serializers import UserProfileSerializer, UserSerializer
 from sesame import utils
 from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-
 
 class LoginPage(APIView):
     def post(self, request, **kwargs):
@@ -38,11 +40,15 @@ class ObtainToken(APIView):
     def get(self, request, **kwargs):
         user = utils.get_user(request)
         token, created = Token.objects.get_or_create(user=user)
-        content = {
-            'token' : token.key,
-            'user_id' : user.pk
-        }
-        response = HttpResponseRedirect('/')
+        response = HttpResponseRedirect('/profile')
+        # set authentication cookie with max_age 30 days
         response.set_cookie('auth_token', token.key, max_age=60*60*24*30)
         return response
-        
+
+class GetUserProfile(APIView):
+    permission_classes = (IsAuthenticated,)
+    
+    def get(self, request, **kwargs):
+        user = User.objects.get(username=request.user)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)

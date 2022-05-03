@@ -50,7 +50,7 @@ class Destination(models.Model):
         DOCTOR = "DR", "Doctor"
         OTHER = "OT", "Other"
 
-    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='destinations')
     address = models.CharField(max_length=200)
     purpose = models.CharField(choices=TripPurpose.choices, max_length=2, default=TripPurpose.WORK)
     primary_destination = models.BooleanField(default=False)

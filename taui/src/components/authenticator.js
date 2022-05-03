@@ -1,16 +1,20 @@
 // @flow
 import { Component, Fragment } from 'react'
 import LogRocket from 'logrocket'
+import Cookies from 'js-cookie'
+import axios from 'axios'
 
 import {ANONYMOUS_USERNAME} from '../constants'
 
 import CustomSignIn from './custom-sign-in'
 import CustomHeaderBar from './custom-header-bar'
 
-export default function anonymousAuthenticator (Comp) {
+export default function Authenticator (Comp) {
   return class extends Component {
     constructor (props) {
       super(props)
+
+      this.state = {authToken: Cookies.get('auth_token') ? `Token ${Cookies.get('auth_token')}` : null}
 
       this.handleAuthChange = this.handleAuthChange.bind(this)
 
@@ -20,7 +24,7 @@ export default function anonymousAuthenticator (Comp) {
 
     handleAuthChange (profile: AccountProfile) {
       const userProfile = this.props.data.userProfile
-      if (!userProfile) {
+      if (!this.state.authToken && !userProfile) {
         profile = {
           destinations: [],
           hasVehicle: false,
@@ -36,6 +40,17 @@ export default function anonymousAuthenticator (Comp) {
 
     render () {
       const userProfile = this.props.data.userProfile
+
+      if (this.state.authToken) {
+        axios.get(`/api/user/`, {
+          headers: {
+            'Authorization': this.state.authToken
+          }
+        })
+          .then((response) => {
+            console.log(response)
+          })
+      }
 
       if (userProfile) {
         return (

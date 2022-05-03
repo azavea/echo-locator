@@ -15,7 +15,7 @@ import spanishTranslations from './locales/es/translations'
 import chineseTranslations from './locales/zh/translations'
 import actions from './actions'
 import Application from './components/application'
-import anonymousAuthenticator from './components/anonymous-authenticator'
+import Authenticator from './components/authenticator'
 import withTracker from './components/with-tracker'
 import reducers from './reducers'
 import * as select from './selectors'
@@ -108,7 +108,7 @@ function mapStateToProps (state, ownProps) {
 }
 
 const ConnectedApplication = withRouter(withTracker(connect(mapStateToProps, actions)(
-  anonymousAuthenticator(Application))))
+  Authenticator(Application))))
 
 // Create an Application wrapper
 class InitializationWrapper extends React.Component {
