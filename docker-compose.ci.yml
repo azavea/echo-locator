@@ -7,7 +7,7 @@ services:
       - $HOME/.aws:/root/.aws:ro
     environment:
       - AWS_PROFILE=echo-locator
-      - GIT_COMMIT=${GIT_COMMIT:-latest}
+      - GIT_COMMIT=${GIT_COMMIT}
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - ECHOLOCATOR_DEBUG=1
@@ -25,4 +25,4 @@ services:
     entrypoint: bash
 
   django:
-    image: "echolocator:${GIT_COMMIT:-latest}"
+    image: "echolocator:${GIT_COMMIT}"

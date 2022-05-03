@@ -48,6 +48,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
                   -backend-config="key=terraform/state"
 
                 terraform plan \
+                  -var="image_tag=${GIT_COMMIT}" \
                   -var-file="${ECHOLOCATOR_SETTINGS_BUCKET}.tfvars" \
                   -out="${ECHOLOCATOR_SETTINGS_BUCKET}.tfplan"
                 ;;

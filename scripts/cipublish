@@ -19,8 +19,7 @@ ENVIRONMENT="${ECHOLOCATOR_ENVIRONMENT:-stgdjango}"
 if [[ -n "${GIT_COMMIT}" ]]; then
     GIT_COMMIT="${GIT_COMMIT:0:7}"
 else
-    # For staging we just want latest
-    GIT_COMMIT="latest"
+    GIT_COMMIT="$(git rev-parse --short HEAD)"
 fi
 
 function amazon_ecr_login() {
