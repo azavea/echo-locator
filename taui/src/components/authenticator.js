@@ -41,14 +41,14 @@ export default function Authenticator (Comp) {
     render () {
       const userProfile = this.props.data.userProfile
 
-      if (this.state.authToken) {
+      if (this.state.authToken && !userProfile) {
         axios.get(`/api/user/`, {
           headers: {
             'Authorization': this.state.authToken
           }
         })
           .then((response) => {
-            console.log(response)
+            this.props.setProfile(response.data)
           })
       }
 
