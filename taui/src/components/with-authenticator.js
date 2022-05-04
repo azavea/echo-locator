@@ -5,6 +5,8 @@ import Storage from '@aws-amplify/storage'
 import { Component, Fragment } from 'react'
 import { Authenticator } from 'aws-amplify-react/dist/Auth'
 import LogRocket from 'logrocket'
+import AmplifyMessageMap from 'aws-amplify-react/dist/AmplifyMessageMap.js'
+import { Translation } from 'react-i18next'
 
 import {clearLocalStorage, storeConfig} from '../config'
 import {AMPLIFY_API_NAME,
@@ -15,6 +17,21 @@ import type {AccountProfile} from '../types'
 import storeDefaultProfile from '../utils/store-default-profile'
 
 import CustomHeaderBar from './custom-header-bar'
+
+// TODO: Translations
+// Override the default error messages with ones that we've defined.
+function customAuthErrorMessageMap (error) {
+  const customMessages = {
+    'User does not exist.': 'SignIn.UserNotFound',
+    'Incorrect username or password.': 'SignIn.BadUsernameOrPassword'
+  }
+
+  if (customMessages.hasOwnProperty(error)) {
+    return <Translation>{(t) => t(customMessages[error])}</Translation>
+  }
+  // Fall back to the default messages if we can't find a custom one.
+  return AmplifyMessageMap(error)
+}
 
 // Override authentication wrapper to use custom header bar
 // based on:
@@ -372,17 +389,22 @@ export default function withAuthenticator (Comp, includeGreetings = false,
         )
       }
 
-      return <Authenticator
-        {...this.props}
-        theme={this.authConfig.theme}
-        federated={this.authConfig.federated || this.props.federated}
-        hideDefault={this.authConfig.authenticatorComponents &&
-            this.authConfig.authenticatorComponents.length > 0}
-        signUpConfig={this.authConfig.signUpConfig}
-        onStateChange={this.handleAuthStateChange}
-        changeUserProfile={this.changeUserProfile}
-        children={this.authConfig.authenticatorComponents || []}
-      />
+      return (
+        <Authenticator
+          {...this.props}
+          theme={this.authConfig.theme}
+          federated={this.authConfig.federated || this.props.federated}
+          hideDefault={
+            this.authConfig.authenticatorComponents &&
+            this.authConfig.authenticatorComponents.length > 0
+          }
+          signUpConfig={this.authConfig.signUpConfig}
+          onStateChange={this.handleAuthStateChange}
+          changeUserProfile={this.changeUserProfile}
+          children={this.authConfig.authenticatorComponents || []}
+          errorMessage={customAuthErrorMessageMap}
+        />
+      )
     }
   }
 }

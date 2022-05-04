@@ -1,15 +1,11 @@
 // @flow
-import message from '@conveyal/woonerf/message'
-
-import Alert from './tr-alert'
+import { useTranslation } from 'react-i18next'
 
 export default function RouteSegments ({hasVehicle, routeSegments, travelTime}) {
+  const {t} = useTranslation()
+
   if (routeSegments.length === 0) {
-    if (!hasVehicle) {
-      return <Alert>{message('Systems.TripsEmpty')}</Alert>
-    } else {
-      return null
-    }
+    return null
   }
 
   const [bestJourney, ...alternateJourneys] = routeSegments
@@ -17,27 +13,20 @@ export default function RouteSegments ({hasVehicle, routeSegments, travelTime}) 
   return (
     <div className='route-segments'>
       <div className='route-segments__best-trip'>
-        Take&nbsp;
+        <strong>{t('Systems.Route')}: </strong>
         {bestJourney.map((segment, index) => (
           <Segment key={index} segment={segment} />
         ))}
-        {travelTime > 120 ? (
-          <span className='decrease'>
-            {message('System.InaccessibleWithin')} 120 {message('Units.Mins')}
-          </span>
-        ) : (
-          <span>in <strong>{travelTime}</strong> {message('Units.Mins')}</span>
-        )}
       </div>
       {routeSegments.length > 1 &&
         <div className='route-segments__alt-trips'>
-          {message('Systems.AlternateTripsTitle')}&nbsp;
+          <strong>{t('Systems.AlternateTripsTitle')}: </strong>
           {alternateJourneys.map((segments, jindex) => (
             <span key={jindex}>
               {segments.map((segment, index) => (
                 <Segment key={index} segment={segment} />
               ))}
-              {jindex < alternateJourneys.length - 1 && 'or '}
+              {jindex < alternateJourneys.length - 1 && `${t('NeighborhoodDetails.Or')} `}
             </span>
           ))}
         </div>

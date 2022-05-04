@@ -45,6 +45,12 @@ export default handleActions(
         networks
       }
     },
+    'set active listing' (state, action) {
+      return {
+        ...state,
+        activeListing: action.payload
+      }
+    },
     'set active neighborhood' (state, action) {
       return {
         ...state,
@@ -59,6 +65,12 @@ export default handleActions(
         networks: networks.map(
           n => Object.assign({}, n, {active: n.name === action.payload})
         )
+      }
+    },
+    'set BHA listings' (state, action) {
+      return {
+        ...state,
+        bhaListings: action.payload
       }
     },
     'set points of interest' (state, action) {
@@ -105,6 +117,12 @@ export default handleActions(
         userProfile: action.payload
       }
     },
+    'set Realtor listings' (state, action) {
+      return {
+        ...state,
+        realtorListings: action.payload
+      }
+    },
     'set show details' (state, action) {
       return {
         ...state,
@@ -116,6 +134,18 @@ export default handleActions(
         ...state,
         showFavorites: !!action.payload
       }
+    },
+    'set show BHA listing' (state, action) {
+      return {
+        ...state,
+        showBHAListings: !!action.payload
+      }
+    },
+    'set show Realtor listing' (state, action) {
+      return {
+        ...state,
+        showRealtorListings: !!action.payload
+      }
     }
   },
   {
@@ -125,8 +155,10 @@ export default handleActions(
     neighborhoodBounds: {},
     page: 0,
     profileLoading: true,
+    showBHAListings: false,
     showDetails: false,
     showFavorites: false,
+    showRealtorListings: false,
     userProfile: null
   }
 )

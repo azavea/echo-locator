@@ -6,6 +6,9 @@ Website to explore Choice Neighborhoods in the Boston area.
 
 ## Requirements
 
+While Docker is the preferred development environment, steps for running directly on host
+are available for Mac users as a result of issue [#49](https://github.com/azavea/echo-locator/issues/49).
+
 ### To run within a Docker container:
 
 * Docker Engine 17.06+
@@ -13,8 +16,8 @@ Website to explore Choice Neighborhoods in the Boston area.
 
 ### To run directly:
 
-* node
-* yarn
+* [nvm](https://github.com/creationix/nvm) to manage Node versions on your machine
+* [yvm](https://yvm.js.org/docs/overview) to manage Yarn versions for package management
 
 
 ## Development
@@ -31,7 +34,7 @@ Next, move the AWS Amplify JavaScript configuration for the staging environment
 into the Taui source code:
 
 ```
-$ cp deployment/amplify/staging/aws-exports.js taui/src/aws-exports.js
+$ cp deployment/amplify/staging/src/aws-exports.js taui/src/aws-exports.js
 ```
 
 ### Optional step for local deployment
@@ -52,12 +55,22 @@ $ ./scripts/server
 
 ### Running directly
 
+* Make sure you have `nvm` and `yvm` installed (see links in Requirements)
 * `cd taui`
-* Install packages: `yarn add`
+* Specify Yarn and Node versions: Run `nvm use` and `yvm use`(you may need to run 
+`nvm install` or `yvm install` first if you see error messages that the appropriate 
+versions are not installed).
+* Install packages: `yarn install`
 * Build and run development server: `yarn start`
 
 
 Navigate to http://localhost:9966 to view the development environment.
+
+
+### Logging In
+
+Once it is running, log in using staging credentials. From there, you can make a Client ID by
+entering and searching for a random 6-8 digit number, then making a new profile.
 
 ## Data
 

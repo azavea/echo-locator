@@ -1,0 +1,37 @@
+.top-bar {
+  margin-bottom: 1.2rem;
+  white-space: nowrap;
+
+  &__heading {
+    @include text(300);
+    @include font-weight(bold);
+    display: inline;
+  }
+
+  &__label {
+    @include text(300);
+    display: inline-flex;
+    flex-flow: row nowrap;
+    align-items: baseline;
+    margin-left: 1.2rem;
+
+    &--on {
+      @include font-weight(bold);
+    }
+  }
+
+  &__spinner {
+    align-self: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-right: 0.6rem;
+  }
+
+  &__checkbox {
+    align-self: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-right: 0.6rem;
+    accent-color: $primary;
+  }
+}

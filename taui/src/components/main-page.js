@@ -14,6 +14,7 @@ import downloadJson from '../utils/download-json'
 import Dock from './dock'
 import Form from './form'
 import Map from './map'
+import TopBar from './top-bar'
 
 /**
  * Displays map and sidebar.
@@ -98,8 +99,7 @@ export default class MainPage extends React.PureComponent<Props> {
 
   _showNeighborhoodRoutes () {
     const p = this.props
-    const useTransit = !p.userProfile || !p.userProfile.hasVehicle
-    return !p.isLoading && useTransit && !!get(p, 'neighborhoodRoutes[0]')
+    return !p.isLoading && !!get(p, 'neighborhoodRoutes[0]')
   }
 
   /**
@@ -108,15 +108,16 @@ export default class MainPage extends React.PureComponent<Props> {
   render () {
     const p = this.props
     const mapScreenClass = p.isLoading ? 'map-screen isLoading' : 'map-screen'
-
     return (
       <div className={mapScreenClass}>
         <Dock
           activeNeighborhood={p.data.activeNeighborhood}
           changeUserProfile={p.changeUserProfile}
           componentError={this.state.componentError}
+          detailListing={p.detailListing}
           detailNeighborhood={p.detailNeighborhood}
           endingOffset={p.pageEndingOffset}
+          estMaxRent={p.estMaxRent}
           haveAnotherPage={p.haveAnotherPage}
           isLoading={p.isLoading}
           neighborhoodCount={p.routableNeighborhoodCount}
@@ -124,7 +125,9 @@ export default class MainPage extends React.PureComponent<Props> {
           origin={p.data.origin}
           page={p.data.page}
           setActiveNeighborhood={p.setActiveNeighborhood}
+          setBHAListings={p.setBHAListings}
           setPage={p.setPage}
+          setRealtorListings={p.setRealtorListings}
           setShowDetails={p.setShowDetails}
           setShowFavorites={p.setShowFavorites}
           showDetails={p.data.showDetails}
@@ -148,29 +151,55 @@ export default class MainPage extends React.PureComponent<Props> {
               </filter>
             </defs>
           </svg>
+          <TopBar
+            activeListing={p.activeListing}
+            bhaListings={p.bhaListings}
+            clickedNeighborhood={p.data.showDetails}
+            estMaxRent={p.estMaxRent}
+            neighborhood={p.detailNeighborhood}
+            realtorListings={p.realtorListings}
+            setActiveListing={p.setActiveListing}
+            setBHAListings={p.setBHAListings}
+            setRealtorListings={p.setRealtorListings}
+            setShowBHAListings={p.setShowBHAListings}
+            setShowRealtorListings={p.setShowRealtorListings}
+            showBHAListings={p.data.showBHAListings}
+            showRealtorListings={p.data.showRealtorListings}
+            userProfile={p.userProfile}
+          />
           <Map
             {...p.map}
+            activeListing={p.activeListing}
             activeNeighborhood={p.data.activeNeighborhood}
             activeNeighborhoodBounds={p.activeNeighborhoodBounds}
             activeNetworkIndex={p.activeNetworkIndex}
+            bhaListings={p.bhaListings}
             clearStartAndEnd={this._clearStartAndEnd}
             detailNeighborhood={p.detailNeighborhood}
             displayNeighborhoods={p.displayPageNeighborhoods}
             end={p.geocoder.end}
+            hasVehicle={p.userProfile.hasVehicle}
             isLoading={p.isLoading}
             isochrones={p.isochrones}
             drawIsochrones={p.drawIsochrones}
+            drawListingRoute={p.drawListingRoute}
             drawOpportunityDatasets={p.drawOpportunityDatasets}
-            drawRoute={p.drawNeighborhoodRoute}
+            drawNeighborhoodRoute={p.drawNeighborhoodRoute}
             neighborhoodBoundsExtent={p.neighborhoodBoundsExtent}
             origin={p.data.origin}
             pointsOfInterest={p.pointsOfInterest}
+            realtorListings={p.realtorListings}
             routableNeighborhoods={p.routableNeighborhoods}
+            showBHAListings={p.data.showBHAListings}
+            showRealtorListings={p.data.showRealtorListings}
             showRoutes={this._showNeighborhoodRoutes()}
+            setActiveListing={p.setActiveListing}
             setActiveNeighborhood={p.setActiveNeighborhood}
             setPage={p.setPage}
             setEndPosition={p.updateEndPosition}
+            setShowBHAListings={p.setShowBHAListings}
             setShowDetails={p.setShowDetails}
+            setShowRealtorListings={p.setShowRealtorListings}
             setStartPosition={p.updateStartPosition}
             showDetails={p.data.showDetails}
             start={p.geocoder.start}

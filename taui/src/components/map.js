@@ -4,6 +4,7 @@ import Leaflet from 'leaflet'
 import debounce from 'lodash/debounce'
 import get from 'lodash/get'
 import React, {PureComponent} from 'react'
+import { withTranslation } from 'react-i18next'
 import {
   Map as LeafletMap,
   Marker,
@@ -14,14 +15,17 @@ import {
 
 import {NEIGHBORHOOD_ACTIVE_BOUNDS_STYLE} from '../constants'
 import type {
+  ActiveListing,
   Coordinate,
   Location,
   LonLat,
-  MapEvent
+  MapEvent,
+  Listing
 } from '../types'
+import standardizeData from '../utils/standardize-listings-data'
 
 import DrawNeighborhoodBounds from './draw-neighborhood-bounds'
-import DrawRoute from './draw-route'
+import DisplayRouteLayers from './display-route-layers'
 import VGrid from './vector-grid'
 
 const TILE_URL = Leaflet.Browser.retina && process.env.LEAFLET_RETINA_URL
@@ -42,6 +46,7 @@ const iconWidth = 20
 const iconHeight = 20
 const iconSize = [iconWidth, iconHeight]
 const iconAnchor = [iconWidth / 2, iconHeight + 13] // height plus the pointer size
+const popupAnchor = [-1, (-iconHeight) - 12] // height minus ~the pointer size
 const iconHTML = '' // <div className="innerMarker"></div>'
 
 const endIcon = Leaflet.divIcon({
@@ -58,6 +63,14 @@ const startIcon = Leaflet.divIcon({
   iconSize
 })
 
+const listingIcon = Leaflet.divIcon({
+  className: 'LeafletIcon Listing map__marker map__marker--listing',
+  html: iconHTML,
+  iconSize: iconSize,
+  iconAnchor: iconAnchor,
+  popupAnchor: popupAnchor
+})
+
 const otherIcon = Leaflet.divIcon({
   className: 'LeafletIcon Other map__marker map__marker--other',
   html: iconHTML,
@@ -66,16 +79,23 @@ const otherIcon = Leaflet.divIcon({
 })
 
 type Props = {
+  activeListing: ActiveListing,
+  bhaListings: Listing,
   centerCoordinates: Coordinate,
   clearStartAndEnd: () => void,
   drawIsochrones: Function[],
+  drawListingRoute: {},
+  drawNeighborhoodRoute: any,
   drawOpportunityDatasets: Function[],
-  drawRoute: any,
   end: null | Location,
+  hasVehicle: Boolean,
   isLoading: boolean,
   pointsOfInterest: void | any, // FeatureCollection
+  realtorListings: Listing,
   routableNeighborhoods: any,
   setEndPosition: LonLat => void,
+  setShowBHAListings: Function => void,
+  setShowRealtorListings: Function => void,
   setStartPosition: LonLat => void,
   start: null | Location,
   updateEnd: () => void,
@@ -88,13 +108,14 @@ type Props = {
 type State = {
   lastClickedLabel: null | string,
   lastClickedPosition: null | Coordinate,
-  showSelectStartOrEnd: boolean
+  listingRouteDelay: null | setTimeout,
+  showSelectStartOrEnd: boolean,
 }
 
 /**
  *
  */
-export default class Map extends PureComponent<Props, State> {
+class Map extends PureComponent<Props, State> {
   constructor (props) {
     super(props)
     this.clickNeighborhood = this.clickNeighborhood.bind(this)
@@ -104,6 +125,7 @@ export default class Map extends PureComponent<Props, State> {
   state = {
     lastClickedLabel: null,
     lastClickedPosition: null,
+    listingRouteDelay: null,
     showSelectStartOrEnd: false
   }
 
@@ -124,7 +146,10 @@ export default class Map extends PureComponent<Props, State> {
   clickNeighborhood = (feature) => {
     // only go to routable neighborhood details
     if (feature.properties.routable) {
+      this.props.setShowBHAListings(false)
+      this.props.setShowRealtorListings(false)
       this.props.setShowDetails(true)
+      this.props.setActiveListing(null)
       this.props.setActiveNeighborhood(feature.properties.id)
     } else {
       console.warn('clicked unroutable neighborhood ' + feature.properties.id)
@@ -142,13 +167,64 @@ export default class Map extends PureComponent<Props, State> {
     }
   }
 
+  /* Display listing routing on hover with 500ms delay, cancel on mouseout.
+  On click, route immediately and do not cancel on mouseout */
+  handleSetActiveListing = (event, detail) => {
+    if (detail) {
+      const listingDetail = {
+        id: detail.id,
+        lat: detail.lat,
+        lon: detail.lon,
+        type: detail.type
+      }
+      if (event.type === 'mouseover') {
+        this.setState({listingRouteDelay: setTimeout(() => this.props.setActiveListing(listingDetail), 500)})
+      } else if (event.type === 'mouseout') {
+        clearTimeout(this.state.listingRouteDelay)
+        this.setState({listingRouteDelay: null})
+      } else if (event.type === 'click') {
+        clearTimeout(this.state.listingRouteDelay)
+        this.props.setActiveListing(listingDetail)
+      }
+    } else {
+      this.props.setActiveListing(null)
+    }
+  }
+  /*
+  Create Popups:
+  popupDetailOnHover on hover and open url link on click
+  */
+  popupDetailOnHover = (data) => {
+    const {
+      photos,
+      rent,
+      beds,
+      address
+    } = data
+    const {t, i18n} = this.props
+    const popupWidth = 240
+    return <div className='map__popup' style={{ width: popupWidth }}>
+      {photos && photos.length > 0 &&
+        <img className='map__popup-image' src={photos[0].href} key={`listings-image-${this._getKey()}`} />
+      }
+      <div className='map__popup-details'>
+        {address && <div className='map__popup-address'>{address}</div>}
+        {rent && <div className='map__popup-rent'>{t('Map.PopupDetails.RentAmount', { rent: rent.toLocaleString(i18n.language) })}</div>}
+        {beds && <div className='map__popup-beds'>{beds.split(' ')[0] + ' ' + t('NeighborhoodDetails.BedroomAbbr')}</div>}
+        <div className='map__popup-tip'>{t('Map.PopupDetails.ClickForDetails')}</div>
+      </div>
+    </div>
+  }
+
   /**
    * Reset state
    */
   _clearState () {
+    clearTimeout(this.state.listingRouteDelay)
     this.setState({
       lastClickedLabel: null,
       lastClickedPosition: null,
+      listingRouteDelay: null,
       showSelectStartOrEnd: false
     })
   }
@@ -207,14 +283,46 @@ export default class Map extends PureComponent<Props, State> {
   render () {
     const p = this.props
     const clickNeighborhood = this.clickNeighborhood
+    const handleSetActiveListing = this.handleSetActiveListing
     const hoverNeighborhood = this.hoverNeighborhood
     const styleNeighborhood = this.styleNeighborhood
+    const popupDetailOnHover = this.popupDetailOnHover
 
     // Index elements with keys to reset them when elements are added / removed
     this._key = 0
     let zIndex = 0
     const getZIndex = () => zIndex++
 
+    /* Create Markers and Popups for BHA and Realtor Listings */
+    const listingsMarker = (data) => {
+      const {
+        url,
+        lat,
+        lon
+      } = data
+      return <Marker
+        icon={listingIcon}
+        key={`listings-${this._getKey()}`}
+        position={[lat, lon]}
+        zIndex={getZIndex()}
+        onClick={(e): ((e) => void) => {
+          handleSetActiveListing(e, data)
+          window.open(url, '_blank', 'noopener,noreferrer')
+        }}
+        onmouseover={(e): ((e) => void) => {
+          handleSetActiveListing(e, data)
+          e.target.openPopup()
+        }}
+        onmouseout={(e): ((e) => void) => {
+          handleSetActiveListing(e, data)
+          e.target.closePopup()
+        }}
+      >
+        <Popup autoPan={false} closeButton={false} className='listing-detail-popup'>{popupDetailOnHover(data)}</Popup>
+      </Marker>
+    }
+
+    const createMarkerWithStandardizedData = standardizeData(listingsMarker)
     return (
       p.routableNeighborhoods ? <LeafletMap
         bounds={p.neighborhoodBoundsExtent}
@@ -241,20 +349,24 @@ export default class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           />}
 
-        {p.showRoutes && p.drawRoute &&
-          <DrawRoute
-            {...p.drawRoute}
-            activeNeighborhood={p.activeNeighborhood}
-            key={`draw-routes-${p.drawRoute.id}-${this._getKey()}`}
-            showDetails={p.showDetails}
-            zIndex={getZIndex()}
-          />}
+        <DisplayRouteLayers
+          activeListing={p.activeListing}
+          drawListingRoute={p.drawListingRoute}
+          drawNeighborhoodRoute={p.drawNeighborhoodRoute}
+          getKey={this._getKey()}
+          getZIndex={getZIndex()}
+          hasVehicle={p.hasVehicle}
+          neighborhood={p.activeNeighborhood}
+          showDetails={p.showDetails}
+          showRoutes={p.showRoutes}
+        />
 
         {!p.isLoading && p.routableNeighborhoods &&
           <DrawNeighborhoodBounds
             key={`start-${this._getKey()}`}
             clickNeighborhood={clickNeighborhood}
             hoverNeighborhood={hoverNeighborhood}
+            isLoading={p.isLoading}
             neighborhoods={p.routableNeighborhoods}
             styleNeighborhood={styleNeighborhood}
             zIndex={getZIndex()}
@@ -282,6 +394,10 @@ export default class Map extends PureComponent<Props, State> {
             </Popup>
           </Marker>}
 
+        {p.showRealtorListings && p.realtorListings.data && p.realtorListings.data.map((item, key) => createMarkerWithStandardizedData(item, 'Realtor'))}
+
+        {p.showBHAListings && p.bhaListings.data && p.bhaListings.data.map((item, key) => createMarkerWithStandardizedData(item, 'BHA'))}
+
         {!p.showDetails && p.displayNeighborhoods && p.displayNeighborhoods.length &&
           p.displayNeighborhoods.map((n) =>
             <Marker
@@ -297,3 +413,5 @@ export default class Map extends PureComponent<Props, State> {
   }
   /* eslint complexity: 1 */
 }
+
+export default withTranslation()(Map)

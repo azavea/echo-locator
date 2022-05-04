@@ -1,17 +1,20 @@
 // @flow
-import message from '@conveyal/woonerf/message'
+import { withTranslation } from 'react-i18next'
 import React, {Component} from 'react'
 import { Switch, Redirect, Route } from 'react-router-dom'
 
 import {ANONYMOUS_USERNAME} from '../constants'
 import type {
   AccountProfile,
+  ActiveListing,
+  ActiveListingDetail,
   Coordinate,
   GeocoderStore,
   LogItems,
   LonLat,
   PointsOfInterest,
-  UIStore
+  UIStore,
+  Listing
 } from '../types'
 
 import EditProfile from './edit-profile'
@@ -32,7 +35,9 @@ type MapState = {
 type Props = {
   accessibility: number[][],
   actionLog: LogItems,
+  activeListing: ActiveListing,
   activeNeighborhoodBounds: any,
+  bhaListings: Listing,
   data: {
     grids: string[],
     neighborhoodBounds: any,
@@ -44,19 +49,23 @@ type Props = {
     showFavorites: boolean,
     userProfile: AccountProfile
   },
+  detailListing: ActiveListingDetail,
   detailNeighborhood: any,
   displayNeighborhoods: any[],
   displayPageNeighborhoods: any[],
   drawIsochrones: Function[],
+  drawListingRoute: {},
   drawNeighborhoodRotues: any[],
   drawOpportunityDatasets: any[],
   drawRoutes: any[],
+  estMaxRent: Number,
   geocode: (string, Function) => void,
   geocoder: GeocoderStore,
   initialize: Function => void,
   isLoading: boolean,
   isochrones: any[],
   listNeighborhoods: any[],
+  listingRoute: {},
   loadProfile: Function => any,
   map: MapState,
   neighborhoodBounds: any,
@@ -69,17 +78,23 @@ type Props = {
   pageEndingOffset: number,
   pointsOfInterest: any, // FeatureCollection
   pointsOfInterestOptions: PointsOfInterest,
+  realtorListings: Listing,
   reverseGeocode: (string, Function) => void,
   routableNeighborhoodCount: number,
   routableNeighborhoods: any,
+  setActiveListing: Function => void,
   setActiveNeighborhood: Function => void,
+  setBHAListings: Function => void,
   setDisplayNeighborhoods: Function => void,
   setEnd: any => void,
   setPage: Function => void,
   setProfile: Function => void,
+  setRealtorListings: Function => void,
   setSelectedTimeCutoff: any => void,
+  setShowBHAListings: Function => void,
   setShowDetails: Function => void,
   setShowFavorites: Function => void,
+  setShowRealtorListings: Function => void,
   setStart: any => void,
   showComparison: boolean,
   showFavorites: boolean,
@@ -102,7 +117,7 @@ type State = {
 /**
  *
  */
-export default class Application extends Component<Props, State> {
+class Application extends Component<Props, State> {
   state = {
     componentError: null
   }
@@ -128,10 +143,11 @@ export default class Application extends Component<Props, State> {
   }
 
   noMatch ({location}) {
+    const {t} = this.props
     return (
       <div>
         <h1>
-          {message('PageNotFound')} <code>{location.pathname}</code>
+          {t('PageNotFound')} <code>{location.pathname}</code>
         </h1>
       </div>
     )
@@ -172,3 +188,4 @@ export default class Application extends Component<Props, State> {
     )
   }
 }
+export default withTranslation()(Application)

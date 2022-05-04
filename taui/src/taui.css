@@ -227,6 +227,16 @@ table.CardContent td:first-of-type {
   padding: 0.5rem;
 }
 
+.listing-detail-popup > .leaflet-popup-content-wrapper {
+  background-color: #fff;
+  padding: 0;
+}
+
+.listing-detail-popup .leaflet-popup-content {
+  margin: 0;
+  padding: 0;
+}
+
 .Popup button {
   display: block;
   font-size: 1rem;
@@ -251,6 +261,10 @@ table.CardContent td:first-of-type {
 
 .leaflet-popup-tip {
   border-top-color: var(--dark-blue);
+}
+
+.listing-detail-popup .leaflet-popup-tip {
+  border-top-color: #fff;
 }
 
 /* Leaflet Markers */
@@ -308,6 +322,19 @@ table.CardContent td:first-of-type {
   top: 5px;
   left: 5px;
   border: solid 5px transparent;
+}
+
+.LeafletIcon.Listing {
+  margin-top: -20px !important;
+}
+
+.LeafletIcon.Listing:after {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  border: solid 3px #fff;
+  border-radius: 50%;
 }
 
 .TransitSegment, .WalkSegment, .Stop {

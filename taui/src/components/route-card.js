@@ -1,6 +1,6 @@
 // @flow
 import Icon from '@conveyal/woonerf/components/icon'
-import message from '@conveyal/woonerf/message'
+import { withTranslation } from 'react-i18next'
 import React from 'react'
 
 import {ROUND_TRIP_MINUTES} from '../constants'
@@ -16,7 +16,7 @@ type Props = {
   title: string
 }
 
-export default class RouteCard extends React.PureComponent<Props> {
+class RouteCard extends React.PureComponent<Props> {
   constructor (props) {
     super(props)
     this.summaryImage = this.summaryImage.bind(this)
@@ -50,7 +50,8 @@ export default class RouteCard extends React.PureComponent<Props> {
       setActiveNeighborhood,
       setFavorite,
       title,
-      userProfile
+      userProfile,
+      t
     } = this.props
 
     const active = activeNeighborhood === neighborhood.properties.id
@@ -93,17 +94,14 @@ export default class RouteCard extends React.PureComponent<Props> {
             <SummaryImage nprops={neighborhood.properties} />
             <div className='neighborhood-summary__trip'>
               <div className='neighborhood-summary__duration'>
-                {message('Units.About')} {roundedTripTime} {message('Units.Mins')}
+                {t('Units.About')} {roundedTripTime} {t('Units.Mins')}
               </div>
               <div className='neighborhood-summary__trajectory'>
                 <span className='neighborhood-summary__mode'>
-                  {message(modeKey)}
-                  &nbsp;
-                  {message('NeighborhoodDetails.FromOrigin')}
-                </span>
-                &nbsp;
-                <span className='neighborhood-summary__location'>
-                  {currentDestination && currentDestination.purpose.toLowerCase()}
+                  <strong>{t('NeighborhoodDetails.ModeSummary').toLowerCase()}: </strong>
+                  {t(modeKey)}<br />
+                  <strong>{t('NeighborhoodDetails.FromOrigin').toLowerCase()}: </strong>
+                  {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}
                 </span>
               </div>
             </div>
@@ -116,3 +114,5 @@ export default class RouteCard extends React.PureComponent<Props> {
     )
   }
 }
+
+export default withTranslation()(RouteCard)

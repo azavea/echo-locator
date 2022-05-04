@@ -2,11 +2,12 @@
 import API from '@aws-amplify/api'
 import Storage from '@aws-amplify/storage'
 import lonlat from '@conveyal/lonlat'
-import message from '@conveyal/woonerf/message'
+import { useTranslation, withTranslation } from 'react-i18next'
 import find from 'lodash/find'
 import range from 'lodash/range'
 import {PureComponent} from 'react'
 import Icon from '@conveyal/woonerf/components/icon'
+import ReactTooltip from 'react-tooltip'
 
 import {
   AMPLIFY_API_NAME,
@@ -20,7 +21,8 @@ import {
   MAX_ADDRESSES,
   MAX_IMPORTANCE,
   MAX_ROOMS,
-  PROFILE_DESTINATION_TYPES
+  PROFILE_DESTINATION_TYPES,
+  TOOLTIP_HIDE_DELAY_MS
 } from '../constants'
 import type {AccountAddress, AccountProfile} from '../types'
 
@@ -44,7 +46,7 @@ const firstAddress: AccountAddress = {
 /**
  * Edit voucher holder profile.
  */
-export default class EditProfile extends PureComponent<Props> {
+class EditProfile extends PureComponent<Props> {
   props: Props
 
   constructor (props) {
@@ -193,6 +195,7 @@ export default class EditProfile extends PureComponent<Props> {
   // Write profile to S3 as JSON
   saveToS3 (saveAsKey: string, profile: AccountProfile, isCounselor: boolean,
     changeUserProfile: any): Promise<boolean> {
+    const {t} = this.props
     return new Promise((resolve, reject) => {
       Storage.put(saveAsKey, JSON.stringify(profile))
         .then(result => {
@@ -210,12 +213,12 @@ export default class EditProfile extends PureComponent<Props> {
             } else {
               console.error('Could not change user profile after edit')
               console.error('Profile save did not succeed', res)
-              this.setState({errorMessage: message('Profile.SaveError')})
+              this.setState({errorMessage: t('Profile.SaveError')})
               resolve(false)
             }
           }).catch(changeError => {
             console.error('Failed to change user profile after edit', changeError)
-            this.setState({errorMessage: message('Profile.SaveError')})
+            this.setState({errorMessage: t('Profile.SaveError')})
             reject(changeError)
           })
         })
@@ -227,18 +230,19 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   save (isCounselor: boolean, event: any) {
+    const {t} = this.props
     const isAnonymous = this.state.isAnonymous
     const profile: AccountProfile = this.getProfileFromState()
 
     if (!profile || !profile.key || !profile.voucherNumber) {
       console.error('Cannot save profile: missing profile or its voucher number.')
-      this.setState({errorMessage: message('Profile.SaveError')})
+      this.setState({errorMessage: t('Profile.SaveError')})
       return
     } else if (!profile.headOfHousehold) {
-      this.setState({errorMessage: message('Profile.NameRequired')})
+      this.setState({errorMessage: t('Profile.NameRequired')})
       return
     } else if (!this.validDestinations(profile.destinations)) {
-      this.setState({errorMessage: message('Profile.AddressMissing')})
+      this.setState({errorMessage: t('Profile.AddressMissing')})
       return
     } else {
       this.setState({errorMessage: ''})
@@ -269,7 +273,7 @@ export default class EditProfile extends PureComponent<Props> {
           })
         } else {
           console.warn('does not look like an email', profile.clientEmail)
-          this.setState({errorMessage: message('Profile.ClientEmailError')})
+          this.setState({errorMessage: t('Profile.ClientEmailError')})
         }
       } else {
         console.log('Do not need to create client account; it already exists')
@@ -293,21 +297,22 @@ export default class EditProfile extends PureComponent<Props> {
 
   // Resolves to 'exists', 'created', or 'failed'
   createClientAccount (key: string): Promise<string> {
+    const {t} = this.props
     return new Promise((resolve, reject) => {
       if (!key) {
         console.error('Cannot create client log-in account without key')
-        this.setState({errorMessage: message('Profile.CreateClientAccountError')})
+        this.setState({errorMessage: t('Profile.CreateClientAccountError')})
         resolve('failed')
       } else if (key.indexOf('_') > -1) {
         // warn counselor instead of going to map page
         console.error('Cannot create client log-in account. It looks like it already exists')
-        this.setState({errorMessage: message('Profile.CreateClientAccountError')})
+        this.setState({errorMessage: t('Profile.CreateClientAccountError')})
         resolve('')
       }
       const clientEmail = this.state.clientEmail
       if (!clientEmail || !EMAIL_REGEX.test(clientEmail)) {
         console.warn('does not look like an email', clientEmail)
-        this.setState({errorMessage: message('Profile.ClientEmailError')})
+        this.setState({errorMessage: t('Profile.ClientEmailError')})
         resolve('failed')
       }
 
@@ -340,7 +345,7 @@ export default class EditProfile extends PureComponent<Props> {
               } else {
                 console.error('Existing client account is for a different voucher number')
                 // Let counselor know that there is already a Cognito account for that e-mail
-                this.setState({errorMessage: message('Profile.CreateClientAccountExistsError', {
+                this.setState({errorMessage: t('Profile.CreateClientAccountExistsError', {
                   voucher: existingVoucherNumber
                 })})
                 resolve('failed')
@@ -348,15 +353,15 @@ export default class EditProfile extends PureComponent<Props> {
             } else {
               // No voucher number on existing user account. Is it the email of a counselor?
               console.warn('No voucher number on existing profile. Is that a counselor email?')
-              this.setState({errorMessage: message('Profile.CreateClientAccountError')})
+              this.setState({errorMessage: t('Profile.CreateClientAccountError')})
             }
           } else if (response.result === 'inviteNotResentVoucherMismatch') {
-            this.setState({errorMessage: message('Profile.CreateClientAccountExistsError', {
+            this.setState({errorMessage: t('Profile.CreateClientAccountExistsError', {
               voucher: this.getUserDataVoucherNumber(response.user)
             })})
           } else {
             console.error('Unrecognized error attempting to create user')
-            this.setState({errorMessage: message('Profile.CreateClientAccountError')})
+            this.setState({errorMessage: t('Profile.CreateClientAccountError')})
           }
           resolve('failed')
         } else {
@@ -370,16 +375,17 @@ export default class EditProfile extends PureComponent<Props> {
         // A 403 (as when user is not a counselor) will only return "Network Error"
         console.error('API call to create user failed')
         console.error(error)
-        this.setState({errorMessage: message('Profile.CreateClientAccountError')})
+        this.setState({errorMessage: t('Profile.CreateClientAccountError')})
         reject(error)
       })
     })
   }
 
   deleteProfile (key: string, isCounselor: boolean, event) {
+    const {t} = this.props
     if (!key) {
       console.error('Cannot delete account without key')
-      this.setState({errorMessage: message('Profile.SaveError')})
+      this.setState({errorMessage: t('Profile.SaveError')})
       return
     }
 
@@ -397,7 +403,7 @@ export default class EditProfile extends PureComponent<Props> {
       })
       .catch(err => {
         console.error(err)
-        this.setState({errorMessage: message('Profile.SaveError')})
+        this.setState({errorMessage: t('Profile.SaveError')})
       })
   }
 
@@ -415,11 +421,12 @@ export default class EditProfile extends PureComponent<Props> {
   }
 
   deleteAddress (index: number, event) {
+    const {t} = this.props
     const destinations = this.state.destinations.slice()
     const removedDestination = destinations.splice(index, 1)[0]
     // Do not allow deleting the current primary address
     if (removedDestination.primary) {
-      this.setState({errorMessage: message('Profile.DeletePrimaryAddressError')})
+      this.setState({errorMessage: t('Profile.DeletePrimaryAddressError')})
       return
     }
     const newState = {destinations: destinations, errorMessage: ''}
@@ -471,10 +478,11 @@ export default class EditProfile extends PureComponent<Props> {
 
   tripPurposeOptions (props) {
     const { destination, index, editAddress } = props
+    const {t} = useTranslation()
     const options = PROFILE_DESTINATION_TYPES.map((key) => {
       // expects each type in constants to have a label in messages
       const messageKey = 'TripPurpose.' + key
-      return <option key={key}>{message(messageKey)}</option>
+      return <option key={key} value={key}>{t(messageKey)}</option>
     })
 
     return (
@@ -500,6 +508,7 @@ export default class EditProfile extends PureComponent<Props> {
       setPrimaryAddress,
       TripPurposeOptions } = props
 
+    const {t} = useTranslation()
     const showAllColumns = destinations.length > 1
 
     const listItems = destinations.map((destination: AccountAddress, index) => {
@@ -512,7 +521,7 @@ export default class EditProfile extends PureComponent<Props> {
             className='account-profile__input account-profile__input--geocoder'
             geocode={geocode}
             onChange={(e) => setGeocodeLocation(index, editAddress, e)}
-            placeholder={message('Geocoding.PromptText')}
+            placeholder={t('Geocoding.PromptText')}
             reverseGeocode={reverseGeocode}
             value={destination.location}
           />
@@ -541,7 +550,7 @@ export default class EditProfile extends PureComponent<Props> {
               className='account-profile__destination-delete-button'
               data-id={index}
               onClick={(e) => deleteAddress(index, e)}
-              title={message('Profile.DeleteAddress')}>
+              title={t('Profile.DeleteAddress')}>
               <Icon type='times' />
             </button>
           </div>
@@ -551,22 +560,40 @@ export default class EditProfile extends PureComponent<Props> {
 
     return (
       <div className='account-profile__destinations'>
-        <h3 className='account-profile__label'>{message('Profile.Destinations')}</h3>
+        <h3 className='account-profile__label'>{t('Profile.Destinations')}</h3>
+        <span>
+          <div className='account-profile__button account-profile__button--tertiary account-profile__button--iconLeft'
+            data-tip={t('Tooltips.ProfileAddresses')}
+            data-for={`tooltip-profile-addresses`}>
+            {t('Profile.WhyAddresses')}
+          </div>
+          <ReactTooltip
+            clickable
+            html
+            effect='solid'
+            place='top'
+            offset='{"top": -10}'
+            isCapture
+            delayHide={TOOLTIP_HIDE_DELAY_MS}
+            className='map-sidebar__tooltip'
+            id={`tooltip-profile-addresses`}
+          />
+        </span>
         <div className='account-profile__destination-list-header'>
           <div className='account-profile__destination_field account-profile__destination_field--wide'>
             <span className='account-profile__destination-list-heading'>
-              {message('Profile.Address')}
+              {t('Profile.Address')}
             </span>
           </div>
           <div className='account-profile__destination_field'>
             <span className='account-profile__destination-list-heading'>
-              {message('Profile.Purpose')}
+              {t('Profile.Purpose')}
             </span>
           </div>
           {showAllColumns && <>
             <div className='account-profile__destination_field account-profile__destination_field--narrow account-profile__destination_field--center'>
               <span className='account-profile__destination-list-heading'>
-                {message('Profile.Primary')}
+                {t('Profile.Primary')}
               </span>
             </div>
             <div className='account-profile__destination_field account-profile__destination_field--xnarrow'>
@@ -581,18 +608,44 @@ export default class EditProfile extends PureComponent<Props> {
           className='account-profile__button account-profile__button--tertiary account-profile__button--iconLeft'
           onClick={addAddress}>
           <Icon type='plus' />
-          {message('Profile.AddAddress')}
+          {t('Profile.AddAddress')}
         </button>}
       </div>
     )
   }
 
+  importanceTooltip (props) {
+    const { fieldName } = props
+    const {t} = useTranslation()
+    const tooltip = t(`Tooltips.${fieldName}`)
+    return (
+      <span>
+        <Icon type='question-circle'
+          className='account-profile__tooltip-icon'
+          data-tip={tooltip}
+          data-for={`tooltip-${fieldName}`}
+        />
+        <ReactTooltip
+          clickable
+          html
+          effect='solid'
+          place='right'
+          isCapture
+          delayHide={TOOLTIP_HIDE_DELAY_MS}
+          className='map-sidebar__tooltip'
+          id={`tooltip-${fieldName}`}
+        />
+      </span>
+    )
+  }
+
   importanceOptions (props) {
     const { changeField, fieldName, importance } = props
+    const {t} = useTranslation()
     const importanceRange = range(1, MAX_IMPORTANCE + 1)
     const importanceOptions = importanceRange.map((num) => {
       const strVal = num.toString()
-      const label = message('ImportanceLabels.' + strVal)
+      const label = t('ImportanceLabels.' + strVal)
       return <option key={strVal} value={strVal}>{label}</option>
     })
     return (
@@ -637,7 +690,7 @@ export default class EditProfile extends PureComponent<Props> {
     const deleteProfile = this.deleteProfile
     const save = this.save
 
-    const { authData, geocode, reverseGeocode } = this.props
+    const { authData, geocode, reverseGeocode, t } = this.props
     const {
       clientAccountConfirmed,
       clientEmail,
@@ -658,13 +711,14 @@ export default class EditProfile extends PureComponent<Props> {
     const isCounselor = !!authData.counselor && !isAnonymous
 
     const DestinationsList = this.destinationsList
+    const ImportanceTooltip = this.importanceTooltip
     const ImportanceOptions = this.importanceOptions
     const RoomOptions = this.roomOptions
     const TripPurposeOptions = this.tripPurposeOptions
 
     return (
       <div className='form-screen'>
-        <h2 className='form-screen__heading'>{message('Profile.Title')}</h2>
+        <h2 className='form-screen__heading'>{t('Profile.Title')}</h2>
         {errorMessage &&
           <p className='account-profile__error'>{errorMessage}</p>
         }
@@ -674,7 +728,7 @@ export default class EditProfile extends PureComponent<Props> {
               <label
                 className='account-profile__label'
                 htmlFor='headOfHousehold'>
-                {message('Accounts.Name')}
+                {t('Accounts.Name')}
               </label>
               <input
                 data-private
@@ -692,7 +746,7 @@ export default class EditProfile extends PureComponent<Props> {
                 <label
                   className='account-profile__label'
                   htmlFor='clientEmail'>
-                  {message('Profile.ClientEmailLabel')}
+                  {t('Profile.ClientEmailLabel')}
                 </label>
                 <div className='account-profile__field-row'>
                   <input
@@ -709,7 +763,7 @@ export default class EditProfile extends PureComponent<Props> {
                     className='account-profile__button account-profile__button--secondary'
                     onClick={(e) => createClientAccount(key, e)}
                   >
-                    {message('Profile.RecreateClientAccount')}
+                    {t('Profile.RecreateClientAccount')}
                   </button>}
                 </div>
               </div>}
@@ -717,7 +771,7 @@ export default class EditProfile extends PureComponent<Props> {
               <label
                 className='account-profile__label'
                 htmlFor='clientEmail'>
-                {message('Profile.ClientEmailLabel')}
+                {t('Profile.ClientEmailLabel')}
               </label>
               <input
                 data-private
@@ -733,10 +787,11 @@ export default class EditProfile extends PureComponent<Props> {
             <div className='account-profile__field'>
               <label
                 className='account-profile__label'
-                htmlFor='rooms'>{message('Profile.Rooms')}</label>
+                htmlFor='rooms'>{t('Profile.Rooms')}</label>
               <RoomOptions
                 rooms={rooms}
-                changeField={changeField} />
+                changeField={changeField}
+              />
             </div>
             <DestinationsList
               addAddress={addAddress}
@@ -752,7 +807,7 @@ export default class EditProfile extends PureComponent<Props> {
             <div className='account-profile__field'>
               <div
                 className='account-profile__label'
-                htmlFor='rooms'>{message('Profile.ChooseTravelMode')}</div>
+                htmlFor='rooms'>{t('Profile.ChooseTravelMode')}</div>
               <div className='account-profile__field-row'>
                 <div className='account-profile__field account-profile__field--inline'>
                   <input
@@ -767,7 +822,7 @@ export default class EditProfile extends PureComponent<Props> {
                   <label
                     className='account-profile__label account-profile__label--secondary'
                     htmlFor='byCar'>
-                    {message('Profile.ByCar')}
+                    {t('Profile.ByCar')}
                   </label>
                 </div>
                 <div className='account-profile__field account-profile__field--inline'>
@@ -783,7 +838,7 @@ export default class EditProfile extends PureComponent<Props> {
                   <label
                     className='account-profile__label account-profile__label--secondary'
                     htmlFor='byTransit'>
-                    {message('Profile.ByTransit')}
+                    {t('Profile.ByTransit')}
                   </label>
                 </div>
                 {!hasVehicle && <div className='account-profile__field account-profile__field--inline'>
@@ -798,60 +853,72 @@ export default class EditProfile extends PureComponent<Props> {
                   <label
                     className='account-profile__label account-profile__label--secondary'
                     htmlFor='useCommuterRail'>
-                    {message('Profile.UseCommuterRail')}
+                    {t('Profile.UseCommuterRail')}
                   </label>
                 </div>}
               </div>
               {!hasVehicle && <div className='account-profile__field-description'>
-                {useCommuterRail ? message('Profile.UseCommuterRailExplanation')
-                  : message('Profile.ByTransitExplanation')}
+                {useCommuterRail ? t('Profile.UseCommuterRailExplanation')
+                  : t('Profile.ByTransitExplanation')}
               </div>}
             </div>
             <div className='account-profile__importance-options'>
               <h3 className='account-profile__label'>
-                {message('Profile.ImportanceHeading')}
+                {t('Profile.ImportanceHeading')}
               </h3>
               <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
                 <label
                   className='account-profile__label account-profile__label--secondary'
-                  htmlFor='importanceAccessibility'>{message('Profile.ImportanceAccessibility')}</label>
+                  htmlFor='importanceAccessibility'>{t('Profile.ImportanceAccessibility')}</label>
                 <ImportanceOptions
                   fieldName='importanceAccessibility'
                   importance={importanceAccessibility}
-                  changeField={changeField} />
+                  changeField={changeField}
+                />
+                <ImportanceTooltip
+                  fieldName='ImportanceAccessibility'
+                />
               </div>
               <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
                 <label
                   className='account-profile__label account-profile__label--secondary'
-                  htmlFor='importanceSchools'>{message('Profile.ImportanceSchools')}</label>
+                  htmlFor='importanceSchools'>{t('Profile.ImportanceSchools')}</label>
                 <ImportanceOptions
                   fieldName='importanceSchools'
                   importance={importanceSchools}
-                  changeField={changeField} />
+                  changeField={changeField}
+                />
+                <ImportanceTooltip
+                  fieldName='ImportanceSchools'
+                />
               </div>
               <div className='account-profile__field account-profile__field--inline account-profile__field--stack'>
                 <label
                   className='account-profile__label account-profile__label--secondary'
-                  htmlFor='importanceViolentCrime'>{message('Profile.ImportanceViolentCrime')}</label>
+                  htmlFor='importanceViolentCrime'>{t('Profile.ImportanceViolentCrime')}</label>
                 <ImportanceOptions
                   fieldName='importanceViolentCrime'
                   importance={importanceViolentCrime}
-                  changeField={changeField} />
+                  changeField={changeField}
+                />
+                <ImportanceTooltip
+                  fieldName='ImportanceViolentCrime'
+                />
               </div>
             </div>
             <div className='account-profile__actions'>
               <button
                 className='account-profile__button account-profile__button--primary'
-                onClick={(e) => save(isCounselor, e)}>{message('Profile.Go')}</button>
+                onClick={(e) => save(isCounselor, e)}>{t('Profile.Go')}</button>
               <button
                 className='account-profile__button account-profile__button--secondary'
-                onClick={cancel}>{message('Profile.Cancel')}</button>
+                onClick={cancel}>{t('Profile.Cancel')}</button>
               {!isAnonymous && <button
                 className='account-profile__button account-profile__button--tertiary account-profile__button--iconLeft'
                 onClick={(e) => deleteProfile(key, isCounselor, e)}
               >
                 <Icon type='trash' />
-                {message('Profile.DeleteProfile')}
+                {t('Profile.DeleteProfile')}
               </button>}
             </div>
           </div>}
@@ -861,3 +928,5 @@ export default class EditProfile extends PureComponent<Props> {
   }
   /* eslint-enable complexity */
 }
+
+export default withTranslation()(EditProfile)

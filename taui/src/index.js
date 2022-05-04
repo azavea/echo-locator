@@ -20,7 +20,12 @@ import {
   TOTPSetup,
   VerifyContact
 } from 'aws-amplify-react/dist/Auth'
+import { initReactI18next } from 'react-i18next'
+import i18n from 'i18next'
 
+import englishTranslations from './locales/en/translations'
+import spanishTranslations from './locales/es/translations'
+import chineseTranslations from './locales/zh/translations'
 import actions from './actions'
 import awsmobile from './aws-exports'
 import { CustomAuthenticatorTheme } from './amplify-theme'
@@ -42,6 +47,24 @@ document.title = message('Title')
 API.configure({endpoints: awsmobile['aws_cloud_logic_custom']})
 Auth.configure(awsmobile)
 Storage.configure(awsmobile)
+
+i18n.use(initReactI18next).init({
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false
+  },
+  resources: {
+    en: {
+      translation: englishTranslations
+    },
+    es: {
+      translation: spanishTranslations
+    },
+    zh: {
+      translation: chineseTranslations
+    }
+  }
+})
 
 // configure LogRocket for error, activity tracking
 if (process.env.LOGROCKET_APP_ID) {
@@ -71,14 +94,21 @@ function mapStateToProps (state, ownProps) {
   return {
     ...state,
     accessibility: select.accessibility(state, ownProps),
+    activeListing: get(state, 'data.activeListing'),
     activeNetworkIndex: select.activeNetworkIndex(state, ownProps),
     activeNeighborhoodBounds: select.activeNeighborhoodBounds(state, ownProps),
+    bhaListings: select.bhaListings(state, ownProps),
+    detailListing: select.detailListing(state, ownProps),
     detailNeighborhood: select.detailNeighborhood(state, ownProps),
     displayPageNeighborhoods: select.displayPageNeighborhoods(state, ownProps),
+    drawListingRoute: select.drawListingRoute(state, ownProps),
     drawNeighborhoodRoute: select.drawNeighborhoodRoute(state, ownProps),
     drawOpportunityDatasets: select.drawOpportunityDatasets(state, ownProps),
+    estMaxRent: select.estMaxRent(state, ownProps),
     haveAnotherPage: select.haveAnotherPage(state, ownProps),
     isLoading: select.loading(state, ownProps),
+    listingRoute: select.listingRoute(state, ownProps),
+    listingTravelTimes: select.listingTravelTimes(state, ownProps),
     neighborhoods: get(state, 'data.neighborhoods'),
     neighborhoodBounds: get(state, 'data.neighborhoodBounds'),
     neighborhoodBoundsExtent: select.neighborhoodBoundsExtent(state, ownProps),
@@ -89,6 +119,7 @@ function mapStateToProps (state, ownProps) {
     pageEndingOffset: select.pageEndingOffset(state, ownProps),
     pointsOfInterest: get(state, 'data.pointsOfInterest'),
     pointsOfInterestOptions: select.pointsOfInterestOptions(state, ownProps),
+    realtorListings: select.realtorListings(state, ownProps),
     routableNeighborhoodCount: select.routableNeighborhoodCount(state, ownProps),
     routableNeighborhoods: select.routableNeighborhoods(state, ownProps),
     showComparison: select.showComparison(state, ownProps),

@@ -1,11 +1,10 @@
 // @flow
+import { useTranslation, withTranslation } from 'react-i18next'
 import Icon from '@conveyal/woonerf/components/icon'
-import message from '@conveyal/woonerf/message'
 import uniq from 'lodash/uniq'
 import {PureComponent} from 'react'
 
-import {ROUND_TRIP_MINUTES} from '../constants'
-import type {AccountProfile, NeighborhoodImageMetadata} from '../types'
+import type {AccountProfile, ActiveListingDetail, NeighborhoodImageMetadata} from '../types'
 import getCraigslistSearchLink from '../utils/craigslist-search-link'
 import getGoogleDirectionsLink from '../utils/google-directions-link'
 import getGoogleSearchLink from '../utils/google-search-link'
@@ -20,11 +19,13 @@ import RouteSegments from './route-segments'
 
 type Props = {
   changeUserProfile: any,
+  estMaxRent: Number,
+  listing: ActiveListingDetail,
   neighborhood: any,
   setFavorite: any,
   userProfile: AccountProfile
 }
-export default class NeighborhoodDetails extends PureComponent<Props> {
+class NeighborhoodDetails extends PureComponent<Props> {
   props: Props
 
   constructor (props) {
@@ -35,6 +36,7 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
       : false
     }
 
+    this.neighborhoodTrip = this.neighborhoodTrip.bind(this)
     this.neighborhoodStats = this.neighborhoodStats.bind(this)
     this.neighborhoodImage = this.neighborhoodImage.bind(this)
     this.neighborhoodImages = this.neighborhoodImages.bind(this)
@@ -49,19 +51,61 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
     }
   }
 
-  neighborhoodStats (props) {
-    const { neighborhood, userProfile } = props
-    const { rooms } = userProfile
-    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br'] || '–––'
+  neighborhoodTrip (props) {
+    const { hasVehicle, listing, neighborhood, origin, userProfile, t } = props
+    // Look up the currently selected user profile destination from the origin
+    const originLabel = origin ? origin.label || '' : ''
+    const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
+    const bestJourney = listing ? (
+      listing.segments && listing.segments.length ? listing.segments[0] : null
+    ) : (
+      neighborhood.segments && neighborhood.segments.length ? neighborhood.segments[0] : null
+    )
+    const tripTime = listing ? listing.time : neighborhood.time
+
+    // lat,lon strings for Google Directions link from neighborhood to current destination
+    const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
+    const originCoordinateString = listing ? (listing.lat +
+      ',' + listing.lon) : (neighborhood.geometry.coordinates[1] +
+      ',' + neighborhood.geometry.coordinates[0])
 
     return (
-      <div className='neighborhood-details__stats'>
-        <div className='neighborhood-details__rent'>
-          <div className='neighborhood-details__rent-label'>{message('NeighborhoodDetails.MaxRent')}</div>
-          <div className='neighborhood-details__rent-value'>${maxSubsidy}</div>
-          <div className='neighborhood-details__rent-rooms'>{rooms}br</div>
+      <div className='neighborhood-details__trip'>
+        {bestJourney && <span className='neighborhood-details__route'>
+          <strong>{t('NeighborhoodDetails.TravelTime')}: </strong>
+          {tripTime} {t('Units.Mins')}<br />
+          <strong>{t('NeighborhoodDetails.FromOrigin')}: </strong>
+          {currentDestination && t('TripPurpose.' + currentDestination.purpose).toLowerCase()}<br />
+          <strong>{t('NeighborhoodDetails.ModeSummary')}: </strong>
+          <ModesList segments={bestJourney} /></span>}
+        {!bestJourney && !hasVehicle && <span className='neighborhood-details__route'>{t('Systems.TripsEmpty')}</span>}
+        <a
+          className='neighborhood-details__directions'
+          href={getGoogleDirectionsLink(
+            originCoordinateString,
+            destinationCoordinateString,
+            hasVehicle)}
+          target='_blank'
+        >
+          {t('NeighborhoodDetails.DirectionsLink')}
+        </a>
+      </div>
+    )
+  }
+
+  neighborhoodStats (props) {
+    const { userProfile, estMaxRent } = props
+    const {t, i18n} = useTranslation()
+    const { rooms } = userProfile
+    const maxSubsidy = estMaxRent || '–––'
+
+    return (
+      <div className='neighborhood-details__rent'>
+        <div>
+          <div className='neighborhood-details__rent-label'>{t('NeighborhoodDetails.MaxRent')}</div>
+          <div className='neighborhood-details__rent-rooms'>{rooms}{t('NeighborhoodDetails.BedroomAbbr')}</div>
         </div>
-        <NeighborhoodListInfo neighborhood={neighborhood} />
+        <div className='neighborhood-details__rent-value'>${maxSubsidy.toLocaleString(i18n.language)}</div>
       </div>
     )
   }
@@ -112,14 +156,14 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   neighborhoodLinks (props) {
-    const { neighborhood, userProfile } = props
+    const { neighborhood, userProfile, estMaxRent } = props
+    const {t, i18n} = useTranslation()
     const { rooms } = userProfile
-    const maxSubsidy = neighborhood.properties['max_rent_' + rooms + 'br']
 
     return (
       <>
         <h6 className='neighborhood-details__link-heading'>
-          Search for {rooms}br with max rent ${maxSubsidy}
+          {t('NeighborhoodDetails.MainSearchToolsSearch')}: {rooms} {t('NeighborhoodDetails.BedroomAbbr')} (${estMaxRent.toLocaleString(i18n.language)} {t('NeighborhoodDetails.MaxRentSearch')})
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -127,44 +171,44 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={getZillowSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              estMaxRent)}
             target='_blank'
           >
-            {message('NeighborhoodDetails.ZillowSearchLink')}
+            {t('NeighborhoodDetails.ZillowSearchLink')}
           </a>
           <a
             className='neighborhood-details__link'
             href={getCraigslistSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              estMaxRent)}
             target='_blank'
           >
-            {message('NeighborhoodDetails.CraigslistSearchLink')}
+            {t('NeighborhoodDetails.CraigslistSearchLink')}
           </a>
           <a
             className='neighborhood-details__link'
             href={getHotpadsSearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              estMaxRent)}
             target='_blank'
           >
-            {message('NeighborhoodDetails.HotpadsSearchLink')}
+            {t('NeighborhoodDetails.HotpadsSearchLink')}
           </a>
           <a
             className='neighborhood-details__link'
             href={getGoSection8SearchLink(
               neighborhood.properties.id,
               userProfile.rooms,
-              maxSubsidy)}
+              estMaxRent)}
             target='_blank'
           >
-            {message('NeighborhoodDetails.GoSection8SearchLink')}
+            {t('NeighborhoodDetails.GoSection8SearchLink')}
           </a>
         </div>
         <h6 className='neighborhood-details__link-heading'>
-          {message('NeighborhoodDetails.MoreSearchToolsLinksHeading')}
+          {t('NeighborhoodDetails.MoreSearchToolsLinksHeading')}
         </h6>
         <div className='neighborhood-details__links'>
           <a
@@ -172,39 +216,39 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href='https://www.metrohousingboston.org/apartment-listings/'
             target='_blank'
           >
-            {message('NeighborhoodDetails.MetroHousingLink')}
+            {t('NeighborhoodDetails.MetroHousingLink')}
           </a>
           <a
             className='neighborhood-details__link'
             href='https://www.bostonhousing.org/en/Apartment-Listing.aspx?btype=8,7,6,5,4,3,2,1'
             target='_blank'
           >
-            {message('NeighborhoodDetails.BHAApartmentsLink')}
+            {t('NeighborhoodDetails.BHAApartmentsLink')}
           </a>
           <a
             className='neighborhood-details__link'
             href='https://www.apartments.com/'
             target='_blank'
           >
-            {message('NeighborhoodDetails.ApartmentsDotComLink')}
+            {t('NeighborhoodDetails.ApartmentsDotComLink')}
           </a>
           <a
             className='neighborhood-details__link'
             href='https://eeclead.force.com/EEC_ChildCareSearch'
             target='_blank'
           >
-            {message('NeighborhoodDetails.ChildCareSearchLink')}
+            {t('NeighborhoodDetails.ChildCareSearchLink')}
           </a>
           <a
             className='neighborhood-details__link'
             href='http://bha.cvrapps.com/'
             target='_blank'
           >
-            {message('NeighborhoodDetails.RentEstimatorLink')}
+            {t('NeighborhoodDetails.RentEstimatorLink')}
           </a>
         </div>
         <h6 className='neighborhood-details__link-heading'>
-          {message('NeighborhoodDetails.AboutNeighborhoodLinksHeading')}
+          {t('NeighborhoodDetails.AboutNeighborhoodLinksHeading')}
         </h6>
         <div className='neighborhood-details__links'>
           {neighborhood.properties.town_link && <a
@@ -212,21 +256,21 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
             href={neighborhood.properties.town_link}
             target='_blank'
           >
-            {message('NeighborhoodDetails.WebsiteLink')}
+            {t('NeighborhoodDetails.WebsiteLink')}
           </a>}
           {neighborhood.properties.wikipedia_link && <a
             className='neighborhood-details__link'
             href={neighborhood.properties.wikipedia_link}
             target='_blank'
           >
-            {message('NeighborhoodDetails.WikipediaLink')}
+            {t('NeighborhoodDetails.WikipediaLink')}
           </a>}
           <a
             className='neighborhood-details__link'
             href={getGoogleSearchLink(neighborhood.properties.id)}
             target='_blank'
           >
-            {message('NeighborhoodDetails.GoogleSearchLink')}
+            {t('NeighborhoodDetails.GoogleSearchLink')}
           </a>
         </div>
       </>
@@ -234,32 +278,21 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   render () {
-    const { changeUserProfile, neighborhood, origin, setFavorite, userProfile } = this.props
+    const { changeUserProfile, estMaxRent, listing, neighborhood, origin, setFavorite, userProfile, t } = this.props
     const isFavorite = this.state.isFavorite
     const hasVehicle = userProfile ? userProfile.hasVehicle : false
     const NeighborhoodStats = this.neighborhoodStats
     const NeighborhoodImages = this.neighborhoodImages
     const NeighborhoodLinks = this.neighborhoodLinks
+    const NeighborhoodTrip = this.neighborhoodTrip
 
     if (!neighborhood || !userProfile) {
       return null
     }
 
     // Look up the currently selected user profile destination from the origin
-    const originLabel = origin ? origin.label || '' : ''
-    const currentDestination = userProfile.destinations.find(d => originLabel.endsWith(d.location.label))
     const { id, town } = neighborhood.properties
     const description = neighborhood.properties['town_website_description']
-
-    const bestJourney = neighborhood.segments && neighborhood.segments.length
-      ? neighborhood.segments[0] : null
-
-    const roundedTripTime = Math.round(neighborhood.time / ROUND_TRIP_MINUTES) * ROUND_TRIP_MINUTES
-
-    // lat,lon strings for Google Directions link from neighborhood to current destination
-    const destinationCoordinateString = origin.position.lat + ',' + origin.position.lon
-    const originCoordinateString = neighborhood.geometry.coordinates[1] +
-      ',' + neighborhood.geometry.coordinates[0]
 
     return (
       <div className='neighborhood-details'>
@@ -277,41 +310,36 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
           </header>
         </div>
         <div className='neighborhood-details__section'>
-          <div className='neighborhood-details__trip'>
-            {message('Units.About')}&nbsp;
-            {roundedTripTime}&nbsp;
-            {message('Units.Mins')}&nbsp;
-            <ModesList segments={bestJourney} />&nbsp;
-            {message('NeighborhoodDetails.FromOrigin')}&nbsp;
-            {currentDestination && currentDestination.purpose.toLowerCase()}
-            <a
-              className='neighborhood-details__directions'
-              href={getGoogleDirectionsLink(
-                originCoordinateString,
-                destinationCoordinateString,
-                hasVehicle)}
-              target='_blank'
-            >
-              {message('NeighborhoodDetails.DirectionsLink')}
-            </a>
-          </div>
+          <NeighborhoodTrip
+            hasVehicle={hasVehicle}
+            listing={listing}
+            neighborhood={neighborhood}
+            origin={origin}
+            t={t}
+            userProfile={userProfile} />
           {!hasVehicle && <RouteSegments
             hasVehicle={hasVehicle}
-            routeSegments={neighborhood.segments}
-            travelTime={neighborhood.time}
+            routeSegments={listing ? listing.segments : neighborhood.segments}
+            travelTime={listing ? listing.time : neighborhood.time}
           />}
         </div>
         <div className='neighborhood-details__section'>
           <NeighborhoodStats
-            neighborhood={neighborhood}
-            userProfile={userProfile} />
+            estMaxRent={estMaxRent}
+            userProfile={userProfile}
+          />
+        </div>
+        <div className='neighborhood-details__section'>
+          <NeighborhoodListInfo neighborhood={neighborhood} width={140} />
         </div>
         <div className='neighborhood-details__section'>
           <NeighborhoodLinks
+            estMaxRent={estMaxRent}
             hasVehicle={hasVehicle}
             neighborhood={neighborhood}
             origin={origin}
-            userProfile={userProfile} />
+            userProfile={userProfile}
+          />
         </div>
         <div className='neighborhood-details__section'>
           <NeighborhoodImages neighborhood={neighborhood} />
@@ -324,10 +352,15 @@ export default class NeighborhoodDetails extends PureComponent<Props> {
   }
 }
 
+export default withTranslation()(NeighborhoodDetails)
+
 // Builds list of unqiue transit modes used in a trip
-const ModesList = ({segments}) => segments && segments.length ? (
-  <>
-    {message('NeighborhoodDetails.ModeSummary')}&nbsp;
-    {uniq(segments.map(s => s.type)).join('/')}
-  </>
-) : message('NeighborhoodDetails.DriveMode')
+const ModesList = ({segments}) => {
+  const {t} = useTranslation()
+
+  return segments && segments.length ? (
+    <>
+      {uniq(segments.map(s => t(`TransportationMethod.${s.type}`))).join('/')}
+    </>
+  ) : t('NeighborhoodDetails.DriveMode')
+}

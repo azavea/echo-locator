@@ -289,3 +289,50 @@ export type MapEvent = {
     _zoom: number
   }
 }
+
+export type Listing = { pending: true } | { data: Array } | { error: String }
+
+export type ListingQuery = { budget: Number, rooms: string | Number, zipcode: Number | string }
+
+export type ActiveListing = {
+  'id': String,
+  'lat': Number,
+  'lon': Number,
+  'type': String
+} | null
+
+export type ActiveListingDetail = {
+  'id': String,
+  'lat': Number,
+  'lon': Number,
+  'segments': [],
+  'time': number,
+  'timeWeight': number
+} | null
+
+/**
+ * Woonerf increment/decrement fetch action event
+ */
+export interface FetchState {
+  'allowChangeConfig': Boolean,
+  'fetches': Number,
+  'showLink': Boolean,
+  'showLog': Boolean
+}
+
+export interface InnerPayload {
+  'id': Number,
+  'options': Object,
+  'type': "__FETCH__",
+  'url': String
+}
+
+export interface IncrementPayload {
+  payload: InnerPayload,
+  type: 'increment outstanding fetches'
+}
+
+export interface DecrementPayload {
+  payload: InnerPayload,
+  type: 'decrement outstanding fetches'
+}

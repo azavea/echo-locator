@@ -1,14 +1,14 @@
 {
     "projectName": "echolocatorStaging",
-    "version": "2.0",
+    "version": "3.0",
     "frontend": "javascript",
     "javascript": {
-        "framework": "react",
+        "framework": "none",
         "config": {
             "SourceDir": "src",
-            "DistributionDir": "build",
-            "BuildCommand": "yarn start",
-            "StartCommand": "yarn start"
+            "DistributionDir": "dist",
+            "BuildCommand": "npm run-script build",
+            "StartCommand": "npm run-script start"
         }
     },
     "providers": [
