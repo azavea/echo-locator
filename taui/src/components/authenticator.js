@@ -2,7 +2,6 @@
 import { Component, Fragment } from 'react'
 import LogRocket from 'logrocket'
 import Cookies from 'js-cookie'
-import axios from 'axios'
 
 import {ANONYMOUS_USERNAME} from '../constants'
 
@@ -14,8 +13,6 @@ export default function Authenticator (Comp) {
     constructor (props) {
       super(props)
 
-      this.state = {authToken: Cookies.get('auth_token') ? `Token ${Cookies.get('auth_token')}` : null}
-
       this.handleAuthChange = this.handleAuthChange.bind(this)
 
       // Load the selected user profile from localStorage, if any
@@ -24,7 +21,7 @@ export default function Authenticator (Comp) {
 
     handleAuthChange (profile: AccountProfile) {
       const userProfile = this.props.data.userProfile
-      if (!this.state.authToken && !userProfile) {
+      if (!this.props.authToken && !userProfile) {
         profile = {
           destinations: [],
           hasVehicle: false,
@@ -41,15 +38,9 @@ export default function Authenticator (Comp) {
     render () {
       const userProfile = this.props.data.userProfile
 
-      if (this.state.authToken && !userProfile) {
-        axios.get(`/api/user/`, {
-          headers: {
-            'Authorization': this.state.authToken
-          }
-        })
-          .then((response) => {
-            this.props.setProfile(response.data)
-          })
+      /* call authentication endpoint if token exists but userProfile has not been set */
+      if (Cookies.get('auth_token') && !userProfile && !this.props.data.loginMessage) {
+        this.props.setAuthToken(Cookies.get('auth_token'))
       }
 
       if (userProfile) {

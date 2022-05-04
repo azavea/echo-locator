@@ -146,6 +146,18 @@ export default handleActions(
         ...state,
         showRealtorListings: !!action.payload
       }
+    },
+    'set auth token' (state, action) {
+      return {
+        ...state,
+        authToken: action.payload
+      }
+    },
+    'set login message' (state, action) {
+      return {
+        ...state,
+        loginMessage: action.payload
+      }
     }
   },
   {

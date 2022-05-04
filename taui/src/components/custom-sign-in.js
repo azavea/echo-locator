@@ -2,7 +2,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { withTranslation } from 'react-i18next'
-import axios from 'axios'
 
 class SignInHeader extends React.Component {
   render () {
@@ -28,10 +27,7 @@ const SignInHeaderTranslated = withTranslation()(SignInHeader)
 class CustomSignIn extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      value: '',
-      successMessage: ''
-    }
+    this.state = {value: ''}
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -43,9 +39,8 @@ class CustomSignIn extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    this.setState({successMessage: 'Thank you! Please check your email for a link to sign into ECHO.'})
-    return axios.post('/api/login/', {email: this.state.value}
-    )
+    this.props.setLoginMessage('Thank you! Please check your email for a link to sign into ECHO.')
+    this.props.sendLoginLink(this.state.value)
   }
 
   render () {
@@ -63,7 +58,7 @@ class CustomSignIn extends React.Component {
             </fieldset>
             <button type='submit' className='auth-main__button auth-main__button--primary'>SIGN IN</button>
             <div className='auth-main__success-message'>
-              {this.state.successMessage}
+              {this.props.data.loginMessage}
             </div>
           </form>
           <div className='auth-main__anonymous-login'>
