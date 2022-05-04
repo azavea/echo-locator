@@ -51,12 +51,6 @@ aws_key_name = "echo-stg"
 
 r53_private_hosted_zone = "echo.internal"
 
-external_access_cidr_block = "127.0.0.1/32"
-
-bastion_ami           = "ami-0a887e401f7654935"
-bastion_instance_type = "t3.nano"
-bastion_ebs_optimized = true
-
 rds_database_identifier = stgdjango
 rds_database_name       = echo
 rds_database_username   = echo

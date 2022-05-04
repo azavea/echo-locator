@@ -3,7 +3,7 @@
 #
 resource "aws_security_group" "alb" {
   name   = "sg${local.short}AppLoadBalancer"
-  vpc_id = module.vpc.id
+  vpc_id = aws_vpc.default.id
 
   tags = {
     Name        = "sg${local.short}AppLoadBalancer"
@@ -14,7 +14,7 @@ resource "aws_security_group" "alb" {
 
 resource "aws_security_group" "app" {
   name   = "sg${local.short}AppEcsService"
-  vpc_id = module.vpc.id
+  vpc_id = aws_vpc.default.id
 
   tags = {
     Name        = "sg${local.short}AppEcsService",
@@ -29,7 +29,7 @@ resource "aws_security_group" "app" {
 resource "aws_lb" "app" {
   name            = "alb${local.short}App"
   security_groups = [aws_security_group.alb.id]
-  subnets         = module.vpc.public_subnet_ids
+  subnets         = aws_subnet.public.*.id
 
   tags = {
     Name        = "alb${local.short}App"
@@ -52,7 +52,7 @@ resource "aws_lb_target_group" "app" {
 
   port     = "80"
   protocol = "HTTP"
-  vpc_id   = module.vpc.id
+  vpc_id   = aws_vpc.default.id
 
   target_type = "ip"
 
@@ -152,7 +152,7 @@ resource "aws_ecs_service" "app" {
 
   network_configuration {
     security_groups = [aws_security_group.app.id]
-    subnets         = module.vpc.private_subnet_ids
+    subnets         = aws_subnet.private.*.id
   }
 
   load_balancer {

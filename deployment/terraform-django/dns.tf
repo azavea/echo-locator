@@ -5,7 +5,7 @@ resource "aws_route53_zone" "internal" {
   name = var.r53_private_hosted_zone
 
   vpc {
-    vpc_id     = module.vpc.id
+    vpc_id     = aws_vpc.default.id
     vpc_region = var.aws_region
   }
 
