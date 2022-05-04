@@ -1,43 +1,39 @@
-from rest_framework import serializers
-from .models import UserProfile, Destination
 from django.contrib.auth.models import User
+from rest_framework import serializers
+
+from .models import Destination, UserProfile
+
 
 class DestinationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Destination
-        fields = [
-            'profile',
-            'address',
-            'purpose',
-            'primary_destination'
-        ]
+        fields = ["profile", "address", "purpose", "primary_destination"]
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     destinations = DestinationSerializer(many=True)
+
     class Meta:
         model = UserProfile
         fields = [
-            'full_name',
-            'has_voucher',
-            'voucher_number',
-            'voucher_bedrooms',
-            'rent_budget',
-            'desired_bedrooms',
-            'travel_mode',
-            'commute_priority',
-            'school_quality_priority',
-            'public_safety_priority',
-            'destinations'
-            ]
+            "full_name",
+            "has_voucher",
+            "voucher_number",
+            "voucher_bedrooms",
+            "rent_budget",
+            "desired_bedrooms",
+            "travel_mode",
+            "commute_priority",
+            "school_quality_priority",
+            "public_safety_priority",
+            "destinations",
+        ]
+
 
 class UserSerializer(serializers.ModelSerializer):
     userprofile = UserProfileSerializer()
+
     class Meta:
         model = User
-        fields = [
-            'userprofile',
-            'username'
-        ]
-        read_only_fields = [
-            'username'
-        ]
+        fields = ["userprofile", "username"]
+        read_only_fields = ["username"]

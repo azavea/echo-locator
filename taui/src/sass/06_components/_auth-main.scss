@@ -20,17 +20,17 @@
       @include font-weight(bold);
       width: 95%;
       margin-top: 1rem;
-      margin-left: 1rem;
       margin-bottom: 2rem;
+      margin-left: 1rem;
     }
   }
 
   &__success-message {
     @include font-weight(bold);
     @include text(400);
-    color: darkgreen;
-    text-align: center;
     margin-bottom: 1rem;
+    color: $primary;
+    text-align: center;
   }
 
   &__anonymous-login {

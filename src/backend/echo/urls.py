@@ -17,9 +17,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
-from users import views as user_views
-
 from echo import settings
+from users import views as user_views
 from users.admin import LoginForm
 
 admin.site.login_form = LoginForm
@@ -45,21 +44,9 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(),
         name="password_reset_complete",
     ),
-    path(
-        "api/login/",
-        user_views.LoginPage.as_view(),
-        name="login"
-    ),
-    path(
-        "api/auth/login/",
-        user_views.ObtainToken.as_view(),
-        name="obtain_token"
-    ),
-    path(
-        "api/user/",
-        user_views.GetUserProfile.as_view(),
-        name="get_user_details"
-    ),
+    path("api/login/", user_views.LoginPage.as_view(), name="login"),
+    path("api/auth/login/", user_views.ObtainToken.as_view(), name="obtain_token"),
+    path("api/user/", user_views.GetUserProfile.as_view(), name="get_user_details"),
     path("admin/", admin.site.urls),
     path("health-check/", include("watchman.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
