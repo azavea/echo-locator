@@ -4,7 +4,7 @@
         "pk": 1,
         "fields": {
             "name": "Counselor",
-            "permissions": [14, 16, 26, 28]
+            "permissions": [14, 16, 34, 36, 38, 40]
         }
     },
     {
