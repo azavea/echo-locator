@@ -25,12 +25,41 @@ class SignInHeader extends React.Component {
 const SignInHeaderTranslated = withTranslation()(SignInHeader)
 
 class CustomSignIn extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {value: ''}
+
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleChange (e) {
+    this.setState({value: e.target.value})
+  }
+
+  handleSubmit (e) {
+    e.preventDefault()
+    this.props.sendLoginLink(this.state.value)
+  }
+
   render () {
     const { t } = this.props
     return (
       <div className='auth-screen'>
         <SignInHeaderTranslated />
         <div className='auth-screen__main auth-main'>
+          <form onSubmit={this.handleSubmit}>
+            <fieldset>
+              <label>
+                <p>{t('Profile.ClientEmailLabel')}</p>
+                <input name='email' value={this.state.value} onChange={this.handleChange} />
+              </label>
+            </fieldset>
+            <button type='submit' className='auth-main__button auth-main__button--primary'>{t('Header.SignIn')}</button>
+            <div className='auth-main__success-message'>
+              {t(this.props.data.loginMessage)}
+            </div>
+          </form>
           <div className='auth-main__anonymous-login'>
             {`${t('SignIn.AnonymousExplanation')} `}
             <Link to='/profile' onClick={() => {

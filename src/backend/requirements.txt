@@ -6,3 +6,4 @@ djangorestframework==3.13.1
 django-spa==0.3.6
 django-amazon-ses==4.0.1
 requests==2.26.0
+django-sesame[ua]==2.4

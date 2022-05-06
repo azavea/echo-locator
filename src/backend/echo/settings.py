@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_gis",
     "watchman",
+    "rest_framework.authtoken",
     "api",
     "users",
 ]
@@ -121,7 +122,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "echo.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -155,6 +155,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "sesame.backends.ModelBackend",
+]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+}
+
+# set magic link expire time to 1 hour
+SESAME_MAX_AGE = 60 * 60
+SESAME_TOKEN_NAME = "echo_auth"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

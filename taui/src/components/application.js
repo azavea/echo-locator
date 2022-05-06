@@ -35,9 +35,11 @@ type Props = {
   actionLog: LogItems,
   activeListing: ActiveListing,
   activeNeighborhoodBounds: any,
+  authToken: any,
   bhaListings: Listing,
   data: {
     grids: string[],
+    loginMessage: string,
     neighborhoodBounds: any,
     neighborhoods: any,
     networks: Network[],
@@ -80,11 +82,14 @@ type Props = {
   reverseGeocode: (string, Function) => void,
   routableNeighborhoodCount: number,
   routableNeighborhoods: any,
+  sendLoginLink: Function => void,
   setActiveListing: Function => void,
   setActiveNeighborhood: Function => void,
+  setAuthToken: Function => void,
   setBHAListings: Function => void,
   setDisplayNeighborhoods: Function => void,
   setEnd: any => void,
+  setLoginMessage: Function => void,
   setPage: Function => void,
   setProfile: Function => void,
   setRealtorListings: Function => void,
@@ -162,6 +167,7 @@ class Application extends Component<Props, State> {
     // Can navigate to map once at least one destination set on the profile.
     const canViewMap = userProfile && userProfile.destinations && userProfile.destinations.length
     const NoMatch = this.noMatch
+
     return (
       <Switch>
         <Route exact path='/' render={() => (

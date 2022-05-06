@@ -1,13 +1,14 @@
 // @flow
 import { Component, Fragment } from 'react'
 import LogRocket from 'logrocket'
+import Cookies from 'js-cookie'
 
 import {ANONYMOUS_USERNAME} from '../constants'
 
 import CustomSignIn from './custom-sign-in'
 import CustomHeaderBar from './custom-header-bar'
 
-export default function anonymousAuthenticator (Comp) {
+export default function Authenticator (Comp) {
   return class extends Component {
     constructor (props) {
       super(props)
@@ -20,7 +21,7 @@ export default function anonymousAuthenticator (Comp) {
 
     handleAuthChange (profile: AccountProfile) {
       const userProfile = this.props.data.userProfile
-      if (!userProfile) {
+      if (!this.props.authToken && !userProfile) {
         profile = {
           destinations: [],
           hasVehicle: false,
@@ -36,6 +37,11 @@ export default function anonymousAuthenticator (Comp) {
 
     render () {
       const userProfile = this.props.data.userProfile
+
+      /* call authentication endpoint if token exists but userProfile has not been set */
+      if (Cookies.get('auth_token') && !userProfile && !this.props.data.loginMessage) {
+        this.props.setAuthToken(Cookies.get('auth_token'))
+      }
 
       if (userProfile) {
         return (

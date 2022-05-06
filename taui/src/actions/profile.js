@@ -1,4 +1,6 @@
 // @flow
+import axios from 'axios'
+
 import {retrieveConfig, storeConfig} from '../config'
 import {PROFILE_CONFIG_KEY} from '../constants'
 
@@ -24,5 +26,39 @@ export const setProfile = (profile) => (dispatch, getState) => {
     dispatch({type: 'set profile', payload: profile})
   } catch (e) {
     console.error('Error parsing localStorage configuration ' + PROFILE_CONFIG_KEY, e)
+  }
+}
+
+export const sendLoginLink = (email) => (dispatch, getState) => {
+  addActionLogItem(`Sending login link to ${email}`)
+  axios.post('/api/login/', {
+    email: email
+  }
+  )
+  dispatch({type: 'set login message', payload: 'SignIn.LoginLinkSent'})
+}
+
+export const setAuthToken = (authToken) => (dispatch, getState) => {
+  addActionLogItem('Updating authToken')
+  axios.get(`/api/user/`, {
+    headers: {
+      'Authorization': `Token ${authToken}`
+    }
+  })
+    .then((response) => {
+      dispatch({type: 'set auth token', payload: authToken})
+      dispatch({type: 'set profile', payload: response.data})
+    })
+    .catch((error) => {
+      console.error('Error fetching user profile', error)
+      dispatch({type: 'set login message', payload: 'SignIn.NoProfileFound'})
+    })
+}
+
+export const setLoginMessage = (loginMessage) => (dispatch, getState) => {
+  try {
+    dispatch({type: 'set login message', payload: loginMessage})
+  } catch (e) {
+    console.error('Error updating login message', e)
   }
 }
