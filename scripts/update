@@ -26,6 +26,12 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         # Ensure container images are current
         docker-compose build
 
+        # Build static asset bundle
+        docker-compose \
+            -f docker-compose.yml \
+            run --rm --no-deps --entrypoint "bash -c" taui \
+            "yarn install && yarn build"
+
         # Bring up PostgreSQL and Django in a way that respects
         # configured service health checks.
         docker-compose up -d database django
