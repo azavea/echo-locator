@@ -3,6 +3,7 @@
 - [AWS Credentials](#aws-credentials)
 - [Publish Container Images](#publish-container-images)
 - [Terraform](#terraform)
+- [Migrations](#migrations)
 
 ## AWS Credentials
 
@@ -80,3 +81,27 @@ $ ./scripts/infra apply
 ```
 
 This will attempt to apply the plan assembled in the previous step using Amazon's APIs.
+
+## Migrations
+
+### Staging
+
+1. Ensure you are setup with AWS CLI credentials.
+2. Install the [Session Manager plugin](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) for the AWS CLI.
+3. Run the following command (the task ID can be found by logging into the AWS console and selecting the most recent running task for the ECS [django staging cluster](https://us-east-1.console.aws.amazon.com/ecs/home?region=us-east-1#/clusters/ecsechostgdjangoCluster/tasks)):
+```bash
+$ aws ecs execute-command --region us-east-1 --cluster <name-of-django-staging-cluster> --task <current-task-id> --container django --command "/bin/bash" --interactive
+```
+4. You should see something similar to the following to initiate the start of a session:
+```
+The Session Manager plugin was installed successfully. Use the AWS CLI to start a session.
+
+
+Starting session with SessionId: ecs-execute-command-08e2295045096200d
+root@ip-10-0-3-195:/usr/local/src/backend#
+```
+5. Run `python manage.py showmigrations`
+6. Confirm migrations are up to date.
+7. Run `python manage.py migrate`
+8. Run `exit` to exit the session.
+9. Monitor the log output of the current task and confirm staging functions as expected.
