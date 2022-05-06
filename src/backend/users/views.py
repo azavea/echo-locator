@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -18,7 +18,9 @@ class LoginPage(APIView):
         try:
             user = User.objects.get(username=email)
             login_token = utils.get_query_string(user)
-            login_link = "http://localhost:8085/api/auth/login/{}".format(login_token)
+            host = request.get_host()
+            protocol = "https://" if request.is_secure() else "http://"
+            login_link = protocol + host + reverse("obtain_token") + login_token
 
             html_message = """
             <p>Hi there,</p>
@@ -28,17 +30,19 @@ class LoginPage(APIView):
                 login_link
             )
 
+            # TODO replace with actual values parameterized based on environment
+            # issue 485 (https://github.com/azavea/echo-locator/issues/485)
             send_mail(
                 "Your ECHO Login Link",
                 html_message,
-                "admin@domain.com",  # This will need to be replaced with actual values
+                "admin@domain.com",
                 [email],
                 fail_silently=False,
                 html_message=html_message,
             )
-            return Response(content_type="application/json")
-        except ObjectDoesNotExist:
-            return Response(content_type="application/json")
+        except User.DoesNotExist:
+            pass
+        return Response(content_type="application/json")
 
 
 class ObtainToken(APIView):
@@ -58,7 +62,7 @@ class GetUserProfile(APIView):
         user = User.objects.get(username=request.user)
         serializer = UserSerializer(user)
         user_profile = serializer.data["userprofile"]
-        map_prefs_to_nums = {"NI": 1, "SI": 2, "I": 3, "VI": 4}
+        map_priorities_to_nums = {"NI": 1, "SI": 2, "I": 3, "VI": 4}
         map_purposes = {
             "WK": "Work",
             "DC": "Day care",
@@ -70,18 +74,18 @@ class GetUserProfile(APIView):
         }
 
         # repackage destinations to match frontend AccountAddress
-        # currently uses dummy lat & lon prior to addition of Point in PR 478
-        # https://github.com/azavea/echo-locator/pull/478/
+        # TODO replace dummy Point data issue 486
+        # (https://github.com/azavea/echo-locator/issues/486)
         formatted_destinations = [
             {
                 "location": {
-                    "label": i["address"],
+                    "label": profile["address"],
                     "position": {"lat": 42.351550, "lon": -71.084753},
                 },
-                "primary": i["primary_destination"],
-                "purpose": map_purposes[i["purpose"]],
+                "primary": profile["primary_destination"],
+                "purpose": map_purposes[profile["purpose"]],
             }
-            for i in user_profile["destinations"]
+            for profile in user_profile["destinations"]
         ]
 
         # repackage user profile to match frontend AccountProfile type
@@ -90,9 +94,11 @@ class GetUserProfile(APIView):
             "destinations": formatted_destinations,
             "hasVehicle": user_profile["travel_mode"] == "CA",
             "headOfHousehold": user_profile["full_name"],
-            "importanceAccessibility": map_prefs_to_nums[user_profile["commute_priority"]],
-            "importanceSchools": map_prefs_to_nums[user_profile["school_quality_priority"]],
-            "importanceViolentCrime": map_prefs_to_nums[user_profile["public_safety_priority"]],
+            "importanceAccessibility": map_priorities_to_nums[user_profile["commute_priority"]],
+            "importanceSchools": map_priorities_to_nums[user_profile["school_quality_priority"]],
+            "importanceViolentCrime": map_priorities_to_nums[
+                user_profile["public_safety_priority"]
+            ],
             "rooms": user_profile["voucher_bedrooms"]
             if user_profile["voucher_bedrooms"]
             else user_profile["desired_bedrooms"],

@@ -31,15 +31,16 @@ export const setProfile = (profile) => (dispatch, getState) => {
 
 export const sendLoginLink = (email) => (dispatch, getState) => {
   addActionLogItem(`Sending login link to ${email}`)
-  dispatch(axios.post('/api/login/', {
+  axios.post('/api/login/', {
     email: email
   }
-  ))
+  )
+  dispatch({type: 'set login message', payload: 'SignIn.LoginLinkSent'})
 }
 
 export const setAuthToken = (authToken) => (dispatch, getState) => {
   addActionLogItem('Updating authToken')
-  dispatch(axios.get(`/api/user/`, {
+  axios.get(`/api/user/`, {
     headers: {
       'Authorization': `Token ${authToken}`
     }
@@ -50,9 +51,8 @@ export const setAuthToken = (authToken) => (dispatch, getState) => {
     })
     .catch((error) => {
       console.error('Error fetching user profile', error)
-      dispatch({type: 'set login message', payload: 'You do not have a user profile. Please create one and try again.'})
+      dispatch({type: 'set login message', payload: 'SignIn.NoProfileFound'})
     })
-  )
 }
 
 export const setLoginMessage = (loginMessage) => (dispatch, getState) => {

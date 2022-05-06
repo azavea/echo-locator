@@ -39,7 +39,6 @@ class CustomSignIn extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    this.props.setLoginMessage('Thank you! Please check your email for a link to sign into ECHO.')
     this.props.sendLoginLink(this.state.value)
   }
 
@@ -52,13 +51,13 @@ class CustomSignIn extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <fieldset>
               <label>
-                <p>Email address</p>
+                <p>{t('Profile.ClientEmailLabel')}</p>
                 <input name='email' value={this.state.value} onChange={this.handleChange} />
               </label>
             </fieldset>
-            <button type='submit' className='auth-main__button auth-main__button--primary'>SIGN IN</button>
+            <button type='submit' className='auth-main__button auth-main__button--primary'>{t('Header.SignIn')}</button>
             <div className='auth-main__success-message'>
-              {this.props.data.loginMessage}
+              {t(this.props.data.loginMessage)}
             </div>
           </form>
           <div className='auth-main__anonymous-login'>

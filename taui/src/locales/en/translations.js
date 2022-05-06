@@ -132,7 +132,9 @@ export default {
     AnonymousExplanation: "Don't have an account?",
     Greeting: 'Improving Housing Search for Voucher Families',
     UserNotFound: 'Could not find that username as entered. Usernames are case-sensitive.',
-    BadUsernameOrPassword: 'Username or password was incorrect. Both usernames and passwords are case-sensitive.'
+    BadUsernameOrPassword: 'Username or password was incorrect. Both usernames and passwords are case-sensitive.',
+    LoginLinkSent: 'Thank you! Please check your email for a link to sign into ECHO.',
+    NoProfileFound: 'You do not have a user profile. Please create one and try again.'
   },
   Header: {
     New: 'New search',

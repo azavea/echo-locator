@@ -132,7 +132,9 @@ export default {
   SignIn: {
     Anonymous: 'Continue without an account',
     AnonymousExplanation: "Don't have an account?",
-    Greeting: '家庭類租賃券專用的改善住房搜索'
+    Greeting: '家庭類租賃券專用的改善住房搜索',
+    LoginLinkSent: 'Thank you! Please check your email for a link to sign into ECHO.',
+    NoProfileFound: 'You do not have a user profile. Please create one and try again.'
   },
   Header: {
     New: '新搜尋',

@@ -135,7 +135,9 @@ export default {
   SignIn: {
     Anonymous: 'Continue without an account',
     AnonymousExplanation: "Don't have an account?",
-    Greeting: 'Mejorando la búsqueda de vivienda para familias con Vales de vivienda'
+    Greeting: 'Mejorando la búsqueda de vivienda para familias con Vales de vivienda',
+    LoginLinkSent: 'Thank you! Please check your email for a link to sign into ECHO.',
+    NoProfileFound: 'You do not have a user profile. Please create one and try again.'
   },
   Header: {
     New: 'Nueva búsqueda',
