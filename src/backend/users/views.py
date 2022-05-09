@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from sesame import utils
 
 from .serializers import UserSerializer
+from .models import Destination, UserProfile
 
 
 class LoginPage(APIView):
@@ -55,27 +56,24 @@ class ObtainToken(APIView):
         return response
 
 
-class GetUserProfile(APIView):
+class UserProfileView(APIView):
     permission_classes = (IsAuthenticated,)
+    map_priorities_to_nums = {"NI": 1, "SI": 2, "I": 3, "VI": 4}
+    map_purposes = {
+        "WK": "Work",
+        "DC": "Day care",
+        "FA": "Family",
+        "FR": "Friends",
+        "WP": "Worship",
+        "DR": "Doctor",
+        "OT": "Other",
+    }
 
-    def get(self, request, **kwargs):
-        user = User.objects.get(username=request.user)
-        serializer = UserSerializer(user)
-        user_profile = serializer.data["userprofile"]
-        map_priorities_to_nums = {"NI": 1, "SI": 2, "I": 3, "VI": 4}
-        map_purposes = {
-            "WK": "Work",
-            "DC": "Day care",
-            "FA": "Family",
-            "FR": "Friends",
-            "WP": "Worship",
-            "DR": "Doctor",
-            "OT": "Other",
-        }
-
+    def repackage_for_frontend(self, serialized_data):
         # repackage destinations to match frontend AccountAddress
         # TODO replace dummy Point data issue 486
         # (https://github.com/azavea/echo-locator/issues/486)
+        user_profile = serialized_data["userprofile"]
         formatted_destinations = [
             {
                 "location": {
@@ -83,20 +81,20 @@ class GetUserProfile(APIView):
                     "position": {"lat": 42.351550, "lon": -71.084753},
                 },
                 "primary": profile["primary_destination"],
-                "purpose": map_purposes[profile["purpose"]],
+                "purpose": self.map_purposes[profile["purpose"]],
             }
             for profile in user_profile["destinations"]
         ]
 
         # repackage user profile to match frontend AccountProfile type
         content = {
-            "clientEmail": serializer.data["username"],
+            "clientEmail": serialized_data["username"],
             "destinations": formatted_destinations,
             "hasVehicle": user_profile["travel_mode"] == "CA",
             "headOfHousehold": user_profile["full_name"],
-            "importanceAccessibility": map_priorities_to_nums[user_profile["commute_priority"]],
-            "importanceSchools": map_priorities_to_nums[user_profile["school_quality_priority"]],
-            "importanceViolentCrime": map_priorities_to_nums[
+            "importanceAccessibility": self.map_priorities_to_nums[user_profile["commute_priority"]],
+            "importanceSchools": self.map_priorities_to_nums[user_profile["school_quality_priority"]],
+            "importanceViolentCrime": self.map_priorities_to_nums[
                 user_profile["public_safety_priority"]
             ],
             "rooms": user_profile["voucher_bedrooms"]
@@ -105,4 +103,57 @@ class GetUserProfile(APIView):
             "useCommuterRail": user_profile["travel_mode"] == "BTE",
             "voucherNumber": user_profile["voucher_number"],
         }
+        return content
+
+    def get(self, request, **kwargs):
+        user = User.objects.get(username=request.user)
+        serializer = UserSerializer(user)
+
+        content = self.repackage_for_frontend(serializer.data)
+        
+        return Response(content)
+
+    def put(self, request, *args, **kwargs):
+        data = request.data
+        updated_profile = UserProfile.objects.get(user=User.objects.get(username=request.user))
+
+        # save new/changed destinations
+        for destination in data["destinations"]:
+            try:
+                updated_destination = Destination.objects.get(address = destination["location"]["label"])
+                # TODO save Point data issue 486 (https://github.com/azavea/echo-locator/issues/486)
+                updated_destination.address = destination["location"]["label"]
+                updated_destination.primary_destination = destination["primary"]
+                updated_destination.purpose = list(self.map_purposes.keys())[list(self.map_purposes.values()).index(destination["purpose"])]
+                updated_destination.save()
+            except Destination.DoesNotExist:
+                new_destination = Destination(
+                    profile = updated_profile,
+                    address = destination["location"]["label"],
+                    primary_destination = destination["primary"],
+                    purpose = list(self.map_purposes.keys())[list(self.map_purposes.values()).index(destination["purpose"])]
+                )
+                new_destination.save()
+
+        # determine user's mode of travel
+        if data["hasVehicle"]:
+            updated_profile.travel_mode = "CA"
+        elif data["useCommuterRail"]:
+            updated_profile.travel_mode = "BTE"
+        else:
+            updated_profile.travel_mode = "BT"
+
+        updated_profile.full_name = data["headOfHousehold"]
+        updated_profile.commute_priority = list(self.map_priorities_to_nums.keys())[data["importanceAccessibility"]-1]
+        updated_profile.school_quality_priority = list(self.map_priorities_to_nums.keys())[data["importanceSchools"]-1]
+        updated_profile.public_safety_priority = list(self.map_priorities_to_nums.keys())[data["importanceViolentCrime"]-1]
+        # TODO update to not assume voucher rooms instead of desired bedrooms
+        # issue 461 (https://github.com/azavea/echo-locator/issues/461)
+        updated_profile.voucher_bedrooms = data["rooms"]
+        updated_profile.voucher_number = data["voucherNumber"]
+
+        updated_profile.save()
+
+        serializer = UserSerializer(User.objects.get(username=request.user))
+        content = self.repackage_for_frontend(serializer.data)
         return Response(content)
