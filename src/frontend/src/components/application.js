@@ -82,6 +82,7 @@ type Props = {
   reverseGeocode: (string, Function) => void,
   routableNeighborhoodCount: number,
   routableNeighborhoods: any,
+  saveProfile: (Function) => void,
   sendLoginLink: (Function) => void,
   setActiveListing: (Function) => void,
   setActiveNeighborhood: (Function) => void,

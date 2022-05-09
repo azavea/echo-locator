@@ -29,6 +29,17 @@ export const setProfile = (profile) => (dispatch, getState) => {
   }
 };
 
+export const saveProfile = (profile, authToken) => (dispatch, getState) => {
+  axios.put(`/api/user/`, profile, {
+    headers: {
+      'Authorization': `Token ${authToken}`
+    }
+  })
+    .catch((error) => {
+      console.error('Error saving user profile', error)
+    })
+}
+
 export const sendLoginLink = (email) => (dispatch, getState) => {
   addActionLogItem(`Sending login link to ${email}`);
   axios.post("/api/login/", { email });

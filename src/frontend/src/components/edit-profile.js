@@ -181,13 +181,10 @@ class EditProfile extends PureComponent<Props> {
     const { t } = this.props;
     const profile: AccountProfile = this.getProfileFromState();
 
-    if (!profile || !profile.key || !profile.voucherNumber) {
-      console.error("Cannot save profile: missing profile or its voucher number.");
-      this.setState({ errorMessage: t("Profile.SaveError") });
-      return;
-    } else if (!profile.headOfHousehold) {
-      this.setState({ errorMessage: t("Profile.NameRequired") });
-      return;
+    if (!profile) {
+      console.error('Cannot save profile: missing profile.')
+      this.setState({errorMessage: t('Profile.SaveError')})
+      return
     } else if (!this.validDestinations(profile.destinations)) {
       this.setState({ errorMessage: t("Profile.AddressMissing") });
       return;
@@ -195,8 +192,12 @@ class EditProfile extends PureComponent<Props> {
       this.setState({ errorMessage: "" });
     }
 
-    this.props.handleAuthChange(profile);
-    this.props.history.push("/map");
+    if (!this.state.isAnonymous) {
+      this.props.saveProfile(profile, this.props.data.authToken)
+    }
+
+    this.props.handleAuthChange(profile)
+    this.props.history.push('/map')
   }
 
   addAddress() {
@@ -515,7 +516,6 @@ class EditProfile extends PureComponent<Props> {
       importanceViolentCrime,
       errorMessage,
       isAnonymous,
-      key,
       rooms,
       useCommuterRail,
     } = this.state;
@@ -527,17 +527,55 @@ class EditProfile extends PureComponent<Props> {
     const TripPurposeOptions = this.tripPurposeOptions;
 
     return (
-      <div className="form-screen">
-        <h2 className="form-screen__heading">{t("Profile.Title")}</h2>
-        {errorMessage && <p className="account-profile__error">{errorMessage}</p>}
-        <div className="form-screen__main">
-          {key && (
-            <div className="account-profile">
-              {!isAnonymous && (
-                <div className="account-profile__field">
-                  <label className="account-profile__label" htmlFor="headOfHousehold">
-                    {t("Accounts.Name")}
-                  </label>
+      <div className='form-screen'>
+        <h2 className='form-screen__heading'>{t('Profile.Title')}</h2>
+        {errorMessage &&
+          <p className='account-profile__error'>{errorMessage}</p>
+        }
+        <div className='form-screen__main'>
+          {<div className='account-profile'>
+            {!isAnonymous && <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='headOfHousehold'>
+                {t('Accounts.Name')}
+              </label>
+              <input
+                data-private
+                className='account-profile__input account-profile__input--text'
+                id='headOfHousehold'
+                type='text'
+                onChange={(e) => changeField('headOfHousehold', e.currentTarget.value)}
+                defaultValue={headOfHousehold || ''}
+                autoComplete='off'
+              />
+            </div>}
+            <div className='account-profile__field'>
+              <label
+                className='account-profile__label'
+                htmlFor='rooms'>{t('Profile.Rooms')}</label>
+              <RoomOptions
+                rooms={rooms}
+                changeField={changeField}
+              />
+            </div>
+            <DestinationsList
+              addAddress={addAddress}
+              deleteAddress={deleteAddress}
+              destinations={destinations}
+              editAddress={editAddress}
+              geocode={geocode}
+              reverseGeocode={reverseGeocode}
+              setGeocodeLocation={setGeocodeLocation}
+              setPrimaryAddress={setPrimaryAddress}
+              TripPurposeOptions={TripPurposeOptions}
+            />
+            <div className='account-profile__field'>
+              <div
+                className='account-profile__label'
+                htmlFor='rooms'>{t('Profile.ChooseTravelMode')}</div>
+              <div className='account-profile__field-row'>
+                <div className='account-profile__field account-profile__field--inline'>
                   <input
                     data-private
                     className="account-profile__input account-profile__input--text"
