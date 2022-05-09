@@ -26,6 +26,11 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
         REACT_APP_GIT_COMMIT="${GIT_COMMIT}" \
             ./scripts/update
 
+        docker-compose \
+            -f docker-compose.yml \
+            run --rm --no-deps --entrypoint "bash -c" taui \
+            "yarn install && yarn build"
+
         # Build tagged container images
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
             -f docker-compose.yml \
