@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -157,3 +158,10 @@ class UserProfileView(APIView):
         serializer = UserSerializer(User.objects.get(username=request.user))
         content = self.repackage_for_frontend(serializer.data)
         return Response(content)
+
+class DeleteDestinationView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def delete(self, request, *args, **kwargs):
+        deleted_destination = Destination.objects.get(address = request.data["destination"]["location"]["label"])
+        deleted_destination.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

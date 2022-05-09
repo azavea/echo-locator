@@ -222,8 +222,11 @@ class EditProfile extends PureComponent<Props> {
       this.setState({ errorMessage: t("Profile.DeletePrimaryAddressError") });
       return;
     }
-    const newState = { destinations, errorMessage: "" };
-    this.setState(newState);
+    const newState = {destinations: destinations, errorMessage: ''}
+    this.setState(newState)
+    if (!this.state.isAnonymous) {
+      this.props.deleteDestination(removedDestination, this.props.data.authToken)
+    }
   }
 
   // Set a `property` on a destination at list `index` to `value`

@@ -40,6 +40,20 @@ export const saveProfile = (profile, authToken) => (dispatch, getState) => {
     })
 }
 
+export const deleteDestination = (destination, authToken) => (dispatch, getState) => {
+  axios.delete('/api/user/destination/', {
+    headers: {
+      'Authorization': `Token ${authToken}`
+    },
+    data: {
+      destination
+    }
+  })
+    .catch((error) => {
+      console.error('Error deleting destination', error)
+    })
+}
+
 export const sendLoginLink = (email) => (dispatch, getState) => {
   addActionLogItem(`Sending login link to ${email}`);
   axios.post("/api/login/", { email });
