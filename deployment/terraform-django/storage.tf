@@ -58,16 +58,6 @@ resource "aws_s3_bucket_policy" "read_only_bucket" {
 resource "aws_s3_bucket" "logs" {
   bucket = local.logs_bucket_name
 
-  #data "aws_cloudfront_log_delivery_canonical_user_id" "cdn" {}
-  # TODO GH #453: Ensure cloudfront logging works
-  # I guess we need to create this grant when we have an ID manually?
-  # Confirm works per https://github.com/terraform-aws-modules/terraform-aws-s3-bucket/pull/113/files
-  #  grant {
-  #    type        = "CanonicalUser"
-  #    permissions = ["FULL_CONTROL"]
-  #    id          = data.aws_cloudfront_log_delivery_canonical_user_id.cdn.id
-  #  }
-
   tags = {
     Project     = var.project,
     Environment = var.environment
