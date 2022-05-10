@@ -48,8 +48,6 @@ project     = "echo"
 environment = "stgdjango"
 aws_region  = "us-east-1"
 
-aws_key_name = "echo-stg"
-
 r53_private_hosted_zone = "echo.internal"
 
 rds_database_identifier = stgdjango
@@ -80,13 +78,29 @@ This will attempt to apply the plan assembled in the previous step using Amazon'
 
 ### Staging
 
-1. Ensure you are setup with AWS CLI credentials.
+1. Ensure you are setup with AWS CLI credentials and have the correct profile set with `export AWS_PROFILE=echo-locator `
 2. Install the [Session Manager plugin](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) for the AWS CLI.
-3. Run the following command (the task ID can be found by logging into the AWS console and selecting the most recent running task for the ECS [django staging cluster](https://us-east-1.console.aws.amazon.com/ecs/home?region=us-east-1#/clusters/ecsechostgdjangoCluster/tasks)):
+3. Use the following commands to get the cluster name/task id or use the AWS console to select the most recent running task for the ECS [django staging cluster](https://us-east-1.console.aws.amazon.com/ecs/home?region=us-east-1#/clusters/ecsechostgdjangoCluster/tasks))
+
 ```bash
-$ aws ecs execute-command --region us-east-1 --cluster <name-of-django-staging-cluster> --task <current-task-id> --container django --command "/bin/bash" --interactive
+$ aws ecs list-clusters
+...
+......cluster/ecsechostgdjangoCluster
+...
+$ aws ecs list-tasks  --cluster ecsechostgdjangoCluster
+...
+......task/ecsechostgdjangoCluster/523612e9652b40dfae4e91e6e157c17b
+...
 ```
-4. You should see something similar to the following to initiate the start of a session:
+
+4. Run the following command (the task ID can be found by logging into :
+
+```bash
+$ aws ecs execute-command --cluster <name-of-django-staging-cluster> --task <current-task-id> --container django --command "/bin/bash" --interactive
+```
+
+5. You should see something similar to the following to initiate the start of a session:
+
 ```
 The Session Manager plugin was installed successfully. Use the AWS CLI to start a session.
 
@@ -94,8 +108,9 @@ The Session Manager plugin was installed successfully. Use the AWS CLI to start 
 Starting session with SessionId: ecs-execute-command-08e2295045096200d
 root@ip-10-0-3-195:/usr/local/src/backend#
 ```
-5. Run `python manage.py showmigrations`
-6. Confirm migrations are up to date.
-7. Run `python manage.py migrate`
-8. Run `exit` to exit the session.
-9. Monitor the log output of the current task and confirm staging functions as expected.
+
+6. Run `python manage.py showmigrations`
+7. Confirm migrations are up to date.
+8. Run `python manage.py migrate`
+9. Run `exit` to exit the session.
+10. Monitor the log output of the current task and confirm staging functions as expected.
