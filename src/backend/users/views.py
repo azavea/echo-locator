@@ -62,7 +62,7 @@ class UserProfileView(APIView):
     map_priorities_to_nums = {"NI": 1, "SI": 2, "I": 3, "VI": 4}
     map_purposes = {
         "WK": "Work",
-        "DC": "Day care",
+        "DC": "Daycare",
         "FA": "Family",
         "FR": "Friends",
         "WP": "Worship",

@@ -45,7 +45,7 @@ class UserProfile(models.Model):
 class Destination(models.Model):
     class TripPurpose(models.TextChoices):
         WORK = "WK", "Work"
-        DAYCARE = "DC", "Day care"
+        DAYCARE = "DC", "Daycare"
         FAMILY = "FA", "Family"
         FRIENDS = "FR", "Friends"
         WORSHIP = "WP", "Worship"

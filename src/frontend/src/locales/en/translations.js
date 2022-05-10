@@ -246,13 +246,13 @@ export default {
     },
   },
   TripPurpose: {
-    Daycare: "Day care",
-    Doctor: "Doctor",
-    Family: "Family",
-    Friends: "Friends",
-    Other: "Other",
-    Worship: "Worship",
-    Work: "Work",
+    Daycare: 'Daycare',
+    Doctor: 'Doctor',
+    Family: 'Family',
+    Friends: 'Friends',
+    Other: 'Other',
+    Worship: 'Worship',
+    Work: 'Work'
   },
   Booleans: {
     Yes: "Yes",
