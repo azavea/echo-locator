@@ -208,9 +208,12 @@ class EditProfile extends PureComponent<Props> {
         position: null,
       },
       primary: !destinations.length,
-      purpose: DEFAULT_PROFILE_DESTINATION_TYPE,
-    };
-    this.setState({ destinations: [...destinations, newAddress] });
+      purpose: DEFAULT_PROFILE_DESTINATION_TYPE
+    }
+    this.setState({destinations: [...destinations, newAddress]})
+    if (!this.state.isAnonymous) {
+      this.props.setProfile({...this.getProfileFromState(), destinations: [...destinations, newAddress]})
+    }
   }
 
   deleteAddress(index: number, event) {
