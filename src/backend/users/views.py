@@ -77,6 +77,7 @@ class UserProfileView(APIView):
         user_profile = serialized_data["userprofile"]
         formatted_destinations = [
             {
+                "id": profile["id"],
                 "location": {
                     "label": profile["label"],
                     "position": {"lat": 42.351550, "lon": -71.084753},
@@ -121,7 +122,7 @@ class UserProfileView(APIView):
         # save new/changed destinations
         for destination in data["destinations"]:
             try:
-                updated_destination = Destination.objects.get(address = destination["location"]["label"])
+                updated_destination = Destination.objects.get(id = destination["id"])
                 # TODO save Point data issue 486 (https://github.com/azavea/echo-locator/issues/486)
                 updated_destination.address = destination["location"]["label"]
                 updated_destination.primary_destination = destination["primary"]
@@ -162,6 +163,6 @@ class UserProfileView(APIView):
 class DeleteDestinationView(APIView):
     permission_classes = (IsAuthenticated,)
     def delete(self, request, *args, **kwargs):
-        deleted_destination = Destination.objects.get(address = request.data["destination"]["location"]["label"])
+        deleted_destination = Destination.objects.get(id = request.data["destination"]["id"])
         deleted_destination.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

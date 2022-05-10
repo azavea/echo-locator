@@ -203,6 +203,7 @@ class EditProfile extends PureComponent<Props> {
   addAddress() {
     const destinations = this.state.destinations.slice();
     const newAddress: AccountAddress = {
+      id: 0,
       location: {
         label: "",
         position: null,
