@@ -1,6 +1,8 @@
 from django.contrib.auth.models import Group, User
+from django.core import mail
 from django.test import Client, TestCase
 from users.models import UserProfile
+from users.serializers import HouseSeekerSignUpSerializer
 
 
 class AdminSiteTest(TestCase):
@@ -90,6 +92,49 @@ class AdminSiteTest(TestCase):
         )
 
 
+class HouseSeekerLoginTest(TestCase):
+    """Check User login process."""
+
+    fixtures = ["group_permissions"]
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.houseseeker = Client()
+        user_serializer = HouseSeekerSignUpSerializer(
+            data={"username": "testechouserexists@azavea.com"}
+        )
+        user_serializer.is_valid(raise_exception=True)
+        user_serializer.save()
+
+    def test_login_endpoint_response(self):
+        """
+        Test login endpoint responds with 200 for valid and invalid emails,
+        but only sends one login email for valid User.
+        """
+        first_response = self.houseseeker.post(
+            "/api/login/",
+            {"email": "testechouserexists@azavea.com"},
+            content_type="application/json",
+        )
+        self.assertEqual(
+            first_response.status_code,
+            200,
+            f"Expected 200, got {first_response.status_code}. {first_response.content}",
+        )
+        second_response = self.houseseeker.post(
+            "/api/login/",
+            {"username": "testechouserdoesntexist@azavea.com"},
+            content_type="application/json",
+        )
+        self.assertEqual(
+            second_response.status_code,
+            200,
+            f"Expected 200, got {second_response.status_code}. {second_response.content}",
+        )
+        num_emails = len(mail.outbox)
+        self.assertEqual(num_emails, 1, "Fail: expected one email to be sent, not %d." % num_emails)
+
+
 class HouseSeekerSignUpTest(TestCase):
     """Check User sign up process."""
 
@@ -138,3 +183,15 @@ class HouseSeekerSignUpTest(TestCase):
         self.assertEqual(houseseeker_user.first().groups.first(), self.test_houseseeker_group)
         houseseeker_user_profile = UserProfile.objects.filter(user=houseseeker_user.first())
         self.assertIsNone(houseseeker_user_profile.first())
+
+    def test_signup_email_link(self):
+        """
+        Test email is sent on User sign up and link in email responds with 200.
+        """
+        self.houseseeker.post(
+            "/api/signup/",
+            {"username": "testechoemail1@azavea.com"},
+            content_type="application/json",
+        )
+        num_emails = len(mail.outbox)
+        self.assertEqual(num_emails, 1, "Fail: expected one email to be sent, not %d." % num_emails)
