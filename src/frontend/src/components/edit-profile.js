@@ -195,9 +195,9 @@ class EditProfile extends PureComponent<Props> {
 
     if (!this.state.isAnonymous) {
       this.props.saveProfile(profile, this.props.data.authToken)
+    } else {
+      this.props.handleAuthChange(profile)
     }
-
-    this.props.handleAuthChange(profile)
     this.props.history.push('/map')
   }
 

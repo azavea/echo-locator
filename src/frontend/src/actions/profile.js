@@ -35,6 +35,9 @@ export const saveProfile = (profile, authToken) => (dispatch, getState) => {
       'Authorization': `Token ${authToken}`
     }
   })
+    .then((response) => {
+      dispatch({type: 'set profile', payload: response.data})
+    })
     .catch((error) => {
       console.error('Error saving user profile', error)
     })
