@@ -32,8 +32,6 @@ services:
       - ./src/backend:/usr/local/src/backend
       - ./src/frontend/build:/usr/local/src/backend/static/
       - $HOME/.aws:/root/.aws:ro
-      - ./taui/assets:/usr/local/src/backend/static/assets
-      - ./taui/index.html:/usr/local/src/backend/static/index.html
     working_dir: /usr/local/src/backend
     depends_on:
       database:
