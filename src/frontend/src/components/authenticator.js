@@ -37,7 +37,6 @@ export default function Authenticator(Comp) {
           destinations: [],
           hasVehicle: false,
           headOfHousehold: ANONYMOUS_USERNAME,
-          key: ANONYMOUS_USERNAME,
           rooms: 0,
           voucherNumber: ANONYMOUS_USERNAME,
         };
