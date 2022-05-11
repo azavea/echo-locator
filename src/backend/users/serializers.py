@@ -46,10 +46,13 @@ class HouseSeekerSignUpSerializer(serializers.ModelSerializer):
         model = User
         fields = ["username"]
 
-    # Override to create User without UserProfile and add to HouseSeeker group
+    # Override to create User with empty UserProfile and add to HouseSeeker group
     def create(self, validated_data):
         user = User.objects.create(**validated_data)
         houseseeker_group = Group.objects.get(name="HouseSeeker")
         user.groups.add(houseseeker_group)
         user.save()
+
+        UserProfile.objects.create(user=user)
+
         return user

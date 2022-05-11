@@ -79,7 +79,7 @@ class EditProfile extends PureComponent<Props> {
   }
 
   getDefaultState(profile: AccountProfile) {
-    if (profile) {
+    if (profile && !profile.unverified_user_profile) {
       // Read profile into an object for initial component state
       return {
         clientEmail: profile.clientEmail,

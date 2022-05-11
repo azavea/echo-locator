@@ -172,7 +172,7 @@ class HouseSeekerSignUpTest(TestCase):
         self.assertContains(first_response, "created your account", status_code=200)
         self.assertContains(second_response, "already have an account", status_code=200)
 
-    def test_user_and_no_profile_created_on_signup(self):
+    def test_user_and_empty_profile_created_on_signup(self):
         self.houseseeker.post(
             "/api/signup/",
             {"username": "testechoemail1@azavea.com"},
@@ -182,7 +182,7 @@ class HouseSeekerSignUpTest(TestCase):
         self.assertEqual(len(houseseeker_user), 1)
         self.assertEqual(houseseeker_user.first().groups.first(), self.test_houseseeker_group)
         houseseeker_user_profile = UserProfile.objects.filter(user=houseseeker_user.first())
-        self.assertIsNone(houseseeker_user_profile.first())
+        self.assertEqual(len(houseseeker_user_profile), 1)
 
     def test_signup_email_link(self):
         """

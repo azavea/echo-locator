@@ -72,7 +72,9 @@ export type AccountProfile = {
   useCommuterRail: boolean,
   voucherNumber: string,
   voucherRooms: number,
-};
+} | {
+  unverified_user_profile: boolean
+}
 
 /**
  * Neighborhood GeoJSON properties.
