@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from sesame import utils
 
-from .serializers import UserSerializer
 from .models import Destination, UserProfile
+from .serializers import UserSerializer
 
 
 class LoginPage(APIView):
@@ -94,8 +94,12 @@ class UserProfileView(APIView):
             "destinations": formatted_destinations,
             "hasVehicle": user_profile["travel_mode"] == "CA",
             "headOfHousehold": user_profile["full_name"],
-            "importanceAccessibility": self.map_priorities_to_nums[user_profile["commute_priority"]],
-            "importanceSchools": self.map_priorities_to_nums[user_profile["school_quality_priority"]],
+            "importanceAccessibility": self.map_priorities_to_nums[
+                user_profile["commute_priority"]
+            ],
+            "importanceSchools": self.map_priorities_to_nums[
+                user_profile["school_quality_priority"]
+            ],
             "importanceViolentCrime": self.map_priorities_to_nums[
                 user_profile["public_safety_priority"]
             ],
@@ -112,7 +116,7 @@ class UserProfileView(APIView):
         serializer = UserSerializer(user)
 
         content = self.repackage_for_frontend(serializer.data)
-        
+
         return Response(content)
 
     def put(self, request, *args, **kwargs):
@@ -122,18 +126,22 @@ class UserProfileView(APIView):
         # save new/changed destinations
         for destination in data["destinations"]:
             try:
-                updated_destination = Destination.objects.get(id = destination["id"])
+                updated_destination = Destination.objects.get(id=destination["id"])
                 # TODO save Point data issue 486 (https://github.com/azavea/echo-locator/issues/486)
                 updated_destination.address = destination["location"]["label"]
                 updated_destination.primary_destination = destination["primary"]
-                updated_destination.purpose = list(self.map_purposes.keys())[list(self.map_purposes.values()).index(destination["purpose"])]
+                updated_destination.purpose = list(self.map_purposes.keys())[
+                    list(self.map_purposes.values()).index(destination["purpose"])
+                ]
                 updated_destination.save()
             except Destination.DoesNotExist:
                 new_destination = Destination(
-                    profile = updated_profile,
-                    address = destination["location"]["label"],
-                    primary_destination = destination["primary"],
-                    purpose = list(self.map_purposes.keys())[list(self.map_purposes.values()).index(destination["purpose"])]
+                    profile=updated_profile,
+                    address=destination["location"]["label"],
+                    primary_destination=destination["primary"],
+                    purpose=list(self.map_purposes.keys())[
+                        list(self.map_purposes.values()).index(destination["purpose"])
+                    ],
                 )
                 new_destination.save()
 
@@ -146,9 +154,15 @@ class UserProfileView(APIView):
             updated_profile.travel_mode = "BT"
 
         updated_profile.full_name = data["headOfHousehold"]
-        updated_profile.commute_priority = list(self.map_priorities_to_nums.keys())[int(data["importanceAccessibility"])-1]
-        updated_profile.school_quality_priority = list(self.map_priorities_to_nums.keys())[int(data["importanceSchools"])-1]
-        updated_profile.public_safety_priority = list(self.map_priorities_to_nums.keys())[int(data["importanceViolentCrime"])-1]
+        updated_profile.commute_priority = list(self.map_priorities_to_nums.keys())[
+            int(data["importanceAccessibility"]) - 1
+        ]
+        updated_profile.school_quality_priority = list(self.map_priorities_to_nums.keys())[
+            int(data["importanceSchools"]) - 1
+        ]
+        updated_profile.public_safety_priority = list(self.map_priorities_to_nums.keys())[
+            int(data["importanceViolentCrime"]) - 1
+        ]
         # TODO update to not assume voucher rooms instead of desired bedrooms
         # issue 461 (https://github.com/azavea/echo-locator/issues/461)
         updated_profile.voucher_bedrooms = data["rooms"]
@@ -160,9 +174,11 @@ class UserProfileView(APIView):
         content = self.repackage_for_frontend(serializer.data)
         return Response(content)
 
+
 class DeleteDestinationView(APIView):
     permission_classes = (IsAuthenticated,)
+
     def delete(self, request, *args, **kwargs):
-        deleted_destination = Destination.objects.get(id = request.data["destination"]["id"])
+        deleted_destination = Destination.objects.get(id=request.data["destination"]["id"])
         deleted_destination.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
