@@ -40,6 +40,7 @@ export const saveProfile = (profile, authToken) => (dispatch, getState) => {
     })
     .catch((error) => {
       console.error('Error saving user profile', error)
+      return false
     })
 }
 

@@ -194,7 +194,10 @@ class EditProfile extends PureComponent<Props> {
     }
 
     if (!this.state.isAnonymous) {
-      this.props.saveProfile(profile, this.props.data.authToken)
+      if (!this.props.saveProfile(profile, this.props.data.authToken)) {
+        this.setState({errorMessage: t('Profile.SaveError')})
+        return
+      }
     } else {
       this.props.handleAuthChange(profile)
     }
