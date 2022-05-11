@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from sesame import utils
 
 from .models import Destination, UserProfile
-from .serializers import UserSerializer
+from .serializers import HouseSeekerSignUpSerializer, UserSerializer
 
 
 class LoginPage(APIView):
@@ -183,3 +183,17 @@ class UserProfileView(APIView):
         serializer = UserSerializer(User.objects.get(username=request.user))
         content = self.repackage_for_frontend(serializer.data)
         return Response(content)
+
+
+class SignUpPage(APIView):
+    def post(self, request, **kwargs):
+        try:
+            user_serializer = HouseSeekerSignUpSerializer(data=request.data)
+            user_serializer.is_valid(raise_exception=True)
+            user_serializer.save()
+
+            signup_message = "Ok we created your account."
+            pass
+        except Exception:
+            signup_message = "It looks like we already have an account with that email. Sign in by clicking the link below!"
+        return Response(data=signup_message, content_type="application/json")
