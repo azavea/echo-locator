@@ -93,7 +93,7 @@ $ aws ecs list-tasks  --cluster ecsechostgdjangoCluster
 ...
 ```
 
-4. Run the following command (the task ID can be found by logging into :
+4. Run the following command:
 
 ```bash
 $ aws ecs execute-command --cluster <name-of-django-staging-cluster> --task <current-task-id> --container django --command "/bin/bash" --interactive
