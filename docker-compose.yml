@@ -32,10 +32,6 @@ services:
       - ./src/backend:/usr/local/src/backend
       - ./src/frontend/build:/usr/local/src/backend/static/
       - $HOME/.aws:/root/.aws:ro
-      - type: bind
-        source: ./taui/index.html
-        target: /usr/local/src/backend/static/index.html
-      - ./taui/assets:/usr/local/src/backend/static/assets
     working_dir: /usr/local/src/backend
     depends_on:
       database:
