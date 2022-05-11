@@ -134,7 +134,7 @@ class EditProfile extends PureComponent<Props> {
         voucherNumber: "",
         componentError: null,
         errorMessage: "",
-        isAnonymous: true,
+        isAnonymous: !(profile && profile.unverified_user_profile),
       };
     }
   }
