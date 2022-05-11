@@ -82,10 +82,9 @@ class EditProfile extends PureComponent<Props> {
     if (profile) {
       // Read profile into an object for initial component state
       return {
-        destinations:
-          profile && profile.destinations.length
-            ? profile.destinations
-            : [Object.assign({}, firstAddress)],
+        clientEmail: profile.clientEmail,
+        destinations: profile && profile.destinations.length
+          ? profile.destinations : [Object.assign({}, firstAddress)],
         favorites: profile.favorites,
         hasVehicle: profile.hasVehicle,
         useCommuterRail:
@@ -149,6 +148,7 @@ class EditProfile extends PureComponent<Props> {
 
   getProfileFromState(): AccountProfile {
     const {
+      clientEmail,
       destinations,
       hasVehicle,
       headOfHousehold,
@@ -163,6 +163,7 @@ class EditProfile extends PureComponent<Props> {
     const useCommuterRail = !this.state.hasVehicle && this.state.useCommuterRail;
 
     return {
+      clientEmail,
       destinations,
       favorites,
       hasVehicle,
@@ -515,6 +516,7 @@ class EditProfile extends PureComponent<Props> {
 
     const { geocode, reverseGeocode, t } = this.props;
     const {
+      clientEmail,
       destinations,
       hasVehicle,
       headOfHousehold,
@@ -542,6 +544,12 @@ class EditProfile extends PureComponent<Props> {
         <div className='form-screen__main'>
           {<div className='account-profile'>
             {!isAnonymous && <div className='account-profile__field'>
+              <div className='account-profile__label'>
+                {t('Profile.ClientEmailLabel')}<br />
+              </div>
+              <div className='account-profile__input account-profile__input--text'>
+                {clientEmail}
+              </div>
               <label
                 className='account-profile__label'
                 htmlFor='headOfHousehold'>
