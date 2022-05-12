@@ -15,13 +15,15 @@ Pull down secrets from S3.
 "
 }
 
-# TODO: potentially as a part of this issue: https://github.com/azavea/echo-locator/issues/376
-# after switching to a different bundler, we may want to copy and populate some env vars
 function pull_env() {
     pushd "${DIR}"
 
-    echo "Pulling .env from ${1}"
-    # aws s3 cp "s3://${1}/.env" ".env"
+    if aws s3 cp "s3://${ECHOLOCATOR_SETTINGS_BUCKET}/.env" ".env"; then
+        echo "Updated environment variables file from ${ECHOLOCATOR_SETTINGS_BUCKET}"
+    elif [[ ! -f ".env" ]]; then
+        cp .env.sample .env
+        echo "Updated environment variables file from .env.sample"
+    fi
 
     popd
 }
