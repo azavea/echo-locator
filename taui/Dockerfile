@@ -9,4 +9,3 @@ COPY . /usr/local/src
 WORKDIR /usr/local/src
 
 RUN yarn install
-RUN yarn build
