@@ -24,7 +24,15 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         usage
     else
         # Ensure container images are current
-        docker-compose build
+        docker-compose build taui
+
+        # Separated to build taui static assets before copied to django container
+        docker-compose \
+            -f docker-compose.yml \
+            run --rm --no-deps --entrypoint "bash -c" taui \
+            "yarn install && yarn build"
+
+        docker-compose build database django
 
         # Bring up PostgreSQL and Django in a way that respects
         # configured service health checks.

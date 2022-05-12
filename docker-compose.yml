@@ -23,13 +23,15 @@ services:
       - DJANGO_SECRET_KEY=secret
       - DJANGO_LOG_LEVEL=INFO
     build:
-      context: ./src/backend
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./src/backend/Dockerfile
     volumes:
       - ./src/backend:/usr/local/src/backend
       - $HOME/.aws:/root/.aws:ro
+      - type: bind
+        source: ./taui/index.html
+        target: /usr/local/src/backend/static/index.html
       - ./taui/assets:/usr/local/src/backend/static/assets
-      - ./taui/index.html:/usr/local/src/backend/static/index.html
     working_dir: /usr/local/src/backend
     depends_on:
       database:
