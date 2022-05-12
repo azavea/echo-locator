@@ -26,14 +26,8 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
         echo "Running update script"
         REACT_APP_GIT_COMMIT="${GIT_COMMIT}" \
             ./scripts/update
-
-        echo "Running tests"
-        # ./scripts/test
-
-        # TODO: set env vars for frontend
-        # https://github.com/azavea/echo-locator/issues/487
         
-        echo "Building static bundle"
+        echo "Building app static bundle"
         docker-compose \
             -f docker-compose.yml \
             run --rm app \
@@ -46,11 +40,12 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
             -f docker-compose.ci.yml \
             build django
 
-        # Bring up PostgreSQL for Django tests
+        echo "Bringing up PostgreSQL for Django tests"
         docker-compose \
             -f docker-compose.yml \
             up -d database
 
+        echo "Running tests"
         GIT_COMMIT="${GIT_COMMIT}" \
             ./scripts/test
     fi
