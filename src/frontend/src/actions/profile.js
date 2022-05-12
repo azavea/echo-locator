@@ -31,9 +31,7 @@ export const setProfile = (profile) => (dispatch, getState) => {
 
 export const sendLoginLink = (email) => (dispatch, getState) => {
   addActionLogItem(`Sending login link to ${email}`);
-  axios.post("/api/login/", {
-    email: email,
-  });
+  axios.post("/api/login/", { email });
   dispatch({ type: "set login message", payload: "SignIn.LoginLinkSent" });
 };
 
