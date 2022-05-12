@@ -77,7 +77,7 @@ class Command(BaseCommand):
         group.add_argument(
             "-vkts",
             "--voucher_keys_to_skip",
-            required=True,
+            required=False,
             nargs="+",
             help="Space separated list of double-quoted " "voucher numbers.",
             default=list(),
@@ -94,7 +94,7 @@ class Command(BaseCommand):
         s3_bucket = s3.Bucket(bucket)
         return s3_bucket.objects.filter(Prefix=prefix)
 
-    def get_s3_object_metadate(self, bucket, key):
+    def get_s3_object_metadata(self, bucket, key):
         client = self.client()
         return client.head_object(Bucket=bucket, Key=key)
 
@@ -124,8 +124,8 @@ class Command(BaseCommand):
             # thus, need to see which one we should use
             original_key = key.split(self.PROFILE_AWS_REGION)[0]
             if original_key in original_profiles:
-                original_key_metadata = self.get_s3_object_metadate(bucket, original_key)
-                new_key_metadate = self.get_s3_object_metadate(bucket, key)
+                original_key_metadata = self.get_s3_object_metadata(bucket, original_key)
+                new_key_metadate = self.get_s3_object_metadata(bucket, key)
                 # the newer s3 object should be used
                 # the older one should be skipped
                 if (
@@ -207,7 +207,7 @@ class Command(BaseCommand):
         # fallback if headOfHousehold is empty
         if has_email:
             first_name, last_name = self.get_first_last_names(profile)
-            last_modified_at = self.get_s3_object_metadate(bucket, key)[self.S3_OBJ_TIMESTAMP_KEY]
+            last_modified_at = self.get_s3_object_metadata(bucket, key)[self.S3_OBJ_TIMESTAMP_KEY]
             password = self.create_random_string()
             email = profile[ProfileKeys.EMAIL]
 
