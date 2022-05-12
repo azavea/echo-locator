@@ -45,14 +45,14 @@ export default function Authenticator(Comp) {
 
       if (userProfile) {
         return (
-          <Fragment>
-            {<CustomHeaderBar userProfile={userProfile} handleAuthChange={this.handleAuthChange} />}
+          <>
+            <CustomHeaderBar userProfile={userProfile} handleAuthChange={this.handleAuthChange} />
             <Comp
               {...this.props}
               userProfile={userProfile}
               handleAuthChange={this.handleAuthChange}
             />
-          </Fragment>
+          </>
         );
       }
 
