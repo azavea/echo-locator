@@ -39,6 +39,16 @@ class PositionKeys:
     LAT = "lat"
 
 
+PURPOSE_MAPPING = {
+    "friends": Destination.TripPurpose.FRIENDS,
+    "work": Destination.TripPurpose.WORK,
+    "doctor": Destination.TripPurpose.DOCTOR,
+    "day care": Destination.TripPurpose.DAYCARE,
+    "family": Destination.TripPurpose.FAMILY,
+    "worship": Destination.TripPurpose.WORSHIP
+}
+
+
 class Command(BaseCommand):
     help = "Migrate housing seeker data from S3"
 
@@ -208,6 +218,11 @@ class Command(BaseCommand):
         if has_email:
             first_name, last_name = self.get_first_last_names(profile)
             last_modified_at = self.get_s3_object_metadata(bucket, key)[self.S3_OBJ_TIMESTAMP_KEY]
+            # NOTE: users will not be using passwords to log in.
+            # This is just to ensure that passwords are not blank
+            # and not all the same, but we don't expect to use it.
+            # See more in this PR:
+            # https://github.com/azavea/echo-locator/pull/482
             password = self.create_random_string()
             email = profile[ProfileKeys.EMAIL]
 
@@ -306,7 +321,7 @@ class Command(BaseCommand):
                 existing_profile.save()
                 user_profile = UserProfile.objects.get(user=user)
             else:
-                user_profile = UserProfile(
+                user_profile = UserProfile.objects.create(
                     user=user,
                     full_name=f"{user.first_name} {user.last_name}",
                     has_voucher=has_voucher,
@@ -317,7 +332,6 @@ class Command(BaseCommand):
                     public_safety_priority=public_safety_priority,
                     school_quality_priority=school_quality_priority,
                 )
-                user_profile.save()
                 self.added_profiles += 1
         else:
             self.skipped_user_profile_key_s3.append({"key": key, "reason": reason})
@@ -341,22 +355,6 @@ class Command(BaseCommand):
 
         return True, reason
 
-    def decode_purpose(self, purpose):
-        if purpose.lower() == "friends":
-            return Destination.TripPurpose.FRIENDS
-        if purpose.lower() == "work":
-            return Destination.TripPurpose.WORK
-        if purpose.lower() == "doctor":
-            return Destination.TripPurpose.DOCTOR
-        if purpose.lower() == "day care":
-            return Destination.TripPurpose.DAYCARE
-        if purpose.lower() == "family":
-            return Destination.TripPurpose.FAMILY
-        if purpose.lower() == "worship":
-            return Destination.TripPurpose.WORSHIP
-
-        return Destination.TripPurpose.OTHER
-
     def save_destination(self, user_profile, des):
         destination = None
         reason = ""
@@ -377,15 +375,14 @@ class Command(BaseCommand):
         if has_location and has_purpose and has_primary:
             lat = des[DestinationKeys.LOC][LocationKeys.POSITION][PositionKeys.LAT]
             lon = des[DestinationKeys.LOC][LocationKeys.POSITION][PositionKeys.LON]
-            purpose = self.decode_purpose(des[DestinationKeys.PURPOSE])
+            purpose = PURPOSE_MAPPING.get(des[DestinationKeys.PURPOSE], Destination.TripPurpose.OTHER)
 
-            destination = Destination(
+            destination = Destination.object.create(
                 profile=user_profile,
                 location=Point(x=lat, y=lon),
                 purpose=purpose,
                 primary_destination=des[DestinationKeys.PRIMARY],
             )
-            destination.save()
 
         return destination, reason
 
