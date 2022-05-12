@@ -85,6 +85,7 @@ type Props = {
   routableNeighborhoods: any,
   saveProfile: (Function) => void,
   sendLoginLink: (Function) => void,
+  sendSignUpLink: (Function) => void,
   setActiveListing: (Function) => void,
   setActiveNeighborhood: (Function) => void,
   setAuthToken: (Function) => void,
