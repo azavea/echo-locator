@@ -67,7 +67,7 @@ class EditProfile extends PureComponent<Props> {
     if (
       !nextProps.isLoading &&
       nextProps.userProfile &&
-      !this.state.userProfile.unverified_user_profile
+      !nextProps.userProfile.unverifiedUserProfile
     ) {
       if (!nextProps.userProfile.destinations || !nextProps.userProfile.destinations.length) {
         nextProps.userProfile.destinations = [Object.assign({}, firstAddress)];
@@ -83,7 +83,7 @@ class EditProfile extends PureComponent<Props> {
   }
 
   getDefaultState(profile: AccountProfile) {
-    if (profile && !profile.unverified_user_profile) {
+    if (profile && !profile.unverifiedUserProfile) {
       // Read profile into an object for initial component state
       return {
         clientEmail: profile.clientEmail,
@@ -134,7 +134,7 @@ class EditProfile extends PureComponent<Props> {
         voucherNumber: "",
         componentError: null,
         errorMessage: "",
-        isAnonymous: !(profile && profile.unverified_user_profile),
+        isAnonymous: !(profile && profile.unverifiedUserProfile),
       };
     }
   }

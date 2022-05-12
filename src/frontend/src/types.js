@@ -73,7 +73,7 @@ export type AccountProfile = {
   voucherRooms: number,
   voucherNumber?: string
 } | {
-  unverified_user_profile: boolean
+  unverifiedUserProfile?: boolean | undefined
 }
 
 /**

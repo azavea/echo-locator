@@ -169,7 +169,7 @@ class HouseSeekerSignUpTest(TestCase):
             200,
             f"Expected 200, got {second_response.status_code}. {second_response.content}",
         )
-        self.assertContains(first_response, "created your account", status_code=200)
+        self.assertContains(first_response, "complete your account", status_code=200)
         self.assertContains(second_response, "already have an account", status_code=200)
 
     def test_user_and_empty_profile_created_on_signup(self):

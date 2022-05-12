@@ -141,7 +141,7 @@ class UserProfileView(APIView):
 
         # On initial sign up a UserProfile will be empty
         if serializer.data["userprofile"] is None:
-            return Response({"unverified_user_profile": True})
+            return Response({"unverifiedUserProfile": True})
 
         content = self.repackage_for_frontend(serializer.data)
 
@@ -204,7 +204,7 @@ class UserProfileView(APIView):
 
 class SignUpPage(APIView):
     def post(self, request, **kwargs):
-        signup_message = "Ok we created your account."
+        signup_message = "Thank you! You'll receive an email shortly with a link to complete your account. Click the link to create your profile and get started with ECHO."
         try:
             user_serializer = HouseSeekerSignUpSerializer(data=request.data)
             user_serializer.is_valid(raise_exception=True)
