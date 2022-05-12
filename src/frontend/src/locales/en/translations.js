@@ -136,7 +136,6 @@ export default {
       "Username or password was incorrect. Both usernames and passwords are case-sensitive.",
     LoginLinkSent: "Thank you! Please check your email for a link to sign into ECHO.",
     NoProfileFound: "You do not have a user profile. Please create one and try again.",
-    ErrorCreatingProfile: "Something went wrong. Please try again.",
     SwitchToLoginExplanation: "Already have an account?",
     SwitchToLogin: "Sign in here.",
     SwitchToSignup: "Create an account here.",

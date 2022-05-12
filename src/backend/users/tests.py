@@ -145,9 +145,21 @@ class HouseSeekerSignUpTest(TestCase):
         cls.houseseeker = Client()
         cls.test_houseseeker_group = Group.objects.get(name="HouseSeeker")
 
+    def test_signup_email_validation(self):
+        """
+        Test signup endpoint responds with 400 and login error message on invalid email.
+        """
+        response = self.houseseeker.post(
+            "/api/signup/",
+            {"username": "test"},
+            content_type="application/json",
+        )
+        self.assertContains(response, "try again with a valid email address", status_code=400)
+
     def test_signup_endpoint_response(self):
         """
         Test signup endpoint responds with correct login message.
+        Responds with 400 and message if already have account.
         """
         first_response = self.houseseeker.post(
             "/api/signup/",
@@ -166,11 +178,11 @@ class HouseSeekerSignUpTest(TestCase):
         )
         self.assertEqual(
             second_response.status_code,
-            200,
-            f"Expected 200, got {second_response.status_code}. {second_response.content}",
+            400,
+            f"Expected 400, got {second_response.status_code}. {second_response.content}",
         )
         self.assertContains(first_response, "complete your account", status_code=200)
-        self.assertContains(second_response, "already have an account", status_code=200)
+        self.assertContains(second_response, "already have an account", status_code=400)
 
     def test_user_and_empty_profile_created_on_signup(self):
         self.houseseeker.post(

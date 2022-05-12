@@ -57,7 +57,7 @@ export const sendSignUpLink = (email) => (dispatch, getState) => {
     })
     .catch((error) => {
       console.error("Error creating user profile", error);
-      dispatch({ type: "set login message", payload: "SignIn.ErrorCreatingProfile" });
+      dispatch({ type: "set login message", payload: error.response.data });
     });
 };
 

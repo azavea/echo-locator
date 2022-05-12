@@ -40,7 +40,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class HouseSeekerSignUpSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(required=True, max_length=150)
+    username = serializers.EmailField(required=True, max_length=150)
 
     class Meta:
         model = User

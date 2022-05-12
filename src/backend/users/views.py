@@ -5,6 +5,7 @@ from django.db.utils import IntegrityError
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -213,7 +214,9 @@ class SignUpPage(APIView):
         except Exception as e:
             if type(e) == IntegrityError:
                 signup_message = "It looks like we already have an account with that email. Sign in by clicking the link below!"
+            if type(e) == ValidationError:
+                signup_message = "Please try again with a valid email address."
             if type(e) == Exception:
                 signup_message = "Something went wrong. Please try again."
-            pass
+            return Response(data=signup_message, status=400, content_type="application/json")
         return Response(data=signup_message, content_type="application/json")
