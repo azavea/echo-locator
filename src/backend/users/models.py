@@ -54,7 +54,10 @@ class Destination(models.Model):
 
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="destinations")
     label = models.CharField(max_length=200)
-    location = gis_models.PointField(help_text="The lat/lng point location of the destination", default=Point(-71.06, 42.36, srid=4326))
+    location = gis_models.PointField(
+        help_text="The lat/lng point location of the destination",
+        default=Point(-71.06, 42.36, srid=4326),
+    )
     purpose = models.CharField(choices=TripPurpose.choices, max_length=2, default=TripPurpose.WORK)
     primary_destination = models.BooleanField(default=False)
 

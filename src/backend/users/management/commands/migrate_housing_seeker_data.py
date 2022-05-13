@@ -46,7 +46,7 @@ PURPOSE_MAPPING = {
     "doctor": Destination.TripPurpose.DOCTOR,
     "day care": Destination.TripPurpose.DAYCARE,
     "family": Destination.TripPurpose.FAMILY,
-    "worship": Destination.TripPurpose.WORSHIP
+    "worship": Destination.TripPurpose.WORSHIP,
 }
 
 
@@ -380,7 +380,9 @@ class Command(BaseCommand):
             lat = des[DestinationKeys.LOC][LocationKeys.POSITION][PositionKeys.LAT]
             lon = des[DestinationKeys.LOC][LocationKeys.POSITION][PositionKeys.LON]
             label = des[DestinationKeys.LOC][LocationKeys.LABEL]
-            purpose = PURPOSE_MAPPING.get(des[DestinationKeys.PURPOSE], Destination.TripPurpose.OTHER)
+            purpose = PURPOSE_MAPPING.get(
+                des[DestinationKeys.PURPOSE], Destination.TripPurpose.OTHER
+            )
 
             destination = Destination.objects.create(
                 profile=user_profile,
