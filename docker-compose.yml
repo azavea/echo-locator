@@ -4,8 +4,8 @@ services:
     image: echolocator-app
     env_file: .env
     build:
-      context: ./src/frontend
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./src/frontend/Dockerfile
     volumes:
       - ./src/frontend:/usr/local/src
       - $HOME/.aws:/root/.aws:ro
@@ -26,8 +26,8 @@ services:
       - DJANGO_SECRET_KEY=secret
       - DJANGO_LOG_LEVEL=INFO
     build:
-      context: ./src/backend
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./src/backend/Dockerfile
     volumes:
       - ./src/backend:/usr/local/src/backend
       - ./src/frontend/build:/usr/local/src/backend/static/

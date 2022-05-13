@@ -5,7 +5,7 @@ RUN set -ex; \
   apt-get update && \
   apt-get install -y git
 
-COPY . /usr/local/src
+COPY ./src/frontend /usr/local/src
 WORKDIR /usr/local/src
 
 RUN yarn install --frozen-lockfile
