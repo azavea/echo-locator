@@ -64,11 +64,7 @@ class EditProfile extends PureComponent<Props> {
   componentWillReceiveProps(nextProps) {
     // Listen for when profile to appear on props, because it is not present
     // on initial load. Only load once by checking state.
-    if (
-      !nextProps.isLoading &&
-      nextProps.userProfile &&
-      !nextProps.userProfile.unverifiedUserProfile
-    ) {
+    if (!nextProps.isLoading && nextProps.userProfile) {
       if (!nextProps.userProfile.destinations || !nextProps.userProfile.destinations.length) {
         nextProps.userProfile.destinations = [Object.assign({}, firstAddress)];
       }
@@ -83,7 +79,7 @@ class EditProfile extends PureComponent<Props> {
   }
 
   getDefaultState(profile: AccountProfile) {
-    if (profile && !profile.unverifiedUserProfile) {
+    if (profile) {
       // Read profile into an object for initial component state
       return {
         clientEmail: profile.clientEmail,
@@ -134,7 +130,7 @@ class EditProfile extends PureComponent<Props> {
         voucherNumber: "",
         componentError: null,
         errorMessage: "",
-        isAnonymous: !(profile && profile.unverifiedUserProfile),
+        isAnonymous: !profile,
       };
     }
   }

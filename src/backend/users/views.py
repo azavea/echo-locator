@@ -140,10 +140,6 @@ class UserProfileView(APIView):
         user = User.objects.get(username=request.user)
         serializer = UserSerializer(user)
 
-        # On initial sign up a UserProfile will be empty
-        if serializer.data["userprofile"] is None:
-            return Response({"unverifiedUserProfile": True})
-
         content = self.repackage_for_frontend(serializer.data)
 
         return Response(content)

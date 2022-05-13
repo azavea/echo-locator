@@ -72,8 +72,6 @@ export type AccountProfile = {
   voucherNumber: string,
   voucherRooms: number,
   voucherNumber?: string
-} | {
-  unverifiedUserProfile?: boolean | undefined
 }
 
 /**
