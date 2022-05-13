@@ -22,7 +22,7 @@ function pull_env() {
         echo "Updated environment variables file from ${ECHOLOCATOR_SETTINGS_BUCKET}"
     elif [[ ! -f ".env" ]]; then
         cp .env.sample .env
-        echo "Updated environment variables file from .env.sample"
+        echo "Updated environment variables file from .env.sample for local development. Please populate the fields in this file manually."
     fi
 
     popd
