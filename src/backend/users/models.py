@@ -62,4 +62,4 @@ class Destination(models.Model):
     primary_destination = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.profile.full_name + self.address
+        return self.profile.full_name + self.label

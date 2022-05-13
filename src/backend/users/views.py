@@ -79,7 +79,7 @@ class GetUserProfile(APIView):
         formatted_destinations = [
             {
                 "location": {
-                    "label": profile["address"],
+                    "label": profile["label"],
                     "position": {"lat": 42.351550, "lon": -71.084753},
                 },
                 "primary": profile["primary_destination"],
