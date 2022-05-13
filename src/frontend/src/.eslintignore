@@ -1,0 +1,3 @@
+aws-exports.js
+**/locales/**/translations.js
+**/node_modules

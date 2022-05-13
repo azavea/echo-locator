@@ -24,5 +24,11 @@ then
         # migrations and manage.py excluded through pyproject.toml
         docker-compose \
             run --rm --no-deps --entrypoint black django .
+        
+        echo "Formatting frontend app code"
+        docker-compose  \
+            -f docker-compose.yml \
+            run --rm app \
+            yarn run format
     fi
 fi

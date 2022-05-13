@@ -23,20 +23,29 @@ if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
     if [[ "${1:-}" == "--help" ]]; then
         usage
     else
+        echo "Running update script"
         REACT_APP_GIT_COMMIT="${GIT_COMMIT}" \
             ./scripts/update
+        
+        echo "Building app static bundle"
+        docker-compose \
+            -f docker-compose.yml \
+            run --rm app \
+            yarn run build
 
+        echo "Building Django"
         # Build tagged container images
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
             -f docker-compose.yml \
             -f docker-compose.ci.yml \
             build django
 
-        # Bring up PostgreSQL for Django tests
+        echo "Bringing up PostgreSQL for Django tests"
         docker-compose \
             -f docker-compose.yml \
             up -d database
 
+        echo "Running tests"
         GIT_COMMIT="${GIT_COMMIT}" \
             ./scripts/test
     fi

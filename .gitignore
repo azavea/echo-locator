@@ -74,10 +74,13 @@ typings/
 .terraform.lock.hcl
 
 # Amplify configs for the frontend app
-taui/src/aws-exports.js
+src/frontend/src/aws-exports.js
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 
 src/backend/static
+src/frontend/build
+src/frontend/node_modules
+src/frontend/public/neighborhoods

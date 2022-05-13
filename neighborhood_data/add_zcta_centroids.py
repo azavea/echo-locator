@@ -26,7 +26,7 @@ OUT_ZCTA_GEOJSON = 'neighborhood_bounds.json'
 if not os.path.isfile(ZCTA_FILE):
     print('Census ZCTA Shapefile not found. Downloading...')
     req = requests.get(ZCTA_URL, stream=True)
-    with open(ZCTA_ZIPFILE, 'w') as zf:
+    with open(ZCTA_ZIPFILE, 'wb') as zf:
         for chunk in req.iter_content(chunk_size=128):
             zf.write(chunk)
         print('Done donwloading Census ZCTA Shapefile. Extracting...')
