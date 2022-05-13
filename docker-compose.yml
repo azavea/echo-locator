@@ -4,8 +4,8 @@ services:
     image: echolocator-app
     env_file: .env
     build:
-      context: ./
-      dockerfile: ./src/frontend/Dockerfile
+      context: ./src/frontend
+      dockerfile: Dockerfile
     volumes:
       - ./src/frontend:/usr/local/src
       - $HOME/.aws:/root/.aws:ro
