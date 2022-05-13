@@ -37,14 +37,6 @@ services:
     depends_on:
       database:
         condition: service_healthy
-    command:
-      - "-b :8085"
-      - "--reload"
-      - "--timeout=90"
-      - "--access-logfile=-"
-      - "--error-logfile=-"
-      - "--log-level=debug"
-      - "echo.wsgi"
     ports:
       - "8085:8085"
     cpus: 2
