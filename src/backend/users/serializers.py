@@ -7,7 +7,7 @@ from .models import Destination, UserProfile
 class DestinationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Destination
-        fields = ["profile", "address", "purpose", "primary_destination"]
+        fields = ["profile", "label", "purpose", "primary_destination"]
 
 
 class UserProfileSerializer(serializers.ModelSerializer):

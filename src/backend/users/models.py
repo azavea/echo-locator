@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.contrib.gis.db import models as gis_models
+from django.contrib.gis.geos import Point
 from django.db import models
 
 
@@ -51,9 +53,13 @@ class Destination(models.Model):
         OTHER = "OT", "Other"
 
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="destinations")
-    address = models.CharField(max_length=200)
+    label = models.CharField(max_length=200)
+    location = gis_models.PointField(
+        help_text="The lat/lng point location of the destination",
+        default=Point(-71.06, 42.36, srid=4326),
+    )
     purpose = models.CharField(choices=TripPurpose.choices, max_length=2, default=TripPurpose.WORK)
     primary_destination = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.profile.full_name + self.address
+        return self.profile.full_name + self.label
