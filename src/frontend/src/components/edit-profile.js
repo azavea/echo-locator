@@ -194,14 +194,19 @@ class EditProfile extends PureComponent<Props> {
     }
 
     if (!this.state.isAnonymous) {
-      if (!this.props.saveProfile(profile, this.props.data.authToken)) {
-        this.setState({errorMessage: t('Profile.SaveError')})
-        return
-      }
+      this.props.saveProfile(profile, this.props.data.authToken)
+        .then(newProfile => {
+          this.props.setProfile(newProfile)
+          this.props.history.push('/map')
+        })
+        .catch(err => {
+          console.error('Error saving user profile', err)
+          this.setState({errorMessage: t('Profile.SaveError')})
+        })
     } else {
       this.props.handleAuthChange(profile)
+      this.props.history.push('/map')
     }
-    this.props.history.push('/map')
   }
 
   addAddress() {

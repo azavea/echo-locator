@@ -30,18 +30,19 @@ export const setProfile = (profile) => (dispatch, getState) => {
 };
 
 export const saveProfile = (profile, authToken) => (dispatch, getState) => {
-  axios.put(`/api/user/`, profile, {
-    headers: {
-      'Authorization': `Token ${authToken}`
-    }
+  return new Promise((resolve, reject) => {
+    axios.put(`/api/user/`, profile, {
+      headers: {
+        'Authorization': `Token ${authToken}`
+      }
+    })
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch((error) => {
+        reject(error)
+      })
   })
-    .then((response) => {
-      dispatch({type: 'set profile', payload: response.data})
-    })
-    .catch((error) => {
-      console.error('Error saving user profile', error)
-      return false
-    })
 }
 
 export const deleteDestination = (destination, authToken) => (dispatch, getState) => {
