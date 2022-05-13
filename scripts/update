@@ -29,12 +29,17 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
             build app
 
         # Install frontend NPM modules
+        docker-compose \
+            -f docker-compose.yml \
+            run --rm --no-deps app \
+            yarn install
+
         # Build static asset bundle for React frontend
         # Separated to build app static assets before copied to django container
         docker-compose \
             -f docker-compose.yml \
             run --rm --no-deps app \
-            yarn install && yarn build
+            yarn run build
 
         # Build django and db container images
         docker-compose build database django
