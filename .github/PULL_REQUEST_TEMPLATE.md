@@ -3,6 +3,10 @@
 Brief description of what this PR does, and why it is needed.
 
 
+### Checklist
+
+- [ ] Run `./scripts/format` to lint, format, and fix the application source code.
+
 ### Demo
 
 Optional. Screenshots, `curl` examples, etc.
