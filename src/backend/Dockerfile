@@ -7,9 +7,7 @@ COPY ./src/backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./src/backend /usr/local/src/backend
-
-COPY ./taui/assets/ /usr/local/src/backend/static/assets
-COPY ./taui/index.html /usr/local/src/backend/static/index.html
+COPY ./src/frontend/build /usr/local/src/backend/static
 
 CMD ["-b :8085", \
     "--workers=2", \
