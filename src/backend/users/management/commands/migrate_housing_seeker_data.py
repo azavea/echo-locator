@@ -32,6 +32,7 @@ class DestinationKeys:
 
 class LocationKeys:
     POSITION = "position"
+    LABEL = "label"
 
 
 class PositionKeys:
@@ -348,6 +349,9 @@ class Command(BaseCommand):
         if LocationKeys.POSITION not in loc:
             reason += "NO POSITION; "
             return False, reason
+        if LocationKeys.LABEL not in loc:
+            reason += "NO LABEL; "
+            return False, reason
         pos = loc[LocationKeys.POSITION]
         if PositionKeys.LAT not in pos or PositionKeys.LON not in pos:
             reason += "NO FULL COORDINATE PAIR; "
@@ -375,10 +379,12 @@ class Command(BaseCommand):
         if has_location and has_purpose and has_primary:
             lat = des[DestinationKeys.LOC][LocationKeys.POSITION][PositionKeys.LAT]
             lon = des[DestinationKeys.LOC][LocationKeys.POSITION][PositionKeys.LON]
+            label = des[DestinationKeys.LOC][LocationKeys.LABEL]
             purpose = PURPOSE_MAPPING.get(des[DestinationKeys.PURPOSE], Destination.TripPurpose.OTHER)
 
-            destination = Destination.object.create(
+            destination = Destination.objects.create(
                 profile=user_profile,
+                label=label,
                 location=Point(x=lat, y=lon),
                 purpose=purpose,
                 primary_destination=des[DestinationKeys.PRIMARY],
