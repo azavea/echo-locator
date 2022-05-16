@@ -57,6 +57,16 @@ class ObtainToken(APIView):
         return response
 
 
+class DeleteToken(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, **kwargs):
+        response = HttpResponseRedirect("/")
+        response.delete_cookie("auth_token")
+        Token.objects.get(key=request.auth.key).delete()
+        return response
+
+
 class UserProfileView(APIView):
     permission_classes = (IsAuthenticated,)
     map_priorities_to_nums = {"NI": 1, "SI": 2, "I": 3, "VI": 4}

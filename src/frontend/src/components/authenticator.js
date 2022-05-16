@@ -14,9 +14,15 @@ export default function Authenticator(Comp) {
       super(props);
 
       this.handleAuthChange = this.handleAuthChange.bind(this);
+      this.logout = this.logout.bind(this);
 
       // Load the selected user profile from localStorage, if any
       this.props.loadProfile();
+    }
+
+    logout() {
+      this.props.setLogout(Cookies.get("auth_token"));
+      // clear local storage for isAnonymous
     }
 
     handleAuthChange(profile: AccountProfile) {
@@ -39,14 +45,14 @@ export default function Authenticator(Comp) {
       const userProfile = this.props.data.userProfile;
 
       /* call authentication endpoint if token exists but userProfile has not been set */
-      if (Cookies.get("auth_token") && !userProfile && !this.props.data.loginMessage) {
+      if (Cookies.get('auth_token') && !userProfile && !this.props.data.loginMessage) {
         this.props.setAuthToken(Cookies.get("auth_token"));
       }
 
       if (userProfile) {
         return (
           <>
-            <CustomHeaderBar userProfile={userProfile} handleAuthChange={this.handleAuthChange} />
+            <CustomHeaderBar userProfile={userProfile} handleAuthChange={this.handleAuthChange} logout={this.logout}/>
             <Comp
               {...this.props}
               userProfile={userProfile}
