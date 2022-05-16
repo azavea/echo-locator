@@ -48,7 +48,6 @@ export type Query = {
  */
 
 export type AccountAddress = {
-  id: number,
   location: Location,
   primary: boolean,
   purpose: string,

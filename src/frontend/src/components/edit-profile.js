@@ -212,7 +212,6 @@ class EditProfile extends PureComponent<Props> {
   addAddress() {
     const destinations = this.state.destinations.slice();
     const newAddress: AccountAddress = {
-      id: 0,
       location: {
         label: "",
         position: null,
@@ -237,9 +236,6 @@ class EditProfile extends PureComponent<Props> {
     }
     const newState = {destinations: destinations, errorMessage: ''}
     this.setState(newState)
-    if (!this.state.isAnonymous) {
-      this.props.deleteDestination(removedDestination, this.props.data.authToken)
-    }
   }
 
   // Set a `property` on a destination at list `index` to `value`

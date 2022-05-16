@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from sesame import utils
+from django.db import transaction
 
 from .models import Destination, UserProfile
 from .serializers import UserSerializer
@@ -77,7 +78,6 @@ class UserProfileView(APIView):
         user_profile = serialized_data["userprofile"]
         formatted_destinations = [
             {
-                "id": profile["id"],
                 "location": {
                     "label": profile["label"],
                     "position": {"lat": 42.351550, "lon": -71.084753},
@@ -119,31 +119,25 @@ class UserProfileView(APIView):
 
         return Response(content)
 
+    @transaction.atomic
     def put(self, request, *args, **kwargs):
         data = request.data
-        updated_profile = UserProfile.objects.get(user=User.objects.get(username=request.user))
+        updated_profile = UserProfile.objects.select_for_update().get(user=User.objects.get(username=request.user))
 
-        # save new/changed destinations
-        for destination in data["destinations"]:
-            try:
-                updated_destination = Destination.objects.get(id=destination["id"])
-                # TODO save Point data issue 486 (https://github.com/azavea/echo-locator/issues/486)
-                updated_destination.address = destination["location"]["label"]
-                updated_destination.primary_destination = destination["primary"]
-                updated_destination.purpose = list(self.map_purposes.keys())[
-                    list(self.map_purposes.values()).index(destination["purpose"])
+        # delete & replace all destinations on UserProfile
+        # TODO save Point data issue 486 (https://github.com/azavea/echo-locator/issues/486)
+        Destination.objects.filter(profile=updated_profile).delete()
+        destinations = [
+            Destination(
+                profile=updated_profile,
+                address = dest["location"]["label"],
+                primary_destination = dest["primary"],
+                purpose = list(self.map_purposes.keys())[
+                    list(self.map_purposes.values()).index(dest["purpose"])
                 ]
-                updated_destination.save()
-            except Destination.DoesNotExist:
-                new_destination = Destination(
-                    profile=updated_profile,
-                    address=destination["location"]["label"],
-                    primary_destination=destination["primary"],
-                    purpose=list(self.map_purposes.keys())[
-                        list(self.map_purposes.values()).index(destination["purpose"])
-                    ],
-                )
-                new_destination.save()
+            ) for dest in data["destinations"]
+        ]
+        Destination.objects.bulk_create(destinations)
 
         # determine user's mode of travel
         if data["hasVehicle"]:
@@ -173,12 +167,3 @@ class UserProfileView(APIView):
         serializer = UserSerializer(User.objects.get(username=request.user))
         content = self.repackage_for_frontend(serializer.data)
         return Response(content)
-
-
-class DeleteDestinationView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def delete(self, request, *args, **kwargs):
-        deleted_destination = Destination.objects.get(id=request.data["destination"]["id"])
-        deleted_destination.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
