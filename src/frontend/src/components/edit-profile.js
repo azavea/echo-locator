@@ -83,8 +83,10 @@ class EditProfile extends PureComponent<Props> {
       // Read profile into an object for initial component state
       return {
         clientEmail: profile.clientEmail,
-        destinations: profile && profile.destinations.length
-          ? profile.destinations : [Object.assign({}, firstAddress)],
+        destinations:
+          profile && profile.destinations.length
+            ? profile.destinations
+            : [Object.assign({}, firstAddress)],
         favorites: profile.favorites,
         hasVehicle: profile.hasVehicle,
         useCommuterRail:
@@ -183,9 +185,9 @@ class EditProfile extends PureComponent<Props> {
     const profile: AccountProfile = this.getProfileFromState();
 
     if (!profile) {
-      console.error('Cannot save profile: missing profile.')
-      this.setState({errorMessage: t('Profile.SaveError')})
-      return
+      console.error("Cannot save profile: missing profile.");
+      this.setState({ errorMessage: t("Profile.SaveError") });
+      return;
     } else if (!this.validDestinations(profile.destinations)) {
       this.setState({ errorMessage: t("Profile.AddressMissing") });
       return;
@@ -194,18 +196,19 @@ class EditProfile extends PureComponent<Props> {
     }
 
     if (!this.state.isAnonymous) {
-      this.props.saveProfile(profile, this.props.data.authToken)
-        .then(newProfile => {
-          this.props.setProfile(newProfile)
-          this.props.history.push('/map')
+      this.props
+        .saveProfile(profile, this.props.data.authToken)
+        .then((newProfile) => {
+          this.props.setProfile(newProfile);
+          this.props.history.push("/map");
         })
-        .catch(err => {
-          console.error('Error saving user profile', err)
-          this.setState({errorMessage: t('Profile.SaveError')})
-        })
+        .catch((err) => {
+          console.error("Error saving user profile", err);
+          this.setState({ errorMessage: t("Profile.SaveError") });
+        });
     } else {
-      this.props.handleAuthChange(profile)
-      this.props.history.push('/map')
+      this.props.handleAuthChange(profile);
+      this.props.history.push("/map");
     }
   }
 
@@ -217,11 +220,14 @@ class EditProfile extends PureComponent<Props> {
         position: null,
       },
       primary: !destinations.length,
-      purpose: DEFAULT_PROFILE_DESTINATION_TYPE
-    }
-    this.setState({destinations: [...destinations, newAddress]})
+      purpose: DEFAULT_PROFILE_DESTINATION_TYPE,
+    };
+    this.setState({ destinations: [...destinations, newAddress] });
     if (!this.state.isAnonymous) {
-      this.props.setProfile({...this.getProfileFromState(), destinations: [...destinations, newAddress]})
+      this.props.setProfile({
+        ...this.getProfileFromState(),
+        destinations: [...destinations, newAddress],
+      });
     }
   }
 
@@ -234,8 +240,8 @@ class EditProfile extends PureComponent<Props> {
       this.setState({ errorMessage: t("Profile.DeletePrimaryAddressError") });
       return;
     }
-    const newState = {destinations: destinations, errorMessage: ''}
-    this.setState(newState)
+    const newState = { destinations: destinations, errorMessage: "" };
+    this.setState(newState);
   }
 
   // Set a `property` on a destination at list `index` to `value`
@@ -540,43 +546,39 @@ class EditProfile extends PureComponent<Props> {
     const TripPurposeOptions = this.tripPurposeOptions;
 
     return (
-      <div className='form-screen'>
-        <h2 className='form-screen__heading'>{t('Profile.Title')}</h2>
-        {errorMessage &&
-          <p className='account-profile__error'>{errorMessage}</p>
-        }
-        <div className='form-screen__main'>
-          {<div className='account-profile'>
-            {!isAnonymous && <div className='account-profile__field'>
-              <div className='account-profile__label'>
-                {t('Profile.ClientEmailLabel')}<br />
+      <div className="form-screen">
+        <h2 className="form-screen__heading">{t("Profile.Title")}</h2>
+        {errorMessage && <p className="account-profile__error">{errorMessage}</p>}
+        <div className="form-screen__main">
+          <div className="account-profile">
+            {!isAnonymous && (
+              <div className="account-profile__field">
+                <div className="account-profile__label">
+                  {t("Profile.ClientEmailLabel")}
+                  <br />
+                </div>
+                <div className="account-profile__input account-profile__input--text">
+                  {clientEmail}
+                </div>
+                <label className="account-profile__label" htmlFor="headOfHousehold">
+                  {t("Accounts.Name")}
+                </label>
+                <input
+                  data-private
+                  className="account-profile__input account-profile__input--text"
+                  id="headOfHousehold"
+                  type="text"
+                  onChange={(e) => changeField("headOfHousehold", e.currentTarget.value)}
+                  defaultValue={headOfHousehold || ""}
+                  autoComplete="off"
+                />
               </div>
-              <div className='account-profile__input account-profile__input--text'>
-                {clientEmail}
-              </div>
-              <label
-                className='account-profile__label'
-                htmlFor='headOfHousehold'>
-                {t('Accounts.Name')}
+            )}
+            <div className="account-profile__field">
+              <label className="account-profile__label" htmlFor="rooms">
+                {t("Profile.Rooms")}
               </label>
-              <input
-                data-private
-                className='account-profile__input account-profile__input--text'
-                id='headOfHousehold'
-                type='text'
-                onChange={(e) => changeField('headOfHousehold', e.currentTarget.value)}
-                defaultValue={headOfHousehold || ''}
-                autoComplete='off'
-              />
-            </div>}
-            <div className='account-profile__field'>
-              <label
-                className='account-profile__label'
-                htmlFor='rooms'>{t('Profile.Rooms')}</label>
-              <RoomOptions
-                rooms={rooms}
-                changeField={changeField}
-              />
+              <RoomOptions rooms={rooms} changeField={changeField} />
             </div>
             <DestinationsList
               addAddress={addAddress}
@@ -589,167 +591,132 @@ class EditProfile extends PureComponent<Props> {
               setPrimaryAddress={setPrimaryAddress}
               TripPurposeOptions={TripPurposeOptions}
             />
-            <div className='account-profile__field'>
-              <div
-                className='account-profile__label'
-                htmlFor='rooms'>{t('Profile.ChooseTravelMode')}</div>
-              <div className='account-profile__field-row'>
-                <div className='account-profile__field account-profile__field--inline'>
+            <div className="account-profile__field">
+              <div className="account-profile__label" htmlFor="travelMode">
+                {t("Profile.ChooseTravelMode")}
+              </div>
+              <div className="account-profile__field-row">
+                <div className="account-profile__field account-profile__field--inline">
                   <input
-                    data-private
-                    className="account-profile__input account-profile__input--text"
-                    id="headOfHousehold"
-                    type="text"
-                    onChange={(e) => changeField("headOfHousehold", e.currentTarget.value)}
-                    defaultValue={headOfHousehold || ""}
+                    className="account-profile__input account-profile__input--checkbox"
+                    id="byCar"
+                    name="travelMode"
+                    type="radio"
+                    onChange={(e) => changeField("hasVehicle", e.currentTarget.checked)}
+                    defaultChecked={hasVehicle}
                     autoComplete="off"
                   />
+                  <label
+                    className="account-profile__label account-profile__label--secondary"
+                    htmlFor="byCar"
+                  >
+                    {t("Profile.ByCar")}
+                  </label>
                 </div>
-              )}
-              <div className="account-profile__field">
-                <label className="account-profile__label" htmlFor="rooms">
-                  {t("Profile.Rooms")}
-                </label>
-                <RoomOptions rooms={rooms} changeField={changeField} />
-              </div>
-              <DestinationsList
-                addAddress={addAddress}
-                deleteAddress={deleteAddress}
-                destinations={destinations}
-                editAddress={editAddress}
-                geocode={geocode}
-                reverseGeocode={reverseGeocode}
-                setGeocodeLocation={setGeocodeLocation}
-                setPrimaryAddress={setPrimaryAddress}
-                TripPurposeOptions={TripPurposeOptions}
-              />
-              <div className="account-profile__field">
-                <div className="account-profile__label" htmlFor="rooms">
-                  {t("Profile.ChooseTravelMode")}
-                </div>
-                <div className="account-profile__field-row">
-                  <div className="account-profile__field account-profile__field--inline">
-                    <input
-                      className="account-profile__input account-profile__input--checkbox"
-                      id="byCar"
-                      name="travelMode"
-                      type="radio"
-                      onChange={(e) => changeField("hasVehicle", e.currentTarget.checked)}
-                      defaultChecked={hasVehicle}
-                      autoComplete="off"
-                    />
-                    <label
-                      className="account-profile__label account-profile__label--secondary"
-                      htmlFor="byCar"
-                    >
-                      {t("Profile.ByCar")}
-                    </label>
-                  </div>
-                  <div className="account-profile__field account-profile__field--inline">
-                    <input
-                      className="account-profile__input account-profile__input--checkbox"
-                      id="byTransit"
-                      name="travelMode"
-                      type="radio"
-                      onChange={(e) => changeField("hasVehicle", !e.currentTarget.checked)}
-                      defaultChecked={!hasVehicle}
-                      autoComplete="off"
-                    />
-                    <label
-                      className="account-profile__label account-profile__label--secondary"
-                      htmlFor="byTransit"
-                    >
-                      {t("Profile.ByTransit")}
-                    </label>
-                  </div>
-                  {!hasVehicle && (
-                    <div className="account-profile__field account-profile__field--inline">
-                      <input
-                        className="account-profile__input account-profile__input--checkbox"
-                        id="useCommuterRail"
-                        type="checkbox"
-                        onChange={(e) => changeField("useCommuterRail", e.currentTarget.checked)}
-                        defaultChecked={useCommuterRail}
-                        autoComplete="off"
-                      />
-                      <label
-                        className="account-profile__label account-profile__label--secondary"
-                        htmlFor="useCommuterRail"
-                      >
-                        {t("Profile.UseCommuterRail")}
-                      </label>
-                    </div>
-                  )}
+                <div className="account-profile__field account-profile__field--inline">
+                  <input
+                    className="account-profile__input account-profile__input--checkbox"
+                    id="byTransit"
+                    name="travelMode"
+                    type="radio"
+                    onChange={(e) => changeField("hasVehicle", !e.currentTarget.checked)}
+                    defaultChecked={!hasVehicle}
+                    autoComplete="off"
+                  />
+                  <label
+                    className="account-profile__label account-profile__label--secondary"
+                    htmlFor="byTransit"
+                  >
+                    {t("Profile.ByTransit")}
+                  </label>
                 </div>
                 {!hasVehicle && (
-                  <div className="account-profile__field-description">
-                    {useCommuterRail
-                      ? t("Profile.UseCommuterRailExplanation")
-                      : t("Profile.ByTransitExplanation")}
+                  <div className="account-profile__field account-profile__field--inline">
+                    <input
+                      className="account-profile__input account-profile__input--checkbox"
+                      id="useCommuterRail"
+                      type="checkbox"
+                      onChange={(e) => changeField("useCommuterRail", e.currentTarget.checked)}
+                      defaultChecked={useCommuterRail}
+                      autoComplete="off"
+                    />
+                    <label
+                      className="account-profile__label account-profile__label--secondary"
+                      htmlFor="useCommuterRail"
+                    >
+                      {t("Profile.UseCommuterRail")}
+                    </label>
                   </div>
                 )}
               </div>
-              <div className="account-profile__importance-options">
-                <h3 className="account-profile__label">{t("Profile.ImportanceHeading")}</h3>
-                <div className="account-profile__field account-profile__field--inline account-profile__field--stack">
-                  <label
-                    className="account-profile__label account-profile__label--secondary"
-                    htmlFor="importanceAccessibility"
-                  >
-                    {t("Profile.ImportanceAccessibility")}
-                  </label>
-                  <ImportanceOptions
-                    fieldName="importanceAccessibility"
-                    importance={importanceAccessibility}
-                    changeField={changeField}
-                  />
-                  <ImportanceTooltip fieldName="ImportanceAccessibility" />
+              {!hasVehicle && (
+                <div className="account-profile__field-description">
+                  {useCommuterRail
+                    ? t("Profile.UseCommuterRailExplanation")
+                    : t("Profile.ByTransitExplanation")}
                 </div>
-                <div className="account-profile__field account-profile__field--inline account-profile__field--stack">
-                  <label
-                    className="account-profile__label account-profile__label--secondary"
-                    htmlFor="importanceSchools"
-                  >
-                    {t("Profile.ImportanceSchools")}
-                  </label>
-                  <ImportanceOptions
-                    fieldName="importanceSchools"
-                    importance={importanceSchools}
-                    changeField={changeField}
-                  />
-                  <ImportanceTooltip fieldName="ImportanceSchools" />
-                </div>
-                <div className="account-profile__field account-profile__field--inline account-profile__field--stack">
-                  <label
-                    className="account-profile__label account-profile__label--secondary"
-                    htmlFor="importanceViolentCrime"
-                  >
-                    {t("Profile.ImportanceViolentCrime")}
-                  </label>
-                  <ImportanceOptions
-                    fieldName="importanceViolentCrime"
-                    importance={importanceViolentCrime}
-                    changeField={changeField}
-                  />
-                  <ImportanceTooltip fieldName="ImportanceViolentCrime" />
-                </div>
+              )}
+            </div>
+            <div className="account-profile__importance-options">
+              <h3 className="account-profile__label">{t("Profile.ImportanceHeading")}</h3>
+              <div className="account-profile__field account-profile__field--inline account-profile__field--stack">
+                <label
+                  className="account-profile__label account-profile__label--secondary"
+                  htmlFor="importanceAccessibility"
+                >
+                  {t("Profile.ImportanceAccessibility")}
+                </label>
+                <ImportanceOptions
+                  fieldName="importanceAccessibility"
+                  importance={importanceAccessibility}
+                  changeField={changeField}
+                />
+                <ImportanceTooltip fieldName="ImportanceAccessibility" />
               </div>
-              <div className="account-profile__actions">
-                <button
-                  className="account-profile__button account-profile__button--primary"
-                  onClick={(e) => save(e)}
+              <div className="account-profile__field account-profile__field--inline account-profile__field--stack">
+                <label
+                  className="account-profile__label account-profile__label--secondary"
+                  htmlFor="importanceSchools"
                 >
-                  {t("Profile.Go")}
-                </button>
-                <button
-                  className="account-profile__button account-profile__button--secondary"
-                  onClick={cancel}
+                  {t("Profile.ImportanceSchools")}
+                </label>
+                <ImportanceOptions
+                  fieldName="importanceSchools"
+                  importance={importanceSchools}
+                  changeField={changeField}
+                />
+                <ImportanceTooltip fieldName="ImportanceSchools" />
+              </div>
+              <div className="account-profile__field account-profile__field--inline account-profile__field--stack">
+                <label
+                  className="account-profile__label account-profile__label--secondary"
+                  htmlFor="importanceViolentCrime"
                 >
-                  {t("Profile.Cancel")}
-                </button>
+                  {t("Profile.ImportanceViolentCrime")}
+                </label>
+                <ImportanceOptions
+                  fieldName="importanceViolentCrime"
+                  importance={importanceViolentCrime}
+                  changeField={changeField}
+                />
+                <ImportanceTooltip fieldName="ImportanceViolentCrime" />
               </div>
             </div>
-          )}
+            <div className="account-profile__actions">
+              <button
+                className="account-profile__button account-profile__button--primary"
+                onClick={(e) => save(e)}
+              >
+                {t("Profile.Go")}
+              </button>
+              <button
+                className="account-profile__button account-profile__button--secondary"
+                onClick={cancel}
+              >
+                {t("Profile.Cancel")}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );

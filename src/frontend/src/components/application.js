@@ -49,7 +49,7 @@ type Props = {
     showFavorites: boolean,
     userProfile: AccountProfile,
   },
-  deleteDestination: Function => void,
+  deleteDestination: (Function) => void,
   detailListing: ActiveListingDetail,
   detailNeighborhood: any,
   displayNeighborhoods: any[],

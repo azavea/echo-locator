@@ -1,14 +1,13 @@
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from sesame import utils
-from django.db import transaction
 
 from .models import Destination, UserProfile
 from .serializers import UserSerializer
@@ -122,7 +121,9 @@ class UserProfileView(APIView):
     @transaction.atomic
     def put(self, request, *args, **kwargs):
         data = request.data
-        updated_profile = UserProfile.objects.select_for_update().get(user=User.objects.get(username=request.user))
+        updated_profile = UserProfile.objects.select_for_update().get(
+            user=User.objects.get(username=request.user)
+        )
 
         # delete & replace all destinations on UserProfile
         # TODO save Point data issue 486 (https://github.com/azavea/echo-locator/issues/486)
@@ -130,12 +131,13 @@ class UserProfileView(APIView):
         destinations = [
             Destination(
                 profile=updated_profile,
-                address = dest["location"]["label"],
-                primary_destination = dest["primary"],
-                purpose = list(self.map_purposes.keys())[
+                address=dest["location"]["label"],
+                primary_destination=dest["primary"],
+                purpose=list(self.map_purposes.keys())[
                     list(self.map_purposes.values()).index(dest["purpose"])
-                ]
-            ) for dest in data["destinations"]
+                ],
+            )
+            for dest in data["destinations"]
         ]
         Destination.objects.bulk_create(destinations)
 
