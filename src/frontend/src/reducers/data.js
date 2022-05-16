@@ -12,7 +12,7 @@ export default handleActions(
         showDetails: false,
         showFavorites: false,
         showBHAListings: false,
-        showRealtorListings: false
+        showRealtorListings: false,
       };
     },
     "set grid"(state, action) {
