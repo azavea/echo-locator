@@ -809,6 +809,7 @@ class EditProfile extends PureComponent<Props> {
                 <ImportanceTooltip fieldName="ImportanceViolentCrime" />
               </div>
             </div>
+<<<<<<< HEAD
             <div className="account-profile__actions">
               <button
                 className="account-profile__button account-profile__button--primary"
@@ -824,6 +825,8 @@ class EditProfile extends PureComponent<Props> {
               </button>
             </div>
           </div>
+=======
+>>>>>>> e944ebd (Adjust for anonymous users)
         </div>
       </div>
     );

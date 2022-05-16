@@ -60,8 +60,8 @@ export const setLogout = (authToken) => (dispatch, getState) => {
     }
   })
     .then(() => {
-      dispatch({type: 'set auth token', payload: null})
-      dispatch({type: 'set profile', payload: null})
+      dispatch({type: 'set auth token', payload: null});
+      dispatch({type: 'set profile', payload: null});
     })
 }
 

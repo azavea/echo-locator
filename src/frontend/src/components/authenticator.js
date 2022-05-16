@@ -7,6 +7,7 @@ import { ANONYMOUS_USERNAME } from "../constants";
 
 import CustomSignIn from "./custom-sign-in";
 import CustomHeaderBar from "./custom-header-bar";
+import { clearLocalStorage } from "../config";
 
 export default function Authenticator(Comp) {
   return class extends Component {
@@ -21,8 +22,13 @@ export default function Authenticator(Comp) {
     }
 
     logout() {
-      this.props.setLogout(Cookies.get("auth_token"));
-      // clear local storage for isAnonymous
+      if(this.props.userProfile && this.props.userProfile.voucherNumber !== ANONYMOUS_USERNAME) {
+        this.props.setLogout(Cookies.get("auth_token"));
+      }
+      else{
+        this.handleAuthChange(null);
+      }
+      clearLocalStorage();
     }
 
     handleAuthChange(profile: AccountProfile) {
