@@ -131,7 +131,7 @@ class UserProfileView(APIView):
         destinations = [
             Destination(
                 profile=updated_profile,
-                address=dest["location"]["label"],
+                label=dest["location"]["label"],
                 primary_destination=dest["primary"],
                 purpose=list(self.map_purposes.keys())[
                     list(self.map_purposes.values()).index(dest["purpose"])
