@@ -104,7 +104,10 @@ class EditProfile extends PureComponent<Props> {
           ? profile.importanceViolentCrime
           : DEFAULT_CRIME_IMPORTANCE,
         key: profile.key,
-        rooms: profile.rooms,
+        hasVoucher: profile.hasVoucher,
+        nonVoucherBudget: profile.nonVoucherBudget,
+        nonVoucherRooms: profile.nonVoucherRooms,
+        voucherRooms: profile.voucherRooms,
         voucherNumber: profile.voucherNumber,
         componentError: null,
         errorMessage: "",
@@ -122,7 +125,10 @@ class EditProfile extends PureComponent<Props> {
         importanceSchools: DEFAULT_SCHOOLS_IMPORTANCE,
         importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE,
         key: "",
-        rooms: 0,
+        hasVoucher: false,
+        nonVoucherBudget: null,
+        nonVoucherRooms: 0,
+        voucherRooms: 0,
         voucherNumber: "",
         componentError: null,
         errorMessage: "",
@@ -158,7 +164,10 @@ class EditProfile extends PureComponent<Props> {
       importanceSchools,
       importanceViolentCrime,
       key,
-      rooms,
+      hasVoucher,
+      nonVoucherBudget,
+      nonVoucherRooms,
+      voucherRooms,
       voucherNumber,
     } = this.state;
     const favorites = this.state.favorites || [];
@@ -174,7 +183,10 @@ class EditProfile extends PureComponent<Props> {
       importanceSchools,
       importanceViolentCrime,
       key,
-      rooms,
+      hasVoucher,
+      nonVoucherBudget,
+      nonVoucherRooms,
+      voucherRooms,
       useCommuterRail,
       voucherNumber,
     };
@@ -490,7 +502,7 @@ class EditProfile extends PureComponent<Props> {
   }
 
   roomOptions(props) {
-    const { changeField, rooms } = props;
+    const { changeField, rooms, fieldName } = props;
     const roomCountOptions = range(MAX_ROOMS + 1);
     const roomOptions = roomCountOptions.map((num) => {
       const strVal = num.toString();
@@ -505,7 +517,7 @@ class EditProfile extends PureComponent<Props> {
       <select
         className="account-profile__input account-profile__input--select"
         defaultValue={rooms}
-        onChange={(e) => changeField("rooms", e.currentTarget.value)}
+        onChange={(e) => changeField(fieldName, e.currentTarget.value)}
       >
         {roomOptions}
       </select>
@@ -535,7 +547,11 @@ class EditProfile extends PureComponent<Props> {
       importanceViolentCrime,
       errorMessage,
       isAnonymous,
-      rooms,
+      hasVoucher,
+      nonVoucherBudget,
+      nonVoucherRooms,
+      voucherRooms,
+      voucherNumber,
       useCommuterRail,
     } = this.state;
 
@@ -575,11 +591,102 @@ class EditProfile extends PureComponent<Props> {
               </div>
             )}
             <div className="account-profile__field">
-              <label className="account-profile__label" htmlFor="rooms">
-                {t("Profile.Rooms")}
-              </label>
-              <RoomOptions rooms={rooms} changeField={changeField} />
+              <div className="account-profile__label" htmlFor="voucher">
+                {t("Profile.HasVoucher")}
+              </div>
+              <div className="account-profile__field-row">
+                <div className="account-profile__field account-profile__field--inline">
+                  <input
+                    className="account-profile__input account-profile__input--checkbox"
+                    id="yesVoucher"
+                    name="voucher"
+                    type="radio"
+                    onChange={(e) => changeField("hasVoucher", e.currentTarget.checked)}
+                    defaultChecked={hasVoucher}
+                    autoComplete="off"
+                  />
+                  <label
+                    className="account-profile__label account-profile__label--secondary"
+                    htmlFor="yesVoucher"
+                  >
+                    {t("Booleans.Yes")}
+                  </label>
+                </div>
+                <div className="account-profile__field account-profile__field--inline">
+                  <input
+                    className="account-profile__input account-profile__input--checkbox"
+                    id="noVoucher"
+                    name="voucher"
+                    type="radio"
+                    onChange={(e) => changeField("hasVoucher", !e.currentTarget.checked)}
+                    defaultChecked={!hasVoucher}
+                    autoComplete="off"
+                  />
+                  <label
+                    className="account-profile__label account-profile__label--secondary"
+                    htmlFor="noVoucher"
+                  >
+                    {t("Booleans.No")}
+                  </label>
+                </div>
+              </div>
             </div>
+            {hasVoucher && (
+              <div>
+                <div className="account-profile__field">
+                  <label className="account-profile__label" htmlFor="voucherNumber">
+                    {t("Profile.VoucherNumber")}
+                  </label>
+                  <input
+                    data-private
+                    className="account-profile__input account-profile__input--text"
+                    id="voucherNumber"
+                    type="text"
+                    onChange={(e) => changeField("voucherNumber", e.currentTarget.value)}
+                    defaultValue={voucherNumber || ""}
+                    autoComplete="off"
+                  />
+                </div>
+                <div className="account-profile__field">
+                  <label className="account-profile__label" htmlFor="rooms">
+                    {t("Profile.VoucherRooms")}
+                  </label>
+                  <RoomOptions
+                    rooms={voucherRooms}
+                    changeField={changeField}
+                    fieldName={"voucherRooms"}
+                  />
+                </div>
+              </div>
+            )}
+            {!hasVoucher && (
+              <div>
+                <div className="account-profile__field">
+                  <label className="account-profile__label" htmlFor="budget">
+                    {t("Profile.Budget")}
+                  </label>
+                  <input
+                    data-private
+                    className="account-profile__input account-profile__input--text"
+                    id="budget"
+                    type="number"
+                    onChange={(e) => changeField("nonVoucherBudget", e.currentTarget.value)}
+                    defaultValue={nonVoucherBudget || ""}
+                    autoComplete="off"
+                  />
+                </div>
+                <div className="account-profile__field">
+                  <label className="account-profile__label" htmlFor="rooms">
+                    {t("Profile.RoomsNoVoucher")}
+                  </label>
+                  <RoomOptions
+                    rooms={nonVoucherRooms}
+                    changeField={changeField}
+                    fieldName={"nonVoucherRooms"}
+                  />
+                </div>
+              </div>
+            )}
             <DestinationsList
               addAddress={addAddress}
               deleteAddress={deleteAddress}
