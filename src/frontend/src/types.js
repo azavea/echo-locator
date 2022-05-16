@@ -66,7 +66,10 @@ export type AccountProfile = {
   importanceSchools: number,
   importanceViolentCrime: number,
   key: string,
-  rooms: number,
+  hasVoucher: Boolean,
+  nonVoucherBudget: number,
+  nonVoucherRooms: number,
+  voucherRooms: number,
   useCommuterRail: boolean,
   voucherNumber: string,
 };

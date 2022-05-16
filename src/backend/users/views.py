@@ -103,9 +103,10 @@ class UserProfileView(APIView):
             "importanceViolentCrime": self.map_priorities_to_nums[
                 user_profile["public_safety_priority"]
             ],
-            "rooms": user_profile["voucher_bedrooms"]
-            if user_profile["voucher_bedrooms"]
-            else user_profile["desired_bedrooms"],
+            "hasVoucher": user_profile["has_voucher"],
+            "voucherRooms": user_profile["voucher_bedrooms"],
+            "nonVoucherRooms": user_profile["desired_bedrooms"],
+            "nonVoucherBudget": user_profile["rent_budget"],
             "useCommuterRail": user_profile["travel_mode"] == "BTE",
             "voucherNumber": user_profile["voucher_number"],
         }
@@ -160,9 +161,11 @@ class UserProfileView(APIView):
         updated_profile.public_safety_priority = self.map_nums_to_priorities[
             int(data["importanceAccessibility"])
         ]
-        # TODO update to not assume voucher rooms instead of desired bedrooms
-        # issue 461 (https://github.com/azavea/echo-locator/issues/461)
-        updated_profile.voucher_bedrooms = data["rooms"]
+        updated_profile.has_voucher = data["hasVoucher"]
+        updated_profile.voucher_bedrooms = data["voucherRooms"]
+        updated_profile.desired_bedrooms = data["nonVoucherRooms"]
+        updated_profile.voucher_number = data["voucherNumber"]
+        updated_profile.rent_budget = data["nonVoucherBudget"]
         updated_profile.voucher_number = data["voucherNumber"]
 
         updated_profile.save()
