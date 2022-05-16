@@ -51,4 +51,9 @@
   &__actions {
     margin-left: auto;
   }
+
+  &__logout {
+    justify-content: flex-end;
+    margin-left: 8rem;
+  }
 }
