@@ -60,18 +60,18 @@ export type AccountProfile = {
   destinations: Array<AccountAddress>,
   favorites: Array<string>,
   hasVehicle: boolean,
+  hasVoucher: Boolean,
   headOfHousehold: string,
   hideNonECC: boolean,
   importanceAccessibility: number,
   importanceSchools: number,
   importanceViolentCrime: number,
   key: string,
-  hasVoucher: Boolean,
   nonVoucherBudget: number,
   nonVoucherRooms: number,
-  voucherRooms: number,
   useCommuterRail: boolean,
   voucherNumber: string,
+  voucherRooms: number,
 };
 
 /**

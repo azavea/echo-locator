@@ -654,7 +654,7 @@ class EditProfile extends PureComponent<Props> {
                   <RoomOptions
                     rooms={voucherRooms}
                     changeField={changeField}
-                    fieldName={"voucherRooms"}
+                    fieldName="voucherRooms"
                   />
                 </div>
               </div>
@@ -682,7 +682,7 @@ class EditProfile extends PureComponent<Props> {
                   <RoomOptions
                     rooms={nonVoucherRooms}
                     changeField={changeField}
-                    fieldName={"nonVoucherRooms"}
+                    fieldName="nonVoucherRooms"
                   />
                 </div>
               </div>
