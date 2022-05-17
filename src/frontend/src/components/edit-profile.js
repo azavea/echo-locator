@@ -240,7 +240,7 @@ class EditProfile extends PureComponent<Props> {
       this.setState({ errorMessage: t("Profile.DeletePrimaryAddressError") });
       return;
     }
-    const newState = { destinations: destinations, errorMessage: "" };
+    const newState = { destinations, errorMessage: "" };
     this.setState(newState);
   }
 

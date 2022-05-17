@@ -151,9 +151,15 @@ class UserProfileView(APIView):
             updated_profile.travel_mode = "BT"
 
         updated_profile.full_name = data["headOfHousehold"]
-        updated_profile.commute_priority = self.map_nums_to_priorities[int(data["importanceAccessibility"])]
-        updated_profile.school_quality_priority = self.map_nums_to_priorities[int(data["importanceAccessibility"])]
-        updated_profile.public_safety_priority = self.map_nums_to_priorities[int(data["importanceAccessibility"])]
+        updated_profile.commute_priority = self.map_nums_to_priorities[
+            int(data["importanceAccessibility"])
+        ]
+        updated_profile.school_quality_priority = self.map_nums_to_priorities[
+            int(data["importanceAccessibility"])
+        ]
+        updated_profile.public_safety_priority = self.map_nums_to_priorities[
+            int(data["importanceAccessibility"])
+        ]
         # TODO update to not assume voucher rooms instead of desired bedrooms
         # issue 461 (https://github.com/azavea/echo-locator/issues/461)
         updated_profile.voucher_bedrooms = data["rooms"]
