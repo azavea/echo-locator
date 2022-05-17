@@ -54,6 +54,13 @@ class CustomHeaderBar extends React.Component {
             中文
           </button>
         </div>
+        <div className="app-header__logout">
+          <span className="app-header__button">
+            <button className="app-header__button" onClick={() => this.props.logout()}>
+              {t("Header.Logout")}
+            </button>
+          </span>
+        </div>
       </header>
     );
   }

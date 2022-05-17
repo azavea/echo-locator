@@ -140,6 +140,7 @@ export default {
   Header: {
     New: "New search",
     Edit: "Edit profile",
+    Logout: "Logout",
     SignIn: "Sign in",
     SignOut: "Sign out",
   },

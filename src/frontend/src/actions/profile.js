@@ -52,6 +52,20 @@ export const sendLoginLink = (email) => (dispatch, getState) => {
   dispatch({ type: "set login message", payload: "SignIn.LoginLinkSent" });
 };
 
+export const setLogout = (authToken) => (dispatch, getState) => {
+  addActionLogItem(`Deleting token cookie`);
+  axios
+    .post("/api/logout/", null, {
+      headers: {
+        Authorization: `Token ${authToken}`,
+      },
+    })
+    .then(() => {
+      dispatch({ type: "set auth token", payload: null });
+      dispatch({ type: "set profile", payload: null });
+    });
+};
+
 export const setAuthToken = (authToken) => (dispatch, getState) => {
   addActionLogItem("Updating authToken");
   axios

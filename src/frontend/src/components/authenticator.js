@@ -4,6 +4,7 @@ import LogRocket from "logrocket";
 import Cookies from "js-cookie";
 
 import { ANONYMOUS_USERNAME } from "../constants";
+import { clearLocalStorage } from "../config";
 
 import CustomSignIn from "./custom-sign-in";
 import CustomHeaderBar from "./custom-header-bar";
@@ -14,9 +15,19 @@ export default function Authenticator(Comp) {
       super(props);
 
       this.handleAuthChange = this.handleAuthChange.bind(this);
+      this.logout = this.logout.bind(this);
 
       // Load the selected user profile from localStorage, if any
       this.props.loadProfile();
+    }
+
+    logout() {
+      if (this.props.userProfile && this.props.userProfile.voucherNumber !== ANONYMOUS_USERNAME) {
+        this.props.setLogout(Cookies.get("auth_token"));
+      } else {
+        this.handleAuthChange(null);
+      }
+      clearLocalStorage();
     }
 
     handleAuthChange(profile: AccountProfile) {
@@ -46,7 +57,11 @@ export default function Authenticator(Comp) {
       if (userProfile) {
         return (
           <>
-            <CustomHeaderBar userProfile={userProfile} handleAuthChange={this.handleAuthChange} />
+            <CustomHeaderBar
+              userProfile={userProfile}
+              handleAuthChange={this.handleAuthChange}
+              logout={this.logout}
+            />
             <Comp
               {...this.props}
               userProfile={userProfile}

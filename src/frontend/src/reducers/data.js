@@ -11,6 +11,8 @@ export default handleActions(
         page: 0,
         showDetails: false,
         showFavorites: false,
+        showBHAListings: false,
+        showRealtorListings: false,
       };
     },
     "set grid"(state, action) {
