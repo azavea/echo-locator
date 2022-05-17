@@ -60,6 +60,7 @@ class ObtainToken(APIView):
 class UserProfileView(APIView):
     permission_classes = (IsAuthenticated,)
     map_priorities_to_nums = {"NI": 1, "SI": 2, "I": 3, "VI": 4}
+    map_nums_to_priorities = {value: key for key, value in map_priorities_to_nums.items()}
     map_purposes = {
         "WK": "Work",
         "DC": "Daycare",
@@ -150,15 +151,9 @@ class UserProfileView(APIView):
             updated_profile.travel_mode = "BT"
 
         updated_profile.full_name = data["headOfHousehold"]
-        updated_profile.commute_priority = list(self.map_priorities_to_nums.keys())[
-            int(data["importanceAccessibility"]) - 1
-        ]
-        updated_profile.school_quality_priority = list(self.map_priorities_to_nums.keys())[
-            int(data["importanceSchools"]) - 1
-        ]
-        updated_profile.public_safety_priority = list(self.map_priorities_to_nums.keys())[
-            int(data["importanceViolentCrime"]) - 1
-        ]
+        updated_profile.commute_priority = self.map_nums_to_priorities[int(data["importanceAccessibility"])]
+        updated_profile.school_quality_priority = self.map_nums_to_priorities[int(data["importanceAccessibility"])]
+        updated_profile.public_safety_priority = self.map_nums_to_priorities[int(data["importanceAccessibility"])]
         # TODO update to not assume voucher rooms instead of desired bedrooms
         # issue 461 (https://github.com/azavea/echo-locator/issues/461)
         updated_profile.voucher_bedrooms = data["rooms"]
