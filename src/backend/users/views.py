@@ -20,8 +20,7 @@ def send_login_link(request):
     Send email with passwordless login link to User on Login/Sign Up.
     Will raise an exception if User.DoesNotExist
     """
-    # Request.data key could be "username" or "email", so turn into list to be safe
-    email = list(request.data.values())[0]
+    email = request.data["username"]
     user = User.objects.get(username=email)
     login_token = utils.get_query_string(user)
     host = request.get_host()

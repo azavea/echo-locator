@@ -63,7 +63,7 @@ export const sendSignUpLink = (email) => (dispatch, getState) => {
 
 export const sendLoginLink = (email) => (dispatch, getState) => {
   addActionLogItem(`Sending login link to ${email}`);
-  axios.post("/api/login/", { email });
+  axios.post("/api/login/", { username: email });
   dispatch({ type: "set login message", payload: "SignIn.LoginLinkSent" });
 };
 
