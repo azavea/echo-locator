@@ -139,7 +139,7 @@ export default {
     SwitchToLoginExplanation: "Already have an account?",
     SwitchToLogin: "Sign in here.",
     SwitchToSignup: "Create an account here.",
-    SignUpError: "Something went wrong. Please try again."
+    SignUpError: "Something went wrong. Please try again.",
   },
   Header: {
     New: "New search",

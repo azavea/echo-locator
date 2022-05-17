@@ -69,10 +69,9 @@ export type AccountProfile = {
   nonVoucherBudget: number,
   nonVoucherRooms: number,
   useCommuterRail: boolean,
-  voucherNumber: string,
+  voucherNumber?: string,
   voucherRooms: number,
-  voucherNumber?: string
-}
+};
 
 /**
  * Neighborhood GeoJSON properties.

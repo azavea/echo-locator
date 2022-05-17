@@ -100,9 +100,7 @@ class HouseSeekerLoginTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.houseseeker = Client()
-        user_serializer = HouseSeekerSignUpSerializer(
-            data={"username": "exists@azavea.com"}
-        )
+        user_serializer = HouseSeekerSignUpSerializer(data={"username": "exists@azavea.com"})
         user_serializer.is_valid(raise_exception=True)
         user_serializer.save()
 
@@ -131,7 +129,9 @@ class HouseSeekerLoginTest(TestCase):
             200,
             f"Expected 200, got {second_response.status_code}. {second_response.content}",
         )
-        self.assertEqual(len(mail.outbox), 1, "Fail: expected one email to be sent, not %d." % len(mail.outbox))
+        self.assertEqual(
+            len(mail.outbox), 1, "Fail: expected one email to be sent, not %d." % len(mail.outbox)
+        )
 
 
 class HouseSeekerSignUpTest(TestCase):
@@ -203,4 +203,6 @@ class HouseSeekerSignUpTest(TestCase):
             {"username": "testechoemail1@azavea.com"},
             content_type="application/json",
         )
-        self.assertEqual(len(mail.outbox), 1, "Fail: expected one email to be sent, not %d." % len(mail.outbox))
+        self.assertEqual(
+            len(mail.outbox), 1, "Fail: expected one email to be sent, not %d." % len(mail.outbox)
+        )
