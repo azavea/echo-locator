@@ -29,6 +29,23 @@ export const setProfile = (profile) => (dispatch, getState) => {
   }
 };
 
+export const saveProfile = (profile, authToken) => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`/api/user/`, profile, {
+        headers: {
+          Authorization: `Token ${authToken}`,
+        },
+      })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 export const sendLoginLink = (email) => (dispatch, getState) => {
   addActionLogItem(`Sending login link to ${email}`);
   axios.post("/api/login/", { email });

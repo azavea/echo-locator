@@ -46,7 +46,7 @@ urlpatterns = [
     ),
     path("api/login/", user_views.LoginPage.as_view(), name="login"),
     path("api/auth/login/", user_views.ObtainToken.as_view(), name="obtain_token"),
-    path("api/user/", user_views.GetUserProfile.as_view(), name="get_user_details"),
+    path("api/user/", user_views.UserProfileView.as_view(), name="user_details"),
     path("admin/", admin.site.urls),
     path("health-check/", include("watchman.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

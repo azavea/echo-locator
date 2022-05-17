@@ -246,7 +246,7 @@ export default {
     },
   },
   TripPurpose: {
-    Daycare: "Day care",
+    Daycare: "Daycare",
     Doctor: "Doctor",
     Family: "Family",
     Friends: "Friends",
