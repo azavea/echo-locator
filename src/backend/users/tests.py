@@ -101,7 +101,7 @@ class HouseSeekerLoginTest(TestCase):
     def setUpTestData(cls):
         cls.houseseeker = Client()
         user_serializer = HouseSeekerSignUpSerializer(
-            data={"username": "testechouserexists@azavea.com"}
+            data={"username": "exists@azavea.com"}
         )
         user_serializer.is_valid(raise_exception=True)
         user_serializer.save()
@@ -113,7 +113,7 @@ class HouseSeekerLoginTest(TestCase):
         """
         first_response = self.houseseeker.post(
             "/api/login/",
-            {"email": "testechouserexists@azavea.com"},
+            {"username": "exists@azavea.com"},
             content_type="application/json",
         )
         self.assertEqual(
@@ -123,7 +123,7 @@ class HouseSeekerLoginTest(TestCase):
         )
         second_response = self.houseseeker.post(
             "/api/login/",
-            {"username": "testechouserdoesntexist@azavea.com"},
+            {"username": "doesntexist@azavea.com"},
             content_type="application/json",
         )
         self.assertEqual(
@@ -131,8 +131,7 @@ class HouseSeekerLoginTest(TestCase):
             200,
             f"Expected 200, got {second_response.status_code}. {second_response.content}",
         )
-        num_emails = len(mail.outbox)
-        self.assertEqual(num_emails, 1, "Fail: expected one email to be sent, not %d." % num_emails)
+        self.assertEqual(len(mail.outbox), 1, "Fail: expected one email to be sent, not %d." % len(mail.outbox))
 
 
 class HouseSeekerSignUpTest(TestCase):
@@ -147,19 +146,18 @@ class HouseSeekerSignUpTest(TestCase):
 
     def test_signup_email_validation(self):
         """
-        Test signup endpoint responds with 400 and login error message on invalid email.
+        Test signup endpoint responds with login error message on invalid email.
         """
         response = self.houseseeker.post(
             "/api/signup/",
             {"username": "test"},
             content_type="application/json",
         )
-        self.assertContains(response, "try again with a valid email address", status_code=400)
+        self.assertContains(response, "try again with a valid email address", status_code=200)
 
     def test_signup_endpoint_response(self):
         """
         Test signup endpoint responds with correct login message.
-        Responds with 400 and message if already have account.
         """
         first_response = self.houseseeker.post(
             "/api/signup/",
@@ -178,11 +176,11 @@ class HouseSeekerSignUpTest(TestCase):
         )
         self.assertEqual(
             second_response.status_code,
-            400,
-            f"Expected 400, got {second_response.status_code}. {second_response.content}",
+            200,
+            f"Expected 200, got {second_response.status_code}. {second_response.content}",
         )
         self.assertContains(first_response, "complete your account", status_code=200)
-        self.assertContains(second_response, "already have an account", status_code=400)
+        self.assertContains(second_response, "already have an account", status_code=200)
 
     def test_user_and_empty_profile_created_on_signup(self):
         self.houseseeker.post(
@@ -198,12 +196,11 @@ class HouseSeekerSignUpTest(TestCase):
 
     def test_signup_email_link(self):
         """
-        Test email is sent on User sign up and link in email responds with 200.
+        Test email is sent on User sign up.
         """
         self.houseseeker.post(
             "/api/signup/",
             {"username": "testechoemail1@azavea.com"},
             content_type="application/json",
         )
-        num_emails = len(mail.outbox)
-        self.assertEqual(num_emails, 1, "Fail: expected one email to be sent, not %d." % num_emails)
+        self.assertEqual(len(mail.outbox), 1, "Fail: expected one email to be sent, not %d." % len(mail.outbox))
