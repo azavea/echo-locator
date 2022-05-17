@@ -60,8 +60,8 @@ class ObtainToken(APIView):
 class DeleteToken(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, **kwargs):
-        response = HttpResponseRedirect("/")
+    def post(self, request, **kwargs):
+        response = Response(status=200)
         response.delete_cookie("auth_token")
         Token.objects.get(key=request.auth.key).delete()
         return response

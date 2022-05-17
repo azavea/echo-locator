@@ -55,7 +55,7 @@ export const sendLoginLink = (email) => (dispatch, getState) => {
 export const setLogout = (authToken) => (dispatch, getState) => {
   addActionLogItem(`Deleting token cookie`);
   axios
-    .get("/api/logout/", {
+    .post("/api/logout/", null, {
       headers: {
         Authorization: `Token ${authToken}`,
       },
