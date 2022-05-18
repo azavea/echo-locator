@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   terraform:
-    image: quay.io/azavea/terraform:1.0.0
+    image: quay.io/azavea/terraform:1.1.9
     volumes:
       - ./:/usr/local/src
       - $HOME/.aws:/root/.aws:ro
