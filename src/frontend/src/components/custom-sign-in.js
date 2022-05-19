@@ -25,10 +25,16 @@ const SignInHeaderTranslated = withTranslation()(SignInHeader);
 class CustomSignIn extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "" };
+    this.state = { value: "", newUser: false };
 
+    this.handleToggle = this.handleToggle.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleToggle(e) {
+    const toggle = !e.target.className.includes("login");
+    this.setState({ newUser: toggle });
   }
 
   handleChange(e) {
@@ -37,7 +43,9 @@ class CustomSignIn extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.sendLoginLink(this.state.value);
+    this.state.newUser
+      ? this.props.sendSignUpLink(this.state.value)
+      : this.props.sendLoginLink(this.state.value);
   }
 
   render() {
@@ -54,10 +62,24 @@ class CustomSignIn extends React.Component {
               </label>
             </fieldset>
             <button type="submit" className="auth-main__button auth-main__button--primary">
-              {t("Header.SignIn")}
+              {this.state.newUser ? t("Header.SignUp") : t("Header.SignIn")}
             </button>
             <div className="auth-main__success-message">{t(this.props.data.loginMessage)}</div>
           </form>
+          {this.state.newUser ? (
+            <div className="auth-main__new-user-toggle">
+              {`${t("SignIn.SwitchToLoginExplanation")} `}
+              <span className="login link" onClick={this.handleToggle}>
+                {t("SignIn.SwitchToLogin")}
+              </span>
+            </div>
+          ) : (
+            <div className="auth-main__new-user-toggle">
+              <span className="signup link" onClick={this.handleToggle}>
+                {t("SignIn.SwitchToSignup")}
+              </span>
+            </div>
+          )}
           <div className="auth-main__anonymous-login">
             {`${t("SignIn.AnonymousExplanation")} `}
             <Link

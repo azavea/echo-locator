@@ -64,7 +64,7 @@ class EditProfile extends PureComponent<Props> {
   componentWillReceiveProps(nextProps) {
     // Listen for when profile to appear on props, because it is not present
     // on initial load. Only load once by checking state.
-    if (!nextProps.isLoading && nextProps.userProfile && !this.state.key) {
+    if (!nextProps.isLoading && nextProps.userProfile) {
       if (!nextProps.userProfile.destinations || !nextProps.userProfile.destinations.length) {
         nextProps.userProfile.destinations = [Object.assign({}, firstAddress)];
       }
@@ -103,15 +103,14 @@ class EditProfile extends PureComponent<Props> {
         importanceViolentCrime: profile.importanceViolentCrime
           ? profile.importanceViolentCrime
           : DEFAULT_CRIME_IMPORTANCE,
-        key: profile.key,
         hasVoucher: profile.hasVoucher,
         nonVoucherBudget: profile.nonVoucherBudget,
         nonVoucherRooms: profile.nonVoucherRooms,
         voucherRooms: profile.voucherRooms,
-        voucherNumber: profile.voucherNumber,
+        voucherNumber: profile.voucherNumber ? profile.voucherNumber : "",
         componentError: null,
         errorMessage: "",
-        isAnonymous: profile.key === ANONYMOUS_USERNAME,
+        isAnonymous: profile.voucherNumber === ANONYMOUS_USERNAME,
       };
     } else {
       // Use defaults for new profile
@@ -124,7 +123,6 @@ class EditProfile extends PureComponent<Props> {
         importanceAccessibility: DEFAULT_ACCESSIBILITY_IMPORTANCE,
         importanceSchools: DEFAULT_SCHOOLS_IMPORTANCE,
         importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE,
-        key: "",
         hasVoucher: false,
         nonVoucherBudget: null,
         nonVoucherRooms: 0,
@@ -132,7 +130,7 @@ class EditProfile extends PureComponent<Props> {
         voucherNumber: "",
         componentError: null,
         errorMessage: "",
-        isAnonymous: true,
+        isAnonymous: !profile,
       };
     }
   }
@@ -163,7 +161,6 @@ class EditProfile extends PureComponent<Props> {
       importanceAccessibility,
       importanceSchools,
       importanceViolentCrime,
-      key,
       hasVoucher,
       nonVoucherBudget,
       nonVoucherRooms,
@@ -182,7 +179,6 @@ class EditProfile extends PureComponent<Props> {
       importanceAccessibility,
       importanceSchools,
       importanceViolentCrime,
-      key,
       hasVoucher,
       nonVoucherBudget,
       nonVoucherRooms,

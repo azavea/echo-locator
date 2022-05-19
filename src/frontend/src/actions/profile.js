@@ -46,9 +46,24 @@ export const saveProfile = (profile, authToken) => (dispatch, getState) => {
   });
 };
 
+export const sendSignUpLink = (email) => (dispatch, getState) => {
+  addActionLogItem(`Sending signup link to ${email}`);
+  axios
+    .post("/api/signup/", {
+      username: email,
+    })
+    .then((response) => {
+      dispatch({ type: "set login message", payload: response.data });
+    })
+    .catch((error) => {
+      console.error("Error creating user profile", error);
+      dispatch({ type: "set login message", payload: "SignIn.SignUpError" });
+    });
+};
+
 export const sendLoginLink = (email) => (dispatch, getState) => {
   addActionLogItem(`Sending login link to ${email}`);
-  axios.post("/api/login/", { email });
+  axios.post("/api/login/", { username: email });
   dispatch({ type: "set login message", payload: "SignIn.LoginLinkSent" });
 };
 

@@ -1,47 +1,62 @@
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.db import transaction
+from django.db.utils import IntegrityError
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from sesame import utils
 
 from .models import Destination, UserProfile
-from .serializers import UserSerializer
+from .serializers import HouseSeekerSignUpSerializer, UserSerializer
+
+
+def send_login_link(request):
+    """
+    Send email with passwordless login link to User on Login/Sign Up.
+    Will raise an exception if User.DoesNotExist
+    """
+    email = request.data["username"]
+    user = User.objects.get(username=email)
+    login_token = utils.get_query_string(user)
+    host = request.get_host()
+    protocol = "https://" if request.is_secure() else "http://"
+    login_link = protocol + host + reverse("obtain_token") + login_token
+
+    html_message = """
+    <p>Hi there,</p>
+    <p>Thanks for using ECHO! Here is your <a href="{}">link to login</a>. </p>
+    <p>BHA</p>
+    """.format(
+        login_link
+    )
+
+    # Confirm User has default empty profile to access site
+    # if one doesn't already exist
+    UserProfile.objects.get_or_create(user=user)
+
+    # TODO replace with actual values parameterized based on environment
+    # issue 485 (https://github.com/azavea/echo-locator/issues/485)
+    send_mail(
+        "Your ECHO Login Link",
+        html_message,
+        "admin@domain.com",
+        [email],
+        fail_silently=False,
+        html_message=html_message,
+    )
 
 
 class LoginPage(APIView):
     def post(self, request, **kwargs):
-        email = request.data["email"]
-        # try to find the User, but for privacy reasons, do not send 500 error back if not found
         try:
-            user = User.objects.get(username=email)
-            login_token = utils.get_query_string(user)
-            host = request.get_host()
-            protocol = "https://" if request.is_secure() else "http://"
-            login_link = protocol + host + reverse("obtain_token") + login_token
-
-            html_message = """
-            <p>Hi there,</p>
-            <p>Thanks for using ECHO! Here is your <a href="{}">link to login</a>. </p>
-            <p>BHA</p>
-            """.format(
-                login_link
-            )
-
-            # TODO replace with actual values parameterized based on environment
-            # issue 485 (https://github.com/azavea/echo-locator/issues/485)
-            send_mail(
-                "Your ECHO Login Link",
-                html_message,
-                "admin@domain.com",
-                [email],
-                fail_silently=False,
-                html_message=html_message,
-            )
+            # Will throw exception if cannot find the User
+            # For privacy reasons, do not send 500 error back if not found
+            send_login_link(request)
         except User.DoesNotExist:
             pass
         return Response(content_type="application/json")
@@ -183,3 +198,18 @@ class UserProfileView(APIView):
         serializer = UserSerializer(User.objects.get(username=request.user))
         content = self.repackage_for_frontend(serializer.data)
         return Response(content)
+
+
+class SignUpPage(APIView):
+    def post(self, request, **kwargs):
+        signup_message = "Thank you! You'll receive an email shortly with a link to complete your account. Click the link to create your profile and get started with ECHO."
+        try:
+            user_serializer = HouseSeekerSignUpSerializer(data=request.data)
+            user_serializer.is_valid(raise_exception=True)
+            user_serializer.save()
+            send_login_link(request)
+        except IntegrityError:
+            signup_message = "It looks like we already have an account with that email. Sign in by clicking the link below!"
+        except ValidationError:
+            signup_message = "Please try again with a valid email address."
+        return Response(data=signup_message, content_type="application/json")
