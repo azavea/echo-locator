@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.gis.geos import Point
 from django.core.mail import send_mail
 from django.db import transaction
 from django.db.utils import IntegrityError
@@ -98,19 +99,20 @@ class UserProfileView(APIView):
 
     def repackage_for_frontend(self, serialized_data):
         # repackage destinations to match frontend AccountAddress
-        # TODO replace dummy Point data issue 486
-        # (https://github.com/azavea/echo-locator/issues/486)
         user_profile = serialized_data["userprofile"]
         formatted_destinations = [
             {
                 "location": {
-                    "label": profile["label"],
-                    "position": {"lat": 42.351550, "lon": -71.084753},
+                    "label": destination["label"],
+                    "position": {
+                        "lat": destination["location"]["coordinates"][1],
+                        "lon": destination["location"]["coordinates"][0],
+                    },
                 },
-                "primary": profile["primary_destination"],
-                "purpose": self.map_purposes[profile["purpose"]],
+                "primary": destination["primary_destination"],
+                "purpose": self.map_purposes[destination["purpose"]],
             }
-            for profile in user_profile["destinations"]
+            for destination in user_profile["destinations"]
         ]
 
         # repackage user profile to match frontend AccountProfile type
@@ -152,8 +154,6 @@ class UserProfileView(APIView):
             user=User.objects.get(username=request.user)
         )
 
-        # delete & replace all destinations on UserProfile
-        # TODO save Point data issue 486 (https://github.com/azavea/echo-locator/issues/486)
         Destination.objects.filter(profile=updated_profile).delete()
         destinations = [
             Destination(
@@ -163,6 +163,11 @@ class UserProfileView(APIView):
                 purpose=list(self.map_purposes.keys())[
                     list(self.map_purposes.values()).index(dest["purpose"])
                 ],
+                location=Point(
+                    dest["location"]["position"]["lon"],
+                    dest["location"]["position"]["lat"],
+                    srid=4326,
+                ),
             )
             for dest in data["destinations"]
         ]
