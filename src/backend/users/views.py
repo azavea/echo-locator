@@ -204,11 +204,10 @@ class SignUpPage(APIView):
     def post(self, request, **kwargs):
         signup_message = "Thank you! You'll receive an email shortly with a link to complete your account. Click the link to create your profile and get started with ECHO."
         try:
-            with transaction.atomic():
-                user_serializer = HouseSeekerSignUpSerializer(data=request.data)
-                user_serializer.is_valid(raise_exception=True)
-                user_serializer.save()
-                send_login_link(request)
+            user_serializer = HouseSeekerSignUpSerializer(data=request.data)
+            user_serializer.is_valid(raise_exception=True)
+            user_serializer.save()
+            send_login_link(request)
         except IntegrityError:
             signup_message = "It looks like we already have an account with that email. Sign in by clicking the link below!"
         except ValidationError:
