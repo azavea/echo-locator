@@ -16,7 +16,7 @@ export default createSelector(
   (state) => get(state, "data.userProfile"),
   (activeNetworkIndex, networks, start, neighborhoods, profile) => {
     const network = networks[activeNetworkIndex];
-    if (!neighborhoods || !neighborhoods.features || !neighborhoods.features.length || !network) {
+    if (!neighborhoods || !neighborhoods.features || !neighborhoods.features.length || !network || !profile) {
       return [];
     }
 

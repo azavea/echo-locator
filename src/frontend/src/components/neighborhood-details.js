@@ -33,7 +33,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
 
     this.state = {
       isFavorite:
-        props.userProfile && props.neighborhood
+        props.userProfile && props.neighborhood && props.userProfile.favorites
           ? props.userProfile.favorites.indexOf(props.neighborhood.properties.id) !== -1
           : false,
     };
@@ -46,7 +46,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.userProfile && nextProps.neighborhood) {
+    if (nextProps.userProfile && nextProps.neighborhood && nextProps.userProfile.favorites) {
       const isFavorite =
         nextProps.userProfile.favorites.indexOf(nextProps.neighborhood.properties.id) !== -1;
       this.setState({ isFavorite });
