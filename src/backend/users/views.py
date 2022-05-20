@@ -134,6 +134,7 @@ class UserProfileView(APIView):
             "nonVoucherBudget": user_profile["rent_budget"],
             "useCommuterRail": user_profile["travel_mode"] == "BTE",
             "voucherNumber": user_profile["voucher_number"],
+            "favorites": user_profile["favorites"],
         }
         return content
 
@@ -192,6 +193,7 @@ class UserProfileView(APIView):
         updated_profile.voucher_number = data["voucherNumber"]
         updated_profile.rent_budget = data["nonVoucherBudget"]
         updated_profile.voucher_number = data["voucherNumber"]
+        updated_profile.favorites = data["favorites"]
 
         updated_profile.save()
 

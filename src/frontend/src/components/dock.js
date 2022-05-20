@@ -4,7 +4,7 @@ import { withTranslation } from "react-i18next";
 import remove from "lodash/remove";
 import { PureComponent, createRef } from "react";
 
-import { SIDEBAR_PAGE_SIZE } from "../constants";
+import { ANONYMOUS_USERNAME, SIDEBAR_PAGE_SIZE } from "../constants";
 import type { AccountProfile, ActiveListingDetail } from "../types";
 
 import NeighborhoodDetails from "./neighborhood-details";
@@ -102,7 +102,7 @@ class Dock extends PureComponent<Props> {
 
   // save/unsave neighborhood to/from user profile favorites list
   setFavorite(neighborhoodId: string, profile: AccountProfile, handleAuthChange) {
-    const favorites = profile.favorites || [];
+    const favorites = profile.favorites ? [...profile.favorites] : [];
 
     const isProfileFavorite = favorites.indexOf(neighborhoodId) !== -1;
     const favorite = !isProfileFavorite;
@@ -122,8 +122,22 @@ class Dock extends PureComponent<Props> {
       }
     }
 
-    profile.favorites = favorites;
-    handleAuthChange(profile);
+    // Save updated profile
+    const updatedProfile = { ...profile, favorites };
+    if (profile.voucherNumber === ANONYMOUS_USERNAME) {
+      // Despite the name, this saves the profile to local storage in anonymous mode.
+      this.props.handleAuthChange(updatedProfile);
+    } else {
+      // Save to API
+      this.props
+        .saveProfile(updatedProfile, this.props.authToken)
+        .then((newProfile) => {
+          this.props.setProfile(newProfile);
+        })
+        .catch((err) => {
+          console.error("Error saving user profile", err);
+        });
+    }
   }
 
   // Toggle between showing all and showing favorites, if not already in the new state

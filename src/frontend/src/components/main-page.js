@@ -126,9 +126,12 @@ export default class MainPage extends React.PureComponent<Props> {
           setRealtorListings={p.setRealtorListings}
           setShowDetails={p.setShowDetails}
           setShowFavorites={p.setShowFavorites}
+          setProfile={p.setProfile}
           showDetails={p.data.showDetails}
           showFavorites={p.data.showFavorites}
           userProfile={p.userProfile}
+          authToken={p.data.authToken}
+          saveProfile={p.saveProfile}
         >
           <Form
             geocode={p.geocode}
