@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import Point
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
@@ -25,6 +26,7 @@ class UserProfile(models.Model):
     voucher_bedrooms = models.IntegerField(blank=True, null=True)
     rent_budget = models.IntegerField(blank=True, null=True)
     desired_bedrooms = models.IntegerField(blank=True, null=True)
+    favorites = ArrayField(models.CharField(max_length=10), default=list)
     travel_mode = models.CharField(
         choices=TravelMode.choices, max_length=3, default=TravelMode.BUS_TRAIN
     )

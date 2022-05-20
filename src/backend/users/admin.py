@@ -93,6 +93,7 @@ class UserProfileAdmin(admin.ModelAdmin):
                     "commute_priority",
                     "school_quality_priority",
                     "public_safety_priority",
+                    "favorites",
                 )
             },
         ),
