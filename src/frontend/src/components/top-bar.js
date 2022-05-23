@@ -46,7 +46,9 @@ class TopBar extends PureComponent<Props, State> {
     const query = {
       zipcode: this.props.neighborhood.properties.id,
       budget: this.props.estMaxRent,
-      rooms: this.props.userProfile.rooms,
+      rooms: this.props.userProfile.hasVoucher
+        ? this.props.userProfile.voucherRooms
+        : this.props.userProfile.nonVoucherRooms,
     };
     switch (type) {
       case "BHA":

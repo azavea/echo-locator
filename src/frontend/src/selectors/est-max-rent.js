@@ -10,13 +10,21 @@ export default createSelector(
   (userProfile, neighborhood) => {
     if (
       !userProfile ||
-      !userProfile.rooms ||
       !neighborhood ||
+      (!userProfile.voucherRooms && !userProfile.nonVoucherRooms) ||
       !neighborhood.properties ||
-      !neighborhood.properties["max_rent_" + userProfile.rooms + "br"]
+      !neighborhood.properties[
+        `max_rent_${
+          userProfile.hasVoucher ? userProfile.voucherRooms : userProfile.nonVoucherRooms
+        }br`
+      ]
     ) {
       return 0;
     }
-    return neighborhood.properties["max_rent_" + userProfile.rooms + "br"];
+    return neighborhood.properties[
+      `max_rent_${
+        userProfile.hasVoucher ? userProfile.voucherRooms : userProfile.nonVoucherRooms
+      }br`
+    ];
   }
 );

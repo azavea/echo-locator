@@ -111,7 +111,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
   neighborhoodStats(props) {
     const { userProfile, estMaxRent } = props;
     const { t, i18n } = useTranslation();
-    const { rooms } = userProfile;
+    const rooms = userProfile.hasVoucher ? userProfile.voucherRooms : userProfile.nonVoucherRooms;
     const maxSubsidy = estMaxRent || "–––";
 
     return (
@@ -178,19 +178,26 @@ class NeighborhoodDetails extends PureComponent<Props> {
   neighborhoodLinks(props) {
     const { neighborhood, userProfile, estMaxRent } = props;
     const { t, i18n } = useTranslation();
-    const { rooms } = userProfile;
+    const rooms = userProfile.hasVoucher ? userProfile.voucherRooms : userProfile.nonVoucherRooms;
 
     return (
       <>
         <h6 className="neighborhood-details__link-heading">
           {t("NeighborhoodDetails.MainSearchToolsSearch")}: {rooms}{" "}
-          {t("NeighborhoodDetails.BedroomAbbr")} (${estMaxRent.toLocaleString(i18n.language)}{" "}
+          {t("NeighborhoodDetails.BedroomAbbr")} ($
+          {userProfile.hasVoucher
+            ? estMaxRent.toLocaleString(i18n.language)
+            : userProfile.nonVoucherBudget.toLocaleString(i18n.language)}{" "}
           {t("NeighborhoodDetails.MaxRentSearch")})
         </h6>
         <div className="neighborhood-details__links">
           <a
             className="neighborhood-details__link"
-            href={getZillowSearchLink(neighborhood.properties.id, userProfile.rooms, estMaxRent)}
+            href={getZillowSearchLink(
+              neighborhood.properties.id,
+              userProfile.hasVoucher ? userProfile.voucherRooms : userProfile.nonVoucherRooms,
+              userProfile.hasVoucher ? estMaxRent : userProfile.nonVoucherBudget
+            )}
             target="_blank"
             rel="noreferrer"
           >
@@ -200,8 +207,8 @@ class NeighborhoodDetails extends PureComponent<Props> {
             className="neighborhood-details__link"
             href={getCraigslistSearchLink(
               neighborhood.properties.id,
-              userProfile.rooms,
-              estMaxRent
+              userProfile.hasVoucher ? userProfile.voucherRooms : userProfile.nonVoucherRooms,
+              userProfile.hasVoucher ? estMaxRent : userProfile.nonVoucherBudget
             )}
             target="_blank"
             rel="noreferrer"
@@ -210,7 +217,11 @@ class NeighborhoodDetails extends PureComponent<Props> {
           </a>
           <a
             className="neighborhood-details__link"
-            href={getHotpadsSearchLink(neighborhood.properties.id, userProfile.rooms, estMaxRent)}
+            href={getHotpadsSearchLink(
+              neighborhood.properties.id,
+              userProfile.hasVoucher ? userProfile.voucherRooms : userProfile.nonVoucherRooms,
+              userProfile.hasVoucher ? estMaxRent : userProfile.nonVoucherBudget
+            )}
             target="_blank"
             rel="noreferrer"
           >
@@ -220,8 +231,8 @@ class NeighborhoodDetails extends PureComponent<Props> {
             className="neighborhood-details__link"
             href={getGoSection8SearchLink(
               neighborhood.properties.id,
-              userProfile.rooms,
-              estMaxRent
+              userProfile.hasVoucher ? userProfile.voucherRooms : userProfile.nonVoucherRooms,
+              userProfile.hasVoucher ? estMaxRent : userProfile.nonVoucherBudget
             )}
             target="_blank"
             rel="noreferrer"
