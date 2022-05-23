@@ -186,10 +186,10 @@ class UserProfileView(APIView):
             int(data["importanceAccessibility"])
         ]
         updated_profile.school_quality_priority = self.map_nums_to_priorities[
-            int(data["importanceAccessibility"])
+            int(data["importanceSchools"])
         ]
         updated_profile.public_safety_priority = self.map_nums_to_priorities[
-            int(data["importanceAccessibility"])
+            int(data["importanceViolentCrime"])
         ]
         updated_profile.has_voucher = data["hasVoucher"]
         updated_profile.voucher_bedrooms = data["voucherRooms"]
