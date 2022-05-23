@@ -187,7 +187,9 @@ class NeighborhoodDetails extends PureComponent<Props> {
           {t("NeighborhoodDetails.BedroomAbbr")} ($
           {userProfile.hasVoucher
             ? estMaxRent.toLocaleString(i18n.language)
-            : userProfile.nonVoucherBudget.toLocaleString(i18n.language)}{" "}
+            : userProfile.nonVoucherBudget
+            ? userProfile.nonVoucherBudget.toLocaleString(i18n.language)
+            : estMaxRent.toLocaleString(i18n.language)}{" "}
           {t("NeighborhoodDetails.MaxRentSearch")})
         </h6>
         <div className="neighborhood-details__links">
@@ -207,7 +209,11 @@ class NeighborhoodDetails extends PureComponent<Props> {
             className="neighborhood-details__link"
             href={getCraigslistSearchLink(
               neighborhood.properties.id,
-              userProfile.hasVoucher ? userProfile.voucherRooms : userProfile.nonVoucherRooms,
+              userProfile.hasVoucher
+                ? userProfile.voucherRooms
+                : userProfile.nonVoucherRooms
+                ? userProfile.nonVoucherRooms
+                : 0,
               userProfile.hasVoucher ? estMaxRent : userProfile.nonVoucherBudget
             )}
             target="_blank"
@@ -232,7 +238,11 @@ class NeighborhoodDetails extends PureComponent<Props> {
             href={getGoSection8SearchLink(
               neighborhood.properties.id,
               userProfile.hasVoucher ? userProfile.voucherRooms : userProfile.nonVoucherRooms,
-              userProfile.hasVoucher ? estMaxRent : userProfile.nonVoucherBudget
+              userProfile.hasVoucher
+                ? estMaxRent
+                : userProfile.nonVoucherBudget
+                ? userProfile.nonVoucherBudget
+                : estMaxRent
             )}
             target="_blank"
             rel="noreferrer"
