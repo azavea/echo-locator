@@ -79,7 +79,6 @@ class EditProfile extends PureComponent<Props> {
   }
 
   getDefaultState(profile: AccountProfile) {
-    console.log("profile", profile);
     if (profile) {
       // Read profile into an object for initial component state
       return {
@@ -403,7 +402,7 @@ class EditProfile extends PureComponent<Props> {
             html
             effect="solid"
             place="top"
-            offset='{"top": -10}'
+            offset={{ top: -10 }}
             isCapture
             delayHide={TOOLTIP_HIDE_DELAY_MS}
             className="map-sidebar__tooltip"
@@ -551,8 +550,6 @@ class EditProfile extends PureComponent<Props> {
       voucherNumber,
       useCommuterRail,
     } = this.state;
-
-    console.log(isAnonymous, hasVoucher);
 
     const DestinationsList = this.destinationsList;
     const ImportanceTooltip = this.importanceTooltip;
