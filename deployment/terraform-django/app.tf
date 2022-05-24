@@ -116,6 +116,7 @@ resource "aws_ecs_task_definition" "app" {
     gunicorn_workers = ceil((2 * (var.fargate_app_cpu / 1024)) + 1)
 
     django_secret_key      = var.django_secret_key
+    default_from_email     = var.default_from_email
     django_log_level       = var.django_log_level
     r53_public_hosted_zone = var.r53_public_hosted_zone
 
@@ -187,6 +188,7 @@ resource "aws_ecs_task_definition" "app_cli" {
     postgres_db       = var.rds_database_name
 
     django_secret_key      = var.django_secret_key
+    default_from_email     = var.default_from_email
     django_log_level       = var.django_log_level
     r53_public_hosted_zone = var.r53_public_hosted_zone
 

@@ -256,6 +256,10 @@ variable "django_secret_key" {
   type = string
 }
 
+variable "default_from_email" {
+  type = string
+}
+
 variable "django_log_level" {
   type    = string
   default = "INFO"
