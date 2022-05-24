@@ -36,8 +36,9 @@ class LocationKeys:
 
 
 class PositionKeys:
-    LON = "lon"
-    LAT = "lat"
+    # swap lon & lat fields to account for mislabled profile data
+    LON = "lat"
+    LAT = "lon"
 
 
 PURPOSE_MAPPING = {
