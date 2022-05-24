@@ -146,7 +146,7 @@ class UserProfileView(APIView):
         content = self.repackage_for_frontend(serializer.data)
 
         return Response(content)
-    
+
     def process_nullable_int(self, data, field):
         try:
             result = int(data[field])
