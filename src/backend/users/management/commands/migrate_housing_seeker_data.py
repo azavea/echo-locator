@@ -391,7 +391,7 @@ class Command(BaseCommand):
             destination = Destination.objects.create(
                 profile=user_profile,
                 label=label,
-                location=Point(x=lat, y=lon),
+                location=Point(x=lon, y=lat),
                 purpose=purpose,
                 primary_destination=des[DestinationKeys.PRIMARY],
             )
