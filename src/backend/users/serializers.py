@@ -28,6 +28,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "school_quality_priority",
             "public_safety_priority",
             "destinations",
+            "favorites",
         ]
 
 

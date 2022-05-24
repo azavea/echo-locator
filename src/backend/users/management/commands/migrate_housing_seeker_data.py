@@ -22,6 +22,7 @@ class ProfileKeys:
     SAFETY = "importanceViolentCrime"
     SCHOOL = "importanceSchools"
     VOUCHER = "voucherNumber"
+    FAVORITES = "favorites"
 
 
 class DestinationKeys:
@@ -308,6 +309,7 @@ class Command(BaseCommand):
             commute_priority = self.decode_priority(profile[ProfileKeys.COMMUTE])
             public_safety_priority = self.decode_priority(profile[ProfileKeys.SAFETY])
             school_quality_priority = self.decode_priority(profile[ProfileKeys.SCHOOL])
+            favorites = profile[ProfileKeys.FAVORITES]
 
             if key in self.same_email_newer_voucher_keys:
                 self.stdout.write("User profile to be inserted is newer, updating...\n")
@@ -319,6 +321,7 @@ class Command(BaseCommand):
                 existing_profile.commute_priority = commute_priority
                 existing_profile.public_safety_priority = public_safety_priority
                 existing_profile.school_quality_priority = school_quality_priority
+                existing_profile.favorites = favorites
                 existing_profile.save()
                 user_profile = UserProfile.objects.get(user=user)
             else:
@@ -329,6 +332,7 @@ class Command(BaseCommand):
                     voucher_number=voucher_number,
                     voucher_bedrooms=voucher_bedrooms,
                     travel_mode=travel_mode,
+                    favorites=favorites,
                     commute_priority=commute_priority,
                     public_safety_priority=public_safety_priority,
                     school_quality_priority=school_quality_priority,
