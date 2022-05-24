@@ -146,6 +146,17 @@ class UserProfileView(APIView):
         content = self.repackage_for_frontend(serializer.data)
 
         return Response(content)
+    
+    def process_nullable_int(self, data, field):
+        try:
+            result = int(data[field])
+        except ValueError:
+            # field is something that cannot be converted to
+            # a number. It could be an empty string, or a
+            # string like 'hello'
+            # insert null in this case
+            result = None
+        return result
 
     @transaction.atomic
     def put(self, request, *args, **kwargs):
@@ -192,10 +203,10 @@ class UserProfileView(APIView):
             int(data["importanceViolentCrime"])
         ]
         updated_profile.has_voucher = data["hasVoucher"]
-        updated_profile.voucher_bedrooms = data["voucherRooms"]
-        updated_profile.desired_bedrooms = data["nonVoucherRooms"]
+        updated_profile.voucher_bedrooms = self.process_nullable_int(data, "voucherRooms")
+        updated_profile.desired_bedrooms = self.process_nullable_int(data, "nonVoucherRooms")
         updated_profile.voucher_number = data["voucherNumber"]
-        updated_profile.rent_budget = data["nonVoucherBudget"]
+        updated_profile.rent_budget = self.process_nullable_int(data, "nonVoucherBudget")
         updated_profile.voucher_number = data["voucherNumber"]
 
         updated_profile.save()
