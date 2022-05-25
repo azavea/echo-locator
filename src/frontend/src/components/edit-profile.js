@@ -402,7 +402,7 @@ class EditProfile extends PureComponent<Props> {
             html
             effect="solid"
             place="top"
-            offset='{"top": -10}'
+            offset={{ top: -10 }}
             isCapture
             delayHide={TOOLTIP_HIDE_DELAY_MS}
             className="map-sidebar__tooltip"
@@ -564,69 +564,71 @@ class EditProfile extends PureComponent<Props> {
         <div className="form-screen__main">
           <div className="account-profile">
             {!isAnonymous && (
-              <div className="account-profile__field">
-                <div className="account-profile__label">
-                  {t("Profile.ClientEmailLabel")}
-                  <br />
+              <>
+                <div className="account-profile__field">
+                  <div className="account-profile__label">
+                    {t("Profile.ClientEmailLabel")}
+                    <br />
+                  </div>
+                  <div className="account-profile__input account-profile__input--text">
+                    {clientEmail}
+                  </div>
+                  <label className="account-profile__label" htmlFor="headOfHousehold">
+                    {t("Accounts.Name")}
+                  </label>
+                  <input
+                    data-private
+                    className="account-profile__input account-profile__input--text"
+                    id="headOfHousehold"
+                    type="text"
+                    onChange={(e) => changeField("headOfHousehold", e.currentTarget.value)}
+                    defaultValue={headOfHousehold || ""}
+                    autoComplete="off"
+                  />
                 </div>
-                <div className="account-profile__input account-profile__input--text">
-                  {clientEmail}
+                <div className="account-profile__field">
+                  <div className="account-profile__label" htmlFor="voucher">
+                    {t("Profile.HasVoucher")}
+                  </div>
+                  <div className="account-profile__field-row">
+                    <div className="account-profile__field account-profile__field--inline">
+                      <input
+                        className="account-profile__input account-profile__input--checkbox"
+                        id="yesVoucher"
+                        name="voucher"
+                        type="radio"
+                        onChange={(e) => changeField("hasVoucher", e.currentTarget.checked)}
+                        defaultChecked={hasVoucher}
+                        autoComplete="off"
+                      />
+                      <label
+                        className="account-profile__label account-profile__label--secondary"
+                        htmlFor="yesVoucher"
+                      >
+                        {t("Booleans.Yes")}
+                      </label>
+                    </div>
+                    <div className="account-profile__field account-profile__field--inline">
+                      <input
+                        className="account-profile__input account-profile__input--checkbox"
+                        id="noVoucher"
+                        name="voucher"
+                        type="radio"
+                        onChange={(e) => changeField("hasVoucher", !e.currentTarget.checked)}
+                        defaultChecked={!hasVoucher}
+                        autoComplete="off"
+                      />
+                      <label
+                        className="account-profile__label account-profile__label--secondary"
+                        htmlFor="noVoucher"
+                      >
+                        {t("Booleans.No")}
+                      </label>
+                    </div>
+                  </div>
                 </div>
-                <label className="account-profile__label" htmlFor="headOfHousehold">
-                  {t("Accounts.Name")}
-                </label>
-                <input
-                  data-private
-                  className="account-profile__input account-profile__input--text"
-                  id="headOfHousehold"
-                  type="text"
-                  onChange={(e) => changeField("headOfHousehold", e.currentTarget.value)}
-                  defaultValue={headOfHousehold || ""}
-                  autoComplete="off"
-                />
-              </div>
+              </>
             )}
-            <div className="account-profile__field">
-              <div className="account-profile__label" htmlFor="voucher">
-                {t("Profile.HasVoucher")}
-              </div>
-              <div className="account-profile__field-row">
-                <div className="account-profile__field account-profile__field--inline">
-                  <input
-                    className="account-profile__input account-profile__input--checkbox"
-                    id="yesVoucher"
-                    name="voucher"
-                    type="radio"
-                    onChange={(e) => changeField("hasVoucher", e.currentTarget.checked)}
-                    defaultChecked={hasVoucher}
-                    autoComplete="off"
-                  />
-                  <label
-                    className="account-profile__label account-profile__label--secondary"
-                    htmlFor="yesVoucher"
-                  >
-                    {t("Booleans.Yes")}
-                  </label>
-                </div>
-                <div className="account-profile__field account-profile__field--inline">
-                  <input
-                    className="account-profile__input account-profile__input--checkbox"
-                    id="noVoucher"
-                    name="voucher"
-                    type="radio"
-                    onChange={(e) => changeField("hasVoucher", !e.currentTarget.checked)}
-                    defaultChecked={!hasVoucher}
-                    autoComplete="off"
-                  />
-                  <label
-                    className="account-profile__label account-profile__label--secondary"
-                    htmlFor="noVoucher"
-                  >
-                    {t("Booleans.No")}
-                  </label>
-                </div>
-              </div>
-            </div>
             {hasVoucher && (
               <div>
                 <div className="account-profile__field">
