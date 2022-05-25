@@ -150,7 +150,7 @@ class UserProfileView(APIView):
     def process_nullable_int(self, data, field):
         try:
             result = int(data[field])
-        except ValueError:
+        except (ValueError, TypeError):
             # field is something that cannot be converted to
             # a number. It could be an empty string, or a
             # string like 'hello'
