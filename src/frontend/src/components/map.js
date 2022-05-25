@@ -326,7 +326,7 @@ class Map extends PureComponent<Props, State> {
     };
 
     const createMarkerWithStandardizedData = standardizeData(listingsMarker);
-    return p.routableNeighborhoods ? (
+    return p.neighborhoodBoundsExtent && p.routableNeighborhoods ? (
       <LeafletMap
         bounds={p.neighborhoodBoundsExtent}
         center={p.centerCoordinates}
