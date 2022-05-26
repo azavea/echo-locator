@@ -231,12 +231,12 @@ class EditProfile extends PureComponent<Props> {
       purpose: DEFAULT_PROFILE_DESTINATION_TYPE,
     };
     this.setState({ destinations: [...destinations, newAddress] });
-    if (!this.state.isAnonymous) {
-      this.props.setProfile({
-        ...this.getProfileFromState(),
-        destinations: [...destinations, newAddress],
-      });
-    }
+    // Despite the name, this saves the profile to local storage in anonymous mode
+    // before calling setProfile
+    this.props.handleAuthChange({
+      ...this.getProfileFromState(),
+      destinations: [...destinations, newAddress],
+    });
   }
 
   deleteAddress(index: number, event) {
