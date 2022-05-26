@@ -116,7 +116,7 @@ class Form extends React.PureComponent<Props> {
       ? {
           label: destination.location.label,
           position,
-          value: destination.purpose,
+          value: position,
         }
       : null;
   };
@@ -161,7 +161,11 @@ class Form extends React.PureComponent<Props> {
     });
     const locationsWithLabels = locations.map((loc) => {
       // generate temporary, translated destination labels menu options
-      return { ...loc, label: t(`TripPurpose.${loc.value}`) + ": " + loc.label };
+      return {
+        ...loc,
+        label: t(`TripPurpose.${loc.value}`) + ": " + loc.label,
+        value: loc.position,
+      };
     });
     const destinationFilterOptions = createDestinationsFilter(locationsWithLabels);
     const useNetworks = this.getProfileNetworks(this.props.networks, userProfile);
@@ -190,7 +194,7 @@ class Form extends React.PureComponent<Props> {
             placeholder={t("Geocoding.StartPlaceholder")}
             style={SELECT_STYLE}
             wrapperStyle={SELECT_WRAPPER_STYLE}
-            value={destination.value}
+            value={destination}
           />
         </div>
         {!userProfile.hasVehicle && (
