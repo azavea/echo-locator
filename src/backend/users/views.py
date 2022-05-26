@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.gis.geos import Point
 from django.core.mail import send_mail
@@ -40,12 +41,10 @@ def send_login_link(request):
     # if one doesn't already exist
     UserProfile.objects.get_or_create(user=user)
 
-    # TODO replace with actual values parameterized based on environment
-    # issue 485 (https://github.com/azavea/echo-locator/issues/485)
     send_mail(
         "Your ECHO Login Link",
         html_message,
-        "admin@domain.com",
+        settings.DEFAULT_FROM_EMAIL,
         [email],
         fail_silently=False,
         html_message=html_message,
