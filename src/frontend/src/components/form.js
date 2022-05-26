@@ -116,6 +116,7 @@ class Form extends React.PureComponent<Props> {
       ? {
           label: destination.location.label,
           position,
+          purpose: destination.purpose,
           value: position,
         }
       : null;
@@ -127,18 +128,6 @@ class Form extends React.PureComponent<Props> {
     const network = { label: first.name, value: first.url, networkName: first.name };
     this.setState({ network });
     this.props.setActiveNetwork(network.label);
-  };
-
-  selectDestination = (option?: ReactSelectOption) => {
-    const destinationObj = option
-      ? {
-          label: option.label,
-          position: lonlat(option.position),
-          value: option.value,
-        }
-      : null;
-    this.setState({ destination: destinationObj });
-    this.props.updateOrigin(destinationObj);
   };
 
   setNetwork = (option?: ReactSelectOption) => {
@@ -168,6 +157,21 @@ class Form extends React.PureComponent<Props> {
       };
     });
     const destinationFilterOptions = createDestinationsFilter(locationsWithLabels);
+    const selectDestination = (option?: ReactSelectOption) => {
+      // To make translations dynamic in Select value, reseparate label and purpose
+      const loc = option && locations.find((loc) => loc.position === option.position);
+      const destinationObj = option
+        ? {
+            label: loc.label,
+            purpose: loc.purpose,
+            position: lonlat(option.position),
+            value: loc.value,
+          }
+        : null;
+      this.setState({ destination: destinationObj });
+      this.props.updateOrigin(destinationObj);
+    };
+
     const useNetworks = this.getProfileNetworks(this.props.networks, userProfile);
     // generate temporary, translated network labels for menu options
     const networks = useNetworks.map((n) => ({
@@ -190,11 +194,17 @@ class Form extends React.PureComponent<Props> {
             filterOptions={destinationFilterOptions}
             options={locationsWithLabels}
             optionHeight={SELECT_OPTION_HEIGHT}
-            onChange={this.selectDestination}
+            onChange={selectDestination}
             placeholder={t("Geocoding.StartPlaceholder")}
             style={SELECT_STYLE}
             wrapperStyle={SELECT_WRAPPER_STYLE}
-            value={destination}
+            value={{
+              ...destination,
+              label:
+                t(`TripPurpose.${destination.purpose ? destination.purpose : destination.value}`) +
+                ": " +
+                destination.label,
+            }}
           />
         </div>
         {!userProfile.hasVehicle && (
