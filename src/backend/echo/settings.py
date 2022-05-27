@@ -100,6 +100,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
 
 ROOT_URLCONF = "echo.urls"
@@ -200,3 +201,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 WATCHMAN_ERROR_CODE = 503
 WATCHMAN_CHECKS = ("watchman.checks.databases",)
+
+# Configure Rollbar
+if ENVIRONMENT in ["Production", "Staging"]:
+    ROLLBAR = {
+        "access_token": os.getenv("ROLLBAR_ACCESS_TOKEN", None),
+        "environment": ENVIRONMENT,
+        "root": BASE_DIR,
+    }
+    import rollbar
+
+    rollbar.init(**ROLLBAR)

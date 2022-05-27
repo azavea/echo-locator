@@ -8,3 +8,4 @@ django-spa==0.3.6
 django-amazon-ses==4.0.1
 requests==2.26.0
 django-sesame[ua]==2.4
+rollbar==0.16.2
