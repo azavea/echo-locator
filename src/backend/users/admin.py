@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import Group, User
+from django.contrib.gis.db import models as gis_models
+from django.contrib.gis.forms.widgets import OSMWidget
 from django.core.validators import validate_email
 from django.forms.models import BaseInlineFormSet
 
@@ -43,6 +45,9 @@ class DestinationInline(admin.TabularInline):
     model = Destination
     min_num = 1
     formset = DestinationAdminForm
+    formfield_overrides = {
+        gis_models.PointField: {"widget": OSMWidget},
+    }
 
 
 # Define a new UserAdmin that filters Counselor group view
@@ -54,9 +59,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {"fields": ("username", "password")}),
         (
             "Permissions",
-            {
-                "fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions"),
-            },
+            {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions"),},
         ),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
     )
