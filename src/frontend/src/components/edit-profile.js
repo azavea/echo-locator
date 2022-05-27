@@ -61,17 +61,6 @@ class EditProfile extends PureComponent<Props> {
     this.state = this.getDefaultState(profile);
   }
 
-  componentWillReceiveProps(nextProps) {
-    // Listen for when profile to appear on props, because it is not present
-    // on initial load. Only load once by checking state.
-    if (!nextProps.isLoading && nextProps.userProfile) {
-      if (!nextProps.userProfile.destinations || !nextProps.userProfile.destinations.length) {
-        nextProps.userProfile.destinations = [Object.assign({}, firstAddress)];
-      }
-      this.setState(nextProps.userProfile);
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     if (this.state.errorMessage) {
       window.scroll(0, 0);
