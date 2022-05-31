@@ -8,8 +8,6 @@ resource "aws_vpc" "default" {
 
   tags = {
     Name        = "vpc${local.short}",
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -18,8 +16,6 @@ resource "aws_internet_gateway" "default" {
 
   tags = {
     Name        = "gwInternet",
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -30,8 +26,6 @@ resource "aws_route_table" "private" {
 
   tags = {
     Name        = "PrivateRouteTable",
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -48,8 +42,6 @@ resource "aws_route_table" "public" {
 
   tags = {
     Name        = "PublicRouteTable",
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -68,8 +60,6 @@ resource "aws_subnet" "private" {
 
   tags = {
     Name        = "PrivateSubnet",
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -83,8 +73,6 @@ resource "aws_subnet" "public" {
 
   tags = {
     Name        = "PublicSubnet",
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -112,8 +100,6 @@ resource "aws_vpc_endpoint" "s3" {
 
   tags = {
     Name        = "endpointS3",
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -136,7 +122,5 @@ resource "aws_nat_gateway" "default" {
 
   tags = {
     Name        = "gwNAT",
-    Project     = var.project
-    Environment = var.environment
   }
 }

@@ -31,11 +31,6 @@ data "aws_iam_policy_document" "read_only_bucket_policy" {
 
 resource "aws_s3_bucket" "site" {
   bucket = local.site_bucket_name
-
-  tags = {
-    Project     = var.project,
-    Environment = var.environment
-  }
 }
 
 resource "aws_s3_bucket_cors_configuration" "site" {
@@ -57,11 +52,6 @@ resource "aws_s3_bucket_policy" "read_only_bucket" {
 
 resource "aws_s3_bucket" "logs" {
   bucket = local.logs_bucket_name
-
-  tags = {
-    Project     = var.project,
-    Environment = var.environment
-  }
 }
 
 resource "aws_s3_bucket_acl" "logs" {
