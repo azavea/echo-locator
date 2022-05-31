@@ -8,8 +8,6 @@ resource "aws_db_subnet_group" "default" {
 
   tags = {
     Name        = "dbsngDatabaseServer"
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -35,11 +33,6 @@ resource "aws_db_instance" "postgresql" {
   vpc_security_group_ids     = [aws_security_group.postgresql.id]
   db_subnet_group_name       = aws_db_subnet_group.default.name
   deletion_protection        = var.rds_deletion_protection
-
-  tags = {
-    Project     = var.project
-    Environment = var.environment
-  }
 }
 
 #
@@ -50,8 +43,6 @@ resource "aws_security_group" "postgresql" {
 
   tags = {
     Name        = "sgDatabaseServer",
-    Project     = var.project
-    Environment = var.environment
   }
 }
 

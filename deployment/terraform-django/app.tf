@@ -7,8 +7,6 @@ resource "aws_security_group" "alb" {
 
   tags = {
     Name        = "sg${local.short}AppLoadBalancer"
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -18,8 +16,6 @@ resource "aws_security_group" "app" {
 
   tags = {
     Name        = "sg${local.short}AppEcsService",
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -33,8 +29,6 @@ resource "aws_lb" "app" {
 
   tags = {
     Name        = "alb${local.short}App"
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -58,8 +52,6 @@ resource "aws_lb_target_group" "app" {
 
   tags = {
     Name        = "tg${local.short}App"
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -132,8 +124,6 @@ resource "aws_ecs_task_definition" "app" {
 
   tags = {
     Name        = "${local.short}App",
-    Project     = var.project
-    Environment = var.environment
   }
 }
 
@@ -146,10 +136,10 @@ resource "aws_ecs_service" "app" {
   deployment_minimum_healthy_percent = var.fargate_app_deployment_min_percent
   deployment_maximum_percent         = var.fargate_app_deployment_max_percent
 
-  launch_type          = "FARGATE"
-  platform_version     = var.fargate_platform_version
+  launch_type            = "FARGATE"
+  platform_version       = var.fargate_platform_version
   enable_execute_command = true
-  force_new_deployment = true
+  force_new_deployment   = true
 
   network_configuration {
     security_groups = [aws_security_group.app.id]
@@ -202,8 +192,6 @@ resource "aws_ecs_task_definition" "app_cli" {
 
   tags = {
     Name        = "${local.short}AppCLI",
-    Project     = var.project
-    Environment = var.environment
   }
 }
 

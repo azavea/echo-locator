@@ -8,11 +8,6 @@ resource "aws_route53_zone" "internal" {
     vpc_id     = aws_vpc.default.id
     vpc_region = var.aws_region
   }
-
-  tags = {
-    Project     = var.project
-    Environment = var.environment
-  }
 }
 
 resource "aws_route53_record" "database" {
