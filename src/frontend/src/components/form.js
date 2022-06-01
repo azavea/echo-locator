@@ -146,6 +146,7 @@ class Form extends React.PureComponent<Props> {
         label: d.location.label,
         position: d.location.position,
         value: d.purpose,
+        purpose: d.purpose,
       };
     });
     const locationsWithLabels = locations.map((loc) => {
@@ -160,14 +161,7 @@ class Form extends React.PureComponent<Props> {
     const selectDestination = (option?: ReactSelectOption) => {
       // To make translations dynamic in Select value, reseparate label and purpose
       const loc = option && locations.find((loc) => loc.position === option.position);
-      const destinationObj = option
-        ? {
-            label: loc.label,
-            purpose: loc.purpose,
-            position: lonlat(option.position),
-            value: loc.value,
-          }
-        : null;
+      const destinationObj = option ? { ...loc, position: lonlat(option.position) } : null;
       this.setState({ destination: destinationObj });
       this.props.updateOrigin(destinationObj);
     };
@@ -200,10 +194,7 @@ class Form extends React.PureComponent<Props> {
             wrapperStyle={SELECT_WRAPPER_STYLE}
             value={{
               ...destination,
-              label:
-                t(`TripPurpose.${destination.purpose ? destination.purpose : destination.value}`) +
-                ": " +
-                destination.label,
+              label: t(`TripPurpose.${destination.purpose}`) + ": " + destination.label,
             }}
           />
         </div>

@@ -391,11 +391,7 @@ class Map extends PureComponent<Props, State> {
             zIndex={getZIndex()}
           >
             <Popup>
-              <span>
-                {p.t(`TripPurpose.${p.origin.purpose ? p.origin.purpose : p.origin.value}`) +
-                  ": " +
-                  p.origin.label}
-              </span>
+              <span>{p.t(`TripPurpose.${p.origin.purpose}`) + ": " + p.origin.label}</span>
             </Popup>
           </Marker>
         )}
