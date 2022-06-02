@@ -58,18 +58,10 @@ class EditProfile extends PureComponent<Props> {
     this.validDestinations = this.validDestinations.bind(this);
 
     const profile = props.userProfile;
+    // this makes a deep copy of the user's profile with which to restore all
+    // changed fields on cancel
+    this.initialProfile = JSON.parse(JSON.stringify(profile));
     this.state = this.getDefaultState(profile);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // Listen for when profile to appear on props, because it is not present
-    // on initial load. Only load once by checking state.
-    if (!nextProps.isLoading && nextProps.userProfile) {
-      if (!nextProps.userProfile.destinations || !nextProps.userProfile.destinations.length) {
-        nextProps.userProfile.destinations = [Object.assign({}, firstAddress)];
-      }
-      this.setState(nextProps.userProfile);
-    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -138,6 +130,7 @@ class EditProfile extends PureComponent<Props> {
   cancel(event) {
     // Navigate back to the last page visited, discarding any changes.
     if (this.props.location.state && this.props.location.state.fromApp) {
+      this.props.setProfile(this.initialProfile);
       this.props.history.goBack();
     } else {
       // User navigated to this page directly
