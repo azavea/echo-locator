@@ -91,7 +91,7 @@ class Command(BaseCommand):
             "--voucher_keys_to_skip",
             required=False,
             nargs="+",
-            help="Space separated list of double-quoted " "voucher numbers.",
+            help="Space separated list of double-quoted " "Boston Housing Authority voucher numbers.",
             default=list(),
         )
 
