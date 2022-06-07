@@ -152,7 +152,8 @@ export default {
   Accounts: {
     Create: "Create new profile",
     CreateError: "Failed to create profile. Please try again.",
-    InvalidVoucherNumber: "Boston Housing Authority voucher should be six to eight digits or letters.",
+    InvalidVoucherNumber:
+      "Boston Housing Authority voucher should be six to eight digits or letters.",
     MissingVoucherNumber: "Enter a Boston Housing Authority voucher to create a profile.",
     Name: "Your full name",
     Search: "Search",
