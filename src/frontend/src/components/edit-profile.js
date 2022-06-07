@@ -540,7 +540,6 @@ class EditProfile extends PureComponent<Props> {
       nonVoucherBudget,
       nonVoucherRooms,
       voucherRooms,
-      voucherNumber,
       useCommuterRail,
     } = this.state;
 
