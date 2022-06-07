@@ -17,7 +17,15 @@ export default createSelector(
   (activeNetworkIndex, surfaces, networks, neighborhoods, origin) => {
     const network = networks[activeNetworkIndex];
     const surface = surfaces[activeNetworkIndex];
-    if (!network || !network.ready || !surface || !origin) {
+    if (
+      !neighborhoods ||
+      !neighborhoods.features ||
+      !neighborhoods.features.length ||
+      !network ||
+      !network.ready ||
+      !surface ||
+      !origin
+    ) {
       return [];
     }
     return neighborhoods.features.map((neighborhood) => {

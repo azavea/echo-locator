@@ -9,6 +9,9 @@ export default createSelector(
   neighborhoodsSortedWithRoutes,
   (state) => get(state, "data.neighborhoodBounds"),
   (neighborhoodsSortedWithRoutes, neighborhoods) => {
+    if (!neighborhoods || !neighborhoods.features || !neighborhoods.features.length) {
+      return [];
+    }
     if (!neighborhoodsSortedWithRoutes || !neighborhoodsSortedWithRoutes.length) {
       return neighborhoods;
     }
