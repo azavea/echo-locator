@@ -19,7 +19,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = [
             "full_name",
             "has_voucher",
-            "voucher_number",
             "voucher_bedrooms",
             "rent_budget",
             "desired_bedrooms",

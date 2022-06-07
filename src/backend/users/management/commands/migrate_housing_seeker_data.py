@@ -21,7 +21,6 @@ class ProfileKeys:
     ROOM = "rooms"
     SAFETY = "importanceViolentCrime"
     SCHOOL = "importanceSchools"
-    VOUCHER = "voucherNumber"
     FAVORITES = "favorites"
 
 
@@ -113,13 +112,10 @@ class Command(BaseCommand):
 
     # User profile is a dupe if one of the following is true:
     # 1. the voucher is in the provided list to skip
-    # 2. the voucher already exists in the DB
-    # 3. the is a newer version of the voucher on S3
+    # 2. the is a newer version of the voucher on S3
     def get_profile_keys_to_skip(self, bucket, keys, voucher_keys_to_skip):
         original_profiles = set()
-        db_vouchers = UserProfile.objects.values_list("voucher_number", flat=True)
-        db_voucher_keys = [f"public/{voucher}" for voucher in db_vouchers]
-        duped_profile_keys = list(set(voucher_keys_to_skip + db_voucher_keys))
+        duped_profile_keys = list(set(voucher_keys_to_skip))
 
         for key in keys:
             if key in duped_profile_keys:
@@ -302,7 +298,6 @@ class Command(BaseCommand):
             reason += "NO MODE; "
 
         if has_voucher and has_rooms and has_priorities and has_modes:
-            voucher_number = profile[ProfileKeys.VOUCHER]
             voucher_bedrooms = profile[ProfileKeys.ROOM]
             travel_mode = self.decode_travel_mode(
                 profile[ProfileKeys.RAIL], profile[ProfileKeys.CAR]
@@ -330,7 +325,6 @@ class Command(BaseCommand):
                     user=user,
                     full_name=f"{user.first_name} {user.last_name}",
                     has_voucher=has_voucher,
-                    voucher_number=voucher_number,
                     voucher_bedrooms=voucher_bedrooms,
                     travel_mode=travel_mode,
                     favorites=favorites,

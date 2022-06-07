@@ -134,7 +134,6 @@ class UserProfileView(APIView):
             "nonVoucherRooms": user_profile["desired_bedrooms"],
             "nonVoucherBudget": user_profile["rent_budget"],
             "useCommuterRail": user_profile["travel_mode"] == "BTE",
-            "voucherNumber": user_profile["voucher_number"],
             "favorites": user_profile["favorites"],
         }
         return content
@@ -205,9 +204,7 @@ class UserProfileView(APIView):
         updated_profile.has_voucher = data["hasVoucher"]
         updated_profile.voucher_bedrooms = self.process_nullable_int(data, "voucherRooms")
         updated_profile.desired_bedrooms = self.process_nullable_int(data, "nonVoucherRooms")
-        updated_profile.voucher_number = data["voucherNumber"]
         updated_profile.rent_budget = self.process_nullable_int(data, "nonVoucherBudget")
-        updated_profile.voucher_number = data["voucherNumber"]
         updated_profile.favorites = data["favorites"]
 
         updated_profile.save()
