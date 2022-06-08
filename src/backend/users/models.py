@@ -21,9 +21,15 @@ class UserProfile(models.Model):
     full_name = models.CharField(
         blank=True, max_length=200
     )  # This is used in place of Django's auto first name and last name fields; they're still present in User but unused
-    has_voucher = models.BooleanField(default=False)
-    voucher_number = models.CharField(blank=True, max_length=10)
-    voucher_bedrooms = models.IntegerField(blank=True, null=True)
+    has_voucher = models.BooleanField(
+        default=True, verbose_name="Has Boston Housing Authority voucher"
+    )
+    voucher_number = models.CharField(
+        blank=True, max_length=10, verbose_name="Boston Housing Authority voucher number"
+    )
+    voucher_bedrooms = models.IntegerField(
+        blank=True, null=True, verbose_name="Boston Housing Authority voucher bedrooms"
+    )
     rent_budget = models.IntegerField(blank=True, null=True)
     desired_bedrooms = models.IntegerField(blank=True, null=True)
     favorites = ArrayField(models.CharField(max_length=10), default=list)

@@ -115,7 +115,7 @@ class EditProfile extends PureComponent<Props> {
         importanceAccessibility: DEFAULT_ACCESSIBILITY_IMPORTANCE,
         importanceSchools: DEFAULT_SCHOOLS_IMPORTANCE,
         importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE,
-        hasVoucher: false,
+        hasVoucher: true,
         nonVoucherBudget: null,
         nonVoucherRooms: 0,
         voucherRooms: 0,
