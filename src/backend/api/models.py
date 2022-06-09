@@ -13,8 +13,7 @@ class Neighborhood(models.Model):
     # Whether this neighborhood is designated an Expanded Choice Community
     ecc = models.BooleanField(default=False)
     violentcrime_quintile = models.FloatField(null=True)
-    zviolentcrimeflip = models.FloatField()
-    crime_percentile = models.FloatField()
+    crime_percentile = models.FloatField(null=True)
     education_percentile_quintile = models.FloatField()
     education_percentile = models.FloatField()
     house_number_symbol = models.IntegerField()
@@ -23,13 +22,13 @@ class Neighborhood(models.Model):
     # it's even being used, so leaving it as-is for now.
     lat_lon_category = models.IntegerField()
 
-    max_rent_0br = models.FloatField()
-    max_rent_1br = models.FloatField()
-    max_rent_2br = models.FloatField()
-    max_rent_3br = models.FloatField()
-    max_rent_4br = models.FloatField()
-    max_rent_5br = models.FloatField()
-    max_rent_6br = models.FloatField()
+    max_rent_0br = models.FloatField(null=True)
+    max_rent_1br = models.FloatField(null=True)
+    max_rent_2br = models.FloatField(null=True)
+    max_rent_3br = models.FloatField(null=True)
+    max_rent_4br = models.FloatField(null=True)
+    max_rent_5br = models.FloatField(null=True)
+    max_rent_6br = models.FloatField(null=True)
 
     # Whether this neighborhood is in a school choice district (applies mostly (only?) to Boston)
     school_choice = models.BooleanField(default=False)
