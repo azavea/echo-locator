@@ -4,10 +4,10 @@
 resource "aws_db_subnet_group" "default" {
   name        = var.rds_database_identifier
   description = "Private subnets for the RDS instances"
-  subnet_ids  = aws_subnet.private.*.id
+  subnet_ids  = aws_subnet.main.*.id
 
   tags = {
-    Name        = "dbsngDatabaseServer"
+    Name = "dbsngDatabaseServer"
   }
 }
 
@@ -28,6 +28,7 @@ resource "aws_db_instance" "postgresql" {
   final_snapshot_identifier  = var.rds_final_snapshot_identifier
   skip_final_snapshot        = var.rds_skip_final_snapshot
   copy_tags_to_snapshot      = var.rds_copy_tags_to_snapshot
+  publicly_accessible        = false
   multi_az                   = var.rds_multi_az
   storage_encrypted          = var.rds_storage_encrypted
   vpc_security_group_ids     = [aws_security_group.postgresql.id]
@@ -42,7 +43,7 @@ resource "aws_security_group" "postgresql" {
   vpc_id = aws_vpc.default.id
 
   tags = {
-    Name        = "sgDatabaseServer",
+    Name = "sgDatabaseServer",
   }
 }
 

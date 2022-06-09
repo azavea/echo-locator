@@ -6,7 +6,7 @@ resource "aws_security_group" "alb" {
   vpc_id = aws_vpc.default.id
 
   tags = {
-    Name        = "sg${local.short}AppLoadBalancer"
+    Name = "sg${local.short}AppLoadBalancer"
   }
 }
 
@@ -15,7 +15,7 @@ resource "aws_security_group" "app" {
   vpc_id = aws_vpc.default.id
 
   tags = {
-    Name        = "sg${local.short}AppEcsService",
+    Name = "sg${local.short}AppEcsService",
   }
 }
 
@@ -25,10 +25,10 @@ resource "aws_security_group" "app" {
 resource "aws_lb" "app" {
   name            = "alb${local.short}App"
   security_groups = [aws_security_group.alb.id]
-  subnets         = aws_subnet.public.*.id
+  subnets         = aws_subnet.main.*.id
 
   tags = {
-    Name        = "alb${local.short}App"
+    Name = "alb${local.short}App"
   }
 }
 
@@ -51,7 +51,7 @@ resource "aws_lb_target_group" "app" {
   target_type = "ip"
 
   tags = {
-    Name        = "tg${local.short}App"
+    Name = "tg${local.short}App"
   }
 }
 
@@ -123,7 +123,7 @@ resource "aws_ecs_task_definition" "app" {
   })
 
   tags = {
-    Name        = "${local.short}App",
+    Name = "${local.short}App",
   }
 }
 
@@ -141,9 +141,11 @@ resource "aws_ecs_service" "app" {
   enable_execute_command = true
   force_new_deployment   = true
 
+
   network_configuration {
-    security_groups = [aws_security_group.app.id]
-    subnets         = aws_subnet.private.*.id
+    security_groups  = [aws_security_group.app.id]
+    subnets          = aws_subnet.main.*.id
+    assign_public_ip = true
   }
 
   load_balancer {
@@ -191,7 +193,7 @@ resource "aws_ecs_task_definition" "app_cli" {
   })
 
   tags = {
-    Name        = "${local.short}AppCLI",
+    Name = "${local.short}AppCLI",
   }
 }
 
