@@ -7,7 +7,7 @@ resource "aws_vpc" "default" {
   enable_dns_hostnames = true
 
   tags = {
-    Name        = "vpc${local.short}",
+    Name = "vpc${local.short}",
   }
 }
 
@@ -15,33 +15,15 @@ resource "aws_internet_gateway" "default" {
   vpc_id = aws_vpc.default.id
 
   tags = {
-    Name        = "gwInternet",
+    Name = "gwInternet",
   }
-}
-
-resource "aws_route_table" "private" {
-  count = length(var.private_subnet_cidr_blocks)
-
-  vpc_id = aws_vpc.default.id
-
-  tags = {
-    Name        = "PrivateRouteTable",
-  }
-}
-
-resource "aws_route" "private" {
-  count = length(var.private_subnet_cidr_blocks)
-
-  route_table_id         = aws_route_table.private[count.index].id
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.default[count.index].id
 }
 
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.default.id
 
   tags = {
-    Name        = "PublicRouteTable",
+    Name = "PublicRouteTable",
   }
 }
 
@@ -51,19 +33,7 @@ resource "aws_route" "public" {
   gateway_id             = aws_internet_gateway.default.id
 }
 
-resource "aws_subnet" "private" {
-  count = length(var.private_subnet_cidr_blocks)
-
-  vpc_id            = aws_vpc.default.id
-  cidr_block        = var.private_subnet_cidr_blocks[count.index]
-  availability_zone = var.availability_zones[count.index]
-
-  tags = {
-    Name        = "PrivateSubnet",
-  }
-}
-
-resource "aws_subnet" "public" {
+resource "aws_subnet" "main" {
   count = length(var.public_subnet_cidr_blocks)
 
   vpc_id                  = aws_vpc.default.id
@@ -72,21 +42,14 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "PublicSubnet",
+    Name = "MainSubnet",
   }
-}
-
-resource "aws_route_table_association" "private" {
-  count = length(var.private_subnet_cidr_blocks)
-
-  subnet_id      = aws_subnet.private[count.index].id
-  route_table_id = aws_route_table.private[count.index].id
 }
 
 resource "aws_route_table_association" "public" {
   count = length(var.public_subnet_cidr_blocks)
 
-  subnet_id      = aws_subnet.public[count.index].id
+  subnet_id      = aws_subnet.main[count.index].id
   route_table_id = aws_route_table.public.id
 }
 
@@ -95,32 +58,10 @@ resource "aws_vpc_endpoint" "s3" {
   service_name = "com.amazonaws.${var.aws_region}.s3"
   route_table_ids = flatten([
     aws_route_table.public.id,
-    aws_route_table.private.*.id
   ])
 
   tags = {
-    Name        = "endpointS3",
+    Name = "endpointS3",
   }
 }
 
-#
-# NAT resources
-#
-resource "aws_eip" "nat" {
-  count = length(var.public_subnet_cidr_blocks)
-
-  vpc = true
-}
-
-resource "aws_nat_gateway" "default" {
-  depends_on = [aws_internet_gateway.default]
-
-  count = length(var.public_subnet_cidr_blocks)
-
-  allocation_id = aws_eip.nat[count.index].id
-  subnet_id     = aws_subnet.public[count.index].id
-
-  tags = {
-    Name        = "gwNAT",
-  }
-}
