@@ -540,7 +540,6 @@ class EditProfile extends PureComponent<Props> {
       nonVoucherBudget,
       nonVoucherRooms,
       voucherRooms,
-      voucherNumber,
       useCommuterRail,
     } = this.state;
 
@@ -624,20 +623,6 @@ class EditProfile extends PureComponent<Props> {
             )}
             {hasVoucher && (
               <div>
-                <div className="account-profile__field">
-                  <label className="account-profile__label" htmlFor="voucherNumber">
-                    {t("Profile.VoucherNumber")}
-                  </label>
-                  <input
-                    data-private
-                    className="account-profile__input account-profile__input--text"
-                    id="voucherNumber"
-                    type="text"
-                    onChange={(e) => changeField("voucherNumber", e.currentTarget.value)}
-                    defaultValue={voucherNumber || ""}
-                    autoComplete="off"
-                  />
-                </div>
                 <div className="account-profile__field">
                   <label className="account-profile__label" htmlFor="rooms">
                     {t("Profile.VoucherRooms")}

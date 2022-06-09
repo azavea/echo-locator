@@ -21,7 +21,6 @@ class ProfileKeys:
     ROOM = "rooms"
     SAFETY = "importanceViolentCrime"
     SCHOOL = "importanceSchools"
-    VOUCHER = "voucherNumber"
     FAVORITES = "favorites"
 
 
@@ -113,13 +112,10 @@ class Command(BaseCommand):
 
     # User profile is a dupe if one of the following is true:
     # 1. the voucher is in the provided list to skip
-    # 2. the voucher already exists in the DB
-    # 3. the is a newer version of the voucher on S3
+    # 2. the is a newer version of the voucher on S3
     def get_profile_keys_to_skip(self, bucket, keys, voucher_keys_to_skip):
         original_profiles = set()
-        db_vouchers = UserProfile.objects.values_list("voucher_number", flat=True)
-        db_voucher_keys = [f"public/{voucher}" for voucher in db_vouchers]
-        duped_profile_keys = list(set(voucher_keys_to_skip + db_voucher_keys))
+        duped_profile_keys = list(set(voucher_keys_to_skip))
 
         for key in keys:
             if key in duped_profile_keys:
@@ -281,7 +277,6 @@ class Command(BaseCommand):
         user_profile = None
         reason = ""
 
-        has_voucher = self.is_key_val_nonempty(profile, ProfileKeys.VOUCHER)
         has_rooms = self.is_key_val_nonempty(profile, ProfileKeys.ROOM)
         has_priorities = (
             self.is_key_val_nonempty(profile, ProfileKeys.COMMUTE)
@@ -292,8 +287,6 @@ class Command(BaseCommand):
             profile, ProfileKeys.RAIL
         )
 
-        if not has_voucher:
-            reason += "NO VOUCHER; "
         if not has_rooms:
             reason += "NO ROOMS; "
         if not has_priorities:
@@ -301,8 +294,7 @@ class Command(BaseCommand):
         if not has_modes:
             reason += "NO MODE; "
 
-        if has_voucher and has_rooms and has_priorities and has_modes:
-            voucher_number = profile[ProfileKeys.VOUCHER]
+        if has_rooms and has_priorities and has_modes:
             voucher_bedrooms = profile[ProfileKeys.ROOM]
             travel_mode = self.decode_travel_mode(
                 profile[ProfileKeys.RAIL], profile[ProfileKeys.CAR]
@@ -316,7 +308,7 @@ class Command(BaseCommand):
                 self.stdout.write("User profile to be inserted is newer, updating...\n")
                 existing_profile = UserProfile.objects.get(user=user)
                 existing_profile.full_name = f"{user.first_name} {user.last_name}"
-                existing_profile.has_voucher = has_voucher
+                existing_profile.has_voucher = True
                 existing_profile.voucher_bedrooms = voucher_bedrooms
                 existing_profile.travel_mode = travel_mode
                 existing_profile.commute_priority = commute_priority
@@ -329,8 +321,7 @@ class Command(BaseCommand):
                 user_profile = UserProfile.objects.create(
                     user=user,
                     full_name=f"{user.first_name} {user.last_name}",
-                    has_voucher=has_voucher,
-                    voucher_number=voucher_number,
+                    has_voucher=True,
                     voucher_bedrooms=voucher_bedrooms,
                     travel_mode=travel_mode,
                     favorites=favorites,

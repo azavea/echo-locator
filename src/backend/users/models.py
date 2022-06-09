@@ -24,9 +24,6 @@ class UserProfile(models.Model):
     has_voucher = models.BooleanField(
         default=True, verbose_name="Has Boston Housing Authority voucher"
     )
-    voucher_number = models.CharField(
-        blank=True, max_length=10, verbose_name="Boston Housing Authority voucher number"
-    )
     voucher_bedrooms = models.IntegerField(
         blank=True, null=True, verbose_name="Boston Housing Authority voucher bedrooms"
     )
