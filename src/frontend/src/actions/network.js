@@ -9,8 +9,6 @@ import cacheURL from "../utils/cache-url";
 import coordinateToPoint, { pointToCoordinate } from "../utils/coordinate-to-point";
 import { parsePathsData, warnForInvalidPaths } from "../utils/parse-paths-data";
 import { parseTimesData } from "../utils/parse-times-data";
-import neighborhoods from "../data/neighborhoods.json";
-import neighborhoodBounds from "../data/neighborhood_bounds.json";
 import config from "../config.json";
 
 import { updateStartPosition } from "./location";
@@ -102,21 +100,10 @@ export const loadDataset =
   ) =>
   (dispatch: Dispatch, getState: any) => {
     dispatch({ type: "clear data" });
-
     // Try to load points of interest
     if (pointsOfInterestUrl) {
       dispatch(loadDataFromJSON(pointsOfInterestUrl, "set points of interest"));
     }
-
-    // Load neighborhood GeoJSON files
-    dispatch({
-      type: "set neighborhoods",
-      payload: neighborhoods,
-    });
-    dispatch({
-      type: "set neighborhood bounds",
-      payload: neighborhoodBounds,
-    });
 
     // Start on first page of neighborhoods
     dispatch(setPage(0));

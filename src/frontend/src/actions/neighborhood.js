@@ -1,4 +1,6 @@
 // @flow
+import axios from "axios";
+
 import { addActionLogItem } from "./log";
 
 export const setActiveNeighborhood = (neighborhood) => (dispatch, getState) => {
@@ -34,4 +36,39 @@ export const setShowFavorites = (show) => (dispatch, getState) => {
 export const setShowRealtorListings = (show) => (dispatch, getState) => {
   addActionLogItem(`set show Realtor listing to ${show}`);
   dispatch({ type: "set show Realtor listing", payload: show });
+};
+
+export const getNeighborhoods = (authToken) => (dispatch, getState) => {
+  // Load neighborhood GeoJSON files
+  axios
+    .get("/api/neighborhoods/", {
+      headers: {
+        Authorization: `Token ${authToken}`,
+      },
+    })
+    .then((response) => {
+      dispatch({
+        type: "set neighborhoods",
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      console.error("Error fetching neighborhoods", err);
+    });
+  // Load neighborhood boundaries.
+  axios
+    .get("/api/neighborhood-bounds/", {
+      headers: {
+        Authorization: `Token ${authToken}`,
+      },
+    })
+    .then((response) => {
+      dispatch({
+        type: "set neighborhood bounds",
+        payload: response.data,
+      });
+    })
+    .catch((err) => {
+      console.error("Error fetching neighborhoods boundaries", err);
+    });
 };
