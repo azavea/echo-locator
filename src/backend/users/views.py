@@ -54,9 +54,11 @@ def send_login_link(request):
 class LoginPage(APIView):
     def post(self, request, **kwargs):
         try:
-            # Will throw exception if cannot find the User
-            # For privacy reasons, do not send 500 error back if not found
-            send_login_link(request)
+            email = request.data["username"]
+            if User.objects.get(username=email).is_active:
+                # Will throw exception if cannot find the User
+                # For privacy reasons, do not send 500 error back if not found
+                send_login_link(request)
         except User.DoesNotExist:
             pass
         return Response(content_type="application/json")
