@@ -1,5 +1,7 @@
 from django.contrib.gis.db import models
 
+from .storage_backends import NeighborhoodPhotoStorage
+
 
 class Neighborhood(models.Model):
 
@@ -47,6 +49,7 @@ class Neighborhood(models.Model):
     open_space_or_landmark = models.URLField(max_length=400, blank=True)
 
     street_thumbnail = models.URLField(max_length=400, blank=True)
+    street_image = models.ImageField(blank=True, storage=NeighborhoodPhotoStorage())
     school_thumbnail = models.URLField(max_length=400, blank=True)
     town_square_thumbnail = models.URLField(max_length=400, blank=True)
     open_space_or_landmark_thumbnail = models.URLField(max_length=400, blank=True)
