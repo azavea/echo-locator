@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "rest_framework_gis",
+    "storages",
     "watchman",
     "rest_framework.authtoken",
     "api",
@@ -195,6 +196,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Set the django-spa static file storage:
 STATICFILES_STORAGE = "spa.storage.SPAStaticFilesStorage"
+
+# Bucket for storing neighborhood photo image files
+AWS_S3_PHOTO_BUCKET = os.getenv("AWS_S3_PHOTO_BUCKET", None)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

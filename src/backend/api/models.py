@@ -1,4 +1,7 @@
 from django.contrib.gis.db import models
+from django.utils.safestring import mark_safe
+
+from .storage_backends import NeighborhoodPhotoStorage
 
 
 class Neighborhood(models.Model):
@@ -39,8 +42,6 @@ class Neighborhood(models.Model):
     wikipedia = models.TextField(blank=True)
     wikipedia_link = models.URLField(max_length=400, blank=True)
 
-    # TODO: https://github.com/azavea/echo-locator/issues/494
-    # (But including these fields here because they match neighborhoods.json)
     street = models.URLField(max_length=400, blank=True)
     school = models.URLField(max_length=400, blank=True)
     town_square = models.URLField(max_length=400, blank=True)
@@ -50,6 +51,27 @@ class Neighborhood(models.Model):
     school_thumbnail = models.URLField(max_length=400, blank=True)
     town_square_thumbnail = models.URLField(max_length=400, blank=True)
     open_space_or_landmark_thumbnail = models.URLField(max_length=400, blank=True)
+
+    street_image = models.ImageField(
+        blank=True,
+        storage=NeighborhoodPhotoStorage(),
+        help_text="Save and return to this record to see uploaded image. Image will be displayed at 120x90.",
+    )
+    school_image = models.ImageField(
+        blank=True,
+        storage=NeighborhoodPhotoStorage(),
+        help_text="Save and return to this record to see uploaded image. Image will be displayed at 120x90.",
+    )
+    town_square_image = models.ImageField(
+        blank=True,
+        storage=NeighborhoodPhotoStorage(),
+        help_text="Save and return to this record to see uploaded image. Image will be displayed at 120x90.",
+    )
+    open_space_or_landmark_image = models.ImageField(
+        blank=True,
+        storage=NeighborhoodPhotoStorage(),
+        help_text="Save and return to this record to see uploaded image. Image will be displayed at 120x90.",
+    )
 
     street_license = models.CharField(max_length=50, blank=True)
     school_license = models.CharField(max_length=50, blank=True)
@@ -81,3 +103,37 @@ class Neighborhood(models.Model):
 
     def __str__(self):
         return f"{self.town} ({self.zipcode})"
+
+    @property
+    def street_image_preview(self):
+        if self.street_image:
+            return mark_safe(
+                '<img src="{url}" width="120" height="90" />'.format(url=self.street_image.url)
+            )
+        return ""
+
+    @property
+    def school_image_preview(self):
+        if self.school_image:
+            return mark_safe(
+                '<img src="{url}" width="120" height="90" />'.format(url=self.school_image.url)
+            )
+        return ""
+
+    @property
+    def town_square_image_preview(self):
+        if self.town_square_image:
+            return mark_safe(
+                '<img src="{url}" width="120" height="90" />'.format(url=self.town_square_image.url)
+            )
+        return ""
+
+    @property
+    def open_space_or_landmark_image_preview(self):
+        if self.open_space_or_landmark_image:
+            return mark_safe(
+                '<img src="{url}" width="120" height="90" />'.format(
+                    url=self.open_space_or_landmark_image.url
+                )
+            )
+        return ""

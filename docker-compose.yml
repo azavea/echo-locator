@@ -16,6 +16,7 @@ services:
 
   django:
     image: echolocator
+    env_file: .env
     environment:
       - POSTGRES_HOST=database
       - POSTGRES_PORT=5432
