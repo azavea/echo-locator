@@ -4,19 +4,11 @@
 resource "aws_security_group" "alb" {
   name   = "sg${local.short}AppLoadBalancer"
   vpc_id = aws_vpc.default.id
-
-  tags = {
-    Name = "sg${local.short}AppLoadBalancer"
-  }
 }
 
 resource "aws_security_group" "app" {
   name   = "sg${local.short}AppEcsService"
   vpc_id = aws_vpc.default.id
-
-  tags = {
-    Name = "sg${local.short}AppEcsService",
-  }
 }
 
 #
@@ -26,10 +18,6 @@ resource "aws_lb" "app" {
   name            = "alb${local.short}App"
   security_groups = [aws_security_group.alb.id]
   subnets         = aws_subnet.main.*.id
-
-  tags = {
-    Name = "alb${local.short}App"
-  }
 }
 
 resource "aws_lb_target_group" "app" {
@@ -49,17 +37,12 @@ resource "aws_lb_target_group" "app" {
   vpc_id   = aws_vpc.default.id
 
   target_type = "ip"
-
-  tags = {
-    Name = "tg${local.short}App"
-  }
 }
 
 resource "aws_lb_listener" "app" {
   load_balancer_arn = aws_lb.app.id
-  port              = "443"
-  protocol          = "HTTPS"
-  certificate_arn   = aws_acm_certificate.cert.arn
+  port              = "80"
+  protocol          = "HTTP"
 
   default_action {
     target_group_arn = aws_lb_target_group.app.id

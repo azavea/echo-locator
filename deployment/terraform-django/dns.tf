@@ -31,8 +31,20 @@ resource "aws_route53_record" "site" {
   type    = "A"
 
   alias {
-    name                   = aws_lb.app.dns_name
-    zone_id                = aws_lb.app.zone_id
+    name                   = aws_cloudfront_distribution.cdn.domain_name
+    zone_id                = aws_cloudfront_distribution.cdn.hosted_zone_id
+    evaluate_target_health = true
+  }
+}
+
+resource "aws_route53_record" "siteV6" {
+  zone_id = aws_route53_zone.external.zone_id
+  name    = var.r53_public_hosted_zone
+  type    = "AAAA"
+
+  alias {
+    name                   = aws_cloudfront_distribution.cdn.domain_name
+    zone_id                = aws_cloudfront_distribution.cdn.hosted_zone_id
     evaluate_target_health = true
   }
 }
