@@ -48,8 +48,10 @@ NULLABLE_CHAR_FIELDS = set(
 # Booleans expressed as integers in the data (0 = False, non-zero = True)
 BOOLEAN_INT_FIELDS = set(["ecc", "school_choice"])
 
+IMAGE_FIELDS = set(["street", "school", "town_square", "open_space_or_landmark"])
 
-def make_neighborhood(nhd, bound):
+
+def make_neighborhood(nhd, bound, imgs):
     # Mini transformers for incoming data format
     def sanitize_value(key, val):
         if key in NULLABLE_CHAR_FIELDS:
@@ -60,15 +62,25 @@ def make_neighborhood(nhd, bound):
 
     # The Django model keys exactly match the keys present in the GeoJSON properties.
     sanitized_properties = {key: sanitize_value(key, val) for key, val in nhd["properties"].items()}
+    # Remove zipcodes from image file names in order to match to image fields
+    img_no_zips = {"_".join(img.split("_")[1:]): imgs[img] for img in imgs}
+    identify_imgs = {}
+    for field in IMAGE_FIELDS:
+        for img in img_no_zips:
+            if img == field:
+                identify_imgs[field] = img_no_zips[img]
     _, created = Neighborhood.objects.update_or_create(
         zipcode=nhd["properties"]["zipcode"],
         defaults=dict(
             centroid=GEOSGeometry(json.dumps(nhd["geometry"]), srid=4326),
             boundary=GEOSGeometry(json.dumps(bound["geometry"]), srid=4326),
+            street_image=identify_imgs.get("street"),
+            school_image=identify_imgs.get("school"),
+            town_square_image=identify_imgs.get("town_square"),
+            open_space_or_landmark_image=identify_imgs.get("open_space_or_landmark"),
             **sanitized_properties,
         ),
     )
-
     return created
 
 
@@ -86,11 +98,17 @@ class Command(BaseCommand):
             help="""S3 path to file storing neighborhood boundaries, as GeoJSON, e.g.
             s3://bucket-name/path/to/neighborhood_bounds.json""",
         )
+        parser.add_argument(
+            "neighborhood_images",
+            help="""S3 path to file storing neighborhood images, e.g.
+            s3://bucket-name/path/to/assets/neighborhoods/""",
+        )
 
     def handle(self, *args, **options):
         # Pull data from files out into Python dicts
         nhd_url_parts = urlparse(options["neighborhoods_json"])
         bounds_url_parts = urlparse(options["neighborhood_bounds_json"])
+        images_url_parts = urlparse(options["neighborhood_images"])
         s3 = boto3.resource("s3")
         # Parse the passed S3 urls into bucket/key parts, then download, parse to JSON, and pull out
         # the "features" key (which will be an array of geometries with properties).
@@ -102,17 +120,37 @@ class Command(BaseCommand):
         bounds_data = json.load(
             s3.Object(bounds_url_parts.netloc, bounds_url_parts.path[1:]).get()["Body"]
         )["features"]
+        image_bucket = s3.Bucket(images_url_parts.netloc)
+        # Iterate through and generate list of item keys from assets/neighborhood, excluding .gitkeep
+        neighborhood_images = [
+            img.key.split("/")[2]
+            for img in image_bucket.objects.filter(Prefix=images_url_parts.path[1:])
+            if img.key.split(".")[1] != "gitkeep"
+        ]
         # Zip data sources together by shared unique key (zip code)
         neighborhoods_by_zip = {nhd["properties"]["zipcode"]: nhd for nhd in neighborhood_data}
-        nhd_and_bounds_by_zip = {
-            bound["properties"]["id"]: (neighborhoods_by_zip[bound["properties"]["id"]], bound)
+        imgs_by_zip = {}
+        for zipcode in neighborhoods_by_zip:
+            img_and_key = {}
+            for img in neighborhood_images:
+                if img.split("_")[0] == zipcode:
+                    # save key to dictionary without extension
+                    img_and_key[img.split(".")[0]] = img
+            imgs_by_zip[zipcode] = img_and_key
+        nhd_bounds_imgs_by_zip = {
+            bound["properties"]["id"]: (
+                neighborhoods_by_zip[bound["properties"]["id"]],
+                bound,
+                imgs_by_zip[bound["properties"]["id"]],
+            )
             for bound in bounds_data
         }
 
         # Create Django objects from each pair of (neighborhood, bounds)
         with transaction.atomic():
             created_or_not = [
-                make_neighborhood(nhd, bound) for nhd, bound in nhd_and_bounds_by_zip.values()
+                make_neighborhood(nhd, bound, imgs)
+                for nhd, bound, imgs in nhd_bounds_imgs_by_zip.values()
             ]
         print("Done!")
         print(
