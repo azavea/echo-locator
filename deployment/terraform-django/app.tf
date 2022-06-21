@@ -109,6 +109,7 @@ resource "aws_ecs_task_definition" "app" {
 
     django_secret_key      = var.django_secret_key
     default_from_email     = var.default_from_email
+    aws_s3_photo_bucket    = var.aws_s3_photo_bucket
     django_log_level       = var.django_log_level
     r53_public_hosted_zone = var.r53_public_hosted_zone
 
@@ -181,6 +182,7 @@ resource "aws_ecs_task_definition" "app_cli" {
 
     django_secret_key      = var.django_secret_key
     default_from_email     = var.default_from_email
+    aws_s3_photo_bucket    = var.aws_s3_photo_bucket
     django_log_level       = var.django_log_level
     r53_public_hosted_zone = var.r53_public_hosted_zone
 

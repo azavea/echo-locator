@@ -260,6 +260,10 @@ variable "default_from_email" {
   type = string
 }
 
+variable "aws_s3_photo_bucket" {
+  type = string
+}
+
 variable "django_log_level" {
   type    = string
   default = "INFO"
