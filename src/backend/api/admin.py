@@ -2,4 +2,74 @@ from django.contrib.gis import admin
 
 from .models import Neighborhood
 
-admin.site.register(Neighborhood, admin.OSMGeoAdmin)
+
+class NeighborhoodAdmin(admin.OSMGeoAdmin, admin.ModelAdmin):
+    fields = (
+        "town",
+        "town_area",
+        "zipcode",
+        "centroid",
+        "boundary",
+        "ecc",
+        "violentcrime_quintile",
+        "crime_percentile",
+        "education_percentile_quintile",
+        "education_percentile",
+        "house_number_symbol",
+        "lat_lon_category",
+        "max_rent_0br",
+        "max_rent_1br",
+        "max_rent_2br",
+        "max_rent_3br",
+        "max_rent_4br",
+        "max_rent_5br",
+        "max_rent_6br",
+        "school_choice",
+        "total_mapc",
+        "town_website_description",
+        "town_link",
+        "wikipedia",
+        "wikipedia_link",
+        "street",
+        "school",
+        "town_square",
+        "open_space_or_landmark",
+        "street_thumbnail",
+        "school_thumbnail",
+        "town_square_thumbnail",
+        "open_space_or_landmark_thumbnail",
+        ("street_image", "street_image_preview"),
+        ("school_image", "school_image_preview"),
+        ("town_square_image", "town_square_image_preview"),
+        ("open_space_or_landmark_image", "open_space_or_landmark_image_preview"),
+        "street_license",
+        "school_license",
+        "town_square_license",
+        "open_space_or_landmark_license",
+        "street_license_url",
+        "school_license_url",
+        "town_square_license_url",
+        "open_space_or_landmark_license_url",
+        "street_description",
+        "school_description",
+        "town_square_description",
+        "open_space_or_landmark_description",
+        "street_artist",
+        "school_artist",
+        "town_square_artist",
+        "open_space_or_landmark_artist",
+        "street_username",
+        "school_username",
+        "town_square_username",
+        "open_space_or_landmark_username",
+    )
+
+    readonly_fields = [
+        "street_image_preview",
+        "school_image_preview",
+        "town_square_image_preview",
+        "open_space_or_landmark_image_preview",
+    ]
+
+
+admin.site.register(Neighborhood, NeighborhoodAdmin)

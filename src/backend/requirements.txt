@@ -5,7 +5,9 @@ django-watchman==1.3.0
 djangorestframework-gis==0.18
 djangorestframework==3.13.1
 django-spa==0.3.6
+django-storages==1.12.3
 django-amazon-ses==4.0.1
 requests==2.26.0
 django-sesame[ua]==2.4
+Pillow==9.1.1
 rollbar==0.16.2

@@ -19,6 +19,6 @@ then
     then
         usage
     else
-        docker-compose up
+        AWS_PROFILE=echo-locator docker-compose up
     fi
 fi

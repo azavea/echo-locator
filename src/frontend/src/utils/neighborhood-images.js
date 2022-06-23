@@ -14,7 +14,7 @@ export function getFirstNeighborhoodImage(
   }
   // Look for an available image to use as the summary
   const imageField = find(IMAGE_FIELDS, (field) => {
-    return !!properties[field + "_thumbnail"];
+    return !!properties[field + "_image"];
   });
   return getNeighborhoodImage(properties, imageField);
 }
@@ -32,7 +32,7 @@ export default function getNeighborhoodImage(
     return null;
   }
   // All images that have the thumbnail hotlink field set should exist as files in assets
-  if (!properties || !properties[imageField + "_thumbnail"]) {
+  if (!properties || !properties[imageField + "_image"]) {
     return null;
   }
 
@@ -40,9 +40,7 @@ export default function getNeighborhoodImage(
   const license = properties[imageField + "_license"];
   const licenseUrl = properties[imageField + "_license_url"];
   const imageLink = properties[imageField];
-  // Get the extension for the image from the link
-  const ext = imageLink.toLowerCase().split(".").pop();
-  const thumbnail = "/neighborhoods/" + properties.id + "_" + imageField + "." + ext;
+  const thumbnail = properties[imageField + "_image"];
   const userName = properties[imageField + "_username"];
 
   let attribution = userName + " [" + license;
