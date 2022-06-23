@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 from urllib.parse import urlparse
 
 import boto3
@@ -51,6 +52,13 @@ BOOLEAN_INT_FIELDS = set(["ecc", "school_choice"])
 IMAGE_FIELDS = set(["street", "school", "town_square", "open_space_or_landmark"])
 
 
+def detect_image_purpose(filename):
+    for purpose in IMAGE_FIELDS:
+        if purpose in filename:
+            return purpose
+    raise ValueError(f"Couldn't identify image purpose for {filename}")
+
+
 def make_neighborhood(nhd, bound, imgs):
     # Mini transformers for incoming data format
     def sanitize_value(key, val):
@@ -62,22 +70,15 @@ def make_neighborhood(nhd, bound, imgs):
 
     # The Django model keys exactly match the keys present in the GeoJSON properties.
     sanitized_properties = {key: sanitize_value(key, val) for key, val in nhd["properties"].items()}
-    # Remove zipcodes from image file names in order to match to image fields
-    img_no_zips = {"_".join(img.split("_")[1:]): imgs[img] for img in imgs}
-    identify_imgs = {}
-    for field in IMAGE_FIELDS:
-        for img in img_no_zips:
-            if img == field:
-                identify_imgs[field] = img_no_zips[img]
     _, created = Neighborhood.objects.update_or_create(
         zipcode=nhd["properties"]["zipcode"],
         defaults=dict(
             centroid=GEOSGeometry(json.dumps(nhd["geometry"]), srid=4326),
             boundary=GEOSGeometry(json.dumps(bound["geometry"]), srid=4326),
-            street_image=identify_imgs.get("street"),
-            school_image=identify_imgs.get("school"),
-            town_square_image=identify_imgs.get("town_square"),
-            open_space_or_landmark_image=identify_imgs.get("open_space_or_landmark"),
+            street_image=imgs.get("street"),
+            school_image=imgs.get("school"),
+            town_square_image=imgs.get("town_square"),
+            open_space_or_landmark_image=imgs.get("open_space_or_landmark"),
             **sanitized_properties,
         ),
     )
@@ -123,25 +124,25 @@ class Command(BaseCommand):
         image_bucket = s3.Bucket(images_url_parts.netloc)
         # Iterate through and generate list of item keys from assets/neighborhood, excluding .gitkeep
         neighborhood_images = [
-            img.key.split("/")[2]
+            Path(img.key).name
             for img in image_bucket.objects.filter(Prefix=images_url_parts.path[1:])
-            if img.key.split(".")[1] != "gitkeep"
+            # Remove following completion of issue 562 (https://github.com/azavea/echo-locator/issues/562)
+            if img.key != ".gitkeep"
         ]
         # Zip data sources together by shared unique key (zip code)
         neighborhoods_by_zip = {nhd["properties"]["zipcode"]: nhd for nhd in neighborhood_data}
+        # Generate dict of images by purpose and zipcode, e.g. {'02093':[{'street':'02790_street.jpg',...}],...}
         imgs_by_zip = {}
         for zipcode in neighborhoods_by_zip:
-            img_and_key = {}
-            for img in neighborhood_images:
-                if img.split("_")[0] == zipcode:
-                    # save key to dictionary without extension
-                    img_and_key[img.split(".")[0]] = img
-            imgs_by_zip[zipcode] = img_and_key
+            zip_imgs = [
+                filename for filename in neighborhood_images if filename.startswith(zipcode)
+            ]
+            imgs_by_zip[zipcode] = [{detect_image_purpose(img): img for img in zip_imgs}]
         nhd_bounds_imgs_by_zip = {
             bound["properties"]["id"]: (
                 neighborhoods_by_zip[bound["properties"]["id"]],
                 bound,
-                imgs_by_zip[bound["properties"]["id"]],
+                imgs_by_zip[bound["properties"]["id"]][0],
             )
             for bound in bounds_data
         }
