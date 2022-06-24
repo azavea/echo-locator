@@ -38,14 +38,10 @@ export const setShowRealtorListings = (show) => (dispatch, getState) => {
   dispatch({ type: "set show Realtor listing", payload: show });
 };
 
-export const getNeighborhoods = (authToken) => (dispatch, getState) => {
+export const getNeighborhoods = () => (dispatch, getState) => {
   // Load neighborhood GeoJSON files
   axios
-    .get("/api/neighborhoods/", {
-      headers: {
-        Authorization: `Token ${authToken}`,
-      },
-    })
+    .get("/api/neighborhoods/")
     .then((response) => {
       dispatch({
         type: "set neighborhoods",
@@ -57,11 +53,7 @@ export const getNeighborhoods = (authToken) => (dispatch, getState) => {
     });
   // Load neighborhood boundaries.
   axios
-    .get("/api/neighborhood-bounds/", {
-      headers: {
-        Authorization: `Token ${authToken}`,
-      },
-    })
+    .get("/api/neighborhood-bounds/")
     .then((response) => {
       dispatch({
         type: "set neighborhood bounds",

@@ -8,6 +8,7 @@ import { clearLocalStorage } from "../config";
 
 import CustomSignIn from "./custom-sign-in";
 import CustomHeaderBar from "./custom-header-bar";
+import { getNeighborhoods } from "../actions/neighborhood";
 
 export default function Authenticator(Comp) {
   return class extends Component {
@@ -19,6 +20,11 @@ export default function Authenticator(Comp) {
 
       // Load the selected user profile from localStorage, if any
       this.props.loadProfile();
+    }
+
+    componentDidMount() {
+      const props = this.props;
+      props.store.dispatch(getNeighborhoods());
     }
 
     logout() {
