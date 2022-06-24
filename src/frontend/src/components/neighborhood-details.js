@@ -175,6 +175,7 @@ class NeighborhoodDetails extends PureComponent<Props> {
     );
   }
 
+  /* eslint-disable complexity */
   neighborhoodLinks(props) {
     const { neighborhood, userProfile, estMaxRent } = props;
     const { t, i18n } = useTranslation();

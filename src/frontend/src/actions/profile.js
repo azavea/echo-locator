@@ -5,7 +5,6 @@ import { retrieveConfig, storeConfig } from "../config";
 import { PROFILE_CONFIG_KEY } from "../constants";
 
 import { addActionLogItem } from "./log";
-import { getNeighborhoods } from "./neighborhood";
 
 export const loadProfile = () => (dispatch, getState) => {
   try {

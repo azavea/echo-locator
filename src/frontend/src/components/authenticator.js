@@ -3,12 +3,12 @@ import { Component, Fragment } from "react";
 import LogRocket from "logrocket";
 import Cookies from "js-cookie";
 
+import { getNeighborhoods } from "../actions/neighborhood";
 import { ANONYMOUS_USERNAME } from "../constants";
 import { clearLocalStorage } from "../config";
 
 import CustomSignIn from "./custom-sign-in";
 import CustomHeaderBar from "./custom-header-bar";
-import { getNeighborhoods } from "../actions/neighborhood";
 
 export default function Authenticator(Comp) {
   return class extends Component {
