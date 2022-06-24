@@ -7,8 +7,6 @@ from .serializers import NeighborhoodBoundsSerializer, NeighborhoodSerializer
 
 
 class ListNeighborhoods(APIView):
-    permission_classes = (IsAuthenticated,)
-
     def get(self, request):
         neighborhoods = Neighborhood.objects.all()
         serializer = NeighborhoodSerializer(neighborhoods, many=True)
@@ -16,8 +14,6 @@ class ListNeighborhoods(APIView):
 
 
 class ListNeighborhoodBounds(APIView):
-    permission_classes = (IsAuthenticated,)
-
     def get(self, request):
         neighborhoods = Neighborhood.objects.all()
         serializer = NeighborhoodBoundsSerializer(neighborhoods, many=True)
