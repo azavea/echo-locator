@@ -91,7 +91,6 @@ export const setAuthToken = (authToken) => (dispatch, getState) => {
       },
     })
     .then((response) => {
-      dispatch(getNeighborhoods(authToken));
       dispatch({ type: "set auth token", payload: authToken });
       dispatch({ type: "set profile", payload: response.data });
     })
