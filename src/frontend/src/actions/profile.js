@@ -5,7 +5,6 @@ import { retrieveConfig, storeConfig } from "../config";
 import { PROFILE_CONFIG_KEY } from "../constants";
 
 import { addActionLogItem } from "./log";
-import { getNeighborhoods } from "./neighborhood";
 
 export const loadProfile = () => (dispatch, getState) => {
   try {
@@ -91,7 +90,6 @@ export const setAuthToken = (authToken) => (dispatch, getState) => {
       },
     })
     .then((response) => {
-      dispatch(getNeighborhoods(authToken));
       dispatch({ type: "set auth token", payload: authToken });
       dispatch({ type: "set profile", payload: response.data });
     })

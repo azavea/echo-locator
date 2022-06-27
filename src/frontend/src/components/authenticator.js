@@ -3,6 +3,7 @@ import { Component, Fragment } from "react";
 import LogRocket from "logrocket";
 import Cookies from "js-cookie";
 
+import { getNeighborhoods } from "../actions/neighborhood";
 import { ANONYMOUS_USERNAME } from "../constants";
 import { clearLocalStorage } from "../config";
 
@@ -19,6 +20,11 @@ export default function Authenticator(Comp) {
 
       // Load the selected user profile from localStorage, if any
       this.props.loadProfile();
+    }
+
+    componentDidMount() {
+      const props = this.props;
+      props.store.dispatch(getNeighborhoods());
     }
 
     logout() {
