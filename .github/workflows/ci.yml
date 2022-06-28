@@ -17,7 +17,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # Set staging bucket if on develop or test, otherwise it won't be set
+      # which is fine for a test build
+      - run: echo "ECHOLOCATOR_SETTINGS_BUCKET=echo-locator-stgdjango-config-us-east-1" >> $GITHUB_ENV
+        if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/test/')
+
       - uses: aws-actions/configure-aws-credentials@v1
+        if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/test/')
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -25,8 +31,6 @@ jobs:
 
       - run: ./scripts/bootstrap
         if: github.ref != 'refs/heads/master'
-        env:
-          ECHOLOCATOR_SETTINGS_BUCKET: echo-locator-stgdjango-config-us-east-1
 
       - run: ./scripts/cibuild
 
@@ -62,5 +66,3 @@ jobs:
             ./scripts/infra apply
           "
         if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/test/')
-        env:
-          ECHOLOCATOR_SETTINGS_BUCKET: echo-locator-stgdjango-config-us-east-1
