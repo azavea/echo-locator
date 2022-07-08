@@ -25,6 +25,6 @@ then
             exit 1
     else
         TAUI_SITE_BUCKET="s3://echo-locator-${1}-site-us-east-1"
-        aws s3 cp --profile echo-locator --recursive neighborhood_data/images/ "${TAUI_SITE_BUCKET}/assets/neighborhoods/"
+        aws s3 cp --profile echo-locator --recursive --exclude "*.gitkeep" neighborhood_data/images/ "${TAUI_SITE_BUCKET}/assets/neighborhoods/"
     fi
 fi

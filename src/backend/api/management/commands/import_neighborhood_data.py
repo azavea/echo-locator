@@ -126,8 +126,6 @@ class Command(BaseCommand):
         neighborhood_images = [
             Path(img.key).name
             for img in image_bucket.objects.filter(Prefix=images_url_parts.path[1:])
-            # Remove following completion of issue 562 (https://github.com/azavea/echo-locator/issues/562)
-            if img.key != ".gitkeep"
         ]
         # Zip data sources together by shared unique key (zip code)
         neighborhoods_by_zip = {nhd["properties"]["zipcode"]: nhd for nhd in neighborhood_data}
