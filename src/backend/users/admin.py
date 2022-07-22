@@ -13,6 +13,13 @@ from .models import Destination, UserProfile
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label="Email")
+    error_messages = {"invalid_login": "Please enter a correct email and password."}
+
+    # convert entered email to lowercase
+    def clean(self):
+        self.cleaned_data["username"] = self.cleaned_data.get("username").lower()
+        cleaned_data = super(LoginForm, self).clean()
+        return cleaned_data
 
 
 # Validates that the username is a valid email on save
