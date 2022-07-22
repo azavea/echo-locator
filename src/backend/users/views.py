@@ -23,7 +23,7 @@ def send_login_link(request):
     Will raise an exception if User.DoesNotExist
     """
     email = request.data["username"]
-    user = User.objects.get(username=email)
+    user = User.objects.get(username__iexact=email)
     login_token = utils.get_query_string(user)
     host = request.get_host()
     protocol = "https://" if request.is_secure() else "http://"
@@ -55,7 +55,7 @@ class LoginPage(APIView):
     def post(self, request, **kwargs):
         try:
             email = request.data["username"]
-            if User.objects.get(username=email).is_active:
+            if User.objects.get(username__iexact=email).is_active:
                 # Will throw exception if cannot find the User
                 # For privacy reasons, do not send 500 error back if not found
                 send_login_link(request)
