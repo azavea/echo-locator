@@ -3,6 +3,14 @@ from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import Point
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+
+
+@receiver(pre_save, sender=User)
+def lowercase_email(sender, instance, *args, **kwargs):
+    instance.username = instance.username.lower()
+    instance.email = instance.username
 
 
 class UserProfile(models.Model):
