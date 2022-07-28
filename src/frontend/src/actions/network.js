@@ -1,6 +1,7 @@
 // @flow
 import lonlat from "@conveyal/lonlat";
 import fetch, { fetchMultiple } from "@conveyal/woonerf/fetch";
+import { isEmpty } from "lodash";
 
 import { retrieveConfig, storeConfig } from "../config";
 import { ACCESSIBILITY_IS_LOADING, ACCESSIBILITY_IS_EMPTY, TAUI_CONFIG_KEY } from "../constants";
@@ -168,14 +169,22 @@ export const fetchAllTimesAndPathsForIndex =
   };
 
 export const fetchAllTimesAndPathsForCoordinate =
+  // if these times and paths are fetched before neighborhoodBounds exists, polygon
+  // corruption will occur
   (coordinate: LonLat) => (dispatch: Dispatch, getState: any) => {
     const state = getState();
     const currentZoom = state.map.zoom;
-    dispatch(
-      state.data.networks.map((network) =>
-        fetchTimesAndPathsForNetworkAtCoordinate(network, coordinate, currentZoom)
-      )
-    );
+    if (!isEmpty(state.data.neighborhoodBounds)) {
+      dispatch(
+        state.data.networks.map((network) =>
+          fetchTimesAndPathsForNetworkAtCoordinate(network, coordinate, currentZoom)
+        )
+      );
+    } else {
+      setTimeout(() => {
+        dispatch(fetchAllTimesAndPathsForCoordinate(coordinate));
+      }, 500);
+    }
   };
 
 const fetchTimesAndPathsForNetworkAtCoordinate = (network, coordinate, currentZoom) => {
