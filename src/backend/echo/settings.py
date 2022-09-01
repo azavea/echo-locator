@@ -34,7 +34,7 @@ if ENVIRONMENT not in VALID_ENVIRONMENTS:
     )
 
 LOGLEVEL = os.getenv("DJANGO_LOG_LEVEL", "INFO")
- # SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ENVIRONMENT == "Development"
 
 ALLOWED_HOSTS = []
