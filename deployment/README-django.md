@@ -17,6 +17,10 @@ Default output format [None]:
 
 You will be prompted to enter your AWS credentials, along with a default region. These credentials will be used to authenticate calls to the AWS API when using Terraform and the AWS CLI.
 
+## Env File
+
+A .env file should exist at the root of the source directory.  That must be filled in with mapbox details before running cibuild so that the Django container can access external resources.  The bootstrap script tries to get the correct .env for your environment from S3 but otherwise the .env file in S3 is not used.
+
 ## Publish Container Images
 
 Before we can deploy this project's core infrastructure, we will need to build a container image and publish it somewhere accessible to Amazon's services.
@@ -35,9 +39,11 @@ $ ./scripts/cipublish
 ...
 ```
 
-It defaults to push to export ECHOLOCATOR_ENVIRONMENT="stgdjango".
+It defaults to push to export ECHOLOCATOR_ENVIRONMENT="stgdjango".  For production `export ECHOLOCATOR_ENVIRONMENT=prddjango` before cipublish.
 
 ## Terraform
+
+### New Environment
 
 First, we need to make sure there is a `terraform.tfvars` file in the project settings bucket on S3. The `.tfvars` file is where we can change specific attributes of the project's infrastructure, not defined in the `variables.tf` file.
 
@@ -45,24 +51,46 @@ Here is an example `terraform.tfvars` for this project:
 
 ```hcl
 project     = "echo"
-environment = "stgdjango"
+environment = "prddjango"
 aws_region  = "us-east-1"
 
 r53_private_hosted_zone = "echo.internal"
+r53_public_hosted_zone  = "app.echosearch.org"
 
-rds_database_identifier = stgdjango
-rds_database_name       = echo
-rds_database_username   = echo
-rds_database_password   = echo
+rds_database_identifier = "echo-prddjango"
+rds_database_name       = "echo"
+rds_database_username   = "echo"
+rds_database_password   =
+
+fargate_app_cpu        = 1024
+fargate_app_memory     = 2048
+fargate_app_cli_cpu    = 256
+fargate_app_cli_memory = 1024
+
+rollbar_access_token =
+django_secret_key =
+
+default_from_email = "noreply@app.echosearch.org"
+aws_s3_photo_bucket="echo-locator-production-site-us-east-1"
 ```
 
-This file lives at `s3://echo-locator-staging-django-config-us-east-1`.
+There are a few manual steps for a brand new environment
+ * Make NS Record with values from sub.domain.org in domain.org.
+ * Manually Verify AWS Generated Cert by DNS method.
+
+### Current Environment
+
+The following are possible ECHOLOCATOR_SETTINGS_BUCKET values:
+```
+export ECHOLOCATOR_SETTINGS_BUCKET=echo-locator-stgdjango-config-us-east-1  # Staging
+export ECHOLOCATOR_SETTINGS_BUCKET=echo-locator-prddjango-config-us-east-1  # Production
+```
 
 To deploy this project's core infrastructure, use the `infra` wrapper script to lookup the remote state of the infrastructure and assemble a plan for work to be done:
 
 ```bash
 $ docker-compose -f docker-compose.ci.yml run --rm terraform
-$ export ECHOLOCATOR_SETTINGS_BUCKET=echo-locator-stgdjango-config-us-east-1
+$ export ECHOLOCATOR_SETTINGS_BUCKET line from above.
 $ ./scripts/infra plan
 ```
 
