@@ -91,6 +91,7 @@ resource "aws_ecs_task_definition" "app" {
     gunicorn_workers = ceil((2 * (var.fargate_app_cpu / 1024)) + 1)
 
     django_secret_key      = var.django_secret_key
+    django_env             = var.django_env
     default_from_email     = var.default_from_email
     aws_s3_photo_bucket    = var.aws_s3_photo_bucket
     django_log_level       = var.django_log_level
@@ -164,6 +165,7 @@ resource "aws_ecs_task_definition" "app_cli" {
     postgres_db       = var.rds_database_name
 
     django_secret_key      = var.django_secret_key
+    django_env             = var.django_env
     default_from_email     = var.default_from_email
     aws_s3_photo_bucket    = var.aws_s3_photo_bucket
     django_log_level       = var.django_log_level

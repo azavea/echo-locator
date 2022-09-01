@@ -34,14 +34,13 @@ if ENVIRONMENT not in VALID_ENVIRONMENTS:
     )
 
 LOGLEVEL = os.getenv("DJANGO_LOG_LEVEL", "INFO")
-
-# SECURITY WARNING: don't run with debug turned on in production!
+ # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ENVIRONMENT == "Development"
 
-ALLOWED_HOSTS = [
-    "stg.echosearch.org",
-    ".stg.echosearch.org",
-]
+ALLOWED_HOSTS = []
+
+if "R53_PUBLIC_HOSTED_ZONE" in os.environ:
+    ALLOWED_HOSTS.append(os.getenv("R53_PUBLIC_HOSTED_ZONE"))
 
 if ENVIRONMENT == "Development":
     ALLOWED_HOSTS.append("localhost")
