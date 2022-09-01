@@ -8,9 +8,13 @@ variable "project" {
 }
 
 variable "environment" {
-  default = "Staging"
   type    = string
 }
+
+variable "django_env" {
+  type    = string
+}
+
 
 variable "aws_region" {
   default = "us-east-1"
