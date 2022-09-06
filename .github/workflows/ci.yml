@@ -9,8 +9,18 @@ on:
   workflow_dispatch:
 
 jobs:
+  lint:
+    # Run GH Super-Linter against code base
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: cat .github/super-linter.env >> $GITHUB_ENV
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: master
   build:
-    name: build
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: 1
@@ -33,28 +43,6 @@ jobs:
         if: github.ref != 'refs/heads/master'
 
       - run: ./scripts/cibuild
-
-      ################################
-      # Run GH Super-Linter against code base #
-      ################################
-      - name: Lint Code Base
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          IGNORE_GITIGNORED_FILES: true
-          FILTER_REGEX_INCLUDE: src/backend/|deployment/terraform/
-          FILTER_REGEX_EXCLUDE: .*(migrations/*|manage.py).*
-          LINTER_RULES_PATH: /
-          PYTHON_BLACK_CONFIG_FILE: src/backend/pyproject.toml
-          PYTHON_FLAKE8_CONFIG_FILE: src/backend/setup.cfg
-          VALIDATE_TERRAFORM_TERRASCAN: false
-          VALIDATE_GITLEAKS: false
-          VALIDATE_JSCPD: false
-          VALIDATE_PYTHON_MYPY: false
-          VALIDATE_DOCKERFILE_HADOLINT: false
-          VALIDATE_JSON: false
 
       - run: ./scripts/cipublish
         if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/test/')
