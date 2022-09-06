@@ -31,7 +31,7 @@ def send_login_link(request):
 
     html_message = """
     <p>Hi there,</p>
-    <p>Thanks for using ECHO! Here is your <a href="{}">link to login</a>. </p>
+    <p>Thanks for using ECHO! Here is your <a href="{}">link to login</a>. This link is valid for 1 hour.</p>
     <p>BHA</p>
     """.format(
         login_link
@@ -67,8 +67,12 @@ class LoginPage(APIView):
 class ObtainToken(APIView):
     def get(self, request, **kwargs):
         user = utils.get_user(request)
-        token, created = Token.objects.get_or_create(user=user)
         response = HttpResponseRedirect("/")
+        # If the token has expired or is otherwise invalid just send them back to the homepage,
+        # where they'll see the login screen again.
+        if user is None:
+            return response
+        token, created = Token.objects.get_or_create(user=user)
         # set authentication cookie with max_age 30 days
         response.set_cookie("auth_token", token.key, max_age=60 * 60 * 24 * 30)
         return response
