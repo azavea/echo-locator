@@ -16,13 +16,5 @@ services:
     working_dir: /usr/local/src
     entrypoint: bash
 
-  amplify:
-    build: ./deployment/amplify
-    volumes:
-      - ./deployment/amplify:/usr/local/src
-      - $HOME/.aws:/root/.aws:ro
-    working_dir: /usr/local/src
-    entrypoint: bash
-
   django:
     image: "echolocator:${GIT_COMMIT}"

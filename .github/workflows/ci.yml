@@ -44,7 +44,7 @@ jobs:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           IGNORE_GITIGNORED_FILES: true
-          FILTER_REGEX_INCLUDE: src/backend/|deployment/terraform-django/
+          FILTER_REGEX_INCLUDE: src/backend/|deployment/terraform/
           FILTER_REGEX_EXCLUDE: .*(migrations/*|manage.py).*
           LINTER_RULES_PATH: /
           PYTHON_BLACK_CONFIG_FILE: src/backend/pyproject.toml
