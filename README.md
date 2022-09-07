@@ -2,49 +2,29 @@
 
 Website to explore Choice Neighborhoods in the Boston area.
 
-[![Build Status](https://travis-ci.org/azavea/echo-locator.svg?branch=develop)](https://travis-ci.org/azavea/echo-locator)
-
 ## Requirements
-
-While Docker is the preferred development environment, steps for running directly on host
-are available for Mac users as a result of issue [#49](https://github.com/azavea/echo-locator/issues/49).
 
 ### To run within a Docker container:
 
-* Docker Engine 17.06+
-* Docker Compose 1.6+
-
-### To run directly:
-
-* [nvm](https://github.com/creationix/nvm) to manage Node versions on your machine
-* [yvm](https://yvm.js.org/docs/overview) to manage Yarn versions for package management
-
+* Docker Engine 20.10.17
+* Docker Compose 1.29
 
 ## Development
 
-To start developing, create a set of Taui environment variables for development:
-
-```
-$ cp taui/configurations/default/env.yml.tmp taui/configurations/default/env.yml
-```
-
-Make sure to edit `env.yml` to set the appropriate secrets for development.
-
-Next, move the AWS Amplify JavaScript configuration for the staging environment
-into the Taui source code:
-
-```
-$ cp deployment/amplify/staging/src/aws-exports.js taui/src/aws-exports.js
-```
-
-### Optional step for local deployment
+### Setup
 
 To deploy or manage deployment resources, on your host machine you will need to set up an `echo-locator` profile for the AWS account using the following command:
 ```bash
 $ aws configure --profile echo-locator
 ```
 
-### Running with Docker
+To get setup (this runs bootstrap which will try to pull env variables from s3 and then update):
+
+```
+$ ./scripts/setup
+```
+
+### Running
 
 Finally, use the `server` script to build container images, compile frontend assets,
 and run a development server:
@@ -52,19 +32,6 @@ and run a development server:
 ```
 $ ./scripts/server
 ```
-
-### Running directly
-
-* Make sure you have `nvm` and `yvm` installed (see links in Requirements)
-* `cd taui`
-* Specify Yarn and Node versions: Run `nvm use` and `yvm use`(you may need to run 
-`nvm install` or `yvm install` first if you see error messages that the appropriate 
-versions are not installed).
-* Install packages: `yarn install`
-* Build and run development server: `yarn start`
-
-
-Navigate to http://localhost:9966 to view the development environment.
 
 
 ### STRTA
@@ -87,7 +54,7 @@ From the project directory, run:
 ```
 ./scripts/manage createsuperuser
 ```
-Fill out the prompts for a username, email, and password.
+Fill out the prompts for a email, username (which MUST just be the same email) and password.
 
 ### Logging In
 
