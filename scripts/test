@@ -43,7 +43,7 @@ then
                 -e RUN_LOCAL=true \
                 -e VALIDATE_ALL_CODEBASE=false \
                 -e IGNORE_GITIGNORED_FILES=true \
-                -e FILTER_REGEX_INCLUDE="src/backend/|deployment/terraform-django/" \
+                -e FILTER_REGEX_INCLUDE="src/backend/|deployment/terraform/" \
                 -e FILTER_REGEX_EXCLUDE=".*(migrations/*|manage.py).*" \
                 -e LINTER_RULES_PATH="/" \
                 -e PYTHON_BLACK_CONFIG_FILE="src/backend/pyproject.toml" \
