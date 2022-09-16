@@ -66,9 +66,9 @@ export const DEFAULT_CRIME_IMPORTANCE = 1;
 // URLS
 export const MAPBOX_GEOCODING_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places";
 export const REALTOR_BASE_URL =
-  "https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/get-realtor-listings";
+  "https://z8ah1tmx4d.execute-api.us-east-1.amazonaws.com/staging/get-realtor-listings";
 export const BHA_BASE_URL =
-  "https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/-get-bha-listings?";
+  "https://z8ah1tmx4d.execute-api.us-east-1.amazonaws.com/staging/get-bha-listings?";
 
 // Network colors
 export const NETWORK_COLORS = [

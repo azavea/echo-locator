@@ -37,8 +37,7 @@ export const setRealtorListings =
               return handleError(error, "Realtor", REALTOR_ACTION_TYPE);
             }
             try {
-              const listings = JSON.parse(response.value.body);
-              return { type: REALTOR_ACTION_TYPE, payload: { data: listings } };
+              return { type: REALTOR_ACTION_TYPE, payload: { data: response.value } };
             } catch (error) {
               return handleError(error, "Realtor", REALTOR_ACTION_TYPE);
             }
@@ -70,8 +69,7 @@ export const setBHAListings =
             if (error) {
               return handleError(error, "BHA", BHA_ACTION_TYPE);
             }
-            const listings = JSON.parse(response.value.body);
-            return fwdGeocodeBatch(listings)
+            return fwdGeocodeBatch(response.value)
               .then((data) => {
                 return { type: BHA_ACTION_TYPE, payload: { data } };
               })
