@@ -64,11 +64,16 @@ export const DEFAULT_SCHOOLS_IMPORTANCE = 1;
 export const DEFAULT_CRIME_IMPORTANCE = 1;
 
 // URLS
+// REALTOR_BASE_URL and BHA_BASE_URL direct to the EchoStaging API in AWS API Gateway.
+// These get-bha-listings and get-realtor-listings endpoints then trigger the get_listings and
+// get-realtor-listings lambda functions in Lambda. These functions then reformat the request
+// into a DynamoDB query, send them along to the BHAListings and RealtorListings tables via the
+// lambda-data-retriever IAM role, and format and return the response.
 export const MAPBOX_GEOCODING_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places";
 export const REALTOR_BASE_URL =
-  "https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/get-realtor-listings";
+  "https://z8ah1tmx4d.execute-api.us-east-1.amazonaws.com/staging/get-realtor-listings";
 export const BHA_BASE_URL =
-  "https://akk8p5k8o0.execute-api.us-east-1.amazonaws.com/staging/-get-bha-listings?";
+  "https://z8ah1tmx4d.execute-api.us-east-1.amazonaws.com/staging/get-bha-listings?";
 
 // Network colors
 export const NETWORK_COLORS = [
