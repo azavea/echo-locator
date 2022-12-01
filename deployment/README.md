@@ -1,6 +1,8 @@
 # Deployment
 
 - [AWS Credentials](#aws-credentials)
+- [Logs](#Logging)
+- [Personally Identifiable Information Collected](#personally-identifiable-information-collected)
 - [Publish Container Images](#publish-container-images)
 - [Terraform](#terraform)
 - [Migrations](#migrations)
@@ -16,6 +18,31 @@ Default output format [None]:
 ```
 
 You will be prompted to enter your AWS credentials, along with a default region. These credentials will be used to authenticate calls to the AWS API when using Terraform and the AWS CLI.
+
+## Logs
+
+- LogRocket (Only client, Derek, and Bryan have access) - 1 month retention
+- Rollbar (if an error) - 180 day retention
+- AWS Cloudwatch - Django app - 1 month retention
+- AWS Cloudwatch - a lot of older logs that don't expire, and some logs from Realtor and other processes
+- AWS Builtin Logging - From ECS/RDS, using AWS defaults which is 35 days or less.
+- AWS S3 logs - New django style/Cloudfront - stored indefinitely, but not setup correctly
+- AWS S3 logs - old setup - stored indefinitely, can likely be deleted?
+
+## Personally Identifiable Information Collected
+
+We are tracking this for housing searchers only and not for Azavea, BHA or other management accounts.
+
+- Emails
+- IP addresses (only in logs)
+- Budget for apartment
+- Information that could determine size of family or if person has or is planning to have kids
+- Common places visited. This is user customizable and can include any address.
+- Preferred travel mode (may mirror car ownership)
+
+Most PII is stored in Local Storage, in the RDS database, or both.  There is no expiration for Local Storage or database.
+
+No usernames or passwords are stored for the Django version of this app, it uses email driven passwordless logins with 30 day session timeout.  Login emails timeout after 1 hour.
 
 ## Env File
 

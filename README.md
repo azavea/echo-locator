@@ -1,6 +1,22 @@
 # ECHOLocator
 
-Website to explore Choice Neighborhoods in the Boston area.
+ECHO is a revolutionary housing search tool designed to improve the housing search process for low-income families in Greater Boston.  What makes ECHO unique is that, unlike other housing search websites that focus only on finding housing units, ECHO helps families find housing units and the neighborhoods that meet their needs– a crucial innovation that rethinks the way we search for housing. ECHO is able to provide these recommendations through unique public transit data and databases on schools and public safety information. Through this focus, ECHO is the only tool serving low-income families that helps locate both neighborhoods and affordable housing.  - from the [marketing site](https://echosearch.org/). (Contact client if updates needed)
+
+There are two instances hosted based on the code in this repo:
+
+- [Prod](https://app.echosearch.org)
+- [Stg](https://stg.echosearch.org)
+
+## Frameworks and History
+
+- Django backed by Postgres.
+- AWS Lambda, AWS DynamoDB, and API Gateway for Realtor listings.
+- AWS Simple Email Sending
+- External service for [routing](https://github.com/azavea/echo-locator/issues/501)
+- Frontend based on [Taui](https://github.com/conveyal/taui)
+- This project requires AWS access for most dev tasks.
+
+It was originally written in Amplify, but has been ported to Django.
 
 ## Requirements
 
