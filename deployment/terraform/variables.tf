@@ -8,11 +8,11 @@ variable "project" {
 }
 
 variable "environment" {
-  type    = string
+  type = string
 }
 
 variable "django_env" {
-  type    = string
+  type = string
 }
 
 
