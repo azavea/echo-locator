@@ -5,7 +5,12 @@ Brief description of what this PR does, and why it is needed.
 
 ### Checklist
 
+- [ ] `fixup!` commits have been squashed
+- [ ] `CHANGELOG.md` updated with summary of features or fixes, following
+      [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) guidelines
+- [ ] `README.md` updated if necessary to reflect the changes
 - [ ] Run `./scripts/format` to lint, format, and fix the application source code.
+- [ ] CI passes after rebase
 
 ### Demo
 
