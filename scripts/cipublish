@@ -1,18 +1,9 @@
 #!/bin/bash
 
-set -e
+USAGE="Publish container images to Elastic Container Registry (ECR)."
 
-if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
-    set -x
-fi
-
-function usage() {
-    echo -n \
-         "Usage: $(basename "$0")
-
-Publish container images to Elastic Container Registry (ECR).
-"
-}
+source ./scripts/_sourced
+check_for_help_flag "$@"
 
 ENVIRONMENT="${ECHOLOCATOR_ENVIRONMENT:-stgdjango}"
 
@@ -43,16 +34,9 @@ function amazon_ecr_login() {
             --password-stdin "${ECR_REGISTRY}"
 }
 
+# Login to Amazon ECR with the local Docker client.
+amazon_ecr_login
 
-if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
-    if [[ "${1:-}" == "--help" ]]; then
-        usage
-    else
-        # Login to Amazon ECR with the local Docker client.
-        amazon_ecr_login
-
-        docker tag "echolocator:${GIT_COMMIT}" \
-            "${ECR_REGISTRY}/echo$ENVIRONMENT:${GIT_COMMIT}"
-        docker push "${ECR_REGISTRY}/echo$ENVIRONMENT:${GIT_COMMIT}"
-    fi
-fi
+docker tag "echolocator:${GIT_COMMIT}" \
+    "${ECR_REGISTRY}/echo$ENVIRONMENT:${GIT_COMMIT}"
+docker push "${ECR_REGISTRY}/echo$ENVIRONMENT:${GIT_COMMIT}"

@@ -1,25 +1,14 @@
 #!/bin/bash
 
-set -e
+USAGE="Publish neighborhood thumbnail images."
 
-if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
-    set -x
-fi
+source ./scripts/_sourced
+check_for_help_flag "$@"
 
-function usage() {
-    echo -n \
-         "Usage: $(basename "$0") ENVIRONMENT
-
-Publish neighborhood thumbnail images.
-"
-}
 
 if [ "${BASH_SOURCE[0]}" = "${0}" ]
 then
-    if [ "${1:-}" = "--help" ]
-    then
-        usage
-    elif [ "${1:-}" != "staging" ] && [ "${1:-}" != "production" ]
+    if [ "${1:-}" != "staging" ] && [ "${1:-}" != "production" ]
         then
             echo "ERROR: Unrecognized environment ${1}. Should be 'staging' or 'production'."
             exit 1

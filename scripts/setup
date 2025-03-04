@@ -1,23 +1,9 @@
 #!/bin/bash
 
-set -e
+USAGE="Attempts to setup the project's development environment."
 
-if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
-    set -x
-fi
+source ./scripts/_sourced
+check_for_help_flag "$@"
 
-function usage() {
-    echo -n \
-        "Usage: $(basename "$0")
-Attempts to setup the project's development environment.
-"
-}
-
-if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
-    if [ "${1:-}" = "--help" ]; then
-        usage
-    else
-        ./scripts/bootstrap
-        ./scripts/update
-    fi
-fi
+./scripts/bootstrap
+./scripts/update

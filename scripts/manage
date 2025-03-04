@@ -1,25 +1,11 @@
 #!/bin/bash
 
-set -e
+USAGE="Run a Django management command."
 
-if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
-    set -x
-fi
+source ./scripts/_sourced
+check_for_help_flag "$@"
 
-function usage() {
-    echo -n \
-        "Usage: $(basename "$0")
-Run a Django management command
-"
-}
-
-if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
-    if [ "${1:-}" = "--help" ]; then
-        usage
-    else
-        docker-compose \
-            run --rm --entrypoint python \
-            django \
-            manage.py "$@"
-    fi
-fi
+docker compose \
+    run --rm --entrypoint python \
+    django \
+    manage.py "$@"
