@@ -34,11 +34,13 @@ To deploy or manage deployment resources, on your host machine you will need to 
 $ aws configure --profile echo-locator
 ```
 
-To get setup (this runs bootstrap which will try to pull env variables from s3 and then update):
+For setup:
 
 ```
-$ ./scripts/setup
+$ AWS_PROFILE=<echo profile> ECHOLOCATOR_SETTINGS_BUCKET=echo-locator-devdjango-config-us-east-1 ./scripts/setup
 ```
+
+This runs bootstrap which will pull env variables from s3 for local development and then update. If there is already a local dotenv file this will skip pulling from s3.
 
 ### Running
 
