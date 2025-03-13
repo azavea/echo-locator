@@ -1,0 +1,31 @@
+# This is sourced by all the other scripts to give them all common
+# variables and functionality
+# The goal is to have this file be the only one that needs changing when
+# starting a new project.
+
+set -e
+
+export PROJECTNAME=echo-locator
+
+if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
+    set -x
+fi
+
+check_for_help_flag() {
+    if [[ "$*" == *"help"* ]]; then
+        echo -e "Usage: $(basename "$0") $USAGE_ARG_LIST \n"
+        echo -e "$USAGE"
+        exit
+    fi
+}
+
+if [[ -n "${GIT_COMMIT}" ]]; then
+    export GIT_COMMIT="${GIT_COMMIT:0:16}"
+else
+    export GIT_COMMIT="$(git rev-parse --short=16 HEAD)"
+fi
+
+# TODO #597:
+# Update STRTA to use set_environment method defined here 
+# and standardize as much as possible given current
+# deployed resources' naming conventions

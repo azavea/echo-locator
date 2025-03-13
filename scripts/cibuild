@@ -1,17 +1,9 @@
 #!/bin/bash
 
-set -e
+USAGE="Build application for staging or a release."
 
-if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
-    set -x
-fi
-
-function usage() {
-    echo -n \
-        "Usage: $(basename "$0")
-Build application for staging or a release.
-"
-}
+source ./scripts/_sourced
+check_for_help_flag "$@"
 
 if [[ -n "${GIT_COMMIT}" ]]; then
     GIT_COMMIT="${GIT_COMMIT:0:7}"
@@ -19,34 +11,23 @@ else
     GIT_COMMIT="$(git rev-parse --short HEAD)"
 fi
 
-if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
-    if [[ "${1:-}" == "--help" ]]; then
-        usage
-    else
-        echo "Running update script"
-        REACT_APP_GIT_COMMIT="${GIT_COMMIT}" \
-            ./scripts/update
-        
-        echo "Building app static bundle"
-        docker-compose \
-            -f docker-compose.yml \
-            run --rm app \
-            yarn run build
+echo "Running update script"
+REACT_APP_GIT_COMMIT="${GIT_COMMIT}" \
+    ./scripts/update
 
-        echo "Building Django"
-        # Build tagged container images
-        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
-            -f docker-compose.yml \
-            -f docker-compose.ci.yml \
-            build django
+echo "Building app static bundle"
+./scripts/yarn run build
 
-        echo "Bringing up PostgreSQL for Django tests"
-        docker-compose \
-            -f docker-compose.yml \
-            up -d database
+echo "Building Django"
+# Build tagged container images
+GIT_COMMIT="${GIT_COMMIT}" docker compose \
+    -f docker-compose.yml \
+    -f docker-compose.ci.yml \
+    build django
 
-        echo "Running tests"
-        GIT_COMMIT="${GIT_COMMIT}" \
-            ./scripts/test
-    fi
-fi
+echo "Bringing up PostgreSQL for Django tests"
+docker compose up -d database
+
+echo "Running tests"
+GIT_COMMIT="${GIT_COMMIT}" \
+    ./scripts/test

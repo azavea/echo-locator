@@ -1,0 +1,10 @@
+#!/bin/bash
+
+USAGE="Execute Yarn CLI commands."
+
+source ./scripts/_sourced
+check_for_help_flag "$@"
+
+docker compose \
+    run --rm --no-deps --entrypoint "bash -c" app \
+    "yarn ${*:1}"

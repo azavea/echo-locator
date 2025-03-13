@@ -1,34 +1,14 @@
 #!/bin/bash
 
-set -e
+USAGE="Run formatters."
 
-if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
-    set -x
-fi
+source ./scripts/_sourced
+check_for_help_flag "$@"
 
-function usage() {
-    echo -n \
-         "Usage: $(basename "$0")
+echo "Formatting Django application source code"
+# migrations and manage.py excluded through pyproject.toml
+docker compose \
+    run --rm --no-deps --entrypoint black django .
 
-Run formatters.
-"
-}
-
-if [ "${BASH_SOURCE[0]}" = "${0}" ]
-then
-    if [ "${1:-}" = "--help" ]
-    then
-        usage
-    else
-        echo "Formatting Django application source code"
-        # migrations and manage.py excluded through pyproject.toml
-        docker-compose \
-            run --rm --no-deps --entrypoint black django .
-        
-        echo "Formatting frontend app code"
-        docker-compose  \
-            -f docker-compose.yml \
-            run --rm app \
-            yarn run format
-    fi
-fi
+echo "Formatting frontend app code"
+./scripts/yarn run format
