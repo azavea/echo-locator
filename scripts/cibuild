@@ -5,12 +5,6 @@ USAGE="Build application for staging or a release."
 source ./scripts/_sourced
 check_for_help_flag "$@"
 
-if [[ -n "${GIT_COMMIT}" ]]; then
-    GIT_COMMIT="${GIT_COMMIT:0:7}"
-else
-    GIT_COMMIT="$(git rev-parse --short HEAD)"
-fi
-
 echo "Running update script"
 REACT_APP_GIT_COMMIT="${GIT_COMMIT}" \
     ./scripts/update
