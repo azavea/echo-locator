@@ -10,6 +10,7 @@ services:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - ECHOLOCATOR_DEBUG=1
+      - SAFE_DIR_FOR_CI=1
       - ECHOLOCATOR_SETTINGS_BUCKET=${ECHOLOCATOR_SETTINGS_BUCKET:-echo-locator-stgdjango-config-us-east-1}
       - ECHOLOCATOR_SITE_BUCKET=${ECHOLOCATOR_SITE_BUCKET:-echo-locator-staging-site-us-east-1}
     working_dir: /usr/local/src

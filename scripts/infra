@@ -6,13 +6,6 @@ USAGE="Execute Terraform subcommands with remote state management."
 source ./scripts/_sourced
 check_for_help_flag "$@"
 
-if [[ -n "${GIT_COMMIT}" ]]; then
-    GIT_COMMIT="${GIT_COMMIT:0:7}"
-else
-    git config --global --add safe.directory /usr/local/src
-    GIT_COMMIT="$(git rev-parse --short HEAD)"
-fi
-
 TERRAFORM_DIR="${DIR}/../deployment/terraform"
     echo
     echo "Attempting to deploy application version [${GIT_COMMIT}]..."

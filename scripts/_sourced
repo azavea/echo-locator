@@ -22,10 +22,8 @@ check_for_help_flag() {
 if [[ -n "${GIT_COMMIT}" ]]; then
     export GIT_COMMIT="${GIT_COMMIT:0:16}"
 else
+    if [[ -n "${SAFE_DIR_FOR_CI}" ]]; then
+        git config --global --add safe.directory /usr/local/src
+    fi
     export GIT_COMMIT="$(git rev-parse --short=16 HEAD)"
 fi
-
-# TODO #597:
-# Update STRTA to use set_environment method defined here 
-# and standardize as much as possible given current
-# deployed resources' naming conventions
