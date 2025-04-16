@@ -42,7 +42,7 @@ services:
     cpus: 2
 
   database:
-    image: postgis/postgis:13-3.1
+    image: postgis/postgis:17-3.5
     expose:
       - "5432"
     environment:
@@ -50,7 +50,7 @@ services:
       - POSTGRES_PASSWORD=echolocator
       - POSTGRES_DB=echolocator
     healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "echolocator" ]
+      test: ["CMD", "pg_isready", "-U", "echolocator"]
       interval: 3s
       timeout: 3s
       retries: 3
