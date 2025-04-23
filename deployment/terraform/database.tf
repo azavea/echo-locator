@@ -13,6 +13,7 @@ resource "aws_db_subnet_group" "default" {
 
 resource "aws_db_instance" "postgresql" {
   allocated_storage          = var.rds_allocated_storage
+  allow_major_version_upgrade = true
   engine_version             = var.rds_engine_version
   instance_class             = var.rds_instance_type
   storage_type               = var.rds_storage_type
