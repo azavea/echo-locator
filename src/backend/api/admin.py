@@ -3,7 +3,7 @@ from django.contrib.gis import admin
 from .models import Neighborhood
 
 
-class NeighborhoodAdmin(admin.OSMGeoAdmin, admin.ModelAdmin):
+class NeighborhoodAdmin(admin.GISModelAdmin, admin.ModelAdmin):
     fields = (
         "town",
         "town_area",

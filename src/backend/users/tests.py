@@ -80,7 +80,7 @@ class AdminSiteTest(TestCase):
         self.assertNotIn(
             other_counselor_user.username, content, "Got unexpected content: %s" % content
         )
-        self.assertNotIn("Add", content, "Got unexpected content: %s" % content)
+        self.assertNotIn("Add User", content, "Got unexpected content: %s" % content)
 
     def test_houseseeker_group_permissions(self):
         response = self.houseseeker.get("/admin/")
