@@ -5,4 +5,8 @@ resource "aws_acm_certificate" "cert" {
   lifecycle {
     create_before_destroy = true
   }
+
+  tags = {
+    Renewed = formatdate("YYYYMMDDhhmmss", timestamp()) # Add a timestamp to force a change
+  }
 }
