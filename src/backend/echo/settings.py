@@ -39,8 +39,13 @@ DEBUG = ENVIRONMENT == "Development"
 
 ALLOWED_HOSTS = []
 
+# Starting with Django 4.0, the check against
+# CSRF_TRUSTED_ORIGINS became stricter
+CSRF_TRUSTED_ORIGINS = []
+
 if "R53_PUBLIC_HOSTED_ZONE" in os.environ:
     ALLOWED_HOSTS.append(os.getenv("R53_PUBLIC_HOSTED_ZONE"))
+    CSRF_TRUSTED_ORIGINS.append(f"https://{os.getenv('R53_PUBLIC_HOSTED_ZONE')}")
 
 if ENVIRONMENT == "Development":
     ALLOWED_HOSTS.append("localhost")
@@ -217,3 +222,9 @@ if ENVIRONMENT in ["Production", "Staging"]:
     import rollbar
 
     rollbar.init(**ROLLBAR)
+
+# The cookie will be marked as “secure”
+# Browsers may ensure that the cookie is only sent
+# with an HTTPS connection.
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
