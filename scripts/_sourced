@@ -19,6 +19,19 @@ check_for_help_flag() {
     fi
 }
 
+set_environment() {
+	if [[ "$1" == "stg" ]]; then
+		export ENVIRONMENT=stg
+		export AWS_REGION=us-east-1
+	elif [[ "$1" == "prd" ]]; then
+		export ENVIRONMENT=prd
+		export AWS_REGION=us-east-1
+	else
+		echo "You need to specify an environment first (stg|prod). See _sourced/set_environment for details."
+		exit 1
+	fi
+}
+
 if [[ -n "${GIT_COMMIT}" ]]; then
     export GIT_COMMIT="${GIT_COMMIT:0:16}"
 else
