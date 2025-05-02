@@ -27,7 +27,7 @@ set_environment() {
 		export ENVIRONMENT=prd
 		export AWS_REGION=us-east-1
 	else
-		echo "You need to specify an environment first (stg|prod). See _sourced/set_environment for details."
+		echo "You need to specify an environment first (stg|prd). See _sourced/set_environment for details."
 		exit 1
 	fi
 }
