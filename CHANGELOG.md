@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Add frontend component library ADR [#614](https://github.com/azavea/echo-locator/pull/614)
+- Add `./scripts/ecs-shell <env>` script [#626](https://github.com/azavea/echo-locator/pull/626)
 
 ### Changed
 
