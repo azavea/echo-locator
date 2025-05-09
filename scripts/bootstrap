@@ -18,7 +18,7 @@ function pull_env() {
             cp .env.sample .env
             echo "Copied environment variables file from .env.sample to .env for local development."
             echo "Please populate the fields in this file manually."
-        elif aws s3 cp "s3://${ECHOLOCATOR_SETTINGS_BUCKET}/.env" ".env"; then
+        elif aws s3 cp "s3://${ECHOLOCATOR_SETTINGS_BUCKET}/dotenv" ".env"; then
             echo "Updated environment variables file from ${ECHOLOCATOR_SETTINGS_BUCKET}"
         fi
     fi
