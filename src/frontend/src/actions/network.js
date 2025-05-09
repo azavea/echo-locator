@@ -11,6 +11,7 @@ import coordinateToPoint, { pointToCoordinate } from "../utils/coordinate-to-poi
 import { parsePathsData, warnForInvalidPaths } from "../utils/parse-paths-data";
 import { parseTimesData } from "../utils/parse-times-data";
 import config from "../config.json";
+import { networks } from "../config"
 
 import { updateStartPosition } from "./location";
 import { addActionLogItem as logItem, logError } from "./log";
@@ -78,7 +79,7 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
       console.error("Error parsing localStorage configuration " + TAUI_CONFIG_KEY, e);
     }
 
-    dispatch(loadDataset(config.networks, config.grids, config.pointsOfInterestUrl, start));
+    dispatch(loadDataset(networks, config.grids, config.pointsOfInterestUrl, start));
   }
 };
 
