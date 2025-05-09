@@ -160,6 +160,7 @@ export default handleActions(
     },
   },
   {
+    // TODO: grids are irrelevant and can be scrapped once we move away from Taui
     grids: [
       {
         name: "home locations",
