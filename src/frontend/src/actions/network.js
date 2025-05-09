@@ -3,7 +3,7 @@ import lonlat from "@conveyal/lonlat";
 import fetch, { fetchMultiple } from "@conveyal/woonerf/fetch";
 import { isEmpty } from "lodash";
 
-import { retrieveConfig, storeConfig } from "../config";
+import { retrieveConfig, storeConfig, networks } from "../config";
 import { ACCESSIBILITY_IS_LOADING, ACCESSIBILITY_IS_EMPTY, TAUI_CONFIG_KEY } from "../constants";
 import type { LonLat } from "../types";
 import cacheURL from "../utils/cache-url";
@@ -11,7 +11,6 @@ import coordinateToPoint, { pointToCoordinate } from "../utils/coordinate-to-poi
 import { parsePathsData, warnForInvalidPaths } from "../utils/parse-paths-data";
 import { parseTimesData } from "../utils/parse-times-data";
 import config from "../config.json";
-import { networks } from "../config"
 
 import { updateStartPosition } from "./location";
 import { addActionLogItem as logItem, logError } from "./log";

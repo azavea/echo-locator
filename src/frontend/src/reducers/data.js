@@ -1,4 +1,5 @@
 // @flow
+
 import { handleActions } from "redux-actions";
 import { networks } from "../config";
 
@@ -160,6 +161,7 @@ export default handleActions(
     },
   },
   {
+    // TODO: grids are irrelevant and can be scrapped once we move away from Taui
     grids: [
       {
         name: "home locations",
