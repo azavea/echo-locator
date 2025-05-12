@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Upgrade Postgres from version 13 to version 17 [#616](https://github.com/azavea/echo-locator/pull/616)
 - Upgrade Django from version 3.2 to 5.2 [#616](https://github.com/azavea/echo-locator/pull/616) [#622](https://github.com/azavea/echo-locator/pull/622)
 - Update SSL cert resource creation with validation [#623](https://github.com/azavea/echo-locator/pull/623)
+- Parameterize and update URLs to analysis files [#627](https://github.com/azavea/echo-locator/pull/627)
 
 ### Fixed
 
