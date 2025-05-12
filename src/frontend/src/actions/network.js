@@ -3,7 +3,7 @@ import lonlat from "@conveyal/lonlat";
 import fetch, { fetchMultiple } from "@conveyal/woonerf/fetch";
 import { isEmpty } from "lodash";
 
-import { retrieveConfig, storeConfig } from "../config";
+import { retrieveConfig, storeConfig, networks } from "../config";
 import { ACCESSIBILITY_IS_LOADING, ACCESSIBILITY_IS_EMPTY, TAUI_CONFIG_KEY } from "../constants";
 import type { LonLat } from "../types";
 import cacheURL from "../utils/cache-url";
@@ -78,7 +78,7 @@ export const initialize = (startCoordinate?: LonLat) => (dispatch, getState) => 
       console.error("Error parsing localStorage configuration " + TAUI_CONFIG_KEY, e);
     }
 
-    dispatch(loadDataset(config.networks, config.grids, config.pointsOfInterestUrl, start));
+    dispatch(loadDataset(networks, config.grids, config.pointsOfInterestUrl, start));
   }
 };
 

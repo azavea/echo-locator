@@ -1,5 +1,7 @@
 // @flow
+
 import { handleActions } from "redux-actions";
+import { networks } from "../config";
 
 export default handleActions(
   {
@@ -159,6 +161,7 @@ export default handleActions(
     },
   },
   {
+    // TODO: grids are irrelevant and can be scrapped once we move away from Taui
     grids: [
       {
         name: "home locations",
@@ -167,28 +170,7 @@ export default handleActions(
         showOnMap: true,
       },
     ],
-    networks: [
-      {
-        name: "Peak",
-        url: "https://d2z7d5345ccuw9.cloudfront.net/5c9bdffa37ed813dbe27f8f1",
-        commuter: true,
-      },
-      {
-        name: "Off Peak",
-        url: "https://d2z7d5345ccuw9.cloudfront.net/5c9be04737ed813dbe27f8f3",
-        commuter: true,
-      },
-      {
-        name: "Peak No Express",
-        url: "https://d2z7d5345ccuw9.cloudfront.net/5cb8ebc037ed813dbe29182e",
-        commuter: false,
-      },
-      {
-        name: "Off Peak No Express",
-        url: "https://d2z7d5345ccuw9.cloudfront.net/5cb8ebe437ed813dbe291830",
-        commuter: false,
-      },
-    ],
+    networks,
     neighborhoods: {},
     neighborhoodBounds: {},
     page: 0,
