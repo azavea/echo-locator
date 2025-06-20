@@ -1,17 +1,17 @@
 services:
   app:
-    image: echolocator-app
-    env_file: .env
-    build:
-      context: ./src/frontend
-      dockerfile: Dockerfile
+    image: node:24-slim
+    stdin_open: true
+    working_dir: /usr/local/src
+    environment:
+      - VITE_APP_GIT_COMMIT=${VITE_APP_GIT_COMMIT:-latest}
     volumes:
       - ./src/frontend:/usr/local/src
       - $HOME/.aws:/root/.aws:ro
-    working_dir: /usr/local/src
+      - node-modules-volume:/usr/local/src/node_modules
     ports:
       - "9966:9966"
-    command: yarn run start
+    command: yarn dev
 
   django:
     image: echolocator
@@ -31,7 +31,9 @@ services:
       dockerfile: ./src/backend/Dockerfile
     volumes:
       - ./src/backend:/usr/local/src/backend
-      - ./src/frontend/build:/usr/local/src/backend/static/
+      # Mount Vite dist to a new, distinct directory
+      # This directory must match the path in STATICFILES_DIRS in settings.py
+      - ./src/frontend/dist:/usr/local/src/backend/vite_dist_output
       - $HOME/.aws:/root/.aws:ro
     working_dir: /usr/local/src/backend
     depends_on:
@@ -56,3 +58,6 @@ services:
       retries: 3
       start_period: 5s
     command: postgres -c log_statement=all
+
+volumes:
+  node-modules-volume:

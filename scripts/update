@@ -11,7 +11,7 @@ function cleanup() {
 
 trap cleanup ERR
 
-# Build app container image first
+# Build app container image
 docker compose build app
 
 # Install frontend NPM modules
