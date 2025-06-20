@@ -2,6 +2,8 @@ FROM python:3.13-slim-bookworm
 
 # Set DEBIAN_FRONTEND to noninteractive to avoid prompts during build
 ENV DEBIAN_FRONTEND=noninteractive
+# Ensures Python output is unbuffered
+ENV PYTHONUNBUFFERED 1
 
 RUN mkdir -p /usr/local/src/backend
 WORKDIR /usr/local/src/backend
@@ -51,7 +53,7 @@ RUN set -ex \
 # Optional: Verify psql version during build to confirm success
 RUN psql --version
 
-ENTRYPOINT ["/usr/local/bin/gunicorn"]
-
+# Copy Django project source code
 COPY ./src/backend /usr/local/src/backend
-COPY ./src/frontend/build /usr/local/src/backend/static
+
+ENTRYPOINT ["/usr/local/bin/gunicorn"]

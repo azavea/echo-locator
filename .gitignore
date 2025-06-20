@@ -78,6 +78,7 @@ __pycache__/
 *.py[cod]
 
 src/backend/static
+src/backend/assets
 src/frontend/build
 src/frontend/node_modules
 src/frontend/public/neighborhoods

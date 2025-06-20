@@ -6,14 +6,12 @@ source ./scripts/_sourced
 check_for_help_flag "$@"
 
 echo "Running update script"
-REACT_APP_GIT_COMMIT="${GIT_COMMIT}" \
+VITE_APP_GIT_COMMIT="${GIT_COMMIT}" \
     ./scripts/update
 
-echo "Building app static bundle"
-./scripts/yarn run build
-
 echo "Building Django"
-# Build tagged container images
+# Build tagged Django container image
+# This will rebuild the 'django' image, which now contains the static files.
 GIT_COMMIT="${GIT_COMMIT}" docker compose \
     -f docker-compose.yml \
     -f docker-compose.ci.yml \
