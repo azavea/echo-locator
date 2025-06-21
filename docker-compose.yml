@@ -8,7 +8,6 @@ services:
     volumes:
       - ./src/frontend:/usr/local/src
       - $HOME/.aws:/root/.aws:ro
-      - node-modules-volume:/usr/local/src/node_modules
     ports:
       - "9966:9966"
     command: yarn dev
@@ -58,6 +57,3 @@ services:
       retries: 3
       start_period: 5s
     command: postgres -c log_statement=all
-
-volumes:
-  node-modules-volume:
