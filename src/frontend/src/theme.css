@@ -1,0 +1,99 @@
+@theme {
+    /*
+   * =================================================================
+   * Design tokens from Figma
+   * =================================================================
+   *
+   * Tailwind v4 will automatically make these available as utilities.
+   * e.g., --color-primary becomes `bg-primary`, `text-primary`, etc.
+   *
+   */
+
+    /* Gray Scale */
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    --color-gray-950: #030712;
+
+    /* Teal Scale */
+    --color-teal-50: #ebfcfc;
+    --color-teal-100: #e6f2f2;
+    --color-teal-200: #dae9eb;
+    --color-teal-300: #bfdde0;
+    --color-teal-400: #8eccd4;
+    --color-teal-500: #02b3cc;
+    --color-teal-600: #0597b5;
+    --color-teal-700: #0c7892;
+    --color-teal-800: #136177;
+    --color-teal-900: #155064;
+    --color-teal-950: #073445;
+
+    /* Muted Blue Scale */
+    --color-muted-blue-50: #f3f7fc;
+    --color-muted-blue-100: #e6eff8;
+    --color-muted-blue-200: #c7ddf0;
+    --color-muted-blue-300: #96c1e3;
+    --color-muted-blue-400: #5ea1d2;
+    --color-muted-blue-500: #3a85bd;
+    --color-muted-blue-600: #296aa0;
+    --color-muted-blue-700: #235581;
+    --color-muted-blue-800: #20486c;
+    --color-muted-blue-900: #1c3750;
+    --color-muted-blue-950: #15283c;
+
+    /* Orange Scale */
+    --color-orange-50: #fff7ed;
+    --color-orange-100: #ffedd5;
+    --color-orange-200: #fed6aa;
+    --color-orange-300: #fdb974;
+    --color-orange-400: #fb903c;
+    --color-orange-500: #f97116;
+    --color-orange-600: #ea560c;
+    --color-orange-700: #d3450d;
+    --color-orange-800: #9a3312;
+    --color-orange-900: #7c2c12;
+    --color-orange-950: #431307;
+
+    /* Spacing Scale (for padding, margin, width, height, gap, etc.) */
+    --spacing-1: 0.125rem; /* 2px */
+    --spacing-2: 0.25rem; /* 4px */
+    --spacing-3: 0.5rem; /* 8px */
+    --spacing-4: 0.75rem; /* 12px */
+    --spacing-5: 1rem; /* 16px */
+    --spacing-6: 1.5rem; /* 24px */
+    --spacing-7: 2rem; /* 32px */
+    --spacing-8: 2.5rem; /* 40px */
+    --spacing-9: 3rem; /* 48px */
+    --spacing-10: 3.5rem; /* 56px */
+    --spacing-11: 4rem; /* 64px */
+    --spacing-12: 4.5rem; /* 72px */
+    --spacing-13: 5rem; /* 80px */
+
+    --color-background: #ffffff;
+    --color-foreground: #000;
+
+    /* Typography */
+    --font-sans: "Mulish", sans-serif;
+    --font-serif: "Source Serif Pro", serif;
+
+    /* Font Sizes */
+    --font-size-xs: 0.75rem; /* 12px */
+    --font-size-sm: 0.875rem; /* 14px */
+    --font-size-rg: 1.0625rem; /* 17px */
+    --font-size-md: 1.2rem; /* 19.2px */
+    --font-size-lg: 1.44rem; /* 23.04px */
+    --font-size-xl: 1.728rem; /* 27.65px */
+    --font-size-2xl: 2rem; /* 32px */
+    --font-size-3xl: 2.488rem; /* 39.81px */
+
+    /* Font Weights */
+    --font-weight-normal: 400;
+    --font-weight-bold: 700;
+}
