@@ -1,0 +1,20 @@
+{
+  // 1. Set Tailwind CSS as the language mode for CSS files
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+
+  // 2. Configure Prettier as the default formatter for all relevant files
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+
+  // 3. Enable ESLint to auto-fix issues on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // 4. Silence the default VS Code CSS validator
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false
+}

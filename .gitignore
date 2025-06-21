@@ -82,3 +82,6 @@ src/backend/assets
 src/frontend/build
 src/frontend/node_modules
 src/frontend/public/neighborhoods
+
+.vscode/*
+!.vscode/settings.json
