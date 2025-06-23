@@ -199,11 +199,11 @@ STATIC_URL = "static/"
 
 # This is where collectstatic will gather ALL static files.
 # It MUST be a fresh, empty directory that collectstatic will populate.
-STATIC_ROOT = os.path.join(BASE_DIR, "collected_static_files")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # This tells collectstatic where to find project-specific static files.
 # In this case, this is only the Vite build output.
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "vite_dist_output")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
 
 # Set the django-spa static file storage:
 STORAGES = {

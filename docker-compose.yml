@@ -33,7 +33,7 @@ services:
       - ./src/backend:/usr/local/src/backend
       # Mount Vite dist to a new, distinct directory
       # This directory must match the path in STATICFILES_DIRS in settings.py
-      - ./src/frontend/dist:/usr/local/src/backend/vite_dist_output
+      - ./src/frontend/dist:/usr/local/src/backend/assets
       - $HOME/.aws:/root/.aws:ro
     working_dir: /usr/local/src/backend
     depends_on:
