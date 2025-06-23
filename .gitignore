@@ -77,8 +77,8 @@ typings/
 __pycache__/
 *.py[cod]
 
-src/backend/collected_static_files
-src/backend/vite_dist_output
+src/backend/static
+src/backend/assets
 src/frontend/build
 src/frontend/node_modules
 src/frontend/public/neighborhoods
