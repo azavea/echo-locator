@@ -4,8 +4,6 @@ FROM python:3.13-slim-bookworm
 ENV DEBIAN_FRONTEND=noninteractive
 # Ensures Python output is unbuffered
 ENV PYTHONUNBUFFERED 1
-ENV DJANGO_SETTINGS_MODULE echo.settings
-
 
 RUN mkdir -p /usr/local/src/backend
 WORKDIR /usr/local/src/backend
@@ -57,8 +55,5 @@ RUN psql --version
 
 # Copy Django project source code
 COPY ./src/backend /usr/local/src/backend
-
-# Expose the port Gunicorn server will listen on
-EXPOSE 8085
 
 ENTRYPOINT ["/usr/local/bin/gunicorn"]
