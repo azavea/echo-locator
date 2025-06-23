@@ -11,9 +11,6 @@ function cleanup() {
 
 trap cleanup ERR
 
-# Build app container image first
-docker compose build app
-
 # Install frontend NPM modules
 ./scripts/yarn install
 
@@ -22,7 +19,7 @@ docker compose build app
 ./scripts/yarn run build
 
 # Build django and db container images
-docker compose build database django
+docker compose build
 
 # Bring up PostgreSQL and Django in a way that respects
 # configured service health checks.

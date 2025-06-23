@@ -196,10 +196,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
+
+# This is where collectstatic will gather ALL static files.
+# It MUST be a fresh, empty directory that collectstatic will populate.
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+# This tells collectstatic where to find project-specific static files.
+# In this case, this is only the Vite build output.
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
+
 # Set the django-spa static file storage:
-STATICFILES_STORAGE = "spa.storage.SPAStaticFilesStorage"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "spa.storage.SPAStaticFilesStorage",
+    }
+}
 
 # Bucket for storing neighborhood photo image files
 AWS_S3_PHOTO_BUCKET = os.getenv("AWS_S3_PHOTO_BUCKET", None)
