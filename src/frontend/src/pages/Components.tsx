@@ -1,7 +1,13 @@
 import Button from "components/Button/Button";
-import StarIcon from "assets/icons/star.svg?react";
+import {
+    Places,
+    UserProfileSubheader,
+    UserProfileSubheaderMobile,
+} from "components/UserProfileSubheader/UserProfileSubheader";
+
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
+import StarIcon from "assets/icons/star.svg?react";
 
 const Components = () => {
     return (
@@ -29,29 +35,49 @@ const Components = () => {
                                 Small
                             </h3>
                             <div className="flex flex-column flex-wrap items-center gap-4">
-                                <Button variant="primary" size="small">
-                                    Primary
-                                </Button>
-                                <Button variant="secondary" size="small">
-                                    Secondary
-                                </Button>
-                                <Button variant="outline" size="small">
-                                    Outline
-                                </Button>
-                                <Button variant="outline" size="small">
-                                    <ArrowLeftIcon className="font-normal h-[14px] w-[14px] text-black" />
-                                </Button>
-                                <Button isDisabled size="small">
-                                    Disabled
-                                </Button>
-                                <Button variant="outline" size="small">
-                                    Next
-                                    <ArrowRightIcon className="font-normal h-[14px] w-[14px] text-black" />
-                                </Button>
-                                <Button variant="orange" size="small">
-                                    <StarIcon className="font-normal h-[14px] w-[14px]" />
-                                    Add to favorites
-                                </Button>
+                                <Button
+                                    variant="primary"
+                                    size="small"
+                                    label="Primary"
+                                />
+                                <Button
+                                    variant="secondary"
+                                    size="small"
+                                    label="Secondary"
+                                />
+                                <Button
+                                    variant="outline"
+                                    size="small"
+                                    label="Outline"
+                                />
+                                <Button
+                                    variant="outline"
+                                    size="small"
+                                    leftIcon={
+                                        <ArrowLeftIcon className="font-normal h-[14px] w-[14px] text-black" />
+                                    }
+                                />
+                                <Button
+                                    isDisabled
+                                    size="small"
+                                    label="Disabled"
+                                />
+                                <Button
+                                    variant="outline"
+                                    size="small"
+                                    label="Next"
+                                    rightIcon={
+                                        <ArrowRightIcon className="font-normal h-[14px] w-[14px] text-black" />
+                                    }
+                                />
+                                <Button
+                                    variant="orange"
+                                    size="small"
+                                    label="Add to favorites"
+                                    leftIcon={
+                                        <StarIcon className="font-normal h-[14px] w-[14px]" />
+                                    }
+                                />
                             </div>
                         </div>
                         <div>
@@ -59,21 +85,30 @@ const Components = () => {
                                 Medium
                             </h3>
                             <div className="flex flex-column flex-wrap items-center gap-4">
-                                <Button variant="primary">Primary</Button>
-                                <Button variant="secondary">Secondary</Button>
-                                <Button variant="outline">Outline</Button>
-                                <Button variant="outline">
-                                    <ArrowLeftIcon className="font-normal h-[14px] w-[14px] text-black" />
-                                </Button>
-                                <Button isDisabled>Disabled</Button>
-                                <Button variant="outline">
-                                    Next
-                                    <ArrowRightIcon className="font-normal h-[14px] w-[14px] text-black" />
-                                </Button>
-                                <Button variant="orange">
-                                    <StarIcon className="font-normal h-[14px] w-[14px]" />
-                                    Add to favorites
-                                </Button>
+                                <Button variant="primary" label="Primary" />
+                                <Button variant="secondary" label="Secondary" />
+                                <Button variant="outline" label="Outline" />
+                                <Button
+                                    variant="outline"
+                                    leftIcon={
+                                        <ArrowLeftIcon className="font-normal h-[14px] w-[14px] text-black" />
+                                    }
+                                />
+                                <Button isDisabled label="Disabled" />
+                                <Button
+                                    variant="outline"
+                                    label="Next"
+                                    rightIcon={
+                                        <ArrowRightIcon className="font-normal h-[14px] w-[14px] text-black" />
+                                    }
+                                />
+                                <Button
+                                    variant="orange"
+                                    label="Add to favorites"
+                                    leftIcon={
+                                        <StarIcon className="font-normal h-[14px] w-[14px]" />
+                                    }
+                                />
                             </div>
                         </div>
                         <div>
@@ -81,30 +116,107 @@ const Components = () => {
                                 Large
                             </h3>
                             <div className="flex flex-column flex-wrap items-center gap-4">
-                                <Button variant="primary" size="large">
-                                    Primary
-                                </Button>
-                                <Button variant="secondary" size="large">
-                                    Secondary
-                                </Button>
-                                <Button variant="outline" size="large">
-                                    Outline
-                                </Button>
-                                <Button variant="outline" size="large">
-                                    <ArrowLeftIcon className="font-normal h-[17px] w-[17px] text-black" />
-                                </Button>
-                                <Button size="large" isDisabled>
-                                    Disabled
-                                </Button>
-                                <Button variant="outline" size="large">
-                                    Next
-                                    <ArrowRightIcon className="font-normal h-[17px] w-[17px] text-black" />
-                                </Button>
-                                <Button variant="orange" size="large">
-                                    <StarIcon className="font-normal h-[17px] w-[17px]" />
-                                    Add to favorites
-                                </Button>
+                                <Button
+                                    variant="primary"
+                                    size="large"
+                                    label="Primary"
+                                />
+                                <Button
+                                    variant="secondary"
+                                    size="large"
+                                    label="Secondary"
+                                />
+                                <Button
+                                    variant="outline"
+                                    size="large"
+                                    label="Outline"
+                                />
+                                <Button
+                                    variant="outline"
+                                    size="large"
+                                    leftIcon={
+                                        <ArrowLeftIcon className="font-normal h-[14px] w-[14px] text-black" />
+                                    }
+                                />
+                                <Button
+                                    isDisabled
+                                    size="large"
+                                    label="Disabled"
+                                />
+                                <Button
+                                    variant="outline"
+                                    size="large"
+                                    label="Next"
+                                    rightIcon={
+                                        <ArrowRightIcon className="font-normal h-[14px] w-[14px] text-black" />
+                                    }
+                                />
+                                <Button
+                                    variant="orange"
+                                    size="large"
+                                    label="Add to favorites"
+                                    leftIcon={
+                                        <StarIcon className="font-normal h-[14px] w-[14px]" />
+                                    }
+                                />
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Section for User profile sub header */}
+                <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+                    <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
+                        User profile subheader
+                    </h2>
+                    <div className="space-y-8">
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xl text-gray-800 mb-2">
+                                Small
+                            </h3>
+                            <UserProfileSubheaderMobile
+                                size="small"
+                                mode="transit"
+                                place={Places.Work}
+                                display="map"
+                            />
+                            <UserProfileSubheader
+                                size="small"
+                                mode="transit"
+                                place={Places.Work}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xl text-gray-800 mb-2">
+                                Medium
+                            </h3>
+                            <UserProfileSubheaderMobile
+                                size="medium"
+                                mode="car"
+                                place={Places.Daycare}
+                                display="list"
+                            />
+                            <UserProfileSubheader
+                                size="medium"
+                                mode="car"
+                                place={Places.Daycare}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xl text-gray-800 mb-2">
+                                Large
+                            </h3>
+                            <UserProfileSubheaderMobile
+                                size="large"
+                                mode="car"
+                                place={Places.Doctor}
+                                display="map"
+                            />
+                            <UserProfileSubheader
+                                size="large"
+                                mode="transit"
+                                place={Places.Doctor}
+                            />
                         </div>
                     </div>
                 </section>
