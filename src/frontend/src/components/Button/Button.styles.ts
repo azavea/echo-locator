@@ -7,7 +7,7 @@ const buttonStyles = tv({
         "font-bold text-button leading-normal",
         "cursor-pointer",
         // Focus, disabled, and pressed states from react-aria-components plugin
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-muted-blue-400 focus-visible:ring-offset-2",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-muted-blue-600 focus-visible:ring-offset-2",
         "disabled:opacity-50 disabled:cursor-not-allowed",
         "pressed:scale-[0.98]",
     ],
