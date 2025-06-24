@@ -12,5 +12,5 @@ requests==2.26.0
 django-sesame[ua]==3.2.2
 Pillow==11.1.0
 rollbar==0.16.2
-gunicorn==22.0.0
+gunicorn==23.0.0
 psycopg2==2.9.10
