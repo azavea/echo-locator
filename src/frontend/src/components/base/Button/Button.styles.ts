@@ -1,5 +1,11 @@
 import { tv } from "tailwind-variants";
 
+export const buttonSizes = {
+    small: "h-[34px] px-4 py-2 text-sm gap-2",
+    medium: "h-8 px-4 py-2 text-sm",
+    large: "h-9 px-5 py-2 text-[17px]", // this should be text-rg, but somehow the text color will be all black
+};
+
 const buttonStyles = tv({
     base: [
         // Base styles
@@ -20,9 +26,7 @@ const buttonStyles = tv({
             orange: "bg-orange-200 text-orange-800 hover:bg-orange-300",
         },
         size: {
-            small: "h-[34px] px-4 py-2 text-sm gap-2",
-            medium: "h-8 px-4 py-2 text-sm",
-            large: "h-9 px-5 py-2 text-[17px]", // this should be text-rg, but somehow the text color will be all black
+            ...buttonSizes,
             icon: "h-[30px] w-[30px] text-[15px]",
         },
     },

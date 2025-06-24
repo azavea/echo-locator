@@ -1,9 +1,10 @@
-import Button from "components/Button/Button";
+import Button from "components/base/Button/Button";
 import {
     Places,
     UserProfileSubheader,
     UserProfileSubheaderMobile,
-} from "components/UserProfileSubheader/UserProfileSubheader";
+} from "components/UserProfileSubheader";
+import CompareFavoritesButton from "components/CompareFavoritesButton";
 
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
@@ -75,7 +76,7 @@ const Components = () => {
                                     size="small"
                                     label="Add to favorites"
                                     leftIcon={
-                                        <StarIcon className="font-normal h-[14px] w-[14px]" />
+                                        <StarIcon className="font-normal h-[14px] w-[14px] fill fill-orange-800" />
                                     }
                                 />
                             </div>
@@ -106,7 +107,7 @@ const Components = () => {
                                     variant="orange"
                                     label="Add to favorites"
                                     leftIcon={
-                                        <StarIcon className="font-normal h-[14px] w-[14px]" />
+                                        <StarIcon className="font-normal h-[14px] w-[14px] fill fill-orange-800" />
                                     }
                                 />
                             </div>
@@ -156,9 +157,42 @@ const Components = () => {
                                     size="large"
                                     label="Add to favorites"
                                     leftIcon={
-                                        <StarIcon className="font-normal h-[14px] w-[14px]" />
+                                        <StarIcon className="font-normal h-[17px] w-[17px] fill fill-orange-800" />
                                     }
                                 />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Section for Button Group */}
+                <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+                    <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
+                        Button group
+                    </h2>
+                    <div className="space-y-8">
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xl text-gray-800 mb-2">
+                                Small
+                            </h3>
+                            <div>
+                                <CompareFavoritesButton size="small" />
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xl text-gray-800 mb-2">
+                                Medium
+                            </h3>
+                            <div>
+                                <CompareFavoritesButton />
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xl text-gray-800 mb-2">
+                                Large
+                            </h3>
+                            <div>
+                                <CompareFavoritesButton size="large" />
                             </div>
                         </div>
                     </div>

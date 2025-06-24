@@ -1,10 +1,10 @@
 import type { Key } from "react-aria-components";
 
-import Button from "components/Button/Button";
+import Button from "components/base/Button/Button";
 import {
     ToggleButton,
     ToggleButtonGroup,
-} from "components/ToggleButton/ToggleButton";
+} from "components/base/ToggleButton/ToggleButton";
 
 import FamilyIcon from "assets/icons/family.svg?react";
 import TransitIcon from "assets/icons/transit.svg?react";
@@ -61,6 +61,7 @@ export const UserProfileSubheaderMobile = ({
         }
         setDisplayOption(keys);
     };
+
     return (
         <div className="flex flex-column items-center gap-3">
             <Button
@@ -76,7 +77,7 @@ export const UserProfileSubheaderMobile = ({
                 leftIcon={
                     <div className="flex items-center gap-4">
                         {getModeIcon(mode)}
-                        <ArrowFullRightIcon className="font-normal text-gray-500" />
+                        <ArrowFullRightIcon className="font-normal fill-gray-500 w-[14px]" />
                     </div>
                 }
             />
