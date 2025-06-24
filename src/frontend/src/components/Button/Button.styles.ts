@@ -4,7 +4,7 @@ const buttonStyles = tv({
     base: [
         // Base styles
         "inline-flex items-center justify-center whitespace-nowrap rounded-[var(--spacing-4)] gap-2.5 transition-colors",
-        "font-bold text-button leading-normal",
+        "font-bold text-button leading-normal capitalize",
         "cursor-pointer",
         // Focus, disabled, and pressed states from react-aria-components plugin
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-muted-blue-600 focus-visible:ring-offset-2",

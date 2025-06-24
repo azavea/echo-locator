@@ -9,22 +9,46 @@ import buttonStyles from "./Button.styles";
 
 export interface ButtonProps
     extends AriaButtonProps,
-        VariantProps<typeof buttonStyles> {}
+        VariantProps<typeof buttonStyles> {
+    label?: string;
+    leftIcon?: React.ReactNode;
+    rightIcon?: React.ReactNode;
+    info?: string;
+}
 
-const Button = ({ className, variant, size, ...props }: ButtonProps) => {
+const Button = ({
+    className,
+    variant,
+    size,
+    label,
+    leftIcon,
+    rightIcon,
+    info,
+    ...props
+}: ButtonProps) => {
     return (
         <AriaButton
             {...props}
-            // composeRenderProps is a utility from React Aria Components
-            // merging a user's className with component-specific classes.
-            // This correctly handles all types and states.
-            className={composeRenderProps(className, () =>
+            className={composeRenderProps(className, (className, renderProps) =>
                 buttonStyles({
+                    ...renderProps,
                     variant,
                     size,
+                    className,
                 })
             )}
-        />
+        >
+            {leftIcon}
+            {label && <span>{label}</span>}
+            {rightIcon}
+            {info && (
+                <div className="flex flex-1 justify-end">
+                    <span className="text-sm font-normal text-gray-600">
+                        {info}
+                    </span>
+                </div>
+            )}
+        </AriaButton>
     );
 };
 
