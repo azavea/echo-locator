@@ -10,10 +10,10 @@ export const groupedButtonStyles = tv({
         "flex h-full items-center gap-4 px-4 py-2 transition-colors",
         "font-bold text-button leading-normal capitalize",
         "cursor-pointer",
-        "focus-visible:outline-none focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-1",
+        "focus-visible:outline-none focus-visible:z-10 focus-visible:bg-orange-300",
         "pressed:scale-[0.98]",
         // Add a vertical separator
-        "not-first:border-l",
+        "not-first:border-l not-first:-ml-1",
     ],
     variants: {
         variant: {

@@ -10,21 +10,21 @@ interface Props {
     size?: "small" | "medium" | "large";
 }
 const CompareFavoritesButton = ({ size = "medium" }: Props) => {
-    const iconClassName =
-        size === "large"
-            ? "h-[17px] w-[17px] fill fill-orange-800"
-            : "h-[14px] w-[14px] fill fill-orange-800";
     return (
         <ButtonGroup>
             <GroupedButton
-                aria-label="Add to favorites"
+                aria-label="Remove from favorites"
                 size={size}
-                leftIcon={<StarSolidIcon className={iconClassName} />}
+                leftIcon={
+                    <StarSolidIcon className="w-[18px] fill fill-orange-800" />
+                }
             />
             <GroupedButton
                 size={size}
                 label="Compare favorites"
-                rightIcon={<ArrowFullRightIcon className={iconClassName} />}
+                rightIcon={
+                    <ArrowFullRightIcon className="w-[13px] fill fill-orange-900/60" />
+                }
             />
         </ButtonGroup>
     );
