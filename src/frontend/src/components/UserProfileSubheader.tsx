@@ -24,9 +24,10 @@ export const Places = {
 type PlaceKeys = (typeof Places)[keyof typeof Places];
 
 type Mode = "transit" | "car";
+type Size = "small" | "medium" | "large";
 
 interface Props {
-    size?: "small" | "medium" | "large";
+    size?: Size;
     mode: Mode;
     place: PlaceKeys;
 }
@@ -35,12 +36,17 @@ interface MobileProps extends Props {
     display: "map" | "list";
 }
 
-const getModeIcon = (mode: Mode) =>
+const getModeIcon = (mode: Mode, size: Size) =>
     mode === "transit" ? (
-        <TransitIcon className="font-normal text-gray-500" />
+        <TransitIcon className={getIconStyle(size)} />
     ) : (
-        <CarIcon className="font-normal text-gray-500" />
+        <CarIcon className={getIconStyle(size)} />
     );
+
+const getIconStyle = (size: Size) =>
+    size === "small"
+        ? "font-normal text-gray-500 w-[13px]"
+        : "font-normal text-gray-500 w-[17px]";
 
 export const UserProfileSubheaderMobile = ({
     mode,
@@ -68,16 +74,16 @@ export const UserProfileSubheaderMobile = ({
                 variant="outline"
                 size={size}
                 label="You"
-                leftIcon={<FamilyIcon className="font-normal text-gray-500" />}
+                leftIcon={<FamilyIcon className={getIconStyle(size)} />}
             />
             <Button
                 variant="outline"
                 size={size}
                 label={place}
                 leftIcon={
-                    <div className="flex items-center gap-4">
-                        {getModeIcon(mode)}
-                        <ArrowFullRightIcon className="font-normal fill-gray-500 w-[14px]" />
+                    <div className="flex items-center gap-3">
+                        {getModeIcon(mode, size)}
+                        <ArrowFullRightIcon className="font-normal fill-gray-400 w-[10px] -ml-1" />
                     </div>
                 }
             />
@@ -108,14 +114,14 @@ export const UserProfileSubheader = ({
                 variant="outline"
                 size={size}
                 label="Your Profile"
-                leftIcon={<FamilyIcon className="font-normal text-gray-500" />}
+                leftIcon={<FamilyIcon className={getIconStyle(size)} />}
                 info="2br・public transit"
             />
             <Button
                 variant="outline"
                 size={size}
                 label={place}
-                leftIcon={getModeIcon(mode)}
+                leftIcon={getModeIcon(mode, size)}
                 info="122 Address St, Cambridge"
             />
         </div>
