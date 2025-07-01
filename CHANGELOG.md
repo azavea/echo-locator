@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Bootstrap new frontend and remove old frontend [#666](https://github.com/azavea/echo-locator/pull/666)
 - Add Tailwind CSS theme [#667](https://github.com/azavea/echo-locator/pull/667)
 - Add a styled Button component [#667](https://github.com/azavea/echo-locator/pull/667)
+- Add a styled Button Group component [#668](https://github.com/azavea/echo-locator/pull/668)
+- Add user profile subheader components [#668](https://github.com/azavea/echo-locator/pull/668)
 
 ### Changed
 
