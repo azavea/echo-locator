@@ -27,12 +27,13 @@ const SelectLanguageButtons = ({ language }: Props) => {
 
     return (
         <RadioButtonGroup
+            aria-label="Select a language"
             value={selectedLanguage}
             onChange={setSelectedLanguage}
         >
-            <RadioButton value={Languages.EN} label="English" />
-            <RadioButton value={Languages.ES} label="Español" />
-            <RadioButton value={Languages.ZH} label="中文" />
+            <RadioButton value={Languages.EN}>English</RadioButton>
+            <RadioButton value={Languages.ES}>Español</RadioButton>
+            <RadioButton value={Languages.ZH}>中文</RadioButton>
         </RadioButtonGroup>
     );
 };

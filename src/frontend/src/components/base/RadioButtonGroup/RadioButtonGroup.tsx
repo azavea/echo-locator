@@ -5,18 +5,11 @@ import {
     type RadioProps as AriaRadioProps,
     composeRenderProps,
 } from "react-aria-components";
-import { type VariantProps } from "tailwind-variants";
 
 import {
     radioButtonGroupStyles,
     radioButtonStyles,
 } from "./RadioButtonGroup.styles";
-
-export interface RadioButtonProps
-    extends AriaRadioProps,
-        VariantProps<typeof radioButtonStyles> {
-    label?: string;
-}
 
 export const RadioButtonGroup = (props: AriaRadioGroupProps) => (
     <AriaRadioGroup
@@ -29,20 +22,14 @@ export const RadioButtonGroup = (props: AriaRadioGroupProps) => (
     />
 );
 
-export const RadioButton = ({
-    className,
-    label,
-    ...props
-}: RadioButtonProps) => (
+export const RadioButton = ({ className, ...props }: AriaRadioProps) => (
     <AriaRadio
         {...props}
-        className={({ isSelected }) =>
+        className={composeRenderProps(className, (className, renderProps) =>
             radioButtonStyles({
-                isSelected,
-                className: className as string,
+                ...renderProps,
+                className,
             })
-        }
-    >
-        {label && <span>{label}</span>}
-    </AriaRadio>
+        )}
+    />
 );
