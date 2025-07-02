@@ -85,3 +85,7 @@ src/frontend/public/neighborhoods
 
 .vscode/*
 !.vscode/settings.json
+
+# Django stuff:
+*.log
+src/backend/api/fixtures/dev_data.json
