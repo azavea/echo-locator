@@ -9,8 +9,6 @@ check_for_help_flag "$@"
 function pull_env() {
     pushd "${DIR}"
 
-    echo "In pull_env"
-
     # If there is already a dotenv file, do nothing
     # If no such a file and no S3 config bucket configured, copy from local sample file
     # If no such a file but has S3 config bucket configured, download from S3
