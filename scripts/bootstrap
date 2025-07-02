@@ -9,6 +9,8 @@ check_for_help_flag "$@"
 function pull_env() {
     pushd "${DIR}"
 
+    echo "In pull_env"
+
     # If there is already a dotenv file, do nothing
     # If no such a file and no S3 config bucket configured, copy from local sample file
     # If no such a file but has S3 config bucket configured, download from S3
@@ -26,4 +28,17 @@ function pull_env() {
     popd
 }
 
+function pull_dev_data() {
+    pushd "${DIR}"
+
+    echo "Pulling development data from S3"
+    aws s3 cp "s3://${ECHOLOCATOR_SETTINGS_BUCKET}/dev_data.json" src/backend/api/fixtures/dev_data.json
+
+    popd
+}
+
 pull_env
+
+if [ "${1:-}" = "--dev-data" ]; then
+    pull_dev_data
+fi
