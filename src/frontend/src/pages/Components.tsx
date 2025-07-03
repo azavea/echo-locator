@@ -5,6 +5,9 @@ import {
     UserProfileSubheaderMobile,
 } from "components/UserProfileSubheader";
 import CompareFavoritesButton from "components/CompareFavoritesButton";
+import SelectLanguageButtons, {
+    Languages,
+} from "components/SelectLanguageButtons";
 
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
@@ -251,6 +254,17 @@ const Components = () => {
                                 mode="transit"
                                 place={Places.Doctor}
                             />
+                        </div>
+                    </div>
+                </section>
+
+                <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+                    <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
+                        Radio Button Group
+                    </h2>
+                    <div className="space-y-8">
+                        <div className="flex flex-col gap-4 w-[272px]">
+                            <SelectLanguageButtons language={Languages.EN} />
                         </div>
                     </div>
                 </section>

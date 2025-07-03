@@ -3,7 +3,7 @@ import {
     Button as AriaButton,
     type GroupProps as AriaGroupProps,
     type ButtonProps as AriaButtonProps,
-    composeRenderProps as composeButtonGroupRenderProps,
+    composeRenderProps,
 } from "react-aria-components";
 import { type VariantProps } from "tailwind-variants";
 
@@ -20,7 +20,7 @@ export interface GroupedButtonProps
 const ButtonGroup = (props: AriaGroupProps) => (
     <AriaGroup
         {...props}
-        className={composeButtonGroupRenderProps(
+        className={composeRenderProps(
             props.className,
             (className, renderProps) =>
                 buttonGroupStyles({ ...renderProps, className })
@@ -39,15 +39,13 @@ const GroupedButton = ({
 }: GroupedButtonProps) => (
     <AriaButton
         {...props}
-        className={composeButtonGroupRenderProps(
-            className,
-            (className, renderProps) =>
-                groupedButtonStyles({
-                    ...renderProps,
-                    variant,
-                    size,
-                    className,
-                })
+        className={composeRenderProps(className, (className, renderProps) =>
+            groupedButtonStyles({
+                ...renderProps,
+                variant,
+                size,
+                className,
+            })
         )}
     >
         {leftIcon}
