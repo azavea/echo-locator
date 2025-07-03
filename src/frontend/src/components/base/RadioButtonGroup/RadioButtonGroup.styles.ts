@@ -14,7 +14,7 @@ export const radioButtonStyles = tv({
     ],
     variants: {
         isSelected: {
-            true: "border-gray-500",
+            true: "border-gray-300 bg-gray-100 text-gray-900",
             false: "border-gray-300 hover:border-gray-500",
         },
         isFocusVisible: {
