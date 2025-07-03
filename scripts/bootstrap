@@ -26,4 +26,17 @@ function pull_env() {
     popd
 }
 
+function pull_dev_data() {
+    pushd "${DIR}"
+
+    echo "Pulling development data from S3"
+    aws s3 cp s3://echo-locator-devdjango-config-us-east-1/dev_data.json src/backend/api/fixtures/dev_data.json
+
+    popd
+}
+
 pull_env
+
+if [ "${1:-}" = "--dev-data" ]; then
+    pull_dev_data
+fi

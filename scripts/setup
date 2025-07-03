@@ -5,5 +5,5 @@ USAGE="Attempts to setup the project's development environment."
 source ./scripts/_sourced
 check_for_help_flag "$@"
 
-./scripts/bootstrap
+./scripts/bootstrap --dev-data
 ./scripts/update
