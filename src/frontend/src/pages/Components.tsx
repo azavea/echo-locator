@@ -8,6 +8,8 @@ import CompareFavoritesButton from "components/CompareFavoritesButton";
 import SelectLanguageButtons, {
     Languages,
 } from "components/SelectLanguageButtons";
+import Meter from "components/base/Meter/Meter";
+import Range from "components/base/Range/Range";
 
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
@@ -227,6 +229,7 @@ const Components = () => {
                 </div>
             </section>
 
+            {/* Button group section */}
             <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
                 <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
                     Radio Button Group
@@ -234,6 +237,71 @@ const Components = () => {
                 <div className="space-y-8">
                     <div className="flex flex-col gap-4 w-[272px]">
                         <SelectLanguageButtons language={Languages.EN} />
+                    </div>
+                </div>
+            </section>
+
+            {/* Bar chart section */}
+            <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
+                    Bar charts
+                </h2>
+                <div className="flex space-y-8 gap-13">
+                    <div className="flex flex-col items-center gap-8 w-13">
+                        <Meter label="Schools" value={1} />
+                        <Meter label="Schools" value={10} />
+                        <Meter label="Schools" value={25} />
+                        <Meter label="Schools" value={50} />
+                        <Meter label="Schools" value={75} />
+                        <Meter label="Schools" value={90} />
+                    </div>
+                    <div className="flex flex-col items-center gap-8 w-13">
+                        <Meter label="Schools" category="Low" value={10} />
+                        <Meter
+                            label="Schools"
+                            category="Below Avg"
+                            value={25}
+                        />
+
+                        <Meter label="Schools" category="Average" value={50} />
+                        <Meter
+                            label="Schools"
+                            category="Above Avg"
+                            value={75}
+                        />
+                        <Meter label="Schools" category="High" value={90} />
+                    </div>
+                    <div className="flex flex-col items-center gap-8 w-13">
+                        <Range
+                            label="Commute"
+                            rangeText="30-60 min"
+                            start={30}
+                            end={60}
+                        />
+                        <Range
+                            label="Commute"
+                            rangeText="0 min"
+                            start={0}
+                            end={0}
+                        />
+                        <Range
+                            label="Commute"
+                            rangeText="60 min"
+                            start={60}
+                            end={60}
+                        />
+                        <Range
+                            label="Commute"
+                            rangeText="58-60 min"
+                            start={58}
+                            end={60}
+                        />
+                        <Range
+                            label="Commute"
+                            rangeText="120 min"
+                            start={120}
+                            end={120}
+                        />
                     </div>
                 </div>
             </section>
