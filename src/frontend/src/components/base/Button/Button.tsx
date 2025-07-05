@@ -14,13 +14,14 @@ export interface ButtonProps
     leftIcon?: React.ReactNode;
     rightIcon?: React.ReactNode;
     info?: string;
+    children?: React.ReactNode;
 }
 
 const Button = ({
     className,
     variant,
     size,
-    label,
+    children,
     leftIcon,
     rightIcon,
     info,
@@ -39,7 +40,7 @@ const Button = ({
             )}
         >
             {leftIcon}
-            {label && <span>{label}</span>}
+            {children}
             {rightIcon}
             {info && (
                 <div className="flex flex-1 justify-end">
