@@ -1,48 +1,41 @@
 import {
-    Link as AriaLink,
-    composeRenderProps,
-    type LinkProps as AriaLinkProps,
-} from "react-aria-components";
+    NavLink as RouterNavLink,
+    type NavLinkProps as RouterNavLinkProps,
+} from "react-router";
 import { type VariantProps } from "tailwind-variants";
-
 import { navTabStyles, navBadgeStyles } from "./NavTab.styles";
 
 interface NavLinkProps
-    extends AriaLinkProps,
-        VariantProps<typeof navBadgeStyles> {
+    extends Omit<RouterNavLinkProps, "className" | "children"> {
     isActive?: boolean;
     count?: number;
-    children?: React.ReactNode;
     badgeVariant?: VariantProps<typeof navBadgeStyles>["variant"];
+    children: React.ReactNode;
 }
 
 const NavTab = ({
-    isActive,
     count,
-    className,
-    children,
+    isActive,
     badgeVariant,
+    children,
     ...props
-}: NavLinkProps) => (
-    <AriaLink
-        {...props}
-        className={composeRenderProps(className, (className, renderProps) =>
-            navTabStyles({
-                ...renderProps,
-                className,
-                isActive,
-            })
-        )}
-    >
-        <div className="flex items-center gap-2">
-            {children}
-            {count !== undefined && (
-                <span className={navBadgeStyles({ variant: badgeVariant })}>
-                    {count}
-                </span>
-            )}
-        </div>
-    </AriaLink>
-);
+}: NavLinkProps) => {
+    return (
+        <RouterNavLink {...props} className={navTabStyles({ isActive })}>
+            <div className="flex items-center gap-2">
+                {children}
+                {count !== undefined && (
+                    <span
+                        className={navBadgeStyles({
+                            variant: badgeVariant,
+                        })}
+                    >
+                        {count}
+                    </span>
+                )}
+            </div>
+        </RouterNavLink>
+    );
+};
 
-export { NavTab };
+export default NavTab;

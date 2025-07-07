@@ -1,17 +1,21 @@
 import { tv } from "tailwind-variants";
 
 export const navTabStyles = tv({
-    base: "relative flex items-center gap-2 p-2 md:px-4 md:py-2 text-rg font-bold transition-colors cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-teal-500",
+    base: [
+        "relative flex items-center gap-2 px-2 h-full md:px-4 text-rg font-bold",
+        "transition-colors cursor-pointer outline-none rounded-[var(--spacing-4)]",
+        "focus-visible:ring-2 focus-visible:ring-muted-blue-600 focus-visible:ring-offset-2 ",
+    ],
     variants: {
         isActive: {
-            true: "text-teal-950 border-t-3 md:border-t-4 border-solid border-t-teal-500",
-            false: "text-teal-900 pt-3 md:pt-3",
+            true: "text-teal-950 after:absolute after:top-0 after:left-0 after:w-full after:bg-teal-500 after:h-[3px] md:after:h-[4px]",
+            false: "text-teal-900 hover:bg-teal-200",
         },
     },
 });
 
 export const navBadgeStyles = tv({
-    base: "flex items-center justify-center h-[22px] md:h-[25px] w-[25px] py-2.5 px-3 rounded-[var(--spacing-3)]",
+    base: "flex items-center justify-center h-[22px] w-min-[25px] px-3 rounded-[var(--spacing-3)]",
     variants: {
         variant: {
             primary: "border border-teal-400 text-sm font-bold text-teal-800",

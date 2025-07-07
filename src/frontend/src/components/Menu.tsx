@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router";
 
 import Button from "./base/Button/Button";
-import { NavTab } from "./base/NavTab/NavTab";
+import NavTab from "./base/NavTab/NavTab";
 import {
     Dropdown,
     DropdownItem,
@@ -20,7 +20,6 @@ interface Props {
 }
 
 const Menu = ({ compareCount }: Props) => {
-    const [activeLink, setActiveLink] = useState<string | null>(null);
     // TODO: hook up with app-wide language state
     const [selectedLanguage, setSelectedLanguage] = useState("en");
     const { pathname } = useLocation();
@@ -31,15 +30,6 @@ const Menu = ({ compareCount }: Props) => {
         es: "ES",
         zh: "中文",
     };
-
-    useEffect(() => {
-        if (pathname.includes("compare")) {
-            setActiveLink("compare");
-        }
-        if (pathname.includes("discover")) {
-            setActiveLink("discover");
-        }
-    }, [pathname]);
 
     return (
         <div className="flex w-full h-9 justify-between items-center gap-5 self-stretch flex-shrink-0 py-0 pl-4 pr-3">
@@ -53,17 +43,18 @@ const Menu = ({ compareCount }: Props) => {
             </div>
 
             {/* The Discover/Compare section */}
-            {activeLink && (
-                <div className="flex items-center justify-center gap-0 flex-1  pb-3 pl-0">
+            {(pathname.includes("discover") ||
+                pathname.includes("compare")) && (
+                <div className="flex self-stretch justify-center gap-2">
                     <NavTab
-                        href="/discover"
-                        isActive={activeLink === "discover"}
+                        to="/discover"
+                        isActive={pathname.includes("discover")}
                     >
                         Discover
                     </NavTab>
                     <NavTab
-                        href="/compare"
-                        isActive={activeLink === "compare"}
+                        to="/compare"
+                        isActive={pathname.includes("compare")}
                         count={compareCount}
                         badgeVariant={compareCount > 0 ? "orange" : "primary"}
                     >
