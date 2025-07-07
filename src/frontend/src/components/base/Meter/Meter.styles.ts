@@ -12,11 +12,11 @@ export const meterStyles = tv({
     },
     variants: {
         status: {
-            low: { fill: "bg-low" },
-            belowAvg: { fill: "bg-below-avg" },
-            average: { fill: "bg-avg" },
-            aboveAvg: { fill: "bg-above-avg" },
-            high: { fill: "bg-high" },
+            Low: { fill: "bg-low" },
+            "Below Avg": { fill: "bg-below-avg" },
+            Average: { fill: "bg-avg" },
+            "Above Avg": { fill: "bg-above-avg" },
+            High: { fill: "bg-high" },
         },
     },
 });
