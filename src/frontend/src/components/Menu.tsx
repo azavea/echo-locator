@@ -70,9 +70,9 @@ const Menu = ({ compareCount }: Props) => {
                         <DropdownTrigger>
                             <Button
                                 variant="ghost"
-                                className="text-teal-900"
+                                className="text-teal-900 gap-2"
                                 rightIcon={
-                                    <ArrowDownIcon className="font-normal h-[14px] w-[14px] fill fill-teal-900" />
+                                    <ArrowDownIcon className="font-normal h-[13px] w-[13px] fill fill-teal-800" />
                                 }
                             >
                                 {languages[selectedLanguage]}
