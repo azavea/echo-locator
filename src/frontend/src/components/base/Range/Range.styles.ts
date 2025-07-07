@@ -11,7 +11,7 @@ export const rangeStyles = tv({
     },
     variants: {
         variant: {
-            point: { fill: "rounded-full" },
+            point: {},
         },
     },
 });
