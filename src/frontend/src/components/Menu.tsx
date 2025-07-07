@@ -44,11 +44,11 @@ const Menu = ({ compareCount }: Props) => {
     return (
         <div className="flex w-full h-9 justify-between items-center gap-5 self-stretch flex-shrink-0 py-0 pl-4 pr-3">
             {/* The ECHO icon section */}
-            <div className="flex items-center gap-0 flex-1 pt-2 pb-3 pl-0">
+            <div className="flex items-center gap-0 flex-1 pt-2 pb-3 pl-3">
                 {isDesktop ? (
-                    <EchoTextLogo className="h-[18px]" />
+                    <EchoTextLogo className="h-[19px]" />
                 ) : (
-                    <EchoLogo className="h-[18px] w-[19px]" />
+                    <EchoLogo className="h-[19px] w-[20px]" />
                 )}
             </div>
 
