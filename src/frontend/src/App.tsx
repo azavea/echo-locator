@@ -1,23 +1,27 @@
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router";
+import { Navigate } from "react-router";
 
-import Home from "./pages/Home";
-import Components from "./pages/Components";
+import Root from "pages/Root";
+import Components from "pages/Components";
+import Discover from "pages/Discover";
+import Compare from "pages/Compare";
 
 import "./App.css";
 
-const App = () => {
-    const router = createBrowserRouter([
-        {
-            path: "/",
-            element: <Home />,
-        },
-        {
-            path: "/components",
-            element: <Components />,
-        },
-    ]);
-
-    return <RouterProvider router={router} />;
-};
+const App = () => (
+    <BrowserRouter>
+        <Routes>
+            <Route element={<Root />}>
+                <Route
+                    index
+                    element={<Navigate to="/discover" replace={true} />}
+                />
+                <Route path="discover" element={<Discover />} />
+                <Route path="compare" element={<Compare />} />
+                <Route path="components" element={<Components />} />
+            </Route>
+        </Routes>
+    </BrowserRouter>
+);
 
 export default App;

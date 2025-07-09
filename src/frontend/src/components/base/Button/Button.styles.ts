@@ -24,6 +24,7 @@ const buttonStyles = tv({
             outline:
                 "border border-gray-300 bg-transparent hover:border-gray-500",
             orange: "bg-orange-200 text-orange-800 hover:bg-orange-300",
+            ghost: "hover:bg-teal-200",
         },
         size: {
             ...buttonSizes,
