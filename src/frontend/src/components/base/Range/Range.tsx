@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { rangeStyles } from "./Range.styles";
+import DotIcon from "assets/icons/dots.svg?react";
 
 const MIN_DEFAULT = 0;
 const MAX_DEFAULT = 120;
