@@ -22,7 +22,7 @@ const Range = ({
     min = MIN_DEFAULT,
     max = MAX_DEFAULT,
 }: RangeDisplayProps) => {
-    const { root, labelContainer, mainLabel, rangeLabel, track, fill } =
+    const { root, labelContainer, mainLabel, rangeLabel, track, fill, dots } =
         rangeStyles();
 
     const isPoint = start === end;
@@ -54,15 +54,18 @@ const Range = ({
                                     ? "0px"
                                     : isPoint
                                       ? `calc(${startPercentage}% - 4px)`
-                                      : `${startPercentage}%`,
+                                      : end >= 120
+                                        ? `min(calc(100% - 12px), ${startPercentage}%)`
+                                        : `${startPercentage}%`,
                             width: `${widthPercentage}%`,
-                            minWidth: "6px",
+                            minWidth: end >= 120 ? "12px" : "6px",
                         }}
                     >
-                        {/* TODO: Add and style the dots icon here */}
-                        {/* {!isPoint && end >= 120 && (
-                            <DotIcon />
-                        )} */}
+                        {!isPoint && end >= 120 && (
+                            <span className={dots()}>
+                                <DotIcon />
+                            </span>
+                        )}
                     </div>
                 )}
             </div>
