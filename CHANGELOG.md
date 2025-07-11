@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add mobile translations subheader component [#672](https://github.com/azavea/echo-locator/pull/672)
 - Add data fixture and update scripts [#673](https://github.com/azavea/echo-locator/pull/673)
 - Add responsive menu component [#674](https://github.com/azavea/echo-locator/pull/674)
+- Add bar charts: Neighborhood Criteria and Commute Time [#675](https://github.com/azavea/echo-locator/pull/675)
 
 ### Changed
 
