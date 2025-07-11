@@ -61,6 +61,13 @@
     --color-orange-900: #7c2c12;
     --color-orange-950: #431307;
 
+    /* Criteria Scale */
+    --color-low: #e55a1a;
+    --color-below-avg: #e5990c;
+    --color-avg: #7ec200;
+    --color-above-avg: #20c200;
+    --color-high: #1eb400;
+
     /* Spacing Scale (for padding, margin, width, height, gap, etc.) */
     --spacing-1: 0.125rem; /* 2px */
     --spacing-2: 0.25rem; /* 4px */

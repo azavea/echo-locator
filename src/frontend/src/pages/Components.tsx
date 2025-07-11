@@ -8,6 +8,8 @@ import CompareFavoritesButton from "components/CompareFavoritesButton";
 import SelectLanguageButtons, {
     Languages,
 } from "components/SelectLanguageButtons";
+import Meter from "components/base/Meter/Meter";
+import Range from "components/base/Range/Range";
 
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
@@ -227,6 +229,7 @@ const Components = () => {
                 </div>
             </section>
 
+            {/* Button group section */}
             <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
                 <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
                     Radio Button Group
@@ -234,6 +237,51 @@ const Components = () => {
                 <div className="space-y-8">
                     <div className="flex flex-col gap-4 w-[272px]">
                         <SelectLanguageButtons language={Languages.EN} />
+                    </div>
+                </div>
+            </section>
+
+            {/* Bar chart section */}
+            <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
+                    Bar charts
+                </h2>
+                <div className="flex space-y-8 gap-13">
+                    <div className="flex flex-col items-start gap-8 w-13">
+                        <h3 className="text-xl text-gray-800 mb-2">Criteria</h3>
+                        <Meter label="Schools" value={1} />
+                        <Meter label="Schools" value={10} />
+                        <Meter label="Schools" value={25} />
+                        <Meter label="Schools" value={50} />
+                        <Meter label="Schools" value={75} />
+                        <Meter label="Schools" value={90} />
+                    </div>
+                    <div className="flex flex-col items-start gap-8 w-13">
+                        <h3 className="text-xl text-gray-800 mb-2">Criteria</h3>
+                        <Meter label="Schools" value={10} showCategory />
+                        <Meter label="Schools" value={25} showCategory />
+                        <Meter label="Schools" value={50} showCategory />
+                        <Meter label="Schools" value={75} showCategory />
+                        <Meter label="Schools" value={90} showCategory />
+                    </div>
+                    <div className="flex flex-col items-start gap-8 w-13">
+                        <h3 className="text-xl text-gray-800 mb-2">Car</h3>
+                        <Range label="Commute" start={0} end={0} />
+                        <Range label="Commute" start={60} end={60} />
+                        <Range label="Commute" start={119} end={119} />
+                        <Range label="Commute" start={120} end={120} />
+                        <Range label="Commute" start={130} end={130} />
+                    </div>
+                    <div className="flex flex-col items-start gap-8 w-13">
+                        <h3 className="text-xl text-gray-800 mb-2">Transit</h3>
+                        <Range label="Commute" start={0} end={20} />
+                        <Range label="Commute" start={30} end={60} />
+                        <Range label="Commute" start={58} end={60} />
+                        <Range label="Commute" start={80} end={150} />
+                        <Range label="Commute" start={100} end={130} />
+                        <Range label="Commute" start={110} end={120} />
+                        <Range label="Commute" start={119} end={139} />
+                        <Range label="Commute" start={120} end={150} />
                     </div>
                 </div>
             </section>
