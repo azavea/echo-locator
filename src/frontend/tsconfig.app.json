@@ -30,7 +30,8 @@
             "components/*": ["./src/components/*"],
             "assets/*": ["./src/assets/*"],
             "pages/*": ["./src/pages/*"],
-            "hooks/*": ["./src/hooks/*"]
+            "hooks/*": ["./src/hooks/*"],
+            "libs/*": ["./src/libs/*"]
         }
     },
     "include": ["src"]

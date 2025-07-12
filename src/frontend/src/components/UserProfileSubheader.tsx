@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { Key } from "react-aria-components";
 
 import Button from "components/base/Button/Button";
@@ -5,23 +6,12 @@ import {
     ToggleButton,
     ToggleButtonGroup,
 } from "components/base/ToggleButton/ToggleButton";
+import type { PlaceKey } from "src/enums";
 
 import FamilyIcon from "assets/icons/family.svg?react";
 import TransitIcon from "assets/icons/transit.svg?react";
 import CarIcon from "assets/icons/car.svg?react";
 import ArrowFullRightIcon from "assets/icons/arrow-full-right.svg?react";
-import { useEffect, useState } from "react";
-
-export const Places = {
-    Work: "Work",
-    School: "School",
-    Daycare: "Daycare",
-    FriendsFamily: "Friends/Family",
-    Doctor: "Doctor",
-    Other: "Other",
-};
-
-type PlaceKeys = (typeof Places)[keyof typeof Places];
 
 type Mode = "transit" | "car";
 type Size = "small" | "medium" | "large";
@@ -29,7 +19,7 @@ type Size = "small" | "medium" | "large";
 interface Props {
     size?: Size;
     mode: Mode;
-    place: PlaceKeys;
+    place: PlaceKey;
 }
 
 interface MobileProps extends Props {
