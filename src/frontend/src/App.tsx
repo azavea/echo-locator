@@ -11,11 +11,8 @@ import "./App.css";
 const App = () => (
     <BrowserRouter>
         <Routes>
-            <Route element={<Root />}>
-                <Route
-                    index
-                    element={<Navigate to="/discover" replace={true} />}
-                />
+            <Route index element={<Navigate to="/en/discover" replace />} />
+            <Route path="/:lang" element={<Root />}>
                 <Route path="discover" element={<Discover />} />
                 <Route path="compare" element={<Compare />} />
                 <Route path="components" element={<Components />} />
