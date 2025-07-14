@@ -5,6 +5,7 @@ import Range, { type RangeProps } from "components/base/Range/Range";
 
 import TimesIcon from "assets/icons/times.svg?react";
 import FlagIcon from "assets/icons/flag.svg?react";
+import SquareDollarIcon from "assets/icons/square-dollar.svg?react";
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
 
@@ -87,13 +88,13 @@ const NeighborhoodCard = ({
                     <div className={tagsContainer()}>
                         {isTopTen && (
                             <div className={tag()}>
-                                <FlagIcon className="h-4 w-4 fill-green-700" />
+                                <FlagIcon className="h-4 w-4 fill-[#50935D]" />
                                 <span>Top 10</span>
                             </div>
                         )}
                         {hasECC && (
                             <div className={tag()}>
-                                <FlagIcon className="h-4 w-4 fill-green-700" />
+                                <SquareDollarIcon className="h-[13px] w-[13px] -ml-[1px] mr-[1px] fill-[#50935D]" />
                                 <span>ECC Benefits</span>
                             </div>
                         )}
