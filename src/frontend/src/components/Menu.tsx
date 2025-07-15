@@ -23,7 +23,6 @@ interface Props {
 }
 
 const Menu = ({ languages, compareCount }: Props) => {
-    // TODO: hook up with app-wide language state
     const { lang } = useParams<{ lang: LanguageKey | undefined }>();
     const navigate = useNavigate();
     const location = useLocation();

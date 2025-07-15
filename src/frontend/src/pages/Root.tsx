@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router";
 
 import Menu from "components/Menu";
+import { SUPPORTED_LANGUAGES } from "components/LanguageRedirect";
 import { Language, type LanguageKey } from "src/enums";
 import { languageToLabel } from "src/constants";
 
@@ -16,7 +17,7 @@ const Root = () => {
     // 1. If no language or language isn't in the allowed list, use English;
     // 2. If the URL language isn't the same as i18n language, change to URL language
     useEffect(() => {
-        if (!lang || ![Language.EN, Language.ES, Language.ZH].includes(lang)) {
+        if (!lang || !SUPPORTED_LANGUAGES.includes(lang)) {
             i18n.changeLanguage(Language.EN);
             const currentPath = location.pathname.split("/").slice(2).join("/");
             navigate(`/${Language.EN}/${currentPath || "discover"}`);
