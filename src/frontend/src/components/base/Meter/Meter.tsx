@@ -8,7 +8,7 @@ import { meterStyles } from "./Meter.styles";
 
 type MeterStatus = "Low" | "Below Avg" | "Average" | "Above Avg" | "High";
 
-interface CustomMeterProps extends AriaMeterProps {
+export interface MeterProps extends AriaMeterProps {
     label: string;
     showCategory?: boolean;
 }
@@ -21,7 +21,7 @@ const getStatusFromValue = (value: number): MeterStatus => {
     return "High";
 };
 
-const Meter = ({ label, showCategory = false, ...props }: CustomMeterProps) => {
+const Meter = ({ label, showCategory = false, ...props }: MeterProps) => {
     const status = getStatusFromValue(props.value ?? 0);
     const { root, labelContainer, mainLabel, valueLabel, track, fill, thumb } =
         meterStyles({ status });

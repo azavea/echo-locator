@@ -2,7 +2,7 @@ import { tv } from "tailwind-variants";
 
 export const meterStyles = tv({
     slots: {
-        root: "flex flex-col gap-2 w-full ",
+        root: "flex flex-col gap-3 w-full ",
         labelContainer: "flex flex-col",
         mainLabel: "text-sm text-gray-600",
         valueLabel: "text-sm font-bold text-black -mt-1 mb-[1px]",

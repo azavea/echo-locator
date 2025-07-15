@@ -5,7 +5,7 @@ import DotIcon from "assets/icons/dots.svg?react";
 const MIN_DEFAULT = 0;
 const MAX_DEFAULT = 120;
 
-interface RangeDisplayProps {
+export interface RangeProps {
     label: string;
     start: number;
     end: number;
@@ -21,7 +21,7 @@ const Range = ({
     className,
     min = MIN_DEFAULT,
     max = MAX_DEFAULT,
-}: RangeDisplayProps) => {
+}: RangeProps) => {
     const { root, labelContainer, mainLabel, rangeLabel, track, fill, dots } =
         rangeStyles();
 

@@ -10,10 +10,61 @@ import SelectLanguageButtons, {
 } from "components/SelectLanguageButtons";
 import Meter from "components/base/Meter/Meter";
 import Range from "components/base/Range/Range";
+import NeighborhoodCard from "components/NeighborhoodCard/NeighborhoodCard";
 
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
 import StarIcon from "assets/icons/star.svg?react";
+
+const neighborhood = {
+    name: "Brookline",
+    zip: "02446",
+};
+
+const image = {
+    imageUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/0/08/Washington_and_Harvard_Streets%2C_Brookline_Village_MA.jpg",
+};
+
+const tags = {
+    isTopTen: true,
+    hasECC: true,
+};
+
+const stats = {
+    schools: { label: "Schools", value: 25, showCategory: true },
+    safety: { label: "Safety", value: 75, showCategory: true },
+    commute: {
+        label: "Commute",
+        start: 10,
+        end: 25,
+    },
+};
+
+const cardFull = {
+    ...neighborhood,
+    ...image,
+    ...tags,
+    stats,
+};
+
+const cardNoImageNoTag = {
+    ...neighborhood,
+    stats,
+};
+
+const cardImageOnly = {
+    ...neighborhood,
+    ...image,
+};
+
+const cardNoImage = {
+    ...neighborhood,
+    ...tags,
+    stats,
+};
+
+const noop = () => {};
 
 const Components = () => {
     return (
@@ -249,7 +300,6 @@ const Components = () => {
                 <div className="flex space-y-8 gap-13">
                     <div className="flex flex-col items-start gap-8 w-13">
                         <h3 className="text-xl text-gray-800 mb-2">Criteria</h3>
-                        <Meter label="Schools" value={1} />
                         <Meter label="Schools" value={10} />
                         <Meter label="Schools" value={25} />
                         <Meter label="Schools" value={50} />
@@ -282,6 +332,69 @@ const Components = () => {
                         <Range label="Commute" start={110} end={120} />
                         <Range label="Commute" start={119} end={139} />
                         <Range label="Commute" start={120} end={150} />
+                    </div>
+                </div>
+            </section>
+
+            {/* Neighborhood card section */}
+            <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
+                    Neighborhood Cards
+                </h2>
+                <div className="flex space-y-8 gap-13">
+                    <div className="flex flex-col items-start gap-8">
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xl text-gray-800 mb-2">Full</h3>
+                            <NeighborhoodCard
+                                {...cardFull}
+                                onClose={noop}
+                                onPrev={noop}
+                                onDetails={noop}
+                                onNext={noop}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xl text-gray-800 mb-2">
+                                No image, with actions
+                            </h3>
+                            <NeighborhoodCard
+                                {...cardNoImage}
+                                onClose={noop}
+                                onPrev={noop}
+                                onDetails={noop}
+                                onNext={noop}
+                            />
+                        </div>
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xl text-gray-800 mb-2">
+                                Basic info only
+                            </h3>
+                            <NeighborhoodCard
+                                {...cardImageOnly}
+                                onClose={noop}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex flex-col items-start gap-8">
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xl text-gray-800 mb-2">
+                                Info only
+                            </h3>
+                            <NeighborhoodCard {...cardFull} />
+                        </div>
+
+                        <div className="flex flex-col gap-4">
+                            <h3 className="text-xl text-gray-800 mb-2">
+                                No image, no tag, with actions
+                            </h3>
+                            <NeighborhoodCard
+                                {...cardNoImageNoTag}
+                                onClose={noop}
+                                onPrev={noop}
+                                onDetails={noop}
+                                onNext={noop}
+                            />
+                        </div>
                     </div>
                 </div>
             </section>
