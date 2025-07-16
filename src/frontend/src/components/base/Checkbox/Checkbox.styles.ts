@@ -11,7 +11,7 @@ export const checkboxStyles = tv({
     variants: {
         isSelected: {
             true: {
-                box: "border-teal-600 bg-teal-600",
+                box: "border-teal-700 bg-teal-700",
             },
             false: {
                 box: "border-gray-400 bg-white",
@@ -19,7 +19,7 @@ export const checkboxStyles = tv({
         },
         isFocusVisible: {
             true: {
-                box: "ring-2 ring-teal-600 ring-offset-2",
+                box: "ring-2 ring-teal-700 ring-offset-2",
             },
         },
     },
