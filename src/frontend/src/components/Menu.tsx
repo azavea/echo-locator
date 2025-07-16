@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import Button from "./base/Button/Button";
 import NavTab from "./base/NavTab/NavTab";
@@ -9,6 +9,8 @@ import {
     DropdownTrigger,
 } from "./base/Dropdown/Dropdown";
 import useMediaQuery from "hooks/useMediaQuery";
+import getPathByLang from "libs/getPathByLang";
+import { Language, type LanguageKey } from "src/enums";
 
 import EchoTextLogo from "assets/icons/echo-logo-text.svg?react";
 import EchoLogo from "assets/icons/echo-logo.svg?react";
@@ -16,19 +18,19 @@ import HamburgerIcon from "assets/icons/hamburger.svg?react";
 import ArrowDownIcon from "assets/icons/arrow-down.svg?react";
 
 interface Props {
+    languages: { [key: LanguageKey]: string };
     compareCount: number;
 }
 
-const Menu = ({ compareCount }: Props) => {
-    // TODO: hook up with app-wide language state
-    const [selectedLanguage, setSelectedLanguage] = useState("en");
-    const { pathname } = useLocation();
+const Menu = ({ languages, compareCount }: Props) => {
+    const { lang } = useParams<{ lang: LanguageKey | undefined }>();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { t, i18n } = useTranslation();
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
-    const languages: { [key: string]: string } = {
-        en: "EN",
-        es: "ES",
-        zh: "中文",
+    const onChangeLanguage = (key: React.Key) => {
+        navigate(getPathByLang(key as string, location.pathname));
     };
 
     return (
@@ -43,22 +45,22 @@ const Menu = ({ compareCount }: Props) => {
             </div>
 
             {/* The Discover/Compare section */}
-            {(pathname.includes("discover") ||
-                pathname.includes("compare")) && (
+            {(location.pathname.includes("discover") ||
+                location.pathname.includes("compare")) && (
                 <div className="flex self-stretch justify-center gap-2">
                     <NavTab
-                        to="/discover"
-                        isActive={pathname.includes("discover")}
+                        to={`/${lang}/discover`}
+                        isActive={location.pathname.includes("discover")}
                     >
-                        Discover
+                        {t("discover")}
                     </NavTab>
                     <NavTab
-                        to="/compare"
-                        isActive={pathname.includes("compare")}
+                        to={`/${lang}/compare`}
+                        isActive={location.pathname.includes("compare")}
                         count={compareCount}
                         badgeVariant={compareCount > 0 ? "orange" : "primary"}
                     >
-                        Compare
+                        {t("compare")}
                     </NavTab>
                 </div>
             )}
@@ -75,20 +77,22 @@ const Menu = ({ compareCount }: Props) => {
                                     <ArrowDownIcon className="font-normal h-[13px] w-[13px] fill fill-teal-800" />
                                 }
                             >
-                                {languages[selectedLanguage]}
+                                {languages[i18n.language]}
                             </Button>
-                            <Dropdown
-                                onAction={key =>
-                                    setSelectedLanguage(key as string)
-                                }
-                            >
-                                <DropdownItem id="en">EN</DropdownItem>
-                                <DropdownItem id="es">ES</DropdownItem>
-                                <DropdownItem id="zh">中文</DropdownItem>
+                            <Dropdown onAction={onChangeLanguage}>
+                                <DropdownItem id={Language.EN}>
+                                    {languages.en}
+                                </DropdownItem>
+                                <DropdownItem id={Language.ES}>
+                                    {languages.es}
+                                </DropdownItem>
+                                <DropdownItem id={Language.ZH}>
+                                    {languages.zh}
+                                </DropdownItem>
                             </Dropdown>
                         </DropdownTrigger>
                         <Button variant="ghost" className="text-teal-900">
-                            Logout
+                            {t("logout")}
                         </Button>
                     </>
                 ) : (

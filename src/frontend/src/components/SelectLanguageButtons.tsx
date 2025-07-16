@@ -1,39 +1,40 @@
-import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 
 import {
     RadioButton,
     RadioButtonGroup,
 } from "./base/RadioButtonGroup/RadioButtonGroup";
-
-export const Languages = {
-    EN: "en",
-    ES: "es",
-    ZH: "zh",
-};
-
-type LanguageKeys = (typeof Languages)[keyof typeof Languages];
+import getPathByLang from "libs/getPathByLang";
+import { Language, type LanguageKey } from "src/enums";
+import { languageToLabel } from "src/constants";
 
 interface Props {
-    language: LanguageKeys;
+    language: LanguageKey;
 }
 
 const SelectLanguageButtons = ({ language }: Props) => {
-    const [selectedLanguage, setSelectedLanguage] =
-        useState<LanguageKeys>(language);
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    useEffect(() => {
-        setSelectedLanguage(language);
-    }, [language]);
+    const onChangeLanguage = (key: React.Key) => {
+        navigate(getPathByLang(key as string, location.pathname));
+    };
 
     return (
         <RadioButtonGroup
             aria-label="Select a language"
-            value={selectedLanguage}
-            onChange={setSelectedLanguage}
+            value={language}
+            onChange={onChangeLanguage}
         >
-            <RadioButton value={Languages.EN}>English</RadioButton>
-            <RadioButton value={Languages.ES}>Español</RadioButton>
-            <RadioButton value={Languages.ZH}>中文</RadioButton>
+            <RadioButton value={Language.EN}>
+                {languageToLabel[Language.EN]}
+            </RadioButton>
+            <RadioButton value={Language.ES}>
+                {languageToLabel[Language.ES]}
+            </RadioButton>
+            <RadioButton value={Language.ZH}>
+                {languageToLabel[Language.ZH]}
+            </RadioButton>
         </RadioButtonGroup>
     );
 };

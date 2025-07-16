@@ -1,17 +1,17 @@
 import { useState } from "react";
+import { useParams } from "react-router";
+
 import Button from "components/base/Button/Button";
 import {
-    Places,
     UserProfileSubheader,
     UserProfileSubheaderMobile,
 } from "components/UserProfileSubheader";
 import CompareFavoritesButton from "components/CompareFavoritesButton";
-import SelectLanguageButtons, {
-    Languages,
-} from "components/SelectLanguageButtons";
+import SelectLanguageButtons from "components/SelectLanguageButtons";
 import Meter from "components/base/Meter/Meter";
 import Range from "components/base/Range/Range";
 import NeighborhoodCard from "components/NeighborhoodCard/NeighborhoodCard";
+import { Language, Place, type LanguageKey } from "src/enums";
 
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
@@ -76,6 +76,7 @@ const Components = () => {
     const [largeTextInput, setLargeTextInput] = useState<string>("");
     const [numberValue, setNumberValue] = useState(2);
     const [isExpress, setIsExpress] = useState(false);
+    const { lang } = useParams<{ lang: LanguageKey | undefined }>();
 
     return (
         <div className=" max-w-4xl mx-auto space-y-8">
@@ -86,6 +87,18 @@ const Components = () => {
                     a custom theme using Tailwind CSS.
                 </p>
             </header>
+
+            {/* Radio button group section */}
+            <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
+                    Radio Button Group
+                </h2>
+                <div className="space-y-8">
+                    <div className="flex flex-col gap-4 w-[272px]">
+                        <SelectLanguageButtons language={lang || Language.EN} />
+                    </div>
+                </div>
+            </section>
 
             {/* Section for Buttons */}
             <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
@@ -250,13 +263,13 @@ const Components = () => {
                         <UserProfileSubheaderMobile
                             size="small"
                             mode="transit"
-                            place={Places.Work}
+                            place={Place.Work}
                             display="map"
                         />
                         <UserProfileSubheader
                             size="small"
                             mode="transit"
-                            place={Places.Work}
+                            place={Place.Work}
                         />
                     </div>
                     <div className="flex flex-col gap-4">
@@ -264,13 +277,13 @@ const Components = () => {
                         <UserProfileSubheaderMobile
                             size="medium"
                             mode="car"
-                            place={Places.Daycare}
+                            place={Place.Daycare}
                             display="list"
                         />
                         <UserProfileSubheader
                             size="medium"
                             mode="car"
-                            place={Places.Daycare}
+                            place={Place.Daycare}
                         />
                     </div>
                     <div className="flex flex-col gap-4">
@@ -278,26 +291,14 @@ const Components = () => {
                         <UserProfileSubheaderMobile
                             size="large"
                             mode="car"
-                            place={Places.Doctor}
+                            place={Place.Doctor}
                             display="map"
                         />
                         <UserProfileSubheader
                             size="large"
                             mode="transit"
-                            place={Places.Doctor}
+                            place={Place.Doctor}
                         />
-                    </div>
-                </div>
-            </section>
-
-            {/* Button group section */}
-            <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
-                <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
-                    Radio Button Group
-                </h2>
-                <div className="space-y-8">
-                    <div className="flex flex-col gap-4 w-[272px]">
-                        <SelectLanguageButtons language={Languages.EN} />
                     </div>
                 </div>
             </section>
