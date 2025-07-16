@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
+import { Dialog } from "react-aria-components";
 
 import Button from "./base/Button/Button";
 import NavTab from "./base/NavTab/NavTab";
@@ -11,6 +13,8 @@ import {
 import useMediaQuery from "hooks/useMediaQuery";
 import getPathByLang from "libs/getPathByLang";
 import { Language, type LanguageKey } from "src/enums";
+import { Modal, ModalOverlay } from "./base/Modal/Modal";
+import SelectLanguageButtons from "./SelectLanguageButtons";
 
 import EchoTextLogo from "assets/icons/echo-logo-text.svg?react";
 import EchoLogo from "assets/icons/echo-logo.svg?react";
@@ -28,9 +32,15 @@ const Menu = ({ languages, compareCount }: Props) => {
     const location = useLocation();
     const { t, i18n } = useTranslation();
     const isDesktop = useMediaQuery("(min-width: 768px)");
+    const [isOpen, setIsOpen] = useState(false);
 
     const onChangeLanguage = (key: React.Key) => {
         navigate(getPathByLang(key as string, location.pathname));
+    };
+
+    const onLogout = () => {
+        // TODO: implement the logout logic
+        setIsOpen(false);
     };
 
     return (
@@ -96,13 +106,41 @@ const Menu = ({ languages, compareCount }: Props) => {
                         </Button>
                     </>
                 ) : (
-                    // TODO: Implement the hamburger menu, pending design
-                    <Button
-                        variant="ghost"
-                        leftIcon={
-                            <HamburgerIcon className="fill fill-teal-900 text-sm h-5 w-5 font-normal" />
-                        }
-                    />
+                    <>
+                        <Button
+                            variant="ghost"
+                            leftIcon={
+                                <HamburgerIcon className="fill fill-teal-900 text-sm h-5 w-5 font-normal" />
+                            }
+                            onPress={() => setIsOpen(true)}
+                        />
+                        <ModalOverlay
+                            isDismissable
+                            isOpen={isOpen}
+                            onOpenChange={setIsOpen}
+                        >
+                            <Modal isOpen={isOpen}>
+                                <Dialog>
+                                    <div className="flex flex-col p-5 align-middle">
+                                        <SelectLanguageButtons
+                                            language={lang || Language.EN}
+                                            callback={() => setIsOpen(false)}
+                                        />
+                                    </div>
+                                    <div className="w-full h-px bg-gray-300"></div>
+                                    <div className="flex flex-col p-5 align-middle">
+                                        <Button
+                                            variant="outline"
+                                            className="normal-case text-teal-800"
+                                            onPress={onLogout}
+                                        >
+                                            {t("logout")}
+                                        </Button>
+                                    </div>
+                                </Dialog>
+                            </Modal>
+                        </ModalOverlay>
+                    </>
                 )}
             </div>
         </div>
