@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "components/base/Button/Button";
 import {
     Places,
@@ -15,6 +16,10 @@ import NeighborhoodCard from "components/NeighborhoodCard/NeighborhoodCard";
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
 import StarIcon from "assets/icons/star.svg?react";
+import InputText from "components/InputText";
+import InputNumber from "components/InputNumber";
+import Checkbox from "components/base/Checkbox/Checkbox";
+import ImportanceSliders from "components/ImportanceSliders";
 
 const neighborhood = {
     name: "Brookline",
@@ -67,6 +72,11 @@ const cardNoImage = {
 const noop = () => {};
 
 const Components = () => {
+    const [mediumTextInput, setMediumTextInput] = useState<string>("");
+    const [largeTextInput, setLargeTextInput] = useState<string>("");
+    const [numberValue, setNumberValue] = useState(2);
+    const [isExpress, setIsExpress] = useState(false);
+
     return (
         <div className=" max-w-4xl mx-auto space-y-8">
             <header className="space-y-2">
@@ -395,6 +405,62 @@ const Components = () => {
                                 onNext={noop}
                             />
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Inputs section */}
+            <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
+                    Inputs
+                </h2>
+                <div className="space-y-8">
+                    <div className="flex flex-col gap-4 w-[292px]">
+                        <h3 className="text-xl text-gray-800 mb-2">
+                            Medium Text Input
+                        </h3>
+                        <InputText
+                            label="Text input"
+                            placeholder="Placeholder"
+                            value={mediumTextInput}
+                            onChange={setMediumTextInput}
+                        />
+                    </div>
+                    <div className="flex flex-col gap-4 w-[292px]">
+                        <h3 className="text-xl text-gray-800 mb-2">
+                            Large Text Input
+                        </h3>
+                        <InputText
+                            label="Text input"
+                            size="large"
+                            placeholder="Placeholder"
+                            value={largeTextInput}
+                            onChange={setLargeTextInput}
+                        />
+                    </div>
+                    <div className="flex flex-col gap-4 w-[292px]">
+                        <h3 className="text-xl text-gray-800 mb-2">
+                            Number Input
+                        </h3>
+                        <InputNumber
+                            label="Number input"
+                            value={numberValue}
+                            onChange={setNumberValue}
+                        />
+                    </div>
+                    <div className="flex flex-col gap-4 w-[292px]">
+                        <h3 className="text-xl text-gray-800 mb-2">Checkbox</h3>
+                        <Checkbox
+                            isSelected={isExpress}
+                            onChange={setIsExpress}
+                            description="The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus."
+                        >
+                            I'm willing to take the express bus or commuter rail
+                        </Checkbox>
+                    </div>
+                    <div className="flex flex-col gap-4 w-[292px]">
+                        <h3 className="text-xl text-gray-800 mb-2">Sliders</h3>
+                        <ImportanceSliders />
                     </div>
                 </div>
             </section>
