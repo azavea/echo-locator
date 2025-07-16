@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add bar charts: Neighborhood Criteria and Commute Time [#675](https://github.com/azavea/echo-locator/pull/675)
 - Add Neighborhood Card [#678](https://github.com/azavea/echo-locator/pull/678)
 - Add input components: Text, Number, Checkbox, Slider [#677](https://github.com/azavea/echo-locator/pull/677)
+- Add static translations support [#679](https://github.com/azavea/echo-locator/pull/679)
 
 ### Changed
 
