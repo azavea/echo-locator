@@ -17,11 +17,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add user profile subheader components [#668](https://github.com/azavea/echo-locator/pull/668)
 - Add mobile translations subheader component [#672](https://github.com/azavea/echo-locator/pull/672)
 - Add data fixture and update scripts [#673](https://github.com/azavea/echo-locator/pull/673)
-- Add responsive menu component [#674](https://github.com/azavea/echo-locator/pull/674)
+- Add responsive menu component [#674](https://github.com/azavea/echo-locator/pull/674) [#682](https://github.com/azavea/echo-locator/pull/682)
 - Add bar charts: Neighborhood Criteria and Commute Time [#675](https://github.com/azavea/echo-locator/pull/675)
 - Add Neighborhood Card [#678](https://github.com/azavea/echo-locator/pull/678)
 - Add input components: Text, Number, Checkbox, Slider [#677](https://github.com/azavea/echo-locator/pull/677)
 - Add static translations support [#679](https://github.com/azavea/echo-locator/pull/679)
+- Add modal dialog component [#682](https://github.com/azavea/echo-locator/pull/682)
 
 ### Changed
 

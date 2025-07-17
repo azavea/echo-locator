@@ -10,14 +10,16 @@ import { languageToLabel } from "src/constants";
 
 interface Props {
     language: LanguageKey;
+    callback?: () => void;
 }
 
-const SelectLanguageButtons = ({ language }: Props) => {
+const SelectLanguageButtons = ({ language, callback = () => {} }: Props) => {
     const navigate = useNavigate();
     const location = useLocation();
 
     const onChangeLanguage = (key: React.Key) => {
         navigate(getPathByLang(key as string, location.pathname));
+        callback();
     };
 
     return (

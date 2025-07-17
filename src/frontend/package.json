@@ -32,6 +32,7 @@
         "react-router": "^7.6.2",
         "tailwind-variants": "^1.0.0",
         "tailwindcss": "^4.1.10",
+        "tailwindcss-animate": "^1.0.7",
         "tailwindcss-react-aria-components": "^2.0.0",
         "vite-plugin-svgr": "^4.3.0"
     },
