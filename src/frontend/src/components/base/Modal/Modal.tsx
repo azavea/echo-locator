@@ -1,35 +1,38 @@
+import type { ComponentProps } from "react";
 import {
     Modal as AriaModal,
     ModalOverlay as AriaModalOverlay,
     type ModalOverlayProps as AriaModalOverlayProps,
-    type ModalOverlayProps as AriaModalProps,
-    composeRenderProps,
 } from "react-aria-components";
 import { modalOverlayStyles, modalStyles } from "./Modal.styles";
 
-export const ModalOverlay = ({
-    className,
-    ...props
-}: AriaModalOverlayProps) => (
+type AriaModalProps = ComponentProps<typeof AriaModal>;
+
+// TODO: the isEntering and isExiting CSS animations don't
+// work properly
+
+export const ModalOverlay = (props: AriaModalOverlayProps) => (
     <AriaModalOverlay
         {...props}
-        className={composeRenderProps(className, (className, renderProps) =>
+        className={({ isEntering, isExiting }) =>
             modalOverlayStyles({
-                ...renderProps,
-                className,
+                isEntering,
+                isExiting,
+                className: props.className as string,
             })
-        )}
+        }
     />
 );
 
-export const Modal = ({ className, ...props }: AriaModalProps) => (
+export const Modal = (props: AriaModalProps) => (
     <AriaModal
         {...props}
-        className={composeRenderProps(className, (className, renderProps) =>
+        className={({ isEntering, isExiting }) =>
             modalStyles({
-                ...renderProps,
-                className,
+                isEntering,
+                isExiting,
+                className: props.className as string,
             })
-        )}
+        }
     />
 );

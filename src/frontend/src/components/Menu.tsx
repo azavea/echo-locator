@@ -119,8 +119,8 @@ const Menu = ({ languages, compareCount }: Props) => {
                             isOpen={isOpen}
                             onOpenChange={setIsOpen}
                         >
-                            <Modal isOpen={isOpen}>
-                                <Dialog>
+                            <Modal>
+                                <Dialog aria-label="Menu">
                                     <div className="flex flex-col p-5 align-middle">
                                         <SelectLanguageButtons
                                             language={lang || Language.EN}
