@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add input components: Text, Number, Checkbox, Slider [#677](https://github.com/azavea/echo-locator/pull/677)
 - Add static translations support [#679](https://github.com/azavea/echo-locator/pull/679)
 - Add modal dialog component [#682](https://github.com/azavea/echo-locator/pull/682)
+- Add state management migrate ADR [#685](https://github.com/azavea/echo-locator/pull/685)
 
 ### Changed
 
