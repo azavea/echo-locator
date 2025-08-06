@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import svgr from "vite-plugin-svgr";
 
+const djangoProxyTarget = { target: "http://django:8085" };
+
 export default defineConfig({
     plugins: [react(), tailwindcss(), svgr()],
     server: {
@@ -12,6 +14,9 @@ export default defineConfig({
         host: true,
         strictPort: true,
         port: 9966,
+        proxy: {
+            "/api": djangoProxyTarget,
+        },
     },
     /* Configure absolute path imports*/
     resolve: {
