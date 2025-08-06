@@ -1,8 +1,8 @@
-import { combineReducers } from '@reduxjs/toolkit';
-import neighborhoodsReducer from '../features/neighborhoods/neighborhoodsSlice';
+import { combineReducers } from "@reduxjs/toolkit";
+import neighborhoodsReducer from "../reducers/neighborhoods/neighborhoodsSlice";
 
 const rootReducer = combineReducers({
-  neighborhoods: neighborhoodsReducer
+    neighborhoods: neighborhoodsReducer,
 });
 
 export default rootReducer;

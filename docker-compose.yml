@@ -5,6 +5,7 @@ services:
     working_dir: /usr/local/src
     environment:
       - VITE_APP_GIT_COMMIT=${VITE_APP_GIT_COMMIT:-latest}
+      - VITE_AUTHTOKEN=${VITE_AUTHTOKEN}
     volumes:
       - ./src/frontend:/usr/local/src
       - $HOME/.aws:/root/.aws:ro

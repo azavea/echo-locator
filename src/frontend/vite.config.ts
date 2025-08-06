@@ -27,6 +27,8 @@ export default defineConfig({
             pages: "/src/pages",
             hooks: "/src/hooks",
             libs: "/src/libs",
+            reducers: "/src/reducers",
+            store: "/src/store",
         },
     },
 });
