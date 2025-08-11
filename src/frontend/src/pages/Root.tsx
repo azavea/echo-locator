@@ -29,12 +29,10 @@ const Root = () => {
     }, [lang, i18n, location]);
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="h-screen flex flex-col">
             {/* TODO: get compareCount from app store */}
             <Menu compareCount={0} languages={languageToLabel} />
-            <div className="flex flex-1 flex-col items-center self-stretch gap-6 rounded-t-[16px] bg-white px-10 py-16">
-                <Outlet />
-            </div>
+            <Outlet />
         </div>
     );
 };
