@@ -79,7 +79,7 @@ const Components = () => {
     const { lang } = useParams<{ lang: LanguageKey | undefined }>();
 
     return (
-        <div className=" max-w-4xl mx-auto space-y-8">
+        <div className="items-center px-10 py-16 max-w-4xl mx-auto space-y-8">
             <header className="space-y-2">
                 <h1 className="text-4xl font-bold text-gray-900">Components</h1>
                 <p className="text-gray-600">
@@ -260,12 +260,14 @@ const Components = () => {
                 <div className="space-y-8">
                     <div className="flex flex-col gap-4">
                         <h3 className="text-xl text-gray-800 mb-2">Small</h3>
-                        <UserProfileSubheaderMobile
-                            size="small"
-                            mode="transit"
-                            place={Place.Work}
-                            display="map"
-                        />
+                        <div className="flex w-[375px]">
+                            <UserProfileSubheaderMobile
+                                size="small"
+                                mode="transit"
+                                place={Place.Work}
+                                display="map"
+                            />
+                        </div>
                         <UserProfileSubheader
                             size="small"
                             mode="transit"
@@ -274,12 +276,14 @@ const Components = () => {
                     </div>
                     <div className="flex flex-col gap-4">
                         <h3 className="text-xl text-gray-800 mb-2">Medium</h3>
-                        <UserProfileSubheaderMobile
-                            size="medium"
-                            mode="car"
-                            place={Place.Daycare}
-                            display="list"
-                        />
+                        <div className="flex w-[375px]">
+                            <UserProfileSubheaderMobile
+                                size="medium"
+                                mode="car"
+                                place={Place.Daycare}
+                                display="list"
+                            />
+                        </div>
                         <UserProfileSubheader
                             size="medium"
                             mode="car"
@@ -288,12 +292,14 @@ const Components = () => {
                     </div>
                     <div className="flex flex-col gap-4">
                         <h3 className="text-xl text-gray-800 mb-2">Large</h3>
-                        <UserProfileSubheaderMobile
-                            size="large"
-                            mode="car"
-                            place={Place.Doctor}
-                            display="map"
-                        />
+                        <div className="flex w-[375px]">
+                            <UserProfileSubheaderMobile
+                                size="large"
+                                mode="car"
+                                place={Place.Doctor}
+                                display="map"
+                            />
+                        </div>
                         <UserProfileSubheader
                             size="large"
                             mode="transit"

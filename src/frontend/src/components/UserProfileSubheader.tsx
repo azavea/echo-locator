@@ -23,7 +23,8 @@ interface Props {
 }
 
 interface MobileProps extends Props {
-    display: "map" | "list";
+    display: string;
+    callback?: (key: string) => void;
 }
 
 const getModeIcon = (mode: Mode, size: Size) =>
@@ -43,6 +44,7 @@ export const UserProfileSubheaderMobile = ({
     place,
     size = "medium",
     display = "map",
+    callback,
 }: MobileProps) => {
     const [displayOption, setDisplayOption] = useState(new Set<Key>([display]));
 
@@ -56,27 +58,35 @@ export const UserProfileSubheaderMobile = ({
             return;
         }
         setDisplayOption(keys);
+        if (callback) {
+            const keyArr = [...keys];
+            if (keyArr.length && typeof keyArr[0] === "string")
+                callback(keyArr[0]);
+        }
     };
 
     return (
-        <div className="flex flex-column items-center gap-3">
+        <div className="flex flex-column items-center justify-between w-full">
             <Button
                 variant="outline"
                 size={size}
-                label="You"
                 leftIcon={<FamilyIcon className={getIconStyle(size)} />}
-            />
+            >
+                You
+            </Button>
             <Button
+                className="w-[127px] justify-start"
                 variant="outline"
                 size={size}
-                label={place}
                 leftIcon={
                     <div className="flex items-center gap-3">
                         {getModeIcon(mode, size)}
                         <ArrowFullRightIcon className="font-normal fill-gray-400 w-[10px] -ml-1" />
                     </div>
                 }
-            />
+            >
+                {place}
+            </Button>
             <ToggleButtonGroup
                 selectionMode="single"
                 selectedKeys={displayOption}
@@ -99,21 +109,23 @@ export const UserProfileSubheader = ({
     size = "medium",
 }: Props) => {
     return (
-        <div className="flex flex-col gap-3 w-[360px]">
+        <div className="flex flex-col gap-3 w-full">
             <Button
                 variant="outline"
                 size={size}
-                label="Your Profile"
                 leftIcon={<FamilyIcon className={getIconStyle(size)} />}
                 info="2br・public transit"
-            />
+            >
+                Your Profile
+            </Button>
             <Button
                 variant="outline"
                 size={size}
-                label={place}
                 leftIcon={getModeIcon(mode, size)}
                 info="122 Address St, Cambridge"
-            />
+            >
+                {place}
+            </Button>
         </div>
     );
 };

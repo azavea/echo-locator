@@ -103,6 +103,7 @@
     /* Font Weights */
     --font-weight-normal: 400;
     --font-weight-bold: 700;
+    --font-weight-xbold: 800;
 
     /* Shadows */
     --shadow-sm:

@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add initial neighborhoods redux state [#686](https://github.com/azavea/echo-locator/pull/686)
 - Add modal dialog component [#682](https://github.com/azavea/echo-locator/pull/682)
 - Add state management migrate ADR [#685](https://github.com/azavea/echo-locator/pull/685)
+- Add discover page component structures [#687](https://github.com/azavea/echo-locator/pull/687)
 
 ### Changed
 
