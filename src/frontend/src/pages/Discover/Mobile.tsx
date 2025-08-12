@@ -3,8 +3,9 @@ import { useSearchParams } from "react-router";
 
 import { UserProfileSubheaderMobile } from "components/UserProfileSubheader";
 import { Place } from "src/enums";
-import discoverDesktopStyles from "./Discover.styles";
+import discoverStyles from "./Discover.styles";
 import Neighborhoods from "./Neighborhoods";
+import Map from "./Map";
 
 const DiscoverMobile = () => {
     const [routerParams, setRouterParams] = useSearchParams();
@@ -23,7 +24,7 @@ const DiscoverMobile = () => {
         setRouterParams({ display: newDisplay });
     };
 
-    const { root, headerContainer, map } = discoverDesktopStyles({
+    const { root, headerContainer } = discoverStyles({
         isMobile: true,
     });
 
@@ -39,7 +40,7 @@ const DiscoverMobile = () => {
                 />
             </div>
             {/* TODO: Implement Map mode neighborhood slides */}
-            {display === "map" && <div className={map()}>Map container</div>}
+            {display === "map" && <Map />}
             {display === "list" && <Neighborhoods mobile />}
         </div>
     ) : (
