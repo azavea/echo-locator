@@ -31,7 +31,9 @@
             "assets/*": ["./src/assets/*"],
             "pages/*": ["./src/pages/*"],
             "hooks/*": ["./src/hooks/*"],
-            "libs/*": ["./src/libs/*"]
+            "libs/*": ["./src/libs/*"],
+            "reducers/*": ["./src/reducers/*"],
+            "store/*": ["./src/store/*"]
         }
     },
     "include": ["src"]
