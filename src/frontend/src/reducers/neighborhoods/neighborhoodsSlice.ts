@@ -1,9 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type {
-    NeighborhoodsSliceState,
-    Neighborhoods,
-    NeighborhoodBounds,
-} from "./types";
+import type { NeighborhoodsSliceState } from "./types";
 import { getNeighborhoodsAndBounds } from "./neighborhoodsThunk";
 
 const initialState: NeighborhoodsSliceState = {
@@ -18,18 +14,6 @@ export const neighborhoodSlice = createSlice({
     name: "neighborhoods",
     initialState,
     reducers: {
-        setNeighborhoods: (
-            state,
-            { payload: neighborhoods }: { payload: Neighborhoods }
-        ) => {
-            state.neighborhoods = neighborhoods;
-        },
-        setNeighborhoodBounds: (
-            state,
-            { payload: neighborhoodBounds }: { payload: NeighborhoodBounds }
-        ) => {
-            state.neighborhoodBounds = neighborhoodBounds;
-        },
         setActiveNeighborhood: (
             state,
             { payload: neighborhood }: { payload: string | null }
@@ -56,10 +40,6 @@ export const neighborhoodSlice = createSlice({
     },
 });
 
-export const {
-    setNeighborhoods,
-    setNeighborhoodBounds,
-    setActiveNeighborhood,
-} = neighborhoodSlice.actions;
+export const { setActiveNeighborhood } = neighborhoodSlice.actions;
 
 export default neighborhoodSlice.reducer;
