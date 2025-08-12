@@ -9,11 +9,11 @@ const discoverStyles = tv({
         recoContainer:
             "flex flex-1 flex-col items-start gap-6 self-stretch overflow-y-auto bg-gray-50",
         subTitleContainer: "flex w-full flex-col gap-3 text-center",
-        subTitle: "font-xbold text-[27.65px] text-orange-700",
+        subTitle: "font-xbold text-3xl text-orange-700",
         description: "text-rg text-gray-700",
         recoList: "flex w-full flex-col gap-6",
         recoTitleContainer: "flex flex-row items-center gap-[10px]",
-        recoTitle: "font-xbold text-[23.04px] text-black",
+        recoTitle: "font-xbold text-2xl text-black",
         recoDescription: "text-rg text-gray-600",
         swatch: "w-[16px] h-[16px] rounded-[var(--spacing-2)] border border-[#748C27] bg-[#BCD168]",
         map: "flex flex-1 items-center justify-center p-6",
