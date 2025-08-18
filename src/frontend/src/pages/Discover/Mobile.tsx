@@ -5,7 +5,7 @@ import { UserProfileSubheaderMobile } from "components/UserProfileSubheader";
 import { Place } from "src/enums";
 import discoverStyles from "./Discover.styles";
 import Neighborhoods from "./Neighborhoods";
-import Map from "./Map";
+import Map from "./Map/Map";
 
 const DiscoverMobile = () => {
     const [routerParams, setRouterParams] = useSearchParams();

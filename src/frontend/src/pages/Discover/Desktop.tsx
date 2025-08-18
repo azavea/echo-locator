@@ -2,7 +2,7 @@ import { UserProfileSubheader } from "components/UserProfileSubheader";
 import { Place } from "src/enums";
 import discoverStyles from "./Discover.styles";
 import Neighborhoods from "./Neighborhoods";
-import Map from "./Map";
+import Map from "./Map/Map";
 
 const DiscoverDesktop = () => {
     const { root, sidebar, headerContainer } = discoverStyles({
@@ -21,7 +21,7 @@ const DiscoverDesktop = () => {
                 </div>
                 <Neighborhoods mobile={false} />
             </div>
-            <Map />
+            <Map isMobile={false} />
         </div>
     );
 };
