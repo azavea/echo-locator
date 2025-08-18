@@ -23,6 +23,7 @@
         "@conveyal/lonlat": "^1.4.1",
         "@mapbox/polyline": "^1.2.1",
         "@reduxjs/toolkit": "^2.8.2",
+        "@turf/bbox": "^7.2.0",
         "axios": "^1.11.0",
         "geojson": "^0.5.0",
         "i18next": "^25.3.2",
