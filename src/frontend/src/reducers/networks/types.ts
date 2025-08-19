@@ -140,3 +140,13 @@ export interface NetworksSliceState {
     loading: boolean;
     error: string | null;
 }
+
+
+export interface NeighborhoodRoute extends TransitiveData {
+    id: string;
+    label: string;
+    journeys: any[];
+    places: any[];
+    routeSegments: RouteSegment[][];
+}
+
