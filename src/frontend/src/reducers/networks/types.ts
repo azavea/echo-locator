@@ -5,7 +5,7 @@ export type NetworkModeOptions =
     | "off-peak-no-express"
     | "car";
 
-interface TimeTravelSurface {
+interface TravelTimeSurface {
     data: Int32Array<ArrayBuffer>;
     depth: number;
     height: number;
@@ -108,7 +108,7 @@ export interface RoutableParsedPathsData extends PathsData {
 
 export interface TimesAndPathsData extends ParsedPathsData {
     name: NetworkModeOptions;
-    timeTravelSurface?: TimeTravelSurface;
+    travelTimeSurface?: TravelTimeSurface;
 }
 
 export type TimesAndPathsByNetwork = {
@@ -123,7 +123,7 @@ export interface Network extends TimesAndPathsData {
 
 export interface RoutableNetwork extends RoutableParsedPathsData {
     name: NetworkModeOptions;
-    timeTravelSurface: TimeTravelSurface;
+    travelTimeSurface: TravelTimeSurface;
     ready: boolean;
     timesAndPathsDataReady: boolean;
     transitive: TransitiveData;

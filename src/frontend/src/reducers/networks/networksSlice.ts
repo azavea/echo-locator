@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import type {
     NetworkModeOptions,
     NetworksSliceState,
@@ -6,6 +6,7 @@ import type {
     TimesAndPathsByNetwork,
 } from "./types";
 import { getAllTimesAndPaths, getNetworks } from "./networksThunk";
+import type { RootState } from "src/store/store";
 
 const initialState: NetworksSliceState = {
     networks: null,
@@ -71,6 +72,13 @@ export const networksSlice = createSlice({
             });
     },
 });
+
+export const selectAllNetworksDataReady = createSelector(
+    [(state: RootState) => state.networks.networks],
+    networks =>
+        networks &&
+        Object.values(networks).every(n => n.ready && n.timesAndPathsDataReady)
+);
 
 export const { setOrigin, setActiveMode } = networksSlice.actions;
 
