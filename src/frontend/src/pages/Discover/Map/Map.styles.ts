@@ -2,22 +2,23 @@ import { tv } from "tailwind-variants";
 
 const mapStyles = tv({
     slots: {
-        mapContainer: "flex flex-1 items-center justify-center",
+        mapContainer: "flex flex-1 items-center justify-center relative",
+        legendWrapper: "absolute flex justify-center m-4",
         legendContainer: [
-            "absolute bg-white rounded-[var(--spacing-3)] p-3 shadow-lg",
-            "flex items-center justify-center gap-4",
+            "bg-white rounded-[var(--spacing-3)] p-3 py-[3px] shadow-sm",
+            "flex items-center gap-4",
         ],
         legendItem: "flex items-center gap-2",
-        legendColorBox: "w-4 h-4 rounded-[var(--spacing-2)]",
+        legendColorBox: "w-5 h-5 rounded-[var(--spacing-2)]",
         legendLabel: "text-sm text-black font-bold",
     },
     variants: {
         isMobile: {
             true: {
-                legendContainer: "bottom-9",
+                legendWrapper: "bottom-0 left-0 right-0",
             },
             false: {
-                legendContainer: "top-10 right-4",
+                legendWrapper: "top-0 right-0",
             },
         },
     },
