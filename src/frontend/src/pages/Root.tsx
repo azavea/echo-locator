@@ -29,7 +29,7 @@ const Root = () => {
     }, [lang, i18n, location]);
 
     return (
-        <div className="h-screen flex flex-col">
+        <div className="h-dvh flex flex-col">
             {/* TODO: get compareCount from app store */}
             <Menu compareCount={0} languages={languageToLabel} />
             <Outlet />
