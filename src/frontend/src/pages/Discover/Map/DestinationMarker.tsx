@@ -14,8 +14,8 @@ const DestinationMarker = ({ isDefault = true }: { isDefault: boolean }) => (
             <path
                 d="M19 12C19 18 11 25 11 25C11 25 3 18 3 12C3 9.87827 3.84285 7.84344 5.34315 6.34315C6.84344 4.84285 8.87827 4 11 4C13.1217 4 15.1566 4.84285 16.6569 6.34315C18.1571 7.84344 19 9.87827 19 12Z"
                 stroke="white"
-                stroke-width="1.5"
-                stroke-miterlimit="10"
+                strokeWidth="1.5"
+                strokeMiterlimit="10"
             />
         </g>
         <defs>
@@ -26,9 +26,9 @@ const DestinationMarker = ({ isDefault = true }: { isDefault: boolean }) => (
                 width="21.5"
                 height="30.7461"
                 filterUnits="userSpaceOnUse"
-                color-interpolation-filters="sRGB"
+                colorInterpolationFilters="sRGB"
             >
-                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <feFlood floodOpacity="0" result="BackgroundImageFix" />
                 <feColorMatrix
                     in="SourceAlpha"
                     type="matrix"
