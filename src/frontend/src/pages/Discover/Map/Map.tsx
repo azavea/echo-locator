@@ -25,9 +25,10 @@ import {
 
 interface Props {
     isMobile?: boolean;
+    mapDisplay?: boolean;
 }
 
-const Map = ({ isMobile = true }: Props) => {
+const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const { neighborhoodBounds } = useAppSelector(
         ({ neighborhoods }: RootState) => neighborhoods
     );
@@ -35,7 +36,7 @@ const Map = ({ isMobile = true }: Props) => {
         string | number | undefined
     >(undefined);
     const mapRef = useRef<MapRef>(null);
-    const { mapContainer } = mapStyles({ isMobile });
+    const { mapContainer } = mapStyles({ isMobile, mapDisplay });
 
     // TODO: read rankings from store
     const neighborhoodsRanked = useMemo(() => {
