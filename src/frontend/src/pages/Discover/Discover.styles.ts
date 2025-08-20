@@ -30,6 +30,11 @@ const discoverStyles = tv({
                 recoContainer: "p-6",
             },
         },
+        mobileListDisplay: {
+            false: {
+                recoContainer: "hidden"
+            }
+        }
     },
 });
 

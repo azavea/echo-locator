@@ -18,7 +18,7 @@ const cardFull = {
     },
 };
 
-const Neighborhoods = ({ mobile }: { mobile: boolean }) => {
+const Neighborhoods = ({ mobile, listDisplay }: { mobile: boolean, listDisplay: boolean }) => {
     const [mediumTextInput, setMediumTextInput] = useState<string>("");
     const {
         recoContainer,
@@ -30,7 +30,7 @@ const Neighborhoods = ({ mobile }: { mobile: boolean }) => {
         recoTitleContainer,
         recoTitle,
         recoDescription,
-    } = discoverStyles({ isMobile: mobile });
+    } = discoverStyles({ isMobile: mobile, mobileListDisplay: mobile ? listDisplay : true });
 
     return (
         <div className={recoContainer()}>

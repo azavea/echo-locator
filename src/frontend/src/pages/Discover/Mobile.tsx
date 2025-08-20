@@ -40,8 +40,8 @@ const DiscoverMobile = () => {
                 />
             </div>
             {/* TODO: Implement Map mode neighborhood slides */}
-            {display === "map" && <Map />}
-            {display === "list" && <Neighborhoods mobile />}
+            <Map mapDisplay={display === "map"}/>
+            <Neighborhoods mobile listDisplay={display === "list"}/>
         </div>
     ) : (
         <></>

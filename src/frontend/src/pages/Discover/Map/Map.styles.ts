@@ -21,6 +21,11 @@ const mapStyles = tv({
                 legendWrapper: "top-0 right-0",
             },
         },
+        mapDisplay: {
+            false: {
+                mapContainer: "hidden",
+            },
+        }
     },
 });
 
