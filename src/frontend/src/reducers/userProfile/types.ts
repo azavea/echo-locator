@@ -1,3 +1,10 @@
+export interface CriteriaScoreWeights {
+    accessibilityImportance: number;
+    crimeImportance: number;
+    schoolsImportance: number;
+    totalImportance: number;
+}
+
 interface Destination {
     location: Location;
     primary: boolean;
