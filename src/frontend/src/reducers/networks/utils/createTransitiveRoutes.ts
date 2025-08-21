@@ -1,65 +1,32 @@
-// Copied from old codebase using latest commit before introducing listings: 8ca3b943a70039d7af1f41a6b825a106f6c5d23c
+// Refactored from old codebase using latest commit before introducing listings: 8ca3b943a70039d7af1f41a6b825a106f6c5d23c
+// New code copied from Taui: https://github.com/conveyal/taui/blob/dev/src/utils/create-transitive-routes.js
 
+import polyline from "@mapbox/polyline";
 import slice from "lodash/slice";
 import uniq from "lodash/uniq";
 import toUpperCase from "lodash/upperCase";
 
 import type {
     Location,
-    QualifiedPath,
+    NeighborhoodRoutePaths,
+    Path,
+    PopulatedPath,
     RoutableNetwork,
-    RouteSegment,
-    TransitivePattern,
-    TransitiveRoute,
     TransitiveStop,
 } from "../types";
 import { coordinateToIndex } from "./coordinateToIndex";
-
-export function isLight(hexcolor: string): boolean {
-    const r = parseInt(hexcolor.substr(0, 2), 16);
-    const g = parseInt(hexcolor.substr(2, 2), 16);
-    const b = parseInt(hexcolor.substr(4, 2), 16);
-    const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-    return yiq >= 128;
-}
-
-/**
- * Find or throw
- */
-function fot(a: any[], find: (arg0: any) => boolean) {
-    const ret = a.find(find);
-    if (!ret) throw new Error("Value not found in array.");
-    return ret;
-}
+import { find, uniqBy } from "lodash";
 
 const DEFAULT_ROUTE_COLOR = "0b2b40";
 const TYPE_TO_ICON = ["subway", "subway", "train", "bus"];
-const PLACE = "PLACE";
-const STOP = "STOP";
-const TRANSIT = "TRANSIT";
 const WALK = "WALK";
 
 export default function createTransitiveRoutesForNetwork(
     network: RoutableNetwork,
-    start: Location,
+    _start: Location,
     end: Location
-) {
+): NeighborhoodRoutePaths {
     const td = network.transitive;
-    const places = [
-        {
-            place_id: "from",
-            place_name: start.label,
-            place_lon: start.position.lon,
-            place_lat: start.position.lat,
-        },
-        {
-            place_id: "to",
-            place_name: end.label,
-            place_lon: end.position.lon,
-            place_lat: end.position.lat,
-        },
-    ];
-
     // Get the targetPathIndexes
     const baseIndex =
         network.pathsPerTarget * coordinateToIndex(network, end.position);
@@ -71,164 +38,91 @@ export default function createTransitiveRoutesForNetwork(
 
     // Cannot reach the destination
     if (targetPathIndexes.length === 0) {
-        return {
-            ...td,
-            places,
-            journeys: [],
-            routeSegments: [],
-        };
+        return [];
     }
 
-    const pathsData = network.paths;
-    const paths = targetPathIndexes.map<QualifiedPath>(tpi =>
-        pathsData[tpi]
-            // map the pattern ids in each path leg to the actual patterns they contain
-            .map(leg => [
-                leg[0],
-                fot(
-                    td.patterns,
-                    (p: TransitivePattern) => p.pattern_id === leg[1]
-                ), // ensure that we are comparing strings
-                leg[2],
-            ])
-            // map the stop ids to actual stops including their stop index
-            .map(([boardStopId, pattern, alightStopId]) => {
-                const findStop = (id: string) => ({
-                    ...fot(td.stops, (s: TransitiveStop) => s.stop_id === id),
-                    stopIndex: pattern.stops.findIndex(
-                        (s: TransitiveStop) => s.stop_id === id
-                    ),
-                });
+    // Find stop
+    const findStop = (stopId: string) => find(td.stops, ["stop_id", stopId])!;
 
-                return [findStop(boardStopId), pattern, findStop(alightStopId)];
-            })
-    );
+    // Convert to [stop, pattern, stop] arrays
+    const allPaths = targetPathIndexes.map(index => network.paths[index]);
 
-    // Map the paths to transitive journeys
-    const journeys = paths.map(path => ({
-        journey_id: 0,
-        journey_name: 0,
-        segments:
-            path.length === 0
-                ? createWalkOnlyJourney()
-                : getTransitiveSegmentsFromPath(path),
-    }));
+    // Populate each path leg with it's stops, pattern, and route
+    const populatePath = (path: Path): PopulatedPath[] =>
+        path.map(([fromStopId, patternId, toStopId]) => {
+            const pattern = find(td.patterns, ["pattern_id", patternId])!;
+            const route = find(td.routes, ["route_id", pattern.route_id])!;
+            return {
+                fromStop: findStop(fromStopId),
+                pattern,
+                route,
+                toStop: findStop(toStopId),
+            };
+        });
 
-    return {
-        ...td,
-        journeys,
-        places,
-        routeSegments: paths.map(path =>
-            path.map(leg => {
-                const route: TransitiveRoute = fot(
-                    td.routes,
-                    r => r.route_id === leg[1].route_id
-                );
-                const seg = {} as RouteSegment;
-                const getRouteName = () => toUpperCase(route.route_short_name);
-                const color = route.route_color
-                    ? `#${route.route_color}`
-                    : "#0b2b40";
-                seg.name = getRouteName();
+    // Collect pattern and route information
+    const populatedPaths = allPaths.map(populatePath).map(addDataToPaths);
 
-                if (leg[1].patterns && leg[1].patterns.length > 0) {
-                    const patternNames = leg[1].patterns
-                        .map(p =>
-                            fot(td.routes, r => r.route_id === p.route_id)
-                        )
-                        .map(getRouteName);
-                    seg.name = uniq(patternNames).join(" / ");
-                }
-
-                seg.backgroundColor = color;
-                seg.color = isLight(color.substr(1)) ? "#000" : "#fff";
-                seg.type = route.route_type
-                    ? TYPE_TO_ICON[route.route_type]
-                    : DEFAULT_ROUTE_COLOR;
-
-                return seg;
-            })
-        ),
-    };
-}
-
-function createWalkOnlyJourney() {
-    return [
-        {
-            type: WALK,
-            from: {
-                type: PLACE,
-                place_id: "from",
-            },
-            to: {
-                type: PLACE,
-                place_id: "to",
-            },
-        },
-    ];
+    // Filter non-unique route combinations
+    return uniqBy(populatedPaths, r => r.map(s => s.name).join("-"));
 }
 
 /**
  * Used to show a transitive route
  */
-function getTransitiveSegmentsFromPath(path: QualifiedPath) {
-    const initialStopId = path[0][0].stop_id;
+function addDataToPaths(path: PopulatedPath[]) {
     const segments = [];
-    let previousStopId = initialStopId;
+    let previousStop = path[0].fromStop;
     for (let i = 0; i < path.length; i++) {
         const leg = path[i];
-        const boardStop = leg[0];
-        const pattern = leg[1];
-        const alightStop = leg[2];
+        const boardStop = leg.fromStop;
+        const pattern = leg.pattern;
+        const alightStop = leg.toStop;
 
-        if (previousStopId !== boardStop.stop_id) {
-            // aka there is an on-street transfer
+        // If there is an on-street transfer
+        if (previousStop.stop_id !== boardStop.stop_id) {
             segments.push({
-                type: WALK,
-                from: {
-                    type: STOP,
-                    stop_id: previousStopId,
-                },
-                to: {
-                    type: STOP,
-                    stop_id: boardStop.stop_id,
-                },
+                mode: WALK,
+                coordinates: [
+                    [previousStop.stop_lon, previousStop.stop_lat],
+                    [boardStop.stop_lon, boardStop.stop_lat],
+                ],
             });
         }
 
+        const findStopIndex = (stop: TransitiveStop) =>
+            pattern.stops.findIndex(s => s.stop_id === stop.stop_id);
+
+        const subSegments = pattern.stops.slice(
+            findStopIndex(boardStop),
+            findStopIndex(alightStop)
+        );
+        const latLons = subSegments.reduce<[number, number][]>(
+            (lls, s) => [...lls, ...polyline.decode(s.geometry)],
+            []
+        );
+
         segments.push({
-            type: TRANSIT,
-            pattern_id: pattern.pattern_id,
-            from_stop_index: boardStop.stopIndex,
-            to_stop_index: alightStop.stopIndex,
+            fromStop: {
+                coordinates: [boardStop.stop_lon, boardStop.stop_lat],
+                name: boardStop.stop_name,
+                stopId: boardStop.stop_id,
+            },
+            coordinates: latLons.map(([lat, lon]) => [lon, lat]), // reverse coords
+            mode: TYPE_TO_ICON[leg.route.route_type!],
+            name: toUpperCase(leg.route.route_short_name),
+            patternId: leg.pattern.pattern_id,
+            routeColor: "#" + (leg.route.route_color || DEFAULT_ROUTE_COLOR),
+            routeId: leg.route.route_id,
+            toStop: {
+                coordinates: [alightStop.stop_lon, alightStop.stop_lat],
+                name: alightStop.stop_name,
+                stopId: alightStop.stop_id,
+            },
         });
 
-        previousStopId = alightStop.stop_id;
+        previousStop = alightStop;
     }
 
-    return [
-        {
-            type: WALK,
-            from: {
-                type: PLACE,
-                place_id: "from",
-            },
-            to: {
-                type: STOP,
-                stop_id: initialStopId,
-            },
-        },
-        ...segments,
-        {
-            type: WALK,
-            from: {
-                type: STOP,
-                stop_id: previousStopId,
-            },
-            to: {
-                type: PLACE,
-                place_id: "to",
-            },
-        },
-    ];
+    return segments;
 }

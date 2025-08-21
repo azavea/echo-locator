@@ -11,8 +11,8 @@ import type {
     originPoint,
     RoutableNetwork,
     Location,
-    RouteSegment,
-    NeighborhoodRoute,
+    NeighborhoodRoutes,
+    NeighborhoodRoutePaths,
 } from "../types";
 import { createSelector } from "@reduxjs/toolkit";
 import createTransitiveRoutes from "../utils/createTransitiveRoutes";
@@ -22,29 +22,15 @@ import { selectAllNetworksDataReady } from "../networksSlice";
  * This assumes loaded query, paths, and targets.
  */
 const memoizedTransitiveRoutes = memoize(
-    (n: RoutableNetwork, _i: number, s: Location, e: Location) =>
-        createTransitiveRoutes(n, s, e),
+    (
+        n: RoutableNetwork,
+        _i: number,
+        s: Location,
+        e: Location
+    ): NeighborhoodRoutePaths => createTransitiveRoutes(n, s, e),
     (n, i, s, e) =>
         `${n.name}-${i}-${lonlat(s.position).toString()}-${lonlat(e.position).toString()}`
 );
-
-const routeToString = (s: RouteSegment[]) =>
-    s.map(s => `${s.name}-${s.backgroundColor}-${s.type}`).join("-");
-
-const uniqueSegments = (routeSegments: RouteSegment[][]) => {
-    const foundKeys: { [key: string]: boolean } = {};
-    return (routeSegments || []).reduce<RouteSegment[][]>(
-        (uniqueRoutes, route) => {
-            const key = routeToString(route);
-            if (!foundKeys[key]) {
-                foundKeys[key] = true;
-                return [...uniqueRoutes, route];
-            }
-            return uniqueRoutes;
-        },
-        []
-    );
-};
 
 export default createSelector(
     [
@@ -74,7 +60,7 @@ export default createSelector(
 
         const network = networks[activeMode];
 
-        const routes: NeighborhoodRoute[] = [];
+        const routes: NeighborhoodRoutes = [];
         neighborhoods.features.map((neighborhood, neighborhoodIndex) => {
             if (
                 start &&
@@ -94,8 +80,6 @@ export default createSelector(
                     label: neighborhood.properties.town,
                     position: lonlat(neighborhood.geometry.coordinates),
                 };
-                // journeys, places, routeSegments in result;
-                // also repeated for all results: patterns, routes, stops
                 const result = memoizedTransitiveRoutes(
                     network as RoutableNetwork,
                     neighborhoodIndex,
@@ -105,12 +89,9 @@ export default createSelector(
                 routes.push({
                     id: neighborhood.properties.id,
                     label: neighborhood.properties.town, // not unique
-                    journeys: result.journeys,
-                    patterns: result.patterns,
-                    places: result.places,
-                    routes: result.routes,
-                    routeSegments: uniqueSegments(result.routeSegments),
-                    stops: result.stops,
+                    start: start_location,
+                    end: end,
+                    segments: result,
                 });
             } else {
                 return [];

@@ -19,7 +19,7 @@ interface TravelTimeSurface {
 export type originPoint = { lon: number; lat: number };
 
 /**
- * Path data
+ * Route data types from old codebase
  */
 export type LonLat = { lat: number; lon: number };
 
@@ -40,6 +40,7 @@ export type TransitiveStop = {
     geometry: string;
     stopIndex: number;
     stop_id: string;
+    stop_name: string;
     stop_lat: number;
     stop_lon: number;
 };
@@ -95,8 +96,47 @@ export interface Journey {
     segments: JourneySegment[];
 }
 /**
- * End of path data types
+ * End of old types
  */
+
+export interface PopulatedPath {
+    fromStop: TransitiveStop;
+    pattern: TransitivePattern;
+    route: TransitiveRoute;
+    toStop: TransitiveStop;
+}
+
+export interface NeighborhoodTransitStop {
+    coordinates: number[];
+    name: string;
+    stopId: string;
+}
+
+export interface NeighborhoodRouteLeg {
+    mode: string;
+    coordinates: number[][];
+    fromStop?: NeighborhoodTransitStop;
+    name?: string;
+    patternId?: string;
+    routeColor?: string;
+    routeId?: string;
+    toStop?: NeighborhoodTransitStop;
+}
+
+export type NeighborhoodRoutePath = NeighborhoodRouteLeg[];
+
+// Includes primary and alternative routes for a neighborhood
+export type NeighborhoodRoutePaths = NeighborhoodRoutePath[];
+
+export interface NeighborhoodRoute {
+    id: string;
+    label: string;
+    start: Location;
+    end: Location;
+    segments: NeighborhoodRoutePaths;
+}
+
+export type NeighborhoodRoutes = NeighborhoodRoute[];
 
 export interface ParsedPathsData extends Partial<PathsData> {
     pathsPerTarget?: number;
@@ -140,13 +180,3 @@ export interface NetworksSliceState {
     loading: boolean;
     error: string | null;
 }
-
-
-export interface NeighborhoodRoute extends TransitiveData {
-    id: string;
-    label: string;
-    journeys: any[];
-    places: any[];
-    routeSegments: RouteSegment[][];
-}
-
