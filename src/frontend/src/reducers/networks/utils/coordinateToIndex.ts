@@ -1,8 +1,11 @@
+// Source code copied from latest Taui v3
+// ATTR: Taui by Conveyal, included under the MIT license (https://github.com/conveyal/taui/blob/dev/LICENSE)
+
 import { toPixel } from "@conveyal/lonlat";
 import type { originPoint } from "../types";
 
 /**
- * * Copied from Taui: https://github.com/conveyal/taui/blob/dev/src/utils/coordinate-to-point.js
+ *
  * Project a coordinate to it's pixel coordinate and find the appropriate point
  * associated with it.
  */
@@ -20,7 +23,6 @@ function coordinateToPoint(
     };
 }
 
-// Copied from Taui: https://github.com/conveyal/taui/blob/dev/src/services/network.js
 export function coordinateToIndex(network: any, coordinate: originPoint) {
     const originPoint = coordinateToPoint(
         coordinate,

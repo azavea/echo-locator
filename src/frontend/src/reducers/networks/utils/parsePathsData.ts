@@ -1,5 +1,5 @@
-// Refactored from Taui parsePathsData to support new paths data format
-// Source code from Taui: https://github.com/conveyal/taui/blob/dev/src/utils/parse-paths-data.js
+// Refactored from latest Taui v3 parsePathsData to support new paths data format
+// ATTR: Taui by Conveyal, included under the MIT license (https://github.com/conveyal/taui/blob/dev/LICENSE)
 
 import type { Leg, ParsedPathsData } from "../types";
 

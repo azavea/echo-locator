@@ -1,3 +1,7 @@
+// Refactored from old codebase loadDataset and fetchAllTimesAndPathsForCoordinate at commit 6f17e33
+// New source code copied from latest Taui v3
+// ATTR: Taui by Conveyal, included under the MIT license (https://github.com/conveyal/taui/blob/dev/LICENSE)
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
     fetchNetworkData,
@@ -17,8 +21,6 @@ import { parsePathsData } from "./utils/parsePathsData";
 import { parseTimesData } from "./utils/parseTimesData";
 import type { RootState } from "src/store/store";
 
-// Refactored from loadDataset fn in old codebase
-// Source code from Taui: https://github.com/conveyal/taui/blob/dev/src/services/config.js
 export const getNetworks = createAsyncThunk(
     "networks/getNetworks",
     async (_, { rejectWithValue }) => {
@@ -48,8 +50,6 @@ export const getNetworks = createAsyncThunk(
     }
 );
 
-// Refactored from Taui's fetchAllTimesAndPathsForCoordinate
-// Source code from Taui: https://github.com/conveyal/taui/blob/dev/src/actions/network.js
 export const getAllTimesAndPaths = createAsyncThunk<
     any,
     originPoint,

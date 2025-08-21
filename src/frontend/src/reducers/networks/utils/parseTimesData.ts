@@ -1,21 +1,9 @@
-// Copied from Taui: https://github.com/conveyal/taui/blob/dev/src/utils/parse-times-data.js
+// Code copied from latest Taui v3
+// ATTR: Taui by Conveyal, included under the MIT license (https://github.com/conveyal/taui/blob/dev/LICENSE)
 
 const HEADER_ENTRIES = 7;
 const HEADER_LENGTH = 9;
 const TIMES_GRID_TYPE = "ACCESSGR";
-
-/*
-type TimesData = {
-  data: Int32Array,
-  depth: number,
-  height: number,
-  north: number,
-  version: number,
-  west: number,
-  width: number,
-  zoom: number
-}
-*/
 
 /**
  * Parse the ArrayBuffer from a `*_times.dat` file for a point in a network.

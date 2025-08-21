@@ -1,5 +1,6 @@
-// Refactored from old codebase using latest commit before introducing listings: 8ca3b943a70039d7af1f41a6b825a106f6c5d23c
-// Follow latest Taui conventions to support routes with MapLibre
+// Refactored from old codebase at latest commit before introducing listings: 8ca3b94
+// New code copied from latest Taui v3 to support routes with MapLibre
+// ATTR: Taui by Conveyal, included under the MIT license (https://github.com/conveyal/taui/blob/dev/LICENSE)
 
 import findIndex from "lodash/findIndex";
 import get from "lodash/get";

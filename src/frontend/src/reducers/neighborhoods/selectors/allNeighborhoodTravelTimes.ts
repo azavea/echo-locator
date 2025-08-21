@@ -1,3 +1,5 @@
+// Refactored from old codebase neighborhoodTravelTimes at commit 6f17e33
+
 import lonlat from "@conveyal/lonlat";
 import get from "lodash/get";
 import { createSelector } from "@reduxjs/toolkit";
@@ -11,7 +13,6 @@ import type {
 } from "reducers/networks/types";
 import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
 
-// Refactored from old codebase neighborhoodTravelTimes
 // Derives neighborhood travel times for all networks, assigned by network key
 // Used to generate active network travel time for ranking and range travel times for display
 
