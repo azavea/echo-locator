@@ -55,7 +55,8 @@ COLUMNS = {
     'school': 'str',
     'town_square': 'str',
     'open_space_or_landmark': 'str',
-    'crime_percentile': 'float'
+    'crime_percentile': 'float',
+    'family_move_count': 'int'
 }
 
 # Add column definitions for the extra image metadata columns

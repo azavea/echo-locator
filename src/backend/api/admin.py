@@ -24,6 +24,7 @@ class NeighborhoodAdmin(admin.GISModelAdmin, admin.ModelAdmin):
         "max_rent_4br",
         "max_rent_5br",
         "max_rent_6br",
+        "family_move_count",
         "school_choice",
         "total_mapc",
         "town_website_description",

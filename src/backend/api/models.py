@@ -98,6 +98,11 @@ class Neighborhood(models.Model):
     town_square_username = models.CharField(max_length=50, blank=True)
     open_space_or_landmark_username = models.CharField(max_length=50, blank=True)
 
+    family_move_count = models.IntegerField(
+        default=0,
+        help_text="Total count of voucher holder families that have moved to neighborhood.",
+    )
+
     class Meta:
         ordering = ["zipcode"]
 

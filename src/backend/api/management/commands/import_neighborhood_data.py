@@ -46,6 +46,8 @@ NULLABLE_CHAR_FIELDS = set(
     ]
 )
 
+NON_NULLABLE_INT_FIELDS = set(["family_move_count"])
+
 # Booleans expressed as integers in the data (0 = False, non-zero = True)
 BOOLEAN_INT_FIELDS = set(["ecc", "school_choice"])
 
@@ -66,6 +68,8 @@ def make_neighborhood(nhd, bound, imgs):
             return val if val is not None else ""
         elif key in BOOLEAN_INT_FIELDS:
             return True if val > 0 else False
+        elif key in NON_NULLABLE_INT_FIELDS:
+            return val if val is not None else 0
         return val
 
     # The Django model keys exactly match the keys present in the GeoJSON properties.
