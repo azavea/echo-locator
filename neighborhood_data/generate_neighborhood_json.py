@@ -61,8 +61,8 @@ COLUMNS = {
 
 # Add column definitions for the extra image metadata columns
 IMAGE_COLUMNS = ['street', 'school', 'town_square', 'open_space_or_landmark']
-EXTRA_IMAGE_COLUMNS = ['_thumbnail', '_license', '_license_url', '_description', '_artist',
-                       '_username']
+EXTRA_IMAGE_COLUMNS = ['_image_url', '_license', '_license_url', '_description', '_artist',
+                       '_username', '_original_width']
 
 for col in IMAGE_COLUMNS:
     for suffix in EXTRA_IMAGE_COLUMNS:

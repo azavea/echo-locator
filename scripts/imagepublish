@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="Publish neighborhood thumbnail images."
+USAGE="Publish neighborhood images."
 
 source ./scripts/_sourced
 check_for_help_flag "$@"
