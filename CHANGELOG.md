@@ -28,6 +28,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add discover page component structures [#687](https://github.com/azavea/echo-locator/pull/687)
 - Bootstrap map component [#688](https://github.com/azavea/echo-locator/pull/688)
 - Migrate route and travel time logic [#693](https://github.com/azavea/echo-locator/pull/693)
+- Add neighborhood ranking logic [#694](https://github.com/azavea/echo-locator/pull/694)
 
 ### Changed
 
