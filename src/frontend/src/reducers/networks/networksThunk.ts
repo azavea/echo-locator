@@ -10,7 +10,6 @@ import {
 } from "src/api/networks";
 import { networks } from "src/constants";
 import type {
-    NetworkModeOptions,
     Networks,
     LonLat,
     ParsedPathsData,
@@ -20,6 +19,7 @@ import { coordinateToIndex } from "./utils/coordinateToIndex";
 import { parsePathsData } from "./utils/parsePathsData";
 import { parseTimesData } from "./utils/parseTimesData";
 import type { RootState } from "src/store/store";
+import type { NetworkModeOptionKey } from "src/enums";
 
 export const getNetworks = createAsyncThunk(
     "networks/getNetworks",
@@ -28,7 +28,8 @@ export const getNetworks = createAsyncThunk(
             const networkDataByMode: Record<string, any> = {};
 
             await Promise.all(
-                Object.keys(networks).map(async network => {
+                Object.keys(networks).map(async networkKeyString => {
+                    const network = networkKeyString as NetworkModeOptionKey;
                     const [requestResponse, transitiveResponse] =
                         await fetchNetworkData(network);
 
@@ -64,13 +65,14 @@ export const getAllTimesAndPaths = createAsyncThunk<
         // Use Promise.all to fetch and parse data for all networks concurrently
         try {
             const allParsedTimeAndPathData = await Promise.all(
-                Object.keys(networks).map(async network => {
+                Object.keys(networks).map(async networkKeyString => {
+                    const network = networkKeyString as NetworkModeOptionKey;
                     const networkDetails =
                         state.networks.networks &&
-                        state.networks.networks[network as NetworkModeOptions];
-                    if(!networkDetails){
+                        state.networks.networks[network];
+                    if (!networkDetails) {
                         return {
-                            name: network as NetworkModeOptions
+                            name: network,
                         };
                     }
                     const index = coordinateToIndex(networkDetails, origin);
@@ -95,7 +97,7 @@ export const getAllTimesAndPaths = createAsyncThunk<
                     );
 
                     return {
-                        name: network as NetworkModeOptions,
+                        name: network as NetworkModeOptionKey,
                         ...pathsData,
                         travelTimeSurface: travelTimeSurface,
                         timesAndPathsDataReady: true,
@@ -107,7 +109,7 @@ export const getAllTimesAndPaths = createAsyncThunk<
                     dataByNetwork[data.name] = data;
                     return dataByNetwork;
                 },
-                {} as { [key in NetworkModeOptions]: TimesAndPathsData }
+                {} as { [key in NetworkModeOptionKey]: TimesAndPathsData }
             );
         } catch (error: any) {
             return rejectWithValue(error.message);

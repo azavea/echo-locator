@@ -1,12 +1,12 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import type {
-    NetworkModeOptions,
     NetworksSliceState,
     LonLat,
     TimesAndPathsByNetwork,
 } from "./types";
 import { getAllTimesAndPaths, getNetworks } from "./networksThunk";
 import type { RootState } from "src/store/store";
+import type { NetworkModeOptionKey } from "src/enums";
 
 const initialState: NetworksSliceState = {
     networks: null,
@@ -26,7 +26,7 @@ export const networksSlice = createSlice({
         },
         setActiveMode: (
             state,
-            { payload: mode }: { payload: NetworkModeOptions }
+            { payload: mode }: { payload: NetworkModeOptionKey }
         ) => {
             state.activeMode = mode;
         },
@@ -52,7 +52,7 @@ export const networksSlice = createSlice({
                 state.loading = false;
                 if (state.networks) {
                     for (const key in action.payload as TimesAndPathsByNetwork) {
-                        const mode = key as NetworkModeOptions;
+                        const mode = key as NetworkModeOptionKey;
                         if (state.networks?.hasOwnProperty(mode)) {
                             state.networks[mode] = {
                                 ...state.networks[mode],

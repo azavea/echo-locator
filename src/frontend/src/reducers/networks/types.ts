@@ -1,9 +1,4 @@
-export type NetworkModeOptions =
-    | "peak"
-    | "off-peak"
-    | "peak-no-express"
-    | "off-peak-no-express"
-    | "car";
+import type { NetworkModeOptionKey } from "src/enums";
 
 interface TravelTimeSurface {
     data: Int32Array<ArrayBuffer>;
@@ -114,12 +109,12 @@ export interface RoutableParsedPathsData extends PathsData {
 }
 
 export interface TimesAndPathsData extends ParsedPathsData {
-    name: NetworkModeOptions;
+    name: NetworkModeOptionKey;
     travelTimeSurface?: TravelTimeSurface;
 }
 
 export type TimesAndPathsByNetwork = {
-    [key in NetworkModeOptions]: TimesAndPathsData;
+    [key in NetworkModeOptionKey]: TimesAndPathsData;
 };
 
 // Partial types for response from request.json
@@ -140,20 +135,20 @@ export interface Network extends NetworkRequestJSONType, TimesAndPathsData {
 export interface RoutableNetwork
     extends NetworkRequestJSONType,
         RoutableParsedPathsData {
-    name: NetworkModeOptions;
+    name: NetworkModeOptionKey;
     travelTimeSurface: TravelTimeSurface;
     timesAndPathsDataReady: boolean;
     transitive: TransitiveData;
 }
 
 export type Networks = {
-    [key in NetworkModeOptions]: Network;
+    [key in NetworkModeOptionKey]: Network;
 };
 
 export interface NetworksSliceState {
     networks: Networks | null;
     origin: LonLat | null;
-    activeMode: NetworkModeOptions;
+    activeMode: NetworkModeOptionKey;
     loading: boolean;
     error: string | null;
 }

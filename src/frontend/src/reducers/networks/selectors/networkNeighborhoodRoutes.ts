@@ -8,7 +8,6 @@ import memoize from "lodash/memoize";
 import type { RootState } from "store/store";
 import type { Neighborhoods } from "../../neighborhoods/types";
 import type {
-    NetworkModeOptions,
     Networks,
     LonLat,
     RoutableNetwork,
@@ -19,6 +18,7 @@ import type {
 import { createSelector } from "@reduxjs/toolkit";
 import createTransitiveRoutes from "../utils/createTransitiveRoutes";
 import { selectAllNetworksDataReady } from "../networksSlice";
+import type { NetworkModeOptionKey } from "src/enums";
 
 /**
  * This assumes loaded query, paths, and targets.
@@ -43,7 +43,7 @@ export default createSelector(
         selectAllNetworksDataReady,
     ],
     (
-        activeMode: NetworkModeOptions,
+        activeMode: NetworkModeOptionKey,
         networks: Networks | null,
         start: LonLat | null,
         neighborhoods: Neighborhoods | null,

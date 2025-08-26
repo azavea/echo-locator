@@ -1,5 +1,4 @@
-import { Language } from "./enums";
-import type { NetworkModeOptions } from "./reducers/networks/types";
+import { Language, type NetworkModeOptionKey } from "./enums";
 
 export const languageToLabel = {
     [Language.EN]: "English",
@@ -7,24 +6,24 @@ export const languageToLabel = {
     [Language.ZH]: "中文",
 };
 
-export const networks = {
-    ["peak" as NetworkModeOptions]: {
+export const networks: Record<NetworkModeOptionKey, any> = {
+    peak: {
         label: "Peak",
         commuter: true,
     },
-    ["off-peak" as NetworkModeOptions]: {
+    offPeak: {
         label: "Off Peak",
         commuter: true,
     },
-    ["peak-no-express" as NetworkModeOptions]: {
+    peakNoExpress: {
         label: "Peak No Express",
         commuter: false,
     },
-    ["off-peak-no-express" as NetworkModeOptions]: {
+    offPeakNoExpress: {
         label: "Off Peak No Express",
         commuter: false,
     },
-    ["car" as NetworkModeOptions]: {
+    car: {
         label: "Car",
         commuter: null,
     },

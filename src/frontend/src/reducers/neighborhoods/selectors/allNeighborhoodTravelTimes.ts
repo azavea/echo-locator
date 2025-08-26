@@ -6,12 +6,9 @@ import { createSelector } from "@reduxjs/toolkit";
 import { coordinateToIndex } from "reducers/networks/utils/coordinateToIndex";
 import type { Neighborhoods } from "../types";
 import type { RootState } from "store/store";
-import type {
-    NetworkModeOptions,
-    Networks,
-    LonLat,
-} from "reducers/networks/types";
+import type { Networks, LonLat } from "reducers/networks/types";
 import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
+import type { NetworkModeOptionKey } from "src/enums";
 
 // Derives neighborhood travel times for all networks, assigned by network key
 // Used to generate active network travel time for ranking and range travel times for display
@@ -40,11 +37,11 @@ export default createSelector(
                         network,
                         lonlat(neighborhood.geometry.coordinates)
                     );
-                    travelTimesByNetwork[key as NetworkModeOptions] =
+                    travelTimesByNetwork[key as NetworkModeOptionKey] =
                         surface?.data ? surface.data[idx] : 0;
                     return travelTimesByNetwork;
                 },
-                {} as { [key in NetworkModeOptions]: any }
+                {} as { [key in NetworkModeOptionKey]: any }
             );
         });
     }
