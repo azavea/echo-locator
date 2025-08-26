@@ -47,30 +47,25 @@ class Neighborhood(models.Model):
     town_square = models.URLField(max_length=400, blank=True)
     open_space_or_landmark = models.URLField(max_length=400, blank=True)
 
-    street_thumbnail = models.URLField(max_length=400, blank=True)
-    school_thumbnail = models.URLField(max_length=400, blank=True)
-    town_square_thumbnail = models.URLField(max_length=400, blank=True)
-    open_space_or_landmark_thumbnail = models.URLField(max_length=400, blank=True)
-
     street_image = models.ImageField(
         blank=True,
         storage=NeighborhoodPhotoStorage(),
-        help_text="Save and return to this record to see uploaded image. Image will be displayed at 120x90.",
+        help_text="Save and return to this record to see uploaded image. Image will be displayed at 16/9 aspect ratio, 640x360.",
     )
     school_image = models.ImageField(
         blank=True,
         storage=NeighborhoodPhotoStorage(),
-        help_text="Save and return to this record to see uploaded image. Image will be displayed at 120x90.",
+        help_text="Save and return to this record to see uploaded image. Image will be displayed at 16/9 aspect ratio, 640x360.",
     )
     town_square_image = models.ImageField(
         blank=True,
         storage=NeighborhoodPhotoStorage(),
-        help_text="Save and return to this record to see uploaded image. Image will be displayed at 120x90.",
+        help_text="Save and return to this record to see uploaded image. Image will be displayed at 16/9 aspect ratio, 640x360.",
     )
     open_space_or_landmark_image = models.ImageField(
         blank=True,
         storage=NeighborhoodPhotoStorage(),
-        help_text="Save and return to this record to see uploaded image. Image will be displayed at 120x90.",
+        help_text="Save and return to this record to see uploaded image. Image will be displayed at 16/9 aspect ratio, 640x360.",
     )
 
     street_license = models.CharField(max_length=50, blank=True)
@@ -97,6 +92,11 @@ class Neighborhood(models.Model):
     school_username = models.CharField(max_length=50, blank=True)
     town_square_username = models.CharField(max_length=50, blank=True)
     open_space_or_landmark_username = models.CharField(max_length=50, blank=True)
+
+    family_move_count = models.IntegerField(
+        default=0,
+        help_text="Total count of voucher holder families that have moved to neighborhood.",
+    )
 
     class Meta:
         ordering = ["zipcode"]

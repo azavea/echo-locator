@@ -12,12 +12,12 @@ from shapely.geometry import shape
 
 NEIGHBORHOOD_FILE = 'neighborhoods.csv'
 
-ZCTA_BASE = 'cb_2017_us_zcta510_500k'
+ZCTA_BASE = 'cb_2020_us_zcta520_500k'
 ZCTA_DIRECTORY = 'zctas'
 ZCTA_PATH_BASE = '{dir}/{base}'.format(dir=ZCTA_DIRECTORY, base=ZCTA_BASE)
 ZCTA_FILE = '{base}.shp'.format(base=ZCTA_PATH_BASE)
 ZCTA_ZIPFILE = '{base}.zip'.format(base=ZCTA_PATH_BASE)
-ZCTA_URL = 'http://www2.census.gov/geo/tiger/GENZ2017/shp/{base}.zip'.format(
+ZCTA_URL = 'https://www2.census.gov/geo/tiger/GENZ2020/shp/{base}.zip'.format(
     base=ZCTA_BASE)
 
 OUT_FILE = 'neighborhood_centroids.csv'
@@ -57,7 +57,7 @@ with fiona.open(ZCTA_FILE) as shp:
     with fiona.open(OUT_ZCTA_GEOJSON, 'w', driver='GeoJSON', schema=schema,
                     crs=crs) as outjson:
         for zcta in shp:
-            zipcode = zcta['properties']['ZCTA5CE10']
+            zipcode = zcta['properties']['ZCTA5CE20']
             if zipcode in places:
                 print('Found zipcode {zipcode}'.format(zipcode=zipcode))
                 if places[zipcode]['x'] and places[zipcode]['y']:
