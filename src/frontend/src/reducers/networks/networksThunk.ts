@@ -12,7 +12,7 @@ import { networks } from "src/constants";
 import type {
     NetworkModeOptions,
     Networks,
-    originPoint,
+    LonLat,
     ParsedPathsData,
     TimesAndPathsData,
 } from "./types";
@@ -43,6 +43,9 @@ export const getNetworks = createAsyncThunk(
                 })
             );
 
+            // TODO: We need to explicitly set type because of
+            // the Promise<any> in the API method, but this isn't
+            // great practice. Refine for better types management.
             return networkDataByMode as Networks;
         } catch (error: any) {
             return rejectWithValue(error.message);
@@ -52,11 +55,11 @@ export const getNetworks = createAsyncThunk(
 
 export const getAllTimesAndPaths = createAsyncThunk<
     any,
-    originPoint,
+    LonLat,
     { state: RootState }
 >(
     "networks/getAllTimesAndPaths",
-    async (origin: originPoint, { getState, rejectWithValue }) => {
+    async (origin: LonLat, { getState, rejectWithValue }) => {
         const state = getState();
         // Use Promise.all to fetch and parse data for all networks concurrently
         try {
@@ -65,6 +68,11 @@ export const getAllTimesAndPaths = createAsyncThunk<
                     const networkDetails =
                         state.networks.networks &&
                         state.networks.networks[network as NetworkModeOptions];
+                    if(!networkDetails){
+                        return {
+                            name: network as NetworkModeOptions
+                        };
+                    }
                     const index = coordinateToIndex(networkDetails, origin);
 
                     // Car paths not generated in analysis,

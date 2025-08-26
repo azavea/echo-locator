@@ -2,7 +2,7 @@
 // ATTR: Taui by Conveyal, included under the MIT license (https://github.com/conveyal/taui/blob/dev/LICENSE)
 
 import { toPixel } from "@conveyal/lonlat";
-import type { originPoint } from "../types";
+import type { LonLat, Network } from "../types";
 
 /**
  *
@@ -10,7 +10,7 @@ import type { originPoint } from "../types";
  * associated with it.
  */
 function coordinateToPoint(
-    coordinate: originPoint,
+    coordinate: LonLat,
     zoom: number,
     west: number,
     north: number
@@ -23,7 +23,7 @@ function coordinateToPoint(
     };
 }
 
-export function coordinateToIndex(network: any, coordinate: originPoint) {
+export function coordinateToIndex(network: Network, coordinate: LonLat) {
     const originPoint = coordinateToPoint(
         coordinate,
         network.zoom,

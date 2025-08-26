@@ -43,23 +43,31 @@ export default function createTransitiveRoutesForNetwork(
     }
 
     // Find stop
-    const findStop = (stopId: string) => find(td.stops, ["stop_id", stopId])!;
+    const findStop = (stopId: string) => find(td.stops, ["stop_id", stopId]);
 
     // Convert to [stop, pattern, stop] arrays
     const allPaths = targetPathIndexes.map(index => network.paths[index]);
 
     // Populate each path leg with it's stops, pattern, and route
     const populatePath = (path: Path): PopulatedPath[] =>
-        path.map(([fromStopId, patternId, toStopId]) => {
-            const pattern = find(td.patterns, ["pattern_id", patternId])!;
-            const route = find(td.routes, ["route_id", pattern.route_id])!;
-            return {
-                fromStop: findStop(fromStopId),
-                pattern,
-                route,
-                toStop: findStop(toStopId),
-            };
-        });
+        path
+            .map(([fromStopId, patternId, toStopId]) => {
+                const pattern = find(td.patterns, ["pattern_id", patternId]);
+                const route = pattern
+                    ? find(td.routes, ["route_id", pattern.route_id])
+                    : null;
+                const fromStop = findStop(fromStopId);
+                const toStop = findStop(toStopId);
+                return pattern && route && fromStop && toStop
+                    ? {
+                          fromStop: fromStop,
+                          pattern,
+                          route,
+                          toStop: toStop,
+                      }
+                    : null;
+            })
+            .filter(p => p !== null);
 
     // Collect pattern and route information
     const populatedPaths = allPaths.map(populatePath).map(addDataToPaths);
@@ -103,24 +111,26 @@ function addDataToPaths(path: PopulatedPath[]) {
             []
         );
 
-        segments.push({
-            fromStop: {
-                coordinates: [boardStop.stop_lon, boardStop.stop_lat],
-                name: boardStop.stop_name,
-                stopId: boardStop.stop_id,
-            },
-            coordinates: latLons.map(([lat, lon]) => [lon, lat]), // reverse coords
-            mode: TYPE_TO_ICON[leg.route.route_type!],
-            name: toUpperCase(leg.route.route_short_name),
-            patternId: leg.pattern.pattern_id,
-            routeColor: "#" + (leg.route.route_color || DEFAULT_ROUTE_COLOR),
-            routeId: leg.route.route_id,
-            toStop: {
-                coordinates: [alightStop.stop_lon, alightStop.stop_lat],
-                name: alightStop.stop_name,
-                stopId: alightStop.stop_id,
-            },
-        });
+        leg.route.route_type &&
+            segments.push({
+                fromStop: {
+                    coordinates: [boardStop.stop_lon, boardStop.stop_lat],
+                    name: boardStop.stop_name,
+                    stopId: boardStop.stop_id,
+                },
+                coordinates: latLons.map(([lat, lon]) => [lon, lat]), // reverse coords
+                mode: TYPE_TO_ICON[leg.route.route_type],
+                name: toUpperCase(leg.route.route_short_name),
+                patternId: leg.pattern.pattern_id,
+                routeColor:
+                    "#" + (leg.route.route_color || DEFAULT_ROUTE_COLOR),
+                routeId: leg.route.route_id,
+                toStop: {
+                    coordinates: [alightStop.stop_lon, alightStop.stop_lat],
+                    name: alightStop.stop_name,
+                    stopId: alightStop.stop_id,
+                },
+            });
 
         previousStop = alightStop;
     }

@@ -10,7 +10,7 @@ import type { Neighborhoods } from "../../neighborhoods/types";
 import type {
     NetworkModeOptions,
     Networks,
-    originPoint,
+    LonLat,
     RoutableNetwork,
     Location,
     NeighborhoodRoutes,
@@ -45,7 +45,7 @@ export default createSelector(
     (
         activeMode: NetworkModeOptions,
         networks: Networks | null,
-        start: originPoint | null,
+        start: LonLat | null,
         neighborhoods: Neighborhoods | null,
         networksReady
     ) => {

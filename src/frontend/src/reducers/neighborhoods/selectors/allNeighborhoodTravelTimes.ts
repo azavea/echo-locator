@@ -9,7 +9,7 @@ import type { RootState } from "store/store";
 import type {
     NetworkModeOptions,
     Networks,
-    originPoint,
+    LonLat,
 } from "reducers/networks/types";
 import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
 
@@ -26,7 +26,7 @@ export default createSelector(
     (
         networks: Networks | null,
         neighborhoods: Neighborhoods | null,
-        origin: originPoint | null,
+        origin: LonLat | null,
         networksReady
     ) => {
         if (!networks || !networksReady || !origin || !neighborhoods) {

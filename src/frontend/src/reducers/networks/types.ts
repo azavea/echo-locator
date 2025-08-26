@@ -16,8 +16,6 @@ interface TravelTimeSurface {
     zoom: number;
 }
 
-export type originPoint = { lon: number; lat: number };
-
 /**
  * Route data types from old codebase
  */
@@ -64,37 +62,6 @@ export type TransitiveData = {
     routes: TransitiveRoute[];
     stops: TransitiveStop[];
 };
-
-export type QualifiedLeg = [TransitiveStop, TransitivePattern, TransitiveStop]; // [boardStopId, Pattern, alightStopId]
-export type QualifiedPath = QualifiedLeg[];
-
-export interface RouteSegment {
-    name?: string;
-    backgroundColor?: string;
-    color?: string;
-    type?: string;
-}
-
-export interface JourneySegmentLocation {
-    type: string;
-    place_id?: string;
-    stop_id?: string;
-}
-
-export interface JourneySegment {
-    type: string;
-    from: JourneySegmentLocation;
-    to: JourneySegmentLocation;
-    pattern_id?: string;
-    from_stop_index?: number;
-    to_stop_index?: number;
-}
-
-export interface Journey {
-    journey_id: number;
-    journey_name: number;
-    segments: JourneySegment[];
-}
 /**
  * End of old types
  */
@@ -155,16 +122,26 @@ export type TimesAndPathsByNetwork = {
     [key in NetworkModeOptions]: TimesAndPathsData;
 };
 
-export interface Network extends TimesAndPathsData {
+// Partial types for response from request.json
+// Large response, so including as needed in frontend
+type NetworkRequestJSONType = {
     ready: boolean;
+    width: number;
+    zoom: number;
+    west: number;
+    north: number;
+};
+
+export interface Network extends NetworkRequestJSONType, TimesAndPathsData {
     timesAndPathsDataReady: boolean;
     transitive: TransitiveData;
 }
 
-export interface RoutableNetwork extends RoutableParsedPathsData {
+export interface RoutableNetwork
+    extends NetworkRequestJSONType,
+        RoutableParsedPathsData {
     name: NetworkModeOptions;
     travelTimeSurface: TravelTimeSurface;
-    ready: boolean;
     timesAndPathsDataReady: boolean;
     transitive: TransitiveData;
 }
@@ -175,7 +152,7 @@ export type Networks = {
 
 export interface NetworksSliceState {
     networks: Networks | null;
-    origin: originPoint | null;
+    origin: LonLat | null;
     activeMode: NetworkModeOptions;
     loading: boolean;
     error: string | null;

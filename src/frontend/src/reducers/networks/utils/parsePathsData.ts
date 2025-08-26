@@ -59,11 +59,9 @@ export function parsePathsData(ab: ArrayBuffer): ParsedPathsData {
         const nLegs = dataView.getInt32(byteOffset, true);
         byteOffset += Int32Array.BYTES_PER_ELEMENT;
 
-        // Access and egress modes, each is a single byte
-        // const accessMode = dataView.getInt8(byteOffset);
-        byteOffset += 1;
-        // const egressMode = dataView.getInt8(byteOffset);
-        byteOffset += 1;
+        // Offset by two to account for access & egress modes
+        // each is a single byte
+        byteOffset += 2;
 
         const legList = [] as Leg[];
         for (let j = 0; j < nLegs; j++) {

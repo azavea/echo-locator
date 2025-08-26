@@ -2,7 +2,7 @@ import { createSelector, createSlice } from "@reduxjs/toolkit";
 import type {
     NetworkModeOptions,
     NetworksSliceState,
-    originPoint,
+    LonLat,
     TimesAndPathsByNetwork,
 } from "./types";
 import { getAllTimesAndPaths, getNetworks } from "./networksThunk";
@@ -21,7 +21,7 @@ export const networksSlice = createSlice({
     name: "networks",
     initialState,
     reducers: {
-        setOrigin: (state, { payload: origin }: { payload: originPoint }) => {
+        setOrigin: (state, { payload: origin }: { payload: LonLat }) => {
             state.origin = origin;
         },
         setActiveMode: (
@@ -76,7 +76,7 @@ export const networksSlice = createSlice({
 export const selectAllNetworksDataReady = createSelector(
     [(state: RootState) => state.networks.networks],
     networks =>
-        networks &&
+        !!networks &&
         Object.values(networks).every(n => n.ready && n.timesAndPathsDataReady)
 );
 
