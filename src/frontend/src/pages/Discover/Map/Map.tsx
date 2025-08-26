@@ -127,7 +127,7 @@ const Map = ({ isMobile = true }: Props) => {
         }
     };
 
-    return neighborhoodsRanked ? (
+    return (
         <div className={mapContainer()}>
             <MapContainer
                 ref={mapRef}
@@ -156,31 +156,31 @@ const Map = ({ isMobile = true }: Props) => {
                         <DestinationMarker isDefault={destination.isDefault} />
                     </Marker>
                 ))}
-                <Source
-                    id="neighborhoods-geojson"
-                    type="geojson"
-                    data={neighborhoodsRanked}
-                >
-                    {/* The parameter beforeId takes the ID of an existing layer to
+                {neighborhoodsRanked !== null && (
+                    <Source
+                        id="neighborhoods-geojson"
+                        type="geojson"
+                        data={neighborhoodsRanked}
+                    >
+                        {/* The parameter beforeId takes the ID of an existing layer to
                     insert the new layer before, resulting in the new layer
                     appearing visually beneath the existing layer. */}
-                    {/* @ts-ignore */}
-                    <Layer {...neighborhoodsStyle} beforeId="water" />
-                    {/* @ts-ignore */}
-                    <Layer
-                        {...neighborhoodsBordersStyle}
-                        beforeId="water_name"
-                    />
-                    {/* @ts-ignore */}
-                    <Layer {...neighborhoodsHoverStyle} />
-                    {/* @ts-ignore */}
-                    <Layer {...neighborhoodsSelectedStyle} />
-                </Source>
+                        {/* @ts-ignore */}
+                        <Layer {...neighborhoodsStyle} beforeId="water" />
+                        {/* @ts-ignore */}
+                        <Layer
+                            {...neighborhoodsBordersStyle}
+                            beforeId="water_name"
+                        />
+                        {/* @ts-ignore */}
+                        <Layer {...neighborhoodsHoverStyle} />
+                        {/* @ts-ignore */}
+                        <Layer {...neighborhoodsSelectedStyle} />
+                    </Source>
+                )}
             </MapContainer>
             <Legend isMobile={isMobile} />
         </div>
-    ) : (
-        <></>
     );
 };
 
