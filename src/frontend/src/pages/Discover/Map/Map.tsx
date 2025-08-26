@@ -161,10 +161,16 @@ const Map = ({ isMobile = true }: Props) => {
                     type="geojson"
                     data={neighborhoodsRanked}
                 >
+                    {/* The parameter beforeId takes the ID of an existing layer to
+                    insert the new layer before, resulting in the new layer
+                    appearing visually beneath the existing layer. */}
                     {/* @ts-ignore */}
-                    <Layer {...neighborhoodsStyle} />
+                    <Layer {...neighborhoodsStyle} beforeId="water" />
                     {/* @ts-ignore */}
-                    <Layer {...neighborhoodsBordersStyle} />
+                    <Layer
+                        {...neighborhoodsBordersStyle}
+                        beforeId="water_name"
+                    />
                     {/* @ts-ignore */}
                     <Layer {...neighborhoodsHoverStyle} />
                     {/* @ts-ignore */}
