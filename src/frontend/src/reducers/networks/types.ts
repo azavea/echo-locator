@@ -1,4 +1,4 @@
-import type { NetworkModeOptionKey } from "src/enums";
+import type { NetworkModeOptionKey, Place, PlaceKey } from "src/enums";
 
 interface TravelTimeSurface {
     data: Int32Array<ArrayBuffer>;
@@ -117,6 +117,10 @@ export type TimesAndPathsByNetwork = {
     [key in NetworkModeOptionKey]: TimesAndPathsData;
 };
 
+export type TimesAndPathsByPlace = {
+    [key in PlaceKey]: TimesAndPathsByNetwork;
+};
+
 // Partial types for response from request.json
 // Large response, so including as needed in frontend
 type NetworkRequestJSONType = {
@@ -147,6 +151,7 @@ export type Networks = {
 
 export interface NetworksSliceState {
     networks: Networks | null;
+    timesAndPathsData: TimesAndPathsByPlace;
     origin: LonLat | null;
     activeMode: NetworkModeOptionKey;
     loading: boolean;

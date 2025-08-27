@@ -9,13 +9,14 @@ import useMediaQuery from "hooks/useMediaQuery";
 import Desktop from "./Desktop";
 import Mobile from "./Mobile";
 import {
-    getAllTimesAndPaths,
+    getTimesAndPathsDataForPlace,
     getNetworks,
 } from "reducers/networks/networksThunk";
 import {
     selectAllNetworksDataReady,
     setOrigin,
 } from "reducers/networks/networksSlice";
+import { Place } from "src/enums";
 
 const Discover = () => {
     const dispatch = useAppDispatch();
@@ -79,7 +80,7 @@ const Discover = () => {
             !networksError &&
             !initialTimesAndPathsDataSet
         ) {
-            dispatch(getAllTimesAndPaths(origin));
+            dispatch(getTimesAndPathsDataForPlace({origin: origin, place: Place.Work}));
         }
     }, [neighborhoods, networks, origin]);
 

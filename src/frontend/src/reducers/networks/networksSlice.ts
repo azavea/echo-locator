@@ -1,15 +1,15 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import type {
     NetworksSliceState,
-    LonLat,
-    TimesAndPathsByNetwork,
+    LonLat
 } from "./types";
-import { getAllTimesAndPaths, getNetworks } from "./networksThunk";
+import { getTimesAndPathsDataForPlace, getNetworks } from "./networksThunk";
 import type { RootState } from "src/store/store";
 import type { NetworkModeOptionKey } from "src/enums";
 
 const initialState: NetworksSliceState = {
     networks: null,
+    timesAndPathsData: {},
     origin: null,
     // Default to use first transit network with commuter rail
     activeMode: "peak",
@@ -45,26 +45,24 @@ export const networksSlice = createSlice({
                 state.error =
                     action.error.message ?? "Failed to fetch networks.";
             })
-            .addCase(getAllTimesAndPaths.pending, state => {
+            .addCase(getTimesAndPathsDataForPlace.pending, state => {
                 state.loading = true;
             })
-            .addCase(getAllTimesAndPaths.fulfilled, (state, action) => {
+            .addCase(getTimesAndPathsDataForPlace.fulfilled, (state, action) => {
                 state.loading = false;
-                if (state.networks) {
-                    for (const key in action.payload as TimesAndPathsByNetwork) {
-                        const mode = key as NetworkModeOptionKey;
-                        if (state.networks?.hasOwnProperty(mode)) {
-                            state.networks[mode] = {
-                                ...state.networks[mode],
-                                ...action.payload[mode],
+                if (state.timesAndPathsData) {
+                    if(state.timesAndPathsData?.hasOwnProperty(action.payload.place)){
+                        state.timesAndPathsData[action.payload.place] = {
+                                ...state.timesAndPathsData[action.payload.place],
+                                ...action.payload.data,
                             };
-                        } else {
-                            state.networks[mode] = action.payload[mode];
-                        }
+                    }
+                    else {
+                        state.timesAndPathsData[action.payload.place] = action.payload.data;
                     }
                 }
             })
-            .addCase(getAllTimesAndPaths.rejected, (state, action) => {
+            .addCase(getTimesAndPathsDataForPlace.rejected, (state, action) => {
                 state.loading = false;
                 state.error =
                     action.error.message ??

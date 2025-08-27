@@ -19,7 +19,7 @@ import { coordinateToIndex } from "./utils/coordinateToIndex";
 import { parsePathsData } from "./utils/parsePathsData";
 import { parseTimesData } from "./utils/parseTimesData";
 import type { RootState } from "src/store/store";
-import type { NetworkModeOptionKey } from "src/enums";
+import type { NetworkModeOptionKey, PlaceKey } from "src/enums";
 
 export const getNetworks = createAsyncThunk(
     "networks/getNetworks",
@@ -54,13 +54,13 @@ export const getNetworks = createAsyncThunk(
     }
 );
 
-export const getAllTimesAndPaths = createAsyncThunk<
+export const getTimesAndPathsDataForPlace = createAsyncThunk<
     any,
-    LonLat,
+    {origin: LonLat, place: PlaceKey},
     { state: RootState }
 >(
-    "networks/getAllTimesAndPaths",
-    async (origin: LonLat, { getState, rejectWithValue }) => {
+    "networks/getTimesAndPathsDataForPlace",
+    async ({origin, place}, { getState, rejectWithValue }) => {
         const state = getState();
         // Use Promise.all to fetch and parse data for all networks concurrently
         try {
@@ -104,13 +104,15 @@ export const getAllTimesAndPaths = createAsyncThunk<
                     };
                 })
             );
-            return allParsedTimeAndPathData.reduce(
+            return {
+                place: place,
+                data: allParsedTimeAndPathData.reduce(
                 (dataByNetwork, data) => {
                     dataByNetwork[data.name] = data;
                     return dataByNetwork;
                 },
                 {} as { [key in NetworkModeOptionKey]: TimesAndPathsData }
-            );
+            )};
         } catch (error: any) {
             return rejectWithValue(error.message);
         }
