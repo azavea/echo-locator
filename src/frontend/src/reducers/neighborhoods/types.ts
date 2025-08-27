@@ -1,6 +1,6 @@
 import type { FeatureCollection, MultiPolygon, Point } from "geojson";
 
-interface NeighborhoodProperties {
+export interface NeighborhoodProperties {
     crime_percentile: number | null;
     ecc: boolean;
     education_percentile: number;
