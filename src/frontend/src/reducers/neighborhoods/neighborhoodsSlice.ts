@@ -1,8 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { NeighborhoodsSliceState } from "./types";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
+import type {
+    NeighborhoodsSliceState,
+    RankedNeighborhoodsLists,
+} from "./types";
 import { getNeighborhoodsAndBounds } from "./neighborhoodsThunk";
 import allNeighborhoodTravelTimes from "./selectors/allNeighborhoodTravelTimes";
 import drawNeighborhoodRoute from "./selectors/drawNeighborhoodRoute";
+import type { RootState } from "src/store/store";
 
 const initialState: NeighborhoodsSliceState = {
     neighborhoods: null,
@@ -10,6 +14,12 @@ const initialState: NeighborhoodsSliceState = {
     activeNeighborhood: null,
     loading: false,
     error: null,
+    rankedNeighborhoodsLists: {
+        topTen: [],
+        groupedTopTen: [],
+        groupedRecommended: [],
+        groupedTooFar: [],
+    },
 };
 
 export const neighborhoodSlice = createSlice({
@@ -21,6 +31,12 @@ export const neighborhoodSlice = createSlice({
             { payload: neighborhood }: { payload: string | null }
         ) => {
             state.activeNeighborhood = neighborhood;
+        },
+        setRankedNeighborhoodLists: (
+            state,
+            { payload: lists }: { payload: RankedNeighborhoodsLists }
+        ) => {
+            state.rankedNeighborhoodsLists = lists;
         },
     },
     extraReducers: builder => {
@@ -42,9 +58,23 @@ export const neighborhoodSlice = createSlice({
     },
 });
 
-export const { setActiveNeighborhood } = neighborhoodSlice.actions;
+export const { setActiveNeighborhood, setRankedNeighborhoodLists } =
+    neighborhoodSlice.actions;
 
 export { allNeighborhoodTravelTimes as selectNeighborhoodTravelTimes };
 export { drawNeighborhoodRoute as selectNeighborhoodRouteGeoJson };
+
+export const selectNeighborhoodNameByZipcode = createSelector(
+    [(state: RootState) => state.neighborhoods.neighborhoods],
+    neighborhoods =>
+        neighborhoods &&
+        neighborhoods.features.reduce(
+            (zipMap, f) => {
+                zipMap[f.properties.id] = f.properties.town;
+                return zipMap;
+            },
+            {} as { [key: string]: string }
+        )
+);
 
 export default neighborhoodSlice.reducer;

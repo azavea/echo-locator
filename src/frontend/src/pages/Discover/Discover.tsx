@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 
-import { getNeighborhoodsAndBounds } from "reducers/neighborhoods/neighborhoodsThunk";
+import {
+    getNeighborhoodsAndBounds,
+    getRankedNeighborhoodLists,
+} from "reducers/neighborhoods/neighborhoodsThunk";
 import { useAppDispatch, useAppSelector, type RootState } from "store/store";
 import useMediaQuery from "hooks/useMediaQuery";
 import Desktop from "./Desktop";
@@ -9,7 +12,10 @@ import {
     getAllTimesAndPaths,
     getNetworks,
 } from "reducers/networks/networksThunk";
-import { setOrigin } from "reducers/networks/networksSlice";
+import {
+    selectAllNetworksDataReady,
+    setOrigin,
+} from "reducers/networks/networksSlice";
 
 const Discover = () => {
     const dispatch = useAppDispatch();
@@ -75,6 +81,13 @@ const Discover = () => {
             dispatch(getAllTimesAndPaths(origin));
         }
     }, [neighborhoods, networks, origin]);
+
+    const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
+    useEffect(() => {
+        if (networksDataIsReady) {
+            dispatch(getRankedNeighborhoodLists());
+        }
+    }, [networksDataIsReady]);
     // --------------------------------------
 
     return isDesktop ? <Desktop /> : <Mobile />;
