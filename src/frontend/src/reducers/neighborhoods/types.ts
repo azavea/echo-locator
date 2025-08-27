@@ -31,6 +31,18 @@ export interface NeighborhoodProperties {
     zipcode: string;
 }
 
+export interface Commutes {
+    [key: string]: { purpose: string; commuteMin: number; commuteMax: number };
+}
+
+export interface NeighborhoodDetail extends NeighborhoodProperties {
+    commutes: Commutes;
+}
+
+export interface NeighborhoodDetails {
+    [key: string]: NeighborhoodDetail;
+}
+
 interface NeighborhoodBoundsProperties {
     id: string; //zipcode
     town: string;
