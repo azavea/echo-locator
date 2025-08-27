@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type {
-    NeighborhoodsSliceState,
-    Neighborhoods,
-    NeighborhoodBounds,
-} from "./types";
+import type { NeighborhoodsSliceState } from "./types";
 import { getNeighborhoodsAndBounds } from "./neighborhoodsThunk";
+import allNeighborhoodTravelTimes from "./selectors/allNeighborhoodTravelTimes";
+import drawNeighborhoodRoute from "./selectors/drawNeighborhoodRoute";
 
 const initialState: NeighborhoodsSliceState = {
     neighborhoods: null,
@@ -18,18 +16,6 @@ export const neighborhoodSlice = createSlice({
     name: "neighborhoods",
     initialState,
     reducers: {
-        setNeighborhoods: (
-            state,
-            { payload: neighborhoods }: { payload: Neighborhoods }
-        ) => {
-            state.neighborhoods = neighborhoods;
-        },
-        setNeighborhoodBounds: (
-            state,
-            { payload: neighborhoodBounds }: { payload: NeighborhoodBounds }
-        ) => {
-            state.neighborhoodBounds = neighborhoodBounds;
-        },
         setActiveNeighborhood: (
             state,
             { payload: neighborhood }: { payload: string | null }
@@ -56,10 +42,9 @@ export const neighborhoodSlice = createSlice({
     },
 });
 
-export const {
-    setNeighborhoods,
-    setNeighborhoodBounds,
-    setActiveNeighborhood,
-} = neighborhoodSlice.actions;
+export const { setActiveNeighborhood } = neighborhoodSlice.actions;
+
+export { allNeighborhoodTravelTimes as selectNeighborhoodTravelTimes };
+export { drawNeighborhoodRoute as selectNeighborhoodRouteGeoJson };
 
 export default neighborhoodSlice.reducer;
