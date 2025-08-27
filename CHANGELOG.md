@@ -40,6 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Update SSL cert resource creation with validation [#623](https://github.com/azavea/echo-locator/pull/623)
 - Parameterize and update URLs to analysis files [#627](https://github.com/azavea/echo-locator/pull/627)
 - Edit neighborhood data & images for new UI [#695](https://github.com/azavea/echo-locator/pull/695)
+- Refactor networks data state to support place comparisons [#699](https://github.com/azavea/echo-locator/pull/699)
 
 ### Fixed
 
