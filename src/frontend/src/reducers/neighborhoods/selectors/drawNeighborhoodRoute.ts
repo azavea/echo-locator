@@ -4,7 +4,6 @@
 
 import findIndex from "lodash/findIndex";
 import get from "lodash/get";
-import selectNeighborhoodRoutes from "../../networks/selectors/networkNeighborhoodRoutes";
 import { createSelector } from "@reduxjs/toolkit";
 import type { Feature } from "geojson";
 import type { RootState } from "store/store";
@@ -18,25 +17,37 @@ import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice"
 export default createSelector(
     [
         (state: RootState) => get(state, "neighborhoods.activeNeighborhood"),
-        selectNeighborhoodRoutes,
+        (state: RootState) => get(state, "networks.activeMode"),
+        (state: RootState) => get(state, "userProfile.activeDestination"),
+        (state: RootState) => get(state, "networks.timesAndRoutesData"),
         selectAllNetworksDataReady,
     ],
     (
-        activeNeighborhood: string | null,
-        neighborhoodRoutes = [],
+        activeNeighborhood,
+        activeNetworkMode,
+        activeDestination,
+        travelTimesAndRoutes,
         networksReady
     ) => {
-        if (!neighborhoodRoutes || !networksReady || !activeNeighborhood) {
+        if (
+            !travelTimesAndRoutes ||
+            !networksReady ||
+            !activeNeighborhood ||
+            !activeDestination
+        ) {
             return null;
         }
+        const { routesByNeighborhood } =
+            travelTimesAndRoutes[activeDestination][activeNetworkMode];
+
         const index = findIndex(
-            neighborhoodRoutes,
+            routesByNeighborhood,
             route => route.id === activeNeighborhood
         );
         if (index === -1) {
             return null;
         }
-        const transitive = neighborhoodRoutes[index];
+        const transitive = routesByNeighborhood[index];
         // Don't draw alternative routes
         const allSegments: NeighborhoodRoutePath = get(
             transitive,

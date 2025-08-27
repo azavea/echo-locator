@@ -1,16 +1,11 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import type {
-    NetworksSliceState,
-    LonLat
-} from "./types";
+import type { NetworksSliceState } from "./types";
 import { getTimesAndPathsDataForPlace, getNetworks } from "./networksThunk";
 import type { RootState } from "src/store/store";
 import type { NetworkModeOptionKey } from "src/enums";
 
 const initialState: NetworksSliceState = {
     networks: null,
-    timesAndPathsData: {},
-    origin: null,
     // Default to use first transit network with commuter rail
     activeMode: "peak",
     loading: false,
@@ -21,9 +16,6 @@ export const networksSlice = createSlice({
     name: "networks",
     initialState,
     reducers: {
-        setOrigin: (state, { payload: origin }: { payload: LonLat }) => {
-            state.origin = origin;
-        },
         setActiveMode: (
             state,
             { payload: mode }: { payload: NetworkModeOptionKey }
@@ -48,20 +40,27 @@ export const networksSlice = createSlice({
             .addCase(getTimesAndPathsDataForPlace.pending, state => {
                 state.loading = true;
             })
-            .addCase(getTimesAndPathsDataForPlace.fulfilled, (state, action) => {
-                state.loading = false;
-                if (state.timesAndPathsData) {
-                    if(state.timesAndPathsData?.hasOwnProperty(action.payload.place)){
-                        state.timesAndPathsData[action.payload.place] = {
-                                ...state.timesAndPathsData[action.payload.place],
-                                ...action.payload.data,
-                            };
-                    }
-                    else {
-                        state.timesAndPathsData[action.payload.place] = action.payload.data;
+            .addCase(
+                getTimesAndPathsDataForPlace.fulfilled,
+                (state, action) => {
+                    state.loading = false;
+                    if (
+                        state.timesAndRoutesData &&
+                        state.timesAndRoutesData?.hasOwnProperty(
+                            action.payload.place
+                        )
+                    ) {
+                        state.timesAndRoutesData[action.payload.place] = {
+                            ...state.timesAndRoutesData[action.payload.place],
+                            ...action.payload.data,
+                        };
+                    } else {
+                        state.timesAndRoutesData = {
+                            [action.payload.place]: action.payload.data,
+                        };
                     }
                 }
-            })
+            )
             .addCase(getTimesAndPathsDataForPlace.rejected, (state, action) => {
                 state.loading = false;
                 state.error =
@@ -72,12 +71,19 @@ export const networksSlice = createSlice({
 });
 
 export const selectAllNetworksDataReady = createSelector(
-    [(state: RootState) => state.networks.networks],
-    networks =>
+    [
+        (state: RootState) => state.networks.networks,
+        (state: RootState) => state.networks.timesAndRoutesData,
+    ],
+    (networks, timesAndRoutesData) =>
         !!networks &&
-        Object.values(networks).every(n => n.ready && n.timesAndPathsDataReady)
+        !!timesAndRoutesData &&
+        Object.values(networks).every(n => n.ready) &&
+        Object.values(timesAndRoutesData).every(place =>
+            Object.values(place).every(n => n.timesAndRoutesDataReady)
+        )
 );
 
-export const { setOrigin, setActiveMode } = networksSlice.actions;
+export const { setActiveMode } = networksSlice.actions;
 
 export default networksSlice.reducer;

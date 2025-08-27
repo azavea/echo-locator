@@ -4,7 +4,6 @@ import type {
     RankedNeighborhoodsLists,
 } from "./types";
 import { getNeighborhoodsAndBounds } from "./neighborhoodsThunk";
-import allNeighborhoodTravelTimes from "./selectors/allNeighborhoodTravelTimes";
 import drawNeighborhoodRoute from "./selectors/drawNeighborhoodRoute";
 import type { RootState } from "src/store/store";
 
@@ -61,7 +60,6 @@ export const neighborhoodSlice = createSlice({
 export const { setActiveNeighborhood, setRankedNeighborhoodLists } =
     neighborhoodSlice.actions;
 
-export { allNeighborhoodTravelTimes as selectNeighborhoodTravelTimes };
 export { drawNeighborhoodRoute as selectNeighborhoodRouteGeoJson };
 
 export const selectNeighborhoodNameByZipcode = createSelector(
