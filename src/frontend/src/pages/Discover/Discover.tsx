@@ -79,7 +79,7 @@ const Discover = () => {
                     },
                 ])
             );
-            dispatch(setActiveDestination(Place.Work));
+            dispatch(setActiveDestination("700 Boylston St"));
         }
     }, [neighborhoods, networks]);
 
@@ -98,7 +98,7 @@ const Discover = () => {
             !initialTimesAndPathsDataSet
         ) {
             const destination = destinations.find(
-                d => d.purpose === activeDestination
+                d => d.location.label === activeDestination
             );
             destination && dispatch(getTimesAndPathsDataForPlace(destination));
         }

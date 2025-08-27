@@ -68,8 +68,7 @@ export const getTimesAndPathsDataForPlace = createAsyncThunk<
         const neighborhoods = state.neighborhoods.neighborhoods;
         const networks = state.networks.networks;
         const {
-            location: { position: origin },
-            purpose: place,
+            location: { label, position: origin },
         } = destination;
         // Use Promise.all to fetch and parse data for all networks concurrently
         if (neighborhoods && networks) {
@@ -143,7 +142,9 @@ export const getTimesAndPathsDataForPlace = createAsyncThunk<
                     })
                 );
                 return {
-                    place: place,
+                    // TODO: Once we have user profile from backend, use
+                    // destination ID in place of string label for identifier
+                    label: label,
                     data: allParsedTimeAndPathData.reduce(
                         (dataByNetwork, data) => {
                             dataByNetwork[data.name] = data;

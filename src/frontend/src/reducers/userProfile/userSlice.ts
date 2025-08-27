@@ -5,7 +5,6 @@ import {
     DEFAULT_CRIME_IMPORTANCE,
     DEFAULT_SCHOOLS_IMPORTANCE,
 } from "src/constants";
-import type { PlaceKey } from "src/enums";
 
 const initialState: UserProfileSliceState = {
     destinations: [],
@@ -24,9 +23,9 @@ export const userProfileSlice = createSlice({
     reducers: {
         setActiveDestination: (
             state,
-            { payload: place }: { payload: PlaceKey }
+            { payload: address }: { payload: string }
         ) => {
-            state.activeDestination = place;
+            state.activeDestination = address;
         },
         setDestinations: (
             state,

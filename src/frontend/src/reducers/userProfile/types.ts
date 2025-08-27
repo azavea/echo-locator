@@ -15,7 +15,7 @@ export interface Destination {
 }
 
 export interface UserProfileSliceState {
-    activeDestination?: PlaceKey;
+    activeDestination?: string; // Location label
     destinations: Destination[];
     favorites: string[];
     hasVehicle: boolean;

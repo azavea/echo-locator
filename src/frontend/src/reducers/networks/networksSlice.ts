@@ -47,16 +47,16 @@ export const networksSlice = createSlice({
                     if (
                         state.timesAndRoutesData &&
                         state.timesAndRoutesData?.hasOwnProperty(
-                            action.payload.place
+                            action.payload.label
                         )
                     ) {
-                        state.timesAndRoutesData[action.payload.place] = {
-                            ...state.timesAndRoutesData[action.payload.place],
+                        state.timesAndRoutesData[action.payload.label] = {
+                            ...state.timesAndRoutesData[action.payload.label],
                             ...action.payload.data,
                         };
                     } else {
                         state.timesAndRoutesData = {
-                            [action.payload.place]: action.payload.data,
+                            [action.payload.label]: action.payload.data,
                         };
                     }
                 }
