@@ -15,7 +15,7 @@ const mapStyles = tv({
     variants: {
         isMobile: {
             true: {
-                legendWrapper: "bottom-0 left-0 right-0",
+                legendWrapper: "bottom-7 left-0 right-0",
             },
             false: {
                 legendWrapper: "top-0 right-0",
@@ -25,7 +25,7 @@ const mapStyles = tv({
             false: {
                 mapContainer: "hidden",
             },
-        }
+        },
     },
 });
 
