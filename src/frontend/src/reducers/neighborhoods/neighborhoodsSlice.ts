@@ -60,6 +60,9 @@ export const neighborhoodSlice = createSlice({
 export const { setActiveNeighborhood, setRankedNeighborhoodLists } =
     neighborhoodSlice.actions;
 
+export const selectRankedNeighborhoodsLists = (state: RootState) =>
+    state.neighborhoods.rankedNeighborhoodsLists;
+
 export { drawNeighborhoodRoute as selectNeighborhoodRouteGeoJson };
 
 export const selectNeighborhoodNameByZipcode = createSelector(

@@ -32,7 +32,6 @@ export default createSelector(
 
         return neighborhoods.features.reduce(
             (neighborhoodDetailMap, neighborhood, index) => {
-                console.log(index);
                 const commuteMap = createNeighborhoodCommutes(
                     index,
                     travelTimesAndRoutes,

@@ -29,5 +29,10 @@ export const cardStyles = tv({
                 closeIcon: "fill-teal-000",
             },
         },
+        listView: {
+            true: {
+                root: "mx-4 w-auto",
+            },
+        },
     },
 });
