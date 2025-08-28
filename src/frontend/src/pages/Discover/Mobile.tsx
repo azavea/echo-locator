@@ -5,7 +5,7 @@ import { UserProfileSubheaderMobile } from "components/UserProfileSubheader";
 import { Place } from "src/enums";
 import discoverStyles from "./Discover.styles";
 import Neighborhoods from "./Neighborhoods";
-import Map from "./Map";
+import Map from "./Map/Map";
 
 const DiscoverMobile = () => {
     const [routerParams, setRouterParams] = useSearchParams();
@@ -40,8 +40,8 @@ const DiscoverMobile = () => {
                 />
             </div>
             {/* TODO: Implement Map mode neighborhood slides */}
-            {display === "map" && <Map />}
-            {display === "list" && <Neighborhoods mobile />}
+            <Map mapDisplay={display === "map"}/>
+            <Neighborhoods mobile listDisplay={display === "list"}/>
         </div>
     ) : (
         <></>
