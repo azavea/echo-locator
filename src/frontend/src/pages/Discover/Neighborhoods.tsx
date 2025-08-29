@@ -1,26 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import InputText from "components/InputText";
 import discoverStyles from "./Discover.styles";
-import { selectRankedNeighborhoodsLists } from "src/reducers/neighborhoods/neighborhoodsSlice";
+import {
+    selectIsRankCalculating,
+    selectRankedNeighborhoodsLists,
+} from "src/reducers/neighborhoods/neighborhoodsSlice";
 import selectNeighborhoodZipcodeMap from "src/reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
 import { useAppSelector } from "src/store/store";
 import NeighborhoodList from "src/components/NeighborhoodsList/NeighborhoodsList";
 import { selectActiveDestination } from "src/reducers/userProfile/userSlice";
+import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
 
-// const cardFull = {
-//     imageUrl:
-//         "https://upload.wikimedia.org/wikipedia/commons/0/08/Washington_and_Harvard_Streets%2C_Brookline_Village_MA.jpg",
-//     stats: {
-//         schools: { label: "Schools", value: 25, showCategory: true },
-//         safety: { label: "Safety", value: 75, showCategory: true },
-//         commute: {
-//             label: "Commute",
-//             start: 10,
-//             end: 25,
-//         },
-//     },
-// };
+const NEIGHBORHOOD_CARD_PER_PAGE = 10;
 
 const Neighborhoods = ({
     mobile,
@@ -30,6 +22,7 @@ const Neighborhoods = ({
     listDisplay?: boolean;
 }) => {
     const [mediumTextInput, setMediumTextInput] = useState<string>("");
+    const [showTooFar, setShowTooFar] = useState(false);
     const {
         recoContainer,
         recoContainerHeader,
@@ -46,6 +39,9 @@ const Neighborhoods = ({
         mobileListDisplay: mobile ? listDisplay : true,
     });
 
+    const networksReady = useAppSelector(selectAllNetworksDataReady);
+    const isRankCalculating = useAppSelector(selectIsRankCalculating);
+    const isLoading = isRankCalculating || !networksReady;
     const neighborhoodDetailsMap = useAppSelector(selectNeighborhoodZipcodeMap);
     const {
         groupedTopTen: topTen,
@@ -53,6 +49,17 @@ const Neighborhoods = ({
         groupedTooFar: tooFar,
     } = useAppSelector(selectRankedNeighborhoodsLists);
     const activeDestination = useAppSelector(selectActiveDestination) ?? "";
+    
+    // Only show the tooFar list if there are no recommendations
+    // or if all recommendations have been displayed.
+    // The last page of the recommendations list triggers
+    // a callback to set showTooFar to true.
+    useEffect(() => {
+        if (isLoading) {
+            return;
+        }
+        setShowTooFar(recommended.length < NEIGHBORHOOD_CARD_PER_PAGE);
+    }, [isLoading, recommended]);
 
     return (
         <div className={recoContainer()}>
@@ -121,13 +128,14 @@ const Neighborhoods = ({
                         neighborhoodList={recommended}
                         neighborhoodDetailsMap={neighborhoodDetailsMap}
                         activeDestination={activeDestination}
+                        lastPageCallback={() => setShowTooFar(true)}
                         isMobile
                     />
                 </div>
             )}
 
             {/* Too far list */}
-            {tooFar.length > 0 && (
+            {showTooFar && tooFar.length > 0 && (
                 <div className={recoList()}>
                     <div>
                         <div className={recoTitleContainer()}>

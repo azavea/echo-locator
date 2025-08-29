@@ -94,5 +94,6 @@ export interface NeighborhoodsSliceState {
     activeNeighborhood: string | null;
     loading: boolean;
     error: string | null;
+    rankCalculating: boolean;
     rankedNeighborhoodsLists: RankedNeighborhoodsLists;
 }

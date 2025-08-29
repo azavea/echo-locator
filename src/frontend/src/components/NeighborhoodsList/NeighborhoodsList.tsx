@@ -11,6 +11,7 @@ interface Props {
     neighborhoodDetailsMap: NeighborhoodDetails;
     neighborhoodList: (string | string[])[];
     activeDestination: string;
+    lastPageCallback?: () => void;
     isTopTen?: boolean;
     isMobile?: boolean;
     isGroup?: boolean;
@@ -20,6 +21,7 @@ const NeighborhoodList = ({
     neighborhoodDetailsMap,
     neighborhoodList,
     activeDestination,
+    lastPageCallback,
     isTopTen,
     isMobile,
     isGroup,
@@ -45,6 +47,9 @@ const NeighborhoodList = ({
     const handleLoadMore = () => {
         const nextPage = page + 1;
         setPage(nextPage);
+        if (OFFSET * nextPage >= neighborhoodList.length && lastPageCallback) {
+            lastPageCallback();
+        }
     };
 
     return (
