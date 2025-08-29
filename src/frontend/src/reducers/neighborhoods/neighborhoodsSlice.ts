@@ -16,6 +16,8 @@ const initialState: NeighborhoodsSliceState = {
     rankCalculating: false,
     rankedNeighborhoodsLists: {
         topTen: [],
+        recommended: [],
+        tooFar: [],
         groupedTopTen: [],
         groupedRecommended: [],
         groupedTooFar: [],

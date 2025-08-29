@@ -42,5 +42,7 @@ export const { setActiveDestination, setDestinations } =
 
 export const selectActiveDestination = (state: RootState) =>
     state.userProfile.activeDestination;
+export const selectUserDestinations = (state: RootState) =>
+    state.userProfile.destinations;
 
 export default userProfileSlice.reducer;

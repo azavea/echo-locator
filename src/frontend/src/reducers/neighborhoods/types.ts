@@ -83,6 +83,8 @@ export type NeighborhoodBounds = FeatureCollection<
 
 export interface RankedNeighborhoodsLists {
     topTen: string[];
+    recommended: string[];
+    tooFar: string[];
     groupedTopTen: (string | string[])[];
     groupedRecommended: (string | string[])[];
     groupedTooFar: (string | string[])[];
