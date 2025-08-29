@@ -32,9 +32,9 @@ const discoverStyles = tv({
         },
         mobileListDisplay: {
             false: {
-                recoContainer: "hidden"
-            }
-        }
+                recoContainer: "hidden",
+            },
+        },
     },
 });
 

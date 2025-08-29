@@ -31,6 +31,7 @@ const Discover = () => {
         networks,
         origin,
     } = useAppSelector(({ networks }: RootState) => networks);
+    const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     // TODO: Refactor below following login and user profile
@@ -82,7 +83,6 @@ const Discover = () => {
         }
     }, [neighborhoods, networks, origin]);
 
-    const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
     useEffect(() => {
         if (networksDataIsReady) {
             dispatch(getRankedNeighborhoodLists());
