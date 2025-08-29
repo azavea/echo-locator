@@ -32,9 +32,9 @@ const Range = ({
         ((Math.min(end, MAX_DEFAULT) - start) / totalRange) * 100 || 8;
 
     const rangeText = useMemo(() => {
-        if (start >= 120) return "Over 2 hr";
+        if (start >= MAX_DEFAULT) return "Over 2 hr";
         if (isPoint) return `${start} min`;
-        return `${start}-${end} min`;
+        return `${start}-${end > MAX_DEFAULT ? `${MAX_DEFAULT}+` : end} min`;
     }, [start, end]);
 
     return (
@@ -45,7 +45,7 @@ const Range = ({
             </div>
             <div className="relative">
                 <div className={track()}></div>
-                {start < 120 && (
+                {start < MAX_DEFAULT && (
                     <div
                         className={fill()}
                         style={{
@@ -54,14 +54,14 @@ const Range = ({
                                     ? "0px"
                                     : isPoint
                                       ? `calc(${startPercentage}% - 4px)`
-                                      : end >= 120
+                                      : end >= MAX_DEFAULT
                                         ? `min(calc(100% - 12px), ${startPercentage}%)`
                                         : `${startPercentage}%`,
                             width: `${widthPercentage}%`,
-                            minWidth: end >= 120 ? "12px" : "6px",
+                            minWidth: end >= MAX_DEFAULT ? "12px" : "6px",
                         }}
                     >
-                        {!isPoint && end >= 120 && (
+                        {!isPoint && end >= MAX_DEFAULT && (
                             <span className={dots()}>
                                 <DotIcon />
                             </span>
