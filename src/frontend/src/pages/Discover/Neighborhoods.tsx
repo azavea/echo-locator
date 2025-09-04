@@ -34,6 +34,8 @@ const Neighborhoods = ({
         recoTitleContainer,
         recoTitle,
         recoDescription,
+        loadingWrapper,
+        loadingSpinner,
     } = discoverStyles({
         isMobile: mobile,
         mobileListDisplay: mobile ? listDisplay : true,
@@ -49,7 +51,7 @@ const Neighborhoods = ({
         groupedTooFar: tooFar,
     } = useAppSelector(selectRankedNeighborhoodsLists);
     const activeDestination = useAppSelector(selectActiveDestination) ?? "";
-    
+
     // Only show the tooFar list if there are no recommendations
     // or if all recommendations have been displayed.
     // The last page of the recommendations list triggers
@@ -80,6 +82,11 @@ const Neighborhoods = ({
                         trip
                     </p>
                 </div>
+                {isLoading && (
+                    <div className={loadingWrapper()}>
+                        <div className={loadingSpinner()} />
+                    </div>
+                )}
             </div>
 
             {/* Top 10 list */}

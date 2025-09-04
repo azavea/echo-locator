@@ -18,6 +18,9 @@ const discoverStyles = tv({
         recoTitle: "font-xbold text-2xl text-black",
         recoDescription: "text-rg text-gray-600",
         swatch: "w-[16px] h-[16px] rounded-[var(--spacing-2)] border border-[#748C27]",
+        loadingWrapper: "flex w-full flex-col flex-grow-1 justify-center",
+        loadingSpinner:
+            "w-10 h-10 border-6 border-[#02B3CC] border-t-transparent rounded-full animate-spin self-center",
     },
     variants: {
         isMobile: {
