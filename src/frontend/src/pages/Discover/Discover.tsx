@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 
-import { getNeighborhoodsAndBounds } from "reducers/neighborhoods/neighborhoodsThunk";
+import {
+    getNeighborhoodsAndBounds,
+    getRankedNeighborhoodLists,
+} from "reducers/neighborhoods/neighborhoodsThunk";
 import { useAppDispatch, useAppSelector, type RootState } from "store/store";
 import useMediaQuery from "hooks/useMediaQuery";
 import Desktop from "./Desktop";
@@ -9,7 +12,10 @@ import {
     getAllTimesAndPaths,
     getNetworks,
 } from "reducers/networks/networksThunk";
-import { setOrigin } from "reducers/networks/networksSlice";
+import {
+    selectAllNetworksDataReady,
+    setOrigin,
+} from "reducers/networks/networksSlice";
 
 const Discover = () => {
     const dispatch = useAppDispatch();
@@ -25,6 +31,7 @@ const Discover = () => {
         networks,
         origin,
     } = useAppSelector(({ networks }: RootState) => networks);
+    const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     // TODO: Refactor below following login and user profile
@@ -75,6 +82,12 @@ const Discover = () => {
             dispatch(getAllTimesAndPaths(origin));
         }
     }, [neighborhoods, networks, origin]);
+
+    useEffect(() => {
+        if (networksDataIsReady) {
+            dispatch(getRankedNeighborhoodLists());
+        }
+    }, [networksDataIsReady]);
     // --------------------------------------
 
     return isDesktop ? <Desktop /> : <Mobile />;

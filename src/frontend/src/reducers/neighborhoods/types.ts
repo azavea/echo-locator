@@ -44,10 +44,18 @@ export type NeighborhoodBounds = FeatureCollection<
     NeighborhoodBoundsProperties
 >;
 
+export interface RankedNeighborhoodsLists {
+    topTen: string[];
+    groupedTopTen: (string | string[])[];
+    groupedRecommended: (string | string[])[];
+    groupedTooFar: (string | string[])[];
+}
+
 export interface NeighborhoodsSliceState {
     neighborhoods: Neighborhoods | null;
     neighborhoodBounds: NeighborhoodBounds | null;
     activeNeighborhood: string | null;
     loading: boolean;
     error: string | null;
+    rankedNeighborhoodsLists: RankedNeighborhoodsLists;
 }
