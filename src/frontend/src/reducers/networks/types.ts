@@ -1,4 +1,4 @@
-import type { NetworkModeOptionKey } from "src/enums";
+import type { NetworkModeOptionKey, PlaceKey } from "src/enums";
 
 interface TravelTimeSurface {
     data: Int32Array<ArrayBuffer>;
@@ -108,13 +108,19 @@ export interface RoutableParsedPathsData extends PathsData {
     pathsPerTarget: number;
 }
 
-export interface TimesAndPathsData extends ParsedPathsData {
+export interface TimesAndPathsData {
     name: NetworkModeOptionKey;
-    travelTimeSurface?: TravelTimeSurface;
+    timesAndRoutesDataReady: boolean;
+    routesByNeighborhood: NeighborhoodRoutes;
+    travelTimesByNeighborhood: number[];
 }
 
 export type TimesAndPathsByNetwork = {
     [key in NetworkModeOptionKey]: TimesAndPathsData;
+};
+
+export type TimesAndPathsByPlace = {
+    [key in PlaceKey]: TimesAndPathsByNetwork;
 };
 
 // Partial types for response from request.json
@@ -127,18 +133,15 @@ type NetworkRequestJSONType = {
     north: number;
 };
 
-export interface Network extends NetworkRequestJSONType, TimesAndPathsData {
-    timesAndPathsDataReady: boolean;
+export interface Network extends NetworkRequestJSONType {
     transitive: TransitiveData;
 }
 
-export interface RoutableNetwork
-    extends NetworkRequestJSONType,
+export interface NetworkAndTimeAndPathsData
+    extends Network,
         RoutableParsedPathsData {
     name: NetworkModeOptionKey;
     travelTimeSurface: TravelTimeSurface;
-    timesAndPathsDataReady: boolean;
-    transitive: TransitiveData;
 }
 
 export type Networks = {
@@ -147,7 +150,7 @@ export type Networks = {
 
 export interface NetworksSliceState {
     networks: Networks | null;
-    origin: LonLat | null;
+    timesAndRoutesData?: TimesAndPathsByPlace;
     activeMode: NetworkModeOptionKey;
     loading: boolean;
     error: string | null;

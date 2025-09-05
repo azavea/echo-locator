@@ -9,13 +9,15 @@ import useMediaQuery from "hooks/useMediaQuery";
 import Desktop from "./Desktop";
 import Mobile from "./Mobile";
 import {
-    getAllTimesAndPaths,
+    getTimesAndPathsDataForPlace,
     getNetworks,
 } from "reducers/networks/networksThunk";
+import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
+import { Place } from "src/enums";
 import {
-    selectAllNetworksDataReady,
-    setOrigin,
-} from "reducers/networks/networksSlice";
+    setActiveDestination,
+    setDestinations,
+} from "src/reducers/userProfile/userSlice";
 
 const Discover = () => {
     const dispatch = useAppDispatch();
@@ -29,9 +31,11 @@ const Discover = () => {
         loading: networksLoading,
         error: networksError,
         networks,
-        origin,
+        timesAndRoutesData,
     } = useAppSelector(({ networks }: RootState) => networks);
-    const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
+    const { destinations, activeDestination } = useAppSelector(
+        ({ userProfile }: RootState) => userProfile
+    );
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     // TODO: Refactor below following login and user profile
@@ -63,26 +67,44 @@ const Discover = () => {
     useEffect(() => {
         if (neighborhoods && networks) {
             // 700 Boylston St
-            dispatch(setOrigin({ lon: -71.078711, lat: 42.349319 }));
+            dispatch(
+                setDestinations([
+                    {
+                        location: {
+                            label: "700 Boylston St",
+                            position: { lon: -71.078711, lat: 42.349319 },
+                        },
+                        primary: true,
+                        purpose: Place.Work,
+                    },
+                ])
+            );
+            dispatch(setActiveDestination("700 Boylston St"));
         }
     }, [neighborhoods, networks]);
 
     useEffect(() => {
         const initialTimesAndPathsDataSet =
-            networks &&
-            Object.values(networks).every(n => n.timesAndPathsDataReady);
+            timesAndRoutesData &&
+            Object.values(timesAndRoutesData).every(place =>
+                Object.values(place).every(n => n.timesAndRoutesDataReady)
+            );
         if (
             neighborhoods &&
             networks &&
-            origin &&
+            activeDestination &&
             !networksLoading &&
             !networksError &&
             !initialTimesAndPathsDataSet
         ) {
-            dispatch(getAllTimesAndPaths(origin));
+            const destination = destinations.find(
+                d => d.location.label === activeDestination
+            );
+            destination && dispatch(getTimesAndPathsDataForPlace(destination));
         }
-    }, [neighborhoods, networks, origin]);
+    }, [neighborhoods, networks, activeDestination, timesAndRoutesData]);
 
+    const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
     useEffect(() => {
         if (networksDataIsReady) {
             dispatch(getRankedNeighborhoodLists());

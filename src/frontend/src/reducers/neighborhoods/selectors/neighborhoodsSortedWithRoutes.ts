@@ -19,8 +19,6 @@ import type { Feature, Point } from "geojson";
 import type { NeighborhoodProperties } from "../types";
 import type { RootState } from "store/store";
 
-import selectNeighborhoodRoutes from "../../networks/selectors/networkNeighborhoodRoutes";
-import selectNeighborhoodTravelTimes from "./allNeighborhoodTravelTimes";
 import importanceCriteriaScoreWeights from "reducers/userProfile/selectors/importanceCriteriaScoreWeights";
 import { createNeighborhoodWeightedScore } from "../utils/createNeighborhoodWeightedScore";
 import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
@@ -31,29 +29,32 @@ const getZipCodeListFromNeighborhoods = (
 
 export default createSelector(
     [
-        selectNeighborhoodRoutes,
-        selectNeighborhoodTravelTimes,
         importanceCriteriaScoreWeights,
         selectAllNetworksDataReady,
+        (state: RootState) => get(state, "networks.timesAndRoutesData"),
         (state: RootState) => get(state, "neighborhoods.neighborhoods"),
         (state: RootState) => get(state, "networks.activeMode"),
+        (state: RootState) => get(state, "userProfile.activeDestination"),
     ],
     (
-        neighborhoodRoutes,
-        travelTimes,
         userScoreWeights,
         networksReady,
+        travelTimesAndRoutes,
         neighborhoods,
-        activeNetworkMode
+        activeNetworkMode,
+        activeDestination
     ) => {
         const rankedLists: { recommended: string[]; tooFar: string[] } = {
             recommended: [],
             tooFar: [],
         };
 
-        if (!networksReady) {
+        if (!networksReady || !travelTimesAndRoutes || !activeDestination) {
             return rankedLists;
         }
+
+        const { routesByNeighborhood, travelTimesByNeighborhood } =
+            travelTimesAndRoutes[activeDestination][activeNetworkMode];
 
         const recommendedNeighborhoodsList: Feature<
             Point,
@@ -67,9 +68,9 @@ export default createSelector(
         const useTransit = activeNetworkMode !== "car";
         neighborhoods &&
             neighborhoods.features.forEach((n, index) => {
-                const route = neighborhoodRoutes[index];
+                const route = routesByNeighborhood[index];
                 const segments = useTransit ? route.segments : [];
-                const time = travelTimes[index][activeNetworkMode];
+                const time = travelTimesByNeighborhood[index];
 
                 const scoreAndWeights = createNeighborhoodWeightedScore(
                     n,

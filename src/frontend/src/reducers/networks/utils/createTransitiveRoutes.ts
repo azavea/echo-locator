@@ -12,7 +12,7 @@ import type {
     NeighborhoodRoutePaths,
     Path,
     PopulatedPath,
-    RoutableNetwork,
+    NetworkAndTimeAndPathsData,
     TransitiveStop,
 } from "../types";
 import { coordinateToIndex } from "./coordinateToIndex";
@@ -23,7 +23,7 @@ const TYPE_TO_ICON = ["subway", "subway", "train", "bus"];
 const WALK = "WALK";
 
 export default function createTransitiveRoutesForNetwork(
-    network: RoutableNetwork,
+    network: NetworkAndTimeAndPathsData,
     _start: Location,
     end: Location
 ): NeighborhoodRoutePaths {
