@@ -25,7 +25,9 @@ const groupRankingListsByLikeNeigborhoodName = (
         );
 
         for (let j = i + 1; j < likeNameIndexMax; j++) {
-            if (i === j || alreadyGroupedIndexes.has(j)) return;
+            if (i === j || alreadyGroupedIndexes.has(j)) {
+                continue;
+            }
 
             const compareZip = list[j];
             const compareName =
