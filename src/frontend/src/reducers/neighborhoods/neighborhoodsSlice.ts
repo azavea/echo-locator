@@ -13,8 +13,11 @@ const initialState: NeighborhoodsSliceState = {
     activeNeighborhood: null,
     loading: false,
     error: null,
+    rankCalculating: false,
     rankedNeighborhoodsLists: {
         topTen: [],
+        recommended: [],
+        tooFar: [],
         groupedTopTen: [],
         groupedRecommended: [],
         groupedTooFar: [],
@@ -31,11 +34,18 @@ export const neighborhoodSlice = createSlice({
         ) => {
             state.activeNeighborhood = neighborhood;
         },
+        setRankCalculating: (
+            state,
+            { payload: status }: { payload: boolean }
+        ) => {
+            state.rankCalculating = status;
+        },
         setRankedNeighborhoodLists: (
             state,
             { payload: lists }: { payload: RankedNeighborhoodsLists }
         ) => {
             state.rankedNeighborhoodsLists = lists;
+            state.rankCalculating = false;
         },
     },
     extraReducers: builder => {
@@ -57,8 +67,16 @@ export const neighborhoodSlice = createSlice({
     },
 });
 
-export const { setActiveNeighborhood, setRankedNeighborhoodLists } =
-    neighborhoodSlice.actions;
+export const {
+    setActiveNeighborhood,
+    setRankCalculating,
+    setRankedNeighborhoodLists,
+} = neighborhoodSlice.actions;
+
+export const selectRankedNeighborhoodsLists = (state: RootState) =>
+    state.neighborhoods.rankedNeighborhoodsLists;
+export const selectIsRankCalculating = (state: RootState) =>
+    state.neighborhoods.rankCalculating;
 
 export { drawNeighborhoodRoute as selectNeighborhoodRouteGeoJson };
 

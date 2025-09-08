@@ -43,3 +43,12 @@ export const NetworkModeOptions = {
 
 export type NetworkModeOptionKeys = typeof NetworkModeOptionKeys;
 export type NetworkModeOptionKey = keyof NetworkModeOptionKeys;
+
+export const NeighborhoodCardViewType = {
+    cardFull: "cardFull",
+    cardNoImageNoTag: "cardNoImageNoTag",
+    cardImageOnly: "cardImageOnly",
+    cardNoImage: "cardNoImage",
+};
+
+export type NeighborhoodCardViewTypeKey = keyof typeof NeighborhoodCardViewType;

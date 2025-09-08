@@ -8,6 +8,8 @@ const discoverStyles = tv({
         headerContainer: "flex border-b border-gray-300 bg-white",
         recoContainer:
             "flex flex-1 flex-col items-start gap-6 self-stretch overflow-y-auto bg-gray-50",
+        recoContainerHeader:
+            "flex flex-1 flex-col items-start gap-6 self-stretch",
         subTitleContainer: "flex w-full flex-col gap-3 text-center",
         subTitle: "font-xbold text-3xl text-orange-700",
         description: "text-rg text-gray-700",
@@ -15,25 +17,46 @@ const discoverStyles = tv({
         recoTitleContainer: "flex flex-row items-center gap-[10px]",
         recoTitle: "font-xbold text-2xl text-black",
         recoDescription: "text-rg text-gray-600",
-        swatch: "w-[16px] h-[16px] rounded-[var(--spacing-2)] border border-[#748C27] bg-[#BCD168]",
+        swatch: "w-[16px] h-[16px] rounded-[var(--spacing-2)] border border-[#748C27]",
+        loadingWrapper: "flex w-full flex-col flex-grow-1 justify-center",
+        loadingSpinner:
+            "w-10 h-10 border-6 border-[#02B3CC] border-t-transparent rounded-full animate-spin self-center",
     },
     variants: {
         isMobile: {
             true: {
                 root: "flex-col",
                 headerContainer: "p-3",
-                recoContainer: "p-5",
+                recoContainerHeader: "pt-5 px-5",
+                recoTitleContainer: "px-5",
+                recoDescription: "px-5",
             },
             false: {
                 root: "flex-row",
                 headerContainer: "p-6",
-                recoContainer: "p-6",
+                recoContainerHeader: "pt-6 px-6",
+                recoTitleContainer: "px-6",
+                recoDescription: "px-6",
             },
         },
         mobileListDisplay: {
             false: {
                 recoContainer: "hidden",
             },
+        },
+        swatchColor: {
+            topTen: {
+                swatch: "bg-[#BCD168]",
+            },
+            recommended: {
+                swatch: "bg-[#D6DFA6]",
+            },
+            tooFar: {
+                swatch: "bg-[#F7F3F1]",
+            },
+        },
+        defaultVariants: {
+            swatchColor: "topTen",
         },
     },
 });

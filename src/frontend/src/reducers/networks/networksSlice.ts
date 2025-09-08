@@ -84,6 +84,11 @@ export const selectAllNetworksDataReady = createSelector(
         )
 );
 
+export const selectUseTransit = createSelector(
+    [(state: RootState) => state.networks.activeMode],
+    activeMode => activeMode !== "car"
+);
+
 export const { setActiveMode } = networksSlice.actions;
 
 export default networksSlice.reducer;

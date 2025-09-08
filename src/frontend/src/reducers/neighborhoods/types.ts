@@ -29,6 +29,43 @@ export interface NeighborhoodProperties {
     wikipedia: string;
     wikipedia_link: string;
     zipcode: string;
+    street_image: string;
+    school_image: string;
+    town_square_image: string;
+    open_space_or_landmark_image: string | null;
+    street_license: string;
+    school_license: string;
+    town_square_license: string;
+    open_space_or_landmark_license: string;
+    street_license_url: string;
+    school_license_url: string;
+    town_square_license_url: string;
+    open_space_or_landmark_license_url: string;
+    street_description: string;
+    school_description: string;
+    town_square_description: string;
+    open_space_or_landmark_description: string;
+    street_artist: string;
+    school_artist: string;
+    town_square_artist: string;
+    open_space_or_landmark_artist: string;
+    street_username: string;
+    school_username: string;
+    town_square_username: string;
+    open_space_or_landmark_username: string;
+    family_move_count: number;
+}
+
+export interface Commutes {
+    [key: string]: { purpose: string; commuteMin: number; commuteMax: number };
+}
+
+export interface NeighborhoodDetail extends NeighborhoodProperties {
+    commutes: Commutes;
+}
+
+export interface NeighborhoodDetails {
+    [key: string]: NeighborhoodDetail;
 }
 
 interface NeighborhoodBoundsProperties {
@@ -46,6 +83,8 @@ export type NeighborhoodBounds = FeatureCollection<
 
 export interface RankedNeighborhoodsLists {
     topTen: string[];
+    recommended: string[];
+    tooFar: string[];
     groupedTopTen: (string | string[])[];
     groupedRecommended: (string | string[])[];
     groupedTooFar: (string | string[])[];
@@ -57,5 +96,6 @@ export interface NeighborhoodsSliceState {
     activeNeighborhood: string | null;
     loading: boolean;
     error: string | null;
+    rankCalculating: boolean;
     rankedNeighborhoodsLists: RankedNeighborhoodsLists;
 }

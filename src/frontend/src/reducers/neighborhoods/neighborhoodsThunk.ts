@@ -5,6 +5,7 @@ import {
 } from "../../api/neighborhoods";
 import {
     selectNeighborhoodNameByZipcode,
+    setRankCalculating,
     setRankedNeighborhoodLists,
 } from "./neighborhoodsSlice";
 import { type AppDispatch, type RootState } from "store/store";
@@ -32,8 +33,11 @@ export const getRankedNeighborhoodLists =
     () => (dispatch: AppDispatch, getState: () => RootState) => {
         const state = getState() as RootState;
 
+        dispatch(setRankCalculating(true));
         const groupedNeighborhoodsLists: RankedNeighborhoodsLists = {
             topTen: [],
+            recommended: [],
+            tooFar: [],
             groupedTopTen: [],
             groupedRecommended: [],
             groupedTooFar: [],
@@ -47,6 +51,9 @@ export const getRankedNeighborhoodLists =
             0,
             10
         );
+        groupedNeighborhoodsLists.recommended =
+            neighborhoodsList.recommended.slice(10);
+        groupedNeighborhoodsLists.tooFar = neighborhoodsList.tooFar;
 
         if (neighborhoodNameByZipcode) {
             groupedNeighborhoodsLists.groupedTopTen =

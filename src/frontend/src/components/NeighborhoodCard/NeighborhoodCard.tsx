@@ -20,6 +20,7 @@ interface Props {
         safety: MeterProps;
         commute: RangeProps;
     };
+    listViewStyling?: { [key: string]: string | boolean };
     onClose?: () => void;
     onPrev?: () => void;
     onDetails?: () => void;
@@ -33,6 +34,7 @@ const NeighborhoodCard = ({
     isTopTen = false,
     hasECC = false,
     stats,
+    listViewStyling,
     onClose,
     onPrev,
     onDetails,
@@ -52,7 +54,7 @@ const NeighborhoodCard = ({
         statsContainer,
         statItem,
         navContainer,
-    } = cardStyles({ hasImage: !!imageUrl });
+    } = cardStyles({ hasImage: !!imageUrl, ...listViewStyling });
 
     const hasTag = isTopTen || hasECC;
 

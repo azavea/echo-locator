@@ -11,7 +11,7 @@ import {
 import bbox from "@turf/bbox";
 
 import { useAppSelector, type RootState } from "store/store";
-import { BOUNDS, top, last, destinations } from "./constants";
+import { BOUNDS } from "./constants";
 import Legend from "./Legend";
 import DestinationMarker from "./DestinationMarker";
 import baseMapStyle from "./baseMapStyle.json";
@@ -22,6 +22,11 @@ import {
     neighborhoodsHoverStyle,
     neighborhoodsSelectedStyle,
 } from "./mapLayerStyles";
+import { selectRankedNeighborhoodsLists } from "src/reducers/neighborhoods/neighborhoodsSlice";
+import {
+    selectActiveDestination,
+    selectUserDestinations,
+} from "src/reducers/userProfile/userSlice";
 
 interface Props {
     isMobile?: boolean;
@@ -38,18 +43,23 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const mapRef = useRef<MapRef>(null);
     const { mapContainer } = mapStyles({ isMobile, mapDisplay });
 
-    // TODO: read rankings from store
+    const { topTen, recommended } = useAppSelector(
+        selectRankedNeighborhoodsLists
+    );
+    const destinations = useAppSelector(selectUserDestinations);
+    const activeDestination = useAppSelector(selectActiveDestination);
+
     const neighborhoodsRanked = useMemo(() => {
         if (!neighborhoodBounds) return null;
         return {
             ...neighborhoodBounds,
             features: neighborhoodBounds.features.map(feature => {
-                let category = "recommended";
-                if (top.includes(feature.properties.id)) {
+                let category = "unreachable";
+                if (topTen.includes(feature.properties.id)) {
                     category = "top";
                 }
-                if (last.includes(feature.properties.id)) {
-                    category = "unreachable";
+                if (recommended.includes(feature.properties.id)) {
+                    category = "recommended";
                 }
                 return {
                     ...feature,
@@ -58,7 +68,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                 };
             }),
         };
-    }, [neighborhoodBounds]);
+    }, [neighborhoodBounds, topTen, recommended]);
 
     const onMapClick = (event: MapLayerMouseEvent) => {
         if (!mapRef.current) return;
@@ -147,14 +157,17 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                     position={isMobile ? "top-right" : "top-left"}
                     showCompass={false}
                 />
-                {/* TODO: read destinations from user profile */}
-                {destinations.map(destination => (
+                {destinations.map((destination, i) => (
                     <Marker
-                        key={`marker-${destination.id}`}
-                        longitude={destination.longitude}
-                        latitude={destination.latitude}
+                        key={`marker-${i}`}
+                        longitude={destination.location.position.lon}
+                        latitude={destination.location.position.lat}
                     >
-                        <DestinationMarker isDefault={destination.isDefault} />
+                        <DestinationMarker
+                            isDefault={
+                                destination.location.label === activeDestination
+                            }
+                        />
                     </Marker>
                 ))}
                 {neighborhoodsRanked !== null && (

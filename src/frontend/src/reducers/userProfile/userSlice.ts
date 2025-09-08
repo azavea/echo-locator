@@ -5,6 +5,7 @@ import {
     DEFAULT_CRIME_IMPORTANCE,
     DEFAULT_SCHOOLS_IMPORTANCE,
 } from "src/constants";
+import { type RootState } from "src/store/store";
 
 const initialState: UserProfileSliceState = {
     destinations: [],
@@ -38,5 +39,10 @@ export const userProfileSlice = createSlice({
 
 export const { setActiveDestination, setDestinations } =
     userProfileSlice.actions;
+
+export const selectActiveDestination = (state: RootState) =>
+    state.userProfile.activeDestination;
+export const selectUserDestinations = (state: RootState) =>
+    state.userProfile.destinations;
 
 export default userProfileSlice.reducer;

@@ -21,7 +21,10 @@ import type { RootState } from "store/store";
 
 import importanceCriteriaScoreWeights from "reducers/userProfile/selectors/importanceCriteriaScoreWeights";
 import { createNeighborhoodWeightedScore } from "../utils/createNeighborhoodWeightedScore";
-import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
+import {
+    selectAllNetworksDataReady,
+    selectUseTransit,
+} from "src/reducers/networks/networksSlice";
 
 const getZipCodeListFromNeighborhoods = (
     neighborhoods: Feature<Point, NeighborhoodProperties>[]
@@ -31,6 +34,7 @@ export default createSelector(
     [
         importanceCriteriaScoreWeights,
         selectAllNetworksDataReady,
+        selectUseTransit,
         (state: RootState) => get(state, "networks.timesAndRoutesData"),
         (state: RootState) => get(state, "neighborhoods.neighborhoods"),
         (state: RootState) => get(state, "networks.activeMode"),
@@ -39,6 +43,7 @@ export default createSelector(
     (
         userScoreWeights,
         networksReady,
+        useTransit,
         travelTimesAndRoutes,
         neighborhoods,
         activeNetworkMode,
@@ -65,7 +70,6 @@ export default createSelector(
             NeighborhoodProperties
         >[] = [];
 
-        const useTransit = activeNetworkMode !== "car";
         neighborhoods &&
             neighborhoods.features.forEach((n, index) => {
                 const route = routesByNeighborhood[index];
