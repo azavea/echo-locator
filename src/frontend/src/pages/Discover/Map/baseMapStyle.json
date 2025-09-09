@@ -51,7 +51,7 @@
         }
     },
     "sprite": "https://openmaptiles.github.io/positron-gl-style/sprite",
-    "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=get_your_own_OpIi9ZULNHzrESv6T2vL",
+    "glyphs": "https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf",
     "layers": [
         {
             "id": "background",
