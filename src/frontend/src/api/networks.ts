@@ -4,6 +4,8 @@ import { NetworkModeOptions, type NetworkModeOptionKey } from "src/enums";
 export const fetchNetworkData = async (
     network: NetworkModeOptionKey
 ): Promise<any> => {
+    console.log('test network url at fetchNetworkData:', import.meta.env.VITE_NETWORK_URL_ROOT)
+    console.log('test token at fetchNetworkData:', import.meta.env.VITE_AUTHTOKEN)
     const [requestResponse, transitiveResponse] = await Promise.all([
         axios.get(
             `${import.meta.env.VITE_NETWORK_URL_ROOT}/${NetworkModeOptions[network]}/request.json`
