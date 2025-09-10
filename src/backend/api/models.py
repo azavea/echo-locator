@@ -97,6 +97,12 @@ class Neighborhood(models.Model):
         default=0,
         help_text="Total count of voucher holder families that have moved to neighborhood.",
     )
+    region = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Informal geographic neighborhood groupings. Used for frontend filtering.",
+    )
 
     class Meta:
         ordering = ["zipcode"]
