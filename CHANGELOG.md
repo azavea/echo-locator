@@ -46,5 +46,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - Fix staging deploy workflow [#613](https://github.com/azavea/echo-locator/pull/613)
+- Fix staging basemap glyphs error [#707](https://github.com/azavea/echo-locator/pull/707)
 
 ### Removed
