@@ -18,22 +18,24 @@ const Legend = ({ isMobile = true }: Props) => {
             <div className={legendContainer()}>
                 <div className={legendItem()}>
                     <div
-                        className={`${legendColorBox()} bg-[#BCD168] border-1 border-[#748C27]`}
+                        className={`${legendColorBox()} bg-[#B9C26D] border-1 border-[#748C27]`}
                     />
                     <span className={legendLabel()}>Top 10</span>
                 </div>
                 <div className={legendItem()}>
                     <div
-                        className={`${legendColorBox()} bg-[#D6DFA6] border-1 border-[#8BA045]`}
+                        className={`${legendColorBox()} bg-[#E6ECBB] border-1 border-[#909772]`}
                     />
-                    <span className={legendLabel()}>Recommended</span>
+                    <span className={`${legendLabel()} font-normal`}>
+                        Other
+                    </span>
                 </div>
                 <div className={legendItem()}>
                     <div
-                        className={`${legendColorBox()} bg-[#F7F3F1] border-1 border-[#868584]`}
+                        className={`${legendColorBox()} bg-[#F7F3F1] border-1 border-[#8F8F8F]`}
                     />
                     <span className={`${legendLabel()} font-normal`}>
-                        Too far
+                        Not a match
                     </span>
                 </div>
             </div>
