@@ -492,7 +492,7 @@
                 ["!=", "brunnel", "tunnel"]
             ],
             "layout": { "visibility": "visible" },
-            "paint": { "fill-antialias": true, "fill-color": "#D1EAED" }
+            "paint": { "fill-antialias": true, "fill-color": "#DCF0F3" }
         },
         {
             "id": "water_name",
