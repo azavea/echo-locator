@@ -46,10 +46,10 @@ const discoverStyles = tv({
         },
         swatchColor: {
             topTen: {
-                swatch: "bg-[#BCD168]",
+                swatch: "bg-[#B9C26D]",
             },
             recommended: {
-                swatch: "bg-[#D6DFA6]",
+                swatch: "bg-[#E6ECBB]",
             },
             tooFar: {
                 swatch: "bg-[#F7F3F1]",
