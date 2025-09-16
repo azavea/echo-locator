@@ -39,6 +39,7 @@ NULLABLE_CHAR_FIELDS = set(
         "school_username",
         "town_square_username",
         "open_space_or_landmark_username",
+        "region",
     ]
 )
 

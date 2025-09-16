@@ -54,6 +54,7 @@ export interface NeighborhoodProperties {
     town_square_username: string;
     open_space_or_landmark_username: string;
     family_move_count: number;
+    region: string | null;
 }
 
 export interface Commutes {
