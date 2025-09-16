@@ -9,10 +9,10 @@ export const neighborhoodsStyle = {
             "match",
             ["get", "category"], // Get the value of the "class" property
             "unreachable",
-            "rgba(255, 255, 255, 0)", // If it's "unreachable", use this color
+            "rgba(246, 243, 240, 0)", // If it's "unreachable", use this color
             "top",
-            "rgba(161, 192, 37, 0.75)", // If it's "top", use this color
-            "rgba(168, 196, 54, 0.51)", // The default/"recommended" color
+            "rgba(140, 164, 0, 0.6)", // If it's "top", use this color
+            "rgba(168, 201, 25, 0.23)", // The default/"recommended" color
         ],
         "fill-opacity": 1,
     },
@@ -37,10 +37,10 @@ export const neighborhoodsBordersStyle = {
             "match",
             ["get", "category"], // Check the value of the "class" property
             "top",
-            "#688600",
+            "rgba(79, 107, 0, 0.75)",
             "unreachable",
-            "rgba(0, 0, 0, 0.2)",
-            "rgba(115, 139, 37, 1)", // Default value
+            "rgba(0, 0, 0, 0.15)",
+            "rgba(79, 107, 0, 0.33)", // Default value
         ],
     },
 };
