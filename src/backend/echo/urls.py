@@ -45,11 +45,10 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(),
         name="password_reset_complete",
     ),
-    path("api/signup/", user_views.SignUpPage.as_view(), name="signup"),
-    path("api/login/", user_views.LoginPage.as_view(), name="login"),
+    path("api/login/", user_views.UnifiedLoginView.as_view(), name="login"),
+    path("api/logout/", user_views.DeleteToken.as_view(), name="delete_token"),
     path("api/auth/login/", user_views.ObtainToken.as_view(), name="obtain_token"),
     path("api/user/", user_views.UserProfileView.as_view(), name="user_details"),
-    path("api/logout/", user_views.DeleteToken.as_view(), name="delete_token"),
     path("api/neighborhoods/", api_views.ListNeighborhoods.as_view(), name="list_neighborhoods"),
     path(
         "api/neighborhood-bounds/",

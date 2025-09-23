@@ -1,5 +1,4 @@
-from django.contrib.auth.models import Group, User
-from django.db import transaction
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from .models import Destination, UserProfile
@@ -46,15 +45,3 @@ class HouseSeekerSignUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username"]
-
-    # Override to create User with empty UserProfile and add to HouseSeeker group
-    @transaction.atomic
-    def create(self, validated_data):
-        user = User.objects.create(**validated_data)
-        houseseeker_group = Group.objects.get(name="HouseSeeker")
-        user.groups.add(houseseeker_group)
-        user.save()
-
-        UserProfile.objects.create(user=user)
-
-        return user
