@@ -1,13 +1,9 @@
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.contrib.gis.geos import Point
 from django.core.mail import send_mail
 from django.db import transaction
-from django.db.utils import IntegrityError
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from rest_framework.authtoken.models import Token
-from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -27,7 +23,7 @@ def send_login_link(request):
     login_token = utils.get_query_string(user)
     host = request.get_host()
     protocol = "https://" if request.is_secure() else "http://"
-    login_link = protocol + host + reverse("obtain_token") + login_token
+    login_link = f"{protocol}{host}/login/callback{login_token}"
 
     html_message = """
     <p>Hi there,</p>
@@ -51,41 +47,64 @@ def send_login_link(request):
     )
 
 
-class LoginPage(APIView):
+class UnifiedLoginView(APIView):
+    """
+    Handles both login and registration.
+    If the user exists, it sends a login link.
+    If the user does not exist, it creates the user first, then sends the link.
+    """
+
     def post(self, request, **kwargs):
-        try:
-            email = request.data["username"]
-            if User.objects.get(username__iexact=email).is_active:
-                # Will throw exception if cannot find the User
-                # For privacy reasons, do not send 500 error back if not found
-                send_login_link(request)
-        except User.DoesNotExist:
-            pass
-        return Response(content_type="application/json")
+        # Use a serializer to validate the email format
+        serializer = HouseSeekerSignUpSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.validated_data["username"].lower()
+
+        # get_or_create handles the core logic for new and existing users
+        user, created = User.objects.get_or_create(username=email)
+
+        if created:
+            # If a new user was created, perform any first-time setup
+            # This logic is moved from the old serializer's .create() method
+            user.email = email
+            user.save()
+            UserProfile.objects.create(user=user)
+            # Add them to a group
+            house_seeker_group = Group.objects.get(name="HouseSeeker")
+            user.groups.add(house_seeker_group)
+
+        # Send the magic link email to both new and existing users
+        send_login_link(request)
+
+        # Always return a consistent, positive message for security
+        message = "If an account with this email exists or was just created, you will receive a login link shortly."
+        return Response({"message": message})
 
 
 class ObtainToken(APIView):
     def get(self, request, **kwargs):
         user = utils.get_user(request)
-        response = HttpResponseRedirect("/")
-        # If the token has expired or is otherwise invalid just send them back to the homepage,
-        # where they'll see the login screen again.
+
+        # If the token is invalid or expired, get_user returns None
         if user is None:
-            return response
-        token, created = Token.objects.get_or_create(user=user)
-        # set authentication cookie with max_age 30 days
-        response.set_cookie("auth_token", token.key, max_age=60 * 60 * 24 * 30)
-        return response
+            return Response({"error": "Invalid or expired login link."}, status=401)
+
+        # Get or create the DRF token for the user
+        token, _ = Token.objects.get_or_create(user=user)
+
+        # Return the token key in a JSON response
+        return Response({"token": token.key})
 
 
 class DeleteToken(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, **kwargs):
-        response = Response(status=200)
-        response.delete_cookie("auth_token")
+        # Delete the token from the database.
         Token.objects.get(key=request.auth.key).delete()
-        return response
+        # 204 No Content
+        return Response(status=204)
 
 
 class UserProfileView(APIView):
@@ -218,18 +237,3 @@ class UserProfileView(APIView):
         serializer = UserSerializer(User.objects.get(username=request.user))
         content = self.repackage_for_frontend(serializer.data)
         return Response(content)
-
-
-class SignUpPage(APIView):
-    def post(self, request, **kwargs):
-        signup_message = "Thank you! You'll receive an email shortly with a link to complete your account. Click the link to create your profile and get started with ECHO."
-        try:
-            user_serializer = HouseSeekerSignUpSerializer(data=request.data)
-            user_serializer.is_valid(raise_exception=True)
-            user_serializer.save()
-            send_login_link(request)
-        except IntegrityError:
-            signup_message = "It looks like we already have an account with that email. Sign in by clicking the link below!"
-        except ValidationError:
-            signup_message = "Please try again with a valid email address."
-        return Response(data=signup_message, content_type="application/json")

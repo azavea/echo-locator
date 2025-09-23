@@ -130,7 +130,7 @@ class HouseSeekerLoginTest(TestCase):
             f"Expected 200, got {second_response.status_code}. {second_response.content}",
         )
         self.assertEqual(
-            len(mail.outbox), 1, "Fail: expected one email to be sent, not %d." % len(mail.outbox)
+            len(mail.outbox), 2, "Fail: expected two emails to be sent, not %d." % len(mail.outbox)
         )
 
 
@@ -149,18 +149,18 @@ class HouseSeekerSignUpTest(TestCase):
         Test signup endpoint responds with login error message on invalid email.
         """
         response = self.houseseeker.post(
-            "/api/signup/",
+            "/api/login/",
             {"username": "test"},
             content_type="application/json",
         )
-        self.assertContains(response, "try again with a valid email address", status_code=200)
+        self.assertContains(response, "Enter a valid email address", status_code=400)
 
     def test_signup_endpoint_response(self):
         """
         Test signup endpoint responds with correct login message.
         """
         first_response = self.houseseeker.post(
-            "/api/signup/",
+            "/api/login/",
             {"username": "testechoemail@azavea.com"},
             content_type="application/json",
         )
@@ -169,22 +169,15 @@ class HouseSeekerSignUpTest(TestCase):
             200,
             f"Expected 200, got {first_response.status_code}. {first_response.content}",
         )
-        second_response = self.houseseeker.post(
-            "/api/signup/",
-            {"username": "testechoemail@azavea.com"},
-            content_type="application/json",
+        self.assertContains(
+            first_response,
+            "If an account with this email exists or was just created, you will receive a login link shortly.",
+            status_code=200,
         )
-        self.assertEqual(
-            second_response.status_code,
-            200,
-            f"Expected 200, got {second_response.status_code}. {second_response.content}",
-        )
-        self.assertContains(first_response, "complete your account", status_code=200)
-        self.assertContains(second_response, "already have an account", status_code=200)
 
     def test_user_and_empty_profile_created_on_signup(self):
         self.houseseeker.post(
-            "/api/signup/",
+            "/api/login/",
             {"username": "testechoemail1@azavea.com"},
             content_type="application/json",
         )
@@ -199,7 +192,7 @@ class HouseSeekerSignUpTest(TestCase):
         Test email is sent on User sign up.
         """
         self.houseseeker.post(
-            "/api/signup/",
+            "/api/login/",
             {"username": "testechoemail1@azavea.com"},
             content_type="application/json",
         )
