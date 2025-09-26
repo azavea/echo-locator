@@ -9,7 +9,7 @@ const neighborhoodDetailStyles = tv({
         closeIcon: "h-5",
         headerContainer:
             "flex flex-col items-center self-stretch p-4 gap-4 border-t border-b border-gray-300 bg-gray-50",
-        contentContainer: "flex flex-col items-center self-stretch",
+        contentContainer: "flex flex-col items-center self-stretch gap-5",
         headerContent: "flex flex-col gap-4",
         headerLabelWrapper:
             "flex flex-row w-full gap-2 align-start items-baseline",
@@ -30,7 +30,7 @@ const neighborhoodDetailStyles = tv({
                 contentContainer: "p-5",
             },
             false: {
-                root: "mx-12 my-9 max-h-[calc(100%-106px)]",
+                root: "mx-12 my-9 h-[calc(100%-106px)]",
                 headerContainer: "p-7",
                 headerContent: "flex-row space-between w-full",
                 headerMoveCountWrapper: "self-start",

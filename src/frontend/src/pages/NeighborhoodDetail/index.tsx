@@ -10,7 +10,7 @@ import type { Key } from "react-aria-components";
 
 import { useAppSelector } from "store/store";
 import { ModalOverlay, Modal } from "components/base/Modal/Modal";
-import neighborhoodDetailStyles from "./NeighborhoodDetail.styles";
+import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles";
 import Button from "src/components/base/Button/Button";
 import {
     ToggleButton,
@@ -20,11 +20,13 @@ import {
 import TimesIcon from "assets/icons/times.svg?react";
 import StarIcon from "assets/icons/star.svg?react";
 import FamilyIcon from "assets/icons/family.svg?react";
+
 import {
     selectActiveNeighborhoodFeature,
     setActiveNeighborhood,
 } from "src/reducers/neighborhoods/neighborhoodsSlice";
 import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
+import InfoContent from "./InfoContent";
 
 const NeighborhoodDetail = ({
     modalOpen,
@@ -48,6 +50,7 @@ const NeighborhoodDetail = ({
     const [contentDisplayOption, setContentDisplayOption] = useState(
         new Set<Key>(["info"])
     );
+    const [displayInfoContent, setDisplayInfoContent] = useState(true);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -66,6 +69,7 @@ const NeighborhoodDetail = ({
             return;
         }
         setContentDisplayOption(keys);
+        setDisplayInfoContent([...keys][0] === "info");
     };
 
     const handleOnOpenChange = (isOpen: boolean) => {
@@ -158,6 +162,11 @@ const NeighborhoodDetail = ({
                                 Find Units
                             </ToggleButton>
                         </ToggleButtonGroup>
+                        <InfoContent
+                            display={displayInfoContent}
+                            isMobile={isMobile}
+                            neighborhood={neighborhood}
+                        />
                     </div>
                 </Modal>
             </ModalOverlay>
