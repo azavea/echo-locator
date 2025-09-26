@@ -20,13 +20,13 @@ import {
 import TimesIcon from "assets/icons/times.svg?react";
 import StarIcon from "assets/icons/star.svg?react";
 import FamilyIcon from "assets/icons/family.svg?react";
-
+import InfoContent from "./InfoContent";
+import Map from "./Map/Map";
 import {
     selectActiveNeighborhoodFeature,
     setActiveNeighborhood,
 } from "src/reducers/neighborhoods/neighborhoodsSlice";
 import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
-import InfoContent from "./InfoContent";
 
 const NeighborhoodDetail = ({
     modalOpen,
@@ -106,7 +106,9 @@ const NeighborhoodDetail = ({
                         aria-label="Close"
                         leftIcon={<TimesIcon className={styles.closeIcon()} />}
                     />
-                    <div className={styles.headerMapContainer()}></div>
+                    <div className={styles.headerMapContainer()}>
+                        <Map />
+                    </div>
                     <div className={styles.headerContainer()}>
                         <div className={styles.headerContent()}>
                             <div className={styles.headerLabelWrapper()}>
