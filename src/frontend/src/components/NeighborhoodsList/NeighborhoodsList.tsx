@@ -3,9 +3,9 @@ import { useState } from "react";
 import type { NeighborhoodDetails } from "reducers/neighborhoods/types";
 import formatNeighborhoodDataByViewType from "libs/formatNeighborhoodDataByCard";
 import Button from "components/base/Button/Button";
-import NeighborhoodCard from "../NeighborhoodCard/NeighborhoodCard";
 
 import { listStyles } from "./NeighborhoodsList.styles";
+import ClickableNeighborhoodCard from "../NeighborhoodCard/ClickableNeighborhoodCard";
 
 interface Props {
     neighborhoodDetailsMap: NeighborhoodDetails;
@@ -83,10 +83,11 @@ const NeighborhoodList = ({
                             !!isTopTen
                         );
                         return (
-                            <NeighborhoodCard
+                            <ClickableNeighborhoodCard
                                 key={i}
                                 {...data.cardFull}
                                 listViewStyling={{ listView: true }}
+                                isMobile={isMobile}
                             />
                         );
                     }
