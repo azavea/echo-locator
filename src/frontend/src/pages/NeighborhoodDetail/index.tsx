@@ -7,6 +7,7 @@ import {
 } from "react-router";
 import { useDispatch } from "react-redux";
 import type { Key } from "react-aria-components";
+import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "store/store";
 import { ModalOverlay, Modal } from "components/base/Modal/Modal";
@@ -40,10 +41,10 @@ const NeighborhoodDetail = ({
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams, _] = useSearchParams();
+    const { t } = useTranslation();
     const styles = neighborhoodDetailStyles({
         isMobile: isMobile,
     });
-
     const { zipcode } = useParams();
     const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
     const neighborhood = useAppSelector(selectActiveNeighborhoodFeature);
@@ -129,15 +130,17 @@ const NeighborhoodDetail = ({
                                 }
                                 className={isMobile ? "w-full" : "160px"}
                             >
-                                Add to favorites
+                                {t("neighborhoodDetail.addToFavorites")}
                             </Button>
                         </div>
                         {neighborhood.properties.family_move_count == 0 && (
                             <div className={styles.headerMoveCountWrapper()}>
                                 <FamilyIcon className={styles.inlineIcon()} />
                                 <p className="text-gray-600 text-sm self-center">
-                                    {neighborhood.properties.family_move_count}{" "}
-                                    voucher holders moved here already!
+                                    {t("neighborhoodDetail.moveCountText", {
+                                        count: neighborhood.properties
+                                            .family_move_count,
+                                    })}
                                 </p>
                             </div>
                         )}
@@ -154,14 +157,14 @@ const NeighborhoodDetail = ({
                                 size="large"
                                 className="w-full"
                             >
-                                Infos
+                                {t("neighborhoodDetail.infoToggleLabel")}
                             </ToggleButton>
                             <ToggleButton
                                 id="units"
                                 size="large"
                                 className="w-full"
                             >
-                                Find Units
+                                {t("neighborhoodDetail.unitsToggleLabel")}
                             </ToggleButton>
                         </ToggleButtonGroup>
                         <InfoContent

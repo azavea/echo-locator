@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Link, Button } from "react-aria-components";
+import { useTranslation, Trans } from "react-i18next";
 
 import infoTabStyles from "./styles/infoTab.styles";
 import Meter from "components/base/Meter/Meter";
@@ -9,7 +11,6 @@ import type {
 import CircleCheckIcon from "assets/icons/circle-check.svg?react";
 import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
 import { LicensedImage } from "src/components/CCLicensedImage";
-import { useEffect, useState } from "react";
 
 const NEIGHBORHOOD_IMG_TYPES = [
     "street",
@@ -27,6 +28,7 @@ const InfoContent = ({
     isMobile?: boolean;
     neighborhood: Neighborhood;
 }) => {
+    const { t } = useTranslation();
     const DESC_MAX_LENGTH = isMobile ? 125 : 225;
     const [isDisplayingShortenedDesc, setIsDisplayingShortenedDesc] =
         useState(true);
@@ -65,30 +67,40 @@ const InfoContent = ({
                     className={`${styles.infoCard()} ${styles.mobileCardBorder()}`}
                 >
                     <div className={styles.cardHeaderWrapper()}>
-                        <h2 className={styles.cardHeader()}>Affordable</h2>
+                        <h2 className={styles.cardHeader()}>
+                            {t("neighborhoodDetail.affordableCard.header")}
+                        </h2>
                         {ecc && (
                             <div className={styles.eccCheckWrapper()}>
-                                <p className="text-[#146604]">Yes</p>
+                                <p className="text-[#146604]">
+                                    {t("neighborhoodDetail.eccYes")}
+                                </p>
                                 <CircleCheckIcon />
                             </div>
                         )}
                     </div>
                     <div className="flex flex-col gap-5">
                         <p className="text-[17px] text-gray-600">
-                            Most families pay{" "}
-                            <span className="text-gray-900 font-bold">
-                                no more than 30% of their income
-                            </span>{" "}
-                            in rent.
+                            <Trans
+                                i18nKey="neighborhoodDetail.affordableCard.bodyText"
+                                components={{ bold: <strong /> }}
+                            >
+                                Most families pay{" "}
+                                <strong>
+                                    no more than 30% of their income
+                                </strong>{" "}
+                                in rent.
+                            </Trans>
                         </p>
                         {isMobile && (
                             <Link
                                 onPress={() => alert("Pressed link")}
                                 className="font-normal text-gray-700"
                             >
-                                Go to{" "}
-                                <span className="font-bold">Find Units</span> to
-                                learn more
+                                <Trans i18nKey="neighborhoodDetail.findUnitsLink">
+                                    Go to <strong>Find Units</strong> to learn
+                                    more
+                                </Trans>
                             </Link>
                         )}
                     </div>
@@ -99,30 +111,34 @@ const InfoContent = ({
                     className={`${styles.infoCard()} ${styles.mobileCardBorder()}`}
                 >
                     <div className={styles.cardHeaderWrapper()}>
-                        <h2 className={styles.cardHeader()}>ECHO Benefits</h2>
+                        <h2 className={styles.cardHeader()}>
+                            {t("neighborhoodDetail.echoBenefitsCard.header")}
+                        </h2>
                         {ecc && (
                             <div className={styles.eccCheckWrapper()}>
-                                <p className="text-[#146604]">Yes</p>
+                                <p className="text-[#146604]">
+                                    {t("neighborhoodDetail.eccYes")}
+                                </p>
                                 <CircleCheckIcon />
                             </div>
                         )}
                     </div>
                     <div className="flex flex-col gap-5">
                         <p className="text-[17px] text-gray-600">
-                            <span className="text-gray-900 font-bold">
-                                Up to $6,750
-                            </span>{" "}
-                            for security deposit, broker fees, moving expenses,
-                            and more.
+                            <Trans i18nKey="neighborhoodDetail.echoBenefitsCard.bodyText">
+                                <strong>Up to $6,750</strong> for security
+                                deposit, broker fees, moving expenses, and more.
+                            </Trans>
                         </p>
                         {isMobile && (
                             <Link
                                 onPress={() => alert("Pressed link")}
                                 className="font-normal text-gray-700"
                             >
-                                Go to{" "}
-                                <span className="font-bold">Find Units</span> to
-                                learn more
+                                <Trans i18nKey="neighborhoodDetail.findUnitsLink">
+                                    Go to <strong>Find Units</strong> to learn
+                                    more
+                                </Trans>
                             </Link>
                         )}
                     </div>
@@ -132,17 +148,21 @@ const InfoContent = ({
                 <div className={styles.infoCard()}>
                     <div className={styles.cardHeaderWrapper()}>
                         <h2 className={styles.cardHeader()}>
-                            Schools & Safety
+                            {t("neighborhoodDetail.schoolsSafetyCard.header")}
                         </h2>
                     </div>
                     <div className="flex flex-row gap-5">
                         <Meter
-                            label="Schools"
+                            label={t(
+                                "neighborhoodDetail.schoolsSafetyCard.schoolsLabel"
+                            )}
                             value={crime_percentile ?? 0}
                             showCategory
                         />
                         <Meter
-                            label="Safety"
+                            label={t(
+                                "neighborhoodDetail.schoolsSafetyCard.safetyLabel"
+                            )}
                             value={education_percentile ?? 0}
                             showCategory
                         />
@@ -152,7 +172,9 @@ const InfoContent = ({
 
             {/* About this area section */}
             <div className={styles.aboutSection()}>
-                <h2 className={styles.cardHeader()}>About this area</h2>
+                <h2 className={styles.cardHeader()}>
+                    {t("neighborhoodDetail.aboutAreaSection.header")}
+                </h2>
                 <div className={styles.imageCarousel()}>
                     {NEIGHBORHOOD_IMG_TYPES.map((img_type, i) => (
                         <LicensedImage
@@ -204,18 +226,24 @@ const InfoContent = ({
                             onPress={() => setIsDisplayingShortenedDesc(false)}
                             className="text-sm font-bold"
                         >
-                            READ MORE
+                            {t(
+                                "neighborhoodDetail.aboutAreaSection.readMoreButton"
+                            )}
                         </Button>
                     )}
                 </div>
                 <div className="flex flex-col max-w-[400px] gap-3">
-                    <p className="text-[17px] font-bold">Learn more</p>
+                    <p className="text-[17px] font-bold">
+                        {t("neighborhoodDetail.learnMoreSection.subheader")}
+                    </p>
                     <div className={styles.learnMoreLinksGroup()}>
                         <Link
                             href={town_link}
                             className={`${styles.learnMoreLink()} ${styles.learnMoreLinkBorder()}`}
                         >
-                            Website
+                            {t(
+                                "neighborhoodDetail.learnMoreSection.websiteLink"
+                            )}
                             <ArrowIcon
                                 className={styles.learnMoreLinkArrow()}
                             />
@@ -224,7 +252,9 @@ const InfoContent = ({
                             href={wikipedia_link}
                             className={`${styles.learnMoreLink()} ${styles.learnMoreLinkBorder()}`}
                         >
-                            Wikipedia
+                            {t(
+                                "neighborhoodDetail.learnMoreSection.wikipediaLink"
+                            )}
                             <ArrowIcon
                                 className={styles.learnMoreLinkArrow()}
                             />
@@ -233,7 +263,9 @@ const InfoContent = ({
                             href={`https://www.google.com/search?q=${encodeURIComponent(zipcode)}`}
                             className={styles.learnMoreLink()}
                         >
-                            Google
+                            {t(
+                                "neighborhoodDetail.learnMoreSection.googleLink"
+                            )}
                             <ArrowIcon
                                 className={styles.learnMoreLinkArrow()}
                             />

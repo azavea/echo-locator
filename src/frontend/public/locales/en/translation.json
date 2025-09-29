@@ -1,5 +1,36 @@
 {
     "discover": "Discover",
     "compare": "Compare",
-    "logout": "Logout"
+    "logout": "Logout",
+    "neighborhoodDetail": {
+        "addToFavorites": "Add to favorites",
+        "moveCountText": "{{count}} voucher holders moved here already!",
+        "infoToggleLabel": "Infos",
+        "unitsToggleLabel": "Units",
+        "eccYes": "Yes",
+        "affordableCard": {
+            "header": "Affordable",
+            "bodyText": "Most families pay <strong>no more than 30% of their income</strong> in rent."
+        },
+        "echoBenefitsCard": {
+            "header": "ECHO Benefits",
+            "bodyText": "<strong>Up to $6,750</strong> for security deposit, broker fees, moving expenses, and more."
+        },
+        "schoolsSafetyCard": {
+            "header": "Schools & Safety",
+            "schoolsLabel": "Schools",
+            "safetyLabel": "Safety"
+        },
+        "findUnitsLink": "Go to <strong>Find Units</strong> to learn more",
+        "aboutAreaSection": {
+            "header": "About this area",
+            "readMoreButton": "READ MORE"
+        },
+        "learnMoreSection": {
+            "subheader": "Learn more",
+            "websiteLink": "Website",
+            "wikipediaLink": "Wikipedia",
+            "googleLink": "Google"
+        }
+    }
 }
