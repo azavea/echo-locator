@@ -12,6 +12,7 @@ import CircleCheckIcon from "assets/icons/circle-check.svg?react";
 import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
 import { LicensedImage } from "src/components/CCLicensedImage";
 import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles";
+import YourTrips from "src/components/YourTrips/YourTrips";
 
 const NEIGHBORHOOD_IMG_TYPES = [
     "street",
@@ -162,6 +163,13 @@ const InfoContent = ({
                         />
                     </div>
                 </div>
+            </div>
+
+            {/* Your Trips */}
+            <div
+                className={`${sharedStyles.bodySectionWrapper()} ${sharedStyles.bodySectionWrapperBorder()}`}
+            >
+                <YourTrips isMobile={isMobile} />
             </div>
 
             {/* About this area section */}

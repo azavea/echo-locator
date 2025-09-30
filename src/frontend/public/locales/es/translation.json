@@ -78,5 +78,12 @@
                 "calculatorLinkSubtitle": "The <strong>BHA Affordability Calculator</strong> helps you estimate your copay."
             }
         }
+    },
+    "yourTrips": {
+        "heading": "Your Trips",
+        "busAndTrain": "Bus & Train",
+        "car": "Car",
+        "touchPrompt": "Select a trip to see directions on a map",
+        "editTrips": "Edit your trips"
     }
 }
