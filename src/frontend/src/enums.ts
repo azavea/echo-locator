@@ -52,3 +52,11 @@ export const NeighborhoodCardViewType = {
 };
 
 export type NeighborhoodCardViewTypeKey = keyof typeof NeighborhoodCardViewType;
+
+export const unitSiteLabel = {
+    craigslist: "Craigslist",
+    zillow: "Zillow",
+    ah: "AffordableHomes.com",
+};
+
+export type UnitSitesKeyType = keyof typeof unitSiteLabel;

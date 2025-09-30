@@ -19,7 +19,7 @@ const neighborhoodDetailStyles = tv({
             "overflow-hidden text-black text-ellipsis font-extrabold text-[23.04px] leading-[130%] font-mulish",
         headerZipcodeLabel:
             "overflow-hidden text-gray-500 text-ellipsis font-normal text-[19.2px] leading-[130%] font-mulish",
-        headerMoveCountWrapper: "flex flex-row gap-3 p-3",
+        iconWithTextWrapper: "flex flex-row gap-3 p-3",
         toggleGroup: "w-full max-w-[350px]",
         bodySectionWrapper:
             "flex flex-col gap-5 w-auto self-stretch p-5 align-center my-0 relative flex-wrap",
@@ -51,7 +51,7 @@ const neighborhoodDetailStyles = tv({
                 root: "mx-12 my-9 h-[calc(100%-106px)]",
                 headerContainer: "p-7",
                 headerContent: "flex-row space-between w-full items-center",
-                headerMoveCountWrapper: "self-start",
+                iconWithTextWrapper: "self-start",
                 toggleGroup: "p-0",
                 contentContainer: "p-7",
                 bodySectionWrapperBorder: "mx-[-2em] p-7 pb-0",

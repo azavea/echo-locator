@@ -24,10 +24,12 @@ const InfoContent = ({
     display = true,
     isMobile,
     neighborhood,
+    unitsLinkCallback,
 }: {
     display: boolean;
     isMobile?: boolean;
     neighborhood: Neighborhood;
+    unitsLinkCallback: () => void;
 }) => {
     const { t } = useTranslation();
     const DESC_MAX_LENGTH = isMobile ? 125 : 225;
@@ -40,10 +42,6 @@ const InfoContent = ({
         isMobile: isMobile,
         display: display,
     });
-
-    if (!neighborhood) {
-        return false;
-    }
 
     const {
         properties: {
@@ -65,7 +63,7 @@ const InfoContent = ({
 
     const FindUnitsLink = () => (
         <Link
-            onPress={() => alert("Pressed link")}
+            onPress={unitsLinkCallback}
             className={sharedStyles.bodySectionLinkWrapper()}
         >
             <p className={sharedStyles.bodySectionTextSmall()}>

@@ -28,6 +28,7 @@ import {
     setActiveNeighborhood,
 } from "src/reducers/neighborhoods/neighborhoodsSlice";
 import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
+import UnitsContent from "./unitsContent";
 
 const NeighborhoodDetail = ({
     modalOpen,
@@ -73,6 +74,9 @@ const NeighborhoodDetail = ({
         setDisplayInfoContent([...keys][0] === "info");
     };
 
+    const forceToggleUnits = () =>
+        onChangeDisplayOption(new Set<Key>(["units"]));
+
     const handleOnOpenChange = (isOpen: boolean) => {
         if (!isOpen) {
             modalOpenChangeCallback(isOpen);
@@ -107,9 +111,7 @@ const NeighborhoodDetail = ({
                         aria-label="Close"
                         leftIcon={<TimesIcon className={styles.closeIcon()} />}
                     />
-                    <div className={styles.headerMapContainer()}>
-                        <Map />
-                    </div>
+                    <div className={styles.headerMapContainer()}>{<Map />}</div>
                     <div className={styles.headerContainer()}>
                         <div className={styles.headerContent()}>
                             <div className={styles.headerLabelWrapper()}>
@@ -134,7 +136,7 @@ const NeighborhoodDetail = ({
                             </Button>
                         </div>
                         {neighborhood.properties.family_move_count == 0 && (
-                            <div className={styles.headerMoveCountWrapper()}>
+                            <div className={styles.iconWithTextWrapper()}>
                                 <FamilyIcon className={styles.inlineIcon()} />
                                 <p className="text-gray-600 text-sm self-center">
                                     {t("neighborhoodDetail.moveCountText", {
@@ -147,30 +149,36 @@ const NeighborhoodDetail = ({
                     </div>
                     <div className={styles.contentContainer()}>
                         <div className={styles.toggleGroup()}>
-                        <ToggleButtonGroup
-                            selectionMode="single"
-                            selectedKeys={contentDisplayOption}
-                            onSelectionChange={onChangeDisplayOption}
-                                className="w-full"
-                        >
-                            <ToggleButton
-                                id="info"
-                                size="large"
+                            <ToggleButtonGroup
+                                selectionMode="single"
+                                selectedKeys={contentDisplayOption}
+                                onSelectionChange={onChangeDisplayOption}
                                 className="w-full"
                             >
-                                {t("neighborhoodDetail.infoToggleLabel")}
-                            </ToggleButton>
-                            <ToggleButton
-                                id="units"
-                                size="large"
-                                className="w-full"
-                            >
-                                {t("neighborhoodDetail.unitsToggleLabel")}
-                            </ToggleButton>
-                        </ToggleButtonGroup>
+                                <ToggleButton
+                                    id="info"
+                                    size="large"
+                                    className="w-full"
+                                >
+                                    {t("neighborhoodDetail.infoToggleLabel")}
+                                </ToggleButton>
+                                <ToggleButton
+                                    id="units"
+                                    size="large"
+                                    className="w-full"
+                                >
+                                    {t("neighborhoodDetail.unitsToggleLabel")}
+                                </ToggleButton>
+                            </ToggleButtonGroup>
                         </div>
                         <InfoContent
                             display={displayInfoContent}
+                            isMobile={isMobile}
+                            neighborhood={neighborhood}
+                            unitsLinkCallback={forceToggleUnits}
+                        />
+                        <UnitsContent
+                            display={!displayInfoContent}
                             isMobile={isMobile}
                             neighborhood={neighborhood}
                         />
