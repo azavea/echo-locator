@@ -11,6 +11,7 @@ import type {
 import CircleCheckIcon from "assets/icons/circle-check.svg?react";
 import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
 import { LicensedImage } from "src/components/CCLicensedImage";
+import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles";
 
 const NEIGHBORHOOD_IMG_TYPES = [
     "street",
@@ -32,6 +33,9 @@ const InfoContent = ({
     const DESC_MAX_LENGTH = isMobile ? 125 : 225;
     const [isDisplayingShortenedDesc, setIsDisplayingShortenedDesc] =
         useState(true);
+    const sharedStyles = neighborhoodDetailStyles({
+        isMobile: isMobile,
+    });
     const styles = infoTabStyles({
         isMobile: isMobile,
         display: display,
@@ -59,15 +63,29 @@ const InfoContent = ({
         );
     }, [town_website_description]);
 
+    const FindUnitsLink = () => (
+        <Link
+            onPress={() => alert("Pressed link")}
+            className={sharedStyles.bodySectionLinkWrapper()}
+        >
+            <p className={sharedStyles.bodySectionTextSmall()}>
+                <Trans i18nKey="neighborhoodDetail.findUnitsLink">
+                    Go to <strong>Find Units</strong> to learn more
+                </Trans>
+            </p>
+            <ArrowIcon className={sharedStyles.bodySectionLinkArrow()} />
+        </Link>
+    );
+
     return (
-        <div className={styles.infoContentContainer()}>
+        <div className={styles.root()}>
             <div className={styles.infoCardGrid()}>
                 {/* Affordable Card */}
                 <div
-                    className={`${styles.infoCard()} ${styles.mobileCardBorder()}`}
+                    className={`${styles.infoCard()} ${styles.mobileOnlyCardBorder()}`}
                 >
-                    <div className={styles.cardHeaderWrapper()}>
-                        <h2 className={styles.cardHeader()}>
+                    <div className="flex justify-between items-start">
+                        <h2 className={sharedStyles.bodySectionHeading()}>
                             {t("neighborhoodDetail.affordableCard.header")}
                         </h2>
                         {ecc && (
@@ -80,7 +98,7 @@ const InfoContent = ({
                         )}
                     </div>
                     <div className="flex flex-col gap-5">
-                        <p className="text-[17px] text-gray-600">
+                        <p className={sharedStyles.bodySectionTextNormal()}>
                             <Trans
                                 i18nKey="neighborhoodDetail.affordableCard.bodyText"
                                 components={{ bold: <strong /> }}
@@ -92,26 +110,16 @@ const InfoContent = ({
                                 in rent.
                             </Trans>
                         </p>
-                        {isMobile && (
-                            <Link
-                                onPress={() => alert("Pressed link")}
-                                className="font-normal text-gray-700"
-                            >
-                                <Trans i18nKey="neighborhoodDetail.findUnitsLink">
-                                    Go to <strong>Find Units</strong> to learn
-                                    more
-                                </Trans>
-                            </Link>
-                        )}
+                        {isMobile && <FindUnitsLink />}
                     </div>
                 </div>
 
                 {/* ECHO Benefits Card */}
                 <div
-                    className={`${styles.infoCard()} ${styles.mobileCardBorder()}`}
+                    className={`${styles.infoCard()} ${styles.mobileOnlyCardBorder()}`}
                 >
-                    <div className={styles.cardHeaderWrapper()}>
-                        <h2 className={styles.cardHeader()}>
+                    <div className="flex justify-between items-start">
+                        <h2 className={sharedStyles.bodySectionHeading()}>
                             {t("neighborhoodDetail.echoBenefitsCard.header")}
                         </h2>
                         {ecc && (
@@ -124,33 +132,21 @@ const InfoContent = ({
                         )}
                     </div>
                     <div className="flex flex-col gap-5">
-                        <p className="text-[17px] text-gray-600">
+                        <p className={sharedStyles.bodySectionTextNormal()}>
                             <Trans i18nKey="neighborhoodDetail.echoBenefitsCard.bodyText">
                                 <strong>Up to $6,750</strong> for security
                                 deposit, broker fees, moving expenses, and more.
                             </Trans>
                         </p>
-                        {isMobile && (
-                            <Link
-                                onPress={() => alert("Pressed link")}
-                                className="font-normal text-gray-700"
-                            >
-                                <Trans i18nKey="neighborhoodDetail.findUnitsLink">
-                                    Go to <strong>Find Units</strong> to learn
-                                    more
-                                </Trans>
-                            </Link>
-                        )}
+                        {isMobile && <FindUnitsLink />}
                     </div>
                 </div>
 
                 {/* Schools & Safety Card */}
                 <div className={styles.infoCard()}>
-                    <div className={styles.cardHeaderWrapper()}>
-                        <h2 className={styles.cardHeader()}>
-                            {t("neighborhoodDetail.schoolsSafetyCard.header")}
-                        </h2>
-                    </div>
+                    <h2 className={sharedStyles.bodySectionHeading()}>
+                        {t("neighborhoodDetail.schoolsSafetyCard.header")}
+                    </h2>
                     <div className="flex flex-row gap-5">
                         <Meter
                             label={t(
@@ -171,8 +167,10 @@ const InfoContent = ({
             </div>
 
             {/* About this area section */}
-            <div className={styles.aboutSection()}>
-                <h2 className={styles.cardHeader()}>
+            <div
+                className={`${sharedStyles.bodySectionWrapper()} ${sharedStyles.bodySectionWrapperBorder()}}`}
+            >
+                <h2 className={sharedStyles.bodySectionHeading()}>
                     {t("neighborhoodDetail.aboutAreaSection.header")}
                 </h2>
                 <div className={styles.imageCarousel()}>
@@ -213,7 +211,7 @@ const InfoContent = ({
                     ))}
                 </div>
                 <div className="flex flex-col gap-2 items-start">
-                    <p className={styles.aboutText()}>
+                    <p className={sharedStyles.bodySectionTextNormal()}>
                         {isDisplayingShortenedDesc
                             ? town_website_description.slice(
                                   0,
@@ -236,38 +234,38 @@ const InfoContent = ({
                     <p className="text-[17px] font-bold">
                         {t("neighborhoodDetail.learnMoreSection.subheader")}
                     </p>
-                    <div className={styles.learnMoreLinksGroup()}>
+                    <div className={sharedStyles.learnMoreLinksGroup()}>
                         <Link
                             href={town_link}
-                            className={`${styles.learnMoreLink()} ${styles.learnMoreLinkBorder()}`}
+                            className={`${sharedStyles.learnMoreLink()} ${sharedStyles.learnMoreLinkBorder()}`}
                         >
                             {t(
                                 "neighborhoodDetail.learnMoreSection.websiteLink"
                             )}
                             <ArrowIcon
-                                className={styles.learnMoreLinkArrow()}
+                                className={sharedStyles.learnMoreLinkArrow()}
                             />
                         </Link>
                         <Link
                             href={wikipedia_link}
-                            className={`${styles.learnMoreLink()} ${styles.learnMoreLinkBorder()}`}
+                            className={`${sharedStyles.learnMoreLink()} ${sharedStyles.learnMoreLinkBorder()}`}
                         >
                             {t(
                                 "neighborhoodDetail.learnMoreSection.wikipediaLink"
                             )}
                             <ArrowIcon
-                                className={styles.learnMoreLinkArrow()}
+                                className={sharedStyles.learnMoreLinkArrow()}
                             />
                         </Link>
                         <Link
                             href={`https://www.google.com/search?q=${encodeURIComponent(zipcode)}`}
-                            className={styles.learnMoreLink()}
+                            className={sharedStyles.learnMoreLink()}
                         >
                             {t(
                                 "neighborhoodDetail.learnMoreSection.googleLink"
                             )}
                             <ArrowIcon
-                                className={styles.learnMoreLinkArrow()}
+                                className={sharedStyles.learnMoreLinkArrow()}
                             />
                         </Link>
                     </div>

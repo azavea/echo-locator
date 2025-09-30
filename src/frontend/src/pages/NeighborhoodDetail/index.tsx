@@ -146,11 +146,12 @@ const NeighborhoodDetail = ({
                         )}
                     </div>
                     <div className={styles.contentContainer()}>
+                        <div className={styles.toggleGroup()}>
                         <ToggleButtonGroup
                             selectionMode="single"
                             selectedKeys={contentDisplayOption}
                             onSelectionChange={onChangeDisplayOption}
-                            className={isMobile ? "w-full" : "w-[350px]"}
+                                className="w-full"
                         >
                             <ToggleButton
                                 id="info"
@@ -167,6 +168,7 @@ const NeighborhoodDetail = ({
                                 {t("neighborhoodDetail.unitsToggleLabel")}
                             </ToggleButton>
                         </ToggleButtonGroup>
+                        </div>
                         <InfoContent
                             display={displayInfoContent}
                             isMobile={isMobile}
