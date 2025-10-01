@@ -23,7 +23,7 @@ def send_login_link(request):
     login_token = utils.get_query_string(user)
     host = request.get_host()
     protocol = "https://" if request.is_secure() else "http://"
-    login_link = f"{protocol}{host}/login/callback{login_token}"
+    login_link = f"{protocol}{host}/callback{login_token}"
 
     html_message = """
     <p>Hi there,</p>
