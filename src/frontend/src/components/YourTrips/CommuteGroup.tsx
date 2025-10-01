@@ -78,13 +78,19 @@ const CommuteGroup = ({
                         overridePanelOpen={!isTransit}
                         isMobile={isMobile}
                     >
-                        {isMobile && <TripMap start={trip.destination} />}
+                        {isMobile && (
+                            <TripMap
+                                start={trip.destination}
+                                end={trips[0].neighborhoodZipcode}
+                            />
+                        )}
                     </AccordionItem>
                 ))}
             </Accordion>
             {!isMobile && (
                 <TripMap
                     start={selectedMapDestination}
+                    end={trips[0].neighborhoodZipcode}
                     className={styles.commuteGroupItem()}
                 />
             )}

@@ -13,6 +13,8 @@ export const yourTripsStyles = tv({
         loadingWrapper: "flex w-full flex-col flex-grow-1 justify-center",
         loadingSpinner:
             "w-10 h-10 border-6 border-[#02B3CC] border-t-transparent rounded-full animate-spin self-center",
+        directionsLink:
+            "inline-flex items-center justify-center p-3 rounded-lg bg-white shadow-md text-gray-700 font-[Mulish] text-sm font-bold",
     },
     variants: {
         isMobile: {

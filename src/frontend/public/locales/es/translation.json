@@ -84,6 +84,7 @@
         "busAndTrain": "Bus & Train",
         "car": "Car",
         "touchPrompt": "Select a trip to see directions on a map",
-        "editTrips": "Edit your trips"
+        "editTrips": "Edit your trips",
+        "openInGoogle": "Abierto en Google Maps"
     }
 }

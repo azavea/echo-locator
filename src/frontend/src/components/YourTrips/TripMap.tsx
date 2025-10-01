@@ -4,13 +4,17 @@ import {
     Map as MapContainer,
     Source,
     type MapRef,
+    AttributionControl,
 } from "react-map-gl/maplibre";
 import bbox from "@turf/bbox";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-aria-components";
 
 import { useAppSelector } from "store/store";
 import { selectNeighborhoodRouteGeoJsons } from "src/reducers/neighborhoods/neighborhoodsSlice";
 import type { Destination } from "src/reducers/userProfile/types";
 import StartIcon from "assets/icons/start.png";
+import CustomControlOverlay from "./CustomMapControl";
 
 import baseMapDetailStyle from "pages/NeighborhoodDetail/Map/baseMapDetailStyle.json";
 import {
@@ -20,14 +24,18 @@ import {
     routeEndPointStyle,
 } from "./tripLayerStyles";
 import { yourTripsStyles } from "./YourTrips.styles";
+import { createGoogleDirectionsURL } from "src/libs/getLinkURLs";
 
 const TripMap = ({
     start,
+    end,
     className,
 }: {
     start: Destination;
+    end: string;
     className?: string;
 }) => {
+    const { t } = useTranslation();
     const styles = yourTripsStyles();
     const mapRef = useRef<MapRef>(null);
     const [loaded, setLoaded] = useState(false);
@@ -90,7 +98,9 @@ const TripMap = ({
                 interactive={false}
                 // @ts-ignore
                 mapStyle={baseMapDetailStyle}
+                attributionControl={false}
             >
+                <AttributionControl position="bottom-left" compact={true} />
                 <Source
                     id="neighborhood-trip-geojson"
                     type="geojson"
@@ -105,6 +115,16 @@ const TripMap = ({
                     {/* @ts-ignore */}
                     <Layer {...routeEndPointStyle} />
                 </Source>
+                <CustomControlOverlay position="bottom-right">
+                    <Link
+                        href={createGoogleDirectionsURL(end, start, true, true)}
+                        target="_blank"
+                        className={styles.directionsLink()}
+                        aria-label="Open Google Directions"
+                    >
+                        {t("yourTrips.openInGoogle")}
+                    </Link>
+                </CustomControlOverlay>
             </MapContainer>
         </div>
     );
