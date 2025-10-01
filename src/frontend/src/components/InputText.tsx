@@ -4,7 +4,7 @@ interface Props {
     label: string;
     size?: "medium" | "large";
     value: string;
-    onChange: React.Dispatch<React.SetStateAction<string>>;
+    onChange: (value: string) => void;
     placeholder: string;
 }
 

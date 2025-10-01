@@ -49,14 +49,12 @@ const Discover = () => {
         const isNeighborhoodDataEmpty =
             !neighborhoods?.features || !neighborhoodBounds?.features;
         // TODO: Refactor on adding login workflow
-        const testAuthToken = import.meta.env.VITE_AUTHTOKEN;
         if (
             !neighborhoodsLoading &&
             !neighborhoodsError &&
-            isNeighborhoodDataEmpty &&
-            testAuthToken
+            isNeighborhoodDataEmpty
         ) {
-            dispatch(getNeighborhoodsAndBounds(testAuthToken));
+            dispatch(getNeighborhoodsAndBounds());
         }
     }, []);
 

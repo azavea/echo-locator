@@ -33,7 +33,8 @@
             "hooks/*": ["./src/hooks/*"],
             "libs/*": ["./src/libs/*"],
             "reducers/*": ["./src/reducers/*"],
-            "store/*": ["./src/store/*"]
+            "store/*": ["./src/store/*"],
+            "api/*": ["./src/api/*"]
         }
     },
     "include": ["src"]

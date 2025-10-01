@@ -2,6 +2,16 @@
     "discover": "Discover",
     "compare": "Compare",
     "logout": "Logout",
+    "signInPage": {
+        "signIn": "Sign in",
+        "signInPageCaption": "Find neighborhoods that work for you and your family",
+        "signInWithEmail": "Sign in with your email",
+        "emailAddressInvalid": "Email address is invalid",
+        "checkYourEmail": "Check your email",
+        "goBack": "Go back",
+        "signInConfirm": "We sent an email with a login link to {{email}}. Click the link to sign into ECHO.",
+        "enterEmailAddress": "Enter your email address"
+    },
     "neighborhoodDetail": {
         "addToFavorites": "Add to favorites",
         "moveCountText": "{{count}} voucher holders moved here already!",

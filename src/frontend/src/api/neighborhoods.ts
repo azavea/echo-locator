@@ -1,31 +1,18 @@
-import axios from "axios";
 import type {
     NeighborhoodBounds,
     Neighborhoods,
 } from "reducers/neighborhoods/types";
+import apiClient from "./client";
 
-const API_BASE_URL = "/api";
-
-export const fetchNeighborhoods = async (
-    authToken: string
-): Promise<Neighborhoods> => {
-    const response = await axios.get<Neighborhoods>(
-        `${API_BASE_URL}/neighborhoods/`,
-        {
-            headers: { Authorization: `Token ${authToken}` },
-        }
-    );
+export const fetchNeighborhoods = async (): Promise<Neighborhoods> => {
+    const response = await apiClient.get<Neighborhoods>("/neighborhoods/");
     return response.data;
 };
 
-export const fetchNeighborhoodBounds = async (
-    authToken: string
-): Promise<NeighborhoodBounds> => {
-    const response = await axios.get<NeighborhoodBounds>(
-        `${API_BASE_URL}/neighborhood-bounds/`,
-        {
-            headers: { Authorization: `Token ${authToken}` },
-        }
-    );
-    return response.data;
-};
+export const fetchNeighborhoodBounds =
+    async (): Promise<NeighborhoodBounds> => {
+        const response = await apiClient.get<NeighborhoodBounds>(
+            "/neighborhood-bounds/"
+        );
+        return response.data;
+    };
