@@ -83,8 +83,8 @@ const YourTrips = ({
                         ? tripsByDestination
                         : tripsByNeighborhood
                 }
+                isMobile={isMobile}
                 isTransit
-                isMobile
             />
             <Button
                 variant="outline"

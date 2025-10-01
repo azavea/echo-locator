@@ -10,6 +10,9 @@ export const yourTripsStyles = tv({
         editButton: "flex",
         commuteGroupWrapper: "flex",
         commuteGroupItem: "flex w-full",
+        loadingWrapper: "flex w-full flex-col flex-grow-1 justify-center",
+        loadingSpinner:
+            "w-10 h-10 border-6 border-[#02B3CC] border-t-transparent rounded-full animate-spin self-center",
     },
     variants: {
         isMobile: {
@@ -23,7 +26,7 @@ export const yourTripsStyles = tv({
                 root: "",
                 editButton: "w-fit flex-start",
                 commuteGroupWrapper: "flex-row justify-between gap-7",
-                commuteGroupItem: "flex w-1/2",
+                commuteGroupItem: "flex !w-1/2",
             },
         },
     },

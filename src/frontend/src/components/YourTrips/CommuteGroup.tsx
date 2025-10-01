@@ -6,6 +6,9 @@ import { useAppSelector } from "src/store/store";
 import selectNeighborhoodZipcodeMap from "src/reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
 import { createGoogleDirectionsURL } from "src/libs/getLinkURLs";
 import type { TripType } from "./types";
+import { useState } from "react";
+import type { Destination } from "src/reducers/userProfile/types";
+import TripMap from "./TripMap";
 
 const CommuteGroup = ({
     trips,
@@ -19,6 +22,8 @@ const CommuteGroup = ({
     const styles = yourTripsStyles({
         isMobile: isMobile,
     });
+    const [selectedMapDestination, setSelectedMapDestination] =
+        useState<Destination>(trips[0].destination);
     const allNeighborhoodCommutes = useAppSelector(
         selectNeighborhoodZipcodeMap
     );
@@ -30,6 +35,10 @@ const CommuteGroup = ({
                 expandedItemCallback={keys => {
                     const selection = [...keys][0];
                     if (selection) {
+                        // TODO will need to adjust for compare page
+                        setSelectedMapDestination(
+                            trips[parseInt(selection)].destination
+                        );
                         if (!isTransit) {
                             // open link
                             const directionsURL = createGoogleDirectionsURL(
@@ -69,10 +78,16 @@ const CommuteGroup = ({
                         overridePanelOpen={!isTransit}
                         isMobile={isMobile}
                     >
-                        map
+                        {isMobile && <TripMap start={trip.destination} />}
                     </AccordionItem>
                 ))}
             </Accordion>
+            {!isMobile && (
+                <TripMap
+                    start={selectedMapDestination}
+                    className={styles.commuteGroupItem()}
+                />
+            )}
         </div>
     );
 };
