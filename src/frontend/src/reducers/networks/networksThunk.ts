@@ -3,11 +3,7 @@
 // ATTR: Taui by Conveyal, included under the MIT license (https://github.com/conveyal/taui/blob/dev/LICENSE)
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-    fetchNetworkData,
-    fetchPathsData,
-    fetchTimesData,
-} from "src/api/networks";
+import { fetchNetworkData, fetchPathsData, fetchTimesData } from "api/networks";
 import { networks } from "src/constants";
 import type {
     Networks,
