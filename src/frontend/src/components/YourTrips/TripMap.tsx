@@ -10,10 +10,17 @@ import bbox from "@turf/bbox";
 import { useAppSelector } from "store/store";
 import { selectNeighborhoodRouteGeoJsons } from "src/reducers/neighborhoods/neighborhoodsSlice";
 import type { Destination } from "src/reducers/userProfile/types";
+import StartIcon from "assets/icons/start.png";
 
 import baseMapDetailStyle from "pages/NeighborhoodDetail/Map/baseMapDetailStyle.json";
-import { routeWalkStyle, routeTransitStyle } from "./tripLayerStyles";
+import {
+    routeWalkStyle,
+    routeTransitStyle,
+    routeStartPointStyle,
+    routeEndPointStyle,
+} from "./tripLayerStyles";
 import { yourTripsStyles } from "./YourTrips.styles";
+
 const TripMap = ({
     start,
     className,
@@ -50,9 +57,19 @@ const TripMap = ({
 
     useEffect(() => {
         if (loaded && mapRef.current) {
-            mapRef.current.fitBounds([minLng, minLat, maxLng, maxLat], {
+            mapRef.current?.fitBounds([minLng, minLat, maxLng, maxLat], {
                 padding: { top: 50, right: 50, bottom: 50, left: 50 },
             });
+        }
+        const loadAndAddImage = async () => {
+            if (mapRef.current) {
+                const { data: image } =
+                    await mapRef.current.loadImage(StartIcon);
+                mapRef.current.addImage("point-start-icon", image);
+            }
+        };
+        if (mapRef.current && !mapRef.current.hasImage("point-start-icon")) {
+            loadAndAddImage();
         }
     }, [loaded]);
 
@@ -83,6 +100,10 @@ const TripMap = ({
                     <Layer {...routeWalkStyle} />
                     {/* @ts-ignore */}
                     <Layer {...routeTransitStyle} />
+                    {/* @ts-ignore */}
+                    <Layer {...routeStartPointStyle} />
+                    {/* @ts-ignore */}
+                    <Layer {...routeEndPointStyle} />
                 </Source>
             </MapContainer>
         </div>

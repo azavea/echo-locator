@@ -74,7 +74,11 @@ export default createSelector(
                 if (segments.length === 0) {
                     destinationsMap[destination] = {
                         type: "FeatureCollection",
-                        features: [createWalkFeature([startCoords, endCoords])],
+                        features: [
+                            createAnchorFeature(startCoords, "start"),
+                            createWalkFeature([startCoords, endCoords]),
+                            createAnchorFeature(endCoords, "end"),
+                        ],
                     };
                     return destinationsMap;
                 }
@@ -87,15 +91,31 @@ export default createSelector(
                     features:
                         firstStop && lastStop
                             ? [
+                                  createAnchorFeature(startCoords, "start"),
                                   createWalkFeature([
                                       startCoords,
                                       firstStop.coordinates,
                                   ]),
                                   ...segments.reduce<Feature[]>(
-                                      (features, s) => [
-                                          ...features,
-                                          ...createSegmentFeatures(s),
-                                      ],
+                                      (features, s, i) => {
+                                          const endAnchor =
+                                              i === segments.length - 1 &&
+                                              s.toStop
+                                                  ? [
+                                                        createAnchorFeature(
+                                                            s.toStop
+                                                                .coordinates,
+                                                            "end"
+                                                        ),
+                                                    ]
+                                                  : [];
+
+                                          return [
+                                              ...features,
+                                              ...createSegmentFeatures(s),
+                                              ...endAnchor,
+                                          ];
+                                      },
                                       []
                                   ),
                                   // Exclude final walk to neighborhood center to match old UI
@@ -161,6 +181,19 @@ function createWalkFeature(coordinates: number[][]) {
         geometry: {
             type: "LineString",
             coordinates,
+        },
+    } as Feature;
+}
+
+function createAnchorFeature(coordinates: number[], pointType: string) {
+    return {
+        type: "Feature",
+        properties: {
+            name: pointType,
+        },
+        geometry: {
+            type: "Point",
+            coordinates: coordinates,
         },
     } as Feature;
 }

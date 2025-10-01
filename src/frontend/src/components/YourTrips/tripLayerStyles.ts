@@ -25,3 +25,29 @@ export const routeTransitStyle = {
     },
     filter: ["all", ["!=", "mode", "WALK"], ["==", "$type", "LineString"]],
 };
+
+export const routeStartPointStyle = {
+    id: "point-start",
+    type: "symbol",
+    source: "neighborhood-trip-geojson",
+    filter: ["==", ["get", "name"], "start"],
+    layout: {
+        "icon-image": "point-start-icon",
+        "icon-size": 0.2,
+        "icon-anchor": "bottom",
+        "icon-allow-overlap": true,
+    },
+};
+
+export const routeEndPointStyle = {
+    id: "point-end",
+    type: "circle",
+    source: "neighborhood-trip-geojson",
+    filter: ["==", ["get", "name"], "end"],
+    paint: {
+        "circle-radius": 7,
+        "circle-color": "#000000",
+        "circle-stroke-width": 2,
+        "circle-stroke-color": "#FFFFFF",
+    },
+};
