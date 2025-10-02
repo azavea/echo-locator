@@ -9,8 +9,8 @@ import useMediaQuery from "hooks/useMediaQuery";
 import Desktop from "./Desktop";
 import Mobile from "./Mobile";
 import {
-    getTimesAndPathsDataForPlace,
     getNetworks,
+    getAllTimesAndPathsData,
 } from "reducers/networks/networksThunk";
 import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
 import { Place } from "src/enums";
@@ -78,6 +78,22 @@ const Discover = () => {
                         primary: true,
                         purpose: Place.Work,
                     },
+                    {
+                        location: {
+                            label: "Harvard Square",
+                            position: { lon: -71.12015, lat: 42.37257 },
+                        },
+                        primary: false,
+                        purpose: Place.School,
+                    },
+                    {
+                        location: {
+                            label: "John F. Kennedy Presidential Library",
+                            position: { lon: -71.0342146, lat: 42.316274 },
+                        },
+                        primary: false,
+                        purpose: Place.Other,
+                    },
                 ])
             );
             dispatch(setActiveDestination("700 Boylston St"));
@@ -85,25 +101,10 @@ const Discover = () => {
     }, [neighborhoods, networks]);
 
     useEffect(() => {
-        const initialTimesAndPathsDataSet =
-            timesAndRoutesData &&
-            Object.values(timesAndRoutesData).every(place =>
-                Object.values(place).every(n => n.timesAndRoutesDataReady)
-            );
-        if (
-            neighborhoods &&
-            networks &&
-            activeDestination &&
-            !networksLoading &&
-            !networksError &&
-            !initialTimesAndPathsDataSet
-        ) {
-            const destination = destinations.find(
-                d => d.location.label === activeDestination
-            );
-            destination && dispatch(getTimesAndPathsDataForPlace(destination));
+        if (destinations && !timesAndRoutesData) {
+            dispatch(getAllTimesAndPathsData(destinations));
         }
-    }, [neighborhoods, networks, activeDestination, timesAndRoutesData]);
+    }, [destinations, timesAndRoutesData]);
 
     const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
     useEffect(() => {
