@@ -3,38 +3,21 @@
 // ATTR: Taui by Conveyal, included under the MIT license (https://github.com/conveyal/taui/blob/dev/LICENSE)
 
 import lonlat from "@conveyal/lonlat";
-import memoize from "lodash/memoize";
 
 import type { Neighborhoods } from "reducers/neighborhoods/types";
 import type {
-    Location,
     LonLat,
-    NeighborhoodRoutePaths,
     NeighborhoodRoutes,
     NetworkAndTimeAndPathsData,
 } from "reducers/networks/types";
 import createTransitiveRoutes from "./createTransitiveRoutes";
-
-/**
- * This assumes loaded query, paths, and targets.
- */
-const memoizedTransitiveRoutes = memoize(
-    (
-        n: NetworkAndTimeAndPathsData,
-        _i: number,
-        s: Location,
-        e: Location
-    ): NeighborhoodRoutePaths => createTransitiveRoutes(n, s, e),
-    (n, i, s, e) =>
-        `${n.name}-${i}-${lonlat(s.position).toString()}-${lonlat(e.position).toString()}`
-);
 
 const createNetworkNeighborhoodRoutes = (
     network: NetworkAndTimeAndPathsData,
     start: LonLat,
     neighborhoods: Neighborhoods
 ): NeighborhoodRoutes =>
-    neighborhoods.features.reduce((routes, neighborhood, neighborhoodIndex) => {
+    neighborhoods.features.reduce((routes, neighborhood) => {
         if (
             start &&
             neighborhood.geometry &&
@@ -52,12 +35,7 @@ const createNetworkNeighborhoodRoutes = (
                 label: neighborhood.properties.town,
                 position: lonlat(neighborhood.geometry.coordinates),
             };
-            const result = memoizedTransitiveRoutes(
-                network,
-                neighborhoodIndex,
-                start_location,
-                end
-            );
+            const result = createTransitiveRoutes(network, start_location, end);
             routes.push({
                 id: neighborhood.properties.id,
                 label: neighborhood.properties.town, // not unique

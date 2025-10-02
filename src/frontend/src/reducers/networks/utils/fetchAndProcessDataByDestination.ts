@@ -14,8 +14,8 @@ import { coordinateToIndex } from "./coordinateToIndex";
 import { fetchPathsData, fetchTimesData } from "src/api/networks";
 import { parsePathsData } from "./parsePathsData";
 import { parseTimesData } from "./parseTimesData";
-import createNetworkNeighborhoodRoutes from "./createNetworkNeighborhoodRoutes";
 import createNetworkNeighborhoodTravelTimes from "./createNetworkNeighborhoodTravelTimes";
+import createNetworkNeighborhoodRoutes from "./createNetworkNeighborhoodRoutes";
 
 export async function fetchAndProcessDataByDestination(
     destination: Destination,
