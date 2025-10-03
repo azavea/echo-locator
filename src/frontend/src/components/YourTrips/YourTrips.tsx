@@ -1,4 +1,4 @@
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 import Button from "components/base/Button/Button";
 import { yourTripsStyles } from "./YourTrips.styles";
@@ -6,13 +6,19 @@ import { useAppSelector } from "src/store/store";
 import { selectUseTransit } from "src/reducers/networks/networksSlice";
 import neighborhoodDetailStyles from "src/pages/NeighborhoodDetail/styles/NeighborhoodDetail.styles";
 import TouchPromptIcon from "assets/icons/touch-prompt.svg?react";
+import CommuteGroup from "./CommuteGroup";
+import type { TripType } from "./types";
+import { selectUserDestinations } from "src/reducers/userProfile/userSlice";
+import type { Destination } from "src/reducers/userProfile/types";
 
 const YourTrips = ({
     isMobile,
     subheadingText,
+    activeNeighborhood,
 }: {
     isMobile?: boolean;
     subheadingText?: string;
+    activeNeighborhood?: string;
 }) => {
     const { t } = useTranslation();
     const sharedStyles = neighborhoodDetailStyles({
@@ -22,7 +28,33 @@ const YourTrips = ({
         isMobile: isMobile,
     });
 
+    const destinations = useAppSelector(selectUserDestinations);
+    const tripToNeighborhood = !!activeNeighborhood;
+    // TODO: Implement for compare page
+    const favoritedNeighborhoods: string[] = [];
     const useTransit = useAppSelector(selectUseTransit);
+
+    const tripsByDestination = destinations.reduce(
+        (tripsFromDest: TripType[], dest: Destination) => {
+            const trip: TripType = {
+                title: dest.purpose,
+                subtitle: dest.location.label,
+                neighborhoodZipcode: activeNeighborhood ?? "",
+                destination: dest,
+                tripToNeighborhood: !!tripToNeighborhood,
+            };
+            tripsFromDest.push(trip);
+            return tripsFromDest;
+        },
+        []
+    );
+    const tripsByNeighborhood = favoritedNeighborhoods.reduce(
+        (tripsFromZip, zip) => {
+            // TODO: Implement for compare page
+            return [];
+        },
+        []
+    );
 
     return (
         <div className={styles.root()}>
@@ -45,6 +77,15 @@ const YourTrips = ({
                     </p>
                 </div>
             </div>
+            <CommuteGroup
+                trips={
+                    tripToNeighborhood
+                        ? tripsByDestination
+                        : tripsByNeighborhood
+                }
+                isTransit
+                isMobile
+            />
             <Button
                 variant="outline"
                 size="large"

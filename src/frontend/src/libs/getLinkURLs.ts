@@ -1,4 +1,5 @@
 import type { UnitSitesKeyType } from "src/enums";
+import type { Destination } from "src/reducers/userProfile/types";
 
 const URLsBySite = {
     craigslist: (room: number, max_rent: number, zipcode: string) =>
@@ -9,11 +10,19 @@ const URLsBySite = {
         `https://www.affordablehousing.com/boston-ma-${zipcode}/under-${max_rent}/${room}-bed/`,
 };
 
-const getUnitsURL = (
+export const getUnitsURL = (
     site: UnitSitesKeyType,
     zipcode: string,
     room: number,
     max_rent: number
 ): string => URLsBySite[site](room, max_rent, zipcode);
 
-export default getUnitsURL;
+export const createGoogleDirectionsURL = (
+    neighborhood: string,
+    destination: Destination,
+    tripToNeighborhood: boolean,
+    isTransit: boolean
+) => {
+    const destinationSubString = `${destination.location.position.lat},${destination.location.position.lon}`;
+    return `https://www.google.com/maps/dir/?api=1&travelmode=${isTransit ? "transit" : "car"}&origin=${tripToNeighborhood ? destinationSubString : neighborhood}&destination=${tripToNeighborhood ? neighborhood : destinationSubString}`;
+};

@@ -14,7 +14,7 @@ import UnitsModal from "./UnitsModal.tsx";
 import type { UnitSitesKeyType } from "src/enums.ts";
 import { useAppSelector } from "src/store/store.ts";
 import { selectUserBedroomCount } from "src/reducers/userProfile/userSlice.ts";
-import getUnitsURL from "src/libs/getUnitsURLByPlatform.ts";
+import { getUnitsURL } from "src/libs/getLinkURLs.ts";
 import formatCurrency from "src/libs/formatCurrency.ts";
 import Button from "src/components/base/Button/Button.tsx";
 

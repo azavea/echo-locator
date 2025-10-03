@@ -169,7 +169,7 @@ const InfoContent = ({
             <div
                 className={`${sharedStyles.bodySectionWrapper()} ${sharedStyles.bodySectionWrapperBorder()}`}
             >
-                <YourTrips isMobile={isMobile} />
+                <YourTrips activeNeighborhood={zipcode} isMobile={isMobile} />
             </div>
 
             {/* About this area section */}
