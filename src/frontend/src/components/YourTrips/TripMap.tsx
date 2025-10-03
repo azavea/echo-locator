@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
     Layer,
     Map as MapContainer,
@@ -24,6 +24,7 @@ import {
 import { yourTripsStyles } from "./YourTrips.styles";
 import { createGoogleDirectionsURL } from "src/libs/getLinkURLs";
 import { useGetDestinationToNeighborhoodRoute } from "src/hooks/useGetDestinationToNeighborhoodRoute";
+import { BOUNDS } from "src/pages/Discover/Map/constants";
 
 const TripMap = ({
     start,
@@ -51,14 +52,15 @@ const TripMap = ({
         );
     }
 
-    const [minLng, minLat, maxLng, maxLat] = bbox(routeGeoJSON, {});
+    const bounds: [number, number, number, number] = useMemo(() => {
+        if (routeGeoJSON) {
+            const [minLng, minLat, maxLng, maxLat] = bbox(routeGeoJSON, {});
+            return [minLng, minLat, maxLng, maxLat];
+        }
+        return BOUNDS;
+    }, [routeGeoJSON, start, end]);
 
     useEffect(() => {
-        if (loaded && mapRef.current) {
-            mapRef.current?.fitBounds([minLng, minLat, maxLng, maxLat], {
-                padding: { top: 50, right: 50, bottom: 50, left: 50 },
-            });
-        }
         const loadAndAddImage = async () => {
             if (mapRef.current) {
                 const { data: image } =
@@ -72,17 +74,20 @@ const TripMap = ({
     }, [loaded]);
 
     useEffect(() => {
-        mapRef.current?.fitBounds([minLng, minLat, maxLng, maxLat], {
+        mapRef.current?.fitBounds(bounds, {
             padding: { top: 50, right: 50, bottom: 50, left: 50 },
         });
-    }, [minLng, minLat, maxLng, maxLat]);
+    }, [bounds]);
 
     return (
         <div className={`${className} relative h-[250px] w-full`}>
             <MapContainer
                 ref={mapRef}
                 initialViewState={{
-                    bounds: [minLng, minLat, maxLng, maxLat],
+                    bounds: bounds,
+                    fitBoundsOptions: {
+                        padding: { top: 50, bottom: 50, right: 50, left: 50 },
+                    },
                 }}
                 onLoad={() => setLoaded(true)}
                 interactive={false}
