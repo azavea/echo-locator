@@ -111,26 +111,27 @@ function addDataToPaths(path: PopulatedPath[]) {
             []
         );
 
-            segments.push({
-                fromStop: {
-                    coordinates: [boardStop.stop_lon, boardStop.stop_lat],
-                    name: boardStop.stop_name,
-                    stopId: boardStop.stop_id,
-                },
-                coordinates: latLons.map(([lat, lon]) => [lon, lat]), // reverse coords
-            mode: leg.route.route_type
-                ? TYPE_TO_ICON[leg.route.route_type]
-                : "",
-                name: toUpperCase(leg.route.route_short_name),
-                patternId: leg.pattern.pattern_id,
+        segments.push({
+            fromStop: {
+                coordinates: [boardStop.stop_lon, boardStop.stop_lat],
+                name: boardStop.stop_name,
+                stopId: boardStop.stop_id,
+            },
+            coordinates: latLons.map(([lat, lon]) => [lon, lat]), // reverse coords
+            mode:
+                leg.route.route_type || leg.route.route_type === 0
+                    ? TYPE_TO_ICON[leg.route.route_type]
+                    : "",
+            name: toUpperCase(leg.route.route_short_name),
+            patternId: leg.pattern.pattern_id,
             routeColor: "#" + (leg.route.route_color || DEFAULT_ROUTE_COLOR),
-                routeId: leg.route.route_id,
-                toStop: {
-                    coordinates: [alightStop.stop_lon, alightStop.stop_lat],
-                    name: alightStop.stop_name,
-                    stopId: alightStop.stop_id,
-                },
-            });
+            routeId: leg.route.route_id,
+            toStop: {
+                coordinates: [alightStop.stop_lon, alightStop.stop_lat],
+                name: alightStop.stop_name,
+                stopId: alightStop.stop_id,
+            },
+        });
 
         previousStop = alightStop;
     }
