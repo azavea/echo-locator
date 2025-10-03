@@ -6,7 +6,7 @@ const MIN_DEFAULT = 0;
 const MAX_DEFAULT = 120;
 
 export interface RangeProps {
-    label: string;
+    label?: string;
     start: number;
     end: number;
     className?: string;
@@ -40,7 +40,7 @@ const Range = ({
     return (
         <div className={root({ className })}>
             <div className={labelContainer()}>
-                <span className={mainLabel()}>{label}</span>
+                {label && <span className={mainLabel()}>{label}</span>}
                 <span className={rangeLabel()}>{rangeText}</span>
             </div>
             <div className="relative">
