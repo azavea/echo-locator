@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import {
     Layer,
     Map as MapContainer,
@@ -41,27 +41,20 @@ const Map = () => {
         selectActiveNeighborhoodBounds
     );
     const mapRef = useRef<MapRef>(null);
-    const [loaded, setLoaded] = useState(false);
 
     const destinations = useAppSelector(selectUserDestinations);
     const activeDestination = useAppSelector(selectActiveDestination);
 
-    let bounds = BOUNDS;
-    if (activeNeighborhoodBounds) {
-        const [minLng, minLat, maxLng, maxLat] = bbox(
-            activeNeighborhoodBounds.geometry,
-            {}
-        );
-        bounds = [minLng, minLat, maxLng, maxLat];
-    }
-
-    useEffect(() => {
-        if (loaded && mapRef.current) {
-            mapRef.current.fitBounds(bounds, {
-                padding: { top: 50, right: 50, bottom: 50, left: 50 },
-            });
+    const bounds: [number, number, number, number] = useMemo(() => {
+        if (activeNeighborhoodBounds) {
+            const [minLng, minLat, maxLng, maxLat] = bbox(
+                activeNeighborhoodBounds.geometry,
+                {}
+            );
+            return [minLng, minLat, maxLng, maxLat];
         }
-    }, [loaded]);
+        return BOUNDS;
+    }, [activeNeighborhoodBounds]);
 
     return (
         <div className="relative h-full w-full">
@@ -69,10 +62,13 @@ const Map = () => {
                 ref={mapRef}
                 initialViewState={{
                     bounds: bounds,
+                    fitBoundsOptions: {
+                        padding: { top: 50, bottom: 50, right: 50, left: 50 },
+                    },
                 }}
-                style={{ visibility: loaded ? "visible" : "hidden" }}
-                onLoad={() => setLoaded(true)}
                 interactive={false}
+                // baseMapDetailStyle builds off of baseMapStyle
+                // and includes expanded transit layers: buses + bus stops
                 // @ts-ignore
                 mapStyle={baseMapDetailStyle}
             >
