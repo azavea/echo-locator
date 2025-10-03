@@ -4,7 +4,6 @@ import type {
     RankedNeighborhoodsLists,
 } from "./types";
 import { getNeighborhoodsAndBounds } from "./neighborhoodsThunk";
-import drawNeighborhoodRoutes from "./selectors/drawNeighborhoodRoutes";
 import type { RootState } from "src/store/store";
 
 const initialState: NeighborhoodsSliceState = {
@@ -87,8 +86,6 @@ export const selectActiveNeighborhoodBounds = (state: RootState) =>
     state.neighborhoods.neighborhoodBounds?.features.find(
         b => b.properties.zipcode === state.neighborhoods.activeNeighborhood
     );
-
-export { drawNeighborhoodRoutes as selectNeighborhoodRouteGeoJsons };
 
 export const selectNeighborhoodNameByZipcode = createSelector(
     [(state: RootState) => state.neighborhoods.neighborhoods],

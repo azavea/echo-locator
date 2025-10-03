@@ -13,123 +13,111 @@ import type {
     NeighborhoodTransitStop,
 } from "reducers/networks/types";
 import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
+import type { Destination } from "src/reducers/userProfile/types";
 
-interface GeoJsonsByDestinations {
-    [key: string]: FeatureCollection;
-}
+export const makeSelectRouteToNeighborhood = (
+    destination: Destination,
+    neighborhoodZipcode: string
+) => {
+    return createSelector(
+        [
+            (state: RootState) => get(state, "networks.activeMode"),
+            (state: RootState) => get(state, "networks.timesAndRoutesData"),
+            selectAllNetworksDataReady,
+        ],
+        (activeNetworkMode, travelTimesAndRoutes, networksReady) => {
+            if (
+                !travelTimesAndRoutes ||
+                !networksReady ||
+                !neighborhoodZipcode ||
+                !destination
+            ) {
+                return null;
+            }
 
-export default createSelector(
-    [
-        (state: RootState) => get(state, "neighborhoods.activeNeighborhood"),
-        (state: RootState) => get(state, "networks.activeMode"),
-        (state: RootState) => get(state, "userProfile.destinations"),
-        (state: RootState) => get(state, "networks.timesAndRoutesData"),
-        selectAllNetworksDataReady,
-    ],
-    (
-        activeNeighborhood,
-        activeNetworkMode,
-        destinations,
-        travelTimesAndRoutes,
-        networksReady
-    ) => {
-        if (
-            !travelTimesAndRoutes ||
-            !networksReady ||
-            !activeNeighborhood ||
-            !destinations.length
-        ) {
-            return null;
-        }
+            const { routesByNeighborhood } =
+                travelTimesAndRoutes[destination.location.label][
+                    activeNetworkMode
+                ];
 
-        const geoJsonsByDestination: GeoJsonsByDestinations =
-            destinations.reduce((destinationsMap, d) => {
-                const destination = d.location.label;
-                const { routesByNeighborhood } =
-                    travelTimesAndRoutes[destination][activeNetworkMode];
-
-                const index = findIndex(
-                    routesByNeighborhood,
-                    route => route.id === activeNeighborhood
-                );
-                if (index === -1) {
-                    return {};
-                }
-                const transitive = routesByNeighborhood[index];
-                // Don't draw alternative routes
-                const allSegments: NeighborhoodRoutePath = get(
-                    transitive,
-                    "segments[0]",
-                    []
-                );
-                const segments = [...allSegments];
-                const start = transitive.start;
-                const end = transitive.end;
-
-                // Taui
-                // Convert to [lon, lat] coordinates
-                const startCoords = [start.position.lon, start.position.lat];
-                const endCoords = [end.position.lon, end.position.lat];
-
-                if (segments.length === 0) {
-                    destinationsMap[destination] = {
-                        type: "FeatureCollection",
-                        features: [
-                            createAnchorFeature(startCoords, "start"),
-                            createWalkFeature([startCoords, endCoords]),
-                            createAnchorFeature(endCoords, "end"),
-                        ],
-                    };
-                    return destinationsMap;
-                }
-
-                const firstStop = segments[0].fromStop;
-                const lastStop = segments[segments.length - 1].toStop;
-
-                destinationsMap[destination] = {
+            const index = findIndex(
+                routesByNeighborhood,
+                route => route.id === neighborhoodZipcode
+            );
+            if (index === -1) {
+                return {
                     type: "FeatureCollection",
-                    features:
-                        firstStop && lastStop
-                            ? [
-                                  createAnchorFeature(startCoords, "start"),
-                                  createWalkFeature([
-                                      startCoords,
-                                      firstStop.coordinates,
-                                  ]),
-                                  ...segments.reduce<Feature[]>(
-                                      (features, s, i) => {
-                                          const endAnchor =
-                                              i === segments.length - 1 &&
-                                              s.toStop
-                                                  ? [
-                                                        createAnchorFeature(
-                                                            s.toStop
-                                                                .coordinates,
-                                                            "end"
-                                                        ),
-                                                    ]
-                                                  : [];
+                    features: [],
+                } as FeatureCollection;
+            }
+            const transitive = routesByNeighborhood[index];
+            // Don't draw alternative routes
+            const allSegments: NeighborhoodRoutePath = get(
+                transitive,
+                "segments[0]",
+                []
+            );
+            const segments = [...allSegments];
+            const start = transitive.start;
+            const end = transitive.end;
 
-                                          return [
-                                              ...features,
-                                              ...createSegmentFeatures(s),
-                                              ...endAnchor,
-                                          ];
-                                      },
-                                      []
-                                  ),
-                                  // Exclude final walk to neighborhood center to match old UI
-                                  // createWalkFeature([lastStop.coordinates, endCoords]),
-                              ]
-                            : [],
-                };
+            // Taui
+            // Convert to [lon, lat] coordinates
+            const startCoords = [start.position.lon, start.position.lat];
+            const endCoords = [end.position.lon, end.position.lat];
 
-                return destinationsMap;
-            }, {} as GeoJsonsByDestinations);
+            if (segments.length === 0) {
+                return {
+                    type: "FeatureCollection",
+                    features: [
+                        createAnchorFeature(startCoords, "start"),
+                        createWalkFeature([startCoords, endCoords]),
+                        createAnchorFeature(endCoords, "end"),
+                    ],
+                } as FeatureCollection;
+            }
 
-        return geoJsonsByDestination;
-    }
-);
+            const firstStop = segments[0].fromStop;
+            const lastStop = segments[segments.length - 1].toStop;
+
+            return {
+                type: "FeatureCollection",
+                features:
+                    firstStop && lastStop
+                        ? [
+                              createAnchorFeature(startCoords, "start"),
+                              createWalkFeature([
+                                  startCoords,
+                                  firstStop.coordinates,
+                              ]),
+                              ...segments.reduce<Feature[]>(
+                                  (features, s, i) => {
+                                      const endAnchor =
+                                          i === segments.length - 1 && s.toStop
+                                              ? [
+                                                    createAnchorFeature(
+                                                        s.toStop.coordinates,
+                                                        "end"
+                                                    ),
+                                                ]
+                                              : [];
+
+                                      return [
+                                          ...features,
+                                          ...createSegmentFeatures(s),
+                                          ...endAnchor,
+                                      ];
+                                  },
+                                  []
+                              ),
+                              // Exclude final walk to neighborhood center to match old UI
+                              // createWalkFeature([lastStop.coordinates, endCoords]),
+                          ]
+                        : [],
+            } as FeatureCollection;
+        }
+    );
+};
 
 function createSegmentFeatures(segment: NeighborhoodRouteLeg) {
     if (segment.mode === "WALK") {

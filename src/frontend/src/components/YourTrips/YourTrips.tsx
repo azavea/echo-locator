@@ -49,6 +49,7 @@ const YourTrips = ({
         []
     );
     const tripsByNeighborhood = favoritedNeighborhoods.reduce(
+        /* @ts-ignore */
         (tripsFromZip, zip) => {
             // TODO: Implement for compare page
             return [];

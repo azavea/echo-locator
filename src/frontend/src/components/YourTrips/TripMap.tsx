@@ -10,8 +10,6 @@ import bbox from "@turf/bbox";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-aria-components";
 
-import { useAppSelector } from "store/store";
-import { selectNeighborhoodRouteGeoJsons } from "src/reducers/neighborhoods/neighborhoodsSlice";
 import type { Destination } from "src/reducers/userProfile/types";
 import StartIcon from "assets/icons/start.png";
 import CustomControlOverlay from "./CustomMapControl";
@@ -25,6 +23,7 @@ import {
 } from "./tripLayerStyles";
 import { yourTripsStyles } from "./YourTrips.styles";
 import { createGoogleDirectionsURL } from "src/libs/getLinkURLs";
+import { useGetDestinationToNeighborhoodRoute } from "src/hooks/useGetDestinationToNeighborhoodRoute";
 
 const TripMap = ({
     start,
@@ -40,16 +39,7 @@ const TripMap = ({
     const mapRef = useRef<MapRef>(null);
     const [loaded, setLoaded] = useState(false);
 
-    const routeGeoJSONsByDestination = useAppSelector(
-        selectNeighborhoodRouteGeoJsons
-    );
-
-    // TODO refactor for compare page to get for any neighborhood
-    // Right now assumes start always destination
-    // and end is always active neighborhood
-    const routeGeoJSON =
-        routeGeoJSONsByDestination &&
-        routeGeoJSONsByDestination[start.location.label];
+    const routeGeoJSON = useGetDestinationToNeighborhoodRoute(start, end);
 
     if (!routeGeoJSON) {
         return (

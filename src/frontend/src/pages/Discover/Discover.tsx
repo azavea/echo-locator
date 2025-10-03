@@ -36,7 +36,7 @@ const Discover = () => {
         networks,
         timesAndRoutesData,
     } = useAppSelector(({ networks }: RootState) => networks);
-    const { destinations, activeDestination } = useAppSelector(
+    const { destinations } = useAppSelector(
         ({ userProfile }: RootState) => userProfile
     );
     const isDesktop = useMediaQuery("(min-width: 768px)");
