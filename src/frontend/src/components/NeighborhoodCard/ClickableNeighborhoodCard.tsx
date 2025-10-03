@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router";
-import { Button as AriaButton } from "react-aria-components";
 import type { NeighborhoodCardProps } from "./NeighborhoodCard";
 import NeighborhoodCard from "./NeighborhoodCard";
+import Button from "components/base/Button/Button";
 
 interface Props extends NeighborhoodCardProps {
     isMobile?: boolean;
@@ -21,9 +21,9 @@ const ClickableNeighborhoodCard = (props: Props) => {
     };
 
     return (
-        <AriaButton onPress={handleOnPress}>
+        <Button onPress={handleOnPress} variant="unstyled">
             <NeighborhoodCard {...props} />
-        </AriaButton>
+        </Button>
     );
 };
 

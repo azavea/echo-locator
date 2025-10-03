@@ -30,9 +30,10 @@ const neighborhoodDetailStyles = tv({
         bodySectionLinkWrapper: "flex flex-row flex-start gap-3 items-center",
         bodySectionLinkArrow: "fill fill-gray-400 h-[12px]",
         learnMoreLinksGroup: "flex flex-col gap-0 bg-gray-100 rounded-lg",
-        learnMoreLink: "flex justify-between px-4 py-3 items-center",
+        learnMoreLink:
+            "flex justify-between px-4 py-3 items-center cursor-pointer hover:bg-gray-300 hover:rounded-lg",
         learnMoreLinkTextWrapper:
-            "flex flex-col text-gray-800 text-[17px] gap-2",
+            "flex flex-col text-gray-800 text-[17px] gap-2 items-start",
         learnMoreLinkSubText: "text-gray-600 text-[12px]",
         learnMoreLinkBorder: "border-b-1 border-b-gray-300",
         learnMoreLinkArrow: "fill fill-gray-500 h-[14px]",

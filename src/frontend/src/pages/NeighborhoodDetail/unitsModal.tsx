@@ -1,5 +1,5 @@
 import { Link } from "react-aria-components";
-import { useTranslation, Trans } from "react-i18next"; // Import useTranslation and Trans
+import { useTranslation, Trans } from "react-i18next";
 
 import { ModalOverlay, Modal } from "components/base/Modal/Modal";
 import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles";

@@ -28,7 +28,7 @@ import {
     setActiveNeighborhood,
 } from "src/reducers/neighborhoods/neighborhoodsSlice";
 import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
-import UnitsContent from "./unitsContent";
+import UnitsContent from "./UnitsContent";
 
 const NeighborhoodDetail = ({
     modalOpen,

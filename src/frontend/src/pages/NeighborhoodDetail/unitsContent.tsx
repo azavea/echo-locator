@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-aria-components";
 import { useTranslation, Trans } from "react-i18next"; // 1. Import necessary functions
 
@@ -9,13 +10,13 @@ import type {
 } from "src/reducers/neighborhoods/types";
 import CalculatorIcon from "assets/icons/calculator.svg?react";
 import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
-import { useState } from "react";
-import UnitsModal from "./unitsModal.tsx";
+import UnitsModal from "./UnitsModal.tsx";
 import type { UnitSitesKeyType } from "src/enums.ts";
 import { useAppSelector } from "src/store/store.ts";
 import { selectUserBedroomCount } from "src/reducers/userProfile/userSlice.ts";
 import getUnitsURL from "src/libs/getUnitsURLByPlatform.ts";
 import formatCurrency from "src/libs/formatCurrency.ts";
+import Button from "src/components/base/Button/Button.tsx";
 
 const UnitsContent = ({
     display = true,
@@ -222,12 +223,13 @@ const UnitsContent = ({
                     </p>
                 </div>
                 <div className={styles.stepGrid()}>
-                    <div
-                        className={`${sharedStyles.learnMoreLinksGroup()} ${styles.step2CardWrapper()} !bg-[#FBEBFF]`}
+                    <Button
+                        onPress={() => onUnitsLinkPress("craigslist")}
+                        variant="unstyled"
+                        className={`${sharedStyles.learnMoreLinksGroup()} ${styles.step2CardWrapper()} bg-[#FBEBFF] hover:bg-[#fcf2ff]`}
                     >
-                        <Link
-                            onPress={() => onUnitsLinkPress("craigslist")}
-                            className={`${sharedStyles.learnMoreLink()} !items-baseline`}
+                        <div
+                            className={`${sharedStyles.learnMoreLink()} w-full !items-baseline hover:!bg-[#fcf2ff]`}
                         >
                             <div
                                 className={sharedStyles.learnMoreLinkTextWrapper()}
@@ -253,14 +255,15 @@ const UnitsContent = ({
                             <ArrowIcon
                                 className={sharedStyles.learnMoreLinkArrow()}
                             />
-                        </Link>
-                    </div>
-                    <div
-                        className={`${sharedStyles.learnMoreLinksGroup()} ${styles.step2CardWrapper()} !bg-[#E1F7FF]`}
+                        </div>
+                    </Button>
+                    <Button
+                        onPress={() => onUnitsLinkPress("zillow")}
+                        variant="unstyled"
+                        className={`${sharedStyles.learnMoreLinksGroup()} ${styles.step2CardWrapper()} !bg-[#DBEAFF] hover:!bg-[#ebf2fc]`}
                     >
-                        <Link
-                            onPress={() => onUnitsLinkPress("zillow")}
-                            className={`${sharedStyles.learnMoreLink()} !items-baseline`}
+                        <div
+                            className={`${sharedStyles.learnMoreLink()} w-full !items-baseline hover:!bg-[#ebf2fc]`}
                         >
                             <div
                                 className={sharedStyles.learnMoreLinkTextWrapper()}
@@ -286,14 +289,15 @@ const UnitsContent = ({
                             <ArrowIcon
                                 className={sharedStyles.learnMoreLinkArrow()}
                             />
-                        </Link>
-                    </div>
-                    <div
-                        className={`${sharedStyles.learnMoreLinksGroup()} ${styles.step2CardWrapper()} !bg-[#E1F7FF]`}
+                        </div>
+                    </Button>
+                    <Button
+                        onPress={() => onUnitsLinkPress("ah")}
+                        variant="unstyled"
+                        className={`${sharedStyles.learnMoreLinksGroup()} ${styles.step2CardWrapper()} !bg-[#E1F7FF] hover:!bg-[#e6f5fa]`}
                     >
-                        <Link
-                            onPress={() => onUnitsLinkPress("ah")}
-                            className={`${sharedStyles.learnMoreLink()} !items-baseline`}
+                        <div
+                            className={`${sharedStyles.learnMoreLink()} w-full !items-baseline hover:!bg-[#e6f5fa]`}
                         >
                             <div
                                 className={sharedStyles.learnMoreLinkTextWrapper()}
@@ -319,8 +323,8 @@ const UnitsContent = ({
                             <ArrowIcon
                                 className={sharedStyles.learnMoreLinkArrow()}
                             />
-                        </Link>
-                    </div>
+                        </div>
+                    </Button>
                 </div>
             </div>
             <div

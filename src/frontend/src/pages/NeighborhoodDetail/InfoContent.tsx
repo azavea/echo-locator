@@ -235,6 +235,7 @@ const InfoContent = ({
                     <div className={sharedStyles.learnMoreLinksGroup()}>
                         <Link
                             href={town_link}
+                            target="_blank"
                             className={`${sharedStyles.learnMoreLink()} ${sharedStyles.learnMoreLinkBorder()}`}
                         >
                             {t(
@@ -246,6 +247,7 @@ const InfoContent = ({
                         </Link>
                         <Link
                             href={wikipedia_link}
+                            target="_blank"
                             className={`${sharedStyles.learnMoreLink()} ${sharedStyles.learnMoreLinkBorder()}`}
                         >
                             {t(
@@ -257,6 +259,7 @@ const InfoContent = ({
                         </Link>
                         <Link
                             href={`https://www.google.com/search?q=${encodeURIComponent(zipcode)}`}
+                            target="_blank"
                             className={sharedStyles.learnMoreLink()}
                         >
                             {t(
