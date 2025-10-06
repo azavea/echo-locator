@@ -34,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add formatted ranking lists to state [#698](https://github.com/azavea/echo-locator/pull/698)
 - Hook up ranked lists to map and list UI [#704](https://github.com/azavea/echo-locator/pull/704)
 - Add region field to neighborhood [#709](https://github.com/azavea/echo-locator/pull/709)
+- Add neighborhood detail modal [#722](https://github.com/azavea/echo-locator/pull/722)
 
 ### Changed
 
