@@ -4,6 +4,7 @@
     "logout": "Logout",
     "signInPage": {
         "signIn": "Sign in",
+        "signInModalSubtitle": "You need to be a participant in the <strong><0>BHA ECHO program</0></strong> to use this tool.",
         "signInPageCaption": "Find neighborhoods that work for you and your family",
         "signInWithEmail": "Sign in with your email",
         "emailAddressInvalid": "Email address is invalid",

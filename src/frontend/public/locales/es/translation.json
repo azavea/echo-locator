@@ -4,6 +4,7 @@
     "logout": "Cerrar sesión",
     "signInPage": {
         "signIn": "Iniciar sesión",
+        "signInModalSubtitle": "Debes ser participante del <strong><0>programa BHA ECHO</0></strong> para utilizar esta herramienta.",
         "signInPageCaption": "Encuentre vecindarios que funcionen para usted y su familia",
         "signInWithEmail": "Inicia sesión con tu correo electrónico",
         "emailAddressInvalid": "La dirección de correo electrónico no es válida",

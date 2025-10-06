@@ -4,6 +4,7 @@
     "logout": "退出",
     "signInPage": {
         "signIn": "登陆",
+        "signInModalSubtitle": "您需要成为<strong><0>BHA ECHO项目</0></strong>的参与者才能使用此工具。",
         "signInPageCaption": "寻找适合您和您的家人的社区",
         "signInWithEmail": "使用您的电子邮箱登录",
         "emailAddressInvalid": "电子邮箱地址无效",

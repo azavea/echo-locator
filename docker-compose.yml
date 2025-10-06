@@ -6,6 +6,7 @@ services:
     environment:
       - VITE_APP_GIT_COMMIT=${VITE_APP_GIT_COMMIT:-latest}
       - VITE_NETWORK_URL_ROOT=${VITE_NETWORK_URL_ROOT}
+      - VITE_BHA_ECHO_PROGRAM_URL=${VITE_BHA_ECHO_PROGRAM_URL}
     volumes:
       - ./src/frontend:/usr/local/src
       - $HOME/.aws:/root/.aws:ro

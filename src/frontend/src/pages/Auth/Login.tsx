@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { Dialog } from "react-aria-components";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 
 import { Language, type LanguageKey } from "src/enums";
 import useMediaQuery from "hooks/useMediaQuery";
@@ -16,6 +16,10 @@ import NeighborhoodImage from "assets/icons/neighborhood.svg?react";
 import MailImage from "assets/icons/mail.svg?react";
 import loginInStyles from "./Login.styles";
 import type { RootState } from "store/store";
+
+const BHA_URL =
+    import.meta.env.VITE_BHA_ECHO_PROGRAM_URL ||
+    "https://www.bostonhousing.org/en/Home-New.aspx";
 
 const Login = () => {
     const token = useSelector((state: RootState) => state.auth.token);
@@ -95,6 +99,17 @@ const Login = () => {
                                 <>
                                     <p className={modalTitle()}>
                                         {t("signInPage.signInWithEmail")}
+                                    </p>
+                                    <p>
+                                        <Trans
+                                            i18nKey="signInPage.signInModalSubtitle"
+                                            components={[
+                                                <a
+                                                    href={BHA_URL}
+                                                    target="_blank"
+                                                />,
+                                            ]}
+                                        />
                                     </p>
                                     <InputText
                                         label="Email address"
