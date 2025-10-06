@@ -1,5 +1,71 @@
 {
     "discover": "发现",
     "compare": "对比",
-    "logout": "退出"
+    "logout": "退出",
+    "neighborhoodDetail": {
+        "addToFavorites": "Add to favorites",
+        "moveCountText": "EXAMPLE 已有 {{count}} 名代金券持有者搬到这里了！",
+        "infoToggleLabel": "Infos",
+        "unitsToggleLabel": "Units",
+        "eccYes": "Yes",
+        "affordableCard": {
+            "header": "Affordable",
+            "bodyText": "EXAMPLE 大多数家庭支付的租金<strong>不超过其收入的30%</strong>。"
+        },
+        "echoBenefitsCard": {
+            "header": "ECHO Benefits",
+            "bodyText": "<strong>Up to $6,750</strong> for security deposit, broker fees, moving expenses, and more."
+        },
+        "schoolsSafetyCard": {
+            "header": "Schools & Safety",
+            "schoolsLabel": "Schools",
+            "safetyLabel": "Safety"
+        },
+        "findUnitsLink": "Go to <strong>Find Units</strong> to learn more",
+        "aboutAreaSection": {
+            "header": "About this area",
+            "readMoreButton": "READ MORE"
+        },
+        "learnMoreSection": {
+            "subheader": "Learn more",
+            "websiteLink": "Website",
+            "wikipediaLink": "Wikipedia",
+            "googleLink": "Google"
+        },
+        "unitsContent": {
+            "step1": {
+                "stepNumber": "STEP 1",
+                "header": "Check your Budget",
+                "voucherCovers": "Your vouchers covers units up to",
+                "perMonth": "/ month",
+                "whatYouPay": "What you pay",
+                "yourPaymentDetail": "In most cases you pay no more than 30% of your income, plus utilities.",
+                "learnVouchersLink": "Learn more about vouchers",
+                "echoBenefits": "Your ECHO benefits",
+                "sdBrokerFee": "Security deposit and/or Broker’s Fee",
+                "movingExpenses": "Moving expenses",
+                "landlordIncentive": "Landlord incentive",
+                "learnEchoLink": "Learn more about ECHO"
+            },
+            "step2": {
+                "stepNumber": "STEP 2",
+                "header": "Find units you like",
+                "affordabilityCalculator": "Use the <1>Affordability Calculator</1> to check if a unit fits your budget",
+                "linkSubtext": "{{town}} {{zipcode}}, {{brCount}}br"
+            },
+            "step3": {
+                "stepNumber": "STEP 3",
+                "header": "Schedule a viewing and reach out to your ECHO Coordinator",
+                "bodyText": "We need to know the unit address and the landlord’s contact info.",
+                "coordinatorLink": "Contact your coordinator"
+            },
+            "unitsModal": {
+                "header": "will open in a new tab.",
+                "affordLinkTitle": "What can I afford?",
+                "affordLinkSubtitle": "See how much rent BHA will cover and learn about additional benefits",
+                "calculatorLinkTitle": "Can I afford this unit?",
+                "calculatorLinkSubtitle": "The <strong>BHA Affordability Calculator</strong> helps you estimate your copay."
+            }
+        }
+    }
 }

@@ -116,10 +116,11 @@ const Menu = ({ languages, compareCount }: Props) => {
                         />
                         <ModalOverlay
                             isDismissable
+                            isMobile
                             isOpen={isOpen}
                             onOpenChange={setIsOpen}
                         >
-                            <Modal>
+                            <Modal size="small">
                                 <Dialog aria-label="Menu">
                                     <div className="flex flex-col p-5 align-middle">
                                         <SelectLanguageButtons

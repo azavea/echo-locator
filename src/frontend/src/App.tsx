@@ -40,7 +40,7 @@ const App = () => (
                     <Route index element={<Navigate to="discover" replace />} />
 
                     {/* Rest of app pages */}
-                    <Route path="discover" element={<Discover />} />
+                    <Route path="discover/:zipcode?" element={<Discover />} />
                     <Route path="compare" element={<Compare />} />
                     <Route path="components" element={<Components />} />
                 </Route>

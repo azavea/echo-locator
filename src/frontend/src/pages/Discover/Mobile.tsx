@@ -6,8 +6,15 @@ import { Place } from "src/enums";
 import discoverStyles from "./Discover.styles";
 import Neighborhoods from "./Neighborhoods";
 import Map from "./Map/Map";
+import NeighborhoodDetail from "../NeighborhoodDetail";
 
-const DiscoverMobile = () => {
+const DiscoverMobile = ({
+    isDetailModalOpen,
+    setIsDetailModalOpen,
+}: {
+    isDetailModalOpen: boolean;
+    setIsDetailModalOpen: (b: boolean) => void;
+}) => {
     const [routerParams, setRouterParams] = useSearchParams();
     const display = routerParams.get("display");
 
@@ -30,6 +37,11 @@ const DiscoverMobile = () => {
 
     return display ? (
         <div className={root()}>
+            <NeighborhoodDetail
+                modalOpen={isDetailModalOpen}
+                modalOpenChangeCallback={setIsDetailModalOpen}
+                isMobile
+            />
             <div className={headerContainer()}>
                 <UserProfileSubheaderMobile
                     size="small"

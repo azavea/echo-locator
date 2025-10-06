@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 export const modalOverlayStyles = tv({
-    base: "fixed inset-0 z-50 bg-black/60 backdrop-blur-sm",
+    base: "fixed inset-0 z-50 bg-black/60 backdrop-blur-sm p-3",
     variants: {
         isEntering: {
             true: "animate-in fade-in duration-300 ease-out",
@@ -9,12 +9,16 @@ export const modalOverlayStyles = tv({
         isExiting: {
             true: "animate-out fade-out duration-200 ease-in",
         },
+        isMobile: {
+            true: "p-3",
+            false: "p-9",
+        },
     },
 });
 
 export const modalStyles = tv({
     base: [
-        "fixed top-1/2 left-1/2 z-50 w-[95%] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-[var(--spacing-4)]",
+        "relative z-50 w-full justify-self-center rounded-[var(--spacing-4)]",
         "bg-white shadow-md",
     ],
     variants: {
@@ -23,6 +27,15 @@ export const modalStyles = tv({
         },
         isExiting: {
             true: "animate-out zoom-out-95 ease-in duration-200",
+        },
+        size: {
+            small: "w-[95%] max-w-md",
+            medium: "w-full max-w-[450px]",
+            large: "w-full max-w-[900px]",
+        },
+        overideVerticalCenter: {
+            true: "justify-start max-h-full overflow-y-scroll",
+            false: "top-1/2 -translate-y-1/2",
         },
     },
 });

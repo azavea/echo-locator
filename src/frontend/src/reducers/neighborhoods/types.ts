@@ -1,4 +1,4 @@
-import type { FeatureCollection, MultiPolygon, Point } from "geojson";
+import type { Feature, FeatureCollection, MultiPolygon, Point } from "geojson";
 
 export interface NeighborhoodProperties {
     crime_percentile: number | null;
@@ -75,6 +75,7 @@ interface NeighborhoodBoundsProperties {
     zipcode: string;
 }
 
+export type Neighborhood = Feature<Point, NeighborhoodProperties>;
 export type Neighborhoods = FeatureCollection<Point, NeighborhoodProperties>;
 
 export type NeighborhoodBounds = FeatureCollection<

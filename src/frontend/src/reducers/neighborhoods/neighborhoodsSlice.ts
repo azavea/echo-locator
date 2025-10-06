@@ -77,6 +77,16 @@ export const selectRankedNeighborhoodsLists = (state: RootState) =>
     state.neighborhoods.rankedNeighborhoodsLists;
 export const selectIsRankCalculating = (state: RootState) =>
     state.neighborhoods.rankCalculating;
+export const selectActiveNeighborhood = (state: RootState) =>
+    state.neighborhoods.activeNeighborhood;
+export const selectActiveNeighborhoodFeature = (state: RootState) =>
+    state.neighborhoods.neighborhoods?.features.find(
+        n => n.properties.zipcode === state.neighborhoods.activeNeighborhood
+    );
+export const selectActiveNeighborhoodBounds = (state: RootState) =>
+    state.neighborhoods.neighborhoodBounds?.features.find(
+        b => b.properties.zipcode === state.neighborhoods.activeNeighborhood
+    );
 
 export { drawNeighborhoodRoute as selectNeighborhoodRouteGeoJson };
 

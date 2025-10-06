@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import {
     getNeighborhoodsAndBounds,
@@ -18,9 +18,12 @@ import {
     setActiveDestination,
     setDestinations,
 } from "src/reducers/userProfile/userSlice";
+import { useParams } from "react-router";
 
 const Discover = () => {
+    const { zipcode } = useParams();
     const dispatch = useAppDispatch();
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
     const {
         loading: neighborhoodsLoading,
         error: neighborhoodsError,
@@ -112,7 +115,21 @@ const Discover = () => {
     }, [networksDataIsReady]);
     // --------------------------------------
 
-    return isDesktop ? <Desktop /> : <Mobile />;
+    useEffect(() => {
+        setIsDetailModalOpen(!!zipcode);
+    }, [zipcode]);
+
+    return isDesktop ? (
+        <Desktop
+            isDetailModalOpen={isDetailModalOpen}
+            setIsDetailModalOpen={setIsDetailModalOpen}
+        />
+    ) : (
+        <Mobile
+            isDetailModalOpen={isDetailModalOpen}
+            setIsDetailModalOpen={setIsDetailModalOpen}
+        />
+    );
 };
 
 export default Discover;

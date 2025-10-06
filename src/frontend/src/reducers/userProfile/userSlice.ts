@@ -44,5 +44,7 @@ export const selectActiveDestination = (state: RootState) =>
     state.userProfile.activeDestination;
 export const selectUserDestinations = (state: RootState) =>
     state.userProfile.destinations;
+export const selectUserBedroomCount = (state: RootState) =>
+    state.userProfile.rooms;
 
 export default userProfileSlice.reducer;

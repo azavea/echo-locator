@@ -9,7 +9,7 @@ import SquareDollarIcon from "assets/icons/square-dollar.svg?react";
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
 
-interface Props {
+export interface NeighborhoodCardProps {
     name: string;
     zip: string;
     imageUrl?: string;
@@ -39,7 +39,7 @@ const NeighborhoodCard = ({
     onPrev,
     onDetails,
     onNext,
-}: Props) => {
+}: NeighborhoodCardProps) => {
     const {
         root,
         image,
