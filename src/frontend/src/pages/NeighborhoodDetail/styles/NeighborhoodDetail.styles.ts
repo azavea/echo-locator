@@ -55,6 +55,7 @@ const neighborhoodDetailStyles = tv({
                 iconWithTextWrapper: "self-start",
                 toggleGroup: "p-0",
                 contentContainer: "p-7",
+                bodySectionWrapper: "p-0",
                 bodySectionWrapperBorder: "mx-[-2em] p-7 pb-0",
             },
         },

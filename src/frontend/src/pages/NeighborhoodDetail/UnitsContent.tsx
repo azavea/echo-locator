@@ -222,7 +222,7 @@ const UnitsContent = ({
                         </Trans>
                     </p>
                 </div>
-                <div className={styles.stepGrid()}>
+                <div className={`${styles.stepGrid()}, ${styles.step2Grid()}`}>
                     <Button
                         onPress={() => onUnitsLinkPress("craigslist")}
                         variant="unstyled"

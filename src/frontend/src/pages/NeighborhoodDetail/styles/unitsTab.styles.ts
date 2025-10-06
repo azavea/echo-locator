@@ -4,6 +4,7 @@ const unitsTabStyles = tv({
     slots: {
         root: "flex flex-col items-start gap-4 self-stretch",
         stepGrid: "flex w-full",
+        step2Grid: "",
         step1CardWrapper: "flex flex-col gap-2",
         step2CardWrapper: "p-2 gap-1",
         stepCard: "flex flex-col gap-5 p-5 bg-gray-100 align-center rounded-lg",
@@ -25,12 +26,14 @@ const unitsTabStyles = tv({
         isMobile: {
             true: {
                 stepGrid: "flex-col gap-6",
+                step2Grid: "gap-3",
                 step1CardWrapper: "w-full",
                 step2CardWrapper: "w-full",
             },
             false: {
                 root: "pb-0 pt-7",
                 stepGrid: "flex-row gap-7 py-5",
+                step2Grid: "gap-7 pb-5",
                 step1CardWrapper: "w-1/2",
                 step2CardWrapper: "w-1/3",
             },
