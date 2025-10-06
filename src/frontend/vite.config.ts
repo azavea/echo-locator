@@ -29,6 +29,7 @@ export default defineConfig({
             libs: "/src/libs",
             reducers: "/src/reducers",
             store: "/src/store",
+            api: "/src/api",
         },
     },
 });

@@ -1,6 +1,18 @@
 {
     "discover": "Descubrir",
     "compare": "Comparar",
+    "logout": "Cerrar sesión",
+    "signInPage": {
+        "signIn": "Iniciar sesión",
+        "signInModalSubtitle": "Debes ser participante del <strong><0>programa BHA ECHO</0></strong> para utilizar esta herramienta.",
+        "signInPageCaption": "Encuentre vecindarios que funcionen para usted y su familia",
+        "signInWithEmail": "Inicia sesión con tu correo electrónico",
+        "emailAddressInvalid": "La dirección de correo electrónico no es válida",
+        "checkYourEmail": "Revisa tu correo electrónico",
+        "goBack": "Volver",
+        "signInConfirm": "Enviamos un correo electrónico con un enlace de inicio de sesión a {{email}}. Haga clic en el enlace para iniciar sesión en ECHO.",
+        "enterEmailAddress": "Introduce tu dirección de correo electrónico"
+    },
     "neighborhoodDetail": {
         "addToFavorites": "Add to favorites",
         "moveCountText": "¡EXAMPLE {{count}} titulares de vales ya se mudaron aquí!",

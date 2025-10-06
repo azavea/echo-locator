@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Dialog } from "react-aria-components";
@@ -20,6 +21,7 @@ import EchoTextLogo from "assets/icons/echo-logo-text.svg?react";
 import EchoLogo from "assets/icons/echo-logo.svg?react";
 import HamburgerIcon from "assets/icons/hamburger.svg?react";
 import ArrowDownIcon from "assets/icons/arrow-down.svg?react";
+import type { RootState } from "store/store";
 
 interface Props {
     languages: { [key: LanguageKey]: string };
@@ -27,6 +29,7 @@ interface Props {
 }
 
 const Menu = ({ languages, compareCount }: Props) => {
+    const token = useSelector((state: RootState) => state.auth.token);
     const { lang } = useParams<{ lang: LanguageKey | undefined }>();
     const navigate = useNavigate();
     const location = useLocation();
@@ -39,8 +42,8 @@ const Menu = ({ languages, compareCount }: Props) => {
     };
 
     const onLogout = () => {
-        // TODO: implement the logout logic
         setIsOpen(false);
+        navigate("/logout");
     };
 
     return (
@@ -101,9 +104,15 @@ const Menu = ({ languages, compareCount }: Props) => {
                                 </DropdownItem>
                             </Dropdown>
                         </DropdownTrigger>
-                        <Button variant="ghost" className="text-teal-900">
-                            {t("logout")}
-                        </Button>
+                        {token && (
+                            <Button
+                                variant="ghost"
+                                className="text-teal-900"
+                                onPress={onLogout}
+                            >
+                                {t("logout")}
+                            </Button>
+                        )}
                     </>
                 ) : (
                     <>
@@ -128,16 +137,20 @@ const Menu = ({ languages, compareCount }: Props) => {
                                             callback={() => setIsOpen(false)}
                                         />
                                     </div>
-                                    <div className="w-full h-px bg-gray-300"></div>
-                                    <div className="flex flex-col p-5 align-middle">
-                                        <Button
-                                            variant="outline"
-                                            className="normal-case text-teal-800"
-                                            onPress={onLogout}
-                                        >
-                                            {t("logout")}
-                                        </Button>
-                                    </div>
+                                    {token && (
+                                        <>
+                                            <div className="w-full h-px bg-gray-300"></div>
+                                            <div className="flex flex-col p-5 align-middle">
+                                                <Button
+                                                    variant="outline"
+                                                    className="normal-case text-teal-800"
+                                                    onPress={onLogout}
+                                                >
+                                                    {t("logout")}
+                                                </Button>
+                                            </div>
+                                        </>
+                                    )}
                                 </Dialog>
                             </Modal>
                         </ModalOverlay>

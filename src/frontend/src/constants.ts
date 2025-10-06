@@ -93,3 +93,5 @@ export const DEFAULT_CRIME_QUINTILE = 5;
 export const PROFILE_MAX_IMPORTANCE = MAX_IMPORTANCE - 1;
 /*
  */
+
+export const LOCAL_STORAGE_TOKEN_KEY = "apiToken";

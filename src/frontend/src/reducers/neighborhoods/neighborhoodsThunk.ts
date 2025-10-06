@@ -1,8 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-    fetchNeighborhoods,
-    fetchNeighborhoodBounds,
-} from "../../api/neighborhoods";
+import { fetchNeighborhoods, fetchNeighborhoodBounds } from "api/neighborhoods";
 import {
     selectNeighborhoodNameByZipcode,
     setRankCalculating,
@@ -15,14 +12,10 @@ import groupRankingsByLikeNeigborhoodName from "./utils/groupRankingListsByName"
 
 export const getNeighborhoodsAndBounds = createAsyncThunk(
     "neighborhoods/getNeighborhoodsAndBounds",
-    async (authToken: string | null) => {
-        if (!authToken) {
-            throw new Error("Authentication token not found");
-        }
-
+    async () => {
         const [neighborhoods, neighborhoodBounds] = await Promise.all([
-            fetchNeighborhoods(authToken),
-            fetchNeighborhoodBounds(authToken),
+            fetchNeighborhoods(),
+            fetchNeighborhoodBounds(),
         ]);
 
         return { neighborhoods, neighborhoodBounds };
