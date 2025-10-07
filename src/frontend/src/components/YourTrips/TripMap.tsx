@@ -80,7 +80,9 @@ const TripMap = ({
     }, [bounds]);
 
     return (
-        <div className={`${className} relative h-[250px] w-full`}>
+        <div
+            className={`${className} relative h-[250px] w-full rounded-md overflow-clip border-gray-300 border sm:mb-0.5`}
+        >
             <MapContainer
                 ref={mapRef}
                 initialViewState={{

@@ -33,7 +33,7 @@ export const routeStartPointStyle = {
     filter: ["==", ["get", "name"], "start"],
     layout: {
         "icon-image": "point-start-icon",
-        "icon-size": 0.2,
+        "icon-size": 0.5,
         "icon-anchor": "bottom",
         "icon-allow-overlap": true,
     },
