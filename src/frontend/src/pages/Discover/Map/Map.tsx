@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
     Layer,
     Map as MapContainer,
@@ -26,6 +26,7 @@ import { selectRankedNeighborhoodsLists } from "reducers/neighborhoods/neighborh
 import {
     selectActiveDestination,
     selectUserDestinations,
+    selectUserHasViewedStartInstructions,
 } from "reducers/userProfile/userSlice";
 import Top10Tour from "src/components/Top10Tour/Top10Tour";
 
@@ -36,6 +37,9 @@ interface Props {
 
 const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const [isTop10TourOpen, setIsTop10TourOpen] = useState(true);
+    const hasViewedInstructions = useAppSelector(
+        selectUserHasViewedStartInstructions
+    );
     const { neighborhoodBounds } = useAppSelector(
         ({ neighborhoods }: RootState) => neighborhoods
     );
@@ -50,6 +54,10 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     );
     const destinations = useAppSelector(selectUserDestinations);
     const activeDestination = useAppSelector(selectActiveDestination);
+
+    useEffect(() => {
+        setIsTop10TourOpen(!hasViewedInstructions);
+    }, []);
 
     const neighborhoodsRanked = useMemo(() => {
         if (!neighborhoodBounds) return null;
@@ -140,6 +148,39 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         }
     };
 
+    const manualSelectCallback = (neighborhoodId?: string) => {
+        if (!mapRef.current) return;
+        const map = mapRef.current?.getMap();
+
+        const feature = neighborhoodBounds?.features.find(
+            b => b.properties.id === neighborhoodId
+        );
+
+        if (map && neighborhoodId) {
+            setSelectedNeighborhoodId(neighborhoodId);
+            map.setFilter("neighborhoods-borders-selected", [
+                "==",
+                ["get", "id"],
+                neighborhoodId,
+            ]);
+        } else {
+            setSelectedNeighborhoodId(undefined);
+            map.setFilter("neighborhoods-borders-selected", ["==", ["id"], ""]);
+        }
+
+        // zoom to neighborhood or reset on tour exit
+        const [minLng, minLat, maxLng, maxLat] = feature
+            ? bbox(feature.geometry)
+            : BOUNDS;
+        mapRef.current.fitBounds(
+            [
+                [minLng, minLat],
+                [maxLng, maxLat],
+            ],
+            { padding: feature ? 100 : 0, duration: 1000 }
+        );
+    };
+
     return (
         <div className={mapContainer()}>
             <Top10Tour
@@ -150,6 +191,8 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                     !!topTen.length
                 }
                 setIsTop10TourOpen={setIsTop10TourOpen}
+                tourStopCallback={manualSelectCallback}
+                showInstructions={!hasViewedInstructions}
             />
             <MapContainer
                 ref={mapRef}

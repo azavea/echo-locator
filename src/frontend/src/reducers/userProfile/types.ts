@@ -29,6 +29,7 @@ export interface UserProfileSliceState extends UserProfileBase {
     importanceSchools: string;
     importanceViolentCrime: string;
     rooms: number;
+    hasViewedStartInstructions: boolean;
 }
 
 export interface UserProfile extends UserProfileBase {

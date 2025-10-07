@@ -1,10 +1,57 @@
 import type { NeighborhoodDetail } from "src/reducers/neighborhoods/types";
 
+interface Stats {
+    schools: {
+        label: string;
+        value: number;
+        showCategory: boolean;
+    };
+    safety: {
+        label: string;
+        value: number | undefined;
+        showCategory: boolean;
+    };
+    commute: {
+        label: string;
+        start: number;
+        end: number;
+    };
+}
+
+interface BaseCardData {
+    name: string;
+    zip: string;
+}
+
+interface CardOnlyImage extends BaseCardData {
+    imageUrl: string;
+}
+
+interface CardNoImageOrTags extends BaseCardData {
+    stats: Stats;
+}
+
+export interface CardNoImage extends CardNoImageOrTags {
+    isTopTen: boolean;
+    hasECC: boolean;
+}
+
+interface CardFull extends CardNoImage {
+    imageUrl: string;
+}
+
+interface NeighborhoodDataByCardType {
+    cardFull: CardFull;
+    cardNoImageNoTag: CardNoImageOrTags;
+    cardImageOnly: CardOnlyImage;
+    cardNoImage: CardNoImage;
+}
+
 const formatNeighborhoodDataByCard = (
     neighborhoodDetail: NeighborhoodDetail,
     activeDestination: string,
     isTopTen: boolean
-) => {
+): NeighborhoodDataByCardType => {
     const neighborhood = {
         name: neighborhoodDetail.town,
         zip: neighborhoodDetail.zipcode,
