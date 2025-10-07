@@ -134,5 +134,12 @@
                 "finish": "完成"
             }
         }
+    },
+    "top10Tour": {
+        "header": "Discover Neighborhoods",
+        "subHeader": "Recommendations are based on your profile and selected trip.",
+        "bodyText": "Edit your settings and add filters using the buttons at the top",
+        "showMyRecommendations": "Show my recommendations",
+        "listNeighborhoods": "List all neighborhoods"
     }
 }

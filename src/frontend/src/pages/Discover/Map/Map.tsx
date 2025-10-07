@@ -27,6 +27,7 @@ import {
     selectActiveDestination,
     selectUserDestinations,
 } from "reducers/userProfile/userSlice";
+import Top10Tour from "src/components/Top10Tour/Top10Tour";
 
 interface Props {
     isMobile?: boolean;
@@ -34,6 +35,7 @@ interface Props {
 }
 
 const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
+    const [isTop10TourOpen, setIsTop10TourOpen] = useState(true);
     const { neighborhoodBounds } = useAppSelector(
         ({ neighborhoods }: RootState) => neighborhoods
     );
@@ -140,6 +142,15 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
 
     return (
         <div className={mapContainer()}>
+            <Top10Tour
+                isTop10TourOpen={
+                    !!isMobile &&
+                    mapDisplay &&
+                    isTop10TourOpen &&
+                    !!topTen.length
+                }
+                setIsTop10TourOpen={setIsTop10TourOpen}
+            />
             <MapContainer
                 ref={mapRef}
                 initialViewState={{

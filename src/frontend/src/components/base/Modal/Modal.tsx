@@ -15,6 +15,7 @@ interface AriaModalProps extends AriaModalBaseProps {
 
 interface AriaModalOverlayProps extends AriaModalOverlayBaseProps {
     isMobile?: boolean;
+    bgIsTransparent?: boolean;
 }
 
 // TODO: the isEntering and isExiting CSS animations don't
@@ -27,6 +28,7 @@ export const ModalOverlay = (props: AriaModalOverlayProps) => (
             modalOverlayStyles({
                 isEntering,
                 isExiting,
+                bgIsTransparent: props.bgIsTransparent,
                 isMobile: props.isMobile,
                 className: props.className as string,
             })
