@@ -30,16 +30,18 @@ export const AccordionItem = ({
     const styles = accordionStyles({ overridePanelOpen: overridePanelOpen });
 
     return (
-        <Disclosure id={props.id}>
+        <Disclosure id={props.id} className={styles.accordionItemWrapper()}>
             {({ isExpanded }) => (
-                <>
-                    <Heading className="w-full">
+                <div
+                    className={styles.accordionItem({
+                        expanded: isExpanded,
+                        expandedAndMobile: isExpanded && isMobile,
+                    })}
+                >
+                    <Heading className={styles.accordionItemHeading()}>
                         <Button
                             slot="trigger"
-                            className={styles.accordionItem({
-                                expanded: isExpanded,
-                                expandedAndMobile: isExpanded && isMobile,
-                            })}
+                            className={styles.accordionButton()}
                         >
                             <div className={styles.accordionItemTextWrapper()}>
                                 <h2>{title}</h2>
@@ -60,7 +62,7 @@ export const AccordionItem = ({
                     >
                         {children}
                     </DisclosurePanel>
-                </>
+                </div>
             )}
         </Disclosure>
     );
