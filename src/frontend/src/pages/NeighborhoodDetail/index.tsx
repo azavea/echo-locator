@@ -157,15 +157,15 @@ const NeighborhoodDetail = ({
                             >
                                 <ToggleButton
                                     id="info"
-                                    size="large"
-                                    className="w-full"
+                                    size="medium"
+                                    className="w-full text-md"
                                 >
                                     {t("neighborhoodDetail.infoToggleLabel")}
                                 </ToggleButton>
                                 <ToggleButton
                                     id="units"
-                                    size="large"
-                                    className="w-full"
+                                    size="medium"
+                                    className="w-full text-md"
                                 >
                                     {t("neighborhoodDetail.unitsToggleLabel")}
                                 </ToggleButton>
