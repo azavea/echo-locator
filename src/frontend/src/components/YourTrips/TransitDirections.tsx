@@ -64,7 +64,7 @@ const TransitDirections = ({
                                 backgroundColor: lightTransitColor,
                                 color: darkTransitColor,
                             }}
-                            className="flex items-center py-0.25 px-3 gap-3 border border-white shadow-sm font-extrabold text-md !rounded-sm"
+                            className="flex items-center px-2 gap-2 border border-white shadow-sm font-extrabold text-md !rounded-sm"
                         >
                             <div>
                                 {(segment.mode === "subway" ||
