@@ -6,8 +6,11 @@ import {
     DEFAULT_SCHOOLS_IMPORTANCE,
 } from "src/constants";
 import { type RootState } from "src/store/store";
+import { getUserProfile } from "./userProfileThunk";
 
 const initialState: UserProfileSliceState = {
+    loading: false,
+    error: null,
     destinations: [],
     favorites: [],
     hasVehicle: false,
@@ -34,6 +37,37 @@ export const userProfileSlice = createSlice({
         ) => {
             state.destinations = destinations;
         },
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(getUserProfile.pending, state => {
+                state.loading = true;
+            })
+            .addCase(getUserProfile.fulfilled, (state, action) => {
+                state.loading = false;
+                state.destinations = action.payload.destinations;
+                state.favorites = action.payload.favorites;
+                state.hasVehicle = action.payload.hasVehicle;
+                state.importanceAccessibility =
+                    action.payload.importanceAccessibility.toString();
+                state.importanceSchools =
+                    action.payload.importanceSchools.toString();
+                state.importanceViolentCrime =
+                    action.payload.importanceViolentCrime.toString();
+                state.rooms = action.payload.voucherRooms || 0;
+                state.useCommuterRail = action.payload.useCommuterRail;
+                const activeDestination = action.payload.destinations.find(
+                    des => des.primary
+                );
+                if (activeDestination) {
+                    state.activeDestination = activeDestination.location.label;
+                }
+            })
+            .addCase(getUserProfile.rejected, (state, action) => {
+                state.loading = false;
+                state.error =
+                    action.error.message ?? "Failed to fetch user profile.";
+            });
     },
 });
 

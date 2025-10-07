@@ -14,14 +14,26 @@ export interface Destination {
     purpose: PlaceKey;
 }
 
-export interface UserProfileSliceState {
-    activeDestination?: string; // Location label
+interface UserProfileBase {
     destinations: Destination[];
     favorites: string[];
     hasVehicle: boolean;
+    useCommuterRail: boolean;
+}
+
+export interface UserProfileSliceState extends UserProfileBase {
+    loading: boolean;
+    error: string | null;
+    activeDestination?: string; // Location label
     importanceAccessibility: string;
     importanceSchools: string;
     importanceViolentCrime: string;
     rooms: number;
-    useCommuterRail: boolean;
+}
+
+export interface UserProfile extends UserProfileBase {
+    importanceAccessibility: number;
+    importanceSchools: number;
+    importanceViolentCrime: number;
+    voucherRooms: number | null;
 }
