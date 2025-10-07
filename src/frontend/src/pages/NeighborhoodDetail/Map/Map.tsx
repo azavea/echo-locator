@@ -23,16 +23,8 @@ const activeNeighborhoodsBoundsStyle = {
     type: "line",
     source: "active-neighborhood-geojson",
     paint: {
-        "line-width": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            7,
-            1, // At zoom 7, width is 1
-            14,
-            4, // At zoom 14, width is 4
-        ],
-        "line-color": "#435500",
+        "line-width": 3,
+        "line-color": "#000",
     },
 };
 
