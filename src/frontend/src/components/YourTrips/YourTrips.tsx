@@ -89,7 +89,7 @@ const YourTrips = ({
             />
             <Button
                 variant="outline"
-                size="large"
+                size="medium"
                 className={styles.editButton()}
             >
                 {t("yourTrips.editTrips")}

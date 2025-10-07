@@ -2,10 +2,10 @@ import { tv } from "tailwind-variants";
 
 export const yourTripsStyles = tv({
     slots: {
-        root: "flex flex-col gap-5",
+        root: "flex flex-col gap-5 py-4",
         heading: "text-[24px] text-gray-900 font-extrabold",
         travelModePill:
-            "flex p-3 justify-center items-center rounded bg-gray-100",
+            "flex px-3 justify-center items-center rounded bg-gray-100 text-sm text-gray-900",
         subHeading: "text-gray-600 text-xl",
         editButton: "flex",
         commuteGroupWrapper: "flex",
@@ -14,7 +14,7 @@ export const yourTripsStyles = tv({
         loadingSpinner:
             "w-10 h-10 border-6 border-[#02B3CC] border-t-transparent rounded-full animate-spin self-center",
         directionsLink:
-            "inline-flex items-center justify-center p-3 rounded-lg bg-white shadow-md text-gray-700 font-[Mulish] text-sm font-bold",
+            "inline-flex items-center justify-center px-3 py-1 rounded-lg bg-white shadow-md text-gray-700 font-[Mulish] text-sm font-bold",
     },
     variants: {
         isMobile: {
