@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
 import {
     getNeighborhoodsAndBounds,
@@ -13,12 +14,8 @@ import {
     getAllTimesAndPathsData,
 } from "reducers/networks/networksThunk";
 import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
-import { Place } from "src/enums";
-import {
-    setActiveDestination,
-    setDestinations,
-} from "reducers/userProfile/userSlice";
-import { useParams } from "react-router";
+import { getUserProfile } from "reducers/userProfile/userProfileThunk";
+import Profile from "./Profile/Profile";
 
 const Discover = () => {
     const { zipcode } = useParams();
@@ -36,9 +33,11 @@ const Discover = () => {
         networks,
         timesAndRoutesData,
     } = useAppSelector(({ networks }: RootState) => networks);
-    const { destinations } = useAppSelector(
-        ({ userProfile }: RootState) => userProfile
-    );
+    const {
+        destinations,
+        loading: userProfileLoading,
+        error: userProfileError,
+    } = useAppSelector(({ userProfile }: RootState) => userProfile);
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     // TODO: Refactor below following login and user profile
@@ -48,7 +47,6 @@ const Discover = () => {
         // Fetch initial neighborhoods data
         const isNeighborhoodDataEmpty =
             !neighborhoods?.features || !neighborhoodBounds?.features;
-        // TODO: Refactor on adding login workflow
         if (
             !neighborhoodsLoading &&
             !neighborhoodsError &&
@@ -66,39 +64,10 @@ const Discover = () => {
     }, []);
 
     useEffect(() => {
-        if (neighborhoods && networks) {
-            // 700 Boylston St
-            dispatch(
-                setDestinations([
-                    {
-                        location: {
-                            label: "700 Boylston St",
-                            position: { lon: -71.078711, lat: 42.349319 },
-                        },
-                        primary: true,
-                        purpose: Place.Work,
-                    },
-                    {
-                        location: {
-                            label: "Harvard Square",
-                            position: { lon: -71.12015, lat: 42.37257 },
-                        },
-                        primary: false,
-                        purpose: Place.School,
-                    },
-                    {
-                        location: {
-                            label: "John F. Kennedy Presidential Library",
-                            position: { lon: -71.0342146, lat: 42.316274 },
-                        },
-                        primary: false,
-                        purpose: Place.Other,
-                    },
-                ])
-            );
-            dispatch(setActiveDestination("700 Boylston St"));
+        if (!userProfileLoading && !userProfileError) {
+            dispatch(getUserProfile());
         }
-    }, [neighborhoods, networks]);
+    }, []);
 
     useEffect(() => {
         if (destinations && neighborhoods && networks && !timesAndRoutesData) {
@@ -118,16 +87,20 @@ const Discover = () => {
         setIsDetailModalOpen(!!zipcode);
     }, [zipcode]);
 
-    return isDesktop ? (
-        <Desktop
-            isDetailModalOpen={isDetailModalOpen}
-            setIsDetailModalOpen={setIsDetailModalOpen}
-        />
+    return destinations.length ? (
+        isDesktop ? (
+            <Desktop
+                isDetailModalOpen={isDetailModalOpen}
+                setIsDetailModalOpen={setIsDetailModalOpen}
+            />
+        ) : (
+            <Mobile
+                isDetailModalOpen={isDetailModalOpen}
+                setIsDetailModalOpen={setIsDetailModalOpen}
+            />
+        )
     ) : (
-        <Mobile
-            isDetailModalOpen={isDetailModalOpen}
-            setIsDetailModalOpen={setIsDetailModalOpen}
-        />
+        <Profile />
     );
 };
 
