@@ -18,7 +18,7 @@ export const LicensedImage = ({
     sourceLink,
 }: LicensedImageProps) =>
     image && (
-        <figure>
+        <figure className="relative">
             <Focusable>
                 <img
                     src={image}
@@ -42,8 +42,9 @@ export const LicensedImage = ({
                         href={sourceLink}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className="after:content[''] after:absolute after:inset-0"
                     >
-                        View Source.
+                        Source
                     </Link>
                 </p>
             </figcaption>
