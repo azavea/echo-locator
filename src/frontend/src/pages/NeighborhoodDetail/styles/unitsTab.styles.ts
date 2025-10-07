@@ -8,10 +8,10 @@ const unitsTabStyles = tv({
         step1CardWrapper: "flex flex-col gap-2",
         step2CardWrapper: "p-2 gap-1",
         stepCard: "flex flex-col gap-5 p-5 bg-gray-100 align-center rounded-lg",
-        stepHeaderColor: "font-bold text-orange-700",
+        stepHeaderColor: "font-bold text-orange-800",
         stepCardBoldText: "text-[17px] font-bold text-gray-900",
         stepCardTableRow: "grid grid-cols-3 gap-3 w-full py-3",
-        stepCardRowText: "text-teal-900 col-span-2",
+        stepCardRowText: "text-gray-900 col-span-2",
         stepCardTableRowBorder: "border-b-1 border-b-gray-300",
     },
     variants: {
