@@ -114,11 +114,12 @@ class UserProfileView(APIView):
     map_purposes = {
         "WK": "Work",
         "DC": "Daycare",
-        "FA": "Family",
-        "FR": "Friends",
-        "WP": "Worship",
+        "FA": "Friends/Family",
+        "FR": "Friends/Family",
+        "WP": "Other",
         "DR": "Doctor",
         "OT": "Other",
+        "SC": "School",
     }
 
     def repackage_for_frontend(self, serialized_data):
