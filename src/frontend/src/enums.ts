@@ -17,31 +17,31 @@ export const Place = {
 
 export type PlaceKey = (typeof Place)[keyof typeof Place];
 
-export const NetworkModeOptions = {
+export const NetworkModeOptionKeys = {
     peak: "peak",
     offPeak: "offPeak",
     peakNoExpress: "peakNoExpress",
     offPeakNoExpress: "offPeakNoExpress",
     car: "car",
-};
+} as const;
 
 export const NetworkModeOptionLabels = {
-    [NetworkModeOptions.peak]: "Peak",
-    [NetworkModeOptions.offPeak]: "Off Peak",
-    [NetworkModeOptions.peakNoExpress]: "Peak No Express",
-    [NetworkModeOptions.offPeakNoExpress]: "Off Peak No Express",
-    [NetworkModeOptions.car]: "Car",
+    [NetworkModeOptionKeys.peak]: "Peak",
+    [NetworkModeOptionKeys.offPeak]: "Off Peak",
+    [NetworkModeOptionKeys.peakNoExpress]: "Peak No Express",
+    [NetworkModeOptionKeys.offPeakNoExpress]: "Off Peak No Express",
+    [NetworkModeOptionKeys.car]: "Car",
 };
 
 export const NetworkModeOptionPaths = {
-    [NetworkModeOptions.peak]: "peak",
-    [NetworkModeOptions.offPeak]: "off-peak",
-    [NetworkModeOptions.peakNoExpress]: "peak-no-express",
-    [NetworkModeOptions.offPeakNoExpress]: "off-peak-no-express",
-    [NetworkModeOptions.car]: "car",
+    [NetworkModeOptionKeys.peak]: "peak",
+    [NetworkModeOptionKeys.offPeak]: "off-peak",
+    [NetworkModeOptionKeys.peakNoExpress]: "peak-no-express",
+    [NetworkModeOptionKeys.offPeakNoExpress]: "off-peak-no-express",
+    [NetworkModeOptionKeys.car]: "car",
 };
 
-export type NetworkModeOptionKey = keyof typeof NetworkModeOptions;
+export type NetworkModeOptionKey = keyof typeof NetworkModeOptionKeys;
 
 export const NeighborhoodCardViewType = {
     cardFull: "cardFull",

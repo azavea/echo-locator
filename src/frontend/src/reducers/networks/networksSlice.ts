@@ -1,16 +1,12 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import type { NetworksSliceState } from "./types";
-import {
-    getTimesAndPathsDataForPlace,
-    getNetworks,
-    getAllTimesAndPathsData,
-} from "./networksThunk";
-import type { RootState } from "store/store";
-import { type NetworkModeOptionKey } from "src/enums";
+import { getTimesAndPathsDataForPlace, getNetworks } from "./networksThunk";
+import type { RootState } from "src/store/store";
+import { NetworkModeOptionKeys, type NetworkModeOptionKey } from "src/enums";
+import { getUserProfile } from "reducers/userProfile/userProfileThunk";
 
 const initialState: NetworksSliceState = {
     networks: null,
-    timesAndRoutesData: null,
     // Default to use first transit network with commuter rail
     activeMode: "peak",
     loading: false,
@@ -49,10 +45,21 @@ export const networksSlice = createSlice({
                 getTimesAndPathsDataForPlace.fulfilled,
                 (state, action) => {
                     state.loading = false;
-                    state.timesAndRoutesData = {
-                        ...state.timesAndRoutesData,
-                        [action.payload.label]: action.payload.data,
-                    };
+                    if (
+                        state.timesAndRoutesData &&
+                        state.timesAndRoutesData?.hasOwnProperty(
+                            action.payload.label
+                        )
+                    ) {
+                        state.timesAndRoutesData[action.payload.label] = {
+                            ...state.timesAndRoutesData[action.payload.label],
+                            ...action.payload.data,
+                        };
+                    } else {
+                        state.timesAndRoutesData = {
+                            [action.payload.label]: action.payload.data,
+                        };
+                    }
                 }
             )
             .addCase(getTimesAndPathsDataForPlace.rejected, (state, action) => {
@@ -61,18 +68,19 @@ export const networksSlice = createSlice({
                     action.error.message ??
                     "Failed to fetch time and paths data.";
             })
-            .addCase(getAllTimesAndPathsData.pending, state => {
-                state.loading = true;
+            .addCase(getUserProfile.fulfilled, (state, action) => {
+                state.activeMode = action.payload.hasVehicle
+                    ? NetworkModeOptionKeys.car
+                    : action.payload.useCommuterRail
+                      ? NetworkModeOptionKeys.peak
+                      : NetworkModeOptionKeys.peakNoExpress;
             })
-            .addCase(getAllTimesAndPathsData.fulfilled, (state, action) => {
-                state.loading = false;
-                state.timesAndRoutesData = action.payload;
-            })
-            .addCase(getAllTimesAndPathsData.rejected, (state, action) => {
-                state.loading = false;
-                state.error =
-                    action.error.message ??
-                    "Failed to fetch all times and paths data.";
+            .addCase(getUserProfile.fulfilled, (state, action) => {
+                state.activeMode = action.payload.hasVehicle
+                    ? NetworkModeOptionKeys.car
+                    : action.payload.useCommuterRail
+                      ? NetworkModeOptionKeys.peak
+                      : NetworkModeOptionKeys.peakNoExpress;
             });
     },
 });
@@ -85,7 +93,6 @@ export const selectAllNetworksDataReady = createSelector(
     (networks, timesAndRoutesData) =>
         !!networks &&
         !!timesAndRoutesData &&
-        Object.keys(timesAndRoutesData).length &&
         Object.values(networks).every(n => n.ready) &&
         Object.values(timesAndRoutesData).every(place =>
             Object.values(place).every(n => n.timesAndRoutesDataReady)
