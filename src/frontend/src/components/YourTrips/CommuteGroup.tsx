@@ -1,12 +1,13 @@
-import { Accordion } from "../base/Accordion/Accordion";
-import { AccordionItem } from "../base/Accordion/AccordionItem";
+import { useEffect, useState } from "react";
+
+import { useAppSelector } from "store/store";
+import { Accordion } from "components/base/Accordion/Accordion";
+import { AccordionItem } from "components/base/Accordion/AccordionItem";
 import Range from "components/base/Range/Range";
 import { yourTripsStyles } from "./YourTrips.styles";
-import { useAppSelector } from "store/store";
 import selectNeighborhoodZipcodeMap from "reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
 import { createGoogleDirectionsURL } from "libs/getLinkURLs";
 import type { TripType } from "./types";
-import { useState } from "react";
 import type { Destination } from "reducers/userProfile/types";
 import TripMap from "./TripMap";
 
@@ -23,34 +24,53 @@ const CommuteGroup = ({
         isMobile: isMobile,
     });
     const [selectedMapDestination, setSelectedMapDestination] =
-        useState<Destination>(trips[0].destination);
+        useState<Destination | null>(null);
     const allNeighborhoodCommutes = useAppSelector(
         selectNeighborhoodZipcodeMap
     );
+
+    const initialTrip = trips[0];
+    if (!initialTrip) {
+        return <></>;
+    }
+
+    useEffect(() => {
+        setSelectedMapDestination(initialTrip.destination);
+    }, [initialTrip.destination]);
+
+    const getCommuteMin = (trip: TripType) =>
+        allNeighborhoodCommutes[trip.neighborhoodZipcode]?.commutes[
+            trip.destination.location.label
+        ].commuteMin;
+
+    const getCommuteMax = (trip: TripType) =>
+        allNeighborhoodCommutes[trip.neighborhoodZipcode]?.commutes[
+            trip.destination.location.label
+        ].commuteMax;
+
+    const onExpandItem = (keys: Iterable<any, void, undefined>) => {
+        const selection = [...keys][0];
+        if (selection) {
+            // TODO will need to adjust for compare page
+            setSelectedMapDestination(trips[parseInt(selection)].destination);
+            if (!isTransit) {
+                // open link
+                const directionsURL = createGoogleDirectionsURL(
+                    trips[parseInt(selection)].neighborhoodZipcode,
+                    trips[parseInt(selection)].destination,
+                    trips[parseInt(selection)].tripToNeighborhood,
+                    !!isTransit
+                );
+                window.open(directionsURL, "_blank");
+            }
+        }
+    };
 
     return (
         <div className={styles.commuteGroupWrapper()}>
             <Accordion
                 defaultExpandedKeys={["0"]}
-                expandedItemCallback={keys => {
-                    const selection = [...keys][0];
-                    if (selection) {
-                        // TODO will need to adjust for compare page
-                        setSelectedMapDestination(
-                            trips[parseInt(selection)].destination
-                        );
-                        if (!isTransit) {
-                            // open link
-                            const directionsURL = createGoogleDirectionsURL(
-                                trips[selection].neighborhoodZipcode,
-                                trips[selection].destination,
-                                trips[selection].tripToNeighborhood,
-                                !!isTransit
-                            );
-                            window.open(directionsURL, "_blank");
-                        }
-                    }
-                }}
+                expandedItemCallback={onExpandItem}
                 className={styles.commuteGroupItem()}
             >
                 {trips.map((trip, index) => (
@@ -61,18 +81,8 @@ const CommuteGroup = ({
                         subtitle={trip.subtitle}
                         titleContentRight={
                             <Range
-                                start={
-                                    allNeighborhoodCommutes[
-                                        trip.neighborhoodZipcode
-                                    ]?.commutes[trip.destination.location.label]
-                                        .commuteMin
-                                }
-                                end={
-                                    allNeighborhoodCommutes[
-                                        trip.neighborhoodZipcode
-                                    ]?.commutes[trip.destination.location.label]
-                                        .commuteMax
-                                }
+                                start={getCommuteMin(trip)}
+                                end={getCommuteMax(trip)}
                             />
                         }
                         overridePanelOpen={!isTransit}
@@ -81,17 +91,17 @@ const CommuteGroup = ({
                         {isMobile && (
                             <TripMap
                                 start={trip.destination}
-                                end={trips[0].neighborhoodZipcode}
+                                end={initialTrip.neighborhoodZipcode}
                                 isTransit={isTransit}
                             />
                         )}
                     </AccordionItem>
                 ))}
             </Accordion>
-            {!isMobile && (
+            {!isMobile && selectedMapDestination && (
                 <TripMap
                     start={selectedMapDestination}
-                    end={trips[0].neighborhoodZipcode}
+                    end={initialTrip.neighborhoodZipcode}
                     isTransit={isTransit}
                     className={styles.commuteGroupItem()}
                 />
