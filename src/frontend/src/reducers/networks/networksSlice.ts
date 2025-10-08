@@ -1,4 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
+
 import type { NetworksSliceState } from "./types";
 import {
     getTimesAndPathsDataForPlace,
