@@ -29,16 +29,22 @@ import { BOUNDS } from "src/pages/Discover/Map/constants";
 const TripMap = ({
     start,
     end,
+    isTransit,
     className,
 }: {
     start: Destination;
     end: string;
+    isTransit?: boolean;
     className?: string;
 }) => {
     const { t } = useTranslation();
     const styles = yourTripsStyles();
     const mapRef = useRef<MapRef>(null);
     const [loaded, setLoaded] = useState(false);
+
+    if (!isTransit) {
+        return <></>;
+    }
 
     const routeGeoJSON = useGetDestinationToNeighborhoodRoute(start, end);
 

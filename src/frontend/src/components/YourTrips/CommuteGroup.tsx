@@ -82,6 +82,7 @@ const CommuteGroup = ({
                             <TripMap
                                 start={trip.destination}
                                 end={trips[0].neighborhoodZipcode}
+                                isTransit={isTransit}
                             />
                         )}
                     </AccordionItem>
@@ -91,6 +92,7 @@ const CommuteGroup = ({
                 <TripMap
                     start={selectedMapDestination}
                     end={trips[0].neighborhoodZipcode}
+                    isTransit={isTransit}
                     className={styles.commuteGroupItem()}
                 />
             )}

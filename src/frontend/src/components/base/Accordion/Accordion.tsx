@@ -22,10 +22,12 @@ export const Accordion = ({
         props.defaultExpandedKeys ?? new Set([])
     );
 
-    const handleExpandedChange = (keys: Iterable<Key>) => {
-        setExpandedKeys(keys);
-        if (expandedItemCallback) {
-            expandedItemCallback([...keys]);
+    const handleExpandedChange = (keys: Set<Key>) => {
+        if (keys.size) {
+            setExpandedKeys(keys);
+            if (expandedItemCallback) {
+                expandedItemCallback([...keys]);
+            }
         }
     };
     return (
