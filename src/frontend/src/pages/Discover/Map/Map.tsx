@@ -22,11 +22,11 @@ import {
     neighborhoodsHoverStyle,
     neighborhoodsSelectedStyle,
 } from "./mapLayerStyles";
-import { selectRankedNeighborhoodsLists } from "src/reducers/neighborhoods/neighborhoodsSlice";
+import { selectRankedNeighborhoodsLists } from "reducers/neighborhoods/neighborhoodsSlice";
 import {
     selectActiveDestination,
     selectUserDestinations,
-} from "src/reducers/userProfile/userSlice";
+} from "reducers/userProfile/userSlice";
 
 interface Props {
     isMobile?: boolean;

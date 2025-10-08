@@ -24,7 +24,7 @@ import { createNeighborhoodWeightedScore } from "../utils/createNeighborhoodWeig
 import {
     selectAllNetworksDataReady,
     selectUseTransit,
-} from "src/reducers/networks/networksSlice";
+} from "reducers/networks/networksSlice";
 
 const getZipCodeListFromNeighborhoods = (
     neighborhoods: Feature<Point, NeighborhoodProperties>[]

@@ -5,7 +5,7 @@ import {
     getNetworks,
     getAllTimesAndPathsData,
 } from "./networksThunk";
-import type { RootState } from "src/store/store";
+import type { RootState } from "store/store";
 import { type NetworkModeOptionKey } from "src/enums";
 
 const initialState: NetworksSliceState = {

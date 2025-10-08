@@ -1,11 +1,11 @@
 import get from "lodash/get";
 
 import { createSelector } from "@reduxjs/toolkit";
-import type { RootState } from "src/store/store";
+import type { RootState } from "store/store";
 import {
     selectAllNetworksDataReady,
     selectUseTransit,
-} from "src/reducers/networks/networksSlice";
+} from "reducers/networks/networksSlice";
 import type { NeighborhoodDetails } from "../types";
 import { createNeighborhoodCommutes } from "../utils/createNeighborhoodCommutes";
 

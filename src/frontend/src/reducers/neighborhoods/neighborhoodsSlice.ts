@@ -4,7 +4,7 @@ import type {
     RankedNeighborhoodsLists,
 } from "./types";
 import { getNeighborhoodsAndBounds } from "./neighborhoodsThunk";
-import type { RootState } from "src/store/store";
+import type { RootState } from "store/store";
 
 const initialState: NeighborhoodsSliceState = {
     neighborhoods: null,

@@ -7,16 +7,16 @@ import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles.ts";
 import type {
     Neighborhood,
     NeighborhoodProperties,
-} from "src/reducers/neighborhoods/types";
+} from "reducers/neighborhoods/types";
 import CalculatorIcon from "assets/icons/calculator.svg?react";
 import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
 import UnitsModal from "./UnitsModal.tsx";
 import type { UnitSitesKeyType } from "src/enums.ts";
-import { useAppSelector } from "src/store/store.ts";
-import { selectUserBedroomCount } from "src/reducers/userProfile/userSlice.ts";
-import { getUnitsURL } from "src/libs/getLinkURLs.ts";
-import formatCurrency from "src/libs/formatCurrency.ts";
-import Button from "src/components/base/Button/Button.tsx";
+import { useAppSelector } from "store/store.ts";
+import { selectUserBedroomCount } from "reducers/userProfile/userSlice.ts";
+import { getUnitsURL } from "libs/getLinkURLs.ts";
+import formatCurrency from "libs/formatCurrency.ts";
+import Button from "components/base/Button/Button.tsx";
 
 const UnitsContent = ({
     display = true,

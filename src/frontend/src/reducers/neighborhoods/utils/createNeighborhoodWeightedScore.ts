@@ -2,7 +2,7 @@
 
 import type { Feature, Point } from "geojson";
 import type { NeighborhoodProperties } from "../types";
-import type { CriteriaScoreWeights } from "src/reducers/userProfile/types";
+import type { CriteriaScoreWeights } from "reducers/userProfile/types";
 import {
     DEFAULT_CRIME_QUINTILE,
     DEFAULT_EDUCATION_QUINTILE,

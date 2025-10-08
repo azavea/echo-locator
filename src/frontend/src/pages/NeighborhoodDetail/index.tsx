@@ -12,11 +12,11 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "store/store";
 import { ModalOverlay, Modal } from "components/base/Modal/Modal";
 import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles";
-import Button from "src/components/base/Button/Button";
+import Button from "components/base/Button/Button";
 import {
     ToggleButton,
     ToggleButtonGroup,
-} from "src/components/base/ToggleButton/ToggleButton";
+} from "components/base/ToggleButton/ToggleButton";
 
 import TimesIcon from "assets/icons/times.svg?react";
 import StarIcon from "assets/icons/star.svg?react";
@@ -26,8 +26,8 @@ import Map from "./Map/Map";
 import {
     selectActiveNeighborhoodFeature,
     setActiveNeighborhood,
-} from "src/reducers/neighborhoods/neighborhoodsSlice";
-import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
+} from "reducers/neighborhoods/neighborhoodsSlice";
+import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
 import UnitsContent from "./UnitsContent";
 
 const NeighborhoodDetail = ({

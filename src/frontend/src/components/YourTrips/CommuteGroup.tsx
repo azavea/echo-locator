@@ -2,12 +2,12 @@ import { Accordion } from "../base/Accordion/Accordion";
 import { AccordionItem } from "../base/Accordion/AccordionItem";
 import Range from "components/base/Range/Range";
 import { yourTripsStyles } from "./YourTrips.styles";
-import { useAppSelector } from "src/store/store";
-import selectNeighborhoodZipcodeMap from "src/reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
-import { createGoogleDirectionsURL } from "src/libs/getLinkURLs";
+import { useAppSelector } from "store/store";
+import selectNeighborhoodZipcodeMap from "reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
+import { createGoogleDirectionsURL } from "libs/getLinkURLs";
 import type { TripType } from "./types";
 import { useState } from "react";
-import type { Destination } from "src/reducers/userProfile/types";
+import type { Destination } from "reducers/userProfile/types";
 import TripMap from "./TripMap";
 
 const CommuteGroup = ({

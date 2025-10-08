@@ -10,7 +10,7 @@ import bbox from "@turf/bbox";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-aria-components";
 
-import type { Destination } from "src/reducers/userProfile/types";
+import type { Destination } from "reducers/userProfile/types";
 import StartIcon from "assets/icons/start.png";
 import CustomControlOverlay from "./CustomMapControl";
 
@@ -22,9 +22,9 @@ import {
     routeEndPointStyle,
 } from "./tripLayerStyles";
 import { yourTripsStyles } from "./YourTrips.styles";
-import { createGoogleDirectionsURL } from "src/libs/getLinkURLs";
-import { useGetDestinationToNeighborhoodRoute } from "src/hooks/useGetDestinationToNeighborhoodRoute";
-import { BOUNDS } from "src/pages/Discover/Map/constants";
+import { createGoogleDirectionsURL } from "libs/getLinkURLs";
+import { useGetDestinationToNeighborhoodRoute } from "hooks/useGetDestinationToNeighborhoodRoute";
+import { BOUNDS } from "pages/Discover/Map/constants";
 
 const TripMap = ({
     start,

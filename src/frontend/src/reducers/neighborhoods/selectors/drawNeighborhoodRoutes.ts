@@ -12,8 +12,8 @@ import type {
     NeighborhoodRoutePath,
     NeighborhoodTransitStop,
 } from "reducers/networks/types";
-import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
-import type { Destination } from "src/reducers/userProfile/types";
+import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
+import type { Destination } from "reducers/userProfile/types";
 
 export const makeSelectRouteToNeighborhood = (
     destination: Destination,

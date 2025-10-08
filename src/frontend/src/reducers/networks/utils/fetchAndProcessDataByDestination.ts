@@ -3,15 +3,15 @@
 // ATTR: Taui by Conveyal, included under the MIT license (https://github.com/conveyal/taui/blob/dev/LICENSE)
 
 import type { NetworkModeOptionKey } from "src/enums";
-import type { Destination } from "src/reducers/userProfile/types";
-import type { RootState } from "src/store/store";
+import type { Destination } from "reducers/userProfile/types";
+import type { RootState } from "store/store";
 import type {
     NetworkAndTimeAndPathsData,
     ParsedPathsData,
     TimesAndPathsData,
 } from "../types";
 import { coordinateToIndex } from "./coordinateToIndex";
-import { fetchPathsData, fetchTimesData } from "src/api/networks";
+import { fetchPathsData, fetchTimesData } from "api/networks";
 import { parsePathsData } from "./parsePathsData";
 import { parseTimesData } from "./parseTimesData";
 import createNetworkNeighborhoodTravelTimes from "./createNetworkNeighborhoodTravelTimes";

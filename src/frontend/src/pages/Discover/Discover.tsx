@@ -17,7 +17,7 @@ import { Place } from "src/enums";
 import {
     setActiveDestination,
     setDestinations,
-} from "src/reducers/userProfile/userSlice";
+} from "reducers/userProfile/userSlice";
 import { useParams } from "react-router";
 
 const Discover = () => {
