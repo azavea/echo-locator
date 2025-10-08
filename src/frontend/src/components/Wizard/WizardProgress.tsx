@@ -6,6 +6,7 @@ import {
     progressLineStyle,
     wizardStyle,
 } from "./Wizard.styles";
+import CheckIcon from "assets/icons/check.svg?react";
 
 interface WizardProgressProps {
     totalSteps: number;
@@ -35,7 +36,7 @@ const WizardProgress = ({ totalSteps, currentStep }: WizardProgressProps) => {
                 );
                 return (
                     <React.Fragment key={step}>
-                       <div className={progressDotStyle({ state })}>
+                        <div className={progressDotStyle({ state })}>
                             {isCompleted && (
                                 <CheckIcon className="w-[10px] h-[10px] fill-white" />
                             )}
