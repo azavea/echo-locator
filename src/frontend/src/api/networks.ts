@@ -1,15 +1,15 @@
 import axios from "axios";
-import { NetworkModeOptions, type NetworkModeOptionKey } from "src/enums";
+import { NetworkModeOptionPaths, type NetworkModeOptionKey } from "src/enums";
 
 export const fetchNetworkData = async (
     network: NetworkModeOptionKey
 ): Promise<any> => {
     const [requestResponse, transitiveResponse] = await Promise.all([
         axios.get(
-            `${import.meta.env.VITE_NETWORK_URL_ROOT}/${NetworkModeOptions[network]}/request.json`
+            `${import.meta.env.VITE_NETWORK_URL_ROOT}/${NetworkModeOptionPaths[network]}/request.json`
         ),
         axios.get(
-            `${import.meta.env.VITE_NETWORK_URL_ROOT}/${NetworkModeOptions[network]}/transitive.json`
+            `${import.meta.env.VITE_NETWORK_URL_ROOT}/${NetworkModeOptionPaths[network]}/transitive.json`
         ),
     ]);
     return [requestResponse, transitiveResponse];
@@ -31,7 +31,7 @@ export const fetchTimesData = async (
     index: number
 ): Promise<any> => {
     return fetchBinaryData(
-        `${import.meta.env.VITE_NETWORK_URL_ROOT}/${NetworkModeOptions[network]}/${index}_times.dat`
+        `${import.meta.env.VITE_NETWORK_URL_ROOT}/${NetworkModeOptionPaths[network]}/${index}_times.dat`
     );
 };
 
@@ -40,6 +40,6 @@ export const fetchPathsData = async (
     index: number
 ): Promise<any> => {
     return fetchBinaryData(
-        `${import.meta.env.VITE_NETWORK_URL_ROOT}/${NetworkModeOptions[network]}/${index}_paths.dat`
+        `${import.meta.env.VITE_NETWORK_URL_ROOT}/${NetworkModeOptionPaths[network]}/${index}_paths.dat`
     );
 };
