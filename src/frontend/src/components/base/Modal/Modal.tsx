@@ -6,7 +6,7 @@ import {
 } from "react-aria-components";
 import { modalOverlayStyles, modalStyles } from "./Modal.styles";
 
-type ModalWidth = "small" | "medium" | "large";
+export type ModalWidth = "small" | "medium" | "large";
 type AriaModalBaseProps = ComponentProps<typeof AriaModal>;
 interface AriaModalProps extends AriaModalBaseProps {
     size?: ModalWidth;

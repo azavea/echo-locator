@@ -36,6 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add region field to neighborhood [#709](https://github.com/azavea/echo-locator/pull/709)
 - Add neighborhood detail modal [#722](https://github.com/azavea/echo-locator/pull/722)
 - Add frontend sign in page and authentication workflows [#723](https://github.com/azavea/echo-locator/pull/723)
+- Add a wizard component [#725](https://github.com/azavea/echo-locator/pull/725)
 
 ### Changed
 

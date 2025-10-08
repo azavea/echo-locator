@@ -20,6 +20,8 @@ import InputText from "components/InputText";
 import InputNumber from "components/InputNumber";
 import Checkbox from "components/base/Checkbox/Checkbox";
 import ImportanceSliders from "components/ImportanceSliders";
+import Wizard from "components/Wizard/Wizard";
+import WizardStep from "components/Wizard/WizardStep";
 
 const neighborhood = {
     name: "Brookline",
@@ -76,7 +78,37 @@ const Components = () => {
     const [largeTextInput, setLargeTextInput] = useState<string>("");
     const [numberValue, setNumberValue] = useState(2);
     const [isExpress, setIsExpress] = useState(false);
+    const [isWizardOpen, setWizardOpen] = useState(false);
+    const [currentStep, setCurrentStep] = useState(1);
+
+    const totalSteps = 4;
+
     const { lang } = useParams<{ lang: LanguageKey | undefined }>();
+
+    const handleClose = () => {
+        setWizardOpen(false);
+        // TODO: clear data buffer
+        // Reset to first step when the modal is closed
+        setTimeout(() => setCurrentStep(1), 200);
+    };
+
+    const handleNext = () => {
+        if (currentStep < totalSteps) {
+            setCurrentStep(prev => prev + 1);
+        }
+    };
+
+    const handleBack = () => {
+        if (currentStep > 1) {
+            setCurrentStep(prev => prev - 1);
+        }
+    };
+
+    const handleFinish = () => {
+        console.log("Wizard finished! Submitting data...");
+        // TODO: Persist data to backend
+        handleClose();
+    };
 
     return (
         <div className="items-center px-10 py-16 max-w-4xl mx-auto space-y-8">
@@ -468,6 +500,81 @@ const Components = () => {
                     <div className="flex flex-col gap-4 w-[292px]">
                         <h3 className="text-xl text-gray-800 mb-2">Sliders</h3>
                         <ImportanceSliders />
+                    </div>
+                </div>
+            </section>
+
+            {/* Wizard section */}
+            <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
+                    Wizard
+                </h2>
+
+                <div className="space-y-8">
+                    <div>
+                        <div className="flex flex-column flex-wrap items-center gap-4">
+                            <Button
+                                variant="primary"
+                                onPress={() => setWizardOpen(true)}
+                            >
+                                Trigger
+                            </Button>
+                            <Wizard
+                                title="Your Profile"
+                                currentStep={currentStep}
+                                isOpen={isWizardOpen}
+                                totalSteps={totalSteps}
+                                handleClose={handleClose}
+                            >
+                                {/* Each direct child is treated as a step */}
+                                <WizardStep
+                                    question="How many bedrooms does your voucher have?"
+                                    description="Reach out to your BHA Housing Coordinator if you're unsure."
+                                    handleBack={handleBack}
+                                    handleNext={handleNext}
+                                    disableBack
+                                >
+                                    <InputNumber
+                                        label="Number input"
+                                        value={numberValue}
+                                        onChange={setNumberValue}
+                                    />
+                                </WizardStep>
+                                <WizardStep
+                                    question="What is important to you??"
+                                    handleBack={handleBack}
+                                    handleNext={handleNext}
+                                >
+                                    <ImportanceSliders />
+                                </WizardStep>
+                                <WizardStep
+                                    question="How do you typically get around?"
+                                    handleBack={handleBack}
+                                    handleNext={handleNext}
+                                >
+                                    <p>Car/Transit toggle goes here</p>
+                                    <Checkbox
+                                        isSelected={isExpress}
+                                        onChange={setIsExpress}
+                                        description="The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus."
+                                    >
+                                        I'm willing to take the express bus or
+                                        commuter rail
+                                    </Checkbox>
+                                </WizardStep>
+                                <WizardStep
+                                    question="Which trips do you make frequently?"
+                                    description="We use this information to recommend neighborhoods near the places you visit often"
+                                    buttonText="Finish"
+                                    handleBack={handleBack}
+                                    handleNext={handleFinish}
+                                >
+                                    <p className=" text-gray-600">
+                                        Step 4. The "Add trip" logic goes here
+                                    </p>
+                                </WizardStep>
+                            </Wizard>
+                        </div>
                     </div>
                 </div>
             </section>
