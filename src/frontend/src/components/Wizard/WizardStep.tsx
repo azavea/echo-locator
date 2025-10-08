@@ -45,7 +45,7 @@ const WizardStep = ({
                     size="large"
                     isDisabled={disableBack}
                     leftIcon={
-                        <ArrowLeftIcon className="font-normal h-[14px] w-[14px] text-black" />
+                         <ArrowLeftIcon className={`font-normal h-[14px] w-[14px] ${disableBack ? "fill-gray-300" : "text-black"}`} />
                     }
                     onPress={handleBack}
                 />
