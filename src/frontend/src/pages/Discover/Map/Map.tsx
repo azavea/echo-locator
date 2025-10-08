@@ -29,6 +29,8 @@ import {
     selectUserHasViewedStartInstructions,
 } from "reducers/userProfile/userSlice";
 import Top10Tour from "src/components/Top10Tour/Top10Tour";
+import CustomControlOverlay from "src/components/YourTrips/CustomMapControl";
+import Top10TourButton from "src/components/Top10Tour/Top10TourButton";
 
 interface Props {
     isMobile?: boolean;
@@ -246,6 +248,12 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                         <Layer {...neighborhoodsSelectedStyle} />
                     </Source>
                 )}
+                <CustomControlOverlay position="top-left">
+                    <Top10TourButton
+                        isVisible={!!isMobile && !isTop10TourOpen}
+                        onClickCallback={() => setIsTop10TourOpen(true)}
+                    />
+                </CustomControlOverlay>
             </MapContainer>
             <Legend isMobile={isMobile} />
         </div>

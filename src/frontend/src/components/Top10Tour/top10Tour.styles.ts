@@ -10,6 +10,14 @@ export const top10TourStyles = tv({
         modalBodySection: "flex flex-col gap-3",
         modalBodyBox: "p-5 rounded-md bg-gray-50 items-center text-center",
         modalBodyText: "text-sm font-medium text-gray-700",
+        // Start tour button styles to match map legend
+        openButtonContainer: [
+            "bg-white rounded-[var(--spacing-3)] p-3 pb-2 shadow-sm",
+            "flex flex-col items-center gap-2 max-w-[62px] flex-wrap",
+        ],
+        openButtonColorBox:
+            "w-[25px] h-[8px] rounded-[var(--spacing-2)] bg-[#B9C26D] border-1 border-[#748C27]",
+        openButtonLabel: "text-sm text-black font-bold",
     },
     variants: {
         isOpen: {
