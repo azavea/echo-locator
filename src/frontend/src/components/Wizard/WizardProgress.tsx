@@ -35,7 +35,11 @@ const WizardProgress = ({ totalSteps, currentStep }: WizardProgressProps) => {
                 );
                 return (
                     <React.Fragment key={step}>
-                        <div className={progressDotStyle({ state })} />
+                       <div className={progressDotStyle({ state })}>
+                            {isCompleted && (
+                                <CheckIcon className="w-[10px] h-[10px] fill-white" />
+                            )}
+                        </div>
                         {step < totalSteps && (
                             <div
                                 className={progressLineStyle({
