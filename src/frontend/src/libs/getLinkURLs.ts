@@ -20,9 +20,9 @@ export const getUnitsURL = (
 export const createGoogleDirectionsURL = (
     neighborhood: string,
     destination: Destination,
-    tripToNeighborhood: boolean,
+    isTripToNeighborhood: boolean,
     isTransit: boolean
 ) => {
     const destinationSubString = `${destination.location.position.lat},${destination.location.position.lon}`;
-    return `https://www.google.com/maps/dir/?api=1&travelmode=${isTransit ? "transit" : "car"}&origin=${tripToNeighborhood ? destinationSubString : neighborhood}&destination=${tripToNeighborhood ? neighborhood : destinationSubString}`;
+    return `https://www.google.com/maps/dir/?api=1&travelmode=${isTransit ? "transit" : "car"}&origin=${isTripToNeighborhood ? destinationSubString : neighborhood}&destination=${isTripToNeighborhood ? neighborhood : destinationSubString}`;
 };

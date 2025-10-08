@@ -10,6 +10,7 @@ import CommuteGroup from "./CommuteGroup";
 import type { TripType } from "./types";
 import { selectUserDestinations } from "src/reducers/userProfile/userSlice";
 import type { Destination } from "src/reducers/userProfile/types";
+import { useMemo } from "react";
 
 const YourTrips = ({
     isMobile,
@@ -29,25 +30,27 @@ const YourTrips = ({
     });
 
     const destinations = useAppSelector(selectUserDestinations);
-    const tripToNeighborhood = !!activeNeighborhood;
+    const isTripToNeighborhood = !!activeNeighborhood;
     // TODO: Implement for compare page
     const favoritedNeighborhoods: string[] = [];
     const useTransit = useAppSelector(selectUseTransit);
 
-    const tripsByDestination = destinations.reduce(
-        (tripsFromDest: TripType[], dest: Destination) => {
-            const trip: TripType = {
-                title: dest.purpose,
-                subtitle: dest.location.label,
-                neighborhoodZipcode: activeNeighborhood ?? "",
-                destination: dest,
-                tripToNeighborhood: !!tripToNeighborhood,
-            };
-            tripsFromDest.push(trip);
-            return tripsFromDest;
-        },
-        []
-    );
+    const tripsByDestination = useMemo(() => {
+        return destinations.reduce(
+            (tripsFromDest: TripType[], dest: Destination) => [
+                ...tripsFromDest,
+                {
+                    title: dest.purpose,
+                    subtitle: dest.location.label,
+                    neighborhoodZipcode: activeNeighborhood ?? "",
+                    destination: dest,
+                    isTripToNeighborhood: !!isTripToNeighborhood,
+                },
+            ],
+            []
+        );
+    }, [destinations]);
+
     const tripsByNeighborhood = favoritedNeighborhoods.reduce(
         /* @ts-ignore */
         (tripsFromZip, zip) => {
@@ -80,7 +83,7 @@ const YourTrips = ({
             </div>
             <CommuteGroup
                 trips={
-                    tripToNeighborhood
+                    isTripToNeighborhood
                         ? tripsByDestination
                         : tripsByNeighborhood
                 }

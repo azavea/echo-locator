@@ -58,7 +58,7 @@ const CommuteGroup = ({
                 const directionsURL = createGoogleDirectionsURL(
                     trips[parseInt(selection)].neighborhoodZipcode,
                     trips[parseInt(selection)].destination,
-                    trips[parseInt(selection)].tripToNeighborhood,
+                    trips[parseInt(selection)].isTripToNeighborhood,
                     !!isTransit
                 );
                 window.open(directionsURL, "_blank");

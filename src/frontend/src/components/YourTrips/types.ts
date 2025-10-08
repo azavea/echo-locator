@@ -5,5 +5,5 @@ export interface TripType {
     subtitle: string;
     neighborhoodZipcode: string;
     destination: Destination;
-    tripToNeighborhood: boolean;
+    isTripToNeighborhood: boolean;
 }

@@ -13,6 +13,5 @@ export const useGetDestinationToNeighborhoodRoute = (
         [destination, neighborhoodZipcode]
     );
 
-    const routeGeoJson = useAppSelector(selectDestinationToNeighborhoodRoute);
-    return routeGeoJson;
+    return useAppSelector(selectDestinationToNeighborhoodRoute);
 };

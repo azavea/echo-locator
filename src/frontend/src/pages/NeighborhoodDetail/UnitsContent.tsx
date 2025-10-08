@@ -216,7 +216,7 @@ const UnitsContent = ({
                 <div className={sharedStyles.iconWithTextWrapper()}>
                     <CalculatorIcon className={sharedStyles.inlineIcon()} />
                     <p className="text-gray-600 text-sm self-center">
-                        <Trans i18nKey="unitsContent.step2.affordabilityCalculator">
+                        <Trans i18nKey="neighborhoodDetail.unitsContent.step2.affordabilityCalculator">
                             Use the <strong>Affordability Calculator</strong> to
                             check if a unit fits your budget
                         </Trans>
