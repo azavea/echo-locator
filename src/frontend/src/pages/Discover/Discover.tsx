@@ -101,10 +101,10 @@ const Discover = () => {
     }, [neighborhoods, networks]);
 
     useEffect(() => {
-        if (destinations && !timesAndRoutesData) {
+        if (destinations && neighborhoods && networks && !timesAndRoutesData) {
             dispatch(getAllTimesAndPathsData(destinations));
         }
-    }, [destinations, timesAndRoutesData]);
+    }, [destinations, neighborhoods, networks, timesAndRoutesData]);
 
     const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
     useEffect(() => {
