@@ -198,16 +198,6 @@ const InfoContent = ({
                                     `${img_type}_username` as keyof NeighborhoodProperties
                                 ] as string
                             }
-                            licenseLink={
-                                neighborhood.properties[
-                                    `${img_type}_license_url` as keyof NeighborhoodProperties
-                                ] as string
-                            }
-                            license={
-                                neighborhood.properties[
-                                    `${img_type}_license` as keyof NeighborhoodProperties
-                                ] as string
-                            }
                             sourceLink={
                                 neighborhood.properties[
                                     img_type as keyof NeighborhoodProperties

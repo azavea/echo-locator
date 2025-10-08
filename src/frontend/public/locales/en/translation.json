@@ -13,6 +13,8 @@
         "signInConfirm": "We sent an email with a login link to {{email}}. Click the link to sign into ECHO.",
         "enterEmailAddress": "Enter your email address"
     },
+    "photoCredit": "Photo by {{artist}}. ",
+    "photoSource": "Source.",
     "neighborhoodDetail": {
         "addToFavorites": "Add to favorites",
         "moveCountText": "{{count}} voucher holders moved here already!",

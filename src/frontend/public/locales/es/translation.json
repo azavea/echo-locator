@@ -13,6 +13,8 @@
         "signInConfirm": "Enviamos un correo electrónico con un enlace de inicio de sesión a {{email}}. Haga clic en el enlace para iniciar sesión en ECHO.",
         "enterEmailAddress": "Introduce tu dirección de correo electrónico"
     },
+    "photoCredit": "Photo by {{artist}}. ",
+    "photoSource": "Source.",
     "neighborhoodDetail": {
         "addToFavorites": "Add to favorites",
         "moveCountText": "¡EXAMPLE {{count}} titulares de vales ya se mudaron aquí!",
