@@ -22,9 +22,10 @@ import {
     routeEndPointStyle,
 } from "./tripLayerStyles";
 import { yourTripsStyles } from "./YourTrips.styles";
-import { createGoogleDirectionsURL } from "libs/getLinkURLs";
-import { useGetDestinationToNeighborhoodRoute } from "hooks/useGetDestinationToNeighborhoodRoute";
-import { BOUNDS } from "pages/Discover/Map/constants";
+import { createGoogleDirectionsURL } from "src/libs/getLinkURLs";
+import { useGetDestinationToNeighborhoodRoute } from "src/hooks/useGetDestinationToNeighborhoodRoute";
+import { BOUNDS } from "src/pages/Discover/Map/constants";
+import TransitDirections from "./TransitDirections";
 
 const TripMap = ({
     start,
@@ -118,6 +119,9 @@ const TripMap = ({
                     {/* @ts-ignore */}
                     <Layer {...routeEndPointStyle} />
                 </Source>
+                <CustomControlOverlay position="top-left">
+                    <TransitDirections start={start} end={end} />
+                </CustomControlOverlay>
                 <CustomControlOverlay position="bottom-right">
                     <Link
                         href={createGoogleDirectionsURL(end, start, true, true)}

@@ -38,6 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add frontend sign in page and authentication workflows [#723](https://github.com/azavea/echo-locator/pull/723)
 - Add a wizard component [#725](https://github.com/azavea/echo-locator/pull/725)
 - Add Your Trips section and commute maps [#724](https://github.com/azavea/echo-locator/pull/724)
+- Add transit trip directions overlay [#726](https://github.com/azavea/echo-locator/pull/726)
 
 ### Changed
 
