@@ -88,5 +88,11 @@
         "touchPrompt": "Select a trip to see directions on a map",
         "editTrips": "Edit your trips",
         "openInGoogle": "EXAMPLE 在谷歌地图中打开"
+    },
+    "userProfile": {
+        "title": "发现社区",
+        "description": "创建个人资料，帮助我们向您推荐社区",
+        "actionButton": "创建个人资料",
+        "caption": "只要5分钟！"
     }
 }

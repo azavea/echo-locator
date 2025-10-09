@@ -6,7 +6,8 @@ import {
     getAllTimesAndPathsData,
 } from "./networksThunk";
 import type { RootState } from "store/store";
-import { type NetworkModeOptionKey } from "src/enums";
+import { NetworkModeOptions, type NetworkModeOptionKey } from "src/enums";
+import { getUserProfile } from "../userProfile/userProfileThunk";
 
 const initialState: NetworksSliceState = {
     networks: null,
@@ -73,6 +74,13 @@ export const networksSlice = createSlice({
                 state.error =
                     action.error.message ??
                     "Failed to fetch all times and paths data.";
+            })
+            .addCase(getUserProfile.fulfilled, (state, action) => {
+                state.activeMode = action.payload.hasVehicle
+                    ? (NetworkModeOptions.car as NetworkModeOptionKey)
+                    : action.payload.useCommuterRail
+                      ? (NetworkModeOptions.peak as NetworkModeOptionKey)
+                      : (NetworkModeOptions.peakNoExpress as NetworkModeOptionKey);
             });
     },
 });

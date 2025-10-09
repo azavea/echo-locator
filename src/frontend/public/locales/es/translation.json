@@ -88,5 +88,11 @@
         "touchPrompt": "Select a trip to see directions on a map",
         "editTrips": "Edit your trips",
         "openInGoogle": "Abierto en Google Maps"
+    },
+    "userProfile": {
+        "title": "Discover Neighborhoods",
+        "description": "Start by creating a profile to help us recommend neighborhoods to you",
+        "actionButton": "Create your profile",
+        "caption": "Takes just 5 minutes!"
     }
 }

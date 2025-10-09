@@ -64,6 +64,7 @@ class Destination(models.Model):
         WORSHIP = "WP", "Worship"
         DOCTOR = "DR", "Doctor"
         OTHER = "OT", "Other"
+        SCHOOL = "SC", "School"
 
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="destinations")
     label = models.CharField(max_length=200)
