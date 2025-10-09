@@ -22,6 +22,8 @@ import Checkbox from "components/base/Checkbox/Checkbox";
 import ImportanceSliders from "components/ImportanceSliders";
 import Wizard from "components/Wizard/Wizard";
 import WizardStep from "components/Wizard/WizardStep";
+import { Accordion } from "src/components/base/Accordion/Accordion";
+import { AccordionItem } from "src/components/base/Accordion/AccordionItem";
 
 const neighborhood = {
     name: "Brookline",
@@ -47,6 +49,27 @@ const stats = {
         end: 25,
     },
 };
+
+const destinations = [
+    {
+        purpose: "School",
+        location: "123 Main st.",
+        commuteMin: 10,
+        commuteMax: 25,
+    },
+    {
+        purpose: "Work",
+        location: "124 Main st.",
+        commuteMin: 20,
+        commuteMax: 25,
+    },
+    {
+        purpose: "Other",
+        location: "125 Main st.",
+        commuteMin: 25,
+        commuteMax: 25,
+    },
+];
 
 const cardFull = {
     ...neighborhood,
@@ -281,6 +304,37 @@ const Components = () => {
                             <CompareFavoritesButton size="large" />
                         </div>
                     </div>
+                </div>
+            </section>
+
+            {/* Section for Accordion */}
+            <section className="p-8 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <h2 className="text-3xl font-medium text-gray-800 mb-8 pb-4 border-b">
+                    Accordion
+                </h2>
+                <div className="space-y-8">
+                    <Accordion>
+                        {destinations.map((destination, index) => (
+                            <AccordionItem
+                                id={index.toString()}
+                                key={index}
+                                title={destination.purpose}
+                                subtitle={destination.location}
+                                titleContentRight={
+                                    <Range
+                                        start={destination.commuteMin}
+                                        end={destination.commuteMax}
+                                    />
+                                }
+                                // For testing panel content on expand
+                                isMobile={true}
+                            >
+                                <div className="flex justify-center align-center">
+                                    Content container
+                                </div>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
                 </div>
             </section>
 

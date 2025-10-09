@@ -111,7 +111,6 @@ function addDataToPaths(path: PopulatedPath[]) {
             []
         );
 
-        leg.route.route_type &&
             segments.push({
                 fromStop: {
                     coordinates: [boardStop.stop_lon, boardStop.stop_lat],
@@ -119,11 +118,12 @@ function addDataToPaths(path: PopulatedPath[]) {
                     stopId: boardStop.stop_id,
                 },
                 coordinates: latLons.map(([lat, lon]) => [lon, lat]), // reverse coords
-                mode: TYPE_TO_ICON[leg.route.route_type],
+            mode: leg.route.route_type
+                ? TYPE_TO_ICON[leg.route.route_type]
+                : "",
                 name: toUpperCase(leg.route.route_short_name),
                 patternId: leg.pattern.pattern_id,
-                routeColor:
-                    "#" + (leg.route.route_color || DEFAULT_ROUTE_COLOR),
+            routeColor: "#" + (leg.route.route_color || DEFAULT_ROUTE_COLOR),
                 routeId: leg.route.route_id,
                 toStop: {
                     coordinates: [alightStop.stop_lon, alightStop.stop_lat],

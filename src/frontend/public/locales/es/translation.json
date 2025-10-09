@@ -13,11 +13,13 @@
         "signInConfirm": "Enviamos un correo electrónico con un enlace de inicio de sesión a {{email}}. Haga clic en el enlace para iniciar sesión en ECHO.",
         "enterEmailAddress": "Introduce tu dirección de correo electrónico"
     },
+    "photoCredit": "Photo by {{artist}}. ",
+    "photoSource": "Source.",
     "neighborhoodDetail": {
         "addToFavorites": "Add to favorites",
         "moveCountText": "¡EXAMPLE {{count}} titulares de vales ya se mudaron aquí!",
         "infoToggleLabel": "Infos",
-        "unitsToggleLabel": "Units",
+        "unitsToggleLabel": "Find units",
         "eccYes": "Yes",
         "affordableCard": {
             "header": "Affordable",
@@ -78,5 +80,13 @@
                 "calculatorLinkSubtitle": "The <strong>BHA Affordability Calculator</strong> helps you estimate your copay."
             }
         }
+    },
+    "yourTrips": {
+        "heading": "Your Trips",
+        "busAndTrain": "Bus & Train",
+        "car": "Car",
+        "touchPrompt": "Select a trip to see directions on a map",
+        "editTrips": "Edit your trips",
+        "openInGoogle": "Abierto en Google Maps"
     }
 }

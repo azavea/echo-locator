@@ -150,7 +150,7 @@ export type Networks = {
 
 export interface NetworksSliceState {
     networks: Networks | null;
-    timesAndRoutesData?: TimesAndPathsByPlace;
+    timesAndRoutesData: TimesAndPathsByPlace | null;
     activeMode: NetworkModeOptionKey;
     loading: boolean;
     error: string | null;

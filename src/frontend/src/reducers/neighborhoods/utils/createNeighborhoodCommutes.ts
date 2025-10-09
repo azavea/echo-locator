@@ -1,6 +1,6 @@
 import { NetworkModeOptions, type NetworkModeOptionKey } from "src/enums";
-import type { TimesAndPathsByPlace } from "src/reducers/networks/types";
-import type { Destination } from "src/reducers/userProfile/types";
+import type { TimesAndPathsByPlace } from "reducers/networks/types";
+import type { Destination } from "reducers/userProfile/types";
 import type { Commutes } from "../types";
 
 /**

@@ -1,11 +1,10 @@
 import { Link, Focusable } from "react-aria-components";
+import { Trans } from "react-i18next";
 
 interface LicensedImageProps {
     image: string;
     description: string;
     artist: string;
-    licenseLink: string;
-    license: string;
     sourceLink: string;
 }
 
@@ -13,12 +12,10 @@ export const LicensedImage = ({
     image,
     description,
     artist,
-    licenseLink,
-    license,
     sourceLink,
 }: LicensedImageProps) =>
     image && (
-        <figure>
+        <figure className="relative">
             <Focusable>
                 <img
                     src={image}
@@ -29,21 +26,16 @@ export const LicensedImage = ({
             </Focusable>
             <figcaption className="mt-2 text-gray-600">
                 <p className="text-[10px]">
-                    Photo by {artist}. Licensed under{" "}
-                    <Link
-                        href={licenseLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {license}
-                    </Link>
-                    .{" "}
+                    <Trans i18nKey="photoCredit" values={{ artist: artist }}>
+                        Photo by {artist}.
+                    </Trans>
                     <Link
                         href={sourceLink}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className="after:content[''] after:absolute after:inset-0"
                     >
-                        View Source.
+                        <Trans i18nKey="photoSource">Source.</Trans>
                     </Link>
                 </p>
             </figcaption>

@@ -7,11 +7,12 @@ import Meter from "components/base/Meter/Meter";
 import type {
     Neighborhood,
     NeighborhoodProperties,
-} from "src/reducers/neighborhoods/types";
+} from "reducers/neighborhoods/types";
 import CircleCheckIcon from "assets/icons/circle-check.svg?react";
 import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
-import { LicensedImage } from "src/components/CCLicensedImage";
+import { LicensedImage } from "components/CCLicensedImage";
 import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles";
+import YourTrips from "components/YourTrips/YourTrips";
 
 const NEIGHBORHOOD_IMG_TYPES = [
     "street",
@@ -164,6 +165,13 @@ const InfoContent = ({
                 </div>
             </div>
 
+            {/* Your Trips */}
+            <div
+                className={`${sharedStyles.bodySectionWrapper()} ${sharedStyles.bodySectionWrapperBorder()}`}
+            >
+                <YourTrips activeNeighborhood={zipcode} isMobile={isMobile} />
+            </div>
+
             {/* About this area section */}
             <div
                 className={`${sharedStyles.bodySectionWrapper()} ${sharedStyles.bodySectionWrapperBorder()}}`}
@@ -188,16 +196,6 @@ const InfoContent = ({
                             artist={
                                 neighborhood.properties[
                                     `${img_type}_username` as keyof NeighborhoodProperties
-                                ] as string
-                            }
-                            licenseLink={
-                                neighborhood.properties[
-                                    `${img_type}_license_url` as keyof NeighborhoodProperties
-                                ] as string
-                            }
-                            license={
-                                neighborhood.properties[
-                                    `${img_type}_license` as keyof NeighborhoodProperties
                                 ] as string
                             }
                             sourceLink={

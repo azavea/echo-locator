@@ -1127,13 +1127,6 @@
             }
         },
         {
-            "id": "bus_stops",
-            "type": "symbol",
-            "source": "mbta_bus_stops",
-            "minzoom": 14,
-            "layout": { "text-field": "{stop_name}", "visibility": "visible" }
-        },
-        {
             "id": "transit_routes_outline",
             "type": "line",
             "source": "mbta_rapid_transit_routes",

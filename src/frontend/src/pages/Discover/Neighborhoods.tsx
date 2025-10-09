@@ -5,12 +5,12 @@ import discoverStyles from "./Discover.styles";
 import {
     selectIsRankCalculating,
     selectRankedNeighborhoodsLists,
-} from "src/reducers/neighborhoods/neighborhoodsSlice";
-import selectNeighborhoodZipcodeMap from "src/reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
-import { useAppSelector } from "src/store/store";
-import NeighborhoodList from "src/components/NeighborhoodsList/NeighborhoodsList";
-import { selectActiveDestination } from "src/reducers/userProfile/userSlice";
-import { selectAllNetworksDataReady } from "src/reducers/networks/networksSlice";
+} from "reducers/neighborhoods/neighborhoodsSlice";
+import selectNeighborhoodZipcodeMap from "reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
+import { useAppSelector } from "store/store";
+import NeighborhoodList from "components/NeighborhoodsList/NeighborhoodsList";
+import { selectActiveDestination } from "reducers/userProfile/userSlice";
+import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
 
 const NEIGHBORHOOD_CARD_PER_PAGE = 10;
 

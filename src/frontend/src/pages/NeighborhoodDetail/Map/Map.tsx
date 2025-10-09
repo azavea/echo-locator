@@ -12,27 +12,19 @@ import { useAppSelector } from "store/store";
 import { BOUNDS } from "pages/Discover/Map/constants";
 import DestinationMarker from "pages/Discover/Map/DestinationMarker";
 import baseMapDetailStyle from "./baseMapDetailStyle.json";
-import { selectActiveNeighborhoodBounds } from "src/reducers/neighborhoods/neighborhoodsSlice";
+import { selectActiveNeighborhoodBounds } from "reducers/neighborhoods/neighborhoodsSlice";
 import {
     selectActiveDestination,
     selectUserDestinations,
-} from "src/reducers/userProfile/userSlice";
+} from "reducers/userProfile/userSlice";
 
 const activeNeighborhoodsBoundsStyle = {
     id: "active-neighborhood-borders",
     type: "line",
     source: "active-neighborhood-geojson",
     paint: {
-        "line-width": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            7,
-            1, // At zoom 7, width is 1
-            14,
-            4, // At zoom 14, width is 4
-        ],
-        "line-color": "#435500",
+        "line-width": 3,
+        "line-color": "#000",
     },
 };
 

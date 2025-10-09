@@ -3,22 +3,13 @@
 // ATTR: Taui by Conveyal, included under the MIT license (https://github.com/conveyal/taui/blob/dev/LICENSE)
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchNetworkData, fetchPathsData, fetchTimesData } from "api/networks";
+import { fetchNetworkData } from "src/api/networks";
 import { networks } from "src/constants";
-import type {
-    Networks,
-    ParsedPathsData,
-    TimesAndPathsData,
-    NetworkAndTimeAndPathsData,
-} from "./types";
-import { coordinateToIndex } from "./utils/coordinateToIndex";
-import { parsePathsData } from "./utils/parsePathsData";
-import { parseTimesData } from "./utils/parseTimesData";
+import type { Networks } from "./types";
 import type { RootState } from "src/store/store";
 import type { NetworkModeOptionKey } from "src/enums";
-import createNetworkNeighborhoodRoutes from "./utils/createNetworkNeighborhoodRoutes";
-import createNetworkNeighborhoodTravelTimes from "./utils/createNetworkNeighborhoodTravelTimes";
 import type { Destination } from "../userProfile/types";
+import { fetchAndProcessDataByDestination } from "./utils/fetchAndProcessDataByDestination";
 
 export const getNetworks = createAsyncThunk(
     "networks/getNetworks",
@@ -61,99 +52,44 @@ export const getTimesAndPathsDataForPlace = createAsyncThunk<
     "networks/getTimesAndPathsDataForPlace",
     async (destination, { getState, rejectWithValue }) => {
         const state = getState();
-        const neighborhoods = state.neighborhoods.neighborhoods;
-        const networks = state.networks.networks;
-        const {
-            location: { label, position: origin },
-        } = destination;
-        // Use Promise.all to fetch and parse data for all networks concurrently
-        if (neighborhoods && networks) {
-            try {
-                const allParsedTimeAndPathData = await Promise.all(
-                    Object.keys(networks).map(async networkKeyString => {
-                        const network =
-                            networkKeyString as NetworkModeOptionKey;
-                        const networkDetails =
-                            state.networks.networks &&
-                            state.networks.networks[network];
-                        if (!networkDetails) {
-                            throw new ErrorEvent(
-                                `Network analysis details not available for ${network}`
-                            );
-                        }
-                        const index = coordinateToIndex(networkDetails, origin);
 
-                        // Car paths not generated in analysis,
-                        // only time surface with no congestion data
-                        const pathsFetchPromise =
-                            network === "car"
-                                ? Promise.resolve(null)
-                                : fetchPathsData(network, index);
-                        const timesFetchPromise = fetchTimesData(
-                            network,
-                            index
-                        );
-                        const [pathsResponse, timesResponse] =
-                            await Promise.all([
-                                pathsFetchPromise,
-                                timesFetchPromise,
-                            ]);
+        if (!destination) {
+            return null;
+        }
 
-                        const pathsData = pathsResponse
-                            ? parsePathsData(pathsResponse.value)
-                            : ({} as ParsedPathsData);
+        try {
+            return await fetchAndProcessDataByDestination(destination, state);
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
 
-                        const travelTimeSurface = parseTimesData(
-                            timesResponse.value
-                        );
+export const getAllTimesAndPathsData = createAsyncThunk<
+    any,
+    Destination[],
+    { state: RootState }
+>(
+    "data/getAllTimesAndPathsData",
+    async (destinations, { getState, rejectWithValue }) => {
+        const state = getState();
 
-                        const routableNetwork = {
-                            ...networkDetails,
-                            name: network as NetworkModeOptionKey,
-                            ...pathsData,
-                            travelTimeSurface,
-                        } as NetworkAndTimeAndPathsData;
+        if (destinations.length === 0) {
+            return null;
+        }
 
-                        // derive neighborhood routes by place and network mode
-                        const networkRoutesByNeighborhood =
-                            createNetworkNeighborhoodRoutes(
-                                routableNetwork,
-                                origin,
-                                neighborhoods
-                            );
-                        // get travel times by place and network mode
-                        const networkTravelTimesByNeighborhood =
-                            createNetworkNeighborhoodTravelTimes(
-                                routableNetwork,
-                                neighborhoods
-                            );
+        try {
+            const results = await Promise.all(
+                destinations.map(destination =>
+                    fetchAndProcessDataByDestination(destination, state)
+                )
+            );
 
-                        return {
-                            name: network as NetworkModeOptionKey,
-                            routesByNeighborhood: networkRoutesByNeighborhood,
-                            travelTimesByNeighborhood:
-                                networkTravelTimesByNeighborhood,
-                            timesAndRoutesDataReady: true,
-                        };
-                    })
-                );
-                return {
-                    // TODO: Once we have user profile from backend, use
-                    // destination ID in place of string label for identifier
-                    label: label,
-                    data: allParsedTimeAndPathData.reduce(
-                        (dataByNetwork, data) => {
-                            dataByNetwork[data.name] = data;
-                            return dataByNetwork;
-                        },
-                        {} as {
-                            [key in NetworkModeOptionKey]: TimesAndPathsData;
-                        }
-                    ),
-                };
-            } catch (error: any) {
-                return rejectWithValue(error.message);
-            }
+            return Object.fromEntries(
+                results.map(result => [result.label, result.data])
+            );
+        } catch (error: any) {
+            return rejectWithValue(error.message);
         }
     }
 );

@@ -1,7 +1,7 @@
 // Refactored from old codebase neighborhoodTravelTimes at commit 6f17e33
 import lonlat from "@conveyal/lonlat";
 import { coordinateToIndex } from "./coordinateToIndex";
-import type { Neighborhoods } from "src/reducers/neighborhoods/types";
+import type { Neighborhoods } from "reducers/neighborhoods/types";
 import type { NetworkAndTimeAndPathsData } from "../types";
 
 // Derives neighborhood travel times
