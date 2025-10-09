@@ -1,5 +1,6 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import type {
+    FiltersState,
     NeighborhoodsSliceState,
     RankedNeighborhoodsLists,
 } from "./types";
@@ -12,6 +13,7 @@ const initialState: NeighborhoodsSliceState = {
     activeNeighborhood: null,
     loading: false,
     error: null,
+    filters: {},
     rankCalculating: false,
     rankedNeighborhoodsLists: {
         topTen: [],
@@ -45,6 +47,12 @@ export const neighborhoodSlice = createSlice({
         ) => {
             state.rankedNeighborhoodsLists = lists;
             state.rankCalculating = false;
+        },
+        setNeighborhoodFilters: (
+            state,
+            { payload: filters }: { payload: FiltersState }
+        ) => {
+            state.filters = filters;
         },
     },
     extraReducers: builder => {

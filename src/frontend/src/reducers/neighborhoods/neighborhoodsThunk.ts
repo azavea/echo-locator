@@ -9,6 +9,8 @@ import { type AppDispatch, type RootState } from "store/store";
 import neighborhoodsSortedWithRoutes from "./selectors/neighborhoodsSortedWithRoutes";
 import type { RankedNeighborhoodsLists } from "./types";
 import groupRankingsByLikeNeigborhoodName from "./utils/groupRankingListsByName";
+import selectNeighborhoodZipcodeMap from "./selectors/selectNeighborhoodZipcodeMap";
+import filterNeighborhoodsList from "./utils/filterNeighborhoodsList";
 
 export const getNeighborhoodsAndBounds = createAsyncThunk(
     "neighborhoods/getNeighborhoodsAndBounds",
@@ -36,10 +38,24 @@ export const getRankedNeighborhoodLists =
             groupedTooFar: [],
         };
 
-        const neighborhoodsList = neighborhoodsSortedWithRoutes(state);
+        // Get ranked list
+        let neighborhoodsList = neighborhoodsSortedWithRoutes(state);
         const neighborhoodNameByZipcode =
             selectNeighborhoodNameByZipcode(state);
 
+        // Apply filters
+        if (
+            state.neighborhoods.neighborhoods &&
+            Object.keys(state.neighborhoods.filters)
+        ) {
+            neighborhoodsList = filterNeighborhoodsList(
+                neighborhoodsList,
+                state.neighborhoods.neighborhoods,
+                state.neighborhoods.filters
+            );
+        }
+
+        // Group for list display
         groupedNeighborhoodsLists.topTen = neighborhoodsList.recommended.slice(
             0,
             10

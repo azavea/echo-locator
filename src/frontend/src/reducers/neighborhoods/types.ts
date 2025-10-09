@@ -83,6 +83,12 @@ export type NeighborhoodBounds = FeatureCollection<
     NeighborhoodBoundsProperties
 >;
 
+export interface FiltersState {
+    ecc?: boolean;
+    regions?: string[];
+    textSearch?: string;
+}
+
 export interface RankedNeighborhoodsLists {
     topTen: string[];
     recommended: string[];
@@ -98,6 +104,7 @@ export interface NeighborhoodsSliceState {
     activeNeighborhood: string | null;
     loading: boolean;
     error: string | null;
+    filters: FiltersState;
     rankCalculating: boolean;
     rankedNeighborhoodsLists: RankedNeighborhoodsLists;
 }
