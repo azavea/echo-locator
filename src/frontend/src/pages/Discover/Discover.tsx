@@ -16,6 +16,7 @@ import {
 import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
 import { getUserProfile } from "reducers/userProfile/userProfileThunk";
 import Profile from "./Profile/Profile";
+import discoverStyles from "./Discover.styles";
 
 const Discover = () => {
     const { zipcode } = useParams();
@@ -39,6 +40,10 @@ const Discover = () => {
         error: userProfileError,
     } = useAppSelector(({ userProfile }: RootState) => userProfile);
     const isDesktop = useMediaQuery("(min-width: 768px)");
+
+    const { loadingWrapper, loadingSpinner } = discoverStyles({
+        isMobile: !isDesktop,
+    });
 
     // TODO: Refactor below following login and user profile
     // Exists to kick-off ranking/routing with static origin
@@ -87,7 +92,11 @@ const Discover = () => {
         setIsDetailModalOpen(!!zipcode);
     }, [zipcode]);
 
-    return destinations.length ? (
+    return userProfileLoading ? (
+        <div className={loadingWrapper()}>
+            <div className={loadingSpinner()} />
+        </div>
+    ) : destinations.length ? (
         isDesktop ? (
             <Desktop
                 isDetailModalOpen={isDetailModalOpen}
