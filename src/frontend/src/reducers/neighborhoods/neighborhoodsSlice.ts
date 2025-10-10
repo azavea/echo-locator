@@ -6,6 +6,7 @@ import type {
 } from "./types";
 import { getNeighborhoodsAndBounds } from "./neighborhoodsThunk";
 import type { RootState } from "store/store";
+import { NEIGHBORHOOD_REGIONS } from "src/constants";
 
 const initialState: NeighborhoodsSliceState = {
     neighborhoods: null,
@@ -13,7 +14,7 @@ const initialState: NeighborhoodsSliceState = {
     activeNeighborhood: null,
     loading: false,
     error: null,
-    filters: {},
+    filters: { ecc: false, regions: NEIGHBORHOOD_REGIONS, textSearch: null },
     rankCalculating: false,
     rankedNeighborhoodsLists: {
         topTen: [],
@@ -78,6 +79,7 @@ export const {
     setActiveNeighborhood,
     setRankCalculating,
     setRankedNeighborhoodLists,
+    setNeighborhoodFilters,
 } = neighborhoodSlice.actions;
 
 export const selectRankedNeighborhoodsLists = (state: RootState) =>
@@ -94,6 +96,8 @@ export const selectActiveNeighborhoodBounds = (state: RootState) =>
     state.neighborhoods.neighborhoodBounds?.features.find(
         b => b.properties.zipcode === state.neighborhoods.activeNeighborhood
     );
+export const selectNeighborhoodFilters = (state: RootState) =>
+    state.neighborhoods.filters;
 
 export const selectNeighborhoodNameByZipcode = createSelector(
     [(state: RootState) => state.neighborhoods.neighborhoods],
