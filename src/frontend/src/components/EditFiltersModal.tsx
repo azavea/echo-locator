@@ -6,6 +6,7 @@ import {
     setIsEditFiltersOpen,
 } from "src/reducers/modalsDisplay/modalsDisplaySlice";
 import { useAppSelector } from "src/store/store";
+import ModalCloseButton from "./ModalCloseButton";
 
 const EditFiltersModal = () => {
     const dispatch = useDispatch();
@@ -22,7 +23,10 @@ const EditFiltersModal = () => {
             <Modal size="large">
                 {" "}
                 <Dialog>
-                    <Heading slot="title">Filters</Heading>
+                    <Heading slot="title">Profile</Heading>
+                    <ModalCloseButton
+                        onPress={() => dispatch(setIsEditFiltersOpen(false))}
+                    />
                     <div></div>
                 </Dialog>
             </Modal>

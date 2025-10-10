@@ -4,9 +4,6 @@ const neighborhoodDetailStyles = tv({
     slots: {
         root: "flex flex-col items-start max-w-[900px] min-h-[530px] m-2 rounded-2xl bg-white shadow-2xl",
         headerMapContainer: "relative min-h-[330px] h-[330px] w-full",
-        closeButton:
-            "absolute top-4 right-4 z-1 size-[34px] rounded-[12px] items-center justify-center ring-inset bg-white shadow-[0_-1px_2px_0_rgba(0,0,0,0.05),0_6px_2px_0_rgba(0,0,0,0),0_4px_1px_0_rgba(0,0,0,0.01),0_2px_1px_0_rgba(0,0,0,0.05),0_1px_1px_0_rgba(0,0,0,0.09)]",
-        closeIcon: "h-5",
         headerContainer:
             "flex flex-col self-stretch items-start p-4 gap-3 border-t border-b border-gray-300 bg-gray-50",
         contentContainer: "flex flex-col items-center self-stretch gap-5",

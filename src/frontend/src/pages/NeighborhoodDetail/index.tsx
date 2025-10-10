@@ -33,6 +33,7 @@ import {
     selectIsNeighborhoodDetailsOpen,
     setIsNeighborhoodDetailsOpen,
 } from "src/reducers/modalsDisplay/modalsDisplaySlice";
+import ModalCloseButton from "src/components/ModalCloseButton";
 
 const NeighborhoodDetail = ({ isMobile }: { isMobile?: boolean }) => {
     const navigate = useNavigate();
@@ -100,13 +101,8 @@ const NeighborhoodDetail = ({ isMobile }: { isMobile?: boolean }) => {
                     overideVerticalCenter
                     className={styles.root()}
                 >
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className={styles.closeButton()}
-                        onPress={_ => handleOnOpenChange(false)}
-                        aria-label="Close"
-                        leftIcon={<TimesIcon className={styles.closeIcon()} />}
+                    <ModalCloseButton
+                        onPress={() => handleOnOpenChange(false)}
                     />
                     <div className={styles.headerMapContainer()}>{<Map />}</div>
                     <div className={styles.headerContainer()}>

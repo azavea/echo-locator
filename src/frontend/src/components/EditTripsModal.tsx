@@ -6,6 +6,7 @@ import {
     setIsEditTripsOpen,
 } from "src/reducers/modalsDisplay/modalsDisplaySlice";
 import { useAppSelector } from "src/store/store";
+import ModalCloseButton from "./ModalCloseButton";
 
 const EditTripsModal = () => {
     const dispatch = useDispatch();
@@ -22,6 +23,9 @@ const EditTripsModal = () => {
             <Modal size="large">
                 <Dialog>
                     <Heading slot="title">Trips</Heading>
+                    <ModalCloseButton
+                        onPress={() => dispatch(setIsEditTripsOpen(false))}
+                    />
                     <div></div>
                 </Dialog>
             </Modal>
