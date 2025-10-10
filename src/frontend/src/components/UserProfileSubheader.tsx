@@ -12,6 +12,11 @@ import FamilyIcon from "assets/icons/family.svg?react";
 import TransitIcon from "assets/icons/transit.svg?react";
 import CarIcon from "assets/icons/car.svg?react";
 import ArrowFullRightIcon from "assets/icons/arrow-full-right.svg?react";
+import { useDispatch } from "react-redux";
+import {
+    setIsEditFiltersOpen,
+    setIsEditTripsOpen,
+} from "src/reducers/modalsDisplay/modalsDisplaySlice";
 
 type Mode = "transit" | "car";
 type Size = "small" | "medium" | "large";
@@ -47,6 +52,7 @@ export const UserProfileSubheaderMobile = ({
     callback,
 }: MobileProps) => {
     const [displayOption, setDisplayOption] = useState(new Set<Key>([display]));
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setDisplayOption(new Set<Key>([display]));
@@ -71,6 +77,7 @@ export const UserProfileSubheaderMobile = ({
                 variant="outline"
                 size={size}
                 leftIcon={<FamilyIcon className={getIconStyle(size)} />}
+                onPress={() => dispatch(setIsEditFiltersOpen(true))}
             >
                 You
             </Button>
@@ -84,6 +91,7 @@ export const UserProfileSubheaderMobile = ({
                         <ArrowFullRightIcon className="font-normal fill-gray-400 w-[10px] -ml-1" />
                     </div>
                 }
+                onPress={() => dispatch(setIsEditTripsOpen(true))}
             >
                 {place}
             </Button>
@@ -108,6 +116,7 @@ export const UserProfileSubheader = ({
     place,
     size = "medium",
 }: Props) => {
+    const dispatch = useDispatch();
     return (
         <div className="flex flex-col gap-3 w-full">
             <Button
@@ -115,6 +124,7 @@ export const UserProfileSubheader = ({
                 size={size}
                 leftIcon={<FamilyIcon className={getIconStyle(size)} />}
                 info="2br・public transit"
+                onPress={() => dispatch(setIsEditFiltersOpen(true))}
             >
                 Your Profile
             </Button>
@@ -123,6 +133,7 @@ export const UserProfileSubheader = ({
                 size={size}
                 leftIcon={getModeIcon(mode, size)}
                 info="122 Address St, Cambridge"
+                onPress={() => dispatch(setIsEditTripsOpen(true))}
             >
                 {place}
             </Button>

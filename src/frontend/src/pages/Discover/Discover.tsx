@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router";
 
 import useMediaQuery from "hooks/useMediaQuery";
+import { setIsNeighborhoodDetailsOpen } from "reducers/modalsDisplay/modalsDisplaySlice";
 import {
     getNeighborhoodsAndBounds,
     getRankedNeighborhoodLists,
@@ -21,7 +22,6 @@ import Profile from "./Profile/Profile";
 const Discover = () => {
     const { zipcode } = useParams();
     const dispatch = useAppDispatch();
-    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
     const {
         loading: neighborhoodsLoading,
         error: neighborhoodsError,
@@ -94,7 +94,7 @@ const Discover = () => {
     // --------------------------------------
 
     useEffect(() => {
-        setIsDetailModalOpen(!!zipcode);
+        dispatch(setIsNeighborhoodDetailsOpen(!!zipcode));
     }, [zipcode]);
 
     return userProfileLoading ? (
@@ -103,15 +103,9 @@ const Discover = () => {
         </div>
     ) : destinations.length ? (
         isDesktop ? (
-            <Desktop
-                isDetailModalOpen={isDetailModalOpen}
-                setIsDetailModalOpen={setIsDetailModalOpen}
-            />
+            <Desktop />
         ) : (
-            <Mobile
-                isDetailModalOpen={isDetailModalOpen}
-                setIsDetailModalOpen={setIsDetailModalOpen}
-            />
+            <Mobile />
         )
     ) : (
         <Profile />

@@ -29,16 +29,12 @@ import {
 } from "reducers/neighborhoods/neighborhoodsSlice";
 import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
 import UnitsContent from "./UnitsContent";
+import {
+    selectIsNeighborhoodDetailsOpen,
+    setIsNeighborhoodDetailsOpen,
+} from "src/reducers/modalsDisplay/modalsDisplaySlice";
 
-const NeighborhoodDetail = ({
-    modalOpen,
-    modalOpenChangeCallback,
-    isMobile,
-}: {
-    modalOpen: boolean;
-    modalOpenChangeCallback: (b: boolean) => void;
-    isMobile?: boolean;
-}) => {
+const NeighborhoodDetail = ({ isMobile }: { isMobile?: boolean }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams, _] = useSearchParams();
@@ -47,6 +43,7 @@ const NeighborhoodDetail = ({
         isMobile: isMobile,
     });
     const { zipcode } = useParams();
+    const modalOpen = useAppSelector(selectIsNeighborhoodDetailsOpen);
     const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
     const neighborhood = useAppSelector(selectActiveNeighborhoodFeature);
     const [contentDisplayOption, setContentDisplayOption] = useState(
@@ -79,7 +76,7 @@ const NeighborhoodDetail = ({
 
     const handleOnOpenChange = (isOpen: boolean) => {
         if (!isOpen) {
-            modalOpenChangeCallback(isOpen);
+            dispatch(setIsNeighborhoodDetailsOpen(isOpen));
             zipcode &&
                 navigate(
                     `${location.pathname.replace(`/${zipcode}`, "")}?display=${searchParams.get("display")}`,

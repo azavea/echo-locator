@@ -11,6 +11,8 @@ import type { TripType } from "./types";
 import { selectUserDestinations } from "src/reducers/userProfile/userSlice";
 import type { Destination } from "src/reducers/userProfile/types";
 import { useMemo } from "react";
+import { useDispatch } from "react-redux";
+import { setIsEditTripsOpen } from "src/reducers/modalsDisplay/modalsDisplaySlice";
 
 const YourTrips = ({
     isMobile,
@@ -22,6 +24,7 @@ const YourTrips = ({
     activeNeighborhood?: string;
 }) => {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
     const sharedStyles = neighborhoodDetailStyles({
         isMobile: isMobile,
     });
@@ -94,6 +97,7 @@ const YourTrips = ({
                 variant="outline"
                 size="medium"
                 className={styles.editButton()}
+                onPress={() => dispatch(setIsEditTripsOpen(true))}
             >
                 {t("yourTrips.editTrips")}
             </Button>
