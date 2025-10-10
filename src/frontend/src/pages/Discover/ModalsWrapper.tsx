@@ -5,7 +5,7 @@ import EditTripsModal from "src/components/EditTripsModal";
 const ModalsWrapper = ({ isMobile }: { isMobile?: boolean }) => (
     <>
         <NeighborhoodDetail isMobile={isMobile} />
-        <EditFiltersModal />
+        <EditFiltersModal isMobile={isMobile} />
         <EditTripsModal />
     </>
 );

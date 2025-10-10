@@ -150,5 +150,16 @@
         "showMyRecommendations": "Show my recommendations",
         "listNeighborhoods": "List all neighborhoods",
         "showTopTen": "Show Top 10"
+    },
+    "filterModal": {
+        "dialogHeading": "Filter recommendations",
+        "profileEditHeading": "Your Profile",
+        "regionsFilterHeading": "Filter by region",
+        "regionsFilterSubHeading": "Select all regions you are interested in",
+        "otherFilterHeading": "Other filters",
+        "regionMapCaption": "Based on a map by",
+        "echoLink": "Learn more about ECHO",
+        "regionsFilterLabel": "Filter by region selections",
+        "eccFilter": "Only recommend Expanded Choice Communities (ECC)"
     }
 }

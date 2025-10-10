@@ -3,6 +3,7 @@ import {
     CheckboxGroup as AriaCheckboxGroup,
     Dialog,
     Heading,
+    Link,
 } from "react-aria-components";
 
 import {
@@ -17,9 +18,12 @@ import { getRankedNeighborhoodLists } from "src/reducers/neighborhoods/neighborh
 import type { FiltersState } from "src/reducers/neighborhoods/types";
 import { useAppDispatch, useAppSelector } from "store/store";
 
+import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
 import { Modal, ModalOverlay } from "components/base/Modal/Modal";
+import { useTranslation } from "react-i18next";
 import { NEIGHBORHOOD_REGIONS } from "src/constants";
 import Checkbox from "./base/Checkbox/Checkbox";
+import { LicensedImage } from "./CCLicensedImage";
 import ModalCloseButton from "./ModalCloseButton";
 
 const REGION_KEY_STYLING: Record<string, Record<string, string>> = {
@@ -41,7 +45,10 @@ const REGION_KEY_STYLING: Record<string, Record<string, string>> = {
     },
 };
 
-const EditFiltersModal = () => {
+const modalHeadingClassName = "text-lg font-bold text-gray-900";
+
+const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const modalOpen = useAppSelector(selectIsEditFiltersOpen);
     const [filtersBuffer, setFiltersBuffer] = useState<FiltersState | null>(
@@ -96,23 +103,73 @@ const EditFiltersModal = () => {
             isOpen={modalOpen}
             onOpenChange={onOpenChange}
         >
-            <Modal size="large">
-                <Dialog>
-                    <Heading slot="title">Profile</Heading>
+            <Modal size="large" className="p-5 max-h-full overflow-y-scroll">
+                <Dialog className="flex flex-col gap-7 ">
+                    <Heading slot="title" className={modalHeadingClassName}>
+                        {t("filterModal.dialogHeading")}
+                    </Heading>
                     <ModalCloseButton onPress={() => onOpenChange(false)} />
                     <div>
-                        <AriaCheckboxGroup defaultValue={filtersBuffer.regions}>
+                        <h2 className={modalHeadingClassName}>
+                            {t("filterModal.profileEditHeading")}
+                        </h2>
+                    </div>
+                    <div className="flex flex-col gap-5">
+                        <div>
+                            <h2 className={modalHeadingClassName}>
+                                {t("filterModal.regionsFilterHeading")}
+                            </h2>
+                            <p className="text-sm text-gray-600">
+                                {t("filterModal.regionsFilterSubHeading")}
+                            </p>
+                        </div>
+                        <LicensedImage
+                            image={
+                                isMobile
+                                    ? "/regions-map-mobile.png"
+                                    : "/regions-map-desktop.png"
+                            }
+                            customImageClassName="w-full"
+                            customCaption={
+                                <>
+                                    CC BY-SA 3.0. $
+                                    {t("filterModal.regionMapCaption")}{" "}
+                                    <Link
+                                        href="https://commons.wikimedia.org/wiki/File:Simple_Massachusetts_Vector.svg"
+                                        target="_blank"
+                                        className="underline"
+                                    >
+                                        Protonk.
+                                    </Link>
+                                </>
+                            }
+                        />
+                        <AriaCheckboxGroup
+                            defaultValue={filtersBuffer.regions}
+                            aria-label={"Regions filter selections"}
+                            className="flex flex-col gap-5"
+                        >
                             {NEIGHBORHOOD_REGIONS.map((name, index) => (
                                 <Checkbox
                                     value={name}
                                     onChange={isSelected =>
                                         regionsFilterSelected(isSelected, name)
                                     }
-                                    description={`Select to include neighborhoods in the ${name} region`}
                                     key={index}
+                                    size="small"
+                                    variant="ghost"
                                 >
-                                    <div>
-                                        <div>
+                                    <div className="flex flex-row gap-3">
+                                        <div
+                                            className="rounded-full flex w-6 h-6 flex-col justify-center items-center text-sm font-bold justify-around"
+                                            style={{
+                                                backgroundColor:
+                                                    REGION_KEY_STYLING[name]
+                                                        .keyColor,
+                                                color: REGION_KEY_STYLING[name]
+                                                    .keyTextColor,
+                                            }}
+                                        >
                                             {REGION_KEY_STYLING[name].keyLabel}
                                         </div>
                                         <p>{name}</p>
@@ -121,19 +178,35 @@ const EditFiltersModal = () => {
                             ))}
                         </AriaCheckboxGroup>
                     </div>
-                    <div>
-                        <Checkbox
-                            isSelected={filtersBuffer.ecc}
-                            onChange={isSelected =>
-                                setFiltersBuffer({
-                                    ...filtersBuffer,
-                                    ecc: isSelected,
-                                })
-                            }
-                            description={`Select to only recommend neighborhoods that are Expanded Choice Communities (ECC)`}
-                        >
-                            ecc
-                        </Checkbox>
+                    <div className="flex flex-col gap-5">
+                        <h2 className={modalHeadingClassName}>
+                            {t("filterModal.otherFilterHeading")}
+                        </h2>
+                        <div>
+                            <Checkbox
+                                isSelected={filtersBuffer.ecc}
+                                onChange={isSelected =>
+                                    setFiltersBuffer({
+                                        ...filtersBuffer,
+                                        ecc: isSelected,
+                                    })
+                                }
+                                description={`Select to only recommend neighborhoods that are Expanded Choice Communities (ECC)`}
+                                footer={
+                                    <Link className="text-sm text-gray-600 flex flex-row gap-2 items-center">
+                                        Learn more about ECHO
+                                        <ArrowIcon className="text-xs text-gray-400 font-light" />
+                                    </Link>
+                                }
+                                size="small"
+                                variant="ghost"
+                            >
+                                <h3 className="text-[17px] font-normal">
+                                    Only recommend Expanded Choice Communities
+                                    (ECC)
+                                </h3>
+                            </Checkbox>
+                        </div>
                     </div>
                 </Dialog>
             </Modal>
