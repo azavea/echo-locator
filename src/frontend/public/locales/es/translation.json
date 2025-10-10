@@ -90,9 +90,49 @@
         "openInGoogle": "Abierto en Google Maps"
     },
     "userProfile": {
-        "title": "Discover Neighborhoods",
+        "title": "¡EXAMPLE Descubra los barrios",
         "description": "Start by creating a profile to help us recommend neighborhoods to you",
         "actionButton": "Create your profile",
-        "caption": "Takes just 5 minutes!"
+        "caption": "Takes just 5 minutes!",
+        "wizard": {
+            "header": "¡EXAMPLE Tu perfil",
+            "stepBedroom": {
+                "question": "How many bedrooms does your voucher have?",
+                "description": "Reach out to your BHA Housing Coordinator if you're unsure."
+            },
+            "stepImportance": {
+                "question": "What is important to you?",
+                "commuteTime": "Commute time",
+                "schoolQuality": "School Quality",
+                "publicSafety": "Public safety",
+                "notImportant": "Not important",
+                "veryImportant": "Very important"
+            },
+            "stepTravelMode": {
+                "question": "How do you typically get around?",
+                "toggleCar": "Car",
+                "toggleTransit": "Bus/Train",
+                "checkboxDescription": "The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus.",
+                "checkboxLabel": "I'm willing to take the express bus or commuter rail"
+            },
+            "button": {
+                "continue": "Continuar",
+                "finish": "Finish"
+            }
+        }
+    },
+    "userTrip": {
+        "wizard": {
+            "header": "Your trip",
+            "stepAddTrip": {
+                "question": "Which trips do you make frequently?",
+                "description": "We use this information to recommend neighborhoods near the places you visit often",
+                "addATrip": "Add a trip"
+            },
+            "button": {
+                "continue": "Continuar",
+                "finish": "Finish"
+            }
+        }
     }
 }

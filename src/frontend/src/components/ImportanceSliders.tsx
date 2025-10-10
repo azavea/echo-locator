@@ -1,32 +1,35 @@
-import { useState } from "react";
-
+import { useTranslation } from "react-i18next";
 import Slider from "./base/Slider/Slider";
 
-const Factor = {
-    Commute: "commute",
-    School: "school",
-    Safety: "safety",
+export const Factor = {
+    Commute: "importanceAccessibility",
+    School: "importanceSchools",
+    Safety: "importanceViolentCrime",
 };
 
-type FactorKeys = (typeof Factor)[keyof typeof Factor];
+export type FactorKeys = (typeof Factor)[keyof typeof Factor];
 
 type FactorType = { [key: FactorKeys]: number };
 
-const importance: FactorType = {
-    commute: 1,
-    school: 2,
-    safety: 3,
-};
+interface Props {
+    factor: FactorType;
+    handleChange: (value: number, factor: FactorKeys) => void;
+}
 
-const ImportanceSliders = () => {
-    const [factor, setFactor] = useState<FactorType>({ ...importance });
+const ImportanceSliders = ({ factor, handleChange }: Props) => {
+    const { t } = useTranslation();
 
     const onChange = (value: number | number[], factor: FactorKeys) => {
         // base on React Aria, value is of type number | number[],
         // in reality we only pass number to value,
         // adding the following line to make TypeScript happy,
-        if (Array.isArray(value)) return;
-        setFactor(state => ({ ...state, [factor]: value }));
+        if (Array.isArray(value)) {
+            if (value.length) {
+                handleChange(value[0], factor);
+            }
+            return;
+        }
+        handleChange(value, factor);
     };
 
     return (
@@ -35,24 +38,42 @@ const ImportanceSliders = () => {
                 step={1}
                 minValue={1}
                 maxValue={4}
-                label="Commute time"
-                value={factor.commute}
+                label={t("userProfile.wizard.stepImportance.commuteTime")}
+                minValLabel={t(
+                    "userProfile.wizard.stepImportance.notImportant"
+                )}
+                maxValLabel={t(
+                    "userProfile.wizard.stepImportance.veryImportant"
+                )}
+                value={factor[Factor.Commute]}
                 onChange={value => onChange(value, Factor.Commute)}
             />
             <Slider
                 step={1}
                 minValue={1}
                 maxValue={4}
-                label="School Quality"
-                value={factor.school}
+                label={t("userProfile.wizard.stepImportance.schoolQuality")}
+                minValLabel={t(
+                    "userProfile.wizard.stepImportance.notImportant"
+                )}
+                maxValLabel={t(
+                    "userProfile.wizard.stepImportance.veryImportant"
+                )}
+                value={factor[Factor.School]}
                 onChange={value => onChange(value, Factor.School)}
             />
             <Slider
                 step={1}
                 minValue={1}
                 maxValue={4}
-                label="Public safety"
-                value={factor.safety}
+                label={t("userProfile.wizard.stepImportance.publicSafety")}
+                minValLabel={t(
+                    "userProfile.wizard.stepImportance.notImportant"
+                )}
+                maxValLabel={t(
+                    "userProfile.wizard.stepImportance.veryImportant"
+                )}
+                value={factor[Factor.Safety]}
                 onChange={value => onChange(value, Factor.Safety)}
             />
         </div>

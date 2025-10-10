@@ -7,7 +7,7 @@ import MinusIcon from "assets/icons/minus.svg?react";
 interface Props {
     label: string;
     value: number;
-    onChange: React.Dispatch<React.SetStateAction<number>>;
+    onChange: ((value: number) => void) | undefined;
 }
 
 const InputNumber = ({ label, value, onChange }: Props) => (
