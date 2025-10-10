@@ -144,7 +144,7 @@ class UserProfileView(APIView):
         content = {
             "clientEmail": serialized_data["username"],
             "destinations": formatted_destinations,
-            "hasVehicle": user_profile["travel_mode"] == "CA",
+            "hasVehicle": user_profile["travel_mode"] == "CAR",
             "headOfHousehold": user_profile["full_name"],
             "importanceAccessibility": self.map_priorities_to_nums[
                 user_profile["commute_priority"]
@@ -211,13 +211,12 @@ class UserProfileView(APIView):
 
         # determine user's mode of travel
         if data["hasVehicle"]:
-            updated_profile.travel_mode = "CA"
+            updated_profile.travel_mode = "CAR"
         elif data["useCommuterRail"]:
             updated_profile.travel_mode = "BTE"
         else:
             updated_profile.travel_mode = "BT"
 
-        updated_profile.full_name = data["headOfHousehold"]
         updated_profile.commute_priority = self.map_nums_to_priorities[
             int(data["importanceAccessibility"])
         ]
@@ -227,10 +226,7 @@ class UserProfileView(APIView):
         updated_profile.public_safety_priority = self.map_nums_to_priorities[
             int(data["importanceViolentCrime"])
         ]
-        updated_profile.has_voucher = data["hasVoucher"]
         updated_profile.voucher_bedrooms = self.process_nullable_int(data, "voucherRooms")
-        updated_profile.desired_bedrooms = self.process_nullable_int(data, "nonVoucherRooms")
-        updated_profile.rent_budget = self.process_nullable_int(data, "nonVoucherBudget")
         updated_profile.favorites = data["favorites"]
 
         updated_profile.save()
