@@ -6,3 +6,10 @@ export const fetchUserProfile = async (): Promise<UserProfile> => {
     const response = await apiClient.get("/user/");
     return response.data;
 };
+
+export const putUserProfile = async (
+    profile: UserProfile
+): Promise<UserProfile> => {
+    const response = await apiClient.put("/user/", profile);
+    return response.data;
+};

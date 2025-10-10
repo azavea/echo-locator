@@ -77,6 +77,8 @@ export const networksSlice = createSlice({
                     "Failed to fetch all times and paths data.";
             })
             .addCase(getUserProfile.fulfilled, (state, action) => {
+                // TODO: active mode needs to depend on a third variable
+                // https://github.com/azavea/echo-locator/issues/728
                 state.activeMode = action.payload.hasVehicle
                     ? (NetworkModeOptions.car as NetworkModeOptionKey)
                     : action.payload.useCommuterRail
