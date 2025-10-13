@@ -1,9 +1,8 @@
 import { UserProfileSubheader } from "components/UserProfileSubheader";
-import { Place } from "src/enums";
 import discoverStyles from "./Discover.styles";
-import Neighborhoods from "./Neighborhoods";
 import Map from "./Map/Map";
 import ModalsWrapper from "./ModalsWrapper";
+import Neighborhoods from "./Neighborhoods";
 
 const DiscoverDesktop = () => {
     const { root, sidebar, headerContainer } = discoverStyles({
@@ -15,11 +14,7 @@ const DiscoverDesktop = () => {
             <ModalsWrapper />
             <div className={sidebar()}>
                 <div className={headerContainer()}>
-                    <UserProfileSubheader
-                        size="medium"
-                        mode="transit"
-                        place={Place.Work}
-                    />
+                    <UserProfileSubheader size="medium" />
                 </div>
                 <Neighborhoods mobile={false} />
             </div>

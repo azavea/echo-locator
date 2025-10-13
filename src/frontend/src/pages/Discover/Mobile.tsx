@@ -2,11 +2,10 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 
 import { UserProfileSubheaderMobile } from "components/UserProfileSubheader";
-import { Place } from "src/enums";
 import discoverStyles from "./Discover.styles";
-import Neighborhoods from "./Neighborhoods";
 import Map from "./Map/Map";
 import ModalsWrapper from "./ModalsWrapper";
+import Neighborhoods from "./Neighborhoods";
 
 const DiscoverMobile = () => {
     const [routerParams, setRouterParams] = useSearchParams();
@@ -35,8 +34,6 @@ const DiscoverMobile = () => {
             <div className={headerContainer()}>
                 <UserProfileSubheaderMobile
                     size="small"
-                    mode="transit"
-                    place={Place.Work}
                     display={display}
                     callback={onChangeMode}
                 />

@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { Destination, UserProfileSliceState } from "./types";
 import {
     DEFAULT_ACCESSIBILITY_IMPORTANCE,
     DEFAULT_CRIME_IMPORTANCE,
     DEFAULT_SCHOOLS_IMPORTANCE,
 } from "src/constants";
 import { type RootState } from "src/store/store";
+import type { Destination, UserProfileSliceState } from "./types";
 import { getUserProfile, updateUserProfile } from "./userProfileThunk";
 
 const initialState: UserProfileSliceState = {
@@ -114,6 +114,10 @@ export const {
 
 export const selectActiveDestination = (state: RootState) =>
     state.userProfile.activeDestination;
+export const selectActiveDestinationDetails = (state: RootState) =>
+    state.userProfile.destinations.find(
+        d => d.location.label === state.userProfile.activeDestination
+    );
 export const selectUserDestinations = (state: RootState) =>
     state.userProfile.destinations;
 export const selectUserBedroomCount = (state: RootState) =>

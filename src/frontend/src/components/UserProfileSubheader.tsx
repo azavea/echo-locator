@@ -1,30 +1,34 @@
 import { useEffect, useState } from "react";
 import type { Key } from "react-aria-components";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 
+import { NetworkModeOptions, type NetworkModeOptionKey } from "src/enums";
+import {
+    setIsEditFiltersOpen,
+    setIsEditTripsOpen,
+} from "src/reducers/modalsDisplay/modalsDisplaySlice";
+import { selectActiveMode } from "src/reducers/networks/networksSlice";
+import {
+    selectActiveDestinationDetails,
+    selectUserBedroomCount,
+} from "src/reducers/userProfile/userSlice";
+import { useAppSelector } from "src/store/store";
+
+import ArrowFullRightIcon from "assets/icons/arrow-full-right.svg?react";
+import FiltersIcon from "assets/icons/bars-filter.svg?react";
+import CarIcon from "assets/icons/car.svg?react";
+import TransitIcon from "assets/icons/transit.svg?react";
 import Button from "components/base/Button/Button";
 import {
     ToggleButton,
     ToggleButtonGroup,
 } from "components/base/ToggleButton/ToggleButton";
-import type { PlaceKey } from "src/enums";
 
-import FamilyIcon from "assets/icons/family.svg?react";
-import TransitIcon from "assets/icons/transit.svg?react";
-import CarIcon from "assets/icons/car.svg?react";
-import ArrowFullRightIcon from "assets/icons/arrow-full-right.svg?react";
-import { useDispatch } from "react-redux";
-import {
-    setIsEditFiltersOpen,
-    setIsEditTripsOpen,
-} from "src/reducers/modalsDisplay/modalsDisplaySlice";
-
-type Mode = "transit" | "car";
 type Size = "small" | "medium" | "large";
 
 interface Props {
     size?: Size;
-    mode: Mode;
-    place: PlaceKey;
 }
 
 interface MobileProps extends Props {
@@ -32,8 +36,8 @@ interface MobileProps extends Props {
     callback?: (key: string) => void;
 }
 
-const getModeIcon = (mode: Mode, size: Size) =>
-    mode === "transit" ? (
+const getModeIcon = (mode: NetworkModeOptionKey, size: Size) =>
+    mode !== NetworkModeOptions.car ? (
         <TransitIcon className={getIconStyle(size)} />
     ) : (
         <CarIcon className={getIconStyle(size)} />
@@ -45,14 +49,15 @@ const getIconStyle = (size: Size) =>
         : "font-normal text-gray-500 w-[17px]";
 
 export const UserProfileSubheaderMobile = ({
-    mode,
-    place,
     size = "medium",
     display = "map",
     callback,
 }: MobileProps) => {
     const [displayOption, setDisplayOption] = useState(new Set<Key>([display]));
     const dispatch = useDispatch();
+    const { t } = useTranslation();
+    const mode = useAppSelector(selectActiveMode);
+    const destination = useAppSelector(selectActiveDestinationDetails);
 
     useEffect(() => {
         setDisplayOption(new Set<Key>([display]));
@@ -76,10 +81,10 @@ export const UserProfileSubheaderMobile = ({
             <Button
                 variant="outline"
                 size={size}
-                leftIcon={<FamilyIcon className={getIconStyle(size)} />}
+                leftIcon={<FiltersIcon className={getIconStyle(size)} />}
                 onPress={() => dispatch(setIsEditFiltersOpen(true))}
             >
-                You
+                {t("filtersButton")}
             </Button>
             <Button
                 className="w-[127px] justify-start"
@@ -93,7 +98,7 @@ export const UserProfileSubheaderMobile = ({
                 }
                 onPress={() => dispatch(setIsEditTripsOpen(true))}
             >
-                {place}
+                {t(`destinationPurposes.${destination?.purpose}`)}
             </Button>
             <ToggleButtonGroup
                 selectionMode="single"
@@ -101,41 +106,43 @@ export const UserProfileSubheaderMobile = ({
                 onSelectionChange={onChangeDisplayOption}
             >
                 <ToggleButton id="map" size={size}>
-                    Map
+                    {t("map")}
                 </ToggleButton>
                 <ToggleButton id="list" size={size}>
-                    List
+                    {t("list")}
                 </ToggleButton>
             </ToggleButtonGroup>
         </div>
     );
 };
 
-export const UserProfileSubheader = ({
-    mode,
-    place,
-    size = "medium",
-}: Props) => {
+export const UserProfileSubheader = ({ size = "medium" }: Props) => {
     const dispatch = useDispatch();
+    const { t } = useTranslation();
+
+    const bedrooms = useAppSelector(selectUserBedroomCount);
+    const destination = useAppSelector(selectActiveDestinationDetails);
+    const mode = useAppSelector(selectActiveMode);
+
     return (
         <div className="flex flex-col gap-3 w-full">
             <Button
                 variant="outline"
                 size={size}
-                leftIcon={<FamilyIcon className={getIconStyle(size)} />}
-                info="2br・public transit"
+                leftIcon={<FiltersIcon className={getIconStyle(size)} />}
+                info={`${bedrooms}br・${t(`transitModesSimple.${mode}`)}`}
                 onPress={() => dispatch(setIsEditFiltersOpen(true))}
             >
-                Your Profile
+                {t("filtersButton")}
             </Button>
             <Button
                 variant="outline"
                 size={size}
                 leftIcon={getModeIcon(mode, size)}
-                info="122 Address St, Cambridge"
+                info={destination?.location.label}
                 onPress={() => dispatch(setIsEditTripsOpen(true))}
             >
-                {place}
+                {t(`destinationPurposes.${destination?.purpose}`)}
             </Button>
         </div>
     );

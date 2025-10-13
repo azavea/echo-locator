@@ -11,7 +11,7 @@ import {
     UserProfileSubheader,
     UserProfileSubheaderMobile,
 } from "components/UserProfileSubheader";
-import { Language, Place, type LanguageKey } from "src/enums";
+import { Language, type LanguageKey } from "src/enums";
 
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
@@ -348,48 +348,30 @@ const Components = () => {
                         <div className="flex w-[375px]">
                             <UserProfileSubheaderMobile
                                 size="small"
-                                mode="transit"
-                                place={Place.Work}
                                 display="map"
                             />
                         </div>
-                        <UserProfileSubheader
-                            size="small"
-                            mode="transit"
-                            place={Place.Work}
-                        />
+                        <UserProfileSubheader size="small" />
                     </div>
                     <div className="flex flex-col gap-4">
                         <h3 className="text-xl text-gray-800 mb-2">Medium</h3>
                         <div className="flex w-[375px]">
                             <UserProfileSubheaderMobile
                                 size="medium"
-                                mode="car"
-                                place={Place.Daycare}
                                 display="list"
                             />
                         </div>
-                        <UserProfileSubheader
-                            size="medium"
-                            mode="car"
-                            place={Place.Daycare}
-                        />
+                        <UserProfileSubheader size="medium" />
                     </div>
                     <div className="flex flex-col gap-4">
                         <h3 className="text-xl text-gray-800 mb-2">Large</h3>
                         <div className="flex w-[375px]">
                             <UserProfileSubheaderMobile
                                 size="large"
-                                mode="car"
-                                place={Place.Doctor}
                                 display="map"
                             />
                         </div>
-                        <UserProfileSubheader
-                            size="large"
-                            mode="transit"
-                            place={Place.Doctor}
-                        />
+                        <UserProfileSubheader size="large" />
                     </div>
                 </div>
             </section>

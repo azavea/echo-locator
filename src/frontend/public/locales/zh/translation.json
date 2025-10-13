@@ -2,6 +2,24 @@
     "discover": "发现",
     "compare": "对比",
     "logout": "退出",
+    "filtersButton": "Filters",
+    "transitModesSimple": {
+        "peak": "express public transit",
+        "offPeak": "express public transit",
+        "peakNoExpress": "public transit",
+        "offPeakNoExpress": "public transit",
+        "car": "car"
+    },
+    "map": "Map",
+    "list": "List",
+    "destinationPurposes": {
+        "Work": "Work",
+        "School": "School",
+        "Daycare": "Daycare",
+        "Friends/Family": "Friends/Family",
+        "Doctor": "Doctor",
+        "Other": "Other"
+    },
     "signInPage": {
         "signIn": "登陆",
         "signInModalSubtitle": "您需要成为<strong><0>BHA ECHO项目</0></strong>的参与者才能使用此工具。",
