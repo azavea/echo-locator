@@ -11,7 +11,10 @@ import {
     type MapRef,
 } from "react-map-gl/maplibre";
 
-import { selectRankedNeighborhoodsLists } from "reducers/neighborhoods/neighborhoodsSlice";
+import {
+    selectNeighborhoodFilters,
+    selectRankedNeighborhoodsLists,
+} from "reducers/neighborhoods/neighborhoodsSlice";
 import {
     selectActiveDestination,
     selectUserDestinations,
@@ -22,6 +25,8 @@ import { useAppSelector, type RootState } from "store/store";
 import Top10Tour from "components/Top10Tour/Top10Tour";
 import Top10TourButton from "components/Top10Tour/Top10TourButton";
 import CustomControlOverlay from "components/YourTrips/CustomMapControl";
+import type { FeatureCollection } from "geojson";
+import { NEIGHBORHOOD_REGIONS } from "src/constants";
 import baseMapStyle from "./baseMapStyle.json";
 import { BOUNDS } from "./constants";
 import DestinationMarker from "./DestinationMarker";
@@ -56,15 +61,17 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const { neighborhoodBounds } = useAppSelector(
         ({ neighborhoods }: RootState) => neighborhoods
     );
+    const filters = useAppSelector(selectNeighborhoodFilters);
     const [selectedNeighborhoodId, setSelectedNeighborhoodId] = useState<
         string | number | undefined
     >(undefined);
     const mapRef = useRef<MapRef>(null);
     const { mapContainer } = mapStyles({ isMobile, mapDisplay });
 
-    const { topTen, recommended } = useAppSelector(
+    const rankedNeighborhoodsLists = useAppSelector(
         selectRankedNeighborhoodsLists
     );
+    const { topTen, recommended } = rankedNeighborhoodsLists;
     const destinations = useAppSelector(selectUserDestinations);
     const activeDestination = useAppSelector(selectActiveDestination);
 
@@ -72,6 +79,39 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     useEffect(() => {
         !isTop10TourOpen && !hasViewedInstructions && setIsTop10TourOpen(true);
     }, [isTop10TourOpen, hasViewedInstructions]);
+
+    // Apply filters selections to neighborhood bounds
+    const filteredNeighborhoodBounds = useMemo(() => {
+        const filteredFeatures = neighborhoodBounds?.features.filter(f => {
+            const flatFilteredNeighborhoods = Object.values(
+                rankedNeighborhoodsLists
+            ).flat();
+            return flatFilteredNeighborhoods.includes(f.properties.zipcode);
+        });
+        return {
+            type: "FeatureCollection",
+            features: filteredFeatures,
+        } as FeatureCollection;
+    }, [rankedNeighborhoodsLists]);
+
+    useEffect(() => {
+        const isFiltered =
+            (filters.ecc ||
+                filters.textSearch?.length ||
+                filters.regions.length < NEIGHBORHOOD_REGIONS.length) &&
+            filteredNeighborhoodBounds.features.length;
+        let [minLng, minLat, maxLng, maxLat] = BOUNDS;
+        if (isFiltered) {
+            [minLng, minLat, maxLng, maxLat] = bbox(filteredNeighborhoodBounds);
+        }
+        mapRef.current?.fitBounds(
+            [
+                [minLng, minLat],
+                [maxLng, maxLat],
+            ],
+            { duration: 1000 }
+        );
+    }, [filters, filteredNeighborhoodBounds]);
 
     const neighborhoodsRanked = useMemo(() => {
         if (!neighborhoodBounds) return null;
