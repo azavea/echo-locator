@@ -20,8 +20,11 @@ import type { FiltersState } from "reducers/neighborhoods/types";
 import { useAppDispatch, useAppSelector } from "store/store";
 
 import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
+import Button from "components/base/Button/Button";
 import { Modal, ModalOverlay } from "components/base/Modal/Modal";
 import { BHA_URL, NEIGHBORHOOD_REGIONS, PROTONK_URL } from "src/constants";
+import { selectActiveMode } from "src/reducers/networks/networksSlice";
+import { selectUserBedroomCount } from "src/reducers/userProfile/userSlice";
 import Checkbox from "./base/Checkbox/Checkbox";
 import { LicensedImage } from "./CCLicensedImage";
 import ModalCloseButton from "./ModalCloseButton";
@@ -51,6 +54,8 @@ const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const modalOpen = useAppSelector(selectIsEditFiltersOpen);
+    const bedrooms = useAppSelector(selectUserBedroomCount);
+    const mode = useAppSelector(selectActiveMode);
     const [filtersBuffer, setFiltersBuffer] = useState<FiltersState | null>(
         null
     );
@@ -104,15 +109,31 @@ const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
             onOpenChange={onOpenChange}
         >
             <Modal size="medium" className="p-5 max-h-full overflow-y-scroll">
-                <Dialog className="flex flex-col gap-7 ">
+                <Dialog className="flex flex-col gap-6">
                     <Heading slot="title" className={modalHeadingClassName}>
                         {t("filterModal.dialogHeading")}
                     </Heading>
                     <ModalCloseButton onPress={() => onOpenChange(false)} />
-                    <div>
+                    <div className=" flex flex-col gap-2">
                         <h2 className={modalHeadingClassName}>
                             {t("filterModal.profileEditHeading")}
                         </h2>
+                        <div className="w-full flex flex-row justify-between p-4 py-3 rounded-2xl items-center bg-gray-100">
+                            <p>
+                                {bedrooms} {t("filterModal.bedroom")}・
+                                {t(`transitModesSimple.${mode}`)}
+                            </p>
+                            <Button
+                                variant="outline"
+                                size="small"
+                                className="font-normal text-gray-800"
+                                onPress={() => {
+                                    /* TODO: Open edit trips */
+                                }}
+                            >
+                                {t("filterModal.edit")}
+                            </Button>
+                        </div>
                     </div>
                     <div className="flex flex-col gap-5">
                         <div>

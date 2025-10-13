@@ -172,6 +172,8 @@
     "filterModal": {
         "dialogHeading": "Filter recommendations",
         "profileEditHeading": "Your Profile",
+        "bedroom": "Bedroom",
+        "edit": "Edit",
         "regionsFilterHeading": "Filter by region",
         "regionsFilterSubHeading": "Select all regions you are interested in",
         "otherFilterHeading": "Other filters",
