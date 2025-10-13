@@ -38,7 +38,7 @@ interface Props {
 }
 
 const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
-    const [isTop10TourOpen, setIsTop10TourOpen] = useState(true);
+    const [isTop10TourOpen, setIsTop10TourOpen] = useState(false);
     const hasViewedInstructions = useAppSelector(
         selectUserHasViewedStartInstructions
     );
@@ -57,9 +57,10 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const destinations = useAppSelector(selectUserDestinations);
     const activeDestination = useAppSelector(selectActiveDestination);
 
+    // Open top ten tour on start
     useEffect(() => {
-        setIsTop10TourOpen(!hasViewedInstructions);
-    }, []);
+        !isTop10TourOpen && !hasViewedInstructions && setIsTop10TourOpen(true);
+    }, [isTop10TourOpen, hasViewedInstructions]);
 
     const neighborhoodsRanked = useMemo(() => {
         if (!neighborhoodBounds) return null;
@@ -186,12 +187,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     return (
         <div className={mapContainer()}>
             <Top10Tour
-                isTop10TourOpen={
-                    !!isMobile &&
-                    mapDisplay &&
-                    isTop10TourOpen &&
-                    !!topTen.length
-                }
+                isTop10TourOpen={isMobile && isTop10TourOpen}
                 setIsTop10TourOpen={setIsTop10TourOpen}
                 tourStopCallback={manualSelectCallback}
                 showInstructions={!hasViewedInstructions}
@@ -250,7 +246,9 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                 )}
                 <CustomControlOverlay position="top-left">
                     <Top10TourButton
-                        isVisible={!!isMobile && !isTop10TourOpen}
+                        isVisible={
+                            isMobile && !isTop10TourOpen && !!topTen.length
+                        }
                         onClickCallback={() => setIsTop10TourOpen(true)}
                     />
                 </CustomControlOverlay>
