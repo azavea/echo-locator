@@ -5,7 +5,7 @@ import ImportanceSliders, {
     type FactorKeys,
 } from "components/ImportanceSliders";
 import WizardStep from "components/Wizard/WizardStep";
-import type { BaseProps } from "./types";
+import type { BaseProps } from "../../pages/Discover/Profile/types";
 
 const StepImportance = ({
     buffer,
@@ -14,6 +14,10 @@ const StepImportance = ({
     handleNext,
 }: BaseProps) => {
     const { t } = useTranslation();
+
+    if (!buffer || !setProfileBuffer || !handleBack || !handleNext) {
+        return <></>;
+    }
 
     const onChange = (value: number, factor: FactorKeys) =>
         setProfileBuffer(state => ({

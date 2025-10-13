@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { Destination } from "reducers/userProfile/types";
-import type { BaseProps } from "./types";
 
 import PlusIcon from "assets/icons/plus.svg?react";
 import TimesIcon from "assets/icons/times.svg?react";
 import Button from "components/base/Button/Button";
 import WizardStep from "components/Wizard/WizardStep";
-import { selectInvalidTimesAndPathsData } from "src/reducers/networks/networksSlice";
-import { useAppSelector } from "src/store/store";
-import AddTripModal from "./AddTripModal";
+import AddTripModal from "pages/Discover/Profile/AddTripModal";
+import { selectInvalidTimesAndPathsData } from "reducers/networks/networksSlice";
+import { useAppSelector } from "store/store";
+import type { BaseProps } from "../../pages/Discover/Profile/types";
 
 const StepTrips = ({
     buffer,
@@ -22,6 +22,10 @@ const StepTrips = ({
     const invalidData = useAppSelector(selectInvalidTimesAndPathsData);
     const [addTripModalOpen, setIsAddTripModalOpen] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
+
+    if (!buffer || !setProfileBuffer || !handleBack || !handleNext) {
+        return <></>;
+    }
     const destinations = buffer.destinations;
 
     const onRemoveDestination = (destinationIndex: number) => {
