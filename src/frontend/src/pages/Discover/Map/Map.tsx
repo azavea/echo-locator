@@ -1,4 +1,5 @@
 import bbox from "@turf/bbox";
+import type { FeatureCollection } from "geojson";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
     Layer,
@@ -25,7 +26,6 @@ import { useAppSelector, type RootState } from "store/store";
 import Top10Tour from "components/Top10Tour/Top10Tour";
 import Top10TourButton from "components/Top10Tour/Top10TourButton";
 import CustomControlOverlay from "components/YourTrips/CustomMapControl";
-import type { FeatureCollection } from "geojson";
 import { NEIGHBORHOOD_REGIONS } from "src/constants";
 import baseMapStyle from "./baseMapStyle.json";
 import { BOUNDS } from "./constants";

@@ -5,23 +5,23 @@ import {
     Heading,
     Link,
 } from "react-aria-components";
+import { useTranslation } from "react-i18next";
 
 import {
     selectIsEditFiltersOpen,
     setIsEditFiltersOpen,
-} from "src/reducers/modalsDisplay/modalsDisplaySlice";
+} from "reducers/modalsDisplay/modalsDisplaySlice";
 import {
     selectNeighborhoodFilters,
     setNeighborhoodFilters,
-} from "src/reducers/neighborhoods/neighborhoodsSlice";
-import { getRankedNeighborhoodLists } from "src/reducers/neighborhoods/neighborhoodsThunk";
-import type { FiltersState } from "src/reducers/neighborhoods/types";
+} from "reducers/neighborhoods/neighborhoodsSlice";
+import { getRankedNeighborhoodLists } from "reducers/neighborhoods/neighborhoodsThunk";
+import type { FiltersState } from "reducers/neighborhoods/types";
 import { useAppDispatch, useAppSelector } from "store/store";
 
 import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
 import { Modal, ModalOverlay } from "components/base/Modal/Modal";
-import { useTranslation } from "react-i18next";
-import { NEIGHBORHOOD_REGIONS } from "src/constants";
+import { BHA_URL, NEIGHBORHOOD_REGIONS, PROTONK_URL } from "src/constants";
 import Checkbox from "./base/Checkbox/Checkbox";
 import { LicensedImage } from "./CCLicensedImage";
 import ModalCloseButton from "./ModalCloseButton";
@@ -103,7 +103,7 @@ const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
             isOpen={modalOpen}
             onOpenChange={onOpenChange}
         >
-            <Modal size="large" className="p-5 max-h-full overflow-y-scroll">
+            <Modal size="medium" className="p-5 max-h-full overflow-y-scroll">
                 <Dialog className="flex flex-col gap-7 ">
                     <Heading slot="title" className={modalHeadingClassName}>
                         {t("filterModal.dialogHeading")}
@@ -135,7 +135,7 @@ const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
                                     CC BY-SA 3.0. $
                                     {t("filterModal.regionMapCaption")}{" "}
                                     <Link
-                                        href="https://commons.wikimedia.org/wiki/File:Simple_Massachusetts_Vector.svg"
+                                        href={PROTONK_URL}
                                         target="_blank"
                                         className="underline"
                                     >
@@ -146,7 +146,7 @@ const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
                         />
                         <AriaCheckboxGroup
                             defaultValue={filtersBuffer.regions}
-                            aria-label={"Regions filter selections"}
+                            aria-label={t("filterModal.regionsFilterLabel")}
                             className="flex flex-col gap-5"
                         >
                             {NEIGHBORHOOD_REGIONS.map((name, index) => (
@@ -161,7 +161,7 @@ const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
                                 >
                                     <div className="flex flex-row gap-3">
                                         <div
-                                            className="rounded-full flex w-6 h-6 flex-col justify-center items-center text-sm font-bold justify-around"
+                                            className="rounded-full flex w-6 h-6 flex-col items-center text-sm font-bold justify-around"
                                             style={{
                                                 backgroundColor:
                                                     REGION_KEY_STYLING[name]
@@ -193,8 +193,11 @@ const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
                                 }
                                 description={`Select to only recommend neighborhoods that are Expanded Choice Communities (ECC)`}
                                 footer={
-                                    <Link className="text-sm text-gray-600 flex flex-row gap-2 items-center">
-                                        Learn more about ECHO
+                                    <Link
+                                        href={BHA_URL}
+                                        className="text-sm text-gray-600 flex flex-row gap-2 items-center"
+                                    >
+                                        {t("filterModal.echoLink")}
                                         <ArrowIcon className="text-xs text-gray-400 font-light" />
                                     </Link>
                                 }
@@ -202,8 +205,7 @@ const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
                                 variant="ghost"
                             >
                                 <h3 className="text-[17px] font-normal">
-                                    Only recommend Expanded Choice Communities
-                                    (ECC)
+                                    {t("filterModal.eccFilter")}
                                 </h3>
                             </Checkbox>
                         </div>

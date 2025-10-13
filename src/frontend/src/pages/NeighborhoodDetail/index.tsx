@@ -1,39 +1,38 @@
 import { useEffect, useState } from "react";
+import type { Key } from "react-aria-components";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 import {
     useLocation,
     useNavigate,
     useParams,
     useSearchParams,
 } from "react-router";
-import { useDispatch } from "react-redux";
-import type { Key } from "react-aria-components";
-import { useTranslation } from "react-i18next";
 
-import { useAppSelector } from "store/store";
-import { ModalOverlay, Modal } from "components/base/Modal/Modal";
-import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles";
-import Button from "components/base/Button/Button";
 import {
-    ToggleButton,
-    ToggleButtonGroup,
-} from "components/base/ToggleButton/ToggleButton";
-
-import TimesIcon from "assets/icons/times.svg?react";
-import StarIcon from "assets/icons/star.svg?react";
-import FamilyIcon from "assets/icons/family.svg?react";
-import InfoContent from "./InfoContent";
-import Map from "./Map/Map";
+    selectIsNeighborhoodDetailsOpen,
+    setIsNeighborhoodDetailsOpen,
+} from "reducers/modalsDisplay/modalsDisplaySlice";
 import {
     selectActiveNeighborhoodFeature,
     setActiveNeighborhood,
 } from "reducers/neighborhoods/neighborhoodsSlice";
 import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
-import UnitsContent from "./UnitsContent";
+import { useAppSelector } from "store/store";
+
+import FamilyIcon from "assets/icons/family.svg?react";
+import StarIcon from "assets/icons/star.svg?react";
+import Button from "components/base/Button/Button";
+import { Modal, ModalOverlay } from "components/base/Modal/Modal";
 import {
-    selectIsNeighborhoodDetailsOpen,
-    setIsNeighborhoodDetailsOpen,
-} from "src/reducers/modalsDisplay/modalsDisplaySlice";
-import ModalCloseButton from "src/components/ModalCloseButton";
+    ToggleButton,
+    ToggleButtonGroup,
+} from "components/base/ToggleButton/ToggleButton";
+import ModalCloseButton from "components/ModalCloseButton";
+import InfoContent from "./InfoContent";
+import Map from "./Map/Map";
+import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles";
+import UnitsContent from "./UnitsContent";
 
 const NeighborhoodDetail = ({ isMobile }: { isMobile?: boolean }) => {
     const navigate = useNavigate();

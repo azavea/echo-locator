@@ -109,3 +109,9 @@ export const NEIGHBORHOOD_REGIONS = [
     "Boston and Greater Boston",
     "South Shore",
 ];
+
+export const BHA_URL =
+    import.meta.env.VITE_BHA_ECHO_PROGRAM_URL ||
+    "https://www.bostonhousing.org/en/Home-New.aspx";
+export const PROTONK_URL =
+    "https://commons.wikimedia.org/wiki/File:Simple_Massachusetts_Vector.svg";

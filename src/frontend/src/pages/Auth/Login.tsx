@@ -1,25 +1,22 @@
 import { useEffect, useState } from "react";
+import { Dialog } from "react-aria-components";
+import { Trans, useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { Dialog } from "react-aria-components";
-import { useTranslation, Trans } from "react-i18next";
 
-import { Language, type LanguageKey } from "src/enums";
-import useMediaQuery from "hooks/useMediaQuery";
-import Button from "components/base/Button/Button";
-import SelectLanguageButtons from "components/SelectLanguageButtons";
-import { Modal, ModalOverlay } from "components/base/Modal/Modal";
-import InputText from "components/InputText";
 import { login } from "api/auth";
 import EchoTextLogo from "assets/icons/echo-logo-text.svg?react";
-import NeighborhoodImage from "assets/icons/neighborhood.svg?react";
 import MailImage from "assets/icons/mail.svg?react";
-import loginInStyles from "./Login.styles";
+import NeighborhoodImage from "assets/icons/neighborhood.svg?react";
+import Button from "components/base/Button/Button";
+import { Modal, ModalOverlay } from "components/base/Modal/Modal";
+import InputText from "components/InputText";
+import SelectLanguageButtons from "components/SelectLanguageButtons";
+import useMediaQuery from "hooks/useMediaQuery";
+import { BHA_URL } from "src/constants";
+import { Language, type LanguageKey } from "src/enums";
 import type { RootState } from "store/store";
-
-const BHA_URL =
-    import.meta.env.VITE_BHA_ECHO_PROGRAM_URL ||
-    "https://www.bostonhousing.org/en/Home-New.aspx";
+import loginInStyles from "./Login.styles";
 
 const Login = () => {
     const token = useSelector((state: RootState) => state.auth.token);

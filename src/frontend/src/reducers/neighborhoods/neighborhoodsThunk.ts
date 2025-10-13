@@ -1,16 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchNeighborhoods, fetchNeighborhoodBounds } from "api/neighborhoods";
+
+import { fetchNeighborhoodBounds, fetchNeighborhoods } from "api/neighborhoods";
+import { type AppDispatch, type RootState } from "store/store";
 import {
     selectNeighborhoodNameByZipcode,
     setRankCalculating,
     setRankedNeighborhoodLists,
 } from "./neighborhoodsSlice";
-import { type AppDispatch, type RootState } from "store/store";
 import neighborhoodsSortedWithRoutes from "./selectors/neighborhoodsSortedWithRoutes";
 import type { RankedNeighborhoodsLists } from "./types";
-import groupRankingsByLikeNeigborhoodName from "./utils/groupRankingListsByName";
-import selectNeighborhoodZipcodeMap from "./selectors/selectNeighborhoodZipcodeMap";
 import filterNeighborhoodsList from "./utils/filterNeighborhoodsList";
+import groupRankingsByLikeNeigborhoodName from "./utils/groupRankingListsByName";
 
 export const getNeighborhoodsAndBounds = createAsyncThunk(
     "neighborhoods/getNeighborhoodsAndBounds",
