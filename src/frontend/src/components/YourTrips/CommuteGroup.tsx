@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 
+import selectNeighborhoodZipcodeMap from "reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
+import type { Destination } from "reducers/userProfile/types";
 import { useAppSelector } from "store/store";
+
 import { Accordion } from "components/base/Accordion/Accordion";
 import { AccordionItem } from "components/base/Accordion/AccordionItem";
 import Range from "components/base/Range/Range";
-import { yourTripsStyles } from "./YourTrips.styles";
-import selectNeighborhoodZipcodeMap from "reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
 import { createGoogleDirectionsURL } from "libs/getLinkURLs";
-import type { TripType } from "./types";
-import type { Destination } from "reducers/userProfile/types";
+import { MAX_TRAVEL_TIME } from "src/constants";
 import TripMap from "./TripMap";
+import type { TripType } from "./types";
+import { yourTripsStyles } from "./YourTrips.styles";
 
 const CommuteGroup = ({
     trips,
@@ -25,6 +27,7 @@ const CommuteGroup = ({
     });
     const [selectedMapDestination, setSelectedMapDestination] =
         useState<Destination | null>(null);
+    const [selectedDestIsTooFar, setSelectedDestIsTooFar] = useState(false);
     const allNeighborhoodCommutes = useAppSelector(
         selectNeighborhoodZipcodeMap
     );
@@ -36,6 +39,11 @@ const CommuteGroup = ({
 
     useEffect(() => {
         setSelectedMapDestination(initialTrip.destination);
+        const minCommuteTime =
+            allNeighborhoodCommutes[initialTrip.neighborhoodZipcode]?.commutes[
+                initialTrip.destination.location.label
+            ].commuteMin;
+        setSelectedDestIsTooFar(minCommuteTime > MAX_TRAVEL_TIME);
     }, [initialTrip.destination]);
 
     const getCommuteMin = (trip: TripType) =>
@@ -53,7 +61,7 @@ const CommuteGroup = ({
         if (selection) {
             // TODO will need to adjust for compare page
             setSelectedMapDestination(trips[parseInt(selection)].destination);
-            if (!isTransit) {
+            if (!isTransit || selectedDestIsTooFar) {
                 // open link
                 const directionsURL = createGoogleDirectionsURL(
                     trips[parseInt(selection)].neighborhoodZipcode,
@@ -85,7 +93,7 @@ const CommuteGroup = ({
                                 end={getCommuteMax(trip)}
                             />
                         }
-                        overridePanelOpen={!isTransit}
+                        overridePanelOpen={!isTransit || selectedDestIsTooFar}
                         isMobile={isMobile}
                     >
                         {isMobile && (
@@ -98,7 +106,7 @@ const CommuteGroup = ({
                     </AccordionItem>
                 ))}
             </Accordion>
-            {!isMobile && selectedMapDestination && (
+            {!isMobile && selectedMapDestination && !selectedDestIsTooFar && (
                 <TripMap
                     start={selectedMapDestination}
                     end={initialTrip.neighborhoodZipcode}
