@@ -1,8 +1,9 @@
-import { Modal, ModalOverlay } from "../base/Modal/Modal";
-import Button from "../base/Button/Button";
+import { Trans, useTranslation } from "react-i18next";
+
 import StartIntro from "assets/icons/start-intro.svg?react";
+import Button from "components/base/Button/Button";
+import { Modal, ModalOverlay } from "components/base/Modal/Modal";
 import { top10TourStyles } from "./top10Tour.styles";
-import { useTranslation, Trans } from "react-i18next";
 
 export const StartTourModal = ({
     isOpen,

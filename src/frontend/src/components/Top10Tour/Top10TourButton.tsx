@@ -1,5 +1,6 @@
-import Button from "../base/Button/Button";
 import { useTranslation } from "react-i18next";
+
+import Button from "../base/Button/Button";
 import { top10TourStyles } from "./top10Tour.styles";
 
 const Top10TourButton = ({

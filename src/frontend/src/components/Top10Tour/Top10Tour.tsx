@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate, useSearchParams } from "react-router";
-import { useAppSelector } from "src/store/store";
-import { selectRankedNeighborhoodsLists } from "src/reducers/neighborhoods/neighborhoodsSlice";
-import selectNeighborhoodZipcodeMap from "src/reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
+
+import { selectRankedNeighborhoodsLists } from "reducers/neighborhoods/neighborhoodsSlice";
+import selectNeighborhoodZipcodeMap from "reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
+import {
+    selectActiveDestination,
+    setHasViewedStartInstructions,
+} from "reducers/userProfile/userSlice";
+import { useAppSelector } from "store/store";
 
 import formatNeighborhoodDataByViewType, {
     type CardNoImage,
 } from "libs/formatNeighborhoodDataByCard";
-import { top10TourStyles } from "./top10Tour.styles";
-import { StartTourModal } from "./StartTourModal";
 import NeighborhoodCard from "../NeighborhoodCard/NeighborhoodCard";
-import {
-    selectActiveDestination,
-    setHasViewedStartInstructions,
-} from "src/reducers/userProfile/userSlice";
-import { useDispatch } from "react-redux";
+import { StartTourModal } from "./StartTourModal";
+import { top10TourStyles } from "./top10Tour.styles";
 
 interface Props {
     isTop10TourOpen: boolean;

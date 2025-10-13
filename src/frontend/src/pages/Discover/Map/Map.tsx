@@ -1,3 +1,4 @@
+import bbox from "@turf/bbox";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
     Layer,
@@ -8,29 +9,29 @@ import {
     type MapLayerMouseEvent,
     type MapRef,
 } from "react-map-gl/maplibre";
-import bbox from "@turf/bbox";
 
-import { useAppSelector, type RootState } from "store/store";
-import { BOUNDS } from "./constants";
-import Legend from "./Legend";
-import DestinationMarker from "./DestinationMarker";
-import baseMapStyle from "./baseMapStyle.json";
-import mapStyles from "./Map.styles";
-import {
-    neighborhoodsStyle,
-    neighborhoodsBordersStyle,
-    neighborhoodsHoverStyle,
-    neighborhoodsSelectedStyle,
-} from "./mapLayerStyles";
 import { selectRankedNeighborhoodsLists } from "reducers/neighborhoods/neighborhoodsSlice";
 import {
     selectActiveDestination,
     selectUserDestinations,
     selectUserHasViewedStartInstructions,
 } from "reducers/userProfile/userSlice";
-import Top10Tour from "src/components/Top10Tour/Top10Tour";
-import CustomControlOverlay from "src/components/YourTrips/CustomMapControl";
-import Top10TourButton from "src/components/Top10Tour/Top10TourButton";
+import { useAppSelector, type RootState } from "store/store";
+
+import Top10Tour from "components/Top10Tour/Top10Tour";
+import Top10TourButton from "components/Top10Tour/Top10TourButton";
+import CustomControlOverlay from "components/YourTrips/CustomMapControl";
+import baseMapStyle from "./baseMapStyle.json";
+import { BOUNDS } from "./constants";
+import DestinationMarker from "./DestinationMarker";
+import Legend from "./Legend";
+import mapStyles from "./Map.styles";
+import {
+    neighborhoodsBordersStyle,
+    neighborhoodsHoverStyle,
+    neighborhoodsSelectedStyle,
+    neighborhoodsStyle,
+} from "./mapLayerStyles";
 
 interface Props {
     isMobile?: boolean;
