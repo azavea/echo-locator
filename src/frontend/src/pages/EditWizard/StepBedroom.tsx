@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import InputNumber from "components/InputNumber";
 import WizardStep from "components/Wizard/WizardStep";
-import type { BaseProps } from "./types";
+import type { BaseProps } from "../Discover/Profile/types";
 
 const StepBedroom = ({
     buffer,
@@ -11,6 +11,10 @@ const StepBedroom = ({
     handleNext,
 }: BaseProps) => {
     const { t } = useTranslation();
+
+    if (!buffer || !setProfileBuffer || !handleBack || !handleNext) {
+        return <></>;
+    }
 
     const onChange = (rooms: number) =>
         setProfileBuffer(state => ({
