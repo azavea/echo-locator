@@ -6,8 +6,9 @@ import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 interface WizardStep {
     question: string;
     description?: string;
-    buttonText?: string;
+    buttonText: string;
     disableBack?: boolean;
+    disableNext?: boolean;
     children: React.ReactNode;
     handleBack: () => void;
     handleNext: () => void;
@@ -16,8 +17,9 @@ interface WizardStep {
 const WizardStep = ({
     question,
     description = undefined,
-    buttonText = "Continue",
+    buttonText,
     disableBack = false,
+    disableNext = false,
     handleBack,
     handleNext,
     children,
@@ -56,6 +58,7 @@ const WizardStep = ({
                     size="large"
                     className="w-full"
                     onPress={handleNext}
+                    isDisabled={disableNext}
                 >
                     {buttonText}
                 </Button>

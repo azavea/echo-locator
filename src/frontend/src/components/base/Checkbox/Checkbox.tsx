@@ -19,6 +19,7 @@ const Checkbox = ({
     children,
     description,
     className,
+    isDisabled,
     ...props
 }: CustomCheckboxProps) => {
     const {
@@ -27,18 +28,23 @@ const Checkbox = ({
         labelContainer,
         label,
         description: descriptionStyle,
-    } = checkboxStyles();
+    } = checkboxStyles({ isDisabled });
 
     return (
         <AriaCheckbox
             {...props}
             isSelected={isSelected}
-            onChange={onChange}
+            onChange={!isDisabled ? onChange : () => {}}
             className={base({ className: className as string })}
         >
             {({ isSelected, isFocusVisible }) => (
                 <>
-                    <div className={box({ isSelected, isFocusVisible })}>
+                    <div
+                        className={box({
+                            isSelected,
+                            isFocusVisible,
+                        })}
+                    >
                         {isSelected && (
                             <CheckIcon className="font-normal h-[14px] w-[14px] fill fill-white" />
                         )}

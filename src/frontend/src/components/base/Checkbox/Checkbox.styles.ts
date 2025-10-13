@@ -22,5 +22,12 @@ export const checkboxStyles = tv({
                 box: "ring-2 ring-teal-700 ring-offset-2",
             },
         },
+        isDisabled: {
+            true: {
+                box: "border-gray-300 bg-gray-300 hover:cursor-not-allowed",
+                label: "text-gray-500 hover:cursor-not-allowed",
+                description: "text-gray-400 hover:cursor-not-allowed",
+            },
+        },
     },
 });

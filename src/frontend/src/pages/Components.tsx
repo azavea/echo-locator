@@ -19,7 +19,6 @@ import StarIcon from "assets/icons/star.svg?react";
 import InputText from "components/InputText";
 import InputNumber from "components/InputNumber";
 import Checkbox from "components/base/Checkbox/Checkbox";
-import ImportanceSliders from "components/ImportanceSliders";
 import Wizard from "components/Wizard/Wizard";
 import WizardStep from "components/Wizard/WizardStep";
 import { Accordion } from "src/components/base/Accordion/Accordion";
@@ -553,7 +552,7 @@ const Components = () => {
                     </div>
                     <div className="flex flex-col gap-4 w-[292px]">
                         <h3 className="text-xl text-gray-800 mb-2">Sliders</h3>
-                        <ImportanceSliders />
+                        {/* <ImportanceSliders /> */}
                     </div>
                 </div>
             </section>
@@ -584,6 +583,7 @@ const Components = () => {
                                 <WizardStep
                                     question="How many bedrooms does your voucher have?"
                                     description="Reach out to your BHA Housing Coordinator if you're unsure."
+                                    buttonText="Continue"
                                     handleBack={handleBack}
                                     handleNext={handleNext}
                                     disableBack
@@ -595,14 +595,16 @@ const Components = () => {
                                     />
                                 </WizardStep>
                                 <WizardStep
-                                    question="What is important to you??"
+                                    question="What is important to you?"
+                                    buttonText="Continue"
                                     handleBack={handleBack}
                                     handleNext={handleNext}
                                 >
-                                    <ImportanceSliders />
+                                    Importance sliders
                                 </WizardStep>
                                 <WizardStep
                                     question="How do you typically get around?"
+                                    buttonText="Continue"
                                     handleBack={handleBack}
                                     handleNext={handleNext}
                                 >

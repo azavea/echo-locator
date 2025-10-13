@@ -13,6 +13,8 @@ interface SliderProps extends AriaSliderProps {
     maxValue: number;
     step: number;
     label?: string;
+    minValLabel?: string;
+    maxValLabel?: string;
 }
 
 const Slider = (props: SliderProps) => {
@@ -28,7 +30,7 @@ const Slider = (props: SliderProps) => {
         endpointLabel,
     } = sliderStyles({ isFocusVisible: false });
 
-    const { label, minValue, maxValue, step } = props;
+    const { label, minValue, maxValue, step, minValLabel, maxValLabel } = props;
 
     const numSteps = (maxValue - minValue) / step;
 
@@ -69,8 +71,8 @@ const Slider = (props: SliderProps) => {
                 </SliderTrack>
             </div>
             <div className={endpointLabelsContainer()}>
-                <div className={endpointLabel()}>Not important</div>
-                <div className={endpointLabel()}>Very important</div>
+                <div className={endpointLabel()}>{minValLabel}</div>
+                <div className={endpointLabel()}>{maxValLabel}</div>
             </div>
         </AriaSlider>
     );

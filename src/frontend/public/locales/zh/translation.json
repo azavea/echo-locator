@@ -93,6 +93,46 @@
         "title": "发现社区",
         "description": "创建个人资料，帮助我们向您推荐社区",
         "actionButton": "创建个人资料",
-        "caption": "只要5分钟！"
+        "caption": "只要5分钟！",
+        "wizard": {
+            "header": "EXAMPLE 您的资料",
+            "stepBedroom": {
+                "question": "How many bedrooms does your voucher have?",
+                "description": "EXAMPLE 如果您不确定，请联系BHA住房协调员。"
+            },
+            "stepImportance": {
+                "question": "What is important to you?",
+                "commuteTime": "EXAMPLE 通勤时长",
+                "schoolQuality": "School Quality",
+                "publicSafety": "Public safety",
+                "notImportant": "Not important",
+                "veryImportant": "Very important"
+            },
+            "stepTravelMode": {
+                "question": "How do you typically get around?",
+                "toggleCar": "私家车",
+                "toggleTransit": "公交车/轨道交通",
+                "checkboxDescription": "The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus.",
+                "checkboxLabel": "I'm willing to take the express bus or commuter rail"
+            },
+            "button": {
+                "continue": "EXAMPLE 继续",
+                "finish": "Finish"
+            }
+        }
+    },
+    "userTrip": {
+        "wizard": {
+            "header": "Your trip",
+            "stepAddTrip": {
+                "question": "Which trips do you make frequently?",
+                "description": "We use this information to recommend neighborhoods near the places you visit often",
+                "addATrip": "Add a trip"
+            },
+            "button": {
+                "continue": "EXAMPLE 继续",
+                "finish": "完成"
+            }
+        }
     }
 }
