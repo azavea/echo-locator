@@ -22,6 +22,7 @@ export function Autocomplete({
     suggestions,
     loadAsyncSuggestions,
     onSuggestionCallback,
+    onClearCallback,
 }: {
     placeholder: string;
     suggestions?: Suggestion[];
@@ -30,6 +31,7 @@ export function Autocomplete({
         signal: AbortSignal
     ) => Promise<Suggestion[]>;
     onSuggestionCallback?: (suggestion: Suggestion) => void;
+    onClearCallback?: () => void;
 }) {
     const { searchRoot, input: inputStyles } = autocompleteStyles();
     const baseDropdownPopoverStyles = dropdownPopoverStyles();
@@ -63,7 +65,12 @@ export function Autocomplete({
             onInputChange={filteredSuggestions.setFilterText}
             inputValue={filteredSuggestions.filterText}
         >
-            <SearchField aria-label="Search" autoFocus className={searchRoot()}>
+            <SearchField
+                aria-label="Search"
+                autoFocus
+                onClear={onClearCallback}
+                className={searchRoot()}
+            >
                 <Input placeholder={placeholder} className={inputStyles()} />
                 <Button
                     variant="outline"
