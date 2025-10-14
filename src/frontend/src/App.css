@@ -1,0 +1,33 @@
+/* Hides default white background and popup tip */
+
+.map-popup-style-override .maplibregl-popup-content {
+    background-color: transparent !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+.map-popup-style-override .maplibregl-popup-tip {
+    display: none !important;
+}
+
+.map-popup-style-override .popup-title {
+    color: var(--Gray-900, #111827);
+    font-variant-numeric: lining-nums tabular-nums;
+
+    font-family: "Mulish";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%; /* 18.2px */
+}
+
+.map-popup-style-override .popup-zipcode {
+    color: var(--Gray-600, #4b5563);
+    font-variant-numeric: lining-nums tabular-nums;
+
+    font-family: "Mulish";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 18.2px */
+}

@@ -5,6 +5,7 @@ import {
     Map as MapContainer,
     Marker,
     NavigationControl,
+    Popup,
     Source,
     type MapLayerMouseEvent,
     type MapRef,
@@ -33,6 +34,9 @@ import {
     neighborhoodsStyle,
 } from "./mapLayerStyles";
 import NeighborhoodDetailPreviewCard from "./NeighborhoodDetailPreviewCard";
+import NeighborhoodDetailPreviewPopup, {
+    type DetailPreviewPopupProps,
+} from "./NeighborhoodDetailPreviewPopup";
 
 interface Props {
     isMobile?: boolean;
@@ -44,6 +48,8 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const [neighborhoodMobilePreview, setNeighborhoodMobilePreview] = useState<
         string | null
     >(null);
+    const [neighborhoodDesktopPreview, setNeighborhoodDesktopPreview] =
+        useState<DetailPreviewPopupProps | null>(null);
     const hasViewedInstructions = useAppSelector(
         selectUserHasViewedStartInstructions
     );
@@ -144,13 +150,19 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const onMouseMove = (event: MapLayerMouseEvent) => {
         if (isMobile) return;
         const map = mapRef.current?.getMap();
-        const feature = event.features && event.features[0];
+        const { features, lngLat } = event;
+        const feature = features && features[0];
         if (map && feature?.id) {
             map.setFilter("neighborhoods-borders-hover", [
                 "==",
                 ["id"],
                 feature?.id,
             ]);
+            setNeighborhoodDesktopPreview({
+                longitude: lngLat.lng,
+                latitude: lngLat.lat,
+                zipcode: feature?.properties.zipcode,
+            });
         }
     };
 
@@ -160,6 +172,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         const map = mapRef.current?.getMap();
         if (map) {
             map.setFilter("neighborhoods-borders-hover", ["==", ["id"], ""]);
+            setNeighborhoodDesktopPreview(null);
         }
     };
 
@@ -277,6 +290,20 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                         }}
                     />
                 </CustomControlOverlay>
+                {neighborhoodDesktopPreview && (
+                    <Popup
+                        longitude={neighborhoodDesktopPreview.longitude}
+                        latitude={neighborhoodDesktopPreview.latitude}
+                        closeButton={false}
+                        closeOnClick={false}
+                        anchor="bottom-left"
+                        className="map-popup-style-override"
+                    >
+                        <NeighborhoodDetailPreviewPopup
+                            {...neighborhoodDesktopPreview}
+                        />
+                    </Popup>
+                )}
             </MapContainer>
             <Legend isMobile={isMobile} />
         </div>
