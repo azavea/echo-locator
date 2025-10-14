@@ -55,30 +55,32 @@ const StepTrips = ({
                 handleNext={onAddDestination}
                 isPrimary={!destinations.find(d => d.primary)}
             />
-            {destinations.map((destination, index) => (
-                <div
-                    key={index}
-                    className="w-full flex flex-row justify-between items-start rounded-2xl p-4 bg-gray-100"
-                >
-                    <div>
-                        <h2 className="text-xl font-bold text-gray-900">
-                            {destination.purpose}
-                        </h2>
-                        <p className="max-w-40 flex flex-wrap font-normal text-gray-600 text-sm">
-                            {destination.location.label}
-                        </p>
+            <div className="flex flex-col gap-3">
+                {destinations.map((destination, index) => (
+                    <div
+                        key={index}
+                        className="w-full flex flex-row justify-between items-start rounded-2xl p-4 bg-gray-100"
+                    >
+                        <div>
+                            <h2 className="text-xl font-bold text-gray-900">
+                                {destination.purpose}
+                            </h2>
+                            <p className="max-w-40 flex flex-wrap font-normal text-gray-600 text-sm">
+                                {destination.location.label}
+                            </p>
+                        </div>
+                        <Button
+                            variant="outline"
+                            size="small"
+                            leftIcon={
+                                <TimesIcon className="h-5 w-5 font-ligth fill-black" />
+                            }
+                            onPress={() => onRemoveDestination(index)}
+                            className="h-7 w-7 py-2 px-3"
+                        />
                     </div>
-                    <Button
-                        variant="outline"
-                        size="small"
-                        leftIcon={
-                            <TimesIcon className="h-5 w-5 font-ligth fill-black" />
-                        }
-                        onPress={() => onRemoveDestination(index)}
-                        className="h-7 w-7 py-2 px-3"
-                    />
-                </div>
-            ))}
+                ))}
+            </div>
             <Button
                 variant="outline"
                 size="large"
@@ -88,7 +90,9 @@ const StepTrips = ({
                 className="justify-normal text-gray-700 text-lg font-bold"
                 onPress={() => setIsAddTripModalOpen(true)}
             >
-                {t("userTrip.wizard.stepAddTrip.addATrip")}
+                {destinations.length
+                    ? t("userTrip.wizard.stepAddTrip.addAnotherTrip")
+                    : t("userTrip.wizard.stepAddTrip.addATrip")}
             </Button>
         </WizardStep>
     );

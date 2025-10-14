@@ -8,6 +8,7 @@ import { Place, type PlaceKey } from "src/enums";
 import { Modal, ModalOverlay } from "components/base/Modal/Modal";
 import WizardStep from "components/Wizard/WizardStep";
 import { Autocomplete } from "src/components/base/Autocomplete/Autocomplete";
+import buttonStyles from "src/components/base/Button/Button.styles";
 
 // TODO: Remove following async Mapbox Search API Fetch
 // Example from autocomplete suggestions docs: https://docs.mapbox.com/api/search/search-box/#example-request-get-suggested-results
@@ -154,7 +155,7 @@ const AddTripModal = ({
                 isModalOpenChangeCallback(isOpen);
             }}
         >
-            <Modal size="small" className="flex flex-col gap-6 p-5">
+            <Modal size="small" className="flex flex-col p-5">
                 <WizardStep
                     question={t("userTrip.wizard.addNewTripModal.question")}
                     buttonText={t("userTrip.wizard.addNewTripModal.finish")}
@@ -167,17 +168,19 @@ const AddTripModal = ({
                         !destination.purpose || !destination.location.label
                     }
                 >
-                    <div>
-                        <h2>
+                    <div className="flex flex-col gap-3">
+                        <h2 className="text-lg font-bold text-black">
                             {t("userTrip.wizard.addNewTripModal.purposeLabel")}
                         </h2>
                         <GridList
-                            aria-label="Places to select"
+                            aria-label={t(
+                                "userTrip.wizard.addNewTripModal.purposeLabel"
+                            )}
                             items={purposesMap}
                             selectionMode="single"
                             selectedKeys={[destination.purpose]}
                             onSelectionChange={handlePurposeSelection}
-                            className="grid grid-cols-2 gap-3 list-none"
+                            className="grid grid-cols-2 gap-3 list-none w-full max-w-88 self-center"
                         >
                             {item => (
                                 <GridListItem
@@ -186,17 +189,19 @@ const AddTripModal = ({
                                 >
                                     {({ isSelected }) => (
                                         <div
-                                            className={`w-full h-full ${isSelected ? "border-2 border-teal-600" : "border-2 border-transparent"}`}
+                                            className={`${buttonStyles({ variant: "outline" })} w-full h-full rounded-lg !p-4 justify-items-center ${isSelected ? "border-2 border-teal-600" : "border-2 border-gray-300"}`}
                                         >
-                                            {item.name}
+                                            <p className="text-md font-bold text-black">
+                                                {item.name}
+                                            </p>
                                         </div>
                                     )}
                                 </GridListItem>
                             )}
                         </GridList>
                     </div>
-                    <div>
-                        <h2>
+                    <div className="flex flex-col -mb-6">
+                        <h2 className="text-lg font-bold text-black mb-3">
                             {t("userTrip.wizard.addNewTripModal.locationLabel")}
                         </h2>
                         <Autocomplete

@@ -69,7 +69,7 @@ export function Autocomplete({
                 aria-label="Search"
                 autoFocus
                 onClear={onClearCallback}
-                className={searchRoot()}
+                className={`${searchRoot()} ${menuIsOpen ? "rounded-b-none" : ""} `}
             >
                 <Input placeholder={placeholder} className={inputStyles()} />
                 <Button
@@ -83,7 +83,7 @@ export function Autocomplete({
             </SearchField>
             <Menu
                 items={menuIsOpen ? filteredSuggestions.items : []}
-                className={`${baseDropdownPopoverStyles} ${menuIsOpen ? "visible" : "invisible"}`}
+                className={`${baseDropdownPopoverStyles} ${menuIsOpen ? "visible" : "invisible"} rounded-t-none`}
             >
                 {item => (
                     <MenuItem
