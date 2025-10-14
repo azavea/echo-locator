@@ -32,6 +32,7 @@ import {
     neighborhoodsSelectedStyle,
     neighborhoodsStyle,
 } from "./mapLayerStyles";
+import NeighborhoodDetailPreviewCard from "./NeighborhoodDetailPreviewCard";
 
 interface Props {
     isMobile?: boolean;
@@ -40,6 +41,9 @@ interface Props {
 
 const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const [isTop10TourOpen, setIsTop10TourOpen] = useState(false);
+    const [neighborhoodMobilePreview, setNeighborhoodMobilePreview] = useState<
+        string | null
+    >(null);
     const hasViewedInstructions = useAppSelector(
         selectUserHasViewedStartInstructions
     );
@@ -127,6 +131,10 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
             ],
             { padding: 100, duration: 1000 }
         );
+
+        if (isMobile) {
+            setNeighborhoodMobilePreview(feature.properties.zipcode);
+        }
     };
 
     // Desktop-only: highlight neighborhood on hover
@@ -185,6 +193,11 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         );
     };
 
+    const handleNeighborhoodPreviewClose = () => {
+        manualSelectCallback();
+        setNeighborhoodMobilePreview(null);
+    };
+
     return (
         <div className={mapContainer()}>
             <Top10Tour
@@ -192,6 +205,11 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                 setIsTop10TourOpen={setIsTop10TourOpen}
                 tourStopCallback={manualSelectCallback}
                 showInstructions={!hasViewedInstructions}
+            />
+            <NeighborhoodDetailPreviewCard
+                isPreviewOpen={isMobile && !!neighborhoodMobilePreview}
+                onPreviewOpenChange={handleNeighborhoodPreviewClose}
+                zipcode={neighborhoodMobilePreview}
             />
             <MapContainer
                 ref={mapRef}

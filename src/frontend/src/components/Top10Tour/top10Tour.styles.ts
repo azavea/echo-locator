@@ -2,7 +2,7 @@ import { tv } from "tailwind-variants";
 
 export const top10TourStyles = tv({
     slots: {
-        root: "absolute w-full h-full p-3 content-end z-50",
+        root: "absolute w-full h-fit bottom-0 p-3 content-end z-50",
         startModalRoot: "content-end z-50",
         modalContent: "flex flex-col w-full gap-5 py-4 px-5",
         modalHeader: "text-2xl font-bold text-orange-700",
