@@ -6,6 +6,7 @@ import Button from "components/base/Button/Button";
 import WizardStep from "components/Wizard/WizardStep";
 import { useState } from "react";
 import type { Destination } from "src/reducers/userProfile/types";
+import AddTripModal from "./AddTripModal";
 import type { BaseProps } from "./types";
 
 const StepTrips = ({
@@ -56,6 +57,7 @@ const StepTrips = ({
             ...state,
             destinations: [...destinations, destination],
         }));
+        setIsAddTripModalOpen(false);
     };
 
     return (
@@ -67,6 +69,15 @@ const StepTrips = ({
             handleNext={handleNext}
             disableNext={!destinations.length}
         >
+            <AddTripModal
+                isModalOpen={addTripModalOpen}
+                isModalOpenChangeCallback={isOpen =>
+                    setIsAddTripModalOpen(isOpen)
+                }
+                handleBack={() => setIsAddTripModalOpen(false)}
+                handleNext={onAddDestination}
+                isPrimary={!destinations.find(d => d.primary)}
+            />
             {destinations.map((destination, index) => (
                 <div
                     key={index}
