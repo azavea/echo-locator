@@ -133,6 +133,9 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         );
 
         if (isMobile) {
+            if (isTop10TourOpen) {
+                setIsTop10TourOpen(false);
+            }
             setNeighborhoodMobilePreview(feature.properties.zipcode);
         }
     };
@@ -268,7 +271,10 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                         isVisible={
                             isMobile && !isTop10TourOpen && !!topTen.length
                         }
-                        onClickCallback={() => setIsTop10TourOpen(true)}
+                        onClickCallback={() => {
+                            setIsTop10TourOpen(true);
+                            setNeighborhoodMobilePreview(null);
+                        }}
                     />
                 </CustomControlOverlay>
             </MapContainer>
