@@ -81,24 +81,13 @@ const AddTripModal = ({
     handleNext: (d: Destination) => void;
     isPrimary: boolean;
 }) => {
-    const { t } = useTranslation();
-
-    const TEMP_NEW_DEST = {
-        location: {
-            label: "1234 Address Ave Boston 12345",
-            position: {
-                lat: 1,
-                lon: 2,
-            },
-        },
-        primary: false,
-        purpose: "Daycare",
-    };
-
-    const [destination, setDestination] = useState<Destination>({
+    const initialDestination = {
         ...EMPTY_DESTINATION,
         primary: isPrimary,
-    });
+    };
+    const { t } = useTranslation();
+    const [destination, setDestination] =
+        useState<Destination>(initialDestination);
 
     const handlePurposeSelection = (keys: Selection) => {
         if (keys !== "all") {
@@ -151,7 +140,7 @@ const AddTripModal = ({
     const handleLocationClear = () => {
         setDestination({
             ...destination,
-            location: EMPTY_DESTINATION.location,
+            location: initialDestination.location,
         });
     };
 
@@ -160,14 +149,23 @@ const AddTripModal = ({
             isDismissable
             isMobile
             isOpen={isModalOpen}
-            onOpenChange={isModalOpenChangeCallback}
+            onOpenChange={isOpen => {
+                setDestination(initialDestination);
+                isModalOpenChangeCallback(isOpen);
+            }}
         >
             <Modal size="small" className="flex flex-col gap-6 p-5">
                 <WizardStep
                     question={t("userTrip.wizard.addNewTripModal.question")}
                     buttonText={t("userTrip.wizard.addNewTripModal.finish")}
-                    handleBack={handleBack}
-                    handleNext={() => handleNext(TEMP_NEW_DEST)}
+                    handleBack={() => {
+                        setDestination(initialDestination);
+                        handleBack();
+                    }}
+                    handleNext={() => handleNext(destination)}
+                    disableNext={
+                        !destination.purpose || !destination.location.label
+                    }
                 >
                     <div>
                         <h2>

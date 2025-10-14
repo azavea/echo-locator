@@ -136,7 +136,7 @@ const Profile = () => {
                     buffer={profileBuffer}
                     setProfileBuffer={setProfileBuffer}
                     handleBack={handleBack}
-                    handleNext={handleNext}
+                    handleNext={handleFinish}
                 />
             </Wizard>
         </div>

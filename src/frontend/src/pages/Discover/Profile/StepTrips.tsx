@@ -1,13 +1,14 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import type { Destination } from "reducers/userProfile/types";
+import type { BaseProps } from "./types";
 
 import PlusIcon from "assets/icons/plus.svg?react";
 import TimesIcon from "assets/icons/times.svg?react";
 import Button from "components/base/Button/Button";
 import WizardStep from "components/Wizard/WizardStep";
-import { useState } from "react";
-import type { Destination } from "src/reducers/userProfile/types";
 import AddTripModal from "./AddTripModal";
-import type { BaseProps } from "./types";
 
 const StepTrips = ({
     buffer,
@@ -17,31 +18,7 @@ const StepTrips = ({
 }: BaseProps) => {
     const { t } = useTranslation();
     const [addTripModalOpen, setIsAddTripModalOpen] = useState(false);
-    const TEMP_DEST = [
-        {
-            location: {
-                label: "1234 Address Ave Boston 12345",
-                position: {
-                    lat: 1,
-                    lon: 2,
-                },
-            },
-            primary: true,
-            purpose: "Work",
-        },
-        {
-            location: {
-                label: "1234 Address Ave Boston 12345",
-                position: {
-                    lat: 1,
-                    lon: 2,
-                },
-            },
-            primary: false,
-            purpose: "School",
-        },
-    ];
-    const destinations = TEMP_DEST; // buffer.destinations;
+    const destinations = buffer.destinations;
 
     const onRemoveDestination = (destinationIndex: number) => {
         const updatedDestinations = [...destinations];
