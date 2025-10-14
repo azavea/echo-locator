@@ -127,7 +127,7 @@
             "stepAddTrip": {
                 "question": "Which trips do you make frequently?",
                 "description": "We use this information to recommend neighborhoods near the places you visit often",
-                "addATrip": "Add a trip"
+                "addATrip": "Add another trip"
             },
             "button": {
                 "continue": "Continue",
