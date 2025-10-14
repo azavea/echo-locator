@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { GridList, GridListItem, type Selection } from "react-aria-components";
 import { useTranslation } from "react-i18next";
 
 import type { Destination } from "reducers/userProfile/types";
@@ -54,6 +55,25 @@ const AddTripModal = ({
         primary: isPrimary,
     });
 
+    const handlePurposeSelection = (keys: Selection) => {
+        if (keys !== "all") {
+            if (keys.size > 0) {
+                const purposeKey = [...keys][0];
+                setDestination({
+                    ...destination,
+                    purpose: purposeKey as PlaceKey,
+                });
+            } else {
+                setDestination({ ...destination, purpose: "" });
+            }
+        }
+    };
+
+    const purposesMap = Object.values(Place).map(value => ({
+        id: value,
+        name: value,
+    }));
+
     return (
         <ModalOverlay
             isDismissable
@@ -72,6 +92,29 @@ const AddTripModal = ({
                         <h2>
                             {t("userTrip.wizard.addNewTripModal.purposeLabel")}
                         </h2>
+                        <GridList
+                            aria-label="Places to select"
+                            items={purposesMap}
+                            selectionMode="single"
+                            selectedKeys={[destination.purpose]}
+                            onSelectionChange={handlePurposeSelection}
+                            className="grid grid-cols-2 gap-3 list-none"
+                        >
+                            {item => (
+                                <GridListItem
+                                    id={item.id}
+                                    textValue={item.name}
+                                >
+                                    {({ isSelected }) => (
+                                        <div
+                                            className={`w-full h-full ${isSelected ? "border-2 border-teal-600" : "border-2 border-transparent"}`}
+                                        >
+                                            {item.name}
+                                        </div>
+                                    )}
+                                </GridListItem>
+                            )}
+                        </GridList>
                     </div>
                     <div>
                         <h2>
