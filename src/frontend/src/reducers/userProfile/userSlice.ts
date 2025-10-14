@@ -19,6 +19,7 @@ const initialState: UserProfileSliceState = {
     importanceViolentCrime: DEFAULT_CRIME_IMPORTANCE.toString(),
     rooms: 0,
     useCommuterRail: true,
+    hasViewedStartInstructions: false,
 };
 
 export const userProfileSlice = createSlice({
@@ -36,6 +37,12 @@ export const userProfileSlice = createSlice({
             { payload: destinations }: { payload: Destination[] }
         ) => {
             state.destinations = destinations;
+        },
+        setHasViewedStartInstructions: (
+            state,
+            { payload: status }: { payload: boolean }
+        ) => {
+            state.hasViewedStartInstructions = status;
         },
     },
     extraReducers: builder => {
@@ -99,8 +106,11 @@ export const userProfileSlice = createSlice({
     },
 });
 
-export const { setActiveDestination, setDestinations } =
-    userProfileSlice.actions;
+export const {
+    setActiveDestination,
+    setDestinations,
+    setHasViewedStartInstructions,
+} = userProfileSlice.actions;
 
 export const selectActiveDestination = (state: RootState) =>
     state.userProfile.activeDestination;
@@ -108,5 +118,7 @@ export const selectUserDestinations = (state: RootState) =>
     state.userProfile.destinations;
 export const selectUserBedroomCount = (state: RootState) =>
     state.userProfile.rooms;
+export const selectUserHasViewedStartInstructions = (state: RootState) =>
+    state.userProfile.hasViewedStartInstructions;
 
 export default userProfileSlice.reducer;

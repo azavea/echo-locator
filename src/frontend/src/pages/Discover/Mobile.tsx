@@ -51,7 +51,6 @@ const DiscoverMobile = ({
                     callback={onChangeMode}
                 />
             </div>
-            {/* TODO: Implement Map mode neighborhood slides */}
             <Map mapDisplay={display === "map"} />
             <Neighborhoods mobile listDisplay={display === "list"} />
         </div>

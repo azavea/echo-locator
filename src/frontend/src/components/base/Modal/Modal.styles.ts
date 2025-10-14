@@ -13,6 +13,9 @@ export const modalOverlayStyles = tv({
             true: "p-3",
             false: "p-9",
         },
+        bgIsTransparent: {
+            true: "bg-transparent backdrop-blur-none",
+        },
     },
 });
 

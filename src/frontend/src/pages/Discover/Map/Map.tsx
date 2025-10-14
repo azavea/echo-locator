@@ -1,4 +1,5 @@
-import { useMemo, useRef, useState } from "react";
+import bbox from "@turf/bbox";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
     Layer,
     Map as MapContainer,
@@ -8,25 +9,29 @@ import {
     type MapLayerMouseEvent,
     type MapRef,
 } from "react-map-gl/maplibre";
-import bbox from "@turf/bbox";
 
-import { useAppSelector, type RootState } from "store/store";
-import { BOUNDS } from "./constants";
-import Legend from "./Legend";
-import DestinationMarker from "./DestinationMarker";
-import baseMapStyle from "./baseMapStyle.json";
-import mapStyles from "./Map.styles";
-import {
-    neighborhoodsStyle,
-    neighborhoodsBordersStyle,
-    neighborhoodsHoverStyle,
-    neighborhoodsSelectedStyle,
-} from "./mapLayerStyles";
 import { selectRankedNeighborhoodsLists } from "reducers/neighborhoods/neighborhoodsSlice";
 import {
     selectActiveDestination,
     selectUserDestinations,
+    selectUserHasViewedStartInstructions,
 } from "reducers/userProfile/userSlice";
+import { useAppSelector, type RootState } from "store/store";
+
+import Top10Tour from "components/Top10Tour/Top10Tour";
+import Top10TourButton from "components/Top10Tour/Top10TourButton";
+import CustomControlOverlay from "components/YourTrips/CustomMapControl";
+import baseMapStyle from "./baseMapStyle.json";
+import { BOUNDS } from "./constants";
+import DestinationMarker from "./DestinationMarker";
+import Legend from "./Legend";
+import mapStyles from "./Map.styles";
+import {
+    neighborhoodsBordersStyle,
+    neighborhoodsHoverStyle,
+    neighborhoodsSelectedStyle,
+    neighborhoodsStyle,
+} from "./mapLayerStyles";
 
 interface Props {
     isMobile?: boolean;
@@ -34,6 +39,10 @@ interface Props {
 }
 
 const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
+    const [isTop10TourOpen, setIsTop10TourOpen] = useState(false);
+    const hasViewedInstructions = useAppSelector(
+        selectUserHasViewedStartInstructions
+    );
     const { neighborhoodBounds } = useAppSelector(
         ({ neighborhoods }: RootState) => neighborhoods
     );
@@ -48,6 +57,11 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     );
     const destinations = useAppSelector(selectUserDestinations);
     const activeDestination = useAppSelector(selectActiveDestination);
+
+    // Open top ten tour on start
+    useEffect(() => {
+        !isTop10TourOpen && !hasViewedInstructions && setIsTop10TourOpen(true);
+    }, [isTop10TourOpen, hasViewedInstructions]);
 
     const neighborhoodsRanked = useMemo(() => {
         if (!neighborhoodBounds) return null;
@@ -138,8 +152,47 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         }
     };
 
+    const manualSelectCallback = (neighborhoodId?: string) => {
+        if (!mapRef.current) return;
+        const map = mapRef.current?.getMap();
+
+        const feature = neighborhoodBounds?.features.find(
+            b => b.properties.id === neighborhoodId
+        );
+
+        if (map && neighborhoodId) {
+            setSelectedNeighborhoodId(neighborhoodId);
+            map.setFilter("neighborhoods-borders-selected", [
+                "==",
+                ["get", "id"],
+                neighborhoodId,
+            ]);
+        } else {
+            setSelectedNeighborhoodId(undefined);
+            map.setFilter("neighborhoods-borders-selected", ["==", ["id"], ""]);
+        }
+
+        // zoom to neighborhood or reset on tour exit
+        const [minLng, minLat, maxLng, maxLat] = feature
+            ? bbox(feature.geometry)
+            : BOUNDS;
+        mapRef.current.fitBounds(
+            [
+                [minLng, minLat],
+                [maxLng, maxLat],
+            ],
+            { padding: feature ? 100 : 0, duration: 1000 }
+        );
+    };
+
     return (
         <div className={mapContainer()}>
+            <Top10Tour
+                isTop10TourOpen={isMobile && isTop10TourOpen}
+                setIsTop10TourOpen={setIsTop10TourOpen}
+                tourStopCallback={manualSelectCallback}
+                showInstructions={!hasViewedInstructions}
+            />
             <MapContainer
                 ref={mapRef}
                 initialViewState={{
@@ -192,6 +245,14 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                         <Layer {...neighborhoodsSelectedStyle} />
                     </Source>
                 )}
+                <CustomControlOverlay position="top-left">
+                    <Top10TourButton
+                        isVisible={
+                            isMobile && !isTop10TourOpen && !!topTen.length
+                        }
+                        onClickCallback={() => setIsTop10TourOpen(true)}
+                    />
+                </CustomControlOverlay>
             </MapContainer>
             <Legend isMobile={isMobile} />
         </div>

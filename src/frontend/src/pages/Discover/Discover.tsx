@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
+import useMediaQuery from "hooks/useMediaQuery";
 import {
     getNeighborhoodsAndBounds,
     getRankedNeighborhoodLists,
 } from "reducers/neighborhoods/neighborhoodsThunk";
-import { useAppDispatch, useAppSelector, type RootState } from "store/store";
-import useMediaQuery from "hooks/useMediaQuery";
-import Desktop from "./Desktop";
-import Mobile from "./Mobile";
-import {
-    getNetworks,
-    getAllTimesAndPathsData,
-} from "reducers/networks/networksThunk";
 import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
+import {
+    getAllTimesAndPathsData,
+    getNetworks,
+} from "reducers/networks/networksThunk";
 import { getUserProfile } from "reducers/userProfile/userProfileThunk";
-import Profile from "./Profile/Profile";
+import { useAppDispatch, useAppSelector, type RootState } from "store/store";
+import Desktop from "./Desktop";
 import discoverStyles from "./Discover.styles";
+import Mobile from "./Mobile";
+import Profile from "./Profile/Profile";
 
 const Discover = () => {
     const { zipcode } = useParams();
@@ -75,7 +75,12 @@ const Discover = () => {
     }, []);
 
     useEffect(() => {
-        if (destinations && neighborhoods && networks && !timesAndRoutesData) {
+        if (
+            destinations.length &&
+            neighborhoods &&
+            networks &&
+            !timesAndRoutesData
+        ) {
             dispatch(getAllTimesAndPathsData(destinations));
         }
     }, [destinations, neighborhoods, networks, timesAndRoutesData]);

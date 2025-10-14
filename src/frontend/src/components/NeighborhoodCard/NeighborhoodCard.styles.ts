@@ -33,6 +33,9 @@ export const cardStyles = tv({
             true: {
                 root: "mx-4 w-auto",
             },
+            false: {
+                root: "relative",
+            },
         },
     },
 });
