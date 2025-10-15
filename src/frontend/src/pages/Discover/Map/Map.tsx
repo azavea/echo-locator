@@ -5,6 +5,7 @@ import {
     Map as MapContainer,
     Marker,
     NavigationControl,
+    Popup,
     Source,
     type MapLayerMouseEvent,
     type MapRef,
@@ -32,6 +33,10 @@ import {
     neighborhoodsSelectedStyle,
     neighborhoodsStyle,
 } from "./mapLayerStyles";
+import NeighborhoodDetailPreviewCard from "./NeighborhoodDetailPreviewCard";
+import NeighborhoodDetailPreviewPopup, {
+    type DetailPreviewPopupProps,
+} from "./NeighborhoodDetailPreviewPopup";
 
 interface Props {
     isMobile?: boolean;
@@ -40,6 +45,11 @@ interface Props {
 
 const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const [isTop10TourOpen, setIsTop10TourOpen] = useState(false);
+    const [neighborhoodMobilePreview, setNeighborhoodMobilePreview] = useState<
+        string | null
+    >(null);
+    const [neighborhoodDesktopPreview, setNeighborhoodDesktopPreview] =
+        useState<DetailPreviewPopupProps | null>(null);
     const hasViewedInstructions = useAppSelector(
         selectUserHasViewedStartInstructions
     );
@@ -127,28 +137,46 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
             ],
             { padding: 100, duration: 1000 }
         );
+
+        // Open neighborhood details preview card.
+        // Pauses Top 10 Tour if opened to view preview
+        if (isMobile) {
+            if (isTop10TourOpen) {
+                setIsTop10TourOpen(false);
+            }
+            setNeighborhoodMobilePreview(feature.properties.zipcode);
+        }
     };
 
-    // Desktop-only: highlight neighborhood on hover
+    // Desktop-only: highlight neighborhood on hover &
+    // display neighborhood detail preview popup anchored at cursor
     const onMouseMove = (event: MapLayerMouseEvent) => {
         if (isMobile) return;
         const map = mapRef.current?.getMap();
-        const feature = event.features && event.features[0];
+        const { features, lngLat } = event;
+        const feature = features && features[0];
         if (map && feature?.id) {
             map.setFilter("neighborhoods-borders-hover", [
                 "==",
                 ["id"],
                 feature?.id,
             ]);
+            setNeighborhoodDesktopPreview({
+                longitude: lngLat.lng,
+                latitude: lngLat.lat,
+                zipcode: feature?.properties.zipcode,
+            });
         }
     };
 
-    // Desktop-only: highlight neighborhood on hover
+    // Desktop-only: highlight neighborhood on hover &
+    // remove neighborhood detail preview popup
     const onMouseLeave = () => {
         if (isMobile) return;
         const map = mapRef.current?.getMap();
         if (map) {
             map.setFilter("neighborhoods-borders-hover", ["==", ["id"], ""]);
+            setNeighborhoodDesktopPreview(null);
         }
     };
 
@@ -185,6 +213,13 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         );
     };
 
+    // On mobile preview card close:
+    // Remove neighborhood detail preview card & reset map bounds
+    const handleNeighborhoodPreviewClose = () => {
+        manualSelectCallback();
+        setNeighborhoodMobilePreview(null);
+    };
+
     return (
         <div className={mapContainer()}>
             <Top10Tour
@@ -192,6 +227,11 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                 setIsTop10TourOpen={setIsTop10TourOpen}
                 tourStopCallback={manualSelectCallback}
                 showInstructions={!hasViewedInstructions}
+            />
+            <NeighborhoodDetailPreviewCard
+                isPreviewOpen={isMobile && !!neighborhoodMobilePreview}
+                onPreviewOpenChange={handleNeighborhoodPreviewClose}
+                zipcode={neighborhoodMobilePreview}
             />
             <MapContainer
                 ref={mapRef}
@@ -250,9 +290,26 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                         isVisible={
                             isMobile && !isTop10TourOpen && !!topTen.length
                         }
-                        onClickCallback={() => setIsTop10TourOpen(true)}
+                        onClickCallback={() => {
+                            setIsTop10TourOpen(true);
+                            setNeighborhoodMobilePreview(null);
+                        }}
                     />
                 </CustomControlOverlay>
+                {neighborhoodDesktopPreview && (
+                    <Popup
+                        longitude={neighborhoodDesktopPreview.longitude}
+                        latitude={neighborhoodDesktopPreview.latitude}
+                        closeButton={false}
+                        closeOnClick={false}
+                        anchor="bottom-left"
+                        className="map-popup-style-override"
+                    >
+                        <NeighborhoodDetailPreviewPopup
+                            {...neighborhoodDesktopPreview}
+                        />
+                    </Popup>
+                )}
             </MapContainer>
             <Legend isMobile={isMobile} />
         </div>

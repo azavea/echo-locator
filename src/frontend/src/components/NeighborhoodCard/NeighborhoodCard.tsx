@@ -1,13 +1,13 @@
-import { cardStyles } from "./NeighborhoodCard.styles";
 import Button from "components/base/Button/Button";
 import Meter, { type MeterProps } from "components/base/Meter/Meter";
 import Range, { type RangeProps } from "components/base/Range/Range";
+import { cardStyles } from "./NeighborhoodCard.styles";
 
-import TimesIcon from "assets/icons/times.svg?react";
-import FlagIcon from "assets/icons/flag.svg?react";
-import SquareDollarIcon from "assets/icons/square-dollar.svg?react";
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
+import FlagIcon from "assets/icons/flag.svg?react";
+import SquareDollarIcon from "assets/icons/square-dollar.svg?react";
+import TimesIcon from "assets/icons/times.svg?react";
 
 export interface NeighborhoodCardProps {
     name: string;
@@ -25,6 +25,7 @@ export interface NeighborhoodCardProps {
     onPrev?: () => void;
     onDetails?: () => void;
     onNext?: () => void;
+    isPopup?: boolean;
 }
 
 const NeighborhoodCard = ({
@@ -39,6 +40,7 @@ const NeighborhoodCard = ({
     onPrev,
     onDetails,
     onNext,
+    isPopup,
 }: NeighborhoodCardProps) => {
     const {
         root,
@@ -83,8 +85,16 @@ const NeighborhoodCard = ({
             </div>
             <div className={content()}>
                 <div className={header()}>
-                    <h3 className={title()}>{name}</h3>
-                    <p className={zipStyle()}>{zip}</p>
+                    <h3
+                        className={`${title()} ${isPopup ? "popup-title" : ""}`}
+                    >
+                        {name}
+                    </h3>
+                    <p
+                        className={`${zipStyle()} ${isPopup ? "popup-zipcode" : ""}`}
+                    >
+                        {zip}
+                    </p>
                 </div>
                 {hasTag && (
                     <div className={tagsContainer()}>
