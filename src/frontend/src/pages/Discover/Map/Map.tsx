@@ -138,6 +138,8 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
             { padding: 100, duration: 1000 }
         );
 
+        // Open neighborhood details preview card.
+        // Pauses Top 10 Tour if opened to view preview
         if (isMobile) {
             if (isTop10TourOpen) {
                 setIsTop10TourOpen(false);
@@ -146,7 +148,8 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         }
     };
 
-    // Desktop-only: highlight neighborhood on hover
+    // Desktop-only: highlight neighborhood on hover &
+    // display neighborhood detail preview popup anchored at cursor
     const onMouseMove = (event: MapLayerMouseEvent) => {
         if (isMobile) return;
         const map = mapRef.current?.getMap();
@@ -166,7 +169,8 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         }
     };
 
-    // Desktop-only: highlight neighborhood on hover
+    // Desktop-only: highlight neighborhood on hover &
+    // remove neighborhood detail preview popup
     const onMouseLeave = () => {
         if (isMobile) return;
         const map = mapRef.current?.getMap();
@@ -209,6 +213,8 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         );
     };
 
+    // On mobile preview card close:
+    // Remove neighborhood detail preview card & reset map bounds
     const handleNeighborhoodPreviewClose = () => {
         manualSelectCallback();
         setNeighborhoodMobilePreview(null);
