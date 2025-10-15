@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { useEffect, useState } from "react";
 import {
     CheckboxGroup as AriaCheckboxGroup,
@@ -50,7 +51,7 @@ const REGION_KEY_STYLING: Record<string, Record<string, string>> = {
 
 const modalHeadingClassName = "text-lg font-bold text-gray-900";
 
-const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
+const EditFiltersModal = ({ isMobile = false }) => {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const modalOpen = useAppSelector(selectIsEditFiltersOpen);
@@ -64,16 +65,14 @@ const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
 
     useEffect(() => {
         setFiltersBuffer({ ...filters });
-    }, []);
+    }, [filters]);
 
     if (!filtersBuffer) {
         return <></>;
     }
 
     const regionsFilterSelected = (isSelected: boolean, region: string) => {
-        const updatedRegionsFilter = filtersBuffer.regions
-            ? [...filtersBuffer.regions]
-            : [];
+        const updatedRegionsFilter = [...filtersBuffer.regions];
         if (isSelected) {
             updatedRegionsFilter.push(region);
         } else {
@@ -95,7 +94,7 @@ const EditFiltersModal = ({ isMobile }: { isMobile?: boolean }) => {
         if (
             isOpen == false &&
             (filters.ecc !== filtersBuffer.ecc ||
-                filters.regions.length !== filtersBuffer.regions.length)
+                !_.isEqual(filters.regions, filtersBuffer.regions))
         ) {
             dispatch(getRankedNeighborhoodLists());
         }

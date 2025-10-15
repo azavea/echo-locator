@@ -3,7 +3,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchNeighborhoodBounds, fetchNeighborhoods } from "api/neighborhoods";
 import { type AppDispatch, type RootState } from "store/store";
 import {
+    selectAreFiltersApplied,
     selectNeighborhoodNameByZipcode,
+    selectNeighborhoodPropsByZipcode,
     setRankCalculating,
     setRankedNeighborhoodLists,
 } from "./neighborhoodsSlice";
@@ -44,14 +46,15 @@ export const getRankedNeighborhoodLists =
             selectNeighborhoodNameByZipcode(state);
 
         // Apply filters
-        if (
-            state.neighborhoods.neighborhoods &&
-            Object.keys(state.neighborhoods.filters)
-        ) {
+        const isFiltered = selectAreFiltersApplied(state);
+        const neighborhoodPropsByZipcode =
+            selectNeighborhoodPropsByZipcode(state);
+        if (neighborhoodPropsByZipcode && isFiltered) {
             neighborhoodsList = filterNeighborhoodsList(
                 neighborhoodsList,
-                state.neighborhoods.neighborhoods,
-                state.neighborhoods.filters
+                state.neighborhoods.filters,
+                isFiltered,
+                neighborhoodPropsByZipcode
             );
         }
 

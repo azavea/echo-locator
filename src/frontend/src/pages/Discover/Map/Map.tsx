@@ -1,5 +1,4 @@
 import bbox from "@turf/bbox";
-import type { FeatureCollection } from "geojson";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
     Layer,
@@ -13,6 +12,8 @@ import {
 } from "react-map-gl/maplibre";
 
 import {
+    selectAreFiltersApplied,
+    selectFilterableNeighborhoodBounds,
     selectNeighborhoodFilters,
     selectRankedNeighborhoodsLists,
 } from "reducers/neighborhoods/neighborhoodsSlice";
@@ -21,12 +22,11 @@ import {
     selectUserDestinations,
     selectUserHasViewedStartInstructions,
 } from "reducers/userProfile/userSlice";
-import { useAppSelector, type RootState } from "store/store";
+import { useAppSelector } from "store/store";
 
 import Top10Tour from "components/Top10Tour/Top10Tour";
 import Top10TourButton from "components/Top10Tour/Top10TourButton";
 import CustomControlOverlay from "components/YourTrips/CustomMapControl";
-import { NEIGHBORHOOD_REGIONS } from "src/constants";
 import baseMapStyle from "./baseMapStyle.json";
 import { BOUNDS } from "./constants";
 import DestinationMarker from "./DestinationMarker";
@@ -58,10 +58,11 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const hasViewedInstructions = useAppSelector(
         selectUserHasViewedStartInstructions
     );
-    const { neighborhoodBounds } = useAppSelector(
-        ({ neighborhoods }: RootState) => neighborhoods
+    const filteredNeighborhoodBounds = useAppSelector(
+        selectFilterableNeighborhoodBounds
     );
     const filters = useAppSelector(selectNeighborhoodFilters);
+    const isFiltered = useAppSelector(selectAreFiltersApplied);
     const [selectedNeighborhoodId, setSelectedNeighborhoodId] = useState<
         string | number | undefined
     >(undefined);
@@ -80,44 +81,33 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         !isTop10TourOpen && !hasViewedInstructions && setIsTop10TourOpen(true);
     }, [isTop10TourOpen, hasViewedInstructions]);
 
-    // Apply filters selections to neighborhood bounds
-    const filteredNeighborhoodBounds = useMemo(() => {
-        const filteredFeatures = neighborhoodBounds?.features.filter(f => {
-            const flatFilteredNeighborhoods = Object.values(
-                rankedNeighborhoodsLists
-            ).flat();
-            return flatFilteredNeighborhoods.includes(f.properties.zipcode);
-        });
-        return {
-            type: "FeatureCollection",
-            features: filteredFeatures,
-        } as FeatureCollection;
-    }, [rankedNeighborhoodsLists]);
-
     useEffect(() => {
-        const isFiltered =
-            (filters.ecc ||
-                filters.textSearch?.length ||
-                filters.regions.length < NEIGHBORHOOD_REGIONS.length) &&
-            filteredNeighborhoodBounds.features.length;
-        let [minLng, minLat, maxLng, maxLat] = BOUNDS;
-        if (isFiltered) {
-            [minLng, minLat, maxLng, maxLat] = bbox(filteredNeighborhoodBounds);
+        if (mapRef.current) {
+            let [minLng, minLat, maxLng, maxLat] = BOUNDS;
+            if (
+                isFiltered &&
+                filteredNeighborhoodBounds &&
+                filteredNeighborhoodBounds.features.length
+            ) {
+                [minLng, minLat, maxLng, maxLat] = bbox(
+                    filteredNeighborhoodBounds
+                );
+            }
+            mapRef.current.fitBounds(
+                [
+                    [minLng, minLat],
+                    [maxLng, maxLat],
+                ],
+                { duration: 1000 }
+            );
         }
-        mapRef.current?.fitBounds(
-            [
-                [minLng, minLat],
-                [maxLng, maxLat],
-            ],
-            { duration: 1000 }
-        );
     }, [filters, filteredNeighborhoodBounds]);
 
     const neighborhoodsRanked = useMemo(() => {
-        if (!neighborhoodBounds) return null;
+        if (!filteredNeighborhoodBounds) return null;
         return {
-            ...neighborhoodBounds,
-            features: neighborhoodBounds.features.map(feature => {
+            ...filteredNeighborhoodBounds,
+            features: filteredNeighborhoodBounds.features.map(feature => {
                 let category = "unreachable";
                 if (topTen.includes(feature.properties.id)) {
                     category = "top";
@@ -132,7 +122,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                 };
             }),
         };
-    }, [neighborhoodBounds, topTen, recommended]);
+    }, [filteredNeighborhoodBounds, topTen, recommended]);
 
     const onMapClick = (event: MapLayerMouseEvent) => {
         if (!mapRef.current) return;
@@ -224,7 +214,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         if (!mapRef.current) return;
         const map = mapRef.current?.getMap();
 
-        const feature = neighborhoodBounds?.features.find(
+        const feature = filteredNeighborhoodBounds?.features.find(
             b => b.properties.id === neighborhoodId
         );
 

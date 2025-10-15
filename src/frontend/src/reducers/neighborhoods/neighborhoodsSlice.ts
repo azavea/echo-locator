@@ -1,12 +1,14 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { NEIGHBORHOOD_REGIONS } from "src/constants";
+import type { RootState } from "store/store";
+import { getNeighborhoodsAndBounds } from "./neighborhoodsThunk";
 import type {
     FiltersState,
+    NeighborhoodBounds,
+    NeighborhoodProperties,
     NeighborhoodsSliceState,
     RankedNeighborhoodsLists,
 } from "./types";
-import { getNeighborhoodsAndBounds } from "./neighborhoodsThunk";
-import type { RootState } from "store/store";
-import { NEIGHBORHOOD_REGIONS } from "src/constants";
 
 const initialState: NeighborhoodsSliceState = {
     neighborhoods: null,
@@ -96,8 +98,50 @@ export const selectActiveNeighborhoodBounds = (state: RootState) =>
     state.neighborhoods.neighborhoodBounds?.features.find(
         b => b.properties.zipcode === state.neighborhoods.activeNeighborhood
     );
+export const selectNeighborhoodPropsByZipcode = (state: RootState) =>
+    state.neighborhoods.neighborhoods?.features.reduce(
+        (neighborhoodPropsMap, neighborhood) => ({
+            ...neighborhoodPropsMap,
+            [neighborhood.properties.zipcode]: neighborhood.properties,
+        }),
+        {} as Record<string, NeighborhoodProperties>
+    );
+export const selectAreFiltersApplied = (state: RootState) => {
+    const searchTerm = state.neighborhoods.filters.textSearch?.trim();
+    return (
+        state.neighborhoods.filters.ecc ||
+        state.neighborhoods.filters.regions?.length <
+            NEIGHBORHOOD_REGIONS.length ||
+        !!searchTerm
+    );
+};
 export const selectNeighborhoodFilters = (state: RootState) =>
     state.neighborhoods.filters;
+
+export const selectFilterableNeighborhoodBounds = createSelector(
+    [
+        selectRankedNeighborhoodsLists,
+        selectAreFiltersApplied,
+        (state: RootState) => state.neighborhoods.neighborhoodBounds,
+        // Filters state unused in fn, but passed in to pick up changes
+        (state: RootState) => state.neighborhoods.filters,
+    ],
+    (rankedNeighborhoodsLists, isFiltered, neighborhoodBounds, _) => {
+        const { topTen, recommended, tooFar } = rankedNeighborhoodsLists;
+        if (isFiltered) {
+            return {
+                type: "FeatureCollection",
+                features: neighborhoodBounds?.features.filter(f =>
+                    // Filtered rankedNeighborhoodsLists groups
+                    [...topTen, ...recommended, ...tooFar].includes(
+                        f.properties.zipcode
+                    )
+                ),
+            } as NeighborhoodBounds;
+        }
+        return neighborhoodBounds;
+    }
+);
 
 export const selectNeighborhoodNameByZipcode = createSelector(
     [(state: RootState) => state.neighborhoods.neighborhoods],
