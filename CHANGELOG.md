@@ -41,6 +41,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add transit trip directions overlay [#726](https://github.com/azavea/echo-locator/pull/726)
 - Add user profile wizard [#729](https://github.com/azavea/echo-locator/pull/729) [#737](https://github.com/azavea/echo-locator/pull/737)
 - Add top 10 tour [#730](https://github.com/azavea/echo-locator/pull/730)
+- Add neighborhood detail preview cards to Discover page [#741](https://github.com/azavea/echo-locator/pull/741)
 
 ### Changed
 
