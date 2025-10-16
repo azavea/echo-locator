@@ -64,7 +64,13 @@ const Profile = () => {
     // persist data to backend via PUT endpoint
     // redux store's user profile gets updated on fulfilled PUT in the reducer
     const handleFinish = () => {
-        // TODO: May need to take care of destinations from your trips wizard
+        const destinations = profileBuffer.destinations;
+        // One destination must be primary, used to set
+        // userProfile.activeDestination to calculate score.
+        // Use first destination by default.
+        if (!destinations.find(d => d.primary)) {
+            destinations[0].primary = true;
+        }
         dispatch(
             updateUserProfile({
                 ...profileBuffer,

@@ -37,6 +37,11 @@ export function Autocomplete({
     const baseDropdownPopoverStyles = dropdownPopoverStyles();
     const baseDropdownItemStyles = dropdownItemStyles();
 
+    // Avoids using react-aria filter prop to handle suggesting async data or static data
+    // Expanded from example of useAsyncList from react-aria Autocomplete docs:
+    // https://react-spectrum.adobe.com/react-aria/Autocomplete.html#async-loading
+    // If loadAsyncSuggestions passed in, handles load fn that returns promise of filtered data from server.
+    // If not async, handles filtering of static list manually.
     let filteredSuggestions: AsyncListData<Suggestion> = useAsyncList({
         async load({ signal, filterText }) {
             if (loadAsyncSuggestions && filterText) {

@@ -3,12 +3,13 @@ import { GridList, GridListItem, type Selection } from "react-aria-components";
 import { useTranslation } from "react-i18next";
 
 import type { Destination } from "reducers/userProfile/types";
-import { Place, type PlaceKey } from "src/enums";
+import { type PlaceKey } from "src/enums";
 
 import { Modal, ModalOverlay } from "components/base/Modal/Modal";
 import WizardStep from "components/Wizard/WizardStep";
 import { Autocomplete } from "src/components/base/Autocomplete/Autocomplete";
 import buttonStyles from "src/components/base/Button/Button.styles";
+import { purposesMap } from "src/constants";
 
 // TODO: Remove following async Mapbox Search API Fetch
 // Example from autocomplete suggestions docs: https://docs.mapbox.com/api/search/search-box/#example-request-get-suggested-results
@@ -74,21 +75,15 @@ const AddTripModal = ({
     isModalOpenChangeCallback,
     handleBack,
     handleNext,
-    isPrimary = false,
 }: {
     isModalOpen: boolean;
     isModalOpenChangeCallback: (b: boolean) => void;
     handleBack: () => void;
     handleNext: (d: Destination) => void;
-    isPrimary: boolean;
 }) => {
-    const initialDestination = {
-        ...EMPTY_DESTINATION,
-        primary: isPrimary,
-    };
     const { t } = useTranslation();
     const [destination, setDestination] =
-        useState<Destination>(initialDestination);
+        useState<Destination>(EMPTY_DESTINATION);
 
     const handlePurposeSelection = (keys: Selection) => {
         if (keys !== "all") {
@@ -103,11 +98,6 @@ const AddTripModal = ({
             }
         }
     };
-
-    const purposesMap = Object.values(Place).map(value => ({
-        id: value,
-        name: value,
-    }));
 
     const handleLocationSelection = (selection: {
         name: string;
@@ -141,7 +131,7 @@ const AddTripModal = ({
     const handleLocationClear = () => {
         setDestination({
             ...destination,
-            location: initialDestination.location,
+            location: EMPTY_DESTINATION.location,
         });
     };
 
@@ -151,7 +141,7 @@ const AddTripModal = ({
             isMobile
             isOpen={isModalOpen}
             onOpenChange={isOpen => {
-                setDestination(initialDestination);
+                setDestination(EMPTY_DESTINATION);
                 isModalOpenChangeCallback(isOpen);
             }}
         >
@@ -160,10 +150,13 @@ const AddTripModal = ({
                     question={t("userTrip.wizard.addNewTripModal.question")}
                     buttonText={t("userTrip.wizard.addNewTripModal.finish")}
                     handleBack={() => {
-                        setDestination(initialDestination);
+                        setDestination(EMPTY_DESTINATION);
                         handleBack();
                     }}
-                    handleNext={() => handleNext(destination)}
+                    handleNext={() => {
+                        setDestination(EMPTY_DESTINATION);
+                        handleNext(destination);
+                    }}
                     disableNext={
                         !destination.purpose || !destination.location.label
                     }

@@ -53,7 +53,6 @@ const StepTrips = ({
                 }
                 handleBack={() => setIsAddTripModalOpen(false)}
                 handleNext={onAddDestination}
-                isPrimary={!destinations.find(d => d.primary)}
             />
             <div className="flex flex-col gap-3">
                 {destinations.map((destination, index) => (
