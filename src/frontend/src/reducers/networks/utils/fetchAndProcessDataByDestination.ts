@@ -2,8 +2,9 @@
 // New source code copied from latest Taui v3
 // ATTR: Taui by Conveyal, included under the MIT license (https://github.com/conveyal/taui/blob/dev/LICENSE)
 
-import type { NetworkModeOptionKey } from "src/enums";
+import { fetchPathsData, fetchTimesData } from "api/networks";
 import type { Destination } from "reducers/userProfile/types";
+import type { NetworkModeOptionKey } from "src/enums";
 import type { RootState } from "store/store";
 import type {
     NetworkAndTimeAndPathsData,
@@ -11,11 +12,10 @@ import type {
     TimesAndPathsData,
 } from "../types";
 import { coordinateToIndex } from "./coordinateToIndex";
-import { fetchPathsData, fetchTimesData } from "api/networks";
+import createNetworkNeighborhoodRoutes from "./createNetworkNeighborhoodRoutes";
+import createNetworkNeighborhoodTravelTimes from "./createNetworkNeighborhoodTravelTimes";
 import { parsePathsData } from "./parsePathsData";
 import { parseTimesData } from "./parseTimesData";
-import createNetworkNeighborhoodTravelTimes from "./createNetworkNeighborhoodTravelTimes";
-import createNetworkNeighborhoodRoutes from "./createNetworkNeighborhoodRoutes";
 
 export async function fetchAndProcessDataByDestination(
     destination: Destination,
@@ -58,7 +58,20 @@ export async function fetchAndProcessDataByDestination(
             const [pathsResponse, timesResponse] = await Promise.all([
                 pathsFetchPromise,
                 timesFetchPromise,
-            ]);
+            ]).catch(e => {
+                console.error(e);
+                return [null, null];
+            });
+
+            // Index key for destination does not exist
+            if (!pathsResponse && !timesResponse) {
+                return {
+                    name: network,
+                    routesByNeighborhood: [],
+                    travelTimesByNeighborhood: [],
+                    timesAndRoutesDataReady: false,
+                };
+            }
 
             const pathsData = pathsResponse
                 ? parsePathsData(pathsResponse.value)
