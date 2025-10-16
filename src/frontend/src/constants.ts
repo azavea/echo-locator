@@ -115,3 +115,5 @@ export const BHA_URL =
     "https://www.bostonhousing.org/en/Home-New.aspx";
 export const PROTONK_URL =
     "https://commons.wikimedia.org/wiki/File:Simple_Massachusetts_Vector.svg";
+export const MAPBOX_GEOCODING_API_BASE_URL =
+    "https://api.mapbox.com/search/geocode/v6/forward";

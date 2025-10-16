@@ -7,6 +7,7 @@ services:
       - VITE_APP_GIT_COMMIT=${VITE_APP_GIT_COMMIT:-latest}
       - VITE_NETWORK_URL_ROOT=${VITE_NETWORK_URL_ROOT}
       - VITE_BHA_ECHO_PROGRAM_URL=${VITE_BHA_ECHO_PROGRAM_URL}
+      - VITE_MAPBOX_API_TOKEN=${MAPBOX_ACCESS_TOKEN}
     volumes:
       - ./src/frontend:/usr/local/src
       - $HOME/.aws:/root/.aws:ro
