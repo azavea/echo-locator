@@ -64,11 +64,11 @@ export function Autocomplete({
     });
 
     // Force close menu on suggestion selection
-    const menuIsOpen =
-        filteredSuggestions.items.length > 1 ||
-        (filteredSuggestions.items.length === 1 &&
-            filteredSuggestions.filterText !==
-                filteredSuggestions.items[0].name);
+    const isMenuOpen =
+        filteredSuggestions.items.length &&
+        !filteredSuggestions.items.find(
+            i => i.name === filteredSuggestions.filterText
+        );
 
     return (
         <AriaAutocomplete
@@ -79,7 +79,7 @@ export function Autocomplete({
                 aria-label="Search"
                 autoFocus
                 onClear={onClearCallback}
-                className={`${searchRoot()} ${menuIsOpen ? "rounded-b-none" : ""} `}
+                className={`${searchRoot()} ${isMenuOpen ? "rounded-b-none" : ""} `}
             >
                 <Input placeholder={placeholder} className={inputStyles()} />
                 <Button
@@ -92,8 +92,8 @@ export function Autocomplete({
                 />
             </SearchField>
             <Menu
-                items={menuIsOpen ? filteredSuggestions.items : []}
-                className={`${baseDropdownPopoverStyles} ${menuIsOpen ? "visible" : "invisible"} rounded-t-none`}
+                items={isMenuOpen ? filteredSuggestions.items : []}
+                className={`${baseDropdownPopoverStyles} ${isMenuOpen ? "visible" : "!invisible"} rounded-t-none`}
             >
                 {item => {
                     const distinctItem =
