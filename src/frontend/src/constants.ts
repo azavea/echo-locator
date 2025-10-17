@@ -1,4 +1,4 @@
-import { Language, type NetworkModeOptionKey } from "./enums";
+import { Language, Place, type NetworkModeOptionKey } from "./enums";
 
 export const languageToLabel = {
     [Language.EN]: "English",
@@ -28,6 +28,11 @@ export const networks: Record<NetworkModeOptionKey, any> = {
         commuter: null,
     },
 };
+
+export const purposesMap = Object.values(Place).map(value => ({
+    id: value,
+    name: value,
+}));
 
 // Network colors
 export const NETWORK_COLORS = [

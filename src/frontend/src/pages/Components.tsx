@@ -2,23 +2,23 @@ import { useState } from "react";
 import { useParams } from "react-router";
 
 import Button from "components/base/Button/Button";
+import Meter from "components/base/Meter/Meter";
+import Range from "components/base/Range/Range";
+import CompareFavoritesButton from "components/CompareFavoritesButton";
+import NeighborhoodCard from "components/NeighborhoodCard/NeighborhoodCard";
+import SelectLanguageButtons from "components/SelectLanguageButtons";
 import {
     UserProfileSubheader,
     UserProfileSubheaderMobile,
 } from "components/UserProfileSubheader";
-import CompareFavoritesButton from "components/CompareFavoritesButton";
-import SelectLanguageButtons from "components/SelectLanguageButtons";
-import Meter from "components/base/Meter/Meter";
-import Range from "components/base/Range/Range";
-import NeighborhoodCard from "components/NeighborhoodCard/NeighborhoodCard";
 import { Language, Place, type LanguageKey } from "src/enums";
 
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
 import StarIcon from "assets/icons/star.svg?react";
-import InputText from "components/InputText";
-import InputNumber from "components/InputNumber";
 import Checkbox from "components/base/Checkbox/Checkbox";
+import InputNumber from "components/InputNumber";
+import InputText from "components/InputText";
 import Wizard from "components/Wizard/Wizard";
 import WizardStep from "components/Wizard/WizardStep";
 import { Accordion } from "src/components/base/Accordion/Accordion";

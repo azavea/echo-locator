@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { useTranslation } from "react-i18next";
 
+import Button from "components/base/Button/Button";
+import SelectLanguageButtons from "components/SelectLanguageButtons";
+import Wizard from "components/Wizard/Wizard";
+import useMediaQuery from "hooks/useMediaQuery";
+import { updateUserProfile } from "reducers/userProfile/userProfileThunk";
 import { Language, type LanguageKey } from "src/enums";
 import { useAppDispatch, type RootState } from "store/store";
-import useMediaQuery from "hooks/useMediaQuery";
-import SelectLanguageButtons from "components/SelectLanguageButtons";
-import Button from "components/base/Button/Button";
-import Wizard from "components/Wizard/Wizard";
-import WizardStep from "components/Wizard/WizardStep";
-import { updateUserProfile } from "reducers/userProfile/userProfileThunk";
+import profileStyles from "./Profile.styles";
 import StepBedroom from "./StepBedroom";
 import StepImportance from "./StepImportance";
 import StepTravelMode from "./StepTravelMode";
-import profileStyles from "./Profile.styles";
 
 import NeighborhoodLiteImage from "assets/icons/neighborhood-lite.svg?react";
+import StepTrips from "./StepTrips";
 
 const TOTAL_STEPS = 4;
 
@@ -64,7 +64,13 @@ const Profile = () => {
     // persist data to backend via PUT endpoint
     // redux store's user profile gets updated on fulfilled PUT in the reducer
     const handleFinish = () => {
-        // TODO: May need to take care of destinations from your trips wizard
+        const destinations = profileBuffer.destinations;
+        // One destination must be primary, used to set
+        // userProfile.activeDestination to calculate score.
+        // Use first destination by default.
+        if (!destinations.find(d => d.primary)) {
+            destinations[0].primary = true;
+        }
         dispatch(
             updateUserProfile({
                 ...profileBuffer,
@@ -132,18 +138,12 @@ const Profile = () => {
                     handleBack={handleBack}
                     handleNext={handleNext}
                 />
-                {/* TODO: Your trip steps */}
-                <WizardStep
-                    question={t("userTrip.wizard.stepAddTrip.question")}
-                    description={t("userTrip.wizard.stepAddTrip.description")}
-                    buttonText={t("userTrip.wizard.button.finish")}
+                <StepTrips
+                    buffer={profileBuffer}
+                    setProfileBuffer={setProfileBuffer}
                     handleBack={handleBack}
                     handleNext={handleFinish}
-                >
-                    <p className=" text-gray-600">
-                        Step 4. The "Add trip" logic goes here
-                    </p>
-                </WizardStep>
+                />
             </Wizard>
         </div>
     );

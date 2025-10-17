@@ -127,7 +127,15 @@
             "stepAddTrip": {
                 "question": "Which trips do you make frequently?",
                 "description": "We use this information to recommend neighborhoods near the places you visit often",
-                "addATrip": "Add a trip"
+                "addATrip": "Add a trip",
+                "addAnotherTrip": "Add another trip"
+            },
+            "addNewTripModal": {
+                "question": "Add new trip",
+                "purposeLabel": "What kind of place is it?",
+                "locationLabel": "Where is it?",
+                "locationPlaceholder": "Enter an address",
+                "finish": "Add trip"
             },
             "button": {
                 "continue": "Continuar",
