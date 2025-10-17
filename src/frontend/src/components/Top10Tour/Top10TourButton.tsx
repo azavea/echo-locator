@@ -18,7 +18,7 @@ const Top10TourButton = ({
             variant="unstyled"
             size="small"
             onPress={onClickCallback}
-            className={`${isVisible ? "visible" : "invisible"} ${openButtonContainer()}`}
+            className={`${isVisible ? "visible" : "invisible h-0"} ${openButtonContainer()}`}
         >
             <div className={openButtonColorBox()} />
             <span className={openButtonLabel()}>

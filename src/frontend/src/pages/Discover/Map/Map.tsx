@@ -38,6 +38,7 @@ import {
     neighborhoodsSelectedStyle,
     neighborhoodsStyle,
 } from "./mapLayerStyles";
+import MapSearch from "./MapSearch";
 import NeighborhoodDetailPreviewCard from "./NeighborhoodDetailPreviewCard";
 import NeighborhoodDetailPreviewPopup, {
     type DetailPreviewPopupProps,
@@ -335,6 +336,11 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                             setNeighborhoodMobilePreview(null);
                         }}
                     />
+                </CustomControlOverlay>
+                <CustomControlOverlay
+                    position={isMobile ? "top-right" : "top-left"}
+                >
+                    <MapSearch />
                 </CustomControlOverlay>
                 {neighborhoodDesktopPreview && (
                     <Popup
