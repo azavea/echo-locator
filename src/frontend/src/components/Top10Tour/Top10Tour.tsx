@@ -21,6 +21,8 @@ interface Props {
     isTop10TourOpen: boolean;
     setIsTop10TourOpen: (b: boolean) => void;
     tourStopCallback: (n?: string) => void;
+    outsideTourStopTriggered: boolean;
+    setOutsideTourStopTriggered: (b: boolean) => void;
     showInstructions: boolean;
 }
 
@@ -31,6 +33,8 @@ const Top10Tour = ({
     isTop10TourOpen,
     setIsTop10TourOpen,
     tourStopCallback,
+    outsideTourStopTriggered,
+    setOutsideTourStopTriggered,
     showInstructions,
 }: Props) => {
     const navigate = useNavigate();
@@ -92,6 +96,14 @@ const Top10Tour = ({
             startTourCallback();
         }
     }, [isTop10TourOpen]);
+
+    useEffect(() => {
+        if (outsideTourStopTriggered) {
+            endTourCallback();
+            // reset
+            setOutsideTourStopTriggered(false);
+        }
+    }, [outsideTourStopTriggered]);
 
     return (
         <div className={root()}>

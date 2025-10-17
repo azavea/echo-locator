@@ -50,6 +50,8 @@ interface Props {
 
 const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const [isTop10TourOpen, setIsTop10TourOpen] = useState(false);
+    const [outsideTourStopTriggered, setOutsideTourStopTriggered] =
+        useState(false);
     const [neighborhoodMobilePreview, setNeighborhoodMobilePreview] = useState<
         string | null
     >(null);
@@ -76,23 +78,29 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const destinations = useAppSelector(selectUserDestinations);
     const activeDestination = useAppSelector(selectActiveDestination);
 
+    const filteredBounds: [number, number, number, number] = useMemo(() => {
+        let [minLng, minLat, maxLng, maxLat] = BOUNDS;
+        if (
+            isFiltered &&
+            filteredNeighborhoodBounds &&
+            filteredNeighborhoodBounds.features.length
+        ) {
+            [minLng, minLat, maxLng, maxLat] = bbox(filteredNeighborhoodBounds);
+        }
+        return [minLng, minLat, maxLng, maxLat];
+    }, [isFiltered, filteredNeighborhoodBounds]);
+
     // Open top ten tour on start
     useEffect(() => {
         !isTop10TourOpen && !hasViewedInstructions && setIsTop10TourOpen(true);
     }, [isTop10TourOpen, hasViewedInstructions]);
 
     useEffect(() => {
+        // Reset Top 10 tour on filter change
+        setOutsideTourStopTriggered(true);
+        // Fit bounds to new filtered neighborhoods
         if (mapRef.current) {
-            let [minLng, minLat, maxLng, maxLat] = BOUNDS;
-            if (
-                isFiltered &&
-                filteredNeighborhoodBounds &&
-                filteredNeighborhoodBounds.features.length
-            ) {
-                [minLng, minLat, maxLng, maxLat] = bbox(
-                    filteredNeighborhoodBounds
-                );
-            }
+            const [minLng, minLat, maxLng, maxLat] = filteredBounds;
             mapRef.current.fitBounds(
                 [
                     [minLng, minLat],
@@ -172,7 +180,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         // Pauses Top 10 Tour if opened to view preview
         if (isMobile) {
             if (isTop10TourOpen) {
-                setIsTop10TourOpen(false);
+                setOutsideTourStopTriggered(true);
             }
             setNeighborhoodMobilePreview(feature.properties.zipcode);
         }
@@ -233,7 +241,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         // zoom to neighborhood or reset on tour exit
         const [minLng, minLat, maxLng, maxLat] = feature
             ? bbox(feature.geometry)
-            : BOUNDS;
+            : filteredBounds;
         mapRef.current.fitBounds(
             [
                 [minLng, minLat],
@@ -256,6 +264,8 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                 isTop10TourOpen={isMobile && isTop10TourOpen}
                 setIsTop10TourOpen={setIsTop10TourOpen}
                 tourStopCallback={manualSelectCallback}
+                outsideTourStopTriggered={outsideTourStopTriggered}
+                setOutsideTourStopTriggered={setOutsideTourStopTriggered}
                 showInstructions={!hasViewedInstructions}
             />
             <NeighborhoodDetailPreviewCard
@@ -266,7 +276,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
             <MapContainer
                 ref={mapRef}
                 initialViewState={{
-                    bounds: BOUNDS,
+                    bounds: filteredBounds,
                 }}
                 onClick={onMapClick}
                 onMouseMove={onMouseMove}
