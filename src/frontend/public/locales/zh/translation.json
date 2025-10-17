@@ -190,5 +190,6 @@
         "travelModeHeading": "How do you usually get around?",
         "peak": "Peak",
         "offPeak": "Off-peak"
-    }
+    },
+    "searchModal": "Search neighborhoods"
 }
