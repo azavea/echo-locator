@@ -1,14 +1,15 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 
-import type { NetworksSliceState } from "./types";
-import {
-    getTimesAndPathsDataForPlace,
-    getNetworks,
-    getAllTimesAndPathsData,
-} from "./networksThunk";
+import { getUserProfile } from "reducers/userProfile/userProfileThunk";
 import type { RootState } from "store/store";
+import {
+    getAllTimesAndPathsData,
+    getNetworks,
+    getTimesAndPathsDataForPlace,
+} from "./networksThunk";
+import type { NetworksSliceState } from "./types";
+
 import { NetworkModeOptions, type NetworkModeOptionKey } from "src/enums";
-import { getUserProfile } from "../userProfile/userProfileThunk";
 
 const initialState: NetworksSliceState = {
     networks: null,
@@ -107,6 +108,7 @@ export const selectUseTransit = createSelector(
     [(state: RootState) => state.networks.activeMode],
     activeMode => activeMode !== "car"
 );
+export const selectActiveMode = (state: RootState) => state.networks.activeMode;
 
 export const { setActiveMode } = networksSlice.actions;
 

@@ -1,4 +1,5 @@
 import type { Feature, FeatureCollection, MultiPolygon, Point } from "geojson";
+import type { NEIGHBORHOOD_REGIONS } from "src/constants";
 
 export interface NeighborhoodProperties {
     crime_percentile: number | null;
@@ -83,6 +84,12 @@ export type NeighborhoodBounds = FeatureCollection<
     NeighborhoodBoundsProperties
 >;
 
+export interface FiltersState {
+    ecc: boolean;
+    regions: typeof NEIGHBORHOOD_REGIONS;
+    textSearch: string | null;
+}
+
 export interface RankedNeighborhoodsLists {
     topTen: string[];
     recommended: string[];
@@ -98,6 +105,7 @@ export interface NeighborhoodsSliceState {
     activeNeighborhood: string | null;
     loading: boolean;
     error: string | null;
+    filters: FiltersState;
     rankCalculating: boolean;
     rankedNeighborhoodsLists: RankedNeighborhoodsLists;
 }

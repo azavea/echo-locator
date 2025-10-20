@@ -11,6 +11,9 @@ import CheckIcon from "assets/icons/check.svg?react";
 interface CustomCheckboxProps extends AriaCheckboxProps {
     description?: string;
     children: React.ReactNode;
+    footer?: React.ReactNode;
+    size?: "small" | "default";
+    variant?: "ghost" | "default";
 }
 
 const Checkbox = ({
@@ -20,6 +23,9 @@ const Checkbox = ({
     description,
     className,
     isDisabled,
+    footer,
+    size,
+    variant,
     ...props
 }: CustomCheckboxProps) => {
     const {
@@ -28,6 +34,7 @@ const Checkbox = ({
         labelContainer,
         label,
         description: descriptionStyle,
+        footer: footerStyles,
     } = checkboxStyles({ isDisabled });
 
     return (
@@ -41,12 +48,16 @@ const Checkbox = ({
                 <>
                     <div
                         className={box({
-                            isSelected,
-                            isFocusVisible,
+                            isSelected: isSelected,
+                            isFocusVisible: isFocusVisible,
+                            variant: variant,
+                            size: size,
                         })}
                     >
                         {isSelected && (
-                            <CheckIcon className="font-normal h-[14px] w-[14px] fill fill-white" />
+                            <CheckIcon
+                                className={`font-normal h-[14px] w-[14px] fill ${variant === "ghost" ? "fill-gray-600" : "fill-white"}`}
+                            />
                         )}
                     </div>
                     <div className={labelContainer()}>
@@ -58,6 +69,10 @@ const Checkbox = ({
                             >
                                 {description}
                             </Text>
+                        )}
+
+                        {footer && (
+                            <span className={footerStyles()}>{footer}</span>
                         )}
                     </div>
                 </>

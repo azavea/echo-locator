@@ -100,3 +100,18 @@ export const PROFILE_MAX_IMPORTANCE = MAX_IMPORTANCE - 1;
  */
 
 export const LOCAL_STORAGE_TOKEN_KEY = "apiToken";
+
+// TODO: Update regions list following latest data update
+// Regions are all unique values in Neighborhood.region field
+export const NEIGHBORHOOD_REGIONS = [
+    "North Shore",
+    "Metro West",
+    "Boston and Greater Boston",
+    "South Shore",
+];
+
+export const BHA_URL =
+    import.meta.env.VITE_BHA_ECHO_PROGRAM_URL ||
+    "https://www.bostonhousing.org/en/Home-New.aspx";
+export const PROTONK_URL =
+    "https://commons.wikimedia.org/wiki/File:Simple_Massachusetts_Vector.svg";

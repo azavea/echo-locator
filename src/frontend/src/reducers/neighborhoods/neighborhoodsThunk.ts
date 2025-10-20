@@ -1,13 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchNeighborhoods, fetchNeighborhoodBounds } from "api/neighborhoods";
+
+import { fetchNeighborhoodBounds, fetchNeighborhoods } from "api/neighborhoods";
+import { type AppDispatch, type RootState } from "store/store";
 import {
+    selectAreFiltersApplied,
     selectNeighborhoodNameByZipcode,
+    selectNeighborhoodPropsByZipcode,
     setRankCalculating,
     setRankedNeighborhoodLists,
 } from "./neighborhoodsSlice";
-import { type AppDispatch, type RootState } from "store/store";
 import neighborhoodsSortedWithRoutes from "./selectors/neighborhoodsSortedWithRoutes";
 import type { RankedNeighborhoodsLists } from "./types";
+import filterNeighborhoodsList from "./utils/filterNeighborhoodsList";
 import groupRankingsByLikeNeigborhoodName from "./utils/groupRankingListsByName";
 
 export const getNeighborhoodsAndBounds = createAsyncThunk(
@@ -36,10 +40,25 @@ export const getRankedNeighborhoodLists =
             groupedTooFar: [],
         };
 
-        const neighborhoodsList = neighborhoodsSortedWithRoutes(state);
+        // Get ranked list
+        let neighborhoodsList = neighborhoodsSortedWithRoutes(state);
         const neighborhoodNameByZipcode =
             selectNeighborhoodNameByZipcode(state);
 
+        // Apply filters
+        const isFiltered = selectAreFiltersApplied(state);
+        const neighborhoodPropsByZipcode =
+            selectNeighborhoodPropsByZipcode(state);
+        if (neighborhoodPropsByZipcode && isFiltered) {
+            neighborhoodsList = filterNeighborhoodsList(
+                neighborhoodsList,
+                state.neighborhoods.filters,
+                isFiltered,
+                neighborhoodPropsByZipcode
+            );
+        }
+
+        // Group for list display
         groupedNeighborhoodsLists.topTen = neighborhoodsList.recommended.slice(
             0,
             10

@@ -11,13 +11,18 @@ import {
     type MapRef,
 } from "react-map-gl/maplibre";
 
-import { selectRankedNeighborhoodsLists } from "reducers/neighborhoods/neighborhoodsSlice";
+import {
+    selectAreFiltersApplied,
+    selectFilterableNeighborhoodBounds,
+    selectNeighborhoodFilters,
+    selectRankedNeighborhoodsLists,
+} from "reducers/neighborhoods/neighborhoodsSlice";
 import {
     selectActiveDestination,
     selectUserDestinations,
     selectUserHasViewedStartInstructions,
 } from "reducers/userProfile/userSlice";
-import { useAppSelector, type RootState } from "store/store";
+import { useAppSelector } from "store/store";
 
 import Top10Tour from "components/Top10Tour/Top10Tour";
 import Top10TourButton from "components/Top10Tour/Top10TourButton";
@@ -45,6 +50,8 @@ interface Props {
 
 const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const [isTop10TourOpen, setIsTop10TourOpen] = useState(false);
+    const [outsideTourStopTriggered, setOutsideTourStopTriggered] =
+        useState(false);
     const [neighborhoodMobilePreview, setNeighborhoodMobilePreview] = useState<
         string | null
     >(null);
@@ -53,31 +60,62 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const hasViewedInstructions = useAppSelector(
         selectUserHasViewedStartInstructions
     );
-    const { neighborhoodBounds } = useAppSelector(
-        ({ neighborhoods }: RootState) => neighborhoods
+    const filteredNeighborhoodBounds = useAppSelector(
+        selectFilterableNeighborhoodBounds
     );
+    const filters = useAppSelector(selectNeighborhoodFilters);
+    const isFiltered = useAppSelector(selectAreFiltersApplied);
     const [selectedNeighborhoodId, setSelectedNeighborhoodId] = useState<
         string | number | undefined
     >(undefined);
     const mapRef = useRef<MapRef>(null);
     const { mapContainer } = mapStyles({ isMobile, mapDisplay });
 
-    const { topTen, recommended } = useAppSelector(
+    const rankedNeighborhoodsLists = useAppSelector(
         selectRankedNeighborhoodsLists
     );
+    const { topTen, recommended } = rankedNeighborhoodsLists;
     const destinations = useAppSelector(selectUserDestinations);
     const activeDestination = useAppSelector(selectActiveDestination);
+
+    const filteredBounds: [number, number, number, number] = useMemo(() => {
+        let [minLng, minLat, maxLng, maxLat] = BOUNDS;
+        if (
+            isFiltered &&
+            filteredNeighborhoodBounds &&
+            filteredNeighborhoodBounds.features.length
+        ) {
+            [minLng, minLat, maxLng, maxLat] = bbox(filteredNeighborhoodBounds);
+        }
+        return [minLng, minLat, maxLng, maxLat];
+    }, [isFiltered, filteredNeighborhoodBounds]);
 
     // Open top ten tour on start
     useEffect(() => {
         !isTop10TourOpen && !hasViewedInstructions && setIsTop10TourOpen(true);
     }, [isTop10TourOpen, hasViewedInstructions]);
 
+    useEffect(() => {
+        // Reset Top 10 tour on filter change
+        setOutsideTourStopTriggered(true);
+        // Fit bounds to new filtered neighborhoods
+        if (mapRef.current) {
+            const [minLng, minLat, maxLng, maxLat] = filteredBounds;
+            mapRef.current.fitBounds(
+                [
+                    [minLng, minLat],
+                    [maxLng, maxLat],
+                ],
+                { duration: 1000 }
+            );
+        }
+    }, [filters, filteredNeighborhoodBounds]);
+
     const neighborhoodsRanked = useMemo(() => {
-        if (!neighborhoodBounds) return null;
+        if (!filteredNeighborhoodBounds) return null;
         return {
-            ...neighborhoodBounds,
-            features: neighborhoodBounds.features.map(feature => {
+            ...filteredNeighborhoodBounds,
+            features: filteredNeighborhoodBounds.features.map(feature => {
                 let category = "unreachable";
                 if (topTen.includes(feature.properties.id)) {
                     category = "top";
@@ -92,7 +130,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                 };
             }),
         };
-    }, [neighborhoodBounds, topTen, recommended]);
+    }, [filteredNeighborhoodBounds, topTen, recommended]);
 
     const onMapClick = (event: MapLayerMouseEvent) => {
         if (!mapRef.current) return;
@@ -142,7 +180,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         // Pauses Top 10 Tour if opened to view preview
         if (isMobile) {
             if (isTop10TourOpen) {
-                setIsTop10TourOpen(false);
+                setOutsideTourStopTriggered(true);
             }
             setNeighborhoodMobilePreview(feature.properties.zipcode);
         }
@@ -184,7 +222,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         if (!mapRef.current) return;
         const map = mapRef.current?.getMap();
 
-        const feature = neighborhoodBounds?.features.find(
+        const feature = filteredNeighborhoodBounds?.features.find(
             b => b.properties.id === neighborhoodId
         );
 
@@ -203,7 +241,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         // zoom to neighborhood or reset on tour exit
         const [minLng, minLat, maxLng, maxLat] = feature
             ? bbox(feature.geometry)
-            : BOUNDS;
+            : filteredBounds;
         mapRef.current.fitBounds(
             [
                 [minLng, minLat],
@@ -226,6 +264,8 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                 isTop10TourOpen={isMobile && isTop10TourOpen}
                 setIsTop10TourOpen={setIsTop10TourOpen}
                 tourStopCallback={manualSelectCallback}
+                outsideTourStopTriggered={outsideTourStopTriggered}
+                setOutsideTourStopTriggered={setOutsideTourStopTriggered}
                 showInstructions={!hasViewedInstructions}
             />
             <NeighborhoodDetailPreviewCard
@@ -236,7 +276,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
             <MapContainer
                 ref={mapRef}
                 initialViewState={{
-                    bounds: BOUNDS,
+                    bounds: filteredBounds,
                 }}
                 onClick={onMapClick}
                 onMouseMove={onMouseMove}

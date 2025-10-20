@@ -1,44 +1,40 @@
 import { useEffect, useState } from "react";
+import type { Key } from "react-aria-components";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 import {
     useLocation,
     useNavigate,
     useParams,
     useSearchParams,
 } from "react-router";
-import { useDispatch } from "react-redux";
-import type { Key } from "react-aria-components";
-import { useTranslation } from "react-i18next";
 
-import { useAppSelector } from "store/store";
-import { ModalOverlay, Modal } from "components/base/Modal/Modal";
-import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles";
-import Button from "components/base/Button/Button";
 import {
-    ToggleButton,
-    ToggleButtonGroup,
-} from "components/base/ToggleButton/ToggleButton";
-
-import TimesIcon from "assets/icons/times.svg?react";
-import StarIcon from "assets/icons/star.svg?react";
-import FamilyIcon from "assets/icons/family.svg?react";
-import InfoContent from "./InfoContent";
-import Map from "./Map/Map";
+    selectIsNeighborhoodDetailsOpen,
+    setIsNeighborhoodDetailsOpen,
+} from "reducers/modalsDisplay/modalsDisplaySlice";
 import {
     selectActiveNeighborhoodFeature,
     setActiveNeighborhood,
 } from "reducers/neighborhoods/neighborhoodsSlice";
 import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
+import { useAppSelector } from "store/store";
+
+import FamilyIcon from "assets/icons/family.svg?react";
+import StarIcon from "assets/icons/star.svg?react";
+import Button from "components/base/Button/Button";
+import { Modal, ModalOverlay } from "components/base/Modal/Modal";
+import {
+    ToggleButton,
+    ToggleButtonGroup,
+} from "components/base/ToggleButton/ToggleButton";
+import ModalCloseButton from "components/ModalCloseButton";
+import InfoContent from "./InfoContent";
+import Map from "./Map/Map";
+import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles";
 import UnitsContent from "./UnitsContent";
 
-const NeighborhoodDetail = ({
-    modalOpen,
-    modalOpenChangeCallback,
-    isMobile,
-}: {
-    modalOpen: boolean;
-    modalOpenChangeCallback: (b: boolean) => void;
-    isMobile?: boolean;
-}) => {
+const NeighborhoodDetail = ({ isMobile }: { isMobile?: boolean }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams, _] = useSearchParams();
@@ -47,6 +43,7 @@ const NeighborhoodDetail = ({
         isMobile: isMobile,
     });
     const { zipcode } = useParams();
+    const modalOpen = useAppSelector(selectIsNeighborhoodDetailsOpen);
     const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
     const neighborhood = useAppSelector(selectActiveNeighborhoodFeature);
     const [contentDisplayOption, setContentDisplayOption] = useState(
@@ -79,7 +76,7 @@ const NeighborhoodDetail = ({
 
     const handleOnOpenChange = (isOpen: boolean) => {
         if (!isOpen) {
-            modalOpenChangeCallback(isOpen);
+            dispatch(setIsNeighborhoodDetailsOpen(isOpen));
             zipcode &&
                 navigate(
                     `${location.pathname.replace(`/${zipcode}`, "")}?display=${searchParams.get("display")}`,
@@ -103,13 +100,8 @@ const NeighborhoodDetail = ({
                     overideVerticalCenter
                     className={styles.root()}
                 >
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className={styles.closeButton()}
-                        onPress={_ => handleOnOpenChange(false)}
-                        aria-label="Close"
-                        leftIcon={<TimesIcon className={styles.closeIcon()} />}
+                    <ModalCloseButton
+                        onPress={() => handleOnOpenChange(false)}
                     />
                     <div className={styles.headerMapContainer()}>{<Map />}</div>
                     <div className={styles.headerContainer()}>

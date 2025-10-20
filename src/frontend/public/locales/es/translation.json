@@ -2,6 +2,24 @@
     "discover": "Descubrir",
     "compare": "Comparar",
     "logout": "Cerrar sesión",
+    "filtersButton": "Filters",
+    "transitModesSimple": {
+        "peak": "express public transit",
+        "offPeak": "express public transit",
+        "peakNoExpress": "public transit",
+        "offPeakNoExpress": "public transit",
+        "car": "car"
+    },
+    "map": "Map",
+    "list": "List",
+    "destinationPurposes": {
+        "Work": "Work",
+        "School": "School",
+        "Daycare": "Daycare",
+        "Friends/Family": "Friends/Family",
+        "Doctor": "Doctor",
+        "Other": "Other"
+    },
     "signInPage": {
         "signIn": "Iniciar sesión",
         "signInModalSubtitle": "Debes ser participante del <strong><0>programa BHA ECHO</0></strong> para utilizar esta herramienta.",
@@ -150,5 +168,18 @@
         "showMyRecommendations": "Show my recommendations",
         "listNeighborhoods": "List all neighborhoods",
         "showTopTen": "Show Top 10"
+    },
+    "filterModal": {
+        "dialogHeading": "Filter recommendations",
+        "profileEditHeading": "Your Profile",
+        "bedroom": "Bedroom",
+        "edit": "Edit",
+        "regionsFilterHeading": "Filter by region",
+        "regionsFilterSubHeading": "Select all regions you are interested in",
+        "otherFilterHeading": "Other filters",
+        "regionMapCaption": "Based on a map by",
+        "echoLink": "Learn more about ECHO",
+        "regionsFilterLabel": "Filter by region selections",
+        "eccFilter": "Only recommend Expanded Choice Communities (ECC)"
     }
 }
