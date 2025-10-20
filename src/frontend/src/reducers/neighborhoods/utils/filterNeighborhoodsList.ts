@@ -25,8 +25,7 @@ const filterNeighborhoodList = (
                 filters.regions.includes(
                     neighborhoodPropsByZipcode[zip].region ?? ""
                 );
-            const textSearchString =
-                filters.textSearch?.trim().toLowerCase() ?? "";
+            const textSearchString = filters.textSearch?.trim() ?? "";
             const passesTextSearchFilter =
                 textSearchString.length === 0 ||
                 zip.includes(textSearchString) ||

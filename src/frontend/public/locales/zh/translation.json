@@ -191,5 +191,6 @@
         "peak": "Peak",
         "offPeak": "Off-peak"
     },
-    "searchModal": "Search neighborhoods"
+    "searchModal": "Search neighborhoods",
+    "searchModalPlaceholder": "Enter a neighborhood"
 }

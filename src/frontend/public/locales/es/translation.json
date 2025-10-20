@@ -183,7 +183,6 @@
         "regionsFilterLabel": "Filter by region selections",
         "eccFilter": "Only recommend Expanded Choice Communities (ECC)"
     },
-<<<<<<< HEAD
     "editTripsModal": {
         "dialogHeading": "Choose a trip",
         "dialogSubHeading": "We recommend neighborhoods that are conveniently located.",
@@ -191,8 +190,7 @@
         "travelModeHeading": "How do you usually get around?",
         "peak": "Peak",
         "offPeak": "Off-peak"
-    }
-=======
-    "searchModal": "Search neighborhoods"
->>>>>>> 5d48cfd5 (Set up search modal open)
+    },
+    "searchModal": "Search neighborhoods",
+    "searchModalPlaceholder": "Enter a neighborhood"
 }

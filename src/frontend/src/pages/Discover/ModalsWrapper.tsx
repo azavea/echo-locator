@@ -8,7 +8,7 @@ const ModalsWrapper = ({ isMobile }: { isMobile?: boolean }) => (
         <NeighborhoodDetail isMobile={isMobile} />
         <SearchModal isMobile={isMobile} />
         <EditFiltersModal isMobile={isMobile} />
-        <EditTripsModal />
+        <EditTripsModal isMobile={isMobile} />
     </>
 );
 

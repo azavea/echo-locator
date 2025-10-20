@@ -1,4 +1,6 @@
 import { useAsyncList, type AsyncListData } from "@react-stately/data";
+import type { Point } from "geojson";
+import { useEffect } from "react";
 import {
     Autocomplete as AriaAutocomplete,
     Input,
@@ -9,7 +11,6 @@ import {
 
 import TimesIcon from "assets/icons/times.svg?react";
 import Button from "components/base/Button/Button";
-import type { Point } from "geojson";
 import {
     dropdownItemStyles,
     dropdownPopoverStyles,
@@ -25,12 +26,14 @@ export type Suggestion = {
 export function Autocomplete({
     placeholder,
     suggestions,
+    value,
     loadAsyncSuggestions,
     onSuggestionCallback,
     onClearCallback,
 }: {
     placeholder: string;
     suggestions?: Suggestion[];
+    value?: string;
     loadAsyncSuggestions?: (
         query: string,
         signal: AbortSignal
@@ -53,14 +56,18 @@ export function Autocomplete({
                 const items = await loadAsyncSuggestions(filterText, signal);
                 return { items };
             } else if (suggestions && filterText) {
-                const filtered = suggestions.filter(item =>
-                    item.name.toLowerCase().includes(filterText.toLowerCase())
-                );
+                const filtered = suggestions
+                    .filter(item =>
+                        item.name
+                            .toLowerCase()
+                            .includes(filterText.toLowerCase())
+                    )
+                    .slice(0, 5);
                 return { items: filtered };
             }
             return { items: [] };
         },
-        initialFilterText: "",
+        initialFilterText: value ?? "",
     });
 
     // Force close menu on suggestion selection
@@ -69,6 +76,11 @@ export function Autocomplete({
         !filteredSuggestions.items.find(
             i => i.name === filteredSuggestions.filterText
         );
+
+    useEffect(() => {
+        if (filteredSuggestions.filterText === "" && value && onClearCallback)
+            onClearCallback();
+    }, [filteredSuggestions.filterText]);
 
     return (
         <AriaAutocomplete

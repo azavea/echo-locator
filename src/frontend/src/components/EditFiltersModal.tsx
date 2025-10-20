@@ -92,7 +92,7 @@ const EditFiltersModal = ({ isMobile = false }) => {
     return (
         <ModalOverlay
             isDismissable
-            isMobile
+            isMobile={isMobile}
             isOpen={modalOpen}
             onOpenChange={onOpenChange}
         >

@@ -1,4 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
+import type { Feature, Point } from "geojson";
 import { NEIGHBORHOOD_REGIONS } from "src/constants";
 import type { RootState } from "store/store";
 import { getNeighborhoodsAndBounds } from "./neighborhoodsThunk";
@@ -117,6 +118,38 @@ export const selectAreFiltersApplied = (state: RootState) => {
 };
 export const selectNeighborhoodFilters = (state: RootState) =>
     state.neighborhoods.filters;
+
+export const selectNeighborhoodFilterSuggestions = createSelector(
+    [
+        selectRankedNeighborhoodsLists,
+        (state: RootState) => state.neighborhoods.neighborhoods,
+    ],
+    (rankedNeighborhoodsLists, neighborhoods) => {
+        const { topTen, recommended, tooFar } = rankedNeighborhoodsLists;
+        // Return distinct town names formatted as Autocomplete Suggestion
+        return neighborhoods?.features
+            .reduce(
+                (
+                    towns: string[],
+                    f: Feature<Point, NeighborhoodProperties>
+                ) => {
+                    const isDistinct = !towns.includes(f.properties.town);
+                    const isInFilteredList = [
+                        ...topTen,
+                        ...recommended,
+                        ...tooFar,
+                    ].includes(f.properties.zipcode);
+                    return isDistinct && isInFilteredList
+                        ? [...towns, f.properties.town]
+                        : towns;
+                },
+                []
+            )
+            .map(town => {
+                return { name: town };
+            });
+    }
+);
 
 export const selectFilterableNeighborhoodBounds = createSelector(
     [
