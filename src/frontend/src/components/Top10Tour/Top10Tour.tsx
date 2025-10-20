@@ -27,7 +27,6 @@ interface Props {
 }
 
 const MIN_STEP = 0;
-const MAX_STEP = 9;
 
 const Top10Tour = ({
     isTop10TourOpen,
@@ -50,6 +49,7 @@ const Top10Tour = ({
     const { topTen } = useAppSelector(selectRankedNeighborhoodsLists);
     const neighborhoodDetailsMap = useAppSelector(selectNeighborhoodZipcodeMap);
     const activeDestination = useAppSelector(selectActiveDestination);
+    const MAX_STEP = topTen.length - 1; // MAX 9
 
     const skipTourCallback = () => {
         dispatch(setHasViewedStartInstructions(true));
