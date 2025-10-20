@@ -9,6 +9,7 @@ import { AccordionItem } from "components/base/Accordion/AccordionItem";
 import Range from "components/base/Range/Range";
 import { createGoogleDirectionsURL } from "libs/getLinkURLs";
 import { MAX_TRAVEL_TIME } from "src/constants";
+import { NonAccordionCommuteButton } from "./NonAccordionCommuteButton";
 import TripMap from "./TripMap";
 import type { TripType } from "./types";
 import { yourTripsStyles } from "./YourTrips.styles";
@@ -76,36 +77,64 @@ const CommuteGroup = ({
 
     return (
         <div className={styles.commuteGroupWrapper()}>
-            <Accordion
-                defaultExpandedKeys={["0"]}
-                expandedItemCallback={onExpandItem}
-                className={styles.commuteGroupItem()}
-            >
-                {trips.map((trip, index) => (
-                    <AccordionItem
-                        id={index.toString()}
-                        key={index}
-                        title={trip.title}
-                        subtitle={trip.subtitle}
-                        titleContentRight={
-                            <Range
-                                start={getCommuteMin(trip)}
-                                end={getCommuteMax(trip)}
-                            />
-                        }
-                        overridePanelOpen={!isTransit || selectedDestIsTooFar}
-                        isMobile={isMobile}
-                    >
-                        {isMobile && (
-                            <TripMap
-                                start={trip.destination}
-                                end={initialTrip.neighborhoodZipcode}
-                                isTransit={isTransit}
-                            />
-                        )}
-                    </AccordionItem>
-                ))}
-            </Accordion>
+            {trips?.length === 1 ? (
+                <NonAccordionCommuteButton
+                    id={"0"}
+                    key={0}
+                    title={trips[0].title}
+                    subtitle={trips[0].subtitle}
+                    titleContentRight={
+                        <Range
+                            start={getCommuteMin(trips[0])}
+                            end={getCommuteMax(trips[0])}
+                        />
+                    }
+                    overridePanelOpen={!isTransit || selectedDestIsTooFar}
+                    isMobile={isMobile}
+                    onPress={() => onExpandItem(new Set("0"))}
+                >
+                    {isMobile && (
+                        <TripMap
+                            start={trips[0].destination}
+                            end={initialTrip.neighborhoodZipcode}
+                            isTransit={isTransit}
+                        />
+                    )}
+                </NonAccordionCommuteButton>
+            ) : (
+                <Accordion
+                    defaultExpandedKeys={["0"]}
+                    expandedItemCallback={onExpandItem}
+                    className={styles.commuteGroupItem()}
+                >
+                    {trips.map((trip, index) => (
+                        <AccordionItem
+                            id={index.toString()}
+                            key={index}
+                            title={trip.title}
+                            subtitle={trip.subtitle}
+                            titleContentRight={
+                                <Range
+                                    start={getCommuteMin(trip)}
+                                    end={getCommuteMax(trip)}
+                                />
+                            }
+                            overridePanelOpen={
+                                !isTransit || selectedDestIsTooFar
+                            }
+                            isMobile={isMobile}
+                        >
+                            {isMobile && (
+                                <TripMap
+                                    start={trip.destination}
+                                    end={initialTrip.neighborhoodZipcode}
+                                    isTransit={isTransit}
+                                />
+                            )}
+                        </AccordionItem>
+                    ))}
+                </Accordion>
+            )}
             {!isMobile && selectedMapDestination && !selectedDestIsTooFar && (
                 <TripMap
                     start={selectedMapDestination}

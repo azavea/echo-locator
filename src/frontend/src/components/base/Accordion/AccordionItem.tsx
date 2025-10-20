@@ -1,14 +1,15 @@
-import {
-    Disclosure,
-    Heading,
-    DisclosurePanel,
-    type DisclosureProps,
-    Button,
-} from "react-aria-components";
-import accordionStyles from "./Accordion.styles";
 import type { ReactNode } from "react";
+import {
+    Button,
+    Disclosure,
+    DisclosurePanel,
+    Heading,
+    type DisclosureProps,
+} from "react-aria-components";
 
-interface AccordionItemProps extends DisclosureProps {
+import accordionStyles from "./Accordion.styles";
+
+export interface AccordionItemProps extends DisclosureProps {
     id: string;
     title: string;
     subtitle: string;
