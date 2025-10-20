@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
-import type { UserProfileSliceState } from "reducers/userProfile/types";
 import Checkbox from "components/base/Checkbox/Checkbox";
+import type { UserProfileSliceState } from "reducers/userProfile/types";
 
 interface Props {
     buffer: UserProfileSliceState;
@@ -18,6 +18,7 @@ const CommuterRailCheckbox = ({ buffer, handleChange }: Props) => {
             description={t(
                 "userProfile.wizard.stepTravelMode.checkboxDescription"
             )}
+            variant="default"
             isDisabled={buffer.hasVehicle}
         >
             {t("userProfile.wizard.stepTravelMode.checkboxLabel")}
