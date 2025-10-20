@@ -85,17 +85,30 @@ const SearchModal = ({ isMobile = false }) => {
             isOpen={modalOpen}
             onOpenChange={onOpenChange}
         >
-            <Modal size="large" className="p-5 max-h-full overflow-y-scroll">
+            <Modal
+                size="medium"
+                className="p-5 max-h-full overflow-y-scroll -translate-y-32"
+            >
                 <Dialog className="flex flex-col gap-6">
-                    <Heading slot="title">{t("searchModal")}</Heading>
+                    <Heading
+                        slot="title"
+                        className="text-gray-900 text-xl font-bold"
+                    >
+                        {t("searchModal")}
+                    </Heading>
                     <ModalCloseButton onPress={() => onOpenChange(false)} />
-                    <Autocomplete
-                        placeholder={t("searchModalPlaceholder")}
-                        value={filters.textSearch ?? undefined}
-                        suggestions={neighborhoodSuggestions}
-                        onSuggestionCallback={handleSearch}
-                        onClearCallback={handleClearSearch}
-                    />
+                    <div className="flex flex-col gap-3">
+                        <h2 className="text-gray-900 text-lg font-bold">
+                            {t("searchModalDescription")}
+                        </h2>
+                        <Autocomplete
+                            placeholder={t("searchModalPlaceholder")}
+                            value={filters.textSearch ?? undefined}
+                            suggestions={neighborhoodSuggestions}
+                            onSuggestionCallback={handleSearch}
+                            onClearCallback={handleClearSearch}
+                        />
+                    </div>
                 </Dialog>
             </Modal>
         </ModalOverlay>

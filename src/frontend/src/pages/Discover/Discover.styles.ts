@@ -8,8 +8,7 @@ const discoverStyles = tv({
         headerContainer: "flex border-b border-gray-300 bg-white",
         recoContainer:
             "flex flex-1 flex-col items-start gap-6 self-stretch overflow-y-auto bg-gray-50",
-        recoContainerHeader:
-            "flex flex-1 flex-col items-start gap-6 self-stretch",
+        recoContainerHeader: "flex flex-col items-start gap-6 self-stretch",
         subTitleContainer: "flex w-full flex-col gap-3 text-center",
         subTitle: "font-xbold text-3xl text-orange-700",
         description: "text-rg text-gray-700",

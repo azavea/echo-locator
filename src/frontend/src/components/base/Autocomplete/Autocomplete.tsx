@@ -9,6 +9,7 @@ import {
     SearchField,
 } from "react-aria-components";
 
+import SearchIcon from "assets/icons/search.svg?react";
 import TimesIcon from "assets/icons/times.svg?react";
 import Button from "components/base/Button/Button";
 import {
@@ -90,50 +91,60 @@ export function Autocomplete({
     }, [value]);
 
     return (
-        <AriaAutocomplete
-            onInputChange={filteredSuggestions.setFilterText}
-            inputValue={filteredSuggestions.filterText}
-        >
-            <SearchField
-                aria-label="Search"
-                autoFocus
-                onClear={onClearCallback}
-                className={`${searchRoot()} ${isMenuOpen ? "rounded-b-none" : ""} `}
+        <div className="w-full">
+            <AriaAutocomplete
+                onInputChange={filteredSuggestions.setFilterText}
+                inputValue={filteredSuggestions.filterText}
             >
-                <Input placeholder={placeholder} className={inputStyles()} />
-                <Button
-                    variant="outline"
-                    size="small"
-                    leftIcon={
-                        <TimesIcon className="h-5 w-5 font-ligth fill-black" />
-                    }
-                    className="h-7 w-7 py-2 px-3 self-center mr-3"
-                />
-            </SearchField>
-            <Menu
-                items={isMenuOpen ? filteredSuggestions.items : []}
-                className={`${baseDropdownPopoverStyles} ${isMenuOpen ? "visible" : "!invisible"} rounded-t-none`}
-            >
-                {item => {
-                    const distinctItem =
-                        item.full_address ?? item.address ?? item.name;
-                    return (
-                        <MenuItem
-                            id={distinctItem}
-                            onAction={() => {
-                                filteredSuggestions.setFilterText(distinctItem);
-                                if (onSuggestionCallback) {
-                                    onSuggestionCallback(item);
-                                }
-                            }}
-                            className={baseDropdownItemStyles}
-                            aria-label="item"
-                        >
-                            {distinctItem}
-                        </MenuItem>
-                    );
-                }}
-            </Menu>
-        </AriaAutocomplete>
+                <SearchField
+                    aria-label="Search"
+                    autoFocus
+                    onClear={onClearCallback}
+                    className={`${searchRoot()} ${isMenuOpen ? "rounded-b-none" : ""} `}
+                >
+                    <SearchIcon className="w-[30px] fill fill-gray-500 self-center pl-4" />
+                    <Input
+                        placeholder={placeholder}
+                        className={inputStyles()}
+                    />
+                    {filteredSuggestions.filterText && (
+                        <Button
+                            variant="outline"
+                            size="small"
+                            leftIcon={
+                                <TimesIcon className="h-5 w-5 font-ligth fill-black" />
+                            }
+                            className="h-7 w-7 py-2 px-3 self-center mr-3"
+                        />
+                    )}
+                </SearchField>
+                <Menu
+                    items={isMenuOpen ? filteredSuggestions.items : []}
+                    className={`${baseDropdownPopoverStyles} ${isMenuOpen ? "visible" : "!invisible"} rounded-t-none`}
+                >
+                    {item => {
+                        const distinctItem =
+                            item.full_address ?? item.address ?? item.name;
+                        return (
+                            <MenuItem
+                                id={distinctItem}
+                                onAction={() => {
+                                    filteredSuggestions.setFilterText(
+                                        distinctItem
+                                    );
+                                    if (onSuggestionCallback) {
+                                        onSuggestionCallback(item);
+                                    }
+                                }}
+                                className={baseDropdownItemStyles}
+                                aria-label="item"
+                            >
+                                {distinctItem}
+                            </MenuItem>
+                        );
+                    }}
+                </Menu>
+            </AriaAutocomplete>
+        </div>
     );
 }

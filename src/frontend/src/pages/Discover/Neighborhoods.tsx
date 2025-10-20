@@ -21,7 +21,6 @@ const Neighborhoods = ({
     mobile: boolean;
     listDisplay?: boolean;
 }) => {
-    const [mediumTextInput, setMediumTextInput] = useState<string>("");
     const [showTooFar, setShowTooFar] = useState(false);
     const {
         recoContainer,

@@ -191,6 +191,7 @@
         "peak": "Peak",
         "offPeak": "Off-peak"
     },
-    "searchModal": "Search neighborhoods",
-    "searchModalPlaceholder": "Enter a neighborhood"
+    "searchModal": "Search the map",
+    "searchModalDescription": "Type a neighborhood name to find it on the map",
+    "searchModalPlaceholder": "Search neighborhoods"
 }
