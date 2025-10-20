@@ -112,6 +112,7 @@ export const {
     setHasViewedStartInstructions,
 } = userProfileSlice.actions;
 
+export const selectUserProfile = (state: RootState) => state.userProfile;
 export const selectActiveDestination = (state: RootState) =>
     state.userProfile.activeDestination;
 export const selectActiveDestinationDetails = (state: RootState) =>

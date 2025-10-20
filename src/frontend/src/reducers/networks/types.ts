@@ -148,9 +148,12 @@ export type Networks = {
     [key in NetworkModeOptionKey]: Network;
 };
 
+export type TrafficType = "peak" | "offPeak";
+
 export interface NetworksSliceState {
     networks: Networks | null;
     timesAndRoutesData: TimesAndPathsByPlace | null;
+    trafficConditions: TrafficType;
     activeMode: NetworkModeOptionKey;
     loading: boolean;
     error: string | null;

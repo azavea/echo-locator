@@ -182,5 +182,13 @@
         "echoLink": "Learn more about ECHO",
         "regionsFilterLabel": "Filter by region selections",
         "eccFilter": "Only recommend Expanded Choice Communities (ECC)"
+    },
+    "editTripsModal": {
+        "dialogHeading": "Choose a trip",
+        "dialogSubHeading": "We recommend neighborhoods that are conveniently located.",
+        "trafficHeading": "Choose traffic conditions",
+        "travelModeHeading": "How do you usually get around?",
+        "peak": "Peak",
+        "offPeak": "Off-peak"
     }
 }
