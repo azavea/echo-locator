@@ -43,8 +43,11 @@ const Button = ({
             {children}
             {rightIcon}
             {info && (
-                <div className="flex flex-1 justify-end">
-                    <span className="text-sm font-normal text-gray-600">
+                <div className="flex flex-1 justify-end overflow-hidden">
+                    <span
+                        className="text-sm font-normal text-gray-600 overflow-hidden whitespace-nowrap text-ellipsis
+"
+                    >
                         {info}
                     </span>
                 </div>
