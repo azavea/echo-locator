@@ -38,11 +38,14 @@ const Discover = () => {
         networks,
         timesAndRoutesData,
     } = useAppSelector(({ networks }: RootState) => networks);
+    const userProfile = useAppSelector(
+        ({ userProfile }: RootState) => userProfile
+    );
     const {
         destinations,
         loading: userProfileLoading,
         error: userProfileError,
-    } = useAppSelector(({ userProfile }: RootState) => userProfile);
+    } = userProfile;
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     const { loadingWrapper, loadingSpinner } = discoverStyles({
@@ -93,10 +96,15 @@ const Discover = () => {
     const invalidData = useAppSelector(selectInvalidTimesAndPathsData);
     const activeMode = useAppSelector(selectActiveMode);
     useEffect(() => {
-        if (networksDataIsReady && activeMode) {
+        if (
+            networksDataIsReady &&
+            activeMode &&
+            !userProfileLoading &&
+            !userProfileError
+        ) {
             dispatch(getRankedNeighborhoodLists());
         }
-    }, [networksDataIsReady, activeMode]);
+    }, [networksDataIsReady, activeMode, userProfile]);
     // --------------------------------------
 
     useEffect(() => {

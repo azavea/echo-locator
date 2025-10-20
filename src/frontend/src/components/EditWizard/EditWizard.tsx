@@ -13,6 +13,7 @@ import Wizard from "components/Wizard/Wizard";
 import { updateUserProfile } from "reducers/userProfile/userProfileThunk";
 import { useAppDispatch, type RootState } from "store/store";
 
+import _ from "lodash";
 import type { BaseProps } from "../../pages/Discover/Profile/types";
 
 type EditWizardChildComponent<P = {}> = React.ReactElement<P & BaseProps>;
@@ -74,19 +75,20 @@ const EditWizard = ({
         if (!destinations.find(d => d.primary)) {
             destinations[0] = { ...destinations[0], primary: true };
         }
-        dispatch(
-            updateUserProfile({
-                ...profileBuffer,
-                voucherRooms: profileBuffer.rooms,
-                importanceAccessibility: parseInt(
-                    profileBuffer.importanceAccessibility
-                ),
-                importanceSchools: parseInt(profileBuffer.importanceSchools),
-                importanceViolentCrime: parseInt(
-                    profileBuffer.importanceViolentCrime
-                ),
-            })
-        );
+        const updatedProfile = {
+            ...profileBuffer,
+            voucherRooms: profileBuffer.rooms,
+            importanceAccessibility: parseInt(
+                profileBuffer.importanceAccessibility
+            ),
+            importanceSchools: parseInt(profileBuffer.importanceSchools),
+            importanceViolentCrime: parseInt(
+                profileBuffer.importanceViolentCrime
+            ),
+        };
+        if (!_.isEqual(updatedProfile, profile)) {
+            dispatch(updateUserProfile(updatedProfile));
+        }
         handleClose();
     };
 
