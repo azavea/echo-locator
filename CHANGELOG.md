@@ -44,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add neighborhood detail preview cards to Discover page [#741](https://github.com/azavea/echo-locator/pull/741)
 - Add base Trips Wizard [#740](https://github.com/azavea/echo-locator/pull/740)
 - Add neighborhood list display filters [#738](https://github.com/azavea/echo-locator/pull/738)
+- Add address autocomplete and handle invalid destinations [#742](https://github.com/azavea/echo-locator/pull/742)
 
 ### Changed
 
