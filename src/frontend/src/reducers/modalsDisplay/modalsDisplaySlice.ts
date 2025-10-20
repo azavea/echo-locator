@@ -7,6 +7,7 @@ interface modalsDisplaySliceState {
     isEditTripsOpen: boolean;
     isSearchModalOpen: boolean;
     isEditProfileWizardOpen: boolean;
+    isEditTripsWizardOpen: boolean;
 }
 
 const initialState: modalsDisplaySliceState = {
@@ -15,6 +16,7 @@ const initialState: modalsDisplaySliceState = {
     isEditTripsOpen: false,
     isSearchModalOpen: false,
     isEditProfileWizardOpen: false,
+    isEditTripsWizardOpen: false,
 };
 
 export const modalsDisplaySlice = createSlice({
@@ -51,6 +53,12 @@ export const modalsDisplaySlice = createSlice({
         ) => {
             state.isEditProfileWizardOpen = status;
         },
+        setIsEditTripsWizardOpen: (
+            state,
+            { payload: status }: { payload: boolean }
+        ) => {
+            state.isEditTripsWizardOpen = status;
+        },
     },
 });
 
@@ -60,6 +68,7 @@ export const {
     setIsEditFiltersOpen,
     setIsSearchModalOpen,
     setIsEditProfileWizardOpen,
+    setIsEditTripsWizardOpen,
 } = modalsDisplaySlice.actions;
 
 export const selectIsNeighborhoodDetailsOpen = (state: RootState) =>
@@ -72,5 +81,7 @@ export const selectIsSearchModalOpen = (state: RootState) =>
     state.modalsDisplay.isSearchModalOpen;
 export const selectIsEditProfileWizardOpen = (state: RootState) =>
     state.modalsDisplay.isEditProfileWizardOpen;
+export const selectIsEditTripsWizardOpen = (state: RootState) =>
+    state.modalsDisplay.isEditTripsWizardOpen;
 
 export default modalsDisplaySlice.reducer;

@@ -75,19 +75,22 @@ const EditWizard = ({
         if (!destinations.find(d => d.primary)) {
             destinations[0] = { ...destinations[0], primary: true };
         }
-        const updatedProfile = {
-            ...profileBuffer,
-            voucherRooms: profileBuffer.rooms,
-            importanceAccessibility: parseInt(
-                profileBuffer.importanceAccessibility
-            ),
-            importanceSchools: parseInt(profileBuffer.importanceSchools),
-            importanceViolentCrime: parseInt(
-                profileBuffer.importanceViolentCrime
-            ),
-        };
-        if (!_.isEqual(updatedProfile, profile)) {
-            dispatch(updateUserProfile(updatedProfile));
+        if (!_.isEqual(profileBuffer, profile)) {
+            dispatch(
+                updateUserProfile({
+                    ...profileBuffer,
+                    voucherRooms: profileBuffer.rooms,
+                    importanceAccessibility: parseInt(
+                        profileBuffer.importanceAccessibility
+                    ),
+                    importanceSchools: parseInt(
+                        profileBuffer.importanceSchools
+                    ),
+                    importanceViolentCrime: parseInt(
+                        profileBuffer.importanceViolentCrime
+                    ),
+                })
+            );
         }
         handleClose();
     };
@@ -120,6 +123,7 @@ const EditWizard = ({
             isOpen={isWizardOpen}
             totalSteps={totalSteps}
             handleClose={handleClose}
+            showProgress={totalSteps > 1}
         >
             {childrenWithStepProps}
         </Wizard>

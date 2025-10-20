@@ -1,18 +1,18 @@
 import { useTranslation } from "react-i18next";
 
-import Button from "components/base/Button/Button";
-import { yourTripsStyles } from "./YourTrips.styles";
-import { useAppSelector } from "src/store/store";
-import { selectUseTransit } from "src/reducers/networks/networksSlice";
-import neighborhoodDetailStyles from "src/pages/NeighborhoodDetail/styles/NeighborhoodDetail.styles";
 import TouchPromptIcon from "assets/icons/touch-prompt.svg?react";
-import CommuteGroup from "./CommuteGroup";
-import type { TripType } from "./types";
-import { selectUserDestinations } from "src/reducers/userProfile/userSlice";
-import type { Destination } from "src/reducers/userProfile/types";
+import Button from "components/base/Button/Button";
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";
-import { setIsEditTripsOpen } from "src/reducers/modalsDisplay/modalsDisplaySlice";
+import neighborhoodDetailStyles from "src/pages/NeighborhoodDetail/styles/NeighborhoodDetail.styles";
+import { setIsEditTripsWizardOpen } from "src/reducers/modalsDisplay/modalsDisplaySlice";
+import { selectUseTransit } from "src/reducers/networks/networksSlice";
+import type { Destination } from "src/reducers/userProfile/types";
+import { selectUserDestinations } from "src/reducers/userProfile/userSlice";
+import { useAppSelector } from "src/store/store";
+import CommuteGroup from "./CommuteGroup";
+import type { TripType } from "./types";
+import { yourTripsStyles } from "./YourTrips.styles";
 
 const YourTrips = ({
     isMobile,
@@ -97,7 +97,7 @@ const YourTrips = ({
                 variant="outline"
                 size="medium"
                 className={styles.editButton()}
-                onPress={() => dispatch(setIsEditTripsOpen(true))}
+                onPress={() => dispatch(setIsEditTripsWizardOpen(true))}
             >
                 {t("yourTrips.editTrips")}
             </Button>

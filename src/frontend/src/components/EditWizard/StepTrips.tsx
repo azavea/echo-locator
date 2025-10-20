@@ -12,12 +12,17 @@ import { selectInvalidTimesAndPathsData } from "reducers/networks/networksSlice"
 import { useAppSelector } from "store/store";
 import type { BaseProps } from "../../pages/Discover/Profile/types";
 
+interface TripsStepProps extends BaseProps {
+    disableBack?: boolean;
+}
+
 const StepTrips = ({
     buffer,
     setProfileBuffer,
     handleBack,
     handleNext,
-}: BaseProps) => {
+    disableBack,
+}: TripsStepProps) => {
     const { t } = useTranslation();
     const invalidData = useAppSelector(selectInvalidTimesAndPathsData);
     const [addTripModalOpen, setIsAddTripModalOpen] = useState(false);
@@ -59,6 +64,7 @@ const StepTrips = ({
             handleBack={handleBack}
             handleNext={handleNext}
             disableNext={!destinations.length || showErrorMessage}
+            disableBack={disableBack}
         >
             <AddTripModal
                 isModalOpen={addTripModalOpen}

@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import {
     selectIsEditTripsOpen,
     setIsEditTripsOpen,
+    setIsEditTripsWizardOpen,
 } from "reducers/modalsDisplay/modalsDisplaySlice";
 import {
     selectTrafficConditions,
@@ -136,8 +137,7 @@ const EditTripsModal = ({ isMobile = false }) => {
                             size="medium"
                             className="flex w-full"
                             onPress={() =>
-                                // TODO Issue 739: Open Trips Wizard
-                                console.log("open trips wizard step")
+                                dispatch(setIsEditTripsWizardOpen(true))
                             }
                         >
                             {t("yourTrips.editTrips")}
