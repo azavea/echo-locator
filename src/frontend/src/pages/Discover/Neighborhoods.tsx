@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
-import InputText from "components/InputText";
-import discoverStyles from "./Discover.styles";
+import NeighborhoodList from "components/NeighborhoodsList/NeighborhoodsList";
 import {
     selectIsRankCalculating,
     selectRankedNeighborhoodsLists,
 } from "reducers/neighborhoods/neighborhoodsSlice";
 import selectNeighborhoodZipcodeMap from "reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
-import { useAppSelector } from "store/store";
-import NeighborhoodList from "components/NeighborhoodsList/NeighborhoodsList";
-import { selectActiveDestination } from "reducers/userProfile/userSlice";
 import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
+import { selectActiveDestination } from "reducers/userProfile/userSlice";
+import SearchList from "src/components/SearchList";
+import { useAppSelector } from "store/store";
+import discoverStyles from "./Discover.styles";
 
 const NEIGHBORHOOD_CARD_PER_PAGE = 10;
 
@@ -66,14 +66,7 @@ const Neighborhoods = ({
     return (
         <div className={recoContainer()}>
             <div className={recoContainerHeader()}>
-                {/* TODO: Neighborhood search */}
-                <InputText
-                    label="Text input"
-                    placeholder="Search neighborhoods"
-                    value={mediumTextInput}
-                    onChange={setMediumTextInput}
-                />
-
+                <SearchList isMobile={mobile} />
                 {/* Sub-title */}
                 <div className={subTitleContainer()}>
                     <p className={subTitle()}>Discover Neighborhoods</p>

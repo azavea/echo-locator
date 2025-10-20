@@ -82,6 +82,13 @@ export function Autocomplete({
             onClearCallback();
     }, [filteredSuggestions.filterText]);
 
+    // Handles filter text set from other parent search,
+    // to keep the map search and list search values in sync
+    useEffect(() => {
+        if (value && filteredSuggestions.filterText !== value)
+            filteredSuggestions.setFilterText(value);
+    }, [value]);
+
     return (
         <AriaAutocomplete
             onInputChange={filteredSuggestions.setFilterText}
