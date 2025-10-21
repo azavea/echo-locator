@@ -44,27 +44,6 @@ export const getNetworks = createAsyncThunk(
     }
 );
 
-export const getTimesAndPathsDataForPlace = createAsyncThunk<
-    any,
-    Destination,
-    { state: RootState }
->(
-    "networks/getTimesAndPathsDataForPlace",
-    async (destination, { getState, rejectWithValue }) => {
-        const state = getState();
-
-        if (!destination) {
-            return null;
-        }
-
-        try {
-            return await fetchAndProcessDataByDestination(destination, state);
-        } catch (error: any) {
-            return rejectWithValue(error.message);
-        }
-    }
-);
-
 export const getAllTimesAndPathsData = createAsyncThunk<
     any,
     Destination[],
