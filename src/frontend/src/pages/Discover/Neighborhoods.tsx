@@ -138,7 +138,7 @@ const Neighborhoods = ({
                 <div className={recoList()}>
                     <div>
                         <div className={recoTitleContainer()}>
-                            <p className={recoTitle()}>Too far</p>
+                            <p className={recoTitle()}>Not a match</p>
                             <div
                                 className={swatch({ swatchColor: "tooFar" })}
                             ></div>
