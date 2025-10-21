@@ -68,10 +68,14 @@ export const getRankedNeighborhoodLists =
 
         if (neighborhoodNameByZipcode) {
             // Filter by text search for grouped list view display
-            const searchTerm = state.neighborhoods.filters.textSearch?.trim();
+            const searchTerm = state.neighborhoods.filters.textSearch
+                ?.trim()
+                .toLowerCase();
             const passesTextSearchFilter = (zip: string) =>
                 zip.includes(searchTerm ?? "") ||
-                neighborhoodNameByZipcode[zip].includes(searchTerm ?? "");
+                neighborhoodNameByZipcode[zip]
+                    .toLowerCase()
+                    .includes(searchTerm ?? "");
 
             const recommendedFilteredListView = [
                 ...neighborhoodsList.recommended,

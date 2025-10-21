@@ -63,6 +63,7 @@ const SearchList = ({ isMobile = false }) => {
             suggestions={neighborhoodSuggestions}
             onSuggestionCallback={handleSelect}
             onClearCallback={handleClearSearch}
+            allowFuzzySearch
         />
     );
 };

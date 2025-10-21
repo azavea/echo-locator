@@ -1,8 +1,8 @@
 import { useAsyncList, type AsyncListData } from "@react-stately/data";
 import type { Point } from "geojson";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
-    Autocomplete as AriaAutocomplete,
+    ComboBox as AriaCombobox,
     Input,
     Menu,
     MenuItem,
@@ -31,6 +31,7 @@ export function Autocomplete({
     loadAsyncSuggestions,
     onSuggestionCallback,
     onClearCallback,
+    allowFuzzySearch = false,
 }: {
     placeholder: string;
     suggestions?: Suggestion[];
@@ -41,7 +42,9 @@ export function Autocomplete({
     ) => Promise<Suggestion[]>;
     onSuggestionCallback?: (suggestion: Suggestion) => void;
     onClearCallback?: () => void;
+    allowFuzzySearch?: boolean;
 }) {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { searchRoot, input: inputStyles } = autocompleteStyles();
     const baseDropdownPopoverStyles = dropdownPopoverStyles();
     const baseDropdownItemStyles = dropdownItemStyles();
@@ -72,34 +75,55 @@ export function Autocomplete({
     });
 
     // Force close menu on suggestion selection
-    const isMenuOpen =
-        filteredSuggestions.items.length &&
-        !filteredSuggestions.items.find(
-            i => i.name === filteredSuggestions.filterText
-        );
-
     useEffect(() => {
-        if (filteredSuggestions.filterText === "" && value && onClearCallback)
-            onClearCallback();
-    }, [filteredSuggestions.filterText]);
+        setIsMenuOpen(
+            !!filteredSuggestions.items.length &&
+                !filteredSuggestions.items.find(
+                    i => i.name === filteredSuggestions.filterText
+                )
+        );
+    }, [filteredSuggestions.items]);
 
     // Handles filter text set from other parent search,
     // to keep the map search and list search values in sync
     useEffect(() => {
-        if (value && filteredSuggestions.filterText !== value)
-            filteredSuggestions.setFilterText(value);
+        filteredSuggestions.setFilterText(value ?? "");
     }, [value]);
+
+    const handleTextSearch = () => {
+        setIsMenuOpen(false);
+        if (filteredSuggestions.filterText) {
+            const search = allowFuzzySearch
+                ? { name: filteredSuggestions.filterText }
+                : filteredSuggestions.items[0];
+            !allowFuzzySearch && filteredSuggestions.setFilterText(search.name);
+            onSuggestionCallback && onSuggestionCallback(search);
+        }
+    };
+
+    const handleSelection = (selection: Suggestion) => {
+        setIsMenuOpen(false);
+        filteredSuggestions.setFilterText(selection.name);
+        onSuggestionCallback && onSuggestionCallback(selection);
+    };
+
+    const handleClear = () => {
+        filteredSuggestions.setFilterText("");
+        onClearCallback && onClearCallback();
+    };
 
     return (
         <div className="w-full">
-            <AriaAutocomplete
+            <AriaCombobox
                 onInputChange={filteredSuggestions.setFilterText}
                 inputValue={filteredSuggestions.filterText}
+                allowsCustomValue
+                aria-label="Search"
             >
                 <SearchField
-                    aria-label="Search"
+                    aria-label="Search Input"
                     autoFocus
-                    onClear={onClearCallback}
+                    onSubmit={handleTextSearch}
                     className={`${searchRoot()} ${isMenuOpen ? "rounded-b-none" : ""} `}
                 >
                     <SearchIcon className="w-[30px] fill fill-gray-500 self-center pl-4" />
@@ -115,12 +139,15 @@ export function Autocomplete({
                                 <TimesIcon className="h-5 w-5 font-ligth fill-black" />
                             }
                             className="h-7 w-7 py-2 px-3 self-center mr-3"
+                            aria-label="Clear search"
+                            onPress={handleClear}
                         />
                     )}
                 </SearchField>
                 <Menu
+                    aria-label="Search suggestions"
                     items={isMenuOpen ? filteredSuggestions.items : []}
-                    className={`${baseDropdownPopoverStyles} ${isMenuOpen ? "visible" : "!invisible"} rounded-t-none`}
+                    className={`${baseDropdownPopoverStyles} ${isMenuOpen ? "!block" : "hidden"} w-full rounded-t-none`}
                 >
                     {item => {
                         const distinctItem =
@@ -128,14 +155,7 @@ export function Autocomplete({
                         return (
                             <MenuItem
                                 id={distinctItem}
-                                onAction={() => {
-                                    filteredSuggestions.setFilterText(
-                                        distinctItem
-                                    );
-                                    if (onSuggestionCallback) {
-                                        onSuggestionCallback(item);
-                                    }
-                                }}
+                                onAction={() => handleSelection(item)}
                                 className={baseDropdownItemStyles}
                                 aria-label="item"
                             >
@@ -144,7 +164,7 @@ export function Autocomplete({
                         );
                     }}
                 </Menu>
-            </AriaAutocomplete>
+            </AriaCombobox>
         </div>
     );
 }

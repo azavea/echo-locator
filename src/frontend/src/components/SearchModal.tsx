@@ -107,6 +107,7 @@ const SearchModal = ({ isMobile = false }) => {
                             suggestions={neighborhoodSuggestions}
                             onSuggestionCallback={handleSearch}
                             onClearCallback={handleClearSearch}
+                            allowFuzzySearch
                         />
                     </div>
                 </Dialog>
