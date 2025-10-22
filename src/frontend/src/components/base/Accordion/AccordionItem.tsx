@@ -13,7 +13,7 @@ export interface AccordionItemProps extends DisclosureProps {
     id: string;
     title: string;
     subtitle: string;
-    titleContentRight: ReactNode;
+    titleContentRight?: ReactNode;
     isMobile?: boolean;
     overridePanelOpen?: boolean;
     children?: ReactNode;

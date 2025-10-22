@@ -98,7 +98,9 @@ export const UserProfileSubheaderMobile = ({
                 }
                 onPress={() => dispatch(setIsEditTripsOpen(true))}
             >
-                {t(`destinationPurposes.${destination?.purpose}`)}
+                <span className="overflow-hidden whitespace-nowrap text-ellipsis">
+                    {t(`destinationPurposes.${destination?.purpose}`)}
+                </span>
             </Button>
             <ToggleButtonGroup
                 selectionMode="single"

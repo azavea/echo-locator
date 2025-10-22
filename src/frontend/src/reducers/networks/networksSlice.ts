@@ -4,18 +4,21 @@ import {
     getUserProfile,
     updateUserProfile,
 } from "reducers/userProfile/userProfileThunk";
-import { NetworkModeOptions, type NetworkModeOptionKey } from "src/enums";
+import { NetworkModeOptions } from "src/enums";
 import type { RootState } from "store/store";
 import {
     getAllTimesAndPathsData,
     getNetworks,
     getTimesAndPathsDataForPlace,
 } from "./networksThunk";
-import type { NetworksSliceState } from "./types";
+import type { NetworksSliceState, TrafficType } from "./types";
+
+import getActiveModeKey from "./utils/getActiveModeKey";
 
 const initialState: NetworksSliceState = {
     networks: null,
     timesAndRoutesData: null,
+    trafficConditions: "peak",
     // Default to use first transit network with commuter rail
     activeMode: "peak",
     loading: false,
@@ -26,11 +29,11 @@ export const networksSlice = createSlice({
     name: "networks",
     initialState,
     reducers: {
-        setActiveMode: (
+        setTrafficConditions: (
             state,
-            { payload: mode }: { payload: NetworkModeOptionKey }
+            { payload: mode }: { payload: TrafficType }
         ) => {
-            state.activeMode = mode;
+            state.trafficConditions = mode;
         },
     },
     extraReducers: builder => {
@@ -80,15 +83,18 @@ export const networksSlice = createSlice({
                     "Failed to fetch all times and paths data.";
             })
             .addCase(getUserProfile.fulfilled, (state, action) => {
-                // TODO: active mode needs to depend on a third variable
-                // https://github.com/azavea/echo-locator/issues/728
-                state.activeMode = action.payload.hasVehicle
-                    ? (NetworkModeOptions.car as NetworkModeOptionKey)
-                    : action.payload.useCommuterRail
-                      ? (NetworkModeOptions.peak as NetworkModeOptionKey)
-                      : (NetworkModeOptions.peakNoExpress as NetworkModeOptionKey);
+                state.activeMode = getActiveModeKey(
+                    state.trafficConditions === NetworkModeOptions.peak,
+                    action.payload.hasVehicle,
+                    action.payload.useCommuterRail
+                );
             })
             .addCase(updateUserProfile.fulfilled, (state, action) => {
+                state.activeMode = getActiveModeKey(
+                    state.trafficConditions === NetworkModeOptions.peak,
+                    action.payload.hasVehicle,
+                    action.payload.useCommuterRail
+                );
                 // Remove times and paths data for deleted destinations
                 if (state.timesAndRoutesData) {
                     const newDestinationKeys = action.payload.destinations.map(
@@ -136,7 +142,9 @@ export const selectUseTransit = createSelector(
     activeMode => activeMode !== "car"
 );
 export const selectActiveMode = (state: RootState) => state.networks.activeMode;
+export const selectTrafficConditions = (state: RootState) =>
+    state.networks.trafficConditions;
 
-export const { setActiveMode } = networksSlice.actions;
+export const { setTrafficConditions } = networksSlice.actions;
 
 export default networksSlice.reducer;

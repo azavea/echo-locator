@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
     CheckboxGroup as AriaCheckboxGroup,
     Dialog,
@@ -57,19 +57,8 @@ const EditFiltersModal = ({ isMobile = false }) => {
     const modalOpen = useAppSelector(selectIsEditFiltersOpen);
     const bedrooms = useAppSelector(selectUserBedroomCount);
     const mode = useAppSelector(selectActiveMode);
-    const [filtersBuffer, setFiltersBuffer] = useState<FiltersState | null>(
-        null
-    );
-
     const filters = useAppSelector(selectNeighborhoodFilters);
-
-    useEffect(() => {
-        setFiltersBuffer({ ...filters });
-    }, [filters]);
-
-    if (!filtersBuffer) {
-        return <></>;
-    }
+    const [filtersBuffer, setFiltersBuffer] = useState<FiltersState>(filters);
 
     const regionsFilterSelected = (isSelected: boolean, region: string) => {
         const updatedRegionsFilter = [...filtersBuffer.regions];

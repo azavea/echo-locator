@@ -8,6 +8,7 @@ import {
     getRankedNeighborhoodLists,
 } from "reducers/neighborhoods/neighborhoodsThunk";
 import {
+    selectActiveMode,
     selectAllNetworksDataReady,
     selectInvalidTimesAndPathsData,
 } from "reducers/networks/networksSlice";
@@ -90,11 +91,12 @@ const Discover = () => {
 
     const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
     const invalidData = useAppSelector(selectInvalidTimesAndPathsData);
+    const activeMode = useAppSelector(selectActiveMode);
     useEffect(() => {
-        if (networksDataIsReady) {
+        if (networksDataIsReady && activeMode) {
             dispatch(getRankedNeighborhoodLists());
         }
-    }, [networksDataIsReady]);
+    }, [networksDataIsReady, activeMode]);
     // --------------------------------------
 
     useEffect(() => {

@@ -11,7 +11,7 @@ export const accordionStyles = tv({
         accordionButton: "flex w-full px-4 py-3 justify-between gap-2",
         accordionItemTextWrapper:
             "flex flex-col items-start items-baseline text-gray-800 text-base gap-0",
-        accordionItemSubText: "text-gray-600 text-xs",
+        accordionItemSubText: "text-gray-600 text-xs text-left",
         accordionItemPanel: "flex flex-col w-full",
     },
     variants: {

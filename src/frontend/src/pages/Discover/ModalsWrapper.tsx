@@ -1,6 +1,6 @@
 import EditFiltersModal from "src/components/EditFiltersModal";
-import NeighborhoodDetail from "../NeighborhoodDetail";
 import EditTripsModal from "src/components/EditTripsModal";
+import NeighborhoodDetail from "../NeighborhoodDetail";
 
 const ModalsWrapper = ({ isMobile }: { isMobile?: boolean }) => (
     <>
