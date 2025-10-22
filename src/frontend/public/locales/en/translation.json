@@ -146,7 +146,8 @@
                 "question": "Which trips do you make frequently?",
                 "description": "We use this information to recommend neighborhoods near the places you visit often",
                 "addATrip": "Add a trip",
-                "addAnotherTrip": "Add another trip"
+                "addAnotherTrip": "Add another trip",
+                "error": "You have destinations that are not valid, please remove and try again."
             },
             "addNewTripModal": {
                 "question": "Add new trip",

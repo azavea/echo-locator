@@ -1,6 +1,10 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 
-import { getUserProfile } from "reducers/userProfile/userProfileThunk";
+import {
+    getUserProfile,
+    updateUserProfile,
+} from "reducers/userProfile/userProfileThunk";
+import { NetworkModeOptions, type NetworkModeOptionKey } from "src/enums";
 import type { RootState } from "store/store";
 import {
     getAllTimesAndPathsData,
@@ -8,8 +12,6 @@ import {
     getTimesAndPathsDataForPlace,
 } from "./networksThunk";
 import type { NetworksSliceState } from "./types";
-
-import { NetworkModeOptions, type NetworkModeOptionKey } from "src/enums";
 
 const initialState: NetworksSliceState = {
     networks: null,
@@ -85,6 +87,20 @@ export const networksSlice = createSlice({
                     : action.payload.useCommuterRail
                       ? (NetworkModeOptions.peak as NetworkModeOptionKey)
                       : (NetworkModeOptions.peakNoExpress as NetworkModeOptionKey);
+            })
+            .addCase(updateUserProfile.fulfilled, (state, action) => {
+                // Remove times and paths data for deleted destinations
+                if (state.timesAndRoutesData) {
+                    const newDestinationKeys = action.payload.destinations.map(
+                        destination => destination.location.label
+                    );
+                    const cleanedTimesAndPathsData = Object.fromEntries(
+                        Object.entries({ ...state.timesAndRoutesData }).filter(
+                            ([key]) => newDestinationKeys.includes(key)
+                        )
+                    );
+                    state.timesAndRoutesData = cleanedTimesAndPathsData;
+                }
             });
     },
 });
@@ -101,6 +117,17 @@ export const selectAllNetworksDataReady = createSelector(
         Object.values(networks).every(n => n.ready) &&
         Object.values(timesAndRoutesData).every(place =>
             Object.values(place).every(n => n.timesAndRoutesDataReady)
+        )
+);
+
+export const selectInvalidTimesAndPathsData = createSelector(
+    [(state: RootState) => state.networks.timesAndRoutesData],
+    timesAndRoutesData =>
+        timesAndRoutesData &&
+        Object.keys(timesAndRoutesData).filter(key =>
+            Object.values(timesAndRoutesData[key]).every(
+                n => !n.timesAndRoutesDataReady
+            )
         )
 );
 

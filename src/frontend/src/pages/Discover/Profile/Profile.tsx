@@ -69,7 +69,7 @@ const Profile = () => {
         // userProfile.activeDestination to calculate score.
         // Use first destination by default.
         if (!destinations.find(d => d.primary)) {
-            destinations[0].primary = true;
+            destinations[0] = { ...destinations[0], primary: true };
         }
         dispatch(
             updateUserProfile({

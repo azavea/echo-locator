@@ -7,7 +7,10 @@ import {
     getNeighborhoodsAndBounds,
     getRankedNeighborhoodLists,
 } from "reducers/neighborhoods/neighborhoodsThunk";
-import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
+import {
+    selectAllNetworksDataReady,
+    selectInvalidTimesAndPathsData,
+} from "reducers/networks/networksSlice";
 import {
     getAllTimesAndPathsData,
     getNetworks,
@@ -86,6 +89,7 @@ const Discover = () => {
     }, [destinations, neighborhoods, networks, timesAndRoutesData]);
 
     const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
+    const invalidData = useAppSelector(selectInvalidTimesAndPathsData);
     useEffect(() => {
         if (networksDataIsReady) {
             dispatch(getRankedNeighborhoodLists());
@@ -97,11 +101,12 @@ const Discover = () => {
         dispatch(setIsNeighborhoodDetailsOpen(!!zipcode));
     }, [zipcode]);
 
-    return userProfileLoading ? (
+    return userProfileLoading ||
+        (destinations.length && !networksDataIsReady && !invalidData) ? (
         <div className={loadingWrapper()}>
             <div className={loadingSpinner()} />
         </div>
-    ) : destinations.length ? (
+    ) : destinations.length && !invalidData?.length ? (
         isDesktop ? (
             <Desktop />
         ) : (

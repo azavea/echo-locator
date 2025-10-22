@@ -5,10 +5,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchNetworkData } from "src/api/networks";
 import { networks } from "src/constants";
-import type { Networks } from "./types";
-import type { RootState } from "src/store/store";
 import type { NetworkModeOptionKey } from "src/enums";
+import type { RootState } from "src/store/store";
 import type { Destination } from "../userProfile/types";
+import type { Networks } from "./types";
 import { fetchAndProcessDataByDestination } from "./utils/fetchAndProcessDataByDestination";
 
 export const getNetworks = createAsyncThunk(

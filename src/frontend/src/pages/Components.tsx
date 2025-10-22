@@ -527,6 +527,7 @@ const Components = () => {
                         <Checkbox
                             isSelected={isExpress}
                             onChange={setIsExpress}
+                            variant="default"
                             description="The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus."
                         >
                             I'm willing to take the express bus or commuter rail
@@ -594,6 +595,7 @@ const Components = () => {
                                     <Checkbox
                                         isSelected={isExpress}
                                         onChange={setIsExpress}
+                                        variant="default"
                                         description="The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus."
                                     >
                                         I'm willing to take the express bus or
