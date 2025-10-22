@@ -20,7 +20,7 @@ const filterNeighborhoodList = (
     const { recommended: unfilteredRecommended, tooFar: unfilteredTooFar } =
         neighborhoodsList;
 
-    const { recommended, tooFar } = [...unfilteredRecommended].reduce(
+    const { recommended, tooFar } = unfilteredRecommended.reduce(
         (
             filteredNeighborhoods: {
                 recommended: string[];

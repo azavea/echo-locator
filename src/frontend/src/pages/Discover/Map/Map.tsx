@@ -27,6 +27,7 @@ import { useAppSelector, type RootState } from "store/store";
 import Top10Tour from "components/Top10Tour/Top10Tour";
 import Top10TourButton from "components/Top10Tour/Top10TourButton";
 import CustomControlOverlay from "components/YourTrips/CustomMapControl";
+import type { FilterSpecification } from "maplibre-gl";
 import baseMapStyle from "./baseMapStyle.json";
 import { BOUNDS } from "./constants";
 import DestinationMarker from "./DestinationMarker";
@@ -107,27 +108,18 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         // If text search filter, style as if clicked.
         // All filters, fit bounds to filtered neighborhoods.
         if (mapRef.current) {
+            let filter: FilterSpecification = ["==", ["id"], ""];
             if (filters.textSearch?.trim() && filteredNeighborhoodBounds) {
                 const filteredZipCodes =
                     filteredNeighborhoodBounds.features.map(
                         f => f.properties.id
                     );
-                mapRef.current
-                    ?.getMap()
-                    .setFilter("neighborhoods-borders-filtered", [
-                        "in",
-                        "id",
-                        ...filteredZipCodes,
-                    ]);
-            } else {
-                mapRef.current
-                    ?.getMap()
-                    .setFilter("neighborhoods-borders-filtered", [
-                        "==",
-                        ["id"],
-                        "",
-                    ]);
+                filter = ["in", "id", ...filteredZipCodes];
             }
+
+            mapRef.current
+                ?.getMap()
+                .setFilter("neighborhoods-borders-filtered", filter);
             const [minLng, minLat, maxLng, maxLat] = filteredBounds;
             mapRef.current.fitBounds(
                 [

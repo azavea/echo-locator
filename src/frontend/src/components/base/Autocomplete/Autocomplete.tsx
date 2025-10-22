@@ -82,7 +82,7 @@ export function Autocomplete({
                     i => i.name === filteredSuggestions.filterText
                 )
         );
-    }, [filteredSuggestions.items]);
+    }, [filteredSuggestions.items, filteredSuggestions.filterText]);
 
     // Handles filter text set from other parent search,
     // to keep the map search and list search values in sync
@@ -126,7 +126,7 @@ export function Autocomplete({
                     onSubmit={handleTextSearch}
                     className={`${searchRoot()} ${isMenuOpen ? "rounded-b-none" : ""} `}
                 >
-                    <SearchIcon className="w-[30px] fill fill-gray-500 self-center pl-4" />
+                    <SearchIcon className="w-[30px] fill fill-gray-500 self-center shrink-0 pl-4" />
                     <Input
                         placeholder={placeholder}
                         className={inputStyles()}
