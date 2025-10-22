@@ -34,7 +34,6 @@ export const updateUserProfile = createAsyncThunk(
             );
         }
 
-        console.log(pathsAndTimesData);
         return data;
     }
 );
