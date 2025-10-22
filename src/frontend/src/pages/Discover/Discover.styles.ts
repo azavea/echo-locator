@@ -38,6 +38,14 @@ const discoverStyles = tv({
                 recoDescription: "px-6",
             },
         },
+        isLoading: {
+            true: {
+                loadingWrapper: "absolute inset-0 z-60 h-full bg-teal-100",
+            },
+            false: {
+                loadingWrapper: "hidden",
+            },
+        },
         mobileListDisplay: {
             false: {
                 recoContainer: "hidden",

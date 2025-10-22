@@ -8,7 +8,7 @@ import neighborhoodDetailStyles from "src/pages/NeighborhoodDetail/styles/Neighb
 import { setIsEditTripsWizardOpen } from "src/reducers/modalsDisplay/modalsDisplaySlice";
 import { selectUseTransit } from "src/reducers/networks/networksSlice";
 import type { Destination } from "src/reducers/userProfile/types";
-import { selectUserDestinations } from "src/reducers/userProfile/userSlice";
+import { selectUserProfile } from "src/reducers/userProfile/userSlice";
 import { useAppSelector } from "src/store/store";
 import CommuteGroup from "./CommuteGroup";
 import type { TripType } from "./types";
@@ -32,7 +32,7 @@ const YourTrips = ({
         isMobile: isMobile,
     });
 
-    const destinations = useAppSelector(selectUserDestinations);
+    const { destinations, loading } = useAppSelector(selectUserProfile);
     const isTripToNeighborhood = !!activeNeighborhood;
     // TODO: Implement for compare page
     const favoritedNeighborhoods: string[] = [];
@@ -84,19 +84,26 @@ const YourTrips = ({
                     </p>
                 </div>
             </div>
-            <CommuteGroup
-                trips={
-                    isTripToNeighborhood
-                        ? tripsByDestination
-                        : tripsByNeighborhood
-                }
-                isMobile={isMobile}
-                isTransit={useTransit}
-            />
+            {loading ? (
+                <div className={styles.loadingWrapper()}>
+                    <div className={styles.loadingSpinner()} />
+                </div>
+            ) : (
+                <CommuteGroup
+                    trips={
+                        isTripToNeighborhood
+                            ? tripsByDestination
+                            : tripsByNeighborhood
+                    }
+                    isMobile={isMobile}
+                    isTransit={useTransit}
+                />
+            )}
             <Button
                 variant="outline"
                 size="medium"
                 className={styles.editButton()}
+                isDisabled={loading}
                 onPress={() => dispatch(setIsEditTripsWizardOpen(true))}
             >
                 {t("yourTrips.editTrips")}
