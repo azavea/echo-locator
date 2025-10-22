@@ -1,8 +1,9 @@
 import { NEIGHBORHOOD_REGIONS } from "src/constants";
 import type { FiltersState, NeighborhoodProperties } from "../types";
 
-// Filter out neighborhoods from ranked list using user selections.
-// Filtered neighborhoods then grouped for list display
+// Filter neighborhoods from ranked list using user selections.
+// Neighborhoods that don't meet criteria moved to "tooFar" list.
+// Filtered neighborhoods then grouped for list display.
 const filterNeighborhoodList = (
     neighborhoodsList: {
         recommended: string[];
@@ -16,8 +17,17 @@ const filterNeighborhoodList = (
         return neighborhoodsList;
     }
 
-    const filterList = (zipList: string[]) =>
-        zipList.filter(zip => {
+    const { recommended: unfilteredRecommended, tooFar: unfilteredTooFar } =
+        neighborhoodsList;
+
+    const { recommended, tooFar } = unfilteredRecommended.reduce(
+        (
+            filteredNeighborhoods: {
+                recommended: string[];
+                tooFar: string[];
+            },
+            zip
+        ) => {
             const passesEccFilter =
                 !filters.ecc || neighborhoodPropsByZipcode[zip].ecc;
             const passesRegionFilter =
@@ -25,21 +35,22 @@ const filterNeighborhoodList = (
                 filters.regions.includes(
                     neighborhoodPropsByZipcode[zip].region ?? ""
                 );
-            const textSearchString =
-                filters.textSearch?.trim().toLowerCase() ?? "";
-            const passesTextSearchFilter =
-                textSearchString.length === 0 ||
-                zip.includes(textSearchString) ||
-                neighborhoodPropsByZipcode[zip].town.includes(textSearchString);
-
-            return (
-                passesEccFilter && passesRegionFilter && passesTextSearchFilter
-            );
-        });
+            if (passesEccFilter && passesRegionFilter) {
+                filteredNeighborhoods.recommended.push(zip);
+            } else {
+                filteredNeighborhoods.tooFar.push(zip);
+            }
+            return filteredNeighborhoods;
+        },
+        {
+            recommended: [],
+            tooFar: [],
+        }
+    );
 
     return {
-        recommended: filterList(neighborhoodsList.recommended),
-        tooFar: filterList(neighborhoodsList.tooFar),
+        recommended: recommended,
+        tooFar: [...tooFar, ...unfilteredTooFar],
     };
 };
 

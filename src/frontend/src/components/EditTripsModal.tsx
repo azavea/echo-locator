@@ -31,7 +31,7 @@ import TravelModeToggle from "./TravelModeToggle";
 
 const modalHeadingClassName = "text-lg font-bold text-gray-900";
 
-const EditTripsModal = () => {
+const EditTripsModal = ({ isMobile = false }) => {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const modalOpen = useAppSelector(selectIsEditTripsOpen);
@@ -93,7 +93,7 @@ const EditTripsModal = () => {
     return (
         <ModalOverlay
             isDismissable
-            isMobile
+            isMobile={isMobile}
             isOpen={modalOpen}
             onOpenChange={onOpenChange}
         >

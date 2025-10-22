@@ -118,6 +118,16 @@ export const selectAreFiltersApplied = (state: RootState) => {
 export const selectNeighborhoodFilters = (state: RootState) =>
     state.neighborhoods.filters;
 
+export const selectNeighborhoodFilterSuggestions = (state: RootState) => {
+    const { neighborhoods } = state.neighborhoods;
+    // Return distinct town names formatted as Autocomplete Suggestion
+    return [
+        ...new Set(neighborhoods?.features.map(f => f.properties.town)),
+    ].map(name => {
+        return { name: name };
+    });
+};
+
 export const selectFilterableNeighborhoodBounds = createSelector(
     [
         selectRankedNeighborhoodsLists,
@@ -126,16 +136,25 @@ export const selectFilterableNeighborhoodBounds = createSelector(
         // Filters state unused in fn, but passed in to pick up changes
         (state: RootState) => state.neighborhoods.filters,
     ],
-    (rankedNeighborhoodsLists, isFiltered, neighborhoodBounds, _) => {
-        const { topTen, recommended, tooFar } = rankedNeighborhoodsLists;
+    (rankedNeighborhoodsLists, isFiltered, neighborhoodBounds, filters) => {
         if (isFiltered) {
+            // Use grouped lists since includes text search filtering for list view.
+            // If text search, include tooFar list in results since high specificity
+            // that we would still want to display even if "not a match".
+            const { groupedTopTen, groupedRecommended, groupedTooFar } =
+                rankedNeighborhoodsLists;
+            const tooFarIfTextSearch = filters.textSearch?.trim()
+                ? groupedTooFar
+                : [];
+            const filteredList = [
+                ...groupedTopTen,
+                ...groupedRecommended,
+                ...tooFarIfTextSearch,
+            ].flat();
             return {
                 type: "FeatureCollection",
                 features: neighborhoodBounds?.features.filter(f =>
-                    // Filtered rankedNeighborhoodsLists groups
-                    [...topTen, ...recommended, ...tooFar].includes(
-                        f.properties.zipcode
-                    )
+                    filteredList.includes(f.properties.zipcode)
                 ),
             } as NeighborhoodBounds;
         }

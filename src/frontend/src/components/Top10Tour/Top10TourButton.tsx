@@ -12,13 +12,13 @@ const Top10TourButton = ({
 }) => {
     const { t } = useTranslation();
     const { openButtonContainer, openButtonColorBox, openButtonLabel } =
-        top10TourStyles();
+        top10TourStyles({ buttonIsVisible: isVisible });
     return (
         <Button
             variant="unstyled"
             size="small"
             onPress={onClickCallback}
-            className={`${isVisible ? "visible" : "invisible"} ${openButtonContainer()}`}
+            className={openButtonContainer()}
         >
             <div className={openButtonColorBox()} />
             <span className={openButtonLabel()}>

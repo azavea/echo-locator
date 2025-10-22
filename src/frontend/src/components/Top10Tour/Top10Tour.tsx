@@ -27,7 +27,6 @@ interface Props {
 }
 
 const MIN_STEP = 0;
-const MAX_STEP = 9;
 
 const Top10Tour = ({
     isTop10TourOpen,
@@ -39,7 +38,8 @@ const Top10Tour = ({
 }: Props) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [_, setRouterParams] = useSearchParams();
+    const [searchParams, setRouterParams] = useSearchParams();
+    const isMap = searchParams.get("display") === "map";
     const dispatch = useDispatch();
 
     const [tourStep, setTourStep] = useState(-1);
@@ -50,11 +50,12 @@ const Top10Tour = ({
     const { topTen } = useAppSelector(selectRankedNeighborhoodsLists);
     const neighborhoodDetailsMap = useAppSelector(selectNeighborhoodZipcodeMap);
     const activeDestination = useAppSelector(selectActiveDestination);
+    const MAX_STEP = topTen.length - 1; // MAX 9
 
-    const skipTourCallback = () => {
+    const skipTourCallback = (showList?: boolean) => {
         dispatch(setHasViewedStartInstructions(true));
-        setRouterParams({ display: "list" });
         setIsTop10TourOpen(false);
+        showList && setRouterParams({ display: "list" });
     };
 
     const startTourCallback = () => {
@@ -108,7 +109,12 @@ const Top10Tour = ({
     return (
         <div className={root()}>
             <StartTourModal
-                isOpen={isTop10TourOpen && !neighborhood && showInstructions}
+                isOpen={
+                    isTop10TourOpen &&
+                    !neighborhood &&
+                    showInstructions &&
+                    isMap
+                }
                 startTourCallback={startTourCallback}
                 skipTourCallback={skipTourCallback}
             />

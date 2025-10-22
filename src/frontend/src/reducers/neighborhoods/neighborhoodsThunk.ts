@@ -45,7 +45,7 @@ export const getRankedNeighborhoodLists =
         const neighborhoodNameByZipcode =
             selectNeighborhoodNameByZipcode(state);
 
-        // Apply filters
+        // Apply regional and ecc filtering
         const isFiltered = selectAreFiltersApplied(state);
         const neighborhoodPropsByZipcode =
             selectNeighborhoodPropsByZipcode(state);
@@ -58,7 +58,6 @@ export const getRankedNeighborhoodLists =
             );
         }
 
-        // Group for list display
         groupedNeighborhoodsLists.topTen = neighborhoodsList.recommended.slice(
             0,
             10
@@ -68,19 +67,37 @@ export const getRankedNeighborhoodLists =
         groupedNeighborhoodsLists.tooFar = neighborhoodsList.tooFar;
 
         if (neighborhoodNameByZipcode) {
+            // Filter by text search for grouped list view display
+            const searchTerm = state.neighborhoods.filters.textSearch
+                ?.trim()
+                .toLowerCase();
+            const passesTextSearchFilter = (zip: string) =>
+                zip.includes(searchTerm ?? "") ||
+                neighborhoodNameByZipcode[zip]
+                    .toLowerCase()
+                    .includes(searchTerm ?? "");
+
+            const recommendedFilteredListView = [
+                ...neighborhoodsList.recommended,
+            ].filter(zip => passesTextSearchFilter(zip as string));
+            const tooFarFilteredListView = [...neighborhoodsList.tooFar].filter(
+                zip => passesTextSearchFilter(zip as string)
+            );
+
+            // Group neighborhoods by same name for list view display
             groupedNeighborhoodsLists.groupedTopTen =
                 groupRankingsByLikeNeigborhoodName(
-                    groupedNeighborhoodsLists.topTen,
-                    neighborhoodNameByZipcode
-                );
-            groupedNeighborhoodsLists.groupedTooFar =
-                groupRankingsByLikeNeigborhoodName(
-                    neighborhoodsList.tooFar,
+                    recommendedFilteredListView.slice(0, 10),
                     neighborhoodNameByZipcode
                 );
             groupedNeighborhoodsLists.groupedRecommended =
                 groupRankingsByLikeNeigborhoodName(
-                    neighborhoodsList.recommended.slice(10),
+                    recommendedFilteredListView.slice(10),
+                    neighborhoodNameByZipcode
+                );
+            groupedNeighborhoodsLists.groupedTooFar =
+                groupRankingsByLikeNeigborhoodName(
+                    tooFarFilteredListView,
                     neighborhoodNameByZipcode
                 );
         }

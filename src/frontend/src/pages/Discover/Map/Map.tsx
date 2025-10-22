@@ -22,11 +22,12 @@ import {
     selectUserDestinations,
     selectUserHasViewedStartInstructions,
 } from "reducers/userProfile/userSlice";
-import { useAppSelector } from "store/store";
+import { useAppSelector, type RootState } from "store/store";
 
 import Top10Tour from "components/Top10Tour/Top10Tour";
 import Top10TourButton from "components/Top10Tour/Top10TourButton";
 import CustomControlOverlay from "components/YourTrips/CustomMapControl";
+import type { FilterSpecification } from "maplibre-gl";
 import baseMapStyle from "./baseMapStyle.json";
 import { BOUNDS } from "./constants";
 import DestinationMarker from "./DestinationMarker";
@@ -34,10 +35,12 @@ import Legend from "./Legend";
 import mapStyles from "./Map.styles";
 import {
     neighborhoodsBordersStyle,
+    neighborhoodsFilteredStyle,
     neighborhoodsHoverStyle,
     neighborhoodsSelectedStyle,
     neighborhoodsStyle,
 } from "./mapLayerStyles";
+import MapSearch from "./MapSearch";
 import NeighborhoodDetailPreviewCard from "./NeighborhoodDetailPreviewCard";
 import NeighborhoodDetailPreviewPopup, {
     type DetailPreviewPopupProps,
@@ -60,6 +63,10 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const hasViewedInstructions = useAppSelector(
         selectUserHasViewedStartInstructions
     );
+    const { neighborhoodBounds } = useAppSelector(
+        ({ neighborhoods }: RootState) => neighborhoods
+    );
+    // filteredNeighborhoodBounds used for map styling/fit bounds on filter change
     const filteredNeighborhoodBounds = useAppSelector(
         selectFilterableNeighborhoodBounds
     );
@@ -98,24 +105,38 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     useEffect(() => {
         // Reset Top 10 tour on filter change
         setOutsideTourStopTriggered(true);
-        // Fit bounds to new filtered neighborhoods
+        // If text search filter, style as if clicked.
+        // All filters, fit bounds to filtered neighborhoods.
         if (mapRef.current) {
+            let filter: FilterSpecification = ["==", ["id"], ""];
+            if (filters.textSearch?.trim() && filteredNeighborhoodBounds) {
+                const filteredZipCodes =
+                    filteredNeighborhoodBounds.features.map(
+                        f => f.properties.id
+                    );
+                filter = ["in", "id", ...filteredZipCodes];
+            }
+
+            mapRef.current
+                ?.getMap()
+                .setFilter("neighborhoods-borders-filtered", filter);
             const [minLng, minLat, maxLng, maxLat] = filteredBounds;
             mapRef.current.fitBounds(
                 [
                     [minLng, minLat],
                     [maxLng, maxLat],
                 ],
-                { duration: 1000 }
+                { padding: 20, duration: 1000 }
             );
         }
     }, [filters, filteredNeighborhoodBounds]);
 
+    // Display all neighborhood features on map
     const neighborhoodsRanked = useMemo(() => {
-        if (!filteredNeighborhoodBounds) return null;
+        if (!neighborhoodBounds) return null;
         return {
-            ...filteredNeighborhoodBounds,
-            features: filteredNeighborhoodBounds.features.map(feature => {
+            ...neighborhoodBounds,
+            features: neighborhoodBounds.features.map(feature => {
                 let category = "unreachable";
                 if (topTen.includes(feature.properties.id)) {
                     category = "top";
@@ -130,7 +151,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                 };
             }),
         };
-    }, [filteredNeighborhoodBounds, topTen, recommended]);
+    }, [neighborhoodBounds, topTen, recommended]);
 
     const onMapClick = (event: MapLayerMouseEvent) => {
         if (!mapRef.current) return;
@@ -222,7 +243,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
         if (!mapRef.current) return;
         const map = mapRef.current?.getMap();
 
-        const feature = filteredNeighborhoodBounds?.features.find(
+        const feature = neighborhoodBounds?.features.find(
             b => b.properties.id === neighborhoodId
         );
 
@@ -323,6 +344,8 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                         <Layer {...neighborhoodsHoverStyle} />
                         {/* @ts-ignore */}
                         <Layer {...neighborhoodsSelectedStyle} />
+                        {/* @ts-ignore */}
+                        <Layer {...neighborhoodsFilteredStyle} />
                     </Source>
                 )}
                 <CustomControlOverlay position="top-left">
@@ -335,6 +358,11 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                             setNeighborhoodMobilePreview(null);
                         }}
                     />
+                </CustomControlOverlay>
+                <CustomControlOverlay
+                    position={isMobile ? "top-right" : "top-left"}
+                >
+                    <MapSearch />
                 </CustomControlOverlay>
                 {neighborhoodDesktopPreview && (
                     <Popup

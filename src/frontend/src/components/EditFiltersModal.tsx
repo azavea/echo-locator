@@ -79,12 +79,16 @@ const EditFiltersModal = ({ isMobile = false }) => {
     const onOpenChange = (isOpen: boolean) => {
         dispatch(setNeighborhoodFilters(filtersBuffer));
         dispatch(setIsEditFiltersOpen(isOpen));
-        // Recalculate ranking on filters close
         if (
             isOpen == false &&
             (filters.ecc !== filtersBuffer.ecc ||
                 !_.isEqual(filters.regions, filtersBuffer.regions))
         ) {
+            // Clear existing text search on additional filters selection
+            dispatch(
+                setNeighborhoodFilters({ ...filtersBuffer, textSearch: "" })
+            );
+            // Recalculate ranking on filters close
             dispatch(getRankedNeighborhoodLists());
         }
     };
@@ -92,7 +96,7 @@ const EditFiltersModal = ({ isMobile = false }) => {
     return (
         <ModalOverlay
             isDismissable
-            isMobile
+            isMobile={isMobile}
             isOpen={modalOpen}
             onOpenChange={onOpenChange}
         >

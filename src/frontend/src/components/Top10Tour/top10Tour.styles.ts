@@ -22,10 +22,18 @@ export const top10TourStyles = tv({
     variants: {
         isOpen: {
             true: {
-                root: "visible",
+                root: "block",
             },
             false: {
-                root: "invisible",
+                root: "hidden",
+            },
+        },
+        buttonIsVisible: {
+            true: {
+                openButtonContainer: "flex",
+            },
+            false: {
+                openButtonContainer: "hidden",
             },
         },
     },

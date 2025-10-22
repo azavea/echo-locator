@@ -30,7 +30,7 @@ export const StartTourModal = ({
             isMobile
             bgIsTransparent
             isOpen={isOpen}
-            onOpenChange={startTourCallback}
+            onOpenChange={skipTourCallback}
             className={startModalRoot()}
         >
             <Modal size="large" overideVerticalCenter>
