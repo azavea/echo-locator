@@ -52,10 +52,10 @@ const Top10Tour = ({
     const activeDestination = useAppSelector(selectActiveDestination);
     const MAX_STEP = topTen.length - 1; // MAX 9
 
-    const skipTourCallback = () => {
+    const skipTourCallback = (showList?: boolean) => {
         dispatch(setHasViewedStartInstructions(true));
-        setRouterParams({ display: "list" });
         setIsTop10TourOpen(false);
+        showList && setRouterParams({ display: "list" });
     };
 
     const startTourCallback = () => {
