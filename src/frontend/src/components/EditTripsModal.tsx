@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Key } from "react-aria-components";
 import { Dialog, Heading } from "react-aria-components";
 import { useTranslation } from "react-i18next";
@@ -23,12 +23,13 @@ import {
     ToggleButton,
     ToggleButtonGroup,
 } from "components/base/ToggleButton/ToggleButton";
-import { modalHeadingClassName } from "pages/Discover/ModalsWrapper";
 import { Accordion } from "./base/Accordion/Accordion";
 import { AccordionItem } from "./base/Accordion/AccordionItem";
 import CommuterRailCheckbox from "./CommuterRailCheckbox";
 import ModalCloseButton from "./ModalCloseButton";
 import TravelModeToggle from "./TravelModeToggle";
+
+const modalHeadingClassName = "text-lg font-bold text-gray-900";
 
 const EditTripsModal = () => {
     const { t } = useTranslation();
@@ -37,15 +38,7 @@ const EditTripsModal = () => {
     const profile = useAppSelector(selectUserProfile);
     const trafficConditions = useAppSelector(selectTrafficConditions);
     const [profileBuffer, setProfileBuffer] =
-        useState<UserProfileSliceState | null>(null);
-
-    useEffect(() => {
-        setProfileBuffer({ ...profile });
-    }, [profile]);
-
-    if (!profileBuffer) {
-        return <></>;
-    }
+        useState<UserProfileSliceState>(profile);
 
     // Update active destination
     const onSelectDestination = (keys: Iterable<string, void, undefined>) => {
@@ -182,8 +175,6 @@ const EditTripsModal = () => {
                         <h2 className={modalHeadingClassName}>
                             {t("editTripsModal.travelModeHeading")}
                         </h2>
-                        {/* Toggles in sync with logic in StepTravelMode
-                         */}
                         <TravelModeToggle
                             buffer={profileBuffer}
                             handleChange={onChangeHasVehicleToggle}
