@@ -6,11 +6,7 @@ import {
 } from "reducers/userProfile/userProfileThunk";
 import { NetworkModeOptions } from "src/enums";
 import type { RootState } from "store/store";
-import {
-    getAllTimesAndPathsData,
-    getNetworks,
-    getTimesAndPathsDataForPlace,
-} from "./networksThunk";
+import { getAllTimesAndPathsData, getNetworks } from "./networksThunk";
 import type { NetworksSliceState, TrafficType } from "./types";
 
 import getActiveModeKey from "./utils/getActiveModeKey";
@@ -50,31 +46,17 @@ export const networksSlice = createSlice({
                 state.error =
                     action.error.message ?? "Failed to fetch networks.";
             })
-            .addCase(getTimesAndPathsDataForPlace.pending, state => {
-                state.loading = true;
-            })
-            .addCase(
-                getTimesAndPathsDataForPlace.fulfilled,
-                (state, action) => {
-                    state.loading = false;
-                    state.timesAndRoutesData = {
-                        ...state.timesAndRoutesData,
-                        [action.payload.label]: action.payload.data,
-                    };
-                }
-            )
-            .addCase(getTimesAndPathsDataForPlace.rejected, (state, action) => {
-                state.loading = false;
-                state.error =
-                    action.error.message ??
-                    "Failed to fetch time and paths data.";
-            })
             .addCase(getAllTimesAndPathsData.pending, state => {
                 state.loading = true;
             })
             .addCase(getAllTimesAndPathsData.fulfilled, (state, action) => {
                 state.loading = false;
-                state.timesAndRoutesData = action.payload;
+                state.timesAndRoutesData = state.timesAndRoutesData
+                    ? {
+                          ...state.timesAndRoutesData,
+                          ...action.payload,
+                      }
+                    : action.payload;
             })
             .addCase(getAllTimesAndPathsData.rejected, (state, action) => {
                 state.loading = false;

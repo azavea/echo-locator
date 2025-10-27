@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 
 import useMediaQuery from "hooks/useMediaQuery";
-import { setIsNeighborhoodDetailsOpen } from "reducers/modalsDisplay/modalsDisplaySlice";
+import {
+    setIsEditTripsWizardOpen,
+    setIsNeighborhoodDetailsOpen,
+} from "reducers/modalsDisplay/modalsDisplaySlice";
 import {
     getNeighborhoodsAndBounds,
     getRankedNeighborhoodLists,
@@ -17,6 +20,7 @@ import {
     getNetworks,
 } from "reducers/networks/networksThunk";
 import { getUserProfile } from "reducers/userProfile/userProfileThunk";
+import EditTripsWizard from "src/components/EditWizard/EditTripsWizard";
 import { useAppDispatch, useAppSelector, type RootState } from "store/store";
 import Desktop from "./Desktop";
 import discoverStyles from "./Discover.styles";
@@ -38,11 +42,14 @@ const Discover = () => {
         networks,
         timesAndRoutesData,
     } = useAppSelector(({ networks }: RootState) => networks);
+    const userProfile = useAppSelector(
+        ({ userProfile }: RootState) => userProfile
+    );
     const {
         destinations,
         loading: userProfileLoading,
         error: userProfileError,
-    } = useAppSelector(({ userProfile }: RootState) => userProfile);
+    } = userProfile;
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     const { loadingWrapper, loadingSpinner } = discoverStyles({
@@ -93,10 +100,20 @@ const Discover = () => {
     const invalidData = useAppSelector(selectInvalidTimesAndPathsData);
     const activeMode = useAppSelector(selectActiveMode);
     useEffect(() => {
-        if (networksDataIsReady && activeMode) {
+        if (
+            networksDataIsReady &&
+            activeMode &&
+            !userProfileLoading &&
+            !userProfileError
+        ) {
             dispatch(getRankedNeighborhoodLists());
         }
-    }, [networksDataIsReady, activeMode]);
+    }, [networksDataIsReady, activeMode, userProfile]);
+
+    useEffect(() => {
+        if (!userProfileLoading && destinations.length && invalidData?.length)
+            dispatch(setIsEditTripsWizardOpen(true));
+    }, [invalidData, destinations]);
     // --------------------------------------
 
     useEffect(() => {
@@ -104,11 +121,13 @@ const Discover = () => {
     }, [zipcode]);
 
     return userProfileLoading ||
-        (destinations.length && !networksDataIsReady && !invalidData) ? (
+        (destinations.length && !networksDataIsReady) ? (
         <div className={loadingWrapper()}>
             <div className={loadingSpinner()} />
+            {/* Enable displaying invalid destination error */}
+            <EditTripsWizard />
         </div>
-    ) : destinations.length && !invalidData?.length ? (
+    ) : destinations.length ? (
         isDesktop ? (
             <Desktop />
         ) : (

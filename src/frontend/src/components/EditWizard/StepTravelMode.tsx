@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import CommuterRailCheckbox from "components/CommuterRailCheckbox";
 import TravelModeToggle from "components/TravelModeToggle";
 import WizardStep from "components/Wizard/WizardStep";
-import type { BaseProps } from "./types";
+import type { BaseProps } from "../../pages/Discover/Profile/types";
 
 const StepTravelMode = ({
     buffer,
@@ -13,6 +13,10 @@ const StepTravelMode = ({
     handleNext,
 }: BaseProps) => {
     const { t } = useTranslation();
+
+    if (!buffer || !setProfileBuffer || !handleBack || !handleNext) {
+        return <></>;
+    }
 
     const onChangeToggle = (keys: Set<Key>) =>
         setProfileBuffer(state => {

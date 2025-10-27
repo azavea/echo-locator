@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import {
     selectIsEditFiltersOpen,
     setIsEditFiltersOpen,
+    setIsEditProfileWizardOpen,
 } from "reducers/modalsDisplay/modalsDisplaySlice";
 import {
     selectNeighborhoodFilters,
@@ -119,9 +120,9 @@ const EditFiltersModal = ({ isMobile = false }) => {
                                 variant="outline"
                                 size="small"
                                 className="font-normal text-gray-800"
-                                onPress={() => {
-                                    /* TODO: Open edit trips */
-                                }}
+                                onPress={() =>
+                                    dispatch(setIsEditProfileWizardOpen(true))
+                                }
                             >
                                 {t("filterModal.edit")}
                             </Button>
