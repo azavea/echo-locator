@@ -70,7 +70,7 @@ const Top10Tour = ({
 
     const detailClick = () => {
         endTourCallback();
-        navigate(`${location.pathname}/${neighborhood?.zip}`, {
+        navigate(`${location.pathname}/${neighborhood?.zip}?display=map`, {
             replace: true,
         });
     };

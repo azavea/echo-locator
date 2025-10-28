@@ -36,7 +36,7 @@ const NeighborhoodDetailPreviewCard = ({
 
     const detailClick = () => {
         onPreviewOpenChange();
-        navigate(`${location.pathname}/${zipcode}`, {
+        navigate(`${location.pathname}/${zipcode}?display=map`, {
             replace: true,
         });
     };
