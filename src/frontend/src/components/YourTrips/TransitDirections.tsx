@@ -1,6 +1,7 @@
 import type { Destination } from "src/reducers/userProfile/types";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
 import BusIcon from "assets/icons/bus.svg?react";
+import FerryIcon from "assets/icons/ferry.svg?react";
 import SubwayTrainIcon from "assets/icons/train-subway.svg?react";
 import { useGetDestinationToNeighborhoodPath } from "src/hooks/useGetDestinationToNeighborhoodSegments";
 import { Fragment } from "react/jsx-runtime";
@@ -75,6 +76,11 @@ const TransitDirections = ({
                                 )}
                                 {segment.mode === "bus" && (
                                     <BusIcon
+                                        style={{ fill: darkTransitColor }}
+                                    />
+                                )}
+                                {segment.mode === "ferry" && (
+                                    <FerryIcon
                                         style={{ fill: darkTransitColor }}
                                     />
                                 )}
