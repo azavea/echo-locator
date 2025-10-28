@@ -60,7 +60,8 @@ const Map = () => {
                 }}
                 interactive={false}
                 // baseMapDetailStyle builds off of baseMapStyle
-                // and includes expanded transit layers: buses + bus stops
+                // and includes expanded transit layers: buses + bus stops.
+                // mbta layers visible at lower zoom levels.
                 // @ts-ignore
                 mapStyle={baseMapDetailStyle}
             >
