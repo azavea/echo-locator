@@ -1,6 +1,7 @@
 import { type PopupOptions } from "maplibre-gl";
 
 import formatNeighborhoodDataByViewType from "libs/formatNeighborhoodDataByCard";
+import { useNavigate } from "react-router";
 import selectNeighborhoodZipcodeMap from "reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
 import { selectActiveDestination } from "reducers/userProfile/userSlice";
 import NeighborhoodCard from "src/components/NeighborhoodCard/NeighborhoodCard";
@@ -15,6 +16,7 @@ export interface DetailPreviewPopupProps extends PopupOptions {
 const NeighborhoodDetailPreviewPopup = ({
     zipcode,
 }: DetailPreviewPopupProps) => {
+    const navigate = useNavigate();
     const neighborhoodDetailsMap = useAppSelector(selectNeighborhoodZipcodeMap);
     const activeDestination = useAppSelector(selectActiveDestination);
 
@@ -29,7 +31,19 @@ const NeighborhoodDetailPreviewPopup = ({
             true
         );
 
-    return <NeighborhoodCard {...neighborhoodCardData} isPopup />;
+    const detailClick = () => {
+        navigate(`${location.pathname}/${zipcode}?display=map`, {
+            replace: true,
+        });
+    };
+
+    return (
+        <NeighborhoodCard
+            {...neighborhoodCardData}
+            onDetails={detailClick}
+            isPopup
+        />
+    );
 };
 
 export default NeighborhoodDetailPreviewPopup;
