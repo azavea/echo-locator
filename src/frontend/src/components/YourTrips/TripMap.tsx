@@ -82,7 +82,12 @@ const TripMap = ({
 
     useEffect(() => {
         mapRef.current?.fitBounds(bounds, {
-            padding: { top: 50, right: 50, bottom: 50, left: 50 },
+            padding: {
+                top: 75,
+                right: 50,
+                bottom: 50,
+                left: 50,
+            },
         });
     }, [bounds]);
 
@@ -95,7 +100,12 @@ const TripMap = ({
                 initialViewState={{
                     bounds: bounds,
                     fitBoundsOptions: {
-                        padding: { top: 50, bottom: 50, right: 50, left: 50 },
+                        padding: {
+                            top: 75,
+                            bottom: 50,
+                            right: 50,
+                            left: 50,
+                        },
                     },
                 }}
                 onLoad={() => setLoaded(true)}

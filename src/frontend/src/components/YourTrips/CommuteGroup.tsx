@@ -123,6 +123,7 @@ const CommuteGroup = ({
                                 !isTransit || selectedDestIsTooFar
                             }
                             isMobile={isMobile}
+                            lazyLoad={index > 0}
                         >
                             {isMobile && (
                                 <TripMap
