@@ -21,7 +21,7 @@ export const modalOverlayStyles = tv({
 
 export const modalStyles = tv({
     base: [
-        "relative z-50 w-full justify-self-center rounded-[var(--spacing-4)] max-h-full overflow-y-scroll",
+        "relative z-50 w-full justify-self-center mx-auto rounded-[var(--spacing-4)] max-h-full overflow-y-scroll",
         "bg-white shadow-md",
     ],
     variants: {
