@@ -118,6 +118,7 @@ const CommuteGroup = ({
                                 <Range
                                     start={getCommuteMin(trip)}
                                     end={getCommuteMax(trip)}
+                                    className="w-[80px]"
                                 />
                             }
                             overridePanelOpen={!isTransit || isTooFar(trip)}
