@@ -113,7 +113,7 @@ export const selectInvalidTimesAndPathsData = createSelector(
     timesAndRoutesData =>
         timesAndRoutesData &&
         Object.keys(timesAndRoutesData).filter(key =>
-            Object.values(timesAndRoutesData[key]).every(
+            Object.values(timesAndRoutesData[key]).some(
                 n => !n.timesAndRoutesDataReady
             )
         )
