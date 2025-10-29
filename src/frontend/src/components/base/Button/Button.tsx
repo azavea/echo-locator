@@ -5,6 +5,7 @@ import {
 } from "react-aria-components";
 import { type VariantProps } from "tailwind-variants";
 
+import type { Ref } from "react";
 import buttonStyles from "./Button.styles";
 
 export interface ButtonProps
@@ -14,6 +15,7 @@ export interface ButtonProps
     leftIcon?: React.ReactNode;
     rightIcon?: React.ReactNode;
     info?: string;
+    ref?: Ref<HTMLButtonElement> | null;
     children?: React.ReactNode;
 }
 
@@ -25,11 +27,13 @@ const Button = ({
     leftIcon,
     rightIcon,
     info,
+    ref,
     ...props
 }: ButtonProps) => {
     return (
         <AriaButton
             {...props}
+            ref={ref}
             className={composeRenderProps(className, (className, renderProps) =>
                 buttonStyles({
                     ...renderProps,
