@@ -25,6 +25,9 @@ const initialState: NeighborhoodsSliceState = {
         groupedTopTen: [],
         groupedRecommended: [],
         groupedTooFar: [],
+        groupedSearchableTopTen: [],
+        groupedSearchableRecommended: [],
+        groupedSearchableTooFar: [],
     },
 };
 
@@ -138,17 +141,20 @@ export const selectFilterableNeighborhoodBounds = createSelector(
     ],
     (rankedNeighborhoodsLists, isFiltered, neighborhoodBounds, filters) => {
         if (isFiltered) {
-            // Use grouped lists since includes text search filtering for list view.
+            // Use searchable grouped lists since to include text search filtering.
             // If text search, include tooFar list in results since high specificity
             // that we would still want to display even if "not a match".
-            const { groupedTopTen, groupedRecommended, groupedTooFar } =
-                rankedNeighborhoodsLists;
+            const {
+                groupedSearchableTopTen,
+                groupedSearchableRecommended,
+                groupedSearchableTooFar,
+            } = rankedNeighborhoodsLists;
             const tooFarIfTextSearch = filters.textSearch?.trim()
-                ? groupedTooFar
+                ? groupedSearchableTooFar
                 : [];
             const filteredList = [
-                ...groupedTopTen,
-                ...groupedRecommended,
+                ...groupedSearchableTopTen,
+                ...groupedSearchableRecommended,
                 ...tooFarIfTextSearch,
             ].flat();
             return {

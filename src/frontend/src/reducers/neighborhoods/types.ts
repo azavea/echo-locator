@@ -97,6 +97,9 @@ export interface RankedNeighborhoodsLists {
     groupedTopTen: (string | string[])[];
     groupedRecommended: (string | string[])[];
     groupedTooFar: (string | string[])[];
+    groupedSearchableTopTen: (string | string[])[];
+    groupedSearchableRecommended: (string | string[])[];
+    groupedSearchableTooFar: (string | string[])[];
 }
 
 export interface NeighborhoodsSliceState {

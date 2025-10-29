@@ -45,11 +45,21 @@ const Neighborhoods = ({
     const isLoading = isRankCalculating || !networksReady;
     const neighborhoodDetailsMap = useAppSelector(selectNeighborhoodZipcodeMap);
     const {
-        groupedTopTen: topTen,
-        groupedRecommended: recommended,
-        groupedTooFar: tooFar,
+        groupedTopTen,
+        groupedRecommended,
+        groupedTooFar,
+        groupedSearchableTopTen,
+        groupedSearchableRecommended,
+        groupedSearchableTooFar,
     } = useAppSelector(selectRankedNeighborhoodsLists);
     const activeDestination = useAppSelector(selectActiveDestination) ?? "";
+
+    // If mobile, text search enabled so use groupedSearchable lists from state
+    const topTen = mobile ? groupedSearchableTopTen : groupedTopTen;
+    const recommended = mobile
+        ? groupedSearchableRecommended
+        : groupedRecommended;
+    const tooFar = mobile ? groupedSearchableTooFar : groupedTooFar;
 
     // Only show the tooFar list if there are no recommendations
     // or if all recommendations have been displayed.
