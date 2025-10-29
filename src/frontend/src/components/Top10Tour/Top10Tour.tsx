@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate, useSearchParams } from "react-router";
+import {
+    useLocation,
+    useNavigate,
+    useParams,
+    useSearchParams,
+} from "react-router";
 
 import { selectRankedNeighborhoodsLists } from "reducers/neighborhoods/neighborhoodsSlice";
 import selectNeighborhoodZipcodeMap from "reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
@@ -39,6 +44,7 @@ const Top10Tour = ({
     const navigate = useNavigate();
     const location = useLocation();
     const [searchParams, setRouterParams] = useSearchParams();
+    const { zipcode } = useParams();
     const isMap = searchParams.get("display") === "map";
     const dispatch = useDispatch();
 
@@ -70,7 +76,7 @@ const Top10Tour = ({
 
     const detailClick = () => {
         endTourCallback();
-        navigate(`${location.pathname}/${neighborhood?.zip}`, {
+        navigate(`${location.pathname}/${neighborhood?.zip}?display=map`, {
             replace: true,
         });
     };
@@ -107,35 +113,35 @@ const Top10Tour = ({
     }, [outsideTourStopTriggered]);
 
     return (
-        <div className={root()}>
-            <StartTourModal
-                isOpen={
-                    isTop10TourOpen &&
-                    !neighborhood &&
-                    showInstructions &&
-                    isMap
-                }
-                startTourCallback={startTourCallback}
-                skipTourCallback={skipTourCallback}
-            />
-            {neighborhood && (
-                <NeighborhoodCard
-                    {...neighborhood}
-                    onClose={endTourCallback}
-                    onPrev={
-                        tourStep > MIN_STEP
-                            ? () => setTourStep(tourStep - 1)
-                            : undefined
+        isMap &&
+        !zipcode && (
+            <div className={root()}>
+                <StartTourModal
+                    isOpen={
+                        isTop10TourOpen && !neighborhood && showInstructions
                     }
-                    onDetails={detailClick}
-                    onNext={
-                        tourStep < MAX_STEP
-                            ? () => setTourStep(tourStep + 1)
-                            : undefined
-                    }
+                    startTourCallback={startTourCallback}
+                    skipTourCallback={skipTourCallback}
                 />
-            )}
-        </div>
+                {neighborhood && (
+                    <NeighborhoodCard
+                        {...neighborhood}
+                        onClose={endTourCallback}
+                        onPrev={
+                            tourStep > MIN_STEP
+                                ? () => setTourStep(tourStep - 1)
+                                : undefined
+                        }
+                        onDetails={detailClick}
+                        onNext={
+                            tourStep < MAX_STEP
+                                ? () => setTourStep(tourStep + 1)
+                                : undefined
+                        }
+                    />
+                )}
+            </div>
+        )
     );
 };
 

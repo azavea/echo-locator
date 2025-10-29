@@ -8,7 +8,7 @@ export const accordionStyles = tv({
         accordionItem:
             "flex flex-col w-full justify-between items-center bg-gray-100",
         accordionItemHeading: "w-full",
-        accordionButton: "flex w-full px-4 py-3 justify-between gap-2",
+        accordionButton: "flex w-full px-4 py-3 justify-between gap-4",
         accordionItemTextWrapper:
             "flex flex-col items-start items-baseline text-gray-800 text-base gap-0",
         accordionItemSubText: "text-gray-600 text-xs text-left",

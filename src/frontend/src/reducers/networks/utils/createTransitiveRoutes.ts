@@ -19,7 +19,7 @@ import { coordinateToIndex } from "./coordinateToIndex";
 import { find, uniqBy } from "lodash";
 
 const DEFAULT_ROUTE_COLOR = "0b2b40";
-const TYPE_TO_ICON = ["subway", "subway", "train", "bus"];
+const TYPE_TO_ICON = ["subway", "subway", "train", "bus", "ferry"];
 const WALK = "WALK";
 
 export default function createTransitiveRoutesForNetwork(

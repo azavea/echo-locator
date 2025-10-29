@@ -38,13 +38,14 @@ const CommuteGroup = ({
         return <></>;
     }
 
+    const isTooFar = (trip: TripType) =>
+        allNeighborhoodCommutes[trip.neighborhoodZipcode]?.commutes[
+            trip.destination.location.label
+        ].commuteMin > MAX_TRAVEL_TIME;
+
     useEffect(() => {
         setSelectedMapDestination(initialTrip.destination);
-        const minCommuteTime =
-            allNeighborhoodCommutes[initialTrip.neighborhoodZipcode]?.commutes[
-                initialTrip.destination.location.label
-            ].commuteMin;
-        setSelectedDestIsTooFar(minCommuteTime > MAX_TRAVEL_TIME);
+        setSelectedDestIsTooFar(isTooFar(initialTrip));
     }, [initialTrip.destination]);
 
     const getCommuteMin = (trip: TripType) =>
@@ -117,12 +118,12 @@ const CommuteGroup = ({
                                 <Range
                                     start={getCommuteMin(trip)}
                                     end={getCommuteMax(trip)}
+                                    className="w-[80px]"
                                 />
                             }
-                            overridePanelOpen={
-                                !isTransit || selectedDestIsTooFar
-                            }
+                            overridePanelOpen={!isTransit || isTooFar(trip)}
                             isMobile={isMobile}
+                            lazyLoad={index > 0}
                         >
                             {isMobile && (
                                 <TripMap

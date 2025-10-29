@@ -1,31 +1,31 @@
+import bbox from "@turf/bbox";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-aria-components";
+import { useTranslation } from "react-i18next";
 import {
+    AttributionControl,
     Layer,
     Map as MapContainer,
     Source,
     type MapRef,
-    AttributionControl,
 } from "react-map-gl/maplibre";
-import bbox from "@turf/bbox";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-aria-components";
 
 import type { Destination } from "reducers/userProfile/types";
-import StartIcon from "assets/icons/start.png";
-import CustomControlOverlay from "./CustomMapControl";
 
-import baseMapDetailStyle from "pages/NeighborhoodDetail/Map/baseMapDetailStyle.json";
+import StartIcon from "assets/icons/start.png";
+import { useGetDestinationToNeighborhoodRoute } from "hooks/useGetDestinationToNeighborhoodRoute";
+import { createGoogleDirectionsURL } from "libs/getLinkURLs";
+import { BOUNDS } from "pages/Discover/Map/constants";
+import baseMapTripStyle from "pages/NeighborhoodDetail/Map/baseMapTripStyle.json";
+import CustomControlOverlay from "./CustomMapControl";
+import TransitDirections from "./TransitDirections";
 import {
-    routeWalkStyle,
-    routeTransitStyle,
-    routeStartPointStyle,
     routeEndPointStyle,
+    routeStartPointStyle,
+    routeTransitStyle,
+    routeWalkStyle,
 } from "./tripLayerStyles";
 import { yourTripsStyles } from "./YourTrips.styles";
-import { createGoogleDirectionsURL } from "src/libs/getLinkURLs";
-import { useGetDestinationToNeighborhoodRoute } from "src/hooks/useGetDestinationToNeighborhoodRoute";
-import { BOUNDS } from "src/pages/Discover/Map/constants";
-import TransitDirections from "./TransitDirections";
 
 const TripMap = ({
     start,
@@ -82,7 +82,12 @@ const TripMap = ({
 
     useEffect(() => {
         mapRef.current?.fitBounds(bounds, {
-            padding: { top: 50, right: 50, bottom: 50, left: 50 },
+            padding: {
+                top: 75,
+                right: 50,
+                bottom: 50,
+                left: 50,
+            },
         });
     }, [bounds]);
 
@@ -95,13 +100,22 @@ const TripMap = ({
                 initialViewState={{
                     bounds: bounds,
                     fitBoundsOptions: {
-                        padding: { top: 50, bottom: 50, right: 50, left: 50 },
+                        padding: {
+                            top: 75,
+                            bottom: 50,
+                            right: 50,
+                            left: 50,
+                        },
                     },
                 }}
                 onLoad={() => setLoaded(true)}
                 interactive={false}
+                // baseMapTripStyle builds off of baseMapStyle
+                // and includes expanded transit layers: buses + bus stops.
+                // Differs from baseMapDetailStyle in that transit layers
+                // display at same levels as baseMapStyle.
                 // @ts-ignore
-                mapStyle={baseMapDetailStyle}
+                mapStyle={baseMapTripStyle}
                 attributionControl={false}
             >
                 <AttributionControl position="bottom-left" compact={true} />

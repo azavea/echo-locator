@@ -924,7 +924,7 @@
             "id": "commuter_routes_outline",
             "type": "line",
             "source": "mbta_commuter_routes",
-            "minzoom": 6,
+            "minzoom": 12,
             "filter": ["all"],
             "layout": { "visibility": "visible" },
             "paint": {
@@ -946,7 +946,7 @@
             "id": "commuter_routes",
             "type": "line",
             "source": "mbta_commuter_routes",
-            "minzoom": 6,
+            "minzoom": 12,
             "filter": ["all"],
             "layout": { "visibility": "visible" },
             "paint": {
@@ -967,7 +967,7 @@
             "id": "commuter_stations_dots",
             "type": "circle",
             "source": "mbta_commuter_stations",
-            "minzoom": 6,
+            "minzoom": 12,
             "layout": { "visibility": "visible" },
             "paint": {
                 "circle-color": "rgba(205, 83, 223, 1)",
@@ -990,7 +990,7 @@
             "id": "commuter_stations",
             "type": "symbol",
             "source": "mbta_commuter_stations",
-            "minzoom": 6,
+            "minzoom": 12,
             "layout": {
                 "text-field": "{stop_name}",
                 "visibility": "visible",
@@ -1096,7 +1096,7 @@
             "id": "bus_routes_outline",
             "type": "line",
             "source": "mbta_bus_routes",
-            "minzoom": 6,
+            "minzoom": 12,
             "layout": { "visibility": "visible" },
             "paint": { "line-color": "#ffffff", "line-width": 2 }
         },
@@ -1104,7 +1104,7 @@
             "id": "bus_routes",
             "type": "line",
             "source": "mbta_bus_routes",
-            "minzoom": 6,
+            "minzoom": 12,
             "layout": { "visibility": "visible" },
             "paint": { "line-color": "#F2BD29" }
         },
@@ -1112,7 +1112,7 @@
             "id": "bus_stop_circles",
             "type": "circle",
             "source": "mbta_bus_stops",
-            "minzoom": 6,
+            "minzoom": 12,
             "layout": { "visibility": "visible" },
             "paint": {
                 "circle-color": "#F2BD29",
@@ -1130,7 +1130,7 @@
             "id": "transit_routes_outline",
             "type": "line",
             "source": "mbta_rapid_transit_routes",
-            "minzoom": 6,
+            "minzoom": 12,
             "layout": { "visibility": "visible" },
             "paint": { "line-color": "#fff", "line-width": 5 }
         },
@@ -1138,7 +1138,7 @@
             "id": "transit_routes",
             "type": "line",
             "source": "mbta_rapid_transit_routes",
-            "minzoom": 6,
+            "minzoom": 12,
             "filter": ["all"],
             "layout": { "visibility": "visible" },
             "paint": {
@@ -1161,7 +1161,7 @@
             "id": "transit_stop_circles",
             "type": "circle",
             "source": "mbta_rapid_transit_stops",
-            "minzoom": 6,
+            "minzoom": 12,
             "layout": { "visibility": "visible" },
             "paint": {
                 "circle-color": "#000000",
@@ -1180,7 +1180,7 @@
             "id": "transit_stops",
             "type": "symbol",
             "source": "mbta_rapid_transit_stops",
-            "minzoom": 6,
+            "minzoom": 11,
             "layout": {
                 "text-field": "{stop_name}",
                 "visibility": "none",

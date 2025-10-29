@@ -323,6 +323,7 @@ const Components = () => {
                                     <Range
                                         start={destination.commuteMin}
                                         end={destination.commuteMax}
+                                        className="w-[80px]"
                                     />
                                 }
                                 // For testing panel content on expand

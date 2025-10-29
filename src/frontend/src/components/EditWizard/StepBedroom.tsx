@@ -29,7 +29,7 @@ const StepBedroom = ({
             buttonText={t("userProfile.wizard.button.continue")}
             handleBack={handleBack}
             handleNext={handleNext}
-            disableNext={!buffer.rooms}
+            disableNext={!buffer || buffer.rooms < 0}
             disableBack
         >
             <InputNumber

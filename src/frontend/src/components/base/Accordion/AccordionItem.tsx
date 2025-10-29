@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
     Button,
     Disclosure,
@@ -16,6 +16,7 @@ export interface AccordionItemProps extends DisclosureProps {
     titleContentRight?: ReactNode;
     isMobile?: boolean;
     overridePanelOpen?: boolean;
+    lazyLoad?: boolean;
     children?: ReactNode;
 }
 
@@ -26,12 +27,23 @@ export const AccordionItem = ({
     isMobile,
     overridePanelOpen,
     children,
+    lazyLoad,
     ...props
 }: AccordionItemProps) => {
     const styles = accordionStyles({ overridePanelOpen: overridePanelOpen });
+    // If lazyLoad enabled, prevet rendering children in panel until expanded.
+    // Once expanded, sets isLazyLoaded to prevent re-rendering on every
+    // expansion change call.
+    const [isLazyLoaded, setIsLazyLoaded] = useState(false);
 
     return (
-        <Disclosure id={props.id} className={styles.accordionItemWrapper()}>
+        <Disclosure
+            id={props.id}
+            className={styles.accordionItemWrapper()}
+            onExpandedChange={isExpanded =>
+                lazyLoad && isExpanded && !isLazyLoaded && setIsLazyLoaded(true)
+            }
+        >
             {({ isExpanded }) => (
                 <div
                     className={styles.accordionItem({
@@ -61,7 +73,7 @@ export const AccordionItem = ({
                             expandedAndMobile: isExpanded && isMobile,
                         })}
                     >
-                        {children}
+                        {!lazyLoad || isLazyLoaded ? children : <></>}
                     </DisclosurePanel>
                 </div>
             )}
