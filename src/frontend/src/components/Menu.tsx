@@ -73,7 +73,7 @@ const Menu = ({ languages, compareCount }: Props) => {
                         count={compareCount}
                         badgeVariant={compareCount > 0 ? "orange" : "primary"}
                     >
-                        {t("compare")}
+                        {t("favorites")}
                     </NavTab>
                 </div>
             )}

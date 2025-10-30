@@ -2,16 +2,19 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router";
 
-import Menu from "components/Menu";
 import { SUPPORTED_LANGUAGES } from "components/LanguageRedirect";
-import { Language, type LanguageKey } from "src/enums";
+import Menu from "components/Menu";
 import { languageToLabel } from "src/constants";
+import { Language, type LanguageKey } from "src/enums";
+import { selectFavoritesCount } from "src/reducers/userProfile/userSlice";
+import { useAppSelector } from "src/store/store";
 
 const Root = () => {
     const { lang } = useParams<{ lang: LanguageKey }>();
     const location = useLocation();
     const navigate = useNavigate();
     const { i18n } = useTranslation();
+    const favoritesCount = useAppSelector(selectFavoritesCount);
 
     // Sync the i18n language state with the URL lang param
     // 1. If no language or language isn't in the allowed list, use English;
@@ -30,8 +33,7 @@ const Root = () => {
 
     return (
         <div className="h-dvh flex flex-col">
-            {/* TODO: get compareCount from app store */}
-            <Menu compareCount={0} languages={languageToLabel} />
+            <Menu compareCount={favoritesCount} languages={languageToLabel} />
             <Outlet />
         </div>
     );

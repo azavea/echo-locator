@@ -1,6 +1,7 @@
 {
     "discover": "发现",
     "compare": "对比",
+    "favorites": "Favorites",
     "logout": "退出",
     "filtersButton": "Filters",
     "transitModesSimple": {

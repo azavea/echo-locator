@@ -1,6 +1,7 @@
 {
     "discover": "Discover",
     "compare": "Compare",
+    "favorites": "Favorites",
     "logout": "Logout",
     "filtersButton": "Filters",
     "transitModesSimple": {
