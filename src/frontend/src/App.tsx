@@ -1,13 +1,12 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router";
-import { Navigate } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
 import "./App.css";
 
 const Root = lazy(() => import("pages/Root"));
 const Components = lazy(() => import("pages/Components"));
 const Discover = lazy(() => import("pages/Discover/Discover"));
-const Compare = lazy(() => import("pages/Compare"));
+const Compare = lazy(() => import("src/pages/Compare/Compare"));
 const LanguageRedirect = lazy(() => import("components/LanguageRedirect"));
 const AuthenticatedRoute = lazy(() => import("components/AuthenticatedRoute"));
 const LogIn = lazy(() => import("pages/Auth/Login"));
