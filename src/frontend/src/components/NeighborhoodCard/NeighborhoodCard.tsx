@@ -1,13 +1,16 @@
-import Button from "components/base/Button/Button";
-import Meter, { type MeterProps } from "components/base/Meter/Meter";
-import Range, { type RangeProps } from "components/base/Range/Range";
-import { cardStyles } from "./NeighborhoodCard.styles";
+import { selectUserProfile } from "reducers/userProfile/userSlice";
+import { useAppSelector } from "store/store";
 
 import ArrowLeftIcon from "assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "assets/icons/arrow-right.svg?react";
 import FlagIcon from "assets/icons/flag.svg?react";
 import SquareDollarIcon from "assets/icons/square-dollar.svg?react";
+import StarSolidIcon from "assets/icons/star-solid.svg?react";
 import TimesIcon from "assets/icons/times.svg?react";
+import Button from "components/base/Button/Button";
+import Meter, { type MeterProps } from "components/base/Meter/Meter";
+import Range, { type RangeProps } from "components/base/Range/Range";
+import { cardStyles } from "./NeighborhoodCard.styles";
 
 export interface NeighborhoodCardProps {
     name: string;
@@ -59,7 +62,8 @@ const NeighborhoodCard = ({
     } = cardStyles({ hasImage: !!imageUrl, ...listViewStyling });
 
     const hasTag = isTopTen || hasECC;
-
+    const { favorites } = useAppSelector(selectUserProfile);
+    const isFavorited = favorites.includes(zip);
     const hasAction = !!onPrev || !!onDetails || !!onNext;
 
     return (
@@ -85,6 +89,9 @@ const NeighborhoodCard = ({
             </div>
             <div className={content()}>
                 <div className={header()}>
+                    {isFavorited && (
+                        <StarSolidIcon className="w-[18px] fill fill-orange-700 self-center mr-2" />
+                    )}
                     <h3
                         className={`${title()} ${isPopup ? "popup-title" : ""}`}
                     >
