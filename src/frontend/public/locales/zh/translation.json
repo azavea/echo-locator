@@ -196,7 +196,7 @@
     "searchModalDescription": "Type a neighborhood name to find it on the map",
     "searchModalPlaceholder": "Search neighborhoods",
     "comparePage": {
-        "title": "Compare Neighborhoods",
+        "title": "Favorite Neighborhoods",
         "subtitle": "Your Favorites",
         "introDescription": "Add neighborhoods to your favorites to make them show up in the comparison."
     }

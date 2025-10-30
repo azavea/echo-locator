@@ -65,6 +65,7 @@ const App = () => (
                             element={<Discover />}
                         />
                         <Route path="compare" element={<Compare />} />
+                        <Route path="compare/:zipcode?" element={<Compare />} />
                         <Route path="components" element={<Components />} />
                         <Route path="logout" element={<Logout />} />
                     </Route>
