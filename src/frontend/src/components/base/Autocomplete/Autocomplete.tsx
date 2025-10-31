@@ -1,11 +1,11 @@
 import { useAsyncList, type AsyncListData } from "@react-stately/data";
 import type { Point } from "geojson";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     ComboBox as AriaCombobox,
     Input,
-    Menu,
-    MenuItem,
+    ListBox,
+    ListBoxItem,
     SearchField,
 } from "react-aria-components";
 
@@ -74,15 +74,9 @@ export function Autocomplete({
         initialFilterText: value ?? "",
     });
 
-    // Force close menu on suggestion selection
-    useEffect(() => {
-        setIsMenuOpen(
-            !!filteredSuggestions.items.length &&
-                !filteredSuggestions.items.find(
-                    i => i.name === filteredSuggestions.filterText
-                )
-        );
-    }, [filteredSuggestions.items, filteredSuggestions.filterText]);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const listRef = useRef<HTMLDivElement>(null);
+    const clearButtonRef = useRef<HTMLButtonElement>(null);
 
     // Handles filter text set from other parent search,
     // to keep the map search and list search values in sync
@@ -91,7 +85,6 @@ export function Autocomplete({
     }, [value]);
 
     const handleTextSearch = () => {
-        setIsMenuOpen(false);
         if (filteredSuggestions.filterText) {
             const search = allowFuzzySearch
                 ? { name: filteredSuggestions.filterText }
@@ -119,6 +112,8 @@ export function Autocomplete({
                 inputValue={filteredSuggestions.filterText}
                 allowsCustomValue
                 aria-label="Search"
+                onOpenChange={isOpen => setIsMenuOpen(isOpen)}
+                onBlur={handleTextSearch}
             >
                 <SearchField
                     aria-label="Search Input"
@@ -130,11 +125,13 @@ export function Autocomplete({
                     <Input
                         placeholder={placeholder}
                         className={inputStyles()}
+                        ref={inputRef}
                     />
                     {filteredSuggestions.filterText && (
                         <Button
                             variant="outline"
                             size="small"
+                            ref={clearButtonRef}
                             leftIcon={
                                 <TimesIcon className="h-5 w-5 font-ligth fill-black" />
                             }
@@ -144,26 +141,27 @@ export function Autocomplete({
                         />
                     )}
                 </SearchField>
-                <Menu
+                <ListBox
+                    ref={listRef}
                     aria-label="Search suggestions"
-                    items={isMenuOpen ? filteredSuggestions.items : []}
+                    items={filteredSuggestions.items}
                     className={`${baseDropdownPopoverStyles} ${isMenuOpen ? "!block" : "hidden"} w-full rounded-t-none`}
                 >
                     {item => {
                         const distinctItem =
                             item.full_address ?? item.address ?? item.name;
                         return (
-                            <MenuItem
+                            <ListBoxItem
                                 id={distinctItem}
                                 onAction={() => handleSelection(item)}
                                 className={baseDropdownItemStyles}
                                 aria-label="item"
                             >
                                 {distinctItem}
-                            </MenuItem>
+                            </ListBoxItem>
                         );
                     }}
-                </Menu>
+                </ListBox>
             </AriaCombobox>
         </div>
     );

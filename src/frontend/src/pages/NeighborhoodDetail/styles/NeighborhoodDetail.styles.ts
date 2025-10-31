@@ -2,7 +2,7 @@ import { tv } from "tailwind-variants";
 
 const neighborhoodDetailStyles = tv({
     slots: {
-        root: "flex flex-col items-start max-w-[900px] min-h-[530px] m-2 rounded-2xl bg-white shadow-2xl",
+        root: "flex flex-col items-start max-w-[900px] min-h-[530px] rounded-2xl bg-white shadow-2xl",
         headerMapContainer: "relative min-h-[330px] h-[330px] w-full",
         headerContainer:
             "flex flex-col self-stretch items-start p-4 gap-3 border-t border-b border-gray-300 bg-gray-50",
@@ -39,7 +39,7 @@ const neighborhoodDetailStyles = tv({
     variants: {
         isMobile: {
             true: {
-                root: "m-2",
+                root: "m-0",
                 headerContainer: "p-5",
                 headerContent: "flex-col",
                 toggleGroup: "p-5 pb-0",
