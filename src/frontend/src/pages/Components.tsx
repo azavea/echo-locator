@@ -288,19 +288,30 @@ const Components = () => {
                     <div className="flex flex-col gap-4">
                         <h3 className="text-xl text-gray-800 mb-2">Small</h3>
                         <div>
-                            <CompareFavoritesButton size="small" />
+                            <CompareFavoritesButton
+                                size="small"
+                                unfavoriteCallback={() => {}}
+                                compareCallback={() => {}}
+                            />
                         </div>
                     </div>
                     <div className="flex flex-col gap-4">
                         <h3 className="text-xl text-gray-800 mb-2">Medium</h3>
                         <div>
-                            <CompareFavoritesButton />
+                            <CompareFavoritesButton
+                                unfavoriteCallback={() => {}}
+                                compareCallback={() => {}}
+                            />
                         </div>
                     </div>
                     <div className="flex flex-col gap-4">
                         <h3 className="text-xl text-gray-800 mb-2">Large</h3>
                         <div>
-                            <CompareFavoritesButton size="large" />
+                            <CompareFavoritesButton
+                                size="large"
+                                unfavoriteCallback={() => {}}
+                                compareCallback={() => {}}
+                            />
                         </div>
                     </div>
                 </div>

@@ -1,15 +1,15 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 
 import TouchPromptIcon from "assets/icons/touch-prompt.svg?react";
 import Button from "components/base/Button/Button";
-import { useMemo } from "react";
-import { useDispatch } from "react-redux";
-import neighborhoodDetailStyles from "src/pages/NeighborhoodDetail/styles/NeighborhoodDetail.styles";
-import { setIsEditTripsWizardOpen } from "src/reducers/modalsDisplay/modalsDisplaySlice";
-import { selectUseTransit } from "src/reducers/networks/networksSlice";
-import type { Destination } from "src/reducers/userProfile/types";
-import { selectUserDestinations } from "src/reducers/userProfile/userSlice";
-import { useAppSelector } from "src/store/store";
+import neighborhoodDetailStyles from "pages/NeighborhoodDetail/styles/NeighborhoodDetail.styles";
+import { setIsEditTripsWizardOpen } from "reducers/modalsDisplay/modalsDisplaySlice";
+import { selectUseTransit } from "reducers/networks/networksSlice";
+import type { Destination } from "reducers/userProfile/types";
+import { selectUserProfile } from "reducers/userProfile/userSlice";
+import { useAppSelector } from "store/store";
 import CommuteGroup from "./CommuteGroup";
 import type { TripType } from "./types";
 import { yourTripsStyles } from "./YourTrips.styles";
@@ -32,7 +32,7 @@ const YourTrips = ({
         isMobile: isMobile,
     });
 
-    const destinations = useAppSelector(selectUserDestinations);
+    const { destinations, loading } = useAppSelector(selectUserProfile);
     const isTripToNeighborhood = !!activeNeighborhood;
     // TODO: Implement for compare page
     const favoritedNeighborhoods: string[] = [];
@@ -84,19 +84,26 @@ const YourTrips = ({
                     </p>
                 </div>
             </div>
-            <CommuteGroup
-                trips={
-                    isTripToNeighborhood
-                        ? tripsByDestination
-                        : tripsByNeighborhood
-                }
-                isMobile={isMobile}
-                isTransit={useTransit}
-            />
+            {loading ? (
+                <div className={styles.loadingWrapper()}>
+                    <div className={styles.loadingSpinner()} />
+                </div>
+            ) : (
+                <CommuteGroup
+                    trips={
+                        isTripToNeighborhood
+                            ? tripsByDestination
+                            : tripsByNeighborhood
+                    }
+                    isMobile={isMobile}
+                    isTransit={useTransit}
+                />
+            )}
             <Button
                 variant="outline"
                 size="medium"
                 className={styles.editButton()}
+                isDisabled={loading}
                 onPress={() => dispatch(setIsEditTripsWizardOpen(true))}
             >
                 {t("yourTrips.editTrips")}

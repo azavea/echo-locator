@@ -125,5 +125,7 @@ export const selectUserBedroomCount = (state: RootState) =>
     state.userProfile.rooms;
 export const selectUserHasViewedStartInstructions = (state: RootState) =>
     state.userProfile.hasViewedStartInstructions;
+export const selectFavoritesCount = (state: RootState) =>
+    state.userProfile.favorites.length;
 
 export default userProfileSlice.reducer;

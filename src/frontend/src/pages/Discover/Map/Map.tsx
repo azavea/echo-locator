@@ -85,6 +85,11 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
     const destinations = useAppSelector(selectUserDestinations);
     const activeDestination = useAppSelector(selectActiveDestination);
 
+    // Account for bottom neighborhood preview card display on mobile
+    const SELECT_BOUNDS_PADDING = isMobile
+        ? { top: 100, bottom: 225, left: 100, right: 100 }
+        : 100;
+
     const filteredBounds: [number, number, number, number] = useMemo(() => {
         let [minLng, minLat, maxLng, maxLat] = BOUNDS;
         if (
@@ -194,7 +199,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                 [minLng, minLat],
                 [maxLng, maxLat],
             ],
-            { padding: 100, duration: 1000 }
+            { padding: SELECT_BOUNDS_PADDING, duration: 1000 }
         );
 
         // Open neighborhood details preview card.
@@ -268,7 +273,7 @@ const Map = ({ isMobile = true, mapDisplay = true }: Props) => {
                 [minLng, minLat],
                 [maxLng, maxLat],
             ],
-            { padding: feature ? 100 : 0, duration: 1000 }
+            { padding: feature ? SELECT_BOUNDS_PADDING : 0, duration: 1000 }
         );
     };
 

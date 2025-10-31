@@ -1,6 +1,7 @@
 {
     "discover": "Discover",
     "compare": "Compare",
+    "favorites": "Favorites",
     "logout": "Logout",
     "filtersButton": "Filters",
     "transitModesSimple": {
@@ -193,5 +194,10 @@
     },
     "searchModal": "Search the map",
     "searchModalDescription": "Type a neighborhood name to find it on the map",
-    "searchModalPlaceholder": "Search neighborhoods"
+    "searchModalPlaceholder": "Search neighborhoods",
+    "comparePage": {
+        "title": "Favorite Neighborhoods",
+        "subtitle": "Your Favorites",
+        "introDescription": "Add neighborhoods to your favorites to make them show up in the comparison."
+    }
 }

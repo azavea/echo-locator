@@ -21,13 +21,12 @@ import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
 import { useAppSelector } from "store/store";
 
 import FamilyIcon from "assets/icons/family.svg?react";
-import StarIcon from "assets/icons/star.svg?react";
-import Button from "components/base/Button/Button";
 import { Modal, ModalOverlay } from "components/base/Modal/Modal";
 import {
     ToggleButton,
     ToggleButtonGroup,
 } from "components/base/ToggleButton/ToggleButton";
+import FavoriteButton from "components/FavoriteButton";
 import ModalCloseButton from "components/ModalCloseButton";
 import InfoContent from "./InfoContent";
 import Map from "./Map/Map";
@@ -116,16 +115,7 @@ const NeighborhoodDetail = ({ isMobile }: { isMobile?: boolean }) => {
                                     {neighborhood.properties.zipcode}
                                 </h2>
                             </div>
-                            <Button
-                                variant="orange"
-                                size="medium"
-                                leftIcon={
-                                    <StarIcon className="font-normal h-[14px] w-[14px] fill fill-orange-800" />
-                                }
-                                className={isMobile ? "w-full" : "160px"}
-                            >
-                                {t("neighborhoodDetail.addToFavorites")}
-                            </Button>
+                            <FavoriteButton zipcode={zipcode} size="large" />
                         </div>
                         {neighborhood.properties.family_move_count == 0 && (
                             <div className={styles.iconWithTextWrapper()}>

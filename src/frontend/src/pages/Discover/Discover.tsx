@@ -52,10 +52,6 @@ const Discover = () => {
     } = userProfile;
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
-    const { loadingWrapper, loadingSpinner } = discoverStyles({
-        isMobile: !isDesktop,
-    });
-
     // TODO: Refactor below following login and user profile
     // Exists to kick-off ranking/routing with static origin
     // --------------------------------------
@@ -98,6 +94,8 @@ const Discover = () => {
 
     const networksDataIsReady = useAppSelector(selectAllNetworksDataReady);
     const invalidData = useAppSelector(selectInvalidTimesAndPathsData);
+    const showHandleInvalidData =
+        !userProfileLoading && destinations.length && invalidData?.length;
     const activeMode = useAppSelector(selectActiveMode);
     useEffect(() => {
         if (
@@ -111,20 +109,26 @@ const Discover = () => {
     }, [networksDataIsReady, activeMode, userProfile]);
 
     useEffect(() => {
-        if (!userProfileLoading && destinations.length && invalidData?.length)
-            dispatch(setIsEditTripsWizardOpen(true));
-    }, [invalidData, destinations]);
+        if (showHandleInvalidData) dispatch(setIsEditTripsWizardOpen(true));
+    }, [showHandleInvalidData]);
     // --------------------------------------
 
     useEffect(() => {
         dispatch(setIsNeighborhoodDetailsOpen(!!zipcode));
     }, [zipcode]);
 
-    return userProfileLoading ||
-        (destinations.length && !networksDataIsReady) ? (
+    const { loadingWrapper, loadingSpinner } = discoverStyles({
+        isMobile: !isDesktop,
+        isLoading: !networksDataIsReady && !showHandleInvalidData,
+    });
+
+    // Separate loading states between loading data and loading data + user profile.
+    // Handling the load state of initial data outside of child components prevents
+    // screen-wide loading spinner during small user profile updates like favoriting.
+    return !networksDataIsReady &&
+        (userProfileLoading || destinations.length) ? (
         <div className={loadingWrapper()}>
             <div className={loadingSpinner()} />
-            {/* Enable displaying invalid destination error */}
             <EditTripsWizard />
         </div>
     ) : destinations.length ? (

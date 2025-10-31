@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Key } from "react-aria-components";
 import { Dialog, Heading } from "react-aria-components";
 import { useTranslation } from "react-i18next";
@@ -29,17 +29,24 @@ import { AccordionItem } from "./base/Accordion/AccordionItem";
 import CommuterRailCheckbox from "./CommuterRailCheckbox";
 import ModalCloseButton from "./ModalCloseButton";
 import TravelModeToggle from "./TravelModeToggle";
+import { yourTripsStyles } from "./YourTrips/YourTrips.styles";
 
 const modalHeadingClassName = "text-lg font-bold text-gray-900";
 
 const EditTripsModal = ({ isMobile = false }) => {
     const { t } = useTranslation();
+    const tripStyles = yourTripsStyles();
     const dispatch = useAppDispatch();
     const modalOpen = useAppSelector(selectIsEditTripsOpen);
     const profile = useAppSelector(selectUserProfile);
     const trafficConditions = useAppSelector(selectTrafficConditions);
     const [profileBuffer, setProfileBuffer] =
         useState<UserProfileSliceState>(profile);
+
+    // Capture addition/removal of destinations in wizard
+    useEffect(() => {
+        setProfileBuffer(profile);
+    }, [profile]);
 
     // Update active destination
     const onSelectDestination = (keys: Iterable<string, void, undefined>) => {
@@ -93,7 +100,7 @@ const EditTripsModal = ({ isMobile = false }) => {
 
     return (
         <ModalOverlay
-            isDismissable
+            isDismissable={!profile.loading}
             isMobile={isMobile}
             isOpen={modalOpen}
             onOpenChange={onOpenChange}
@@ -110,39 +117,47 @@ const EditTripsModal = ({ isMobile = false }) => {
                         </p>
                         <ModalCloseButton onPress={() => onOpenChange(false)} />
                     </div>
-                    <div className="flex flex-col gap-4">
-                        <Accordion
-                            defaultExpandedKeys={[
-                                profileBuffer.activeDestination ??
-                                    profileBuffer.destinations[0].location
-                                        .label,
-                            ]}
-                            expandedItemCallback={onSelectDestination}
-                            className="w-full"
-                        >
-                            {profileBuffer.destinations.map(destination => (
-                                <AccordionItem
-                                    id={destination.location.label}
-                                    key={destination.location.label}
-                                    title={t(
-                                        `destinationPurposes.${destination.purpose}`
-                                    )}
-                                    subtitle={destination.location.label}
-                                    overridePanelOpen
-                                />
-                            ))}
-                        </Accordion>
-                        <Button
-                            variant="outline"
-                            size="medium"
-                            className="flex w-full"
-                            onPress={() =>
-                                dispatch(setIsEditTripsWizardOpen(true))
-                            }
-                        >
-                            {t("yourTrips.editTrips")}
-                        </Button>
-                    </div>
+                    {profile.loading ? (
+                        <div className="flex flex-col gap-4">
+                            <div className={tripStyles.loadingWrapper()}>
+                                <div className={tripStyles.loadingSpinner()} />
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col gap-4">
+                            <Accordion
+                                defaultExpandedKeys={[
+                                    profileBuffer.activeDestination ??
+                                        profileBuffer.destinations[0].location
+                                            .label,
+                                ]}
+                                expandedItemCallback={onSelectDestination}
+                                className="w-full"
+                            >
+                                {profileBuffer.destinations.map(destination => (
+                                    <AccordionItem
+                                        id={destination.location.label}
+                                        key={destination.location.label}
+                                        title={t(
+                                            `destinationPurposes.${destination.purpose}`
+                                        )}
+                                        subtitle={destination.location.label}
+                                        overridePanelOpen
+                                    />
+                                ))}
+                            </Accordion>
+                            <Button
+                                variant="outline"
+                                size="medium"
+                                className="flex w-full"
+                                onPress={() =>
+                                    dispatch(setIsEditTripsWizardOpen(true))
+                                }
+                            >
+                                {t("yourTrips.editTrips")}
+                            </Button>
+                        </div>
+                    )}
                     <div className="flex flex-col gap-4">
                         <h2 className={modalHeadingClassName}>
                             {t("editTripsModal.trafficHeading")}
