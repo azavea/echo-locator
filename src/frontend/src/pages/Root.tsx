@@ -4,10 +4,10 @@ import { Outlet, useLocation, useNavigate, useParams } from "react-router";
 
 import { SUPPORTED_LANGUAGES } from "components/LanguageRedirect";
 import Menu from "components/Menu";
+import { selectFavoritesCount } from "reducers/userProfile/userSlice";
 import { languageToLabel } from "src/constants";
 import { Language, type LanguageKey } from "src/enums";
-import { selectFavoritesCount } from "src/reducers/userProfile/userSlice";
-import { useAppSelector } from "src/store/store";
+import { useAppSelector } from "store/store";
 
 const Root = () => {
     const { lang } = useParams<{ lang: LanguageKey }>();
