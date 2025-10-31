@@ -66,5 +66,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fix staging basemap glyphs error [#707](https://github.com/azavea/echo-locator/pull/707)
 - Refactor text search desktop list view [#764](https://github.com/azavea/echo-locator/pull/764)
 - Fix neighborhood detail and wizard UX bugs [#762](https://github.com/azavea/echo-locator/pull/762)
+- Fix various modal & autocomplete UX issues [#766](https://github.com/azavea/echo-locator/pull/766)
 
 ### Removed
