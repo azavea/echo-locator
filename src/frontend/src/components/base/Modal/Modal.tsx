@@ -4,6 +4,7 @@ import {
     ModalOverlay as AriaModalOverlay,
     type ModalOverlayProps as AriaModalOverlayBaseProps,
 } from "react-aria-components";
+import useMobileKeyboardOffset from "src/hooks/useMobileKeyboardOffset";
 import { modalOverlayStyles, modalStyles } from "./Modal.styles";
 
 export type ModalWidth = "small" | "medium" | "large";
@@ -36,17 +37,25 @@ export const ModalOverlay = (props: AriaModalOverlayProps) => (
     />
 );
 
-export const Modal = (props: AriaModalProps) => (
-    <AriaModal
-        {...props}
-        className={({ isEntering, isExiting }) =>
-            modalStyles({
-                isEntering,
-                isExiting,
-                size: props.size,
-                overideVerticalCenter: props.overideVerticalCenter,
-                className: props.className as string,
-            })
-        }
-    />
-);
+export const Modal = (props: AriaModalProps) => {
+    const keyboardOffset = useMobileKeyboardOffset();
+    return (
+        <AriaModal
+            {...props}
+            // Overrides all vertical centering in modalStyles
+            // if mobile keyboard is open to prevent overlap
+            style={{
+                transform: `translateY(-${keyboardOffset / 2}px)`,
+            }}
+            className={({ isEntering, isExiting }) =>
+                modalStyles({
+                    isEntering,
+                    isExiting,
+                    size: props.size,
+                    overideVerticalCenter: props.overideVerticalCenter,
+                    className: props.className as string,
+                })
+            }
+        />
+    );
+};
