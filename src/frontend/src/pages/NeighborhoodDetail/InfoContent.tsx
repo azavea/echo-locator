@@ -151,14 +151,14 @@ const InfoContent = ({
                             label={t(
                                 "neighborhoodDetail.schoolsSafetyCard.schoolsLabel"
                             )}
-                            value={crime_percentile ?? 0}
+                            value={education_percentile ?? 0}
                             showCategory
                         />
                         <Meter
                             label={t(
                                 "neighborhoodDetail.schoolsSafetyCard.safetyLabel"
                             )}
-                            value={education_percentile ?? 0}
+                            value={crime_percentile ?? 0}
                             showCategory
                         />
                     </div>
