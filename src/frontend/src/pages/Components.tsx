@@ -40,7 +40,13 @@ const tags = {
 };
 
 const stats = {
-    schools: { label: "Schools", value: 25, showCategory: true },
+    schools: {
+        label: "Schools",
+        value: 25,
+        showCategory: true,
+        isBoston: false,
+        isSchoolChoice: false,
+    },
     safety: { label: "Safety", value: 75, showCategory: true },
     commute: {
         label: "Commute",

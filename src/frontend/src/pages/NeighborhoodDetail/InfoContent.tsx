@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
-import { Link, Button } from "react-aria-components";
-import { useTranslation, Trans } from "react-i18next";
+import { Button, Link } from "react-aria-components";
+import { Trans, useTranslation } from "react-i18next";
 
-import infoTabStyles from "./styles/infoTab.styles";
+import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
+import CircleCheckIcon from "assets/icons/circle-check.svg?react";
 import Meter from "components/base/Meter/Meter";
+import { LicensedImage } from "components/CCLicensedImage";
+import YourTrips from "components/YourTrips/YourTrips";
 import type {
     Neighborhood,
     NeighborhoodProperties,
 } from "reducers/neighborhoods/types";
-import CircleCheckIcon from "assets/icons/circle-check.svg?react";
-import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
-import { LicensedImage } from "components/CCLicensedImage";
+import SchoolMeter from "src/components/SchoolMeter";
+import { isNeighborhoodBostonTownArea } from "src/libs/formatNeighborhoodDataByCard";
+import infoTabStyles from "./styles/infoTab.styles";
 import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles";
-import YourTrips from "components/YourTrips/YourTrips";
 
 const NEIGHBORHOOD_IMG_TYPES = [
     "street",
@@ -50,6 +52,8 @@ const InfoContent = ({
             zipcode,
             crime_percentile,
             education_percentile,
+            school_choice,
+            town_area,
             town_website_description,
             town_link,
             wikipedia_link,
@@ -147,12 +151,15 @@ const InfoContent = ({
                         {t("neighborhoodDetail.schoolsSafetyCard.header")}
                     </h2>
                     <div className="flex flex-row gap-5">
-                        <Meter
+                        <SchoolMeter
                             label={t(
                                 "neighborhoodDetail.schoolsSafetyCard.schoolsLabel"
                             )}
                             value={education_percentile ?? 0}
+                            isSchoolChoice={school_choice}
+                            isBoston={isNeighborhoodBostonTownArea(town_area)}
                             showCategory
+                            isDetailPage
                         />
                         <Meter
                             label={t(
