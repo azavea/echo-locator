@@ -109,6 +109,7 @@
     },
     "yourTrips": {
         "heading": "Your Trips",
+        "subheading": "Commute times are estimates. Your actual commute times may vary based on your new address.",
         "busAndTrain": "Bus & Train",
         "car": "Car",
         "touchPrompt": "Select a trip to see directions on a map",
