@@ -40,7 +40,7 @@ interface NeighborhoodDataByCardType {
 }
 
 export const isNeighborhoodBostonTownArea = (town_area: string) =>
-    !!town_area && town_area === BOSTON_TOWN_AREA;
+    town_area === BOSTON_TOWN_AREA;
 
 const formatNeighborhoodDataByCard = (
     neighborhoodDetail: NeighborhoodDetail,

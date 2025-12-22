@@ -16,11 +16,9 @@ import { yourTripsStyles } from "./YourTrips.styles";
 
 const YourTrips = ({
     isMobile,
-    subheadingText,
     activeNeighborhood,
 }: {
     isMobile?: boolean;
-    subheadingText?: string;
     activeNeighborhood?: string;
 }) => {
     const { t } = useTranslation();
@@ -76,7 +74,9 @@ const YourTrips = ({
                             : t("yourTrips.car")}
                     </div>
                 </div>
-                {subheadingText && <h4>{subheadingText}</h4>}
+                <h4 className="text-gray-700 text-sm">
+                    {t("yourTrips.subheading")}
+                </h4>
                 <div className={sharedStyles.iconWithTextWrapper()}>
                     <TouchPromptIcon className={sharedStyles.inlineIcon()} />
                     <p className="text-gray-600 text-sm self-center">

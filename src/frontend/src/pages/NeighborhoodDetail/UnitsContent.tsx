@@ -1,22 +1,21 @@
-import { useState } from "react";
 import { Link } from "react-aria-components";
-import { useTranslation, Trans } from "react-i18next"; // 1. Import necessary functions
+import { Trans, useTranslation } from "react-i18next";
 
-import unitsTabStyles from "./styles/unitsTab.styles.ts";
-import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles.ts";
+import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
+import CalculatorIcon from "assets/icons/calculator.svg?react";
+import Button from "components/base/Button/Button.tsx";
+import formatCurrency from "libs/formatCurrency.ts";
+import { getUnitsURL } from "libs/getLinkURLs.ts";
 import type {
     Neighborhood,
     NeighborhoodProperties,
 } from "reducers/neighborhoods/types";
-import CalculatorIcon from "assets/icons/calculator.svg?react";
-import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
-import UnitsModal from "./UnitsModal.tsx";
+import { selectUserBedroomCount } from "reducers/userProfile/userSlice.ts";
+import { AFFORDABILITY_CALCULATOR_URL } from "src/constants.ts";
 import type { UnitSitesKeyType } from "src/enums.ts";
 import { useAppSelector } from "store/store.ts";
-import { selectUserBedroomCount } from "reducers/userProfile/userSlice.ts";
-import { getUnitsURL } from "libs/getLinkURLs.ts";
-import formatCurrency from "libs/formatCurrency.ts";
-import Button from "components/base/Button/Button.tsx";
+import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles.ts";
+import unitsTabStyles from "./styles/unitsTab.styles.ts";
 
 const UnitsContent = ({
     display = true,
@@ -37,9 +36,6 @@ const UnitsContent = ({
         display: display,
     });
     const bedroomCount = useAppSelector(selectUserBedroomCount);
-    const [isUnitsModalOpen, setIsUnitsModalOpen] = useState(false);
-    const [unitsModalLabel, setUnitsModalLabel] =
-        useState<UnitSitesKeyType | null>(null);
 
     const {
         properties: { town, zipcode },
@@ -50,22 +46,13 @@ const UnitsContent = ({
     ] as number;
 
     const onUnitsLinkPress = (site: UnitSitesKeyType) => {
-        setUnitsModalLabel(site);
-        setIsUnitsModalOpen(true);
-
         const unitsLink = getUnitsURL(site, zipcode, bedroomCount, max_rent);
-
         window.open(unitsLink, "_blank");
     };
 
     return (
         <div className={styles.root()}>
-            <UnitsModal
-                modalOpen={isUnitsModalOpen}
-                modalOpenChangeCallback={setIsUnitsModalOpen}
-                isMobile={isMobile}
-                unitSite={unitsModalLabel}
-            />
+            {/* step 1 */}
             <div className={sharedStyles.bodySectionWrapper()}>
                 <div className="flex flex-col gap-1">
                     <h4 className={styles.stepHeaderColor()}>
@@ -202,6 +189,7 @@ const UnitsContent = ({
                     </div>
                 </div>
             </div>
+            {/* step 2 */}
             <div
                 className={`${sharedStyles.bodySectionWrapper()} ${sharedStyles.bodySectionWrapperBorder()}`}
             >
@@ -216,10 +204,19 @@ const UnitsContent = ({
                 <div className={sharedStyles.iconWithTextWrapper()}>
                     <CalculatorIcon className={sharedStyles.inlineIcon()} />
                     <p className="text-gray-600 text-sm self-center">
-                        <Trans i18nKey="neighborhoodDetail.unitsContent.step2.affordabilityCalculator">
-                            Use the <strong>Affordability Calculator</strong> to
-                            check if a unit fits your budget
-                        </Trans>
+                        <Trans
+                            i18nKey="neighborhoodDetail.unitsContent.step2.affordabilityCalculator"
+                            components={{
+                                calcLink: (
+                                    <a
+                                        href={AFFORDABILITY_CALCULATOR_URL}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="font-bold underline"
+                                    />
+                                ),
+                            }}
+                        />
                     </p>
                 </div>
                 <div className={`${styles.stepGrid()}, ${styles.step2Grid()}`}>
@@ -327,6 +324,7 @@ const UnitsContent = ({
                     </Button>
                 </div>
             </div>
+            {/* step 3 */}
             <div
                 className={`${sharedStyles.bodySectionWrapper()} ${sharedStyles.bodySectionWrapperBorder()}`}
             >
@@ -343,12 +341,47 @@ const UnitsContent = ({
                 </p>
                 <div className={sharedStyles.learnMoreLinksGroup()}>
                     <Link
+                        href={AFFORDABILITY_CALCULATOR_URL}
+                        target="_noref"
+                        className={sharedStyles.learnMoreLink()}
+                    >
+                        <span className="flex flex-row gap-3">
+                            <CalculatorIcon
+                                className={sharedStyles.inlineIcon()}
+                            />
+                            {t(
+                                "neighborhoodDetail.unitsContent.step3.linkSubtext"
+                            )}
+                        </span>
+                        <ArrowIcon
+                            className={sharedStyles.learnMoreLinkArrow()}
+                        />
+                    </Link>
+                </div>
+            </div>
+            {/* step 4 */}
+            <div
+                className={`${sharedStyles.bodySectionWrapper()} ${sharedStyles.bodySectionWrapperBorder()}`}
+            >
+                <div className="flex flex-col gap-1">
+                    <h4 className={styles.stepHeaderColor()}>
+                        {t("neighborhoodDetail.unitsContent.step4.stepNumber")}
+                    </h4>
+                    <h2 className={sharedStyles.bodySectionHeading()}>
+                        {t("neighborhoodDetail.unitsContent.step4.header")}
+                    </h2>
+                </div>
+                <p className={sharedStyles.bodySectionTextNormal()}>
+                    {t("neighborhoodDetail.unitsContent.step4.bodyText")}
+                </p>
+                <div className={sharedStyles.learnMoreLinksGroup()}>
+                    <Link
                         href="https://www.bostonhousing.org/en/Contact-Us.aspx"
                         target="_noref"
                         className={sharedStyles.learnMoreLink()}
                     >
                         {t(
-                            "neighborhoodDetail.unitsContent.step3.coordinatorLink"
+                            "neighborhoodDetail.unitsContent.step4.coordinatorLink"
                         )}
                         <ArrowIcon
                             className={sharedStyles.learnMoreLinkArrow()}

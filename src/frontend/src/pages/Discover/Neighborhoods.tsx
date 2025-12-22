@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import NeighborhoodList from "components/NeighborhoodsList/NeighborhoodsList";
 import {
@@ -21,6 +22,7 @@ const Neighborhoods = ({
     mobile: boolean;
     listDisplay?: boolean;
 }) => {
+    const { t } = useTranslation();
     const [showTooFar, setShowTooFar] = useState(false);
     const {
         recoContainer,
@@ -78,10 +80,11 @@ const Neighborhoods = ({
                 <SearchList isMobile={mobile} />
                 {/* Sub-title */}
                 <div className={subTitleContainer()}>
-                    <p className={subTitle()}>Discover Neighborhoods</p>
+                    <p className={subTitle()}>
+                        {t("discoverNeighborhoods.title")}
+                    </p>
                     <p className={description()}>
-                        Recommendations are based on your profile and selected
-                        trip
+                        {t("discoverNeighborhoods.subtitle")}
                     </p>
                 </div>
                 {isLoading && (
@@ -96,7 +99,9 @@ const Neighborhoods = ({
                 <div className={recoList()}>
                     <div>
                         <div className={recoTitleContainer()}>
-                            <p className={recoTitle()}>Top 10</p>
+                            <p className={recoTitle()}>
+                                {t("discoverNeighborhoods.topTen")}
+                            </p>
                             <div
                                 className={swatch({
                                     swatchColor: "topTen",
@@ -104,7 +109,7 @@ const Neighborhoods = ({
                             ></div>
                         </div>
                         <p className={recoDescription()}>
-                            Highest-ranked recommendations
+                            {t("discoverNeighborhoods.bestRecTitle")}
                         </p>
                     </div>
                     <NeighborhoodList
@@ -122,7 +127,9 @@ const Neighborhoods = ({
                 <div className={recoList()}>
                     <div>
                         <div className={recoTitleContainer()}>
-                            <p className={recoTitle()}>Recommended</p>
+                            <p className={recoTitle()}>
+                                {t("discoverNeighborhoods.recTitle")}
+                            </p>
                             <div
                                 className={swatch({
                                     swatchColor: "recommended",
@@ -130,7 +137,7 @@ const Neighborhoods = ({
                             ></div>
                         </div>
                         <p className={recoDescription()}>
-                            Other recommended neighborhoods
+                            {t("discoverNeighborhoods.otherTitle")}
                         </p>
                     </div>
                     <NeighborhoodList
@@ -148,15 +155,15 @@ const Neighborhoods = ({
                 <div className={recoList()}>
                     <div>
                         <div className={recoTitleContainer()}>
-                            <p className={recoTitle()}>Not a match</p>
+                            <p className={recoTitle()}>
+                                {t("discoverNeighborhoods.tooFarTitle")}
+                            </p>
                             <div
                                 className={swatch({ swatchColor: "tooFar" })}
                             ></div>
                         </div>
                         <p className={recoDescription()}>
-                            These neighborhoods are out of reach with your
-                            selected transit option, meaning commute times
-                            exceeding 1 hour
+                            {t("discoverNeighborhoods.tooFarDisclaimer")}
                         </p>
                     </div>
                     <NeighborhoodList

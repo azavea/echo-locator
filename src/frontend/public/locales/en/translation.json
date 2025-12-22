@@ -32,6 +32,17 @@
         "signInConfirm": "We sent an email with a login link to {{email}}. Click the link to sign into ECHO.",
         "enterEmailAddress": "Enter your email address"
     },
+    "discoverNeighborhoods": {
+        "title": "Discover Neighborhoods",
+        "subtitle": "Recommendations are based on your profile and selected trip",
+        "topTen": "Top 10",
+        "bestRecTitle": "Highest-ranked recommendations",
+        "recTitle": "Recommended",
+        "otherTitle": "Other recommended neighborhoods",
+        "otherTitleLegend": "Other",
+        "tooFarTitle": "Not a match",
+        "tooFarDisclaimer": "These neighborhoods are out of reach with your selected transit option, meaning commute times exceeding 1 hour"
+    },
     "photoCredit": "Photo by {{artist}}. ",
     "photoSource": "Source.",
     "neighborhoodDetail": {
@@ -83,11 +94,17 @@
             "step2": {
                 "stepNumber": "STEP 2",
                 "header": "Find units you like",
-                "affordabilityCalculator": "Use the <1>Affordability Calculator</1> to check if a unit fits your budget",
+                "affordabilityCalculator": "Use the <calcLink>Affordability Calculator</calcLink> to check if a unit fits your budget",
                 "linkSubtext": "{{town}} {{zipcode}}, {{brCount}}br"
             },
             "step3": {
                 "stepNumber": "STEP 3",
+                "header": "Found a unit? Use the Affordability Calculator to check if it’s in budget",
+                "bodyText": "Any further information we want to give people",
+                "linkSubtext": "Open Affordability Calculator"
+            },
+            "step4": {
+                "stepNumber": "STEP 4",
                 "header": "Schedule a viewing and reach out to your ECHO Coordinator",
                 "bodyText": "We need to know the unit address and the landlord’s contact info.",
                 "coordinatorLink": "Contact your coordinator"
@@ -103,6 +120,7 @@
     },
     "yourTrips": {
         "heading": "Your Trips",
+        "subheading": "Commute times are estimates. Your actual commute times may vary based on your new address.",
         "busAndTrain": "Bus & Train",
         "car": "Car",
         "touchPrompt": "Select a trip to see directions on a map",
