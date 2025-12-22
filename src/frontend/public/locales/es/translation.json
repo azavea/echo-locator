@@ -88,6 +88,12 @@
             },
             "step3": {
                 "stepNumber": "STEP 3",
+                "header": "Found a unit? Use the Affordability Calculator to check if it’s in budget",
+                "bodyText": "Any further information we want to give people",
+                "linkSubtext": "Open Affordability Calculator"
+            },
+            "step4": {
+                "stepNumber": "STEP 4",
                 "header": "Schedule a viewing and reach out to your ECHO Coordinator",
                 "bodyText": "We need to know the unit address and the landlord’s contact info.",
                 "coordinatorLink": "Contact your coordinator"
