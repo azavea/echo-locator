@@ -32,17 +32,28 @@
         "signInConfirm": "Enviamos un correo electrónico con un enlace de inicio de sesión a {{email}}. Haga clic en el enlace para iniciar sesión en ECHO.",
         "enterEmailAddress": "Introduce tu dirección de correo electrónico"
     },
+    "discoverNeighborhoods": {
+        "title": "Discover Neighborhoods",
+        "subtitle": "Recommendations are based on your profile and selected trip",
+        "topTen": "Top 10",
+        "bestRecTitle": "Highest-ranked recommendations",
+        "recTitle": "Recommended",
+        "otherTitle": "Other recommended neighborhoods",
+        "otherTitleLegend": "Other",
+        "tooFarTitle": "Not a match",
+        "tooFarDisclaimer": "These neighborhoods are out of reach with your selected transit option, meaning commute times exceeding 1 hour"
+    },
     "photoCredit": "Photo by {{artist}}. ",
     "photoSource": "Source.",
     "neighborhoodDetail": {
         "addToFavorites": "Add to favorites",
-        "moveCountText": "¡EXAMPLE {{count}} titulares de vales ya se mudaron aquí!",
+        "moveCountText": "¡{{count}} titulares de vales ya se mudaron aquí!",
         "infoToggleLabel": "Infos",
         "unitsToggleLabel": "Find units",
         "eccYes": "Yes",
         "affordableCard": {
             "header": "Affordable",
-            "bodyText": "EXAMPLE La mayoría de las familias pagan <strong>no más del 30% de sus ingresos</strong> en alquiler."
+            "bodyText": "La mayoría de las familias pagan <strong>no más del 30% de sus ingresos</strong> en alquiler."
         },
         "echoBenefitsCard": {
             "header": "ECHO Benefits",
@@ -117,12 +128,12 @@
         "openInGoogle": "Abierto en Google Maps"
     },
     "userProfile": {
-        "title": "¡EXAMPLE Descubra los barrios",
+        "title": "¡Descubra los barrios",
         "description": "Start by creating a profile to help us recommend neighborhoods to you",
         "actionButton": "Create your profile",
         "caption": "Takes just 5 minutes!",
         "wizard": {
-            "header": "¡EXAMPLE Tu perfil",
+            "header": "¡Tu perfil",
             "stepBedroom": {
                 "question": "How many bedrooms does your voucher have?",
                 "description": "Reach out to your BHA Housing Coordinator if you're unsure."

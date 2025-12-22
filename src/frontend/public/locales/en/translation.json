@@ -32,6 +32,17 @@
         "signInConfirm": "We sent an email with a login link to {{email}}. Click the link to sign into ECHO.",
         "enterEmailAddress": "Enter your email address"
     },
+    "discoverNeighborhoods": {
+        "title": "Discover Neighborhoods",
+        "subtitle": "Recommendations are based on your profile and selected trip",
+        "topTen": "Top 10",
+        "bestRecTitle": "Highest-ranked recommendations",
+        "recTitle": "Recommended",
+        "otherTitle": "Other recommended neighborhoods",
+        "otherTitleLegend": "Other",
+        "tooFarTitle": "Not a match",
+        "tooFarDisclaimer": "These neighborhoods are out of reach with your selected transit option, meaning commute times exceeding 1 hour"
+    },
     "photoCredit": "Photo by {{artist}}. ",
     "photoSource": "Source.",
     "neighborhoodDetail": {

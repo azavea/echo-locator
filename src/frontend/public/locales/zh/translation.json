@@ -32,17 +32,28 @@
         "signInConfirm": "我们已向{{email}}发送了一封包含登录链接的电子邮件。点击该链接即可登录ECHO。",
         "enterEmailAddress": "输入您的电子邮箱地址"
     },
+    "discoverNeighborhoods": {
+        "title": "Discover Neighborhoods",
+        "subtitle": "Recommendations are based on your profile and selected trip",
+        "topTen": "Top 10",
+        "bestRecTitle": "Highest-ranked recommendations",
+        "recTitle": "Recommended",
+        "otherTitle": "Other recommended neighborhoods",
+        "otherTitleLegend": "Other",
+        "tooFarTitle": "Not a match",
+        "tooFarDisclaimer": "These neighborhoods are out of reach with your selected transit option, meaning commute times exceeding 1 hour"
+    },
     "photoCredit": "Photo by {{artist}}. ",
     "photoSource": "Source.",
     "neighborhoodDetail": {
         "addToFavorites": "Add to favorites",
-        "moveCountText": "EXAMPLE 已有 {{count}} 名代金券持有者搬到这里了！",
+        "moveCountText": "已有 {{count}} 名代金券持有者搬到这里了！",
         "infoToggleLabel": "Infos",
         "unitsToggleLabel": "Find units",
         "eccYes": "Yes",
         "affordableCard": {
             "header": "Affordable",
-            "bodyText": "EXAMPLE 大多数家庭支付的租金<strong>不超过其收入的30%</strong>。"
+            "bodyText": "大多数家庭支付的租金<strong>不超过其收入的30%</strong>。"
         },
         "echoBenefitsCard": {
             "header": "ECHO Benefits",
@@ -114,7 +125,7 @@
         "car": "Car",
         "touchPrompt": "Select a trip to see directions on a map",
         "editTrips": "Edit your trips",
-        "openInGoogle": "EXAMPLE 在谷歌地图中打开"
+        "openInGoogle": "在谷歌地图中打开"
     },
     "userProfile": {
         "title": "发现社区",
@@ -122,14 +133,14 @@
         "actionButton": "创建个人资料",
         "caption": "只要5分钟！",
         "wizard": {
-            "header": "EXAMPLE 您的资料",
+            "header": "您的资料",
             "stepBedroom": {
                 "question": "How many bedrooms does your voucher have?",
-                "description": "EXAMPLE 如果您不确定，请联系BHA住房协调员。"
+                "description": "如果您不确定，请联系BHA住房协调员。"
             },
             "stepImportance": {
                 "question": "What is important to you?",
-                "commuteTime": "EXAMPLE 通勤时长",
+                "commuteTime": "通勤时长",
                 "schoolQuality": "School Quality",
                 "publicSafety": "Public safety",
                 "notImportant": "Not important",
@@ -143,7 +154,7 @@
                 "checkboxLabel": "I'm willing to take the express bus or commuter rail"
             },
             "button": {
-                "continue": "EXAMPLE 继续",
+                "continue": "继续",
                 "finish": "Finish"
             }
         }
@@ -166,7 +177,7 @@
                 "finish": "Add trip"
             },
             "button": {
-                "continue": "EXAMPLE 继续",
+                "continue": "继续",
                 "finish": "完成"
             }
         }
