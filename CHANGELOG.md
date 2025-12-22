@@ -61,6 +61,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Edit neighborhood data & images for new UI [#695](https://github.com/azavea/echo-locator/pull/695)
 - Refactor networks data state to support place comparisons [#699](https://github.com/azavea/echo-locator/pull/699)
 - Refactor user authentication APIs [#718](https://github.com/azavea/echo-locator/pull/718)
+- Implement units design changes [#776](https://github.com/azavea/echo-locator/pull/776)
 
 ### Fixed
 
