@@ -11,6 +11,7 @@ import type {
     NeighborhoodProperties,
 } from "reducers/neighborhoods/types";
 import { selectUserBedroomCount } from "reducers/userProfile/userSlice.ts";
+import { AFFORDABILITY_CALCULATOR_URL } from "src/constants.ts";
 import type { UnitSitesKeyType } from "src/enums.ts";
 import { useAppSelector } from "store/store.ts";
 import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles.ts";
@@ -208,7 +209,7 @@ const UnitsContent = ({
                             components={{
                                 calcLink: (
                                     <a
-                                        href="https://www.bostonhousing.org/en/Section-8-Leased-Housing/How-Rent-is-Set/Can-I-afford-this-apartment-Use-our-new-Rent-Esti.aspx"
+                                        href={AFFORDABILITY_CALCULATOR_URL}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="font-bold underline"
@@ -340,7 +341,7 @@ const UnitsContent = ({
                 </p>
                 <div className={sharedStyles.learnMoreLinksGroup()}>
                     <Link
-                        href="https://www.bostonhousing.org/en/Section-8-Leased-Housing/How-Rent-is-Set/Can-I-afford-this-apartment-Use-our-new-Rent-Esti.aspx"
+                        href={AFFORDABILITY_CALCULATOR_URL}
                         target="_noref"
                         className={sharedStyles.learnMoreLink()}
                     >
