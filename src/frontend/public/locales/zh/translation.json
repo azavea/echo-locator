@@ -83,7 +83,7 @@
             "step2": {
                 "stepNumber": "STEP 2",
                 "header": "Find units you like",
-                "affordabilityCalculator": "Use the <1>Affordability Calculator</1> to check if a unit fits your budget",
+                "affordabilityCalculator": "Use the <calcLink>Affordability Calculator</calcLink> to check if a unit fits your budget",
                 "linkSubtext": "{{town}} {{zipcode}}, {{brCount}}br"
             },
             "step3": {

@@ -1,22 +1,21 @@
-import { useState } from "react";
 import { Link } from "react-aria-components";
-import { useTranslation, Trans } from "react-i18next"; // 1. Import necessary functions
+import { Trans, useTranslation } from "react-i18next";
 
-import unitsTabStyles from "./styles/unitsTab.styles.ts";
-import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles.ts";
+import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
+import CalculatorIcon from "assets/icons/calculator.svg?react";
+import Button from "components/base/Button/Button.tsx";
+import formatCurrency from "libs/formatCurrency.ts";
+import { getUnitsURL } from "libs/getLinkURLs.ts";
 import type {
     Neighborhood,
     NeighborhoodProperties,
 } from "reducers/neighborhoods/types";
-import CalculatorIcon from "assets/icons/calculator.svg?react";
-import ArrowIcon from "assets/icons/arrow-full-right.svg?react";
-import UnitsModal from "./UnitsModal.tsx";
+import { selectUserBedroomCount } from "reducers/userProfile/userSlice.ts";
 import type { UnitSitesKeyType } from "src/enums.ts";
 import { useAppSelector } from "store/store.ts";
-import { selectUserBedroomCount } from "reducers/userProfile/userSlice.ts";
-import { getUnitsURL } from "libs/getLinkURLs.ts";
-import formatCurrency from "libs/formatCurrency.ts";
-import Button from "components/base/Button/Button.tsx";
+import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles.ts";
+import unitsTabStyles from "./styles/unitsTab.styles.ts";
+import UnitsModal from "./UnitsModal.tsx";
 
 const UnitsContent = ({
     display = true,
@@ -216,10 +215,19 @@ const UnitsContent = ({
                 <div className={sharedStyles.iconWithTextWrapper()}>
                     <CalculatorIcon className={sharedStyles.inlineIcon()} />
                     <p className="text-gray-600 text-sm self-center">
-                        <Trans i18nKey="neighborhoodDetail.unitsContent.step2.affordabilityCalculator">
-                            Use the <strong>Affordability Calculator</strong> to
-                            check if a unit fits your budget
-                        </Trans>
+                        <Trans
+                            i18nKey="neighborhoodDetail.unitsContent.step2.affordabilityCalculator"
+                            components={{
+                                calcLink: (
+                                    <a
+                                        href="https://www.bostonhousing.org/en/Section-8-Leased-Housing/How-Rent-is-Set/Can-I-afford-this-apartment-Use-our-new-Rent-Esti.aspx"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="font-bold underline"
+                                    />
+                                ),
+                            }}
+                        />
                     </p>
                 </div>
                 <div className={`${styles.stepGrid()}, ${styles.step2Grid()}`}>
