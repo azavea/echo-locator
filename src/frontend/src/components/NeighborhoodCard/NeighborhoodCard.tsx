@@ -8,8 +8,10 @@ import SquareDollarIcon from "assets/icons/square-dollar.svg?react";
 import StarSolidIcon from "assets/icons/star-solid.svg?react";
 import TimesIcon from "assets/icons/times.svg?react";
 import Button from "components/base/Button/Button";
-import Meter, { type MeterProps } from "components/base/Meter/Meter";
-import Range, { type RangeProps } from "components/base/Range/Range";
+import Meter from "components/base/Meter/Meter";
+import Range from "components/base/Range/Range";
+import SchoolMeter from "components/SchoolMeter";
+import type { Stats } from "src/libs/formatNeighborhoodDataByCard";
 import { cardStyles } from "./NeighborhoodCard.styles";
 
 export interface NeighborhoodCardProps {
@@ -18,11 +20,7 @@ export interface NeighborhoodCardProps {
     imageUrl?: string;
     isTopTen?: boolean;
     hasECC?: boolean;
-    stats?: {
-        schools: MeterProps;
-        safety: MeterProps;
-        commute: RangeProps;
-    };
+    stats?: Stats;
     listViewStyling?: { [key: string]: string | boolean };
     onClose?: () => void;
     onPrev?: () => void;
@@ -122,25 +120,13 @@ const NeighborhoodCard = ({
                 {!!stats && (
                     <div className={statsContainer()}>
                         <div className={statItem()}>
-                            <Meter
-                                label={stats.schools.label}
-                                value={stats.schools.value}
-                                showCategory={stats.schools.showCategory}
-                            />
+                            <SchoolMeter {...stats.schools} />
                         </div>
                         <div className={statItem()}>
-                            <Meter
-                                label={stats.safety.label}
-                                value={stats.safety.value}
-                                showCategory={stats.safety.showCategory}
-                            />
+                            <Meter {...stats.safety} />
                         </div>
                         <div className={statItem()}>
-                            <Range
-                                label={stats.commute.label}
-                                start={stats.commute.start}
-                                end={stats.commute.end}
-                            />
+                            <Range {...stats.commute} />
                         </div>
                     </div>
                 )}

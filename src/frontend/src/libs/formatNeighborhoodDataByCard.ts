@@ -1,21 +1,13 @@
+import type { MeterProps } from "src/components/base/Meter/Meter";
+import type { RangeProps } from "src/components/base/Range/Range";
+import type { SchoolMeterProps } from "src/components/SchoolMeter";
+import { BOSTON_TOWN_AREA } from "src/constants";
 import type { NeighborhoodDetail } from "src/reducers/neighborhoods/types";
 
-interface Stats {
-    schools: {
-        label: string;
-        value: number;
-        showCategory: boolean;
-    };
-    safety: {
-        label: string;
-        value: number | undefined;
-        showCategory: boolean;
-    };
-    commute: {
-        label: string;
-        start: number;
-        end: number;
-    };
+export interface Stats {
+    schools: SchoolMeterProps;
+    safety: MeterProps;
+    commute: RangeProps;
 }
 
 interface BaseCardData {
@@ -47,6 +39,9 @@ interface NeighborhoodDataByCardType {
     cardNoImage: CardNoImage;
 }
 
+export const isNeighborhoodBostonTownArea = (town_area: string) =>
+    !!town_area && town_area === BOSTON_TOWN_AREA;
+
 const formatNeighborhoodDataByCard = (
     neighborhoodDetail: NeighborhoodDetail,
     activeDestination: string,
@@ -71,6 +66,10 @@ const formatNeighborhoodDataByCard = (
             label: "Schools",
             value: neighborhoodDetail.education_percentile ?? undefined,
             showCategory: true,
+            isBoston: isNeighborhoodBostonTownArea(
+                neighborhoodDetail.town_area
+            ),
+            isSchoolChoice: neighborhoodDetail.school_choice,
         },
         safety: {
             label: "Safety",

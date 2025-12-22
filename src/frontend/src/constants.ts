@@ -117,3 +117,7 @@ export const PROTONK_URL =
     "https://commons.wikimedia.org/wiki/File:Simple_Massachusetts_Vector.svg";
 export const MAPBOX_GEOCODING_API_BASE_URL =
     "https://api.mapbox.com/search/geocode/v6/forward";
+
+export const CAMBRIDGE_SCHOOL_CHOICE_LINK = "https://www.cpsd.us/";
+export const BOSTON_SCHOOL_CHOICE_LINK =
+    "https://discover.bostonpublicschools.org/";

@@ -49,6 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add neighborhood search [#743](https://github.com/azavea/echo-locator/pull/743)
 - Enable profile/trip wizards edit mode [#745](https://github.com/azavea/echo-locator/pull/745)
 - Add Favorites page [#765](https://github.com/azavea/echo-locator/pull/765)
+- Add conditional school choice link [#775](https://github.com/azavea/echo-locator/pull/775)
 
 ### Changed
 
