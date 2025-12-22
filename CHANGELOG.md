@@ -71,5 +71,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fix neighborhood detail and wizard UX bugs [#762](https://github.com/azavea/echo-locator/pull/762)
 - Fix various modal & autocomplete UX issues [#766](https://github.com/azavea/echo-locator/pull/766)
 - Offset modals if mobile keyboard open [#774](https://github.com/azavea/echo-locator/pull/774)
+- Clean up following data update [#777](https://github.com/azavea/echo-locator/pull/777)
 
 ### Removed
