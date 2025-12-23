@@ -121,7 +121,10 @@ with open(NEIGHBORHOOD_CSV) as inf:
                     try:
                         properties[field] = float(val)
                     except ValueError as ex:
-                        if field == 'crime_percentile':
+                        if (
+                            field == "crime_percentile"
+                            or field == "education_percentile"
+                        ):
                             properties[field] = -1  # flag for no value
                         else:
                             raise ex

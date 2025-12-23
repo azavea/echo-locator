@@ -53,7 +53,11 @@ const formatNeighborhoodDataByCard = (
     };
 
     const image = {
-        imageUrl: neighborhoodDetail.street_image,
+        imageUrl:
+            neighborhoodDetail.street_image ??
+            neighborhoodDetail.town_square_image ??
+            neighborhoodDetail.school_image ??
+            neighborhoodDetail.open_space_or_landmark_image,
     };
 
     const tags = {
