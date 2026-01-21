@@ -29,7 +29,7 @@
         "i18next": "^25.3.2",
         "i18next-browser-languagedetector": "^8.2.0",
         "i18next-http-backend": "^3.0.2",
-        "lodash": "^4.17.21",
+        "lodash": "^4.17.23",
         "maplibre-gl": "^5.6.2",
         "react": "^19.1.0",
         "react-aria": "^3.41.1",
