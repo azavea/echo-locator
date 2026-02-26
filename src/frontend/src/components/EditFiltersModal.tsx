@@ -71,6 +71,10 @@ const EditFiltersModal = ({ isMobile = false }) => {
                 updatedRegionsFilter.splice(regionIndex, 1);
             }
         }
+        // Prevent unselecting all regions
+        if (updatedRegionsFilter.length === 0) {
+            return;
+        }
         setFiltersBuffer({
             ...filtersBuffer,
             regions: updatedRegionsFilter,
@@ -159,7 +163,7 @@ const EditFiltersModal = ({ isMobile = false }) => {
                             }
                         />
                         <AriaCheckboxGroup
-                            defaultValue={filtersBuffer.regions}
+                            value={filtersBuffer.regions}
                             aria-label={t("filterModal.regionsFilterLabel")}
                             className="flex flex-col gap-5"
                         >
