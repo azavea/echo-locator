@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import selectNeighborhoodZipcodeMap from "reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
 import { selectActiveDestination } from "reducers/userProfile/userSlice";
 import NeighborhoodCard from "src/components/NeighborhoodCard/NeighborhoodCard";
+import { selectRankedNeighborhoodsLists } from "src/reducers/neighborhoods/neighborhoodsSlice";
 import { useAppSelector } from "store/store";
 
 export interface DetailPreviewPopupProps extends PopupOptions {
@@ -17,6 +18,7 @@ const NeighborhoodDetailPreviewPopup = ({
     zipcode,
 }: DetailPreviewPopupProps) => {
     const navigate = useNavigate();
+    const { topTen } = useAppSelector(selectRankedNeighborhoodsLists);
     const neighborhoodDetailsMap = useAppSelector(selectNeighborhoodZipcodeMap);
     const activeDestination = useAppSelector(selectActiveDestination);
 
@@ -28,7 +30,7 @@ const NeighborhoodDetailPreviewPopup = ({
         formatNeighborhoodDataByViewType(
             neighborhoodDetailsMap[zipcode],
             activeDestination,
-            true
+            topTen.includes(zipcode)
         );
 
     const detailClick = () => {
