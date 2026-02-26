@@ -38,7 +38,7 @@ const UnitsContent = ({
     const bedroomCount = useAppSelector(selectUserBedroomCount);
 
     const {
-        properties: { town, zipcode },
+        properties: { town, zipcode, ecc },
     } = neighborhood;
 
     const max_rent = neighborhood.properties[
@@ -63,7 +63,7 @@ const UnitsContent = ({
                     </h2>
                 </div>
                 <div className={styles.stepGrid()}>
-                    <div className={styles.step1CardWrapper()}>
+                    <div className={styles.step1CardWrapper({ isEcc: ecc })}>
                         <div className={styles.stepCard()}>
                             <div className="flex flex-col items-start gap-3">
                                 <p className={styles.stepCardBoldText()}>
@@ -116,78 +116,84 @@ const UnitsContent = ({
                             />
                         </Link>
                     </div>
-                    <div className={styles.step1CardWrapper()}>
-                        <div className={styles.stepCard()}>
-                            <div className="flex flex-col items-start gap-3">
-                                <p className={styles.stepCardBoldText()}>
-                                    {t(
-                                        "neighborhoodDetail.unitsContent.step1.echoBenefits"
-                                    )}
-                                </p>
-                                <div
-                                    className={`${styles.stepCardTableRow()} ${styles.stepCardTableRowBorder()}`}
-                                >
-                                    <p
-                                        className={`${styles.stepCardBoldText()} text-teal-900`}
-                                    >
-                                        $$$$$
-                                    </p>
-                                    <p
-                                        className={`${sharedStyles.bodySectionTextNormal()} ${styles.stepCardRowText()}`}
-                                    >
+                    {ecc && (
+                        <div
+                            className={styles.step1CardWrapper({ isEcc: ecc })}
+                        >
+                            <div className={styles.stepCard()}>
+                                <div className="flex flex-col items-start gap-3">
+                                    <p className={styles.stepCardBoldText()}>
                                         {t(
-                                            "neighborhoodDetail.unitsContent.step1.sdBrokerFee"
+                                            "neighborhoodDetail.unitsContent.step1.echoBenefits"
                                         )}
                                     </p>
-                                </div>
-                                <div
-                                    className={`${styles.stepCardTableRow()} ${styles.stepCardTableRowBorder()}`}
-                                >
-                                    <p
-                                        className={`${styles.stepCardBoldText()} text-teal-900`}
+                                    <div
+                                        className={`${styles.stepCardTableRow()} ${styles.stepCardTableRowBorder()}`}
                                     >
-                                        $750
-                                    </p>
-                                    <p
-                                        className={`${sharedStyles.bodySectionTextNormal()} ${styles.stepCardRowText()}`}
+                                        <p
+                                            className={`${styles.stepCardBoldText()} text-teal-900`}
+                                        >
+                                            $$$$$
+                                        </p>
+                                        <p
+                                            className={`${sharedStyles.bodySectionTextNormal()} ${styles.stepCardRowText()}`}
+                                        >
+                                            {t(
+                                                "neighborhoodDetail.unitsContent.step1.sdBrokerFee"
+                                            )}
+                                        </p>
+                                    </div>
+                                    <div
+                                        className={`${styles.stepCardTableRow()} ${styles.stepCardTableRowBorder()}`}
                                     >
-                                        {t(
-                                            "neighborhoodDetail.unitsContent.step1.movingExpenses"
-                                        )}
-                                    </p>
-                                </div>
-                                <div className={styles.stepCardTableRow()}>
-                                    <p
-                                        className={`${styles.stepCardBoldText()} text-teal-900`}
-                                    >
-                                        $1,500
-                                    </p>
-                                    <p
-                                        className={`${sharedStyles.bodySectionTextNormal()} ${styles.stepCardRowText()}`}
-                                    >
-                                        {t(
-                                            "neighborhoodDetail.unitsContent.step1.landlordIncentive"
-                                        )}
-                                    </p>
+                                        <p
+                                            className={`${styles.stepCardBoldText()} text-teal-900`}
+                                        >
+                                            $750
+                                        </p>
+                                        <p
+                                            className={`${sharedStyles.bodySectionTextNormal()} ${styles.stepCardRowText()}`}
+                                        >
+                                            {t(
+                                                "neighborhoodDetail.unitsContent.step1.movingExpenses"
+                                            )}
+                                        </p>
+                                    </div>
+                                    <div className={styles.stepCardTableRow()}>
+                                        <p
+                                            className={`${styles.stepCardBoldText()} text-teal-900`}
+                                        >
+                                            $1,500
+                                        </p>
+                                        <p
+                                            className={`${sharedStyles.bodySectionTextNormal()} ${styles.stepCardRowText()}`}
+                                        >
+                                            {t(
+                                                "neighborhoodDetail.unitsContent.step1.landlordIncentive"
+                                            )}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
+                            <Link
+                                href="https://www.bostonhousing.org/en/Home.aspx"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`${sharedStyles.bodySectionLinkWrapper()} p-2`}
+                            >
+                                <p
+                                    className={sharedStyles.bodySectionTextSmall()}
+                                >
+                                    {t(
+                                        "neighborhoodDetail.unitsContent.step1.learnEchoLink"
+                                    )}
+                                </p>
+                                <ArrowIcon
+                                    className={sharedStyles.bodySectionLinkArrow()}
+                                />
+                            </Link>
                         </div>
-                        <Link
-                            href="https://www.bostonhousing.org/en/Home.aspx"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`${sharedStyles.bodySectionLinkWrapper()} p-2`}
-                        >
-                            <p className={sharedStyles.bodySectionTextSmall()}>
-                                {t(
-                                    "neighborhoodDetail.unitsContent.step1.learnEchoLink"
-                                )}
-                            </p>
-                            <ArrowIcon
-                                className={sharedStyles.bodySectionLinkArrow()}
-                            />
-                        </Link>
-                    </div>
+                    )}
                 </div>
             </div>
             {/* step 2 */}
