@@ -130,7 +130,7 @@ const UnitsContent = ({
                                     <p
                                         className={`${styles.stepCardBoldText()} text-teal-900`}
                                     >
-                                        $6,000
+                                        $$$$$
                                     </p>
                                     <p
                                         className={`${sharedStyles.bodySectionTextNormal()} ${styles.stepCardRowText()}`}
@@ -175,6 +175,7 @@ const UnitsContent = ({
                         <Link
                             href="https://www.bostonhousing.org/en/Home.aspx"
                             target="_blank"
+                            rel="noopener noreferrer"
                             className={`${sharedStyles.bodySectionLinkWrapper()} p-2`}
                         >
                             <p className={sharedStyles.bodySectionTextSmall()}>
@@ -376,8 +377,8 @@ const UnitsContent = ({
                 </p>
                 <div className={sharedStyles.learnMoreLinksGroup()}>
                     <Link
-                        href="https://www.bostonhousing.org/en/Contact-Us.aspx"
-                        target="_noref"
+                        href="mailto:ECHO@bostonhousing.org"
+                        target="_top"
                         className={sharedStyles.learnMoreLink()}
                     >
                         {t(

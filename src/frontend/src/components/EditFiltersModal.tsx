@@ -209,6 +209,7 @@ const EditFiltersModal = ({ isMobile = false }) => {
                                 footer={
                                     <Link
                                         href={BHA_URL}
+                                        target="_blank"
                                         className="text-sm text-gray-600 flex flex-row gap-2 items-center"
                                     >
                                         {t("filterModal.echoLink")}
