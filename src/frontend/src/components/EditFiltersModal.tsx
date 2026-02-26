@@ -62,22 +62,21 @@ const EditFiltersModal = ({ isMobile = false }) => {
     const [filtersBuffer, setFiltersBuffer] = useState<FiltersState>(filters);
 
     const regionsFilterSelected = (isSelected: boolean, region: string) => {
-        const updatedRegionsFilter = [...filtersBuffer.regions];
-        if (isSelected) {
-            updatedRegionsFilter.push(region);
-        } else {
-            const regionIndex = updatedRegionsFilter.indexOf(region);
-            if (regionIndex > -1) {
-                updatedRegionsFilter.splice(regionIndex, 1);
+        setFiltersBuffer(prevBufferState => {
+            const updatedRegionsFilter = new Set(prevBufferState.regions);
+            if (isSelected) {
+                updatedRegionsFilter.add(region);
+            } else {
+                updatedRegionsFilter.delete(region);
             }
-        }
-        // Prevent unselecting all regions
-        if (updatedRegionsFilter.length === 0) {
-            return;
-        }
-        setFiltersBuffer({
-            ...filtersBuffer,
-            regions: updatedRegionsFilter,
+            // Prevent unselecting all regions
+            if (updatedRegionsFilter.size === 0) {
+                return prevBufferState;
+            }
+            return {
+                ...prevBufferState,
+                regions: [...updatedRegionsFilter],
+            };
         });
     };
 
@@ -176,6 +175,11 @@ const EditFiltersModal = ({ isMobile = false }) => {
                                     key={index}
                                     size="small"
                                     variant="ghost"
+                                    isDisabled={
+                                        // prevent un-selecting last region
+                                        filtersBuffer.regions.length === 1 &&
+                                        filtersBuffer.regions.includes(name)
+                                    }
                                 >
                                     <div className="flex flex-row gap-3">
                                         <div
