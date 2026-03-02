@@ -112,7 +112,7 @@ export const NEIGHBORHOOD_REGIONS = [
 
 export const BHA_URL =
     import.meta.env.VITE_BHA_ECHO_PROGRAM_URL ||
-    "https://www.bostonhousing.org/en/Home-New.aspx";
+    "https://www.bostonhousing.org";
 export const PROTONK_URL =
     "https://commons.wikimedia.org/wiki/File:Simple_Massachusetts_Vector.svg";
 export const MAPBOX_GEOCODING_API_BASE_URL =
@@ -123,3 +123,5 @@ export const BOSTON_SCHOOL_CHOICE_LINK =
     "https://discover.bostonpublicschools.org/";
 export const AFFORDABILITY_CALCULATOR_URL =
     "https://www.bostonhousing.org/en/Section-8-Leased-Housing/How-Rent-is-Set/Can-I-afford-this-apartment-Use-our-new-Rent-Esti.aspx";
+export const BHA_VOUCHER_URL =
+    "https://www.bostonhousing.org/en/Section-8-Leased-Housing/Voucher-Programs.aspx";

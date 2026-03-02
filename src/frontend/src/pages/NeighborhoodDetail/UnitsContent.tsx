@@ -11,7 +11,11 @@ import type {
     NeighborhoodProperties,
 } from "reducers/neighborhoods/types";
 import { selectUserBedroomCount } from "reducers/userProfile/userSlice.ts";
-import { AFFORDABILITY_CALCULATOR_URL } from "src/constants.ts";
+import {
+    AFFORDABILITY_CALCULATOR_URL,
+    BHA_URL,
+    BHA_VOUCHER_URL,
+} from "src/constants.ts";
 import type { UnitSitesKeyType } from "src/enums.ts";
 import { useAppSelector } from "store/store.ts";
 import neighborhoodDetailStyles from "./styles/NeighborhoodDetail.styles.ts";
@@ -102,7 +106,7 @@ const UnitsContent = ({
                             </div>
                         </div>
                         <Link
-                            href="https://www.bostonhousing.org/en/Section-8-Leased-Housing/Voucher-Programs.aspx"
+                            href={BHA_VOUCHER_URL}
                             target="_blank"
                             className={`${sharedStyles.bodySectionLinkWrapper()} p-2`}
                         >
@@ -176,7 +180,7 @@ const UnitsContent = ({
                                 </div>
                             </div>
                             <Link
-                                href="https://www.bostonhousing.org/en/Home.aspx"
+                                href={BHA_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={`${sharedStyles.bodySectionLinkWrapper()} p-2`}
