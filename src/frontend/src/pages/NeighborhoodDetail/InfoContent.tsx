@@ -136,10 +136,7 @@ const InfoContent = ({
                     </div>
                     <div className="flex flex-col gap-5">
                         <p className={sharedStyles.bodySectionTextNormal()}>
-                            <Trans i18nKey="neighborhoodDetail.echoBenefitsCard.bodyText">
-                                <strong>Up to $6,750</strong> for security
-                                deposit, broker fees, moving expenses, and more.
-                            </Trans>
+                            {t("neighborhoodDetail.echoBenefitsCard.bodyText")}
                         </p>
                         {isMobile && <FindUnitsLink />}
                     </div>

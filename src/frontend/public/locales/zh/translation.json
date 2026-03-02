@@ -3,7 +3,7 @@
     "compare": "对比",
     "favorites": "Favorites",
     "logout": "退出",
-    "filtersButton": "Filters",
+    "filtersButton": "Profile",
     "transitModesSimple": {
         "peak": "express public transit",
         "offPeak": "express public transit",
@@ -48,7 +48,7 @@
     "neighborhoodDetail": {
         "addToFavorites": "Add to favorites",
         "moveCountText": "已有 {{count}} 名代金券持有者搬到这里了！",
-        "infoToggleLabel": "Infos",
+        "infoToggleLabel": "Info",
         "unitsToggleLabel": "Find units",
         "eccYes": "Yes",
         "affordableCard": {
@@ -57,7 +57,7 @@
         },
         "echoBenefitsCard": {
             "header": "ECHO Benefits",
-            "bodyText": "<strong>Up to $6,750</strong> for security deposit, broker fees, moving expenses, and more."
+            "bodyText": "Receive financial assistance for Security Deposit, Broker’s Fees, Moving Expenses and more."
         },
         "schoolChoice": "School choice options",
         "schoolsSafetyCard": {
@@ -100,13 +100,13 @@
             "step3": {
                 "stepNumber": "STEP 3",
                 "header": "Found a unit? Use the Affordability Calculator to check if it’s in budget",
-                "bodyText": "Any further information we want to give people",
+                "bodyText": "All Calculations are subject to a final BHA determination.",
                 "linkSubtext": "Open Affordability Calculator"
             },
             "step4": {
                 "stepNumber": "STEP 4",
                 "header": "Schedule a viewing and reach out to your ECHO Coordinator",
-                "bodyText": "We need to know the unit address and the landlord’s contact info.",
+                "bodyText": "Please have the unit address and Property Owner’s information ready.",
                 "coordinatorLink": "Contact your coordinator"
             },
             "unitsModal": {

@@ -27,7 +27,7 @@ const unitsTabStyles = tv({
             true: {
                 stepGrid: "flex-col gap-6",
                 step2Grid: "gap-3",
-                step1CardWrapper: "w-full",
+                step1CardWrapper: "!w-full",
                 step2CardWrapper: "w-full",
             },
             false: {
@@ -36,6 +36,14 @@ const unitsTabStyles = tv({
                 step2Grid: "gap-7 pb-5",
                 step1CardWrapper: "w-1/2",
                 step2CardWrapper: "w-1/3",
+            },
+        },
+        isEcc: {
+            true: {
+                step1CardWrapper: "w-1/2",
+            },
+            false: {
+                step1CardWrapper: "w-full",
             },
         },
     },
