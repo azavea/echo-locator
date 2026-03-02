@@ -10,7 +10,7 @@ django-storages==1.14.6
 django-amazon-ses==4.0.1
 requests==2.32.4
 django-sesame[ua]==3.2.2
-Pillow==11.1.0
+Pillow==12.1.1
 rollbar==0.16.2
 gunicorn==23.0.0
 psycopg2==2.9.10
