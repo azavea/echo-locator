@@ -119,8 +119,7 @@ export const MAPBOX_GEOCODING_API_BASE_URL =
     "https://api.mapbox.com/search/geocode/v6/forward";
 
 export const CAMBRIDGE_SCHOOL_CHOICE_LINK = "https://www.cpsd.us/";
-export const BOSTON_SCHOOL_CHOICE_LINK =
-    "https://discover.bostonpublicschools.org/";
+export const BOSTON_SCHOOL_CHOICE_LINK = "https://bostonpublicschools.org/";
 export const AFFORDABILITY_CALCULATOR_URL =
     "https://www.bostonhousing.org/en/Section-8-Leased-Housing/How-Rent-is-Set/Can-I-afford-this-apartment-Use-our-new-Rent-Esti.aspx";
 export const BHA_VOUCHER_URL =
