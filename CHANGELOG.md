@@ -75,5 +75,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Offset modals if mobile keyboard open [#774](https://github.com/azavea/echo-locator/pull/774)
 - Clean up following data update [#777](https://github.com/azavea/echo-locator/pull/777)
 - Update boston school choice link [#778](https://github.com/azavea/echo-locator/pull/778)
+- Prevent users from unselecting all regions in filters [#794](https://github.com/azavea/echo-locator/pull/794)
 
 ### Removed
