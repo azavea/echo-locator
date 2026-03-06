@@ -10,7 +10,6 @@ import pullAt from "lodash/pullAt";
 import {
     BOOST_DOWNTOWN_RESULT_PLACE,
     DOWNTOWN_AREAS,
-    MAX_TRAVEL_TIME,
     RESULTS_WITH_DOWNTOWN,
 } from "../../../constants";
 import { createSelector } from "@reduxjs/toolkit";
@@ -91,13 +90,12 @@ export default createSelector(
                     n
                 );
 
-                const isRoutable =
-                    (useTransit && segments.length) || !useTransit;
-                if (isRoutable && time < MAX_TRAVEL_TIME) {
+                // A neighborhood is not technically "routable" if:
+                // (useTransit and !segments.length) OR time >= MAX_TRAVEL_TIME
+                // However, we don't want to exclude non-routable neighborhoods
+                // from recommendations entirely as they may be a valid options for someone.
+                // For this reason, add all neighborhoods to recommended list by default.
                     recommendedNeighborhoodsList.push(result);
-                } else {
-                    tooFarNeighborhoodsList.push(result);
-                }
             });
         const rankedRecommendedNeighborhoods = orderBy(
             recommendedNeighborhoodsList,
