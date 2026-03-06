@@ -41,7 +41,13 @@
         "otherTitle": "Other recommended neighborhoods",
         "otherTitleLegend": "Other",
         "tooFarTitle": "Not a match",
-        "tooFarDisclaimer": "These neighborhoods are out of reach with your selected transit option, meaning commute times exceeding 1 hour"
+        "tooFarDisclaimer": "These neighborhoods are excluded by the filters set in your profile",
+        "groupedCountZipCodes": "zip codes",
+        "groupedLoadMore": "Load more",
+        "eccBenefits": "ECC Benefits",
+        "commute": "Commute",
+        "min": "min",
+        "over2Hours": "Over 2 hr"
     },
     "photoCredit": "Photo by {{artist}}. ",
     "photoSource": "Source.",
@@ -63,7 +69,12 @@
         "schoolsSafetyCard": {
             "header": "Schools & Safety",
             "schoolsLabel": "Schools",
-            "safetyLabel": "Safety"
+            "safetyLabel": "Safety",
+            "high": "High",
+            "above": "Above Avg",
+            "average": "Average",
+            "below": "Below Avg",
+            "low": "Low"
         },
         "findUnitsLink": "Go to <strong>Find Units</strong> to learn more",
         "aboutAreaSection": {
@@ -183,12 +194,9 @@
         }
     },
     "top10Tour": {
-        "header": "Discover Neighborhoods",
-        "subHeader": "Recommendations are based on your profile and selected trip.",
-        "bodyText": "Edit your settings and add filters using the buttons at the top",
-        "showMyRecommendations": "Show my recommendations",
-        "listNeighborhoods": "List all neighborhoods",
-        "showTopTen": "Show Top 10"
+        "next": "Next",
+        "details": "Details",
+        "prev": "Prev"
     },
     "filterModal": {
         "dialogHeading": "Filter recommendations",
@@ -201,7 +209,8 @@
         "regionMapCaption": "Based on a map by",
         "echoLink": "Learn more about ECHO",
         "regionsFilterLabel": "Filter by region selections",
-        "eccFilter": "Only recommend Expanded Choice Communities (ECC)"
+        "eccFilter": "Only recommend Expanded Choice Communities (ECC)",
+        "eccFilterDescription": "Moving to an ECC area could qualify you for financial assistance to help with your security deposit, broker fees, and moving expenses."
     },
     "editTripsModal": {
         "dialogHeading": "Choose a trip",

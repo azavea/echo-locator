@@ -1,11 +1,12 @@
 import { useState } from "react";
 
-import type { NeighborhoodDetails } from "reducers/neighborhoods/types";
-import formatNeighborhoodDataByViewType from "libs/formatNeighborhoodDataByCard";
 import Button from "components/base/Button/Button";
+import formatNeighborhoodDataByViewType from "libs/formatNeighborhoodDataByCard";
+import type { NeighborhoodDetails } from "reducers/neighborhoods/types";
 
-import { listStyles } from "./NeighborhoodsList.styles";
+import { useTranslation } from "react-i18next";
 import ClickableNeighborhoodCard from "../NeighborhoodCard/ClickableNeighborhoodCard";
+import { listStyles } from "./NeighborhoodsList.styles";
 
 interface Props {
     neighborhoodDetailsMap: NeighborhoodDetails;
@@ -34,6 +35,7 @@ const NeighborhoodList = ({
         groupCount,
         button,
     } = listStyles({ isMobile: isMobile, isGroup: isGroup });
+    const { t } = useTranslation();
 
     // Display 10 Neighborhood cards per page.
     // If it's a grouped-by-neighborhood-name list,
@@ -58,7 +60,8 @@ const NeighborhoodList = ({
                 <div className={groupContainer()}>
                     <p className={groupTitle()}>{groupName}</p>
                     <p className={groupCount()}>
-                        {neighborhoodList.length} zip codes
+                        {neighborhoodList.length}{" "}
+                        {t("discoverNeighborhoods.groupedCountZipCodes")}
                     </p>
                 </div>
             )}
@@ -99,7 +102,7 @@ const NeighborhoodList = ({
                         className={button()}
                         onClick={handleLoadMore}
                     >
-                        Load More
+                        {t("discoverNeighborhoods.groupedLoadMore")}
                     </Button>
                 )}
             </div>

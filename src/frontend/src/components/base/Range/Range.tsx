@@ -1,6 +1,7 @@
-import { useMemo } from "react";
-import { rangeStyles } from "./Range.styles";
 import DotIcon from "assets/icons/dots.svg?react";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { rangeStyles } from "./Range.styles";
 
 const MIN_DEFAULT = 0;
 const MAX_DEFAULT = 120;
@@ -22,6 +23,7 @@ const Range = ({
     min = MIN_DEFAULT,
     max = MAX_DEFAULT,
 }: RangeProps) => {
+    const { t } = useTranslation();
     const { root, labelContainer, mainLabel, rangeLabel, track, fill, dots } =
         rangeStyles();
 
@@ -32,9 +34,9 @@ const Range = ({
         ((Math.min(end, MAX_DEFAULT) - start) / totalRange) * 100 || 8;
 
     const rangeText = useMemo(() => {
-        if (start >= MAX_DEFAULT) return "Over 2 hr";
-        if (isPoint) return `${start} min`;
-        return `${start}-${end > MAX_DEFAULT ? `${MAX_DEFAULT}+` : end} min`;
+        if (start >= MAX_DEFAULT) return t("discoverNeighborhoods.over2Hours");
+        if (isPoint) return `${start} ${t("discoverNeighborhoods.min")}`;
+        return `${start}-${end > MAX_DEFAULT ? `${MAX_DEFAULT}+` : end} ${t("discoverNeighborhoods.min")}`;
     }, [start, end]);
 
     return (

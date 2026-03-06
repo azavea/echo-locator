@@ -583,7 +583,7 @@ const Components = () => {
                                 {/* Each direct child is treated as a step */}
                                 <WizardStep
                                     question="How many bedrooms does your voucher have?"
-                                    description="Reach out to your BHA Housing Coordinator if you're unsure."
+                                    description="Reach out to your BHA Housing Specialist if you're unsure."
                                     buttonText="Continue"
                                     handleBack={handleBack}
                                     handleNext={handleNext}
