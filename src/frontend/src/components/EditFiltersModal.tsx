@@ -149,7 +149,7 @@ const EditFiltersModal = ({ isMobile = false }) => {
                             customImageClassName="w-full"
                             customCaption={
                                 <>
-                                    CC BY-SA 3.0. $
+                                    CC BY-SA 3.0.{" "}
                                     {t("filterModal.regionMapCaption")}{" "}
                                     <Link
                                         href={PROTONK_URL}

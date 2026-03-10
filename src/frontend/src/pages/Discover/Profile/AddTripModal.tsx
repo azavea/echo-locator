@@ -129,7 +129,10 @@ const AddTripModal = ({
                                             className={`${buttonStyles({ variant: "outline" })} w-full h-full rounded-lg !p-4 justify-items-center ${isSelected ? "border-2 border-teal-600" : "border-2 border-gray-300"}`}
                                         >
                                             <p className="text-md font-bold text-black">
-                                                {item.name}
+                                                {t([
+                                                    "destinationPurposes." +
+                                                        item.name,
+                                                ])}
                                             </p>
                                         </div>
                                     )}

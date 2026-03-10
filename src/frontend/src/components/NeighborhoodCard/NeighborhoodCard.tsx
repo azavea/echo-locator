@@ -58,7 +58,11 @@ const NeighborhoodCard = ({
         statsContainer,
         statItem,
         navContainer,
-    } = cardStyles({ hasImage: !!imageUrl, ...listViewStyling });
+    } = cardStyles({
+        hasImage: !!imageUrl,
+        isPopup: isPopup,
+        ...listViewStyling,
+    });
     const { t } = useTranslation();
 
     const hasTag = isTopTen || hasECC;

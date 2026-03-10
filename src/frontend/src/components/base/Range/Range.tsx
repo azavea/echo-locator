@@ -7,7 +7,7 @@ const MIN_DEFAULT = 0;
 const MAX_DEFAULT = 120;
 
 export interface RangeProps {
-    label?: string;
+    labelKey?: string;
     start: number;
     end: number;
     className?: string;
@@ -16,7 +16,7 @@ export interface RangeProps {
 }
 
 const Range = ({
-    label,
+    labelKey,
     start,
     end,
     className,
@@ -42,7 +42,13 @@ const Range = ({
     return (
         <div className={root({ className })}>
             <div className={labelContainer()}>
-                {label && <span className={mainLabel()}>{label}</span>}
+                {labelKey && (
+                    <span className={mainLabel()}>
+                        {t([
+                            "neighborhoodDetail.schoolsSafetyCard." + labelKey,
+                        ])}
+                    </span>
+                )}
                 <span className={rangeLabel()}>{rangeText}</span>
             </div>
             <div className="relative">

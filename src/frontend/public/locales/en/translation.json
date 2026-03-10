@@ -45,7 +45,6 @@
         "groupedCountZipCodes": "zip codes",
         "groupedLoadMore": "Load more",
         "eccBenefits": "ECC Benefits",
-        "commute": "Commute",
         "min": "min",
         "over2Hours": "Over 2 hr"
     },
@@ -68,8 +67,9 @@
         "schoolChoice": "School choice options",
         "schoolsSafetyCard": {
             "header": "Schools & Safety",
-            "schoolsLabel": "Schools",
-            "safetyLabel": "Safety",
+            "schools": "Schools",
+            "safety": "Safety",
+            "commute": "Commute",
             "high": "High",
             "above": "Above Avg",
             "average": "Average",

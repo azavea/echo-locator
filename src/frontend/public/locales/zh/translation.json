@@ -45,7 +45,6 @@
         "groupedCountZipCodes": "個郵政編",
         "groupedLoadMore": "載入更多",
         "eccBenefits": "擴大選擇社區（ECC）補助",
-        "commute": "通勤",
         "min": "分鐘",
         "over2Hours": "Over 2 hr"
     },
@@ -68,8 +67,9 @@
         "schoolChoice": "School choice options",
         "schoolsSafetyCard": {
             "header": "學校與安全",
-            "schoolsLabel": "學校",
-            "safetyLabel": "安全",
+            "schools": "學校",
+            "safety": "安全",
+            "commute": "通勤",
             "high": "高",
             "above": "高於平均",
             "average": "平均",

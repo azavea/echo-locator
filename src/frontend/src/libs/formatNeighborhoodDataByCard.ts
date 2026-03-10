@@ -67,7 +67,7 @@ const formatNeighborhoodDataByCard = (
 
     const stats = {
         schools: {
-            label: "Schools",
+            labelKey: "schools",
             value: neighborhoodDetail.education_percentile ?? undefined,
             showCategory: true,
             isBoston: isNeighborhoodBostonTownArea(
@@ -76,12 +76,12 @@ const formatNeighborhoodDataByCard = (
             isSchoolChoice: neighborhoodDetail.school_choice,
         },
         safety: {
-            label: "Safety",
+            labelKey: "safety",
             value: neighborhoodDetail.crime_percentile ?? undefined,
             showCategory: true,
         },
         commute: {
-            label: "Commute",
+            labelKey: "commute",
             start: neighborhoodDetail.commutes[activeDestination].commuteMin,
             end: neighborhoodDetail.commutes[activeDestination].commuteMax,
         },

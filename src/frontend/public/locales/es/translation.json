@@ -45,7 +45,6 @@
         "groupedCountZipCodes": "códigos postales",
         "groupedLoadMore": "Mostrar más",
         "eccBenefits": "Beneficios ECC",
-        "commute": "Transporte",
         "min": "minutos",
         "over2Hours": "Over 2 hr"
     },
@@ -68,8 +67,9 @@
         "schoolChoice": "School choice options",
         "schoolsSafetyCard": {
             "header": "Escuelas y Seguridad",
-            "schoolsLabel": "Escuelas",
-            "safetyLabel": "Seguridad",
+            "schools": "Escuelas",
+            "safety": "Seguridad",
+            "commute": "Transporte",
             "high": "Alto",
             "above": "Por encima del Promedio",
             "average": "Promedio",
@@ -199,7 +199,7 @@
         "bodyText": "Edita tus configuraciones y añade filtros usando los botones en la parte superior.",
         "showMyRecommendations": "Mostrar mis recomendaciones",
         "listNeighborhoods": "Lista de todos los vecindarios",
-        "showTopTen": "Mostrar 10 mejores",
+        "showTopTen": "Mostrar 10 Mejores",
         "next": "Siguiente",
         "details": "Detalles",
         "prev": "Anterior"

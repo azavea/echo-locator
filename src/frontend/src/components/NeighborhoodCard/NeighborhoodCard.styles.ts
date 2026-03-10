@@ -13,8 +13,9 @@ export const cardStyles = tv({
         zip: "text-rg text-gray-500",
         tagsContainer: "flex flex-wrap gap-2",
         tag: " h-[21px] flex items-center gap-2 rounded-[var(--spacing-2)] border border-gray-300 px-2 py-1 text-xs font-bold text-[#006512]",
-        statsContainer: "flex flex-start gap-5 self-stretch -mt-2",
-        statItem: "flex flex-1 flex-col px-0 py-3 align-start",
+        statsContainer:
+            "flex flex-start gap-5 self-stretch -mt-2 overflow-hidden",
+        statItem: "flex flex-1 max-w-[33.33%] flex-col px-0 py-3 align-start",
         navContainer:
             "flex align-center self-stretch gap-3 border-t border-gray-300 p-3 bg-gray-100",
     },
@@ -35,6 +36,14 @@ export const cardStyles = tv({
             },
             false: {
                 root: "relative",
+            },
+        },
+        isPopup: {
+            true: {
+                root: "w-fit",
+            },
+            false: {
+                root: "w-auto",
             },
         },
     },

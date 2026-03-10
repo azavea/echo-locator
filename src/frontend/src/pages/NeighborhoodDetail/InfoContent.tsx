@@ -149,9 +149,7 @@ const InfoContent = ({
                     </h2>
                     <div className="flex flex-row gap-5">
                         <SchoolMeter
-                            label={t(
-                                "neighborhoodDetail.schoolsSafetyCard.schoolsLabel"
-                            )}
+                            labelKey="schools"
                             value={education_percentile ?? 0}
                             isSchoolChoice={school_choice}
                             isBoston={isNeighborhoodBostonTownArea(town_area)}
@@ -159,9 +157,7 @@ const InfoContent = ({
                             isDetailPage
                         />
                         <Meter
-                            label={t(
-                                "neighborhoodDetail.schoolsSafetyCard.safetyLabel"
-                            )}
+                            labelKey="safety"
                             value={crime_percentile ?? 0}
                             showCategory
                         />

@@ -10,7 +10,7 @@ import { meterStyles } from "./Meter.styles";
 type MeterStatus = "Low" | "Below Avg" | "Average" | "Above Avg" | "High";
 
 export interface MeterProps extends AriaMeterProps {
-    label: string;
+    labelKey: string;
     showCategory?: boolean;
 }
 
@@ -22,7 +22,7 @@ const getStatusFromValue = (value: number): MeterStatus => {
     return "High";
 };
 
-const Meter = ({ label, showCategory = false, ...props }: MeterProps) => {
+const Meter = ({ labelKey, showCategory = false, ...props }: MeterProps) => {
     const { t } = useTranslation();
     const status = getStatusFromValue(props.value ?? 0);
     const { root, labelContainer, mainLabel, valueLabel, track, fill, thumb } =
@@ -35,7 +35,12 @@ const Meter = ({ label, showCategory = false, ...props }: MeterProps) => {
             {({ percentage }) => (
                 <>
                     <div className={labelContainer()}>
-                        <AriaLabel className={mainLabel()}>{label}</AriaLabel>
+                        <AriaLabel className={mainLabel()}>
+                            {t([
+                                "neighborhoodDetail.schoolsSafetyCard." +
+                                    labelKey,
+                            ])}
+                        </AriaLabel>
                         {showCategory && (
                             <AriaLabel className={valueLabel()}>
                                 {t([
