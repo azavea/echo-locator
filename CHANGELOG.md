@@ -52,6 +52,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add conditional school choice link [#775](https://github.com/azavea/echo-locator/pull/775)
 - Add client feedback copy updates [#793](https://github.com/azavea/echo-locator/pull/793)
 - Add transit routing architecture ADR [#804](https://github.com/azavea/echo-locator/pull/804)
+- Add neighborhood csv submission instructions [#801](https://github.com/azavea/echo-locator/pull/801)
 
 ### Changed
 
