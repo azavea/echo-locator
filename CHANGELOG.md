@@ -63,6 +63,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Refactor networks data state to support place comparisons [#699](https://github.com/azavea/echo-locator/pull/699)
 - Refactor user authentication APIs [#718](https://github.com/azavea/echo-locator/pull/718)
 - Implement units design changes [#776](https://github.com/azavea/echo-locator/pull/776)
+- Allow un-routable neighborhoods to be recommended [#806](https://github.com/azavea/echo-locator/pull/806)
 
 ### Fixed
 

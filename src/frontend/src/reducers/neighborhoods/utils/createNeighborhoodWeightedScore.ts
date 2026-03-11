@@ -46,7 +46,7 @@ export const createNeighborhoodWeightedScore = (
     // Routable neighborhoods outside the max travel time window filtered into separate list.
     // Smaller travel time is better; larger timeWeight is better (reverse range).
     const timeWeight =
-        time < MAX_TRAVEL_TIME ? scale(time, 0, MAX_TRAVEL_TIME, 1, 0) : 1;
+        time < MAX_TRAVEL_TIME ? scale(time, 0, MAX_TRAVEL_TIME, 1, 0) : 0;
     // Weight schools either by percentile binned into quarters if given max importance,
     // or otherwise weight by quintile.
     let educationWeight;
