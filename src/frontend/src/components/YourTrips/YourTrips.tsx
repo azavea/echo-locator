@@ -41,7 +41,7 @@ const YourTrips = ({
             (tripsFromDest: TripType[], dest: Destination) => [
                 ...tripsFromDest,
                 {
-                    title: dest.purpose,
+                    title: t(["destinationPurposes." + dest.purpose]),
                     subtitle: dest.location.label,
                     neighborhoodZipcode: activeNeighborhood ?? "",
                     destination: dest,

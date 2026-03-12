@@ -87,7 +87,10 @@ const StepTrips = ({
                     >
                         <div>
                             <h2 className="text-xl font-bold text-gray-900">
-                                {destination.purpose}
+                                {t([
+                                    "destinationPurposes." +
+                                        destination.purpose,
+                                ])}
                             </h2>
                             <p className="max-w-40 flex flex-wrap font-normal text-gray-600 text-sm">
                                 {destination.location.label}

@@ -9,171 +9,182 @@
         "offPeak": "express public transit",
         "peakNoExpress": "public transit",
         "offPeakNoExpress": "public transit",
-        "car": "car"
+        "car": "汽車"
     },
-    "map": "Map",
-    "list": "List",
+    "map": "地圖",
+    "list": "清單",
     "destinationPurposes": {
-        "Work": "Work",
-        "School": "School",
-        "Daycare": "Daycare",
-        "Friends/Family": "Friends/Family",
-        "Doctor": "Doctor",
-        "Other": "Other"
+        "Work": "工作",
+        "School": "學校",
+        "Daycare": "托兒所",
+        "Friends/Family": "朋友／家人",
+        "Doctor": "醫生",
+        "Other": "其他"
     },
     "signInPage": {
-        "signIn": "登陆",
-        "signInModalSubtitle": "您需要成为<strong><0>BHA ECHO项目</0></strong>的参与者才能使用此工具。",
-        "signInPageCaption": "寻找适合您和您的家人的社区",
-        "signInWithEmail": "使用您的电子邮箱登录",
+        "signIn": "登入",
+        "signInModalSubtitle": "您必須是 波房局<strong><0>（BHA）擴大住房機會選擇 （ECHO） </0></strong>計劃畫的參與者，才能使用此工具。",
+        "signInPageCaption": "尋找適合您和家人的社區",
+        "signInWithEmail": "使用您的電郵地址登入",
         "emailAddressInvalid": "电子邮箱地址无效",
         "checkYourEmail": "查看您的电子邮件",
         "goBack": "返回",
-        "signInConfirm": "我们已向{{email}}发送了一封包含登录链接的电子邮件。点击该链接即可登录ECHO。",
-        "enterEmailAddress": "输入您的电子邮箱地址"
+        "signInConfirm": "我們已將含有登入連結的電子郵件發送至{{email}}。請點擊該連結以登入ECHO。",
+        "enterEmailAddress": "請輸入您的電郵地址"
     },
     "discoverNeighborhoods": {
-        "title": "Discover Neighborhoods",
-        "subtitle": "Recommendations are based on your profile and selected trip",
-        "topTen": "Top 10",
-        "bestRecTitle": "Highest-ranked recommendations",
+        "title": "探索社區",
+        "subtitle": "推薦是根據您的個人檔案和所選行程而提供。",
+        "topTen": "前 10 名",
+        "bestRecTitle": "最高排名的推薦",
         "recTitle": "Recommended",
         "otherTitle": "Other recommended neighborhoods",
-        "otherTitleLegend": "Other",
-        "tooFarTitle": "Not a match",
-        "tooFarDisclaimer": "These neighborhoods are out of reach with your selected transit option, meaning commute times exceeding 1 hour"
+        "otherTitleLegend": "其他",
+        "tooFarTitle": "沒有相符的",
+        "tooFarDisclaimer": "These neighborhoods are excluded by the filters set in your profile",
+        "groupedCountZipCodes": "個郵政編",
+        "groupedLoadMore": "載入更多",
+        "eccBenefits": "擴大選擇社區（ECC）補助",
+        "min": "分鐘",
+        "over2Hours": "Over 2 hr"
     },
     "photoCredit": "Photo by {{artist}}. ",
     "photoSource": "Source.",
     "neighborhoodDetail": {
-        "addToFavorites": "Add to favorites",
-        "moveCountText": "已有 {{count}} 名代金券持有者搬到这里了！",
-        "infoToggleLabel": "Info",
-        "unitsToggleLabel": "Find units",
-        "eccYes": "Yes",
+        "addToFavorites": "加入收藏",
+        "moveCountText": "已有 {{count}} 名房屋租賃券持有者搬到這裡！",
+        "infoToggleLabel": "資訊",
+        "unitsToggleLabel": "尋找單位",
+        "eccYes": "是",
         "affordableCard": {
-            "header": "Affordable",
-            "bodyText": "大多数家庭支付的租金<strong>不超过其收入的30%</strong>。"
+            "header": "可負擔的",
+            "bodyText": "大多數家庭的租金<strong>不超過收入的30%</strong>。"
         },
         "echoBenefitsCard": {
-            "header": "ECHO Benefits",
-            "bodyText": "Receive financial assistance for Security Deposit, Broker’s Fees, Moving Expenses and more."
+            "header": "ECHO 補助",
+            "bodyText": "經濟援助以支付保證金、仲介費、搬遷費用等。"
         },
         "schoolChoice": "School choice options",
         "schoolsSafetyCard": {
-            "header": "Schools & Safety",
-            "schoolsLabel": "Schools",
-            "safetyLabel": "Safety"
+            "header": "學校與安全",
+            "schools": "學校",
+            "safety": "安全",
+            "commute": "通勤",
+            "high": "高",
+            "above": "高於平均",
+            "average": "平均",
+            "below": "低於平均",
+            "low": "低"
         },
-        "findUnitsLink": "Go to <strong>Find Units</strong> to learn more",
+        "findUnitsLink": "前往 <strong>「尋找單位」</strong> 以了解更多資訊",
         "aboutAreaSection": {
-            "header": "About this area",
-            "readMoreButton": "READ MORE"
+            "header": "關於此區域",
+            "readMoreButton": "查看更多"
         },
         "learnMoreSection": {
-            "subheader": "Learn more",
-            "websiteLink": "Website",
+            "subheader": "了解更多",
+            "websiteLink": "網站",
             "wikipediaLink": "Wikipedia",
             "googleLink": "Google"
         },
         "unitsContent": {
             "step1": {
-                "stepNumber": "STEP 1",
-                "header": "Check your Budget",
-                "voucherCovers": "Your vouchers covers units up to",
-                "perMonth": "/ month",
-                "whatYouPay": "What you pay",
-                "yourPaymentDetail": "In most cases you pay no more than 30% of your income, plus utilities.",
-                "learnVouchersLink": "Learn more about vouchers",
-                "echoBenefits": "Your ECHO benefits",
-                "sdBrokerFee": "Security deposit and/or Broker’s Fee",
-                "movingExpenses": "Moving expenses",
-                "landlordIncentive": "Landlord incentive",
-                "learnEchoLink": "Learn more about ECHO"
+                "stepNumber": "步驟 1",
+                "header": "查看您的預算",
+                "voucherCovers": "您的房屋租賃券涵蓋單位的上限為",
+                "perMonth": "每月 ",
+                "whatYouPay": "您需支付",
+                "yourPaymentDetail": "在大多數情況下，您支付的金額不超過您收入的 30%，另加水電等公用事業費用。",
+                "learnVouchersLink": "了解更多關於房屋租賃券",
+                "echoBenefits": "您的 ECHO 補助",
+                "sdBrokerFee": "保證金和／或仲介費",
+                "movingExpenses": "搬遷費用",
+                "landlordIncentive": "房東獎勵金",
+                "learnEchoLink": "了解更多關於 ECHO 的資訊"
             },
             "step2": {
-                "stepNumber": "STEP 2",
-                "header": "Find units you like",
-                "affordabilityCalculator": "Use the <calcLink>Affordability Calculator</calcLink> to check if a unit fits your budget",
-                "linkSubtext": "{{town}} {{zipcode}}, {{brCount}}br"
+                "stepNumber": "步驟 2",
+                "header": "尋找您喜歡的單位",
+                "affordabilityCalculator": "使用 <calcLink>可負擔能力計算器</calcLink> 查看該單位是否符合您的預算",
+                "linkSubtext": "{{town}} {{zipcode}}, {{brCount}}個臥室"
             },
             "step3": {
-                "stepNumber": "STEP 3",
+                "stepNumber": "步驟 3",
                 "header": "Found a unit? Use the Affordability Calculator to check if it’s in budget",
                 "bodyText": "All Calculations are subject to a final BHA determination.",
                 "linkSubtext": "Open Affordability Calculator"
             },
             "step4": {
-                "stepNumber": "STEP 4",
-                "header": "Schedule a viewing and reach out to your ECHO Coordinator",
+                "stepNumber": "步驟 4",
+                "header": "安排參觀，並聯絡您的 ECHO 協調員",
                 "bodyText": "Please have the unit address and Property Owner’s information ready.",
-                "coordinatorLink": "Contact your coordinator"
+                "coordinatorLink": "聯絡您的協調員"
             },
             "unitsModal": {
-                "header": "will open in a new tab.",
-                "affordLinkTitle": "What can I afford?",
-                "affordLinkSubtitle": "See how much rent BHA will cover and learn about additional benefits",
-                "calculatorLinkTitle": "Can I afford this unit?",
-                "calculatorLinkSubtitle": "The <strong>BHA Affordability Calculator</strong> helps you estimate your copay."
+                "header": "將在新分頁中開啟。",
+                "affordLinkTitle": "我能負擔多少？",
+                "affordLinkSubtitle": "查看 波房局（BHA） 可補助的租金金額，並了解其他額外補助。",
+                "calculatorLinkTitle": "我能負擔這個單位嗎？",
+                "calculatorLinkSubtitle": "<strong>波房局（BHA） 可負擔能力計算器可</strong> 幫助您估算需自付的金額"
             }
         }
     },
     "yourTrips": {
-        "heading": "Your Trips",
+        "heading": "您的行程",
         "subheading": "Commute times are estimates. Your actual commute times may vary based on your new address.",
         "busAndTrain": "Bus & Train",
-        "car": "Car",
-        "touchPrompt": "Select a trip to see directions on a map",
-        "editTrips": "Edit your trips",
+        "car": "汽車",
+        "touchPrompt": "選擇行程以在地圖上查看路線",
+        "editTrips": "編輯您的行程",
         "openInGoogle": "在谷歌地图中打开"
     },
     "userProfile": {
-        "title": "发现社区",
-        "description": "创建个人资料，帮助我们向您推荐社区",
+        "title": "探索社區",
+        "description": "請先建立個人檔案，以便我們為您推薦合適的社區",
         "actionButton": "创建个人资料",
         "caption": "只要5分钟！",
         "wizard": {
-            "header": "您的资料",
+            "header": "您的個人檔案",
             "stepBedroom": {
-                "question": "How many bedrooms does your voucher have?",
-                "description": "如果您不确定，请联系BHA住房协调员。"
+                "question": "您的房屋租賃金券（Voucher）有包含幾間臥室？",
+                "description": "如果您不確定，請聯絡您的 波房局（BHA） 住房協調員。"
             },
             "stepImportance": {
-                "question": "What is important to you?",
-                "commuteTime": "通勤时长",
-                "schoolQuality": "School Quality",
-                "publicSafety": "Public safety",
-                "notImportant": "Not important",
-                "veryImportant": "Very important"
+                "question": "對您來說什麼最重要？",
+                "commuteTime": "通勤時間",
+                "schoolQuality": "學校質素",
+                "publicSafety": "公共安全",
+                "notImportant": "不重要",
+                "veryImportant": "非常重要"
             },
             "stepTravelMode": {
-                "question": "How do you typically get around?",
-                "toggleCar": "私家车",
-                "toggleTransit": "公交车/轨道交通",
-                "checkboxDescription": "The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus.",
-                "checkboxLabel": "I'm willing to take the express bus or commuter rail"
+                "question": "您通常如何四處走動?",
+                "toggleCar": "汽車",
+                "toggleTransit": "巴士／地鐵",
+                "checkboxDescription": "通勤鐵路和巴士快線可以讓我們推薦更多社區，但它們的收費通常比地鐵或當地巴士更高。",
+                "checkboxLabel": "我願意乘搭巴士快線或通勤鐵路"
             },
             "button": {
                 "continue": "继续",
-                "finish": "Finish"
+                "finish": "完成"
             }
         }
     },
     "userTrip": {
         "wizard": {
-            "header": "Your trip",
+            "header": "您的行程",
             "stepAddTrip": {
-                "question": "Which trips do you make frequently?",
-                "description": "We use this information to recommend neighborhoods near the places you visit often",
-                "addATrip": "Add a trip",
-                "addAnotherTrip": "Add another trip",
+                "question": "您經常前往哪些地方?",
+                "description": "我們會使用這些資料,推薦您經常前往的地方鄰近的社區。",
+                "addATrip": "添加一個行程",
+                "addAnotherTrip": "增加另一個行程",
                 "error": "You have destinations that are not valid, please remove and try again."
             },
             "addNewTripModal": {
                 "question": "Add new trip",
-                "purposeLabel": "What kind of place is it?",
-                "locationLabel": "Where is it?",
-                "locationPlaceholder": "Enter an address",
+                "purposeLabel": "那是什麼類型的場所?",
+                "locationLabel": "在哪裡？",
+                "locationPlaceholder": "請輸入地址",
                 "finish": "Add trip"
             },
             "button": {
@@ -183,40 +194,44 @@
         }
     },
     "top10Tour": {
-        "header": "Discover Neighborhoods",
-        "subHeader": "Recommendations are based on your profile and selected trip.",
-        "bodyText": "Edit your settings and add filters using the buttons at the top",
-        "showMyRecommendations": "Show my recommendations",
-        "listNeighborhoods": "List all neighborhoods",
-        "showTopTen": "Show Top 10"
+        "header": "探索社區",
+        "subHeader": "推薦是根據您的個人檔案和所選行程而提供。",
+        "bodyText": "使用上方的按鈕編輯您的設定並新增篩選條件",
+        "showMyRecommendations": "顯示我的推薦",
+        "listNeighborhoods": "列出所有社區",
+        "showTopTen": "Show Top 10",
+        "next": "下一頁",
+        "details": "詳細資訊",
+        "prev": "前一頁"
     },
     "filterModal": {
-        "dialogHeading": "Filter recommendations",
-        "profileEditHeading": "Your Profile",
-        "bedroom": "Bedroom",
-        "edit": "Edit",
-        "regionsFilterHeading": "Filter by region",
-        "regionsFilterSubHeading": "Select all regions you are interested in",
-        "otherFilterHeading": "Other filters",
+        "dialogHeading": "篩選推薦",
+        "profileEditHeading": "您的個人檔案",
+        "bedroom": "個臥室",
+        "edit": "編輯",
+        "regionsFilterHeading": "按區域篩選",
+        "regionsFilterSubHeading": "選擇您感興趣的所有區域",
+        "otherFilterHeading": "其他篩選條件",
         "regionMapCaption": "Based on a map by",
-        "echoLink": "Learn more about ECHO",
-        "regionsFilterLabel": "Filter by region selections",
-        "eccFilter": "Only recommend Expanded Choice Communities (ECC)"
+        "echoLink": "了解更多關於 ECHO 的資訊",
+        "regionsFilterLabel": "按區域篩選",
+        "eccFilter": "僅推薦 擴大選擇社區（ECC）",
+        "eccFilterDescription": "搬到 ECC 區域 可能讓您有資格獲得經濟援助，以幫助支付保證金、仲介費和搬遷費用。"
     },
     "editTripsModal": {
-        "dialogHeading": "Choose a trip",
-        "dialogSubHeading": "We recommend neighborhoods that are conveniently located.",
-        "trafficHeading": "Choose traffic conditions",
-        "travelModeHeading": "How do you usually get around?",
-        "peak": "Peak",
-        "offPeak": "Off-peak"
+        "dialogHeading": "選擇行程",
+        "dialogSubHeading": "我們推薦位置便利的社區。",
+        "trafficHeading": "選擇交通狀況",
+        "travelModeHeading": "您平時如何四處走動?",
+        "peak": "繁忙時段",
+        "offPeak": "非繁忙時段"
     },
-    "searchModal": "Search the map",
-    "searchModalDescription": "Type a neighborhood name to find it on the map",
-    "searchModalPlaceholder": "Search neighborhoods",
+    "searchModal": "在地圖上搜尋",
+    "searchModalDescription": "輸入社區名稱以在地圖上尋找",
+    "searchModalPlaceholder": "搜尋社區",
     "comparePage": {
         "title": "Favorite Neighborhoods",
-        "subtitle": "Your Favorites",
-        "introDescription": "Add neighborhoods to your favorites to make them show up in the comparison."
+        "subtitle": "您的收藏",
+        "introDescription": "將社區加入您的收藏，使其顯示在比較中。"
     }
 }

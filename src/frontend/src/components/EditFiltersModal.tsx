@@ -149,7 +149,7 @@ const EditFiltersModal = ({ isMobile = false }) => {
                             customImageClassName="w-full"
                             customCaption={
                                 <>
-                                    CC BY-SA 3.0. $
+                                    CC BY-SA 3.0.{" "}
                                     {t("filterModal.regionMapCaption")}{" "}
                                     <Link
                                         href={PROTONK_URL}
@@ -213,7 +213,9 @@ const EditFiltersModal = ({ isMobile = false }) => {
                                         ecc: isSelected,
                                     })
                                 }
-                                description={`Select to only recommend neighborhoods that are Expanded Choice Communities (ECC)`}
+                                description={t(
+                                    "filterModal.eccFilterDescription"
+                                )}
                                 footer={
                                     <Link
                                         href={BHA_URL}

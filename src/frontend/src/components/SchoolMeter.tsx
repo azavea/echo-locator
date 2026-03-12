@@ -29,7 +29,12 @@ const SchoolMeter = ({
     return isSchoolChoice ? (
         <div className="flex flex-col gap-2 w-full">
             <div className={labelContainer()}>
-                <AriaLabel className={mainLabel()}>{props.label}</AriaLabel>
+                <AriaLabel className={mainLabel()}>
+                    {t([
+                        "neighborhoodDetail.schoolsSafetyCard." +
+                            props.labelKey,
+                    ])}
+                </AriaLabel>
             </div>
             <Link
                 href={schoolChoiceLink}

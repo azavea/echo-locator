@@ -11,6 +11,7 @@ import Button from "components/base/Button/Button";
 import Meter from "components/base/Meter/Meter";
 import Range from "components/base/Range/Range";
 import SchoolMeter from "components/SchoolMeter";
+import { useTranslation } from "react-i18next";
 import type { Stats } from "src/libs/formatNeighborhoodDataByCard";
 import { cardStyles } from "./NeighborhoodCard.styles";
 
@@ -57,7 +58,12 @@ const NeighborhoodCard = ({
         statsContainer,
         statItem,
         navContainer,
-    } = cardStyles({ hasImage: !!imageUrl, ...listViewStyling });
+    } = cardStyles({
+        hasImage: !!imageUrl,
+        isPopup: isPopup,
+        ...listViewStyling,
+    });
+    const { t } = useTranslation();
 
     const hasTag = isTopTen || hasECC;
     const { favorites } = useAppSelector(selectUserProfile);
@@ -106,13 +112,15 @@ const NeighborhoodCard = ({
                         {isTopTen && (
                             <div className={tag()}>
                                 <FlagIcon className="h-4 w-4 fill-[#50935D]" />
-                                <span>Top 10</span>
+                                <span>{t("discoverNeighborhoods.topTen")}</span>
                             </div>
                         )}
                         {hasECC && (
                             <div className={tag()}>
                                 <SquareDollarIcon className="h-[13px] w-[13px] -ml-[1px] mr-[1px] fill-[#50935D]" />
-                                <span>ECC Benefits</span>
+                                <span>
+                                    {t("discoverNeighborhoods.eccBenefits")}
+                                </span>
                             </div>
                         )}
                     </div>
@@ -142,7 +150,7 @@ const NeighborhoodCard = ({
                                 <ArrowLeftIcon className="font-normal h-[14px] w-[14px] text-black" />
                             }
                         >
-                            Prev
+                            {t("top10Tour.prev")}
                         </Button>
                     )}
                     {onDetails && (
@@ -151,7 +159,7 @@ const NeighborhoodCard = ({
                             className="flex-1"
                             onPress={onDetails}
                         >
-                            Details
+                            {t("top10Tour.details")}
                         </Button>
                     )}
                     {onNext && (
@@ -163,7 +171,7 @@ const NeighborhoodCard = ({
                                 <ArrowRightIcon className="font-normal h-[14px] w-[14px] text-black" />
                             }
                         >
-                            Next
+                            {t("top10Tour.next")}
                         </Button>
                     )}
                 </div>
