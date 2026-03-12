@@ -1,4 +1,4 @@
-black==22.3.0
+black==26.3.1
 boto3==1.37.32
 django==5.2.11
 django-extensions==4.1
