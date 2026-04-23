@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+images/
+zctas/
+image_status.csv
+neighborhood_bounds.json
+neighborhood_centroids.csv
+neighborhood_centroids_descriptions.csv
+neighborhoods.json

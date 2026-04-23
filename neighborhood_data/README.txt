@@ -13,7 +13,7 @@ COLUMN SPECIFICATION
 ====================
 
 Column                         | Type                          | Required | Allowed Values / Notes
-------------------------------|-------------------------------|----------|-----------------------------------------------
+-------------------------------|-------------------------------|----------|-----------------------------------------------
 town                           | Text                          | Yes      |
 zipcode                        | Text                          | Yes      |
 ecc                            | Number                        | Yes      | Booleans expressed as integers (0 = False, non-zero = True)
@@ -21,8 +21,8 @@ violentcrime_quintile          | Number                        | Yes      | 1–
 education_percentile_quintile  | Number                        | Yes      | 1–5 (5 = Worst, 1 = Best)
 education_percentile           | Number or "School Choice"     | Yes      | 0–100 (0 = Worst, 100 = Best); "School Choice" accepted
 school_choice                  | Number                        | Yes      | Booleans expressed as integers (0 = False, non-zero = True)
-total_mapc                     | Number                        | Yes      |
-house_number_symbol            | Number                        | Yes      |
+total_mapc                     | Number                        | No       |
+house_number_symbol            | Number                        | No       |
 lat_lon_category               | Number                        | Yes      |
 lat                            | Number                        | Yes      |
 lon                            | Number                        | Yes      |

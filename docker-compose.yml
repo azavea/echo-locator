@@ -45,8 +45,21 @@ services:
       - "8085:8085"
     cpus: 2
 
+  neighborhood-data:
+    build:
+      context: ./neighborhood_data
+      dockerfile: Dockerfile
+    environment:
+      - AWS_PROFILE
+      - ECHOLOCATOR_UPDATE_DATA_IN_CONTAINER=1
+    volumes:
+      - ./neighborhood_data:/usr/local/src/neighborhood_data
+      - $HOME/.aws:/root/.aws:ro
+    working_dir: /usr/local/src/neighborhood_data
+    entrypoint: []
+
   database:
-    image: postgis/postgis:17-3.5
+    image: imresamu/postgis:17-3.6-alpine3.22
     expose:
       - "5432"
     environment:
