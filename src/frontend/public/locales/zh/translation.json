@@ -3,12 +3,12 @@
     "compare": "对比",
     "favorites": "Favorites",
     "logout": "退出",
-    "filtersButton": "Profile",
+    "filtersButton": "個人檔案",
     "transitModesSimple": {
-        "peak": "express public transit",
-        "offPeak": "express public transit",
-        "peakNoExpress": "public transit",
-        "offPeakNoExpress": "public transit",
+        "peak": "快速公共交通",
+        "offPeak": "快速公共交通",
+        "peakNoExpress": "公共交通",
+        "offPeakNoExpress": "公共交通",
         "car": "汽車"
     },
     "map": "地圖",
@@ -37,19 +37,19 @@
         "subtitle": "推薦是根據您的個人檔案和所選行程而提供。",
         "topTen": "前 10 名",
         "bestRecTitle": "最高排名的推薦",
-        "recTitle": "Recommended",
-        "otherTitle": "Other recommended neighborhoods",
+        "recTitle": "推薦",
+        "otherTitle": "其他推薦的社區",
         "otherTitleLegend": "其他",
         "tooFarTitle": "沒有相符的",
-        "tooFarDisclaimer": "These neighborhoods are excluded by the filters set in your profile",
+        "tooFarDisclaimer": "根據您個人檔案設定的篩選條件，這些社區已被排除在外",
         "groupedCountZipCodes": "個郵政編",
         "groupedLoadMore": "載入更多",
         "eccBenefits": "擴大選擇社區（ECC）補助",
         "min": "分鐘",
-        "over2Hours": "Over 2 hr"
+        "over2Hours": "超過2小時"
     },
-    "photoCredit": "Photo by {{artist}}. ",
-    "photoSource": "Source.",
+    "photoCredit": "由      提供的照片 {{artist}}. ",
+    "photoSource": "來源",
     "neighborhoodDetail": {
         "addToFavorites": "加入收藏",
         "moveCountText": "已有 {{count}} 名房屋租賃券持有者搬到這裡！",
@@ -64,7 +64,7 @@
             "header": "ECHO 補助",
             "bodyText": "經濟援助以支付保證金、仲介費、搬遷費用等。"
         },
-        "schoolChoice": "School choice options",
+        "schoolChoice": "學校選擇方案",
         "schoolsSafetyCard": {
             "header": "學校與安全",
             "schools": "學校",
@@ -110,14 +110,14 @@
             },
             "step3": {
                 "stepNumber": "步驟 3",
-                "header": "Found a unit? Use the Affordability Calculator to check if it’s in budget",
-                "bodyText": "All Calculations are subject to a final BHA determination.",
-                "linkSubtext": "Open Affordability Calculator"
+                "header": "找到單位嗎？使用負擔能力計算器查明是否符合預算",
+                "bodyText": "所有計算結果均以波房局（BHA）的最終決定為準。",
+                "linkSubtext": "開啟負擔能力計算器"
             },
             "step4": {
                 "stepNumber": "步驟 4",
                 "header": "安排參觀，並聯絡您的 ECHO 協調員",
-                "bodyText": "Please have the unit address and Property Owner’s information ready.",
+                "bodyText": "請先準備該單位地址及業主的資料。",
                 "coordinatorLink": "聯絡您的協調員"
             },
             "unitsModal": {
@@ -131,8 +131,8 @@
     },
     "yourTrips": {
         "heading": "您的行程",
-        "subheading": "Commute times are estimates. Your actual commute times may vary based on your new address.",
-        "busAndTrain": "Bus & Train",
+        "subheading": "通勤時間為估計時間。實際通勤時間可能會因您的新地址而有所不同。",
+        "busAndTrain": "巴士及地鐡",
         "car": "汽車",
         "touchPrompt": "選擇行程以在地圖上查看路線",
         "editTrips": "編輯您的行程",
@@ -178,14 +178,14 @@
                 "description": "我們會使用這些資料,推薦您經常前往的地方鄰近的社區。",
                 "addATrip": "添加一個行程",
                 "addAnotherTrip": "增加另一個行程",
-                "error": "You have destinations that are not valid, please remove and try again."
+                "error": "您輸入的目的地不正確，請删除後再試一次。"
             },
             "addNewTripModal": {
-                "question": "Add new trip",
+                "question": "增加另一個行程",
                 "purposeLabel": "那是什麼類型的場所?",
                 "locationLabel": "在哪裡？",
                 "locationPlaceholder": "請輸入地址",
-                "finish": "Add trip"
+                "finish": "增加一個行程"
             },
             "button": {
                 "continue": "继续",
@@ -199,7 +199,7 @@
         "bodyText": "使用上方的按鈕編輯您的設定並新增篩選條件",
         "showMyRecommendations": "顯示我的推薦",
         "listNeighborhoods": "列出所有社區",
-        "showTopTen": "Show Top 10",
+        "showTopTen": "顯示前10 名",
         "next": "下一頁",
         "details": "詳細資訊",
         "prev": "前一頁"
@@ -212,7 +212,7 @@
         "regionsFilterHeading": "按區域篩選",
         "regionsFilterSubHeading": "選擇您感興趣的所有區域",
         "otherFilterHeading": "其他篩選條件",
-        "regionMapCaption": "Based on a map by",
+        "regionMapCaption": "根據      提供的地圖",
         "echoLink": "了解更多關於 ECHO 的資訊",
         "regionsFilterLabel": "按區域篩選",
         "eccFilter": "僅推薦 擴大選擇社區（ECC）",
