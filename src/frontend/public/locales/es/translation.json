@@ -37,19 +37,19 @@
         "subtitle": "Las recomendaciones se basan en tu perfil y el viaje seleccionado.",
         "topTen": "10 Mejores",
         "bestRecTitle": "Recomendaciones mejor valoradas",
-        "recTitle": "Recommended",
-        "otherTitle": "Other recommended neighborhoods",
+        "recTitle": "Recomendado",
+        "otherTitle": "Otros vecindarios recomendados",
         "otherTitleLegend": "Otro",
         "tooFarTitle": "No coincide",
-        "tooFarDisclaimer": "These neighborhoods are excluded by the filters set in your profile",
+        "tooFarDisclaimer": "Estos vecindarios están excluidos por los filtros establecidos en tu perfil.",
         "groupedCountZipCodes": "códigos postales",
         "groupedLoadMore": "Mostrar más",
         "eccBenefits": "Beneficios ECC",
         "min": "minutos",
-        "over2Hours": "Over 2 hr"
+        "over2Hours": "Más de 2 horas"
     },
-    "photoCredit": "Photo by {{artist}}. ",
-    "photoSource": "Source.",
+    "photoCredit": "Foto de {{artist}}. ",
+    "photoSource": "Origen.",
     "neighborhoodDetail": {
         "addToFavorites": "Agregar a favoritos",
         "moveCountText": "¡{{count}} titulares de vales ya se mudaron aquí!",
@@ -64,7 +64,7 @@
             "header": "Beneficios de ECHO",
             "bodyText": "Asistencia financiera para el depósito de seguridad, tarifas del agente, gastos de mudanza y más."
         },
-        "schoolChoice": "School choice options",
+        "schoolChoice": "Opciones de elección de escuelas",
         "schoolsSafetyCard": {
             "header": "Escuelas y Seguridad",
             "schools": "Escuelas",
@@ -110,14 +110,14 @@
             },
             "step3": {
                 "stepNumber": "PASO 3",
-                "header": "Found a unit? Use the Affordability Calculator to check if it’s in budget",
-                "bodyText": "All Calculations are subject to a final BHA determination.",
-                "linkSubtext": "Open Affordability Calculator"
+                "header": "¿Encontraste una unidad? Usa la Calculadora de Asequibilidad para verificar si está dentro de tu presupuesto",
+                "bodyText": "Todos los cálculos están sujetos a la determinación final de BHA.",
+                "linkSubtext": "Abrir Calculadora de Asequibilidad"
             },
             "step4": {
                 "stepNumber": "PASO 4",
                 "header": "Agenda una visita y contacta a tu Coordinador de ECHO",
-                "bodyText": "Please have the unit address and Property Owner’s information ready.",
+                "bodyText": "Asegúrate de tener disponible la dirección de la unidad y los datos del propietario.",
                 "coordinatorLink": "Contacta a tu coordinador"
             },
             "unitsModal": {
@@ -131,7 +131,7 @@
     },
     "yourTrips": {
         "heading": "Sus viajes",
-        "subheading": "Commute times are estimates. Your actual commute times may vary based on your new address.",
+        "subheading": "La duración de viaje es aproximada y puede cambiar según la ubicación de tu nueva dirección.",
         "busAndTrain": "Autobús/Tren",
         "car": "Automóvil",
         "touchPrompt": "Selecciona un viaje para ver direcciones en el mapa",
@@ -178,14 +178,14 @@
                 "description": "Usamos esta información para recomendar vecindarios cerca de los lugares que visita con frecuencia.",
                 "addATrip": "Agregar un viaje",
                 "addAnotherTrip": "Agregar otro viaje",
-                "error": "You have destinations that are not valid, please remove and try again."
+                "error": "Tienes destinos que no son válidos, por favor elimínalos e inténtalo de nuevo."
             },
             "addNewTripModal": {
-                "question": "Add new trip",
+                "question": "Agrega otro viaje",
                 "purposeLabel": "¿Qué tipo de lugar es?",
                 "locationLabel": "¿Dónde?",
                 "locationPlaceholder": "Ingrese una dirección",
-                "finish": "Add trip"
+                "finish": "Agrega un viaje"
             },
             "button": {
                 "continue": "Continuar",
@@ -212,7 +212,7 @@
         "regionsFilterHeading": "Filtrar por región",
         "regionsFilterSubHeading": "Selecciona todas las regiones de tu interés",
         "otherFilterHeading": "Otros filtros",
-        "regionMapCaption": "Based on a map by",
+        "regionMapCaption": "Basado en el mapa de",
         "echoLink": "Aprenda acerca de ECHO",
         "regionsFilterLabel": "Filtrar por región",
         "eccFilter": "Sólo se recomienda Expanded Choice Communities (Más Opciones de Comunidades) (ECC)",
@@ -230,7 +230,7 @@
     "searchModalDescription": "Escriba el nombre de un vecindario para encontrarlo en el mapa",
     "searchModalPlaceholder": "Buscar vecindarios",
     "comparePage": {
-        "title": "Favorite Neighborhoods",
+        "title": "Vecindarios Favoritos",
         "subtitle": "Tus favoritos",
         "introDescription": "Agrega vecindarios a tus favoritos para que aparezcan en la comparación."
     }
