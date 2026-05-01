@@ -59,6 +59,7 @@ services:
     entrypoint: []
 
   database:
+    platform: linux/amd64
     image: postgis/postgis:17-3.5
     expose:
       - "5432"
