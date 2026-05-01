@@ -95,7 +95,7 @@ export default createSelector(
                 // However, we don't want to exclude non-routable neighborhoods
                 // from recommendations entirely as they may be a valid options for someone.
                 // For this reason, add all neighborhoods to recommended list by default.
-                    recommendedNeighborhoodsList.push(result);
+                recommendedNeighborhoodsList.push(result);
             });
         const rankedRecommendedNeighborhoods = orderBy(
             recommendedNeighborhoodsList,
