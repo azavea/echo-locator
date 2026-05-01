@@ -59,7 +59,7 @@ services:
     entrypoint: []
 
   database:
-    image: imresamu/postgis:17-3.6-alpine3.22
+    image: postgis/postgis:17-3.5
     expose:
       - "5432"
     environment:
