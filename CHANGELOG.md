@@ -54,6 +54,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Add transit routing architecture ADR [#804](https://github.com/azavea/echo-locator/pull/804)
 - Add neighborhood csv submission instructions [#801](https://github.com/azavea/echo-locator/pull/801)
 - Add Spanish and Mandarin translations [#807](https://github.com/azavea/echo-locator/pull/807)
+- Add final Spanish and Mandarin translations [#807](https://github.com/azavea/echo-locator/pull/822)
 
 ### Changed
 
