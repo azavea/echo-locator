@@ -19,7 +19,7 @@ class Neighborhood(models.Model):
     crime_percentile = models.FloatField(null=True)
     education_percentile_quintile = models.FloatField()
     education_percentile = models.FloatField()
-    house_number_symbol = models.IntegerField()
+    house_number_symbol = models.IntegerField(null=True)
 
     # This looks like it might be better as a ChoiceField, but so far I haven't found a place where
     # it's even being used, so leaving it as-is for now.
@@ -35,7 +35,7 @@ class Neighborhood(models.Model):
 
     # Whether this neighborhood is in a school choice district (applies mostly (only?) to Boston)
     school_choice = models.BooleanField(default=False)
-    total_mapc = models.FloatField()
+    total_mapc = models.FloatField(null=True)
 
     town_website_description = models.TextField(blank=True)
     town_link = models.URLField(max_length=400, blank=True)
