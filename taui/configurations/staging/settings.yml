@@ -1,9 +1,0 @@
-cloudfront: E3A0YNQDZRFX9J
-entries:
-  - src/index.js:assets/index.js
-  - config.json:assets/config.json
-  - neighborhoods.json:assets/neighborhoods.json
-  - neighborhood_bounds.json:assets/neighborhood_bounds.json
-env: staging
-flyle: true
-s3bucket: echo-locator-staging-site-us-east-1

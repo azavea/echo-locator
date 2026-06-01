@@ -1,30 +1,19 @@
 #!/bin/bash
 
-set -e
+USAGE="Publish neighborhood images."
 
-if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
-    set -x
-fi
+source ./scripts/_sourced
+check_for_help_flag "$@"
 
-function usage() {
-    echo -n \
-         "Usage: $(basename "$0") ENVIRONMENT
-
-Publish neighborhood thumbnail images.
-"
-}
 
 if [ "${BASH_SOURCE[0]}" = "${0}" ]
 then
-    if [ "${1:-}" = "--help" ]
-    then
-        usage
-    elif [ "${1:-}" != "staging" ] && [ "${1:-}" != "production" ]
+    if [ "${1:-}" != "staging" ] && [ "${1:-}" != "production" ]
         then
             echo "ERROR: Unrecognized environment ${1}. Should be 'staging' or 'production'."
             exit 1
     else
         TAUI_SITE_BUCKET="s3://echo-locator-${1}-site-us-east-1"
-        aws s3 cp --profile echo-locator --recursive neighborhood_data/images/ "${TAUI_SITE_BUCKET}/assets/neighborhoods/"
+        aws s3 cp --profile echo-locator --recursive --exclude "*.gitkeep" neighborhood_data/images/ "${TAUI_SITE_BUCKET}/assets/neighborhoods/"
     fi
 fi

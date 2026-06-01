@@ -1,25 +1,8 @@
 #!/bin/bash
 
-set -e
+USAGE="Starts servers using docker compose."
 
-if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
-    set -x
-fi
+source ./scripts/_sourced
+check_for_help_flag "$@"
 
-function usage() {
-    echo -n \
-         "Usage: $(basename "$0")
-
-Run a development server.
-"
-}
-
-if [ "${BASH_SOURCE[0]}" = "${0}" ]
-then
-    if [ "${1:-}" = "--help" ]
-    then
-        usage
-    else
-        docker-compose up --build
-    fi
-fi
+docker compose up

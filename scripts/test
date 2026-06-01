@@ -1,25 +1,28 @@
 #!/bin/bash
 
-set -e
+USAGE="Run linters and tests."
 
-if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
-    set -x
-fi
+source ./scripts/_sourced
+check_for_help_flag "$@"
 
-function usage() {
-    echo -n \
-         "Usage: $(basename "$0")
+if [ "$(whoami)" == "runner" ]; then
+    echo "Running Django tests..."
+    GIT_COMMIT="${GIT_COMMIT}" docker compose \
+        -f docker-compose.yml \
+        -f docker-compose.ci.yml \
+        run --rm --no-deps --entrypoint python \
+        django \
+        manage.py test
+else
+    # Pylint has overlap with flake8,
+    # if causing trouble just turn off in linter and CI linter
+    # see PR 455
+    echo "Checking Django formatting and linting using GH Super-Linter..."
+    docker run --rm \
+        -e RUN_LOCAL=true \
+        --env-file ".github/super-linter.env" \
+        -v $PWD:/tmp/lint github/super-linter:v4
 
-Run linters and tests.
-"
-}
-
-if [ "${BASH_SOURCE[0]}" = "${0}" ]
-then
-    if [ "${1:-}" = "--help" ]
-    then
-        usage
-    else
-        docker-compose run --rm taui test
-    fi
+    echo "Running Django tests..."
+    ./scripts/manage test
 fi

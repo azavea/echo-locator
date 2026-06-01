@@ -1,0 +1,44 @@
+import { useTranslation } from "react-i18next";
+
+import InputNumber from "components/InputNumber";
+import WizardStep from "components/Wizard/WizardStep";
+import type { BaseProps } from "../../pages/Discover/Profile/types";
+
+const StepBedroom = ({
+    buffer,
+    setProfileBuffer,
+    handleBack,
+    handleNext,
+}: BaseProps) => {
+    const { t } = useTranslation();
+
+    if (!buffer || !setProfileBuffer || !handleBack || !handleNext) {
+        return <></>;
+    }
+
+    const onChange = (rooms: number) =>
+        setProfileBuffer(state => ({
+            ...state,
+            rooms,
+        }));
+
+    return (
+        <WizardStep
+            question={t("userProfile.wizard.stepBedroom.question")}
+            description={t("userProfile.wizard.stepBedroom.description")}
+            buttonText={t("userProfile.wizard.button.continue")}
+            handleBack={handleBack}
+            handleNext={handleNext}
+            disableNext={!buffer || buffer.rooms < 0}
+            disableBack
+        >
+            <InputNumber
+                label="Number of bedrooms"
+                value={buffer.rooms}
+                onChange={onChange}
+            />
+        </WizardStep>
+    );
+};
+
+export default StepBedroom;

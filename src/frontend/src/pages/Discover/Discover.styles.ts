@@ -1,0 +1,71 @@
+import { tv } from "tailwind-variants";
+
+const discoverStyles = tv({
+    slots: {
+        root: "flex flex-1 min-h-0 self-stretch rounded-t-[var(--spacing-5)] bg-white",
+        sidebar:
+            "flex w-[360px] rounded-tl-[var(--spacing-5)] flex-col overflow-hidden border-r-1 border-gray-300",
+        headerContainer: "flex border-b border-gray-300 bg-white",
+        recoContainer:
+            "flex flex-1 flex-col items-start gap-6 self-stretch overflow-y-auto bg-gray-50",
+        recoContainerHeader: "flex flex-col items-start gap-6 self-stretch",
+        subTitleContainer: "flex w-full flex-col gap-3 text-center",
+        subTitle: "font-xbold text-3xl text-orange-700",
+        description: "text-rg text-gray-700",
+        recoList: "flex w-full flex-col gap-6",
+        recoTitleContainer: "flex flex-row items-center gap-[10px]",
+        recoTitle: "font-xbold text-2xl text-black",
+        recoDescription: "text-rg text-gray-600",
+        swatch: "w-[16px] h-[16px] rounded-[var(--spacing-2)] border border-[#748C27]",
+        loadingWrapper: "flex w-full flex-col flex-grow-1 justify-center",
+        loadingSpinner:
+            "w-10 h-10 border-6 border-[#02B3CC] border-t-transparent rounded-full animate-spin self-center",
+    },
+    variants: {
+        isMobile: {
+            true: {
+                root: "flex-col",
+                headerContainer: "p-3",
+                recoContainerHeader: "pt-5 px-5",
+                recoTitleContainer: "px-5",
+                recoDescription: "px-5",
+            },
+            false: {
+                root: "flex-row",
+                headerContainer: "p-6",
+                recoContainerHeader: "pt-6 px-6",
+                recoTitleContainer: "px-6",
+                recoDescription: "px-6",
+            },
+        },
+        isLoading: {
+            true: {
+                loadingWrapper: "absolute inset-0 z-60 h-full bg-teal-100",
+            },
+            false: {
+                loadingWrapper: "hidden",
+            },
+        },
+        mobileListDisplay: {
+            false: {
+                recoContainer: "hidden",
+            },
+        },
+        swatchColor: {
+            topTen: {
+                swatch: "bg-[#B9C26D]",
+            },
+            recommended: {
+                swatch: "bg-[#E6ECBB]",
+            },
+            tooFar: {
+                swatch: "bg-[#F7F3F1]",
+            },
+        },
+        defaultVariants: {
+            swatchColor: "topTen",
+        },
+    },
+});
+
+export default discoverStyles;

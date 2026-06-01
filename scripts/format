@@ -1,0 +1,14 @@
+#!/bin/bash
+
+USAGE="Run formatters."
+
+source ./scripts/_sourced
+check_for_help_flag "$@"
+
+echo "Formatting Django application source code"
+# migrations and manage.py excluded through pyproject.toml
+docker compose \
+    run --rm --no-deps --entrypoint black django .
+
+echo "Formatting frontend app code"
+./scripts/yarn run format

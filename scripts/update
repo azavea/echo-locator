@@ -1,0 +1,37 @@
+#!/bin/bash
+
+USAGE="Build container images and execute database migrations."
+
+source ./scripts/_sourced
+check_for_help_flag "$@"
+
+function cleanup() {
+    docker compose stop
+}
+
+trap cleanup ERR
+
+# Install frontend NPM modules
+./scripts/yarn install
+
+# Build static asset bundle for React frontend
+# Separated to build app static assets before copied to django container
+./scripts/yarn run build
+
+# Build django and db container images
+docker compose build
+
+# Bring up PostgreSQL and Django in a way that respects
+# configured service health checks.
+docker compose up -d database django
+
+# Apply any outstanding Django migrations
+./scripts/manage migrate
+
+# Collect Django static files
+./scripts/manage collectstatic --no-input
+
+# Add group permissions
+./scripts/manage loaddata users/fixtures/group_permissions
+
+docker compose stop

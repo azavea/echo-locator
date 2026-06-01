@@ -1,7 +1,0 @@
-*.swp
-node_modules
-npm-debug.log
-assets
-tmp
-yarn-error.log
-env.yml

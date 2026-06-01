@@ -7,15 +7,15 @@ Produces a GeoJSON file of the neighborhood points with associated data.
 Expects `add_zcta_centroids.py` was already run to identify the points.
 """
 
-from collections import OrderedDict
 import csv
 import errno
 import os
+from collections import OrderedDict
 
 import fiona
 from fiona.crs import from_epsg
 
-NEIGHBORHOOD_CSV = 'neighborhood_centroids_descriptions.csv'
+NEIGHBORHOOD_CSV = "neighborhood_centroids.csv"
 OUTPUT_FILE = 'neighborhoods.json'
 
 # Columns to treat as text in the input CSV; all others assumed to be floats.
@@ -55,17 +55,15 @@ COLUMNS = {
     'school': 'str',
     'town_square': 'str',
     'open_space_or_landmark': 'str',
-    'crime_percentile': 'float'
+    'crime_percentile': 'float',
+    'family_move_count': 'int',
+    'region': 'str',
 }
 
 # Add column definitions for the extra image metadata columns
 IMAGE_COLUMNS = ['street', 'school', 'town_square', 'open_space_or_landmark']
-EXTRA_IMAGE_COLUMNS = ['_thumbnail', '_license', '_license_url', '_description', '_artist',
-                       '_username']
-
-for col in IMAGE_COLUMNS:
-    for suffix in EXTRA_IMAGE_COLUMNS:
-        COLUMNS[col + suffix] = 'str'
+EXTRA_IMAGE_COLUMNS = ['_image_url', '_license', '_license_url', '_description', '_artist',
+                       '_username', '_original_width']
 
 if not os.path.isfile(NEIGHBORHOOD_CSV):
     print('\nFirst run add_zcta_centroids.py to generate {f}.\n\n'.format(
@@ -119,7 +117,10 @@ with open(NEIGHBORHOOD_CSV) as inf:
                     try:
                         properties[field] = float(val)
                     except ValueError as ex:
-                        if field == 'crime_percentile':
+                        if (
+                            field == "crime_percentile"
+                            or field == "education_percentile"
+                        ):
                             properties[field] = -1  # flag for no value
                         else:
                             raise ex

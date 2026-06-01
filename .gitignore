@@ -69,8 +69,23 @@ typings/
 *.tfvars
 *.tfplan
 
-# Terraform module directory
+# Terraform
 .terraform/
+.terraform.lock.hcl
 
-# Amplify configs for the frontend app
-taui/src/aws-exports.js
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+src/backend/static
+src/backend/assets
+src/frontend/build
+src/frontend/node_modules
+src/frontend/public/neighborhoods
+
+.vscode/*
+!.vscode/settings.json
+
+# Django stuff:
+*.log
+src/backend/api/fixtures/dev_data.json

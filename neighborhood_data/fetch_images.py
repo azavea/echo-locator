@@ -2,7 +2,7 @@
 # encoding=utf8
 
 """
-Fetch image metadata and download thumbnails.
+Fetch image metadata and download images at 16/9 aspect ratio, 640x360.
 """
 
 import csv
@@ -12,10 +12,13 @@ import requests
 from time import sleep
 import urllib.parse
 
+IMG_WIDTH = 640
+IMG_HEIGHT = 360
+CHUNK_SIZE = 128
+
 DESCRIPTIONS_CSV = 'neighborhood_centroids.csv'
 OUTPUT_FILE = 'neighborhood_centroids_descriptions.csv'
 STATUS_FILE = 'image_status.csv'
-
 STATUS_FIELDS = ['zipcode', 'source_field', 'url', 'issue']
 
 if not os.path.isfile(DESCRIPTIONS_CSV):
@@ -26,19 +29,20 @@ if not os.path.isfile(DESCRIPTIONS_CSV):
                   DESCRIPTIONS_CSV)
 
 # Set the user agent to avoid 403s. See: https://meta.wikimedia.org/wiki/User-Agent_policy
-USER_AGENT = 'ECHOLocatorCacheBot/1.0 (https://github.com/azavea/echo-locator; kkillebrew@azavea.com) requests/2.22'
+USER_AGENT = 'ECHOLocatorCacheBot/1.0 (https://github.com/azavea/echo-locator; rmorino@element84.com) requests/2.22'
 HEADERS = {
     'User-Agent': USER_AGENT
 }
 IMAGE_DIRECTORY = 'images/'
 IMAGE_FIELDS = ['school', 'open_space_or_landmark', 'street', 'town_square']
 IMAGE_METADATA_FIELDS = [
-    'thumbnail',
+    'image_url',
     'license',
     'license_url',
     'description',
     'artist',
-    'username'
+    'username',
+    'original_width'
 ]
 
 METADATA_URL = 'https://en.wikipedia.org/w/api.php'
@@ -79,9 +83,9 @@ def get_image_metadata(url, type):
     params = {
         'action': 'query',
         'prop': 'imageinfo',
-        'iiprop': 'user|userid|extmetadata|url',
-        'iiurlwidth': '120',
-        'iiurlheight': '90',
+        'iiprop': 'user|userid|extmetadata|url|size',
+        'iiurlwidth': '640',
+        'iiurlheight': '360',
         'format': 'json'
     }
     sleep(.3)
@@ -102,19 +106,21 @@ def get_image_metadata(url, type):
             invalid=invalidreason)}
     metadata = imageinfo['extmetadata']
     username = imageinfo['user']
-    thumbnail = imageinfo['thumburl']
+    image_url = imageinfo['thumburl']
+    original_width = imageinfo['width']
     artist = metadata['Artist']['value'] if 'Artist' in metadata else ''
     license_name = metadata['LicenseShortName']['value'] if 'LicenseShortName' in metadata else ''
     license_url = (metadata['LicenseUrl']['value']
                    if 'LicenseUrl' in metadata else '')
     description = metadata['ObjectName']['value'] if 'ObjectName' in metadata else ''
     return {
-        'thumbnail': thumbnail,
+        'image_url': image_url,
         'license': license_name,
         'license_url': license_url,
         'description': description,
         'artist': artist,
-        'username': username
+        'username': username,
+        'original_width': original_width,
     }
 
 
@@ -136,7 +142,7 @@ def download_image(url, filename):
     r = requests.get(url, headers=HEADERS, stream=True)
     if r.status_code == 200:
         with open(filename, 'wb') as imagefile:
-            for chunk in r.iter_content(chunk_size=128):
+            for chunk in r.iter_content(chunk_size=CHUNK_SIZE):
                 imagefile.write(chunk)
         return True
     else:
@@ -146,10 +152,10 @@ def download_image(url, filename):
     return False
 
 
-def get_image_filename(zipcode, fieldname, thumbnail):
-    lthumb = thumbnail.lower()
-    offset = lthumb.rfind('.')
-    extension = lthumb[offset:]
+def get_image_filename(zipcode, fieldname, image_url):
+    lurl = image_url.lower()
+    offset = lurl.rfind('.')
+    extension = lurl[offset:]
     return os.path.join(IMAGE_DIRECTORY,
                         '{zipcode}_{fld}{extension}'.format(zipcode=zipcode,
                                                             fld=fieldname,
@@ -198,16 +204,29 @@ with open(OUTPUT_FILE, 'w') as outf:
                                                   'Failed to fetch metadata for attribution')
                         })
                     else:
-                        good_urls += 1
-                        thumb = metadata['thumbnail']
-                        filename = get_image_filename(zipcode, fld, thumb)
-                        exists = os.path.isfile(filename)
-                        if exists:
-                            skipped_downloads += 1
-                        elif download_image(thumb, filename):
-                            downloaded_images += 1
+                        # iiurlwidth and iiurlheight are only max constraints
+                        # MediaWiki API will scale the image down to width/height
+                        # but will not scale it up if the original is smaller.
+                        # Check if the original image at least meets min width
+                        if metadata.get('original_width', 0) >= 640:
+                            good_urls += 1
+                            image = metadata['image_url']
+                            filename = get_image_filename(zipcode, fld, image)
+                            exists = os.path.isfile(filename)
+                            if exists:
+                                skipped_downloads += 1
+                            elif download_image(image, filename):
+                                downloaded_images += 1
+                            else:
+                                failed_downloads += 1
                         else:
-                            failed_downloads += 1
+                            bad_urls += 1
+                            status_wtr.writerow({
+                                'zipcode': zipcode,
+                                'source_field': fld,
+                                'url': url,
+                                'issue': 'Original image is less than 640px wide.'
+                            })
                 else:
                     missing_urls += 1
                 extended_row.update(get_image_metadata_fields(fld, metadata))

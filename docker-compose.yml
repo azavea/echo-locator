@@ -1,12 +1,76 @@
-version: '3'
 services:
-  taui:
-    build: ./taui
-    volumes:
-      - ./taui:/usr/local/src
-      - $HOME/.aws:/root/.aws:ro
+  app:
+    image: node:24-slim
+    stdin_open: true
     working_dir: /usr/local/src
+    environment:
+      - VITE_APP_GIT_COMMIT=${VITE_APP_GIT_COMMIT:-latest}
+      - VITE_NETWORK_URL_ROOT=${VITE_NETWORK_URL_ROOT}
+      - VITE_BHA_ECHO_PROGRAM_URL=${VITE_BHA_ECHO_PROGRAM_URL}
+      - VITE_MAPBOX_API_TOKEN=${MAPBOX_ACCESS_TOKEN}
+    volumes:
+      - ./src/frontend:/usr/local/src
+      - $HOME/.aws:/root/.aws:ro
     ports:
       - "9966:9966"
-    entrypoint: yarn
-    command: start
+    command: yarn dev
+
+  django:
+    image: echolocator
+    env_file: .env
+    environment:
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=echolocator
+      - POSTGRES_PASSWORD=echolocator
+      - POSTGRES_DB=echolocator
+      - DJANGO_ENV=Development
+      - DJANGO_SECRET_KEY=secret
+      - DJANGO_LOG_LEVEL=INFO
+      - AWS_PROFILE
+    build:
+      context: ./
+      dockerfile: ./src/backend/Dockerfile
+    volumes:
+      - ./src/backend:/usr/local/src/backend
+      # Mount Vite dist to a new, distinct directory
+      # This directory must match the path in STATICFILES_DIRS in settings.py
+      - ./src/frontend/dist:/usr/local/src/backend/assets
+      - $HOME/.aws:/root/.aws:ro
+    working_dir: /usr/local/src/backend
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "8085:8085"
+    cpus: 2
+
+  neighborhood-data:
+    build:
+      context: ./neighborhood_data
+      dockerfile: Dockerfile
+    environment:
+      - AWS_PROFILE
+      - ECHOLOCATOR_UPDATE_DATA_IN_CONTAINER=1
+    volumes:
+      - ./neighborhood_data:/usr/local/src/neighborhood_data
+      - $HOME/.aws:/root/.aws:ro
+    working_dir: /usr/local/src/neighborhood_data
+    entrypoint: []
+
+  database:
+    platform: linux/amd64
+    image: postgis/postgis:17-3.5
+    expose:
+      - "5432"
+    environment:
+      - POSTGRES_USER=echolocator
+      - POSTGRES_PASSWORD=echolocator
+      - POSTGRES_DB=echolocator
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "echolocator"]
+      interval: 3s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    command: postgres -c log_statement=all

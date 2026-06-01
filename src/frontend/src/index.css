@@ -1,0 +1,12 @@
+@import "./theme.css";
+@import "tailwindcss";
+
+@layer base {
+    body {
+        font-family: var(--font-sans);
+        color: var(--color-foreground);
+        background-color: var(--color-background);
+
+        @apply antialiased;
+    }
+}

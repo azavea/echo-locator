@@ -1,0 +1,82 @@
+{
+    "name": "echo-locator",
+    "private": true,
+    "packageManager": "yarn@1.22.19",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/azavea/echo-locator.git"
+    },
+    "author": "Element 84",
+    "bugs": {
+        "url": "https://github.com/azavea/echo-locator/issues"
+    },
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc -b && vite build",
+        "lint": "eslint .",
+        "preview": "vite preview",
+        "format": "npx prettier --write ."
+    },
+    "dependencies": {
+        "@conveyal/lonlat": "^1.4.1",
+        "@mapbox/polyline": "^1.2.1",
+        "@reduxjs/toolkit": "^2.8.2",
+        "@turf/bbox": "^7.2.0",
+        "axios": "^1.13.5",
+        "geojson": "^0.5.0",
+        "i18next": "^25.3.2",
+        "i18next-browser-languagedetector": "^8.2.0",
+        "i18next-http-backend": "^3.0.2",
+        "lodash": "^4.17.21",
+        "maplibre-gl": "^5.6.2",
+        "react": "^19.1.0",
+        "react-aria": "^3.41.1",
+        "react-aria-components": "^1.10.1",
+        "react-dom": "^19.1.0",
+        "react-i18next": "^15.6.0",
+        "react-map-gl": "^8.0.4",
+        "react-redux": "^9.2.0",
+        "react-router": "^7.12.0",
+        "redux-logger": "^3.0.6",
+        "tailwind-variants": "^1.0.0",
+        "tailwindcss": "^4.1.10",
+        "tailwindcss-animate": "^1.0.7",
+        "tailwindcss-react-aria-components": "^2.0.0",
+        "vite-plugin-svgr": "^4.3.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.25.0",
+        "@tailwindcss/vite": "^4.1.10",
+        "@types/geojson": "^7946.0.16",
+        "@types/lodash": "^4.17.20",
+        "@types/mapbox__polyline": "^1.0.5",
+        "@types/maplibre-gl": "^1.14.0",
+        "@types/react": "^19.1.2",
+        "@types/react-dom": "^19.1.2",
+        "@types/redux-logger": "^3.0.13",
+        "@vitejs/plugin-react": "^4.4.1",
+        "eslint": "^9.25.0",
+        "eslint-plugin-react-hooks": "^5.2.0",
+        "eslint-plugin-react-refresh": "^0.4.19",
+        "globals": "^16.0.0",
+        "prettier": "^3.5.3",
+        "prettier-plugin-tailwindcss": "^0.6.13",
+        "typescript": "~5.8.3",
+        "typescript-eslint": "^8.30.1",
+        "vite": "^6.4.1"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+USAGE="Run a Django management command."
+
+source ./scripts/_sourced
+check_for_help_flag "$@"
+
+docker compose \
+    run --rm --entrypoint python \
+    django \
+    manage.py "$@"

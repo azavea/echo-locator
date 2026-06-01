@@ -1,65 +1,70 @@
 resource "aws_cloudfront_distribution" "cdn" {
   origin {
-    domain_name = "${module.origin.site_bucket}.s3.amazonaws.com"
-    origin_id   = "originEastId"
+    domain_name = aws_lb.app.dns_name
+    origin_id   = "originAlb"
+
+    # We are doing http-only but it still requires ssl info
+    custom_origin_config {
+      http_port              = 80
+      origin_protocol_policy = "http-only"
+      https_port             = 443
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
   }
 
-  enabled             = true
-  is_ipv6_enabled     = true
-  http_version        = "http2"
-  comment             = "${var.project} (${var.environment})"
-  default_root_object = "index.html"
-  retain_on_delete    = true
+  enabled         = true
+  is_ipv6_enabled = true
+  http_version    = "http2"
+  comment         = "${var.project} (${var.environment})"
 
-  price_class = "PriceClass_100"
-  aliases     = ["${var.r53_public_hosted_zone_name}"]
+  price_class = var.cloudfront_price_class
+  aliases     = [var.r53_public_hosted_zone]
 
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "originEastId"
+    target_origin_id = "originAlb"
 
     forwarded_values {
       query_string = true
+      headers      = ["*"]
 
       cookies {
         forward = "all"
       }
     }
 
+    compress               = false
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 0
+    max_ttl                = 300
+  }
+
+  ordered_cache_behavior {
+    path_pattern     = "static/*"
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    cached_methods   = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id = "originAlb"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
-
-    # Only applies if the origin adds Cache-Control headers. The
-    # CloudFront default is also 0.
-    min_ttl = 0
-
-    # Five minutes, and only applies when the origin DOES NOT
-    # supply Cache-Control headers.
-    default_ttl = 300
-
-    # One day, but only applies if the origin adds Cache-Control
-    # headers. The CloudFront default is 31536000 (one year).
-    max_ttl = 86400
-  }
-
-  custom_error_response {
-    error_caching_min_ttl = "0"
-    error_code            = "403"
-    response_code         = "200"
-    response_page_path    = "/index.html"
-  }
-
-  custom_error_response {
-    error_caching_min_ttl = "0"
-    error_code            = "404"
-    response_code         = "200"
-    response_page_path    = "/index.html"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 300
   }
 
   logging_config {
     include_cookies = false
-    bucket          = "${module.origin.logs_bucket}.s3.amazonaws.com"
+    bucket          = "${aws_s3_bucket.logs.id}.s3.amazonaws.com"
   }
 
   restrictions {
@@ -69,13 +74,8 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = "${module.cert.arn}"
-    minimum_protocol_version = "TLSv1.2_2018"
+    acm_certificate_arn      = aws_acm_certificate.cert.arn
+    minimum_protocol_version = "TLSv1.2_2021"
     ssl_support_method       = "sni-only"
-  }
-
-  tags {
-    Project     = "${var.project}"
-    Environment = "${var.environment}"
   }
 }

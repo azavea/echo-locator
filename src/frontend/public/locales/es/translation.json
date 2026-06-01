@@ -1,0 +1,237 @@
+{
+    "discover": "Descubrir",
+    "compare": "Comparar",
+    "favorites": "Favoritos",
+    "logout": "Cerrar sesión",
+    "filtersButton": "Perfil",
+    "transitModesSimple": {
+        "peak": "autobús/tren exprés",
+        "offPeak": "autobús/tren exprés",
+        "peakNoExpress": "autobús/tren",
+        "offPeakNoExpress": "autobús/tren",
+        "car": "automóvil"
+    },
+    "map": "Mapa",
+    "list": "Lista",
+    "destinationPurposes": {
+        "Work": "Trabajo",
+        "School": "Escuela",
+        "Daycare": "Guardería",
+        "Friends/Family": "Amigos/Familia",
+        "Doctor": "Doctor",
+        "Other": "Otro"
+    },
+    "signInPage": {
+        "signIn": "Inicio de sesión",
+        "signInModalSubtitle": "Debes ser participante del <strong><0>programa ECHO de BHA</0></strong> para usar esta herramienta.",
+        "signInPageCaption": "Encuentra los vecindarios que funcionan para ti y tu familia",
+        "signInWithEmail": "Inicia sesión con tu correo electrónico",
+        "emailAddressInvalid": "La dirección de correo electrónico no es válida",
+        "checkYourEmail": "Revisa tu correo electrónico",
+        "goBack": "Regresar",
+        "signInConfirm": "Enviamos un correo electrónico con un enlace de inicio de sesión a {{email}}. Haz clic en el enlace para iniciar sesión en ECHO.",
+        "enterEmailAddress": "Ingresa tu correo electrónico"
+    },
+    "discoverNeighborhoods": {
+        "title": "Descubrir vecindarios",
+        "subtitle": "Las recomendaciones se basan en tu perfil y el viaje seleccionado.",
+        "topTen": "10 Mejores",
+        "bestRecTitle": "Recomendaciones mejor valoradas",
+        "recTitle": "Recomendado",
+        "otherTitle": "Otros vecindarios recomendados",
+        "otherTitleLegend": "Otro",
+        "tooFarTitle": "No coincide",
+        "tooFarDisclaimer": "Estos vecindarios están excluidos por los filtros establecidos en tu perfil.",
+        "groupedCountZipCodes": "códigos postales",
+        "groupedLoadMore": "Mostrar más",
+        "eccBenefits": "Beneficios ECC",
+        "min": "minutos",
+        "over2Hours": "Más de 2 horas"
+    },
+    "photoCredit": "Foto de {{artist}}. ",
+    "photoSource": "Origen.",
+    "neighborhoodDetail": {
+        "addToFavorites": "Agregar a favoritos",
+        "moveCountText": "¡{{count}} titulares de vales ya se mudaron aquí!",
+        "infoToggleLabel": "Información",
+        "unitsToggleLabel": "Encontrar unidades",
+        "eccYes": "Sí",
+        "affordableCard": {
+            "header": "Asequible",
+            "bodyText": "La mayoría de las familias <strong>no pagan más del 30% de sus ingresos</strong> en alquiler."
+        },
+        "echoBenefitsCard": {
+            "header": "Beneficios de ECHO",
+            "bodyText": "Asistencia financiera para el depósito de seguridad, tarifas del agente, gastos de mudanza y más."
+        },
+        "schoolChoice": "Opciones de elección de escuelas",
+        "schoolsSafetyCard": {
+            "header": "Escuelas y Seguridad",
+            "schools": "Escuelas",
+            "safety": "Seguridad",
+            "commute": "Transporte",
+            "high": "Alto",
+            "above": "Por encima del Promedio",
+            "average": "Promedio",
+            "below": "Por debajo del Promedio",
+            "low": "Bajo"
+        },
+        "findUnitsLink": "Ve a <strong>Encontrar unidades</strong> para obtener más información",
+        "aboutAreaSection": {
+            "header": "Acerca de esta área",
+            "readMoreButton": "Leer más"
+        },
+        "learnMoreSection": {
+            "subheader": "Aprender más",
+            "websiteLink": "Página web",
+            "wikipediaLink": "Wikipedia",
+            "googleLink": "Google"
+        },
+        "unitsContent": {
+            "step1": {
+                "stepNumber": "PASO 1",
+                "header": "Revisa tu presupuesto",
+                "voucherCovers": "Tu vale cubre unidades hasta",
+                "perMonth": "/ mes",
+                "whatYouPay": "Lo que pagas",
+                "yourPaymentDetail": "En la mayoría de los casos, pagas no más del 30% de tus ingresos, más los servicios.",
+                "learnVouchersLink": "Aprende más sobre los vales",
+                "echoBenefits": "Tus beneficios ECHO",
+                "sdBrokerFee": "Depósito de seguridad y/o tarifas del agente",
+                "movingExpenses": "Gastos de mudanza",
+                "landlordIncentive": "Incentivo al arrendador",
+                "learnEchoLink": "Aprende más sobre ECHO"
+            },
+            "step2": {
+                "stepNumber": "PASO 2",
+                "header": "Encuentra las unidades que te gusten",
+                "affordabilityCalculator": "Utiliza la <calcLink>Calculadora de Asequibilidad</calcLink> para comprobar si una unidad está dentro de su presupuesto.",
+                "linkSubtext": "{{town}} {{zipcode}}, {{brCount}} dormitorios"
+            },
+            "step3": {
+                "stepNumber": "PASO 3",
+                "header": "¿Encontraste una unidad? Usa la Calculadora de Asequibilidad para verificar si está dentro de tu presupuesto",
+                "bodyText": "Todos los cálculos están sujetos a la determinación final de BHA.",
+                "linkSubtext": "Abrir Calculadora de Asequibilidad"
+            },
+            "step4": {
+                "stepNumber": "PASO 4",
+                "header": "Agenda una visita y contacta a tu Coordinador de ECHO",
+                "bodyText": "Asegúrate de tener disponible la dirección de la unidad y los datos del propietario.",
+                "coordinatorLink": "Contacta a tu coordinador"
+            },
+            "unitsModal": {
+                "header": "se abrirá en una nueva pestaña.",
+                "affordLinkTitle": "¿Qué puedo pagar?",
+                "affordLinkSubtitle": "Ve cuánto alquiler cubrirá BHA y aprende sobre beneficios adicionales",
+                "calculatorLinkTitle": "¿Puedo pagar esta unidad?",
+                "calculatorLinkSubtitle": "La <strong>Calculadora de Asequibilidad de BHA</strong> te ayuda a estimar tu copago."
+            }
+        }
+    },
+    "yourTrips": {
+        "heading": "Sus viajes",
+        "subheading": "La duración de viaje es aproximada y puede cambiar según la ubicación de tu nueva dirección.",
+        "busAndTrain": "Autobús/Tren",
+        "car": "Automóvil",
+        "touchPrompt": "Selecciona un viaje para ver direcciones en el mapa",
+        "editTrips": "Edite sus destinos",
+        "openInGoogle": "Abierto en Google Maps"
+    },
+    "userProfile": {
+        "title": "Descubrir vecindarios",
+        "description": "Comienza creando un perfil para ayudarnos a recomendarte vecindarios.",
+        "actionButton": "Crea tu perfil",
+        "caption": "¡Solo toma 5 minutos!",
+        "wizard": {
+            "header": "Tu perfil",
+            "stepBedroom": {
+                "question": "¿De Cuántos dormitorios es su vale?",
+                "description": "Comuníquese con su Coordinador de Vivienda de BHA si no está seguro(a)."
+            },
+            "stepImportance": {
+                "question": "¿Qué es importante para usted?",
+                "commuteTime": "Tiempo de transporte",
+                "schoolQuality": "Calidad de las escuelas",
+                "publicSafety": "Seguridad pública",
+                "notImportant": "No es importante",
+                "veryImportant": "Muy importante"
+            },
+            "stepTravelMode": {
+                "question": "¿Cómo se movilizas normalmente?",
+                "toggleCar": "Automóvil",
+                "toggleTransit": "Autobús/Tren",
+                "checkboxDescription": "El tren de cercanías (MBTA Commuter Rail) y el autobús exprés nos permiten recomendar más vecindarios, pero generalmente cuestan más que el tren o el autobús local.",
+                "checkboxLabel": "Estoy dispuesto(a) a tomar el autobús exprés o el tren de cercanías (MBTA Commuter Rail)"
+            },
+            "button": {
+                "continue": "Continuar",
+                "finish": "Finalizar"
+            }
+        }
+    },
+    "userTrip": {
+        "wizard": {
+            "header": "Sus viajes",
+            "stepAddTrip": {
+                "question": "¿Qué viajes realiza con frecuencia?",
+                "description": "Usamos esta información para recomendar vecindarios cerca de los lugares que visita con frecuencia.",
+                "addATrip": "Agregar un viaje",
+                "addAnotherTrip": "Agregar otro viaje",
+                "error": "Tienes destinos que no son válidos, por favor elimínalos e inténtalo de nuevo."
+            },
+            "addNewTripModal": {
+                "question": "Agrega otro viaje",
+                "purposeLabel": "¿Qué tipo de lugar es?",
+                "locationLabel": "¿Dónde?",
+                "locationPlaceholder": "Ingrese una dirección",
+                "finish": "Agrega un viaje"
+            },
+            "button": {
+                "continue": "Continuar",
+                "finish": "Finalizar"
+            }
+        }
+    },
+    "top10Tour": {
+        "header": "Descubrir vecindarios",
+        "subHeader": "Las recomendaciones se basan en tu perfil y el viaje seleccionado.",
+        "bodyText": "Edita tus configuraciones y añade filtros usando los botones en la parte superior.",
+        "showMyRecommendations": "Mostrar mis recomendaciones",
+        "listNeighborhoods": "Lista de todos los vecindarios",
+        "showTopTen": "Mostrar 10 Mejores",
+        "next": "Siguiente",
+        "details": "Detalles",
+        "prev": "Anterior"
+    },
+    "filterModal": {
+        "dialogHeading": "Filtrar recomendaciones",
+        "profileEditHeading": "Tu perfil",
+        "bedroom": "Habitaciones",
+        "edit": "Edite",
+        "regionsFilterHeading": "Filtrar por región",
+        "regionsFilterSubHeading": "Selecciona todas las regiones de tu interés",
+        "otherFilterHeading": "Otros filtros",
+        "regionMapCaption": "Basado en el mapa de",
+        "echoLink": "Aprenda acerca de ECHO",
+        "regionsFilterLabel": "Filtrar por región",
+        "eccFilter": "Sólo se recomienda Expanded Choice Communities (Más Opciones de Comunidades) (ECC)",
+        "eccFilterDescription": "Mudarse a un área ECC puede cualificarle para asistencia financiera para ayudar con el depósito de seguridad, tarifa de agente y gastos de mudanza."
+    },
+    "editTripsModal": {
+        "dialogHeading": "Escoja un destino",
+        "dialogSubHeading": "Recomendamos un vecindario que está localizado convenientemente.",
+        "trafficHeading": "Escoja situaciones de tráfico",
+        "travelModeHeading": "¿Cómo usted usualmente se moviliza?",
+        "peak": "Mucho tráfico",
+        "offPeak": "Poco tráfico"
+    },
+    "searchModal": "Busque en el mapa",
+    "searchModalDescription": "Escriba el nombre de un vecindario para encontrarlo en el mapa",
+    "searchModalPlaceholder": "Buscar vecindarios",
+    "comparePage": {
+        "title": "Vecindarios Favoritos",
+        "subtitle": "Tus favoritos",
+        "introDescription": "Agrega vecindarios a tus favoritos para que aparezcan en la comparación."
+    }
+}

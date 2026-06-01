@@ -1,0 +1,10 @@
+#!/bin/bash
+
+./scripts/dataproc python3 add_zcta_centroids.py
+./scripts/dataproc python3 fetch_images.py
+./scripts/dataproc python3 generate_neighborhood_json.py
+
+# optimize downloaded images
+./scripts/dataproc optimize-images ./images/
+
+echo 'All done updating app data! Use scripts/imagepublish to publish the downloaded images.'

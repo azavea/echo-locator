@@ -1,0 +1,84 @@
+import DotIcon from "assets/icons/dots.svg?react";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { rangeStyles } from "./Range.styles";
+
+const MIN_DEFAULT = 0;
+const MAX_DEFAULT = 120;
+
+export interface RangeProps {
+    labelKey?: string;
+    start: number;
+    end: number;
+    className?: string;
+    min?: number;
+    max?: number;
+}
+
+const Range = ({
+    labelKey,
+    start,
+    end,
+    className,
+    min = MIN_DEFAULT,
+    max = MAX_DEFAULT,
+}: RangeProps) => {
+    const { t } = useTranslation();
+    const { root, labelContainer, mainLabel, rangeLabel, track, fill, dots } =
+        rangeStyles();
+
+    const isPoint = start === end;
+    const totalRange = max - min;
+    const startPercentage = ((start - min) / totalRange) * 100;
+    const widthPercentage =
+        ((Math.min(end, MAX_DEFAULT) - start) / totalRange) * 100 || 8;
+
+    const rangeText = useMemo(() => {
+        if (start >= MAX_DEFAULT) return t("discoverNeighborhoods.over2Hours");
+        if (isPoint) return `${start} ${t("discoverNeighborhoods.min")}`;
+        return `${start}-${end > MAX_DEFAULT ? `${MAX_DEFAULT}+` : end} ${t("discoverNeighborhoods.min")}`;
+    }, [start, end]);
+
+    return (
+        <div className={root({ className })}>
+            <div className={labelContainer()}>
+                {labelKey && (
+                    <span className={mainLabel()}>
+                        {t([
+                            "neighborhoodDetail.schoolsSafetyCard." + labelKey,
+                        ])}
+                    </span>
+                )}
+                <span className={rangeLabel()}>{rangeText}</span>
+            </div>
+            <div className="relative">
+                <div className={track()}></div>
+                {start < MAX_DEFAULT && (
+                    <div
+                        className={fill()}
+                        style={{
+                            left:
+                                startPercentage === 0
+                                    ? "0px"
+                                    : isPoint
+                                      ? `calc(${startPercentage}% - 4px)`
+                                      : end >= MAX_DEFAULT
+                                        ? `min(calc(100% - 12px), ${startPercentage}%)`
+                                        : `${startPercentage}%`,
+                            width: `${widthPercentage}%`,
+                            minWidth: end >= MAX_DEFAULT ? "12px" : "6px",
+                        }}
+                    >
+                        {!isPoint && end >= MAX_DEFAULT && (
+                            <span className={dots()}>
+                                <DotIcon />
+                            </span>
+                        )}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default Range;

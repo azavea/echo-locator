@@ -1,50 +1,56 @@
 # ECHOLocator
 
-Website to explore Choice Neighborhoods in the Boston area.
+ECHO is a revolutionary housing search tool designed to improve the housing search process for low-income families in Greater Boston. What makes ECHO unique is that, unlike other housing search websites that focus only on finding housing units, ECHO helps families find housing units and the neighborhoods that meet their needs– a crucial innovation that rethinks the way we search for housing. ECHO is able to provide these recommendations through unique public transit data and databases on schools and public safety information. Through this focus, ECHO is the only tool serving low-income families that helps locate both neighborhoods and affordable housing. - from the [marketing site](https://echosearch.org/). (Contact client if updates needed)
 
-[![Build Status](https://travis-ci.org/azavea/echo-locator.svg?branch=develop)](https://travis-ci.org/azavea/echo-locator)
+There are two instances hosted based on the code in this repo:
+
+- [Prod](https://app.echosearch.org)
+- [Stg](https://stg.echosearch.org)
+
+## Frameworks and History
+
+- Django backed by Postgres.
+- AWS Lambda, AWS DynamoDB, and API Gateway for Realtor listings.
+- AWS Simple Email Sending
+- External service for [routing](https://github.com/azavea/echo-locator/issues/501)
+- Frontend based on [Taui](https://github.com/conveyal/taui)
+- This project requires AWS access for most dev tasks.
+
+It was originally written in Amplify, but has been ported to Django.
 
 ## Requirements
 
-While Docker is the preferred development environment, steps for running directly on host
-are available for Mac users as a result of issue [#49](https://github.com/azavea/echo-locator/issues/49).
-
 ### To run within a Docker container:
 
-* Docker Engine 17.06+
-* Docker Compose 1.6+
-
-### To run directly:
-
-* [nvm](https://github.com/creationix/nvm) to manage Node versions on your machine
-* [yvm](https://yvm.js.org/docs/overview) to manage Yarn versions for package management
-
+- AWS CLI
+- Docker Engine 20.10.17
+- Docker Compose 1.29
 
 ## Development
 
-To start developing, create a set of Taui environment variables for development:
-
-```
-$ cp taui/configurations/default/env.yml.tmp taui/configurations/default/env.yml
-```
-
-Make sure to edit `env.yml` to set the appropriate secrets for development.
-
-Next, move the AWS Amplify JavaScript configuration for the staging environment
-into the Taui source code:
-
-```
-$ cp deployment/amplify/staging/src/aws-exports.js taui/src/aws-exports.js
-```
-
-### Optional step for local deployment
+### Setup
 
 To deploy or manage deployment resources, on your host machine you will need to set up an `echo-locator` profile for the AWS account using the following command:
+
 ```bash
-$ aws configure --profile echo-locator
+aws configure --profile echo-locator
 ```
 
-### Running with Docker
+For setup:
+
+```
+AWS_PROFILE=<echo profile> ECHOLOCATOR_SETTINGS_BUCKET=echo-locator-devdjango-config-us-east-1 ./scripts/setup
+```
+
+This runs bootstrap which will pull env variables and development data from s3 for local development and then update. If there is already a local dotenv file this will skip pulling the env file from s3.
+
+Load development data:
+
+```
+./scripts/load_fixtures
+```
+
+### Running
 
 Finally, use the `server` script to build container images, compile frontend assets,
 and run a development server:
@@ -53,48 +59,100 @@ and run a development server:
 $ ./scripts/server
 ```
 
-### Running directly
+### STRTA
 
-* Make sure you have `nvm` and `yvm` installed (see links in Requirements)
-* `cd taui`
-* Specify Yarn and Node versions: Run `nvm use` and `yvm use`(you may need to run 
-`nvm install` or `yvm install` first if you see error messages that the appropriate 
-versions are not installed).
-* Install packages: `yarn install`
-* Build and run development server: `yarn start`
+This project uses [`scripts-to-rule-them-all`](https://github.com/azavea/architecture/blob/master/doc/arch/adr-0000-scripts-to-rule-them-all.md) to bootstrap, test, and maintain projects consistently across all teams. Below is a quick explanation for the specific usage of each script.
 
-
-Navigate to http://localhost:9966 to view the development environment.
-
+| Script      | Use                                                        |
+| ----------- | ---------------------------------------------------------- |
+| `bootstrap` | Pull down secrets from S3                                  |
+| `infra`     | Execute Terraform subcommands with remote state management |
+| `manage`    | Issue Django management commands                           |
+| `server`    | Start the frontend and backend services                    |
+| `setup`     | Setup the project development environment                  |
+| `test`      | Run linters and tests                                      |
+| `update`    | Update project, assemble, run migrations                   |
+| `dataproc`  | Run any data processing script in the docker container     |
 
 ### Logging In
 
-Once it is running, log in using staging credentials. From there, you can make a Client ID by
+Run:
+
+```
+./scripts/server
+```
+
+#### Site
+
+Navigate to http://localhost:9966 and log in using staging credentials (the entry if called "ECHO Staging Admin User" in 1Password). From there, you can make a Client ID by
 entering and searching for a random 6-8 digit number, then making a new profile.
+
+#### Admin
+
+Navigate to http://localhost:8085/admin and login with the following credentials:
+
+```
+Email: echo+admin@element84.com
+Password: echo
+```
 
 ## Data
 
 In the `neighborhood_data` directory are data sources and management scripts to transform them. The app uses two GeoJSON files generated by the scripts for neighborhood point and bounds data.
 
-The two expected source files are:
- - `neighborhoods.csv`
- - `neighborhood_descriptions.csv`
+This source data are provided by BHA. Each row represents a neighborhood, therefore each zip code field should be a unique value. A README.txt file is at the root of the `neighborhood_data` directory with additional data type details and context for CSV columns. When sending the CSV template to BHA for neighborhood data updates we should also include this README file as a reference.
 
-Both contain zip code fields, which should be unique and appear in both files.
+## Updating the neighborhood data locally and on staging
 
-To run the data processing scripts and copy the output into the app directory:
+In local dev environment, clear out neighborhood_data/images, neighborhood_data/zctas, and all past generated .csv and .json files in root of neighborhood_data directory.
 
- - `cd neighborhood_data`
- - `./update_data.sh`
+Take the source file (which comes from BHA), put it in the `neighborhood_data` directory, are rename it to:
 
-The downloaded thumbnail images need to be deployed separately from the other app data.
-To publish the neighborhood thumbnail images:
+- `neighborhoods.csv`
+
+Run the following script to update the neighborhood data:
+
+- `./neighborhood_data/update_data`
+
+> **_NOTE:_** If the Census download fails, download the ZCTA data manually (https://www2.census.gov/geo/tiger/GENZ2020/shp/cb_2020_us_zcta520_500k.zip) and ensure the zip is in the `neighborhood_data/zctas` directory.
+
+If any images downloads are skipped with an "original image is less than 640px wide" message you will need to manually download the image instead. Follow that image's wikimedia link and select the next image size available greater than 640px wide. Once downloaded place in `neighborhood_data/images/` dir and re-run `./neighborhood_data/update_data` to update the neighborhood json.
+
+The new neighborhood data must be on s3 in order to ingest it using the management command (even for your local environment). Once successful, upload newly generated neighborhoods.json and neighborhood_bounds.json to the echolocator-staging-data-us-east-1 bucket:
+
+```
+aws s3 cp neighborhood_data/neighborhoods.json s3://echolocator-staging-data-us-east-1/
+aws s3 cp neighborhood_data/neighborhood_bounds.json s3://echolocator-staging-data-us-east-1/
+```
+
+The downloaded images need to be deployed separately from the other app data. To publish the neighborhood images:
 
 ```
 `./scripts/imagepublish ENVIRONMENT`
 ```
 
 where `ENVIRONMENT` is either `staging` or `production`.
+
+Run the following management script to update the neighborhood data in your local dev DB:
+
+```
+AWS_PROFILE=echo-locator ./scripts/manage import_neighborhood_data \
+    s3://echolocator-staging-data-us-east-1/neighborhoods.json \
+    s3://echolocator-staging-data-us-east-1/neighborhood_bounds.json \
+    s3://echo-locator-staging-site-us-east-1/assets/neighborhoods/
+```
+
+Follow instructions in deployment README to start an interactive session in the django staging task
+
+Run migrations and confirm schema is up to date
+
+Run the following management script to update neighborhood data on staging:
+
+```
+python manage.py import_neighborhood_data s3://echolocator-staging-data-us-east-1/neighborhoods.json s3://echolocator-staging-data-us-east-1/neighborhood_bounds.json s3://echo-locator-staging-site-us-east-1/assets/neighborhoods/
+```
+
+Confirm new data and images on staging site without error, specifically test neighborhoods with high-ranking schools and safety ratings are first in the recommendations list when a user sets those criteria to "very important"
 
 
 ### About the data processing scripts
@@ -105,13 +163,12 @@ The `fetch_images.py` script downloads metadata for and thumbnail versions of th
 
 The `generate_neighborhood_json.py` script expects the `add_non_ecc`, `add_zcta_centroids.py`, and `fetch_images.py` scripts to have already been run. It transforms the `neighborhood_centroids.csv` data into GeoJSON, appends the description and image-related fields from `neighborhood_extended_descriptions.csv`, and writes the results to `neighborhoods.json`.
 
-
 ## Testing
 
 Run linters and tests with the `test` script:
 
 ```
-$ ./scripts/test
+./scripts/test
 ```
 
 ## Deployment

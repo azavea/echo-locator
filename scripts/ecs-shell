@@ -1,0 +1,23 @@
+#!/bin/bash
+
+USAGE_ARG_LIST="ENVIRONMENT"
+USAGE='Get a shell on an ECS Django task.'
+
+source ./scripts/_sourced
+check_for_help_flag "$@"
+set_environment "$1"
+
+CONTAINER=django
+
+CLUSTER=$(aws ecs list-clusters | grep "${ENVIRONMENT}${CONTAINER}Cluster" |
+	tr -d '"' | tr -d "," | cut -f 2- -d "/")
+
+TASKID=$(aws ecs list-tasks \
+	--cluster "${CLUSTER}" \
+	--service-name "echo${ENVIRONMENT}${CONTAINER}App" |
+	grep "arn:aws:ecs" | head -n 1 | tr -d '"' | cut -f 3- -d "/")
+
+echo "Entering taskid $TASKID on cluster $CLUSTER"
+
+aws ecs execute-command --region $AWS_REGION --cluster $CLUSTER --task $TASKID --container $CONTAINER \
+	--command "/bin/bash" --interactive

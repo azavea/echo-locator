@@ -1,0 +1,42 @@
+# This is sourced by all the other scripts to give them all common
+# variables and functionality
+# The goal is to have this file be the only one that needs changing when
+# starting a new project.
+
+set -e
+
+export PROJECTNAME=echo-locator
+
+if [[ -n "${ECHOLOCATOR_DEBUG}" ]]; then
+    set -x
+fi
+
+check_for_help_flag() {
+    if [[ "$*" == *"help"* ]]; then
+        echo -e "Usage: $(basename "$0") $USAGE_ARG_LIST \n"
+        echo -e "$USAGE"
+        exit
+    fi
+}
+
+set_environment() {
+	if [[ "$1" == "stg" ]]; then
+		export ENVIRONMENT=stg
+		export AWS_REGION=us-east-1
+	elif [[ "$1" == "prd" ]]; then
+		export ENVIRONMENT=prd
+		export AWS_REGION=us-east-1
+	else
+		echo "You need to specify an environment first (stg|prd). See _sourced/set_environment for details."
+		exit 1
+	fi
+}
+
+if [[ -n "${GIT_COMMIT}" ]]; then
+    export GIT_COMMIT="${GIT_COMMIT:0:16}"
+else
+    if [[ -n "${SAFE_DIR_FOR_CI}" ]]; then
+        git config --global --add safe.directory /usr/local/src
+    fi
+    export GIT_COMMIT="$(git rev-parse --short=16 HEAD)"
+fi

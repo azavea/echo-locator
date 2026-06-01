@@ -1,0 +1,181 @@
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+
+import NeighborhoodList from "components/NeighborhoodsList/NeighborhoodsList";
+import {
+    selectIsRankCalculating,
+    selectRankedNeighborhoodsLists,
+} from "reducers/neighborhoods/neighborhoodsSlice";
+import selectNeighborhoodZipcodeMap from "reducers/neighborhoods/selectors/selectNeighborhoodZipcodeMap";
+import { selectAllNetworksDataReady } from "reducers/networks/networksSlice";
+import { selectActiveDestination } from "reducers/userProfile/userSlice";
+import SearchList from "src/components/SearchList";
+import { useAppSelector } from "store/store";
+import discoverStyles from "./Discover.styles";
+
+const NEIGHBORHOOD_CARD_PER_PAGE = 10;
+
+const Neighborhoods = ({
+    mobile,
+    listDisplay = false,
+}: {
+    mobile: boolean;
+    listDisplay?: boolean;
+}) => {
+    const { t } = useTranslation();
+    const [showTooFar, setShowTooFar] = useState(false);
+    const {
+        recoContainer,
+        recoContainerHeader,
+        subTitleContainer,
+        subTitle,
+        description,
+        swatch,
+        recoList,
+        recoTitleContainer,
+        recoTitle,
+        recoDescription,
+        loadingWrapper,
+        loadingSpinner,
+    } = discoverStyles({
+        isMobile: mobile,
+        mobileListDisplay: mobile ? listDisplay : true,
+    });
+
+    const networksReady = useAppSelector(selectAllNetworksDataReady);
+    const isRankCalculating = useAppSelector(selectIsRankCalculating);
+    const isLoading = isRankCalculating || !networksReady;
+    const neighborhoodDetailsMap = useAppSelector(selectNeighborhoodZipcodeMap);
+    const {
+        groupedTopTen,
+        groupedRecommended,
+        groupedTooFar,
+        groupedSearchableTopTen,
+        groupedSearchableRecommended,
+        groupedSearchableTooFar,
+    } = useAppSelector(selectRankedNeighborhoodsLists);
+    const activeDestination = useAppSelector(selectActiveDestination) ?? "";
+
+    // If mobile, text search enabled so use groupedSearchable lists from state
+    const topTen = mobile ? groupedSearchableTopTen : groupedTopTen;
+    const recommended = mobile
+        ? groupedSearchableRecommended
+        : groupedRecommended;
+    const tooFar = mobile ? groupedSearchableTooFar : groupedTooFar;
+
+    // Only show the tooFar list if there are no recommendations
+    // or if all recommendations have been displayed.
+    // The last page of the recommendations list triggers
+    // a callback to set showTooFar to true.
+    useEffect(() => {
+        if (isLoading) {
+            return;
+        }
+        setShowTooFar(recommended.length < NEIGHBORHOOD_CARD_PER_PAGE);
+    }, [isLoading, recommended]);
+
+    return (
+        <div className={recoContainer()}>
+            <div className={recoContainerHeader()}>
+                <SearchList isMobile={mobile} />
+                {/* Sub-title */}
+                <div className={subTitleContainer()}>
+                    <p className={subTitle()}>
+                        {t("discoverNeighborhoods.title")}
+                    </p>
+                    <p className={description()}>
+                        {t("discoverNeighborhoods.subtitle")}
+                    </p>
+                </div>
+                {isLoading && (
+                    <div className={loadingWrapper()}>
+                        <div className={loadingSpinner()} />
+                    </div>
+                )}
+            </div>
+
+            {/* Top 10 list */}
+            {topTen.length > 0 && (
+                <div className={recoList()}>
+                    <div>
+                        <div className={recoTitleContainer()}>
+                            <p className={recoTitle()}>
+                                {t("discoverNeighborhoods.topTen")}
+                            </p>
+                            <div
+                                className={swatch({
+                                    swatchColor: "topTen",
+                                })}
+                            ></div>
+                        </div>
+                        <p className={recoDescription()}>
+                            {t("discoverNeighborhoods.bestRecTitle")}
+                        </p>
+                    </div>
+                    <NeighborhoodList
+                        neighborhoodList={topTen}
+                        neighborhoodDetailsMap={neighborhoodDetailsMap}
+                        activeDestination={activeDestination}
+                        isMobile
+                        isTopTen
+                    />
+                </div>
+            )}
+
+            {/* Recommended list */}
+            {recommended.length > 0 && (
+                <div className={recoList()}>
+                    <div>
+                        <div className={recoTitleContainer()}>
+                            <p className={recoTitle()}>
+                                {t("discoverNeighborhoods.recTitle")}
+                            </p>
+                            <div
+                                className={swatch({
+                                    swatchColor: "recommended",
+                                })}
+                            ></div>
+                        </div>
+                        <p className={recoDescription()}>
+                            {t("discoverNeighborhoods.otherTitle")}
+                        </p>
+                    </div>
+                    <NeighborhoodList
+                        neighborhoodList={recommended}
+                        neighborhoodDetailsMap={neighborhoodDetailsMap}
+                        activeDestination={activeDestination}
+                        lastPageCallback={() => setShowTooFar(true)}
+                        isMobile
+                    />
+                </div>
+            )}
+
+            {/* Too far list */}
+            {showTooFar && tooFar.length > 0 && (
+                <div className={recoList()}>
+                    <div>
+                        <div className={recoTitleContainer()}>
+                            <p className={recoTitle()}>
+                                {t("discoverNeighborhoods.tooFarTitle")}
+                            </p>
+                            <div
+                                className={swatch({ swatchColor: "tooFar" })}
+                            ></div>
+                        </div>
+                        <p className={recoDescription()}>
+                            {t("discoverNeighborhoods.tooFarDisclaimer")}
+                        </p>
+                    </div>
+                    <NeighborhoodList
+                        neighborhoodList={tooFar}
+                        neighborhoodDetailsMap={neighborhoodDetailsMap}
+                        activeDestination={activeDestination}
+                        isMobile
+                    />
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default Neighborhoods;

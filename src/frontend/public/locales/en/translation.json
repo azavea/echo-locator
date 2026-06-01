@@ -1,0 +1,237 @@
+{
+    "discover": "Discover",
+    "compare": "Compare",
+    "favorites": "Favorites",
+    "logout": "Logout",
+    "filtersButton": "Profile",
+    "transitModesSimple": {
+        "peak": "express public transit",
+        "offPeak": "express public transit",
+        "peakNoExpress": "public transit",
+        "offPeakNoExpress": "public transit",
+        "car": "car"
+    },
+    "map": "Map",
+    "list": "List",
+    "destinationPurposes": {
+        "Work": "Work",
+        "School": "School",
+        "Daycare": "Daycare",
+        "Friends/Family": "Friends/Family",
+        "Doctor": "Doctor",
+        "Other": "Other"
+    },
+    "signInPage": {
+        "signIn": "Sign in",
+        "signInModalSubtitle": "You need to be a participant in the <strong><0>BHA ECHO program</0></strong> to use this tool.",
+        "signInPageCaption": "Find neighborhoods that work for you and your family",
+        "signInWithEmail": "Sign in with your email",
+        "emailAddressInvalid": "Email address is invalid",
+        "checkYourEmail": "Check your email",
+        "goBack": "Go back",
+        "signInConfirm": "We sent an email with a login link to {{email}}. Click the link to sign into ECHO.",
+        "enterEmailAddress": "Enter your email address"
+    },
+    "discoverNeighborhoods": {
+        "title": "Discover Neighborhoods",
+        "subtitle": "Recommendations are based on your profile and selected trip",
+        "topTen": "Top 10",
+        "bestRecTitle": "Highest-ranked recommendations",
+        "recTitle": "Recommended",
+        "otherTitle": "Other recommended neighborhoods",
+        "otherTitleLegend": "Other",
+        "tooFarTitle": "Not a match",
+        "tooFarDisclaimer": "These neighborhoods are excluded by the filters set in your profile",
+        "groupedCountZipCodes": "zip codes",
+        "groupedLoadMore": "Load more",
+        "eccBenefits": "ECC Benefits",
+        "min": "min",
+        "over2Hours": "Over 2 hr"
+    },
+    "photoCredit": "Photo by {{artist}}. ",
+    "photoSource": "Source.",
+    "neighborhoodDetail": {
+        "addToFavorites": "Add to favorites",
+        "moveCountText": "{{count}} voucher holders moved here already!",
+        "infoToggleLabel": "Info",
+        "unitsToggleLabel": "Find units",
+        "eccYes": "Yes",
+        "affordableCard": {
+            "header": "Affordable",
+            "bodyText": "Most families pay <strong>no more than 30% of their income</strong> in rent."
+        },
+        "echoBenefitsCard": {
+            "header": "ECHO Benefits",
+            "bodyText": "Receive financial assistance for Security Deposit, Broker’s Fees, Moving Expenses and more."
+        },
+        "schoolChoice": "School choice options",
+        "schoolsSafetyCard": {
+            "header": "Schools & Safety",
+            "schools": "Schools",
+            "safety": "Safety",
+            "commute": "Commute",
+            "high": "High",
+            "above": "Above Avg",
+            "average": "Average",
+            "below": "Below Avg",
+            "low": "Low"
+        },
+        "findUnitsLink": "Go to <strong>Find Units</strong> to learn more",
+        "aboutAreaSection": {
+            "header": "About this area",
+            "readMoreButton": "READ MORE"
+        },
+        "learnMoreSection": {
+            "subheader": "Learn more",
+            "websiteLink": "Website",
+            "wikipediaLink": "Wikipedia",
+            "googleLink": "Google"
+        },
+        "unitsContent": {
+            "step1": {
+                "stepNumber": "STEP 1",
+                "header": "Check your Budget",
+                "voucherCovers": "Your vouchers covers units up to",
+                "perMonth": "/ month",
+                "whatYouPay": "What you pay",
+                "yourPaymentDetail": "In most cases you pay no more than 30% of your income, plus utilities.",
+                "learnVouchersLink": "Learn more about vouchers",
+                "echoBenefits": "Your ECHO benefits",
+                "sdBrokerFee": "Security deposit and/or Broker’s Fee",
+                "movingExpenses": "Moving expenses",
+                "landlordIncentive": "Landlord incentive",
+                "learnEchoLink": "Learn more about ECHO"
+            },
+            "step2": {
+                "stepNumber": "STEP 2",
+                "header": "Find units you like",
+                "affordabilityCalculator": "Use the <calcLink>Affordability Calculator</calcLink> to check if a unit fits your budget",
+                "linkSubtext": "{{town}} {{zipcode}}, {{brCount}}br"
+            },
+            "step3": {
+                "stepNumber": "STEP 3",
+                "header": "Found a unit? Use the Affordability Calculator to check if it’s in budget",
+                "bodyText": "All Calculations are subject to a final BHA determination.",
+                "linkSubtext": "Open Affordability Calculator"
+            },
+            "step4": {
+                "stepNumber": "STEP 4",
+                "header": "Schedule a viewing and reach out to your ECHO Coordinator",
+                "bodyText": "Please have the unit address and Property Owner’s information ready.",
+                "coordinatorLink": "Contact your coordinator"
+            },
+            "unitsModal": {
+                "header": "will open in a new tab.",
+                "affordLinkTitle": "What can I afford?",
+                "affordLinkSubtitle": "See how much rent BHA will cover and learn about additional benefits",
+                "calculatorLinkTitle": "Can I afford this unit?",
+                "calculatorLinkSubtitle": "The <strong>BHA Affordability Calculator</strong> helps you estimate your copay."
+            }
+        }
+    },
+    "yourTrips": {
+        "heading": "Your Trips",
+        "subheading": "Commute times are estimates. Your actual commute times may vary based on your new address.",
+        "busAndTrain": "Bus & Train",
+        "car": "Car",
+        "touchPrompt": "Select a trip to see directions on a map",
+        "editTrips": "Edit your trips",
+        "openInGoogle": "Open in Google Maps"
+    },
+    "userProfile": {
+        "title": "Discover Neighborhoods",
+        "description": "Start by creating a profile to help us recommend neighborhoods to you",
+        "actionButton": "Create your profile",
+        "caption": "Takes just 5 minutes!",
+        "wizard": {
+            "header": "Your Profile",
+            "stepBedroom": {
+                "question": "How many bedrooms does your voucher have?",
+                "description": "Reach out to your BHA Housing Specialist if you're unsure."
+            },
+            "stepImportance": {
+                "question": "What is important to you?",
+                "commuteTime": "Commute time",
+                "schoolQuality": "School Quality",
+                "publicSafety": "Public safety",
+                "notImportant": "Not important",
+                "veryImportant": "Very important"
+            },
+            "stepTravelMode": {
+                "question": "How do you typically get around?",
+                "toggleCar": "Car",
+                "toggleTransit": "Bus/Train",
+                "checkboxDescription": "The Commuter rail and express bus allow us to recommend more neighborhoods, but they usually cost more than the subway or local bus.",
+                "checkboxLabel": "I'm willing to take the express bus or commuter rail"
+            },
+            "button": {
+                "continue": "Continue",
+                "finish": "Finish"
+            }
+        }
+    },
+    "userTrip": {
+        "wizard": {
+            "header": "Your trip",
+            "stepAddTrip": {
+                "question": "Which trips do you make frequently?",
+                "description": "We use this information to recommend neighborhoods near the places you visit often",
+                "addATrip": "Add a trip",
+                "addAnotherTrip": "Add another trip",
+                "error": "You have destinations that are not valid, please remove and try again."
+            },
+            "addNewTripModal": {
+                "question": "Add new trip",
+                "purposeLabel": "What kind of place is it?",
+                "locationLabel": "Where is it?",
+                "locationPlaceholder": "Enter an address",
+                "finish": "Add trip"
+            },
+            "button": {
+                "continue": "Continue",
+                "finish": "Finish"
+            }
+        }
+    },
+    "top10Tour": {
+        "header": "Discover Neighborhoods",
+        "subHeader": "Recommendations are based on your profile and selected trip.",
+        "bodyText": "Edit your settings and add filters using the buttons at the top",
+        "showMyRecommendations": "Show my recommendations",
+        "listNeighborhoods": "List all neighborhoods",
+        "showTopTen": "Show Top 10",
+        "next": "Next",
+        "details": "Details",
+        "prev": "Prev"
+    },
+    "filterModal": {
+        "dialogHeading": "Filter recommendations",
+        "profileEditHeading": "Your Profile",
+        "bedroom": "Bedroom",
+        "edit": "Edit",
+        "regionsFilterHeading": "Filter by region",
+        "regionsFilterSubHeading": "Select all regions you are interested in",
+        "otherFilterHeading": "Other filters",
+        "regionMapCaption": "Based on a map by",
+        "echoLink": "Learn more about ECHO",
+        "regionsFilterLabel": "Filter by region selections",
+        "eccFilter": "Only recommend Expanded Choice Communities (ECC)",
+        "eccFilterDescription": "Moving to an ECC area could qualify you for financial assistance to help with your security deposit, broker fees, and moving expenses."
+    },
+    "editTripsModal": {
+        "dialogHeading": "Choose a trip",
+        "dialogSubHeading": "We recommend neighborhoods that are conveniently located.",
+        "trafficHeading": "Choose traffic conditions",
+        "travelModeHeading": "How do you usually get around?",
+        "peak": "Peak",
+        "offPeak": "Off-peak"
+    },
+    "searchModal": "Search the map",
+    "searchModalDescription": "Type a neighborhood name to find it on the map",
+    "searchModalPlaceholder": "Search neighborhoods",
+    "comparePage": {
+        "title": "Favorite Neighborhoods",
+        "subtitle": "Your Favorites",
+        "introDescription": "Add neighborhoods to your favorites to make them show up in the comparison."
+    }
+}

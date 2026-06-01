@@ -1,10 +1,11 @@
 provider "aws" {
-  region  = "${var.aws_region}"
-  version = "~> 1.56.0"
-}
-
-provider "template" {
-  version = "~> 1.0.0"
+  region = var.aws_region
+  default_tags {
+    tags = {
+      Environment = var.environment
+      Project     = var.project
+    }
+  }
 }
 
 terraform {

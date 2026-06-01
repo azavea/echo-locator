@@ -1,9 +1,0 @@
-{
-    "groupPermissionMap": {
-        "counselors": [
-            "create/update",
-            "read",
-            "delete"
-        ]
-    }
-}

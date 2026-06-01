@@ -1,114 +1,171 @@
 # Deployment
 
-* [AWS Credentials](#aws-credentials)
-* [Terraform](#terraform)
-* [Taui](#taui)
-* [Amplify](#amplify)
-* [Demo site](#demo-site)
+- [AWS Credentials](#aws-credentials)
+- [Logs](#Logging)
+- [Personally Identifiable Information Collected](#personally-identifiable-information-collected)
+- [Publish Container Images](#publish-container-images)
+- [Terraform](#terraform)
+- [Migrations](#migrations)
 
 ## AWS Credentials
 
-Using the AWS CLI, create an AWS profile named `echo-locator`:
-
 ```bash
-$ vagrant ssh
-vagrant@vagrant-ubuntu-trusty-64:~$ aws --profile echo-locator configure
-AWS Access Key ID [****************F2DQ]:
-AWS Secret Access Key [****************TLJ/]:
-Default region name [us-east-1]: us-east-1
+$ aws configure --profile echo-locator
+AWS Access Key ID [None]: <your aws key>
+AWS Secret Access Key [None]: <your aws secret>
+Default region name [None]: us-east-1
 Default output format [None]:
 ```
 
 You will be prompted to enter your AWS credentials, along with a default region. These credentials will be used to authenticate calls to the AWS API when using Terraform and the AWS CLI.
 
+## Logs
+
+- LogRocket (Only client, Derek, and Bryan have access) - 1 month retention
+- Rollbar (if an error) - 180 day retention
+- AWS Cloudwatch - Django app - 1 month retention
+- AWS Cloudwatch - a lot of older logs that don't expire, and some logs from Realtor and other processes
+- AWS Builtin Logging - From ECS/RDS, using AWS defaults which is 35 days or less.
+- AWS S3 logs - New django style/Cloudfront - stored indefinitely, but not setup correctly
+- AWS S3 logs - old setup - stored indefinitely, can likely be deleted?
+
+## Personally Identifiable Information Collected
+
+We are tracking this for housing searchers only and not for Azavea, BHA or other management accounts.
+
+- Emails
+- IP addresses (only in logs)
+- Budget for apartment
+- Information that could determine size of family or if person has or is planning to have kids
+- Common places visited. This is user customizable and can include any address.
+- Preferred travel mode (may mirror car ownership)
+
+Most PII is stored in Local Storage, in the RDS database, or both.  There is no expiration for Local Storage or database.
+
+No usernames or passwords are stored for the Django version of this app, it uses email driven passwordless logins with 30 day session timeout.  Login emails timeout after 1 hour.
+
+## Env File
+
+A .env file should exist at the root of the source directory.  That must be filled in with mapbox details before running cibuild so that the Django container can access external resources.  The bootstrap script tries to get the correct .env for your environment from S3 but otherwise the .env file in S3 is not used.
+
+## Publish Container Images
+
+Before we can deploy this project's core infrastructure, we will need to build a container image and publish it somewhere accessible to Amazon's services.
+
+AWS Elastic Container Registry (ECR) is a good candidate because ECR authentication with AWS Elastic Container Service (ECS) is handled transparently.
+
+To do this, we can use the `cibuild` and `cipublish` scripts:
+
+```bash
+$ ./scripts/cibuild
+...
+Successfully built cc2b35ef78c4
+Successfully tagged echolocator:latest
+$ export AWS_PROFILE=echo-locator
+$ ./scripts/cipublish
+...
+```
+
+It defaults to push to export ECHOLOCATOR_ENVIRONMENT="stgdjango".  For production `export ECHOLOCATOR_ENVIRONMENT=prddjango` before cipublish.
+
 ## Terraform
+
+### New Environment
+
+First, we need to make sure there is a `terraform.tfvars` file in the project settings bucket on S3. The `.tfvars` file is where we can change specific attributes of the project's infrastructure, not defined in the `variables.tf` file.
+
+Here is an example `terraform.tfvars` for this project:
+
+```hcl
+project     = "echo"
+environment = "prddjango"
+aws_region  = "us-east-1"
+
+r53_private_hosted_zone = "echo.internal"
+r53_public_hosted_zone  = "app.echosearch.org"
+
+rds_database_identifier = "echo-prddjango"
+rds_database_name       = "echo"
+rds_database_username   = "echo"
+rds_database_password   =
+
+fargate_app_cpu        = 1024
+fargate_app_memory     = 2048
+fargate_app_cli_cpu    = 256
+fargate_app_cli_memory = 1024
+
+rollbar_access_token =
+django_secret_key =
+
+default_from_email = "noreply@app.echosearch.org"
+aws_s3_photo_bucket="echo-locator-production-site-us-east-1"
+```
+
+There are a few manual steps for a brand new environment
+ * Make NS Record with values from sub.domain.org in domain.org.
+ * Manually Verify AWS Generated Cert by DNS method.
+
+### Current Environment
+
+The following are possible ECHOLOCATOR_SETTINGS_BUCKET values:
+```
+export ECHOLOCATOR_SETTINGS_BUCKET=echo-locator-stgdjango-config-us-east-1  # Staging
+export ECHOLOCATOR_SETTINGS_BUCKET=echo-locator-prddjango-config-us-east-1  # Production
+```
 
 To deploy this project's core infrastructure, use the `infra` wrapper script to lookup the remote state of the infrastructure and assemble a plan for work to be done:
 
 ```bash
-$ export ECHOLOCATOR_SETTINGS_BUCKET="echo-locator-staging-config-us-east-1"
-$ export AWS_PROFILE="echo-locator"
-$ docker-compose -f docker-compose.yml -f docker-compose.ci.yml \
-    run --rm terraform ./scripts/infra plan
+$ docker-compose -f docker-compose.ci.yml run --rm terraform
+$ export ECHOLOCATOR_SETTINGS_BUCKET line from above.
+$ ./scripts/infra plan
 ```
 
 Once the plan has been assembled, and you agree with the changes, apply it:
 
 ```bash
-$ docker-compose -f docker-compose.yml -f docker-compose.ci.yml \
-    run --rm terraform ./scripts/infra apply
+$ ./scripts/infra apply
 ```
 
-This will attempt to apply the plan assembled in the previous step using Amazon's APIs. In order to change specific attributes of the infrastructure, inspect the contents of the environment's configuration file in Amazon S3.
+This will attempt to apply the plan assembled in the previous step using Amazon's APIs.
 
-## Taui
+## Migrations
 
-The Taui frontend is deployed separately from core Terraform infrastructure, but
-it relies on S3 and CloudFront resources to have already been deployed by Terraform.
-If you're trying to wire up a new instance of Taui, or if you've created a 
-new S3 bucket or CloudFront distribution that you want to use for the app,
-you'll need to point Taui to your new resources.
+### Staging
 
-After Terraform creates a new S3 bucket or CloudFront distribution, it should
-output the IDs of both resources. Take these IDs and put them in the
-`settings.yml` file that corresponds to the relevant environment. For example,
-if you're deploying a staging instance of Taui, edit
-`taui/configurations/staging/settings.yml` and update the `cloudfront` and
-`s3bucket` properties to point to your new resources.
+1. Ensure you are setup with AWS CLI credentials and have the correct profile set with `export AWS_PROFILE=echo-locator `
+2. Install the [Session Manager plugin](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) for the AWS CLI.
+3. Use the following commands to get the cluster name/task id or use the AWS console to select the most recent running task for the ECS [django staging cluster](https://us-east-1.console.aws.amazon.com/ecs/home?region=us-east-1#/clusters/ecsechostgdjangoCluster/tasks))
 
-Taui requires one secret configuration file, `env.yml`, to be stored in remote
-state. CI will pull down this configuration file when it builds a bundle
-for a given environment. When standing up a new stack, remember to create
-an `env.yml` file based on the template in `taui/configurations/default/env.yml.tmp`
-and push it up to the remote state bucket under the path `/taui/env.yml`.
-
-## Amplify
-
-User authentication resources are provisioned using the [AWS Amplify
-CLI](https://aws-amplify.github.io/docs/cli/concept). We don't anticipate
-that these resources will change frequently (if at all), but if you'd like
-to update existing categories or add new categories to the stack, use the
-following instructions.
-
-Run a container with the Amplify CLI installed:
-
-```
-$ ./scripts/amplify-cli
+```bash
+$ aws ecs list-clusters
+...
+......cluster/ecsechostgdjangoCluster
+...
+$ aws ecs list-tasks  --cluster ecsechostgdjangoCluster
+...
+......task/ecsechostgdjangoCluster/523612e9652b40dfae4e91e6e157c17b
+...
 ```
 
-You should see two environments, one for production and one for staging:
+4. Run the following command:
 
-```
-root@02d45a6c06c1:/usr/local/src# ls -a .
-.  ..  Dockerfile  production  staging
-```
-
-Change into the directory corresponding to the environment you'd like to update
-and run the relevant Amplify CLI command (such as `amplify add` to add a
-new category, or `amplify push` to push any new changes you've made to the
-CloudFormation stacks). For more information on the CLI workflow, see the
-[Amplify CLI
-documentation](https://aws-amplify.github.io/docs/cli/concept#typical-cli-workflow).
-
-If you've updated the staging stack and you'd like to see your changes reflected
-in local development, remember to move the Amplify configuration file into
-the Taui source directory on your host machine. This is required in case you
-add new resources or change the IDs of existing resources:
-
-```
-$ cp deployment/amplify/staging/aws-exports.js taui/src/aws-exports.js
+```bash
+$ aws ecs execute-command --cluster <name-of-django-staging-cluster> --task <current-task-id> --container django --command "/bin/bash" --interactive
 ```
 
-(Note that CI will properly bundle the appropriate Amplify configuration file
-during deployment depending on the environment.)
+5. You should see something similar to the following to initiate the start of a session:
 
-## Demo site
-There is a demo site deployed to demo.echosearch.org.
+```
+The Session Manager plugin was installed successfully. Use the AWS CLI to start a session.
 
-Its infrastructure was created using the Terraform and Amplify methods
-described above, but it is not connected to CI; the functionality of the site
-was copied over from the staging site before returning to active CI use.
 
-It uses the same Cognito assets as the staging site, so this infrastructure
-should be left in place even after the staging and production sites are shifted
-to a Django authentication backend.
+Starting session with SessionId: ecs-execute-command-08e2295045096200d
+root@ip-10-0-3-195:/usr/local/src/backend#
+```
+
+6. Run `python manage.py showmigrations`
+7. Confirm migrations are up to date.
+8. Run `python manage.py migrate`
+9. Run `exit` to exit the session.
+10. Monitor the log output of the current task and confirm staging functions as expected.
