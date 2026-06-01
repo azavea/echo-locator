@@ -8,6 +8,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+
+## [3.0.0] - 2026-06-01
+
+### Added
+
 - Update map style and legend [#710](https://github.com/azavea/echo-locator/pull/710)
 - Add frontend component library ADR [#614](https://github.com/azavea/echo-locator/pull/614)
 - Add `./scripts/ecs-shell <env>` script [#626](https://github.com/azavea/echo-locator/pull/626)
@@ -83,4 +94,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Update boston school choice link [#778](https://github.com/azavea/echo-locator/pull/778)
 - Prevent users from unselecting all regions in filters [#794](https://github.com/azavea/echo-locator/pull/794)
 
-### Removed
+[unreleased]: https://github.com/azavea/echo-locator/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/azavea/echo-locator/compare/667a89b...3.0.0
